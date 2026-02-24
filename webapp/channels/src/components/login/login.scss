@@ -1,0 +1,442 @@
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@use 'utils/mixins';
+.custom-text {
+  width: 100%;
+  word-wrap: break-word;
+  text-align: center;
+}
+
+.login-body-custom-branding-text {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: absolute;
+  justify-content: center;
+  width: 100%;
+
+  p {
+
+    font-family: 'Effra_Trial_Md';
+    font-size: 34px;
+    color: white;
+  }
+}
+
+.Log-Text {
+  color: #7B7985;
+  font-size: 17px;
+
+  line-height: 28px;
+
+}
+
+.login-body {
+  display: flex;
+  flex-direction: column;
+  margin: auto;
+  direction: rtl;
+  width: -webkit-fill-available;
+  height: 100%;
+
+  //   html[dir="rtl"] & {
+  //     direction: rtl;
+  //   }
+  // .user-img {
+  //   background-image: url("./imagelogin/user.svg");
+  //   background-repeat: no-repeat;
+  //   background-size: cover;
+  //   height: 70px;
+  //   width: 70px;
+  //   margin-bottom: 11px;
+  // }
+  .login-body-action {
+    width: 50%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    ;
+    justify-content: center;
+    align-items: center;
+
+    @media (max-width: 700px) {
+      width: 100%;
+    }
+  }
+
+  .login-body-alternate-link {
+    margin-bottom: 18px;
+  }
+
+  .login-body .login-body-content {
+    display: flex;
+    height: fit-content;
+    flex: 1;
+    align-items: center;
+    border: 2px solid rgba(255, 255, 255, 0.1);
+    border-radius: 10px;
+    background: rgba(0, 0, 0, 0);
+    color: #0e0e0e;
+  }
+
+  .login-body-content {
+    display: flex;
+    height: fit-content;
+    flex: 1;
+    align-items: center;
+    justify-content: space-around;
+
+
+    .login-body-message-subtitle {
+
+      font-size: 18px;
+
+      line-height: 28px;
+    }
+
+    .login-body-message {
+      display: flex;
+      width: 50%;
+      flex-flow: column;
+      justify-content: end;
+      height: 100%;
+      background: linear-gradient(0deg, rgb(var(--button-bg-rgb)) 0%, rgb(var(--button-bg-rgb)) 100%);
+
+      .login-body-message-title {
+        padding-right: 24px;
+        color: var(--title-color-indigo-500);
+        font-family: Metropolis;
+        font-size: 80px;
+        font-family: 'Effra_Trial_SBd';
+        letter-spacing: -0.01em;
+        line-height: 88px;
+
+        html:lang(ar) & {
+          font-family: 'Effra_Trial_Md', sans-serif;
+        }
+      }
+
+      .login-body-message-svg {
+        position: relative;
+        align-self: flex-end;
+
+        svg {
+          position: absolute;
+          z-index: 2;
+          bottom: -210px;
+          left: -178px;
+          display: block;
+        }
+      }
+
+      &.custom-branding {
+        padding: 0;
+
+        &.with-brand-image {
+          align-self: center;
+
+          .login-body-message-subtitle,
+          .login-body-custom-branding-markdown {
+            text-align: center;
+          }
+        }
+
+        .login-body-custom-branding-image {
+          align-self: auto;
+          border-radius: 8px;
+          // margin-bottom: 28px;
+          // mix-blend-mode: multiply;
+          max-height: 70vh;
+          width: 100%;
+          position: relative;
+        }
+          .login-body-custom-branding-image-logo{
+          aspect-ratio: 1;
+          height: 15rem;
+          width: 24rem;
+          object-fit: contain;
+
+      }
+      }
+
+      &.with-alternate-link {
+        margin-top: 40px;
+      }
+    }
+
+    .login-body-card {
+      width: 540px;
+      // box-sizing: border-box;
+      // border: 1px solid rgba(var(--center-channel-color-rgb), 0.08);
+      border-radius: 8px;
+      // margin-left: 60px;
+      background-color: var(--center-channel-bg);
+      // box-shadow: var(--elevation-5);
+
+      &.with-error {
+        @include mixins.shake-horizontally;
+      }
+
+      .login-body-card-content {
+        display: flex;
+        flex: 1;
+        flex-flow: column;
+        border: none;
+        box-shadow: none;
+        align-items: center;
+        align-items: center;
+        .Input_legend {
+                color: var(--button-bg);
+                background-color:#f9fafb ;
+                font-family: 'Effra_Trial_Rg';
+            }
+        .login-body-card-title {
+          font-size: 22px;
+          width: 100%;
+          font-style: normal;
+          line-height: 28px;
+          font-family: 'Effra_Trial_SBd';
+          text-align: center;
+        }
+
+        .login-body-custom-branding-markdown,
+        .login-body-message-subtitle {
+          display: none;
+        }
+
+        .login-body-card-banner {
+          margin: 5px 0 5px;
+        }
+
+        .login-body-card-form {
+          .Input_container .Input.large {
+            height: 40px;
+            background: transparent;
+             color: black;
+          }
+
+          .Input.large::placeholder {
+            color: black;
+          }
+
+          .login-body-card-form-input {
+
+            margin-top: 4px;
+             margin-bottom: 20px;
+             .Input_legend___focus{
+                opacity: 0;
+           }
+          }
+
+          .login-body-card-form-password-input {
+           .Input_legend___focus{
+                opacity: 0;
+           }
+            margin-top: 4px;
+             margin-bottom: 20px;
+
+          }
+
+          .login-body-card-form-link {
+            display: inline-flex;
+            margin-top: 17px;
+
+            a {
+              @include mixins.link;
+            }
+          }
+
+          .login-body-card-form-button-submit {
+            @include mixins.primary-button;
+
+            background: rgb(var(--button-bg-rgb));
+            width: 100%;
+            margin-top: 30px;
+          }
+        }
+
+        .login-body-card-form-divider {
+          display: flex;
+          justify-content: center;
+          margin: 20px 0;
+          text-align: center;
+          width: -webkit-fill-available;
+
+          .login-body-card-form-divider-label {
+            display: flex;
+            align-items: center;
+            text-align: center;
+            font-family: "GraphikArabic";
+            color: rgb(var(--button-bg-rgb));
+            font-size: 12px;
+            gap: 10px;
+            width: 100%;
+          }
+
+          .login-body-card-form-divider-label::before,
+          .login-body-card-form-divider-label::after {
+            content: "";
+            flex: 1;
+            height: 1px;
+            background-color: rgb(var(--button-bg-rgb)); // لون الخط
+          }
+        }
+
+
+        .login-body-card-form-login-options {
+          display: flex;
+          flex: 1;
+          flex-wrap: wrap;
+          justify-content: space-between;
+          column-gap: 8px;
+          row-gap: 8px;
+          width: 100%;
+
+          &.column {
+            flex-direction: column;
+            margin-top: 22px;
+            row-gap: 24px;
+          }
+        }
+      }
+    }
+
+    .login-body-custom-branding-markdown {
+      flex: 1;
+
+      ul+p,
+      ol+p {
+        margin-top: 0.6em;
+      }
+
+      p+ul,
+      p+ol {
+        margin-top: 0.6em;
+      }
+
+      img {
+        max-width: 450px;
+      }
+
+      p {
+        width: 100%;
+        margin: 0;
+        font-size: 18px;
+
+        line-height: 28px;
+        white-space: pre-wrap;
+        word-break: break-word;
+      }
+    }
+  }
+}
+
+.login-body .login-body-content .login-body-card {
+  // width: 370px;
+  box-sizing: border-box;
+  // border: 2px solid rgba(7, 6, 6, 0.1);
+  // margin-right: auto;
+  // margin-left: auto;
+  border-radius: 12px;
+  background: transparent !important;
+  // backdrop-filter: blur(10px);
+  // padding: 29px;
+  // box-shadow: 20px;
+  // max-width: 50%;
+}
+
+@media screen and (max-width: 1199px) {
+  .login-body {
+    .login-body-alternate-link {
+      padding-right: 24px;
+    }
+
+    .login-body-content {
+      flex-direction: column;
+
+      .login-body-message,
+      .login-body-card {
+        width: 640px;
+      }
+
+      .login-body-message {
+        align-self: center;
+        padding: 24px;
+
+        .login-body-message-title {
+          padding-right: 80px;
+          font-size: 64px;
+          line-height: 76px;
+        }
+
+        .login-body-message-subtitle {
+          margin: 0;
+        }
+
+        .login-body-message-svg {
+          display: none;
+        }
+
+        &.custom-branding {
+          display: none;
+        }
+      }
+
+      .login-body-card {
+        border: none;
+        margin: 0;
+        background-color: unset;
+        box-shadow: none;
+
+        .login-body .login-body-content .login-body-card .login-body-card-content {
+          display: flex;
+          flex: 1;
+          flex-flow: column;
+          border: none;
+          box-shadow: none;
+          align-items: center;
+          align-items: center;
+        }
+
+        &.custom-branding {
+
+          .login-body-custom-branding-markdown,
+          .login-body-message-subtitle {
+            display: block;
+            margin: 0 0 32px;
+            text-align: left;
+          }
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 699px) {
+  .login-body {
+    margin: auto 0;
+
+    .login-body-content {
+      min-width: auto;
+      display: grid;
+
+      .login-body-card {
+        width: 100%;
+        padding: 20px;
+      }
+
+      .login-body-message {
+        width: auto;
+        align-self: flex-start;
+        padding: 24px;
+
+        .login-body-message-title {
+          padding-right: 0;
+          font-size: 45px;
+          line-height: 56px;
+        }
+      }
+    }
+  }
+}

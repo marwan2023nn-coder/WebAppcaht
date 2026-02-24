@@ -1,0 +1,32 @@
+{
+  "name": "@workspace/desktop-api",
+  "version": "6.0.0-1",
+  "description": "Shared types for the Desktop App API provided to the Web App",
+  "keywords": [
+    "workspace"
+  ],
+  "homepage": "https://github.com/workspace/desktop",
+  "license": "MIT",
+  "files": [
+    "lib"
+  ],
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
+  "repository": {
+    "type": "git",
+    "url": "github:workspace/desktop",
+    "directory": "api-types"
+  },
+  "peerDependencies": {
+    "typescript": "^4.3.0 || ^5.0.0"
+  },
+  "peerDependenciesMeta": {
+    "typescript": {
+      "optional": true
+    }
+  },
+  "scripts": {
+    "clean": "rm -rf tsconfig.tsbuildinfo ./lib",
+    "prepublishOnly": ""
+  }
+}

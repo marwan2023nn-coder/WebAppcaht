@@ -1,0 +1,28 @@
+.image_preview {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    cursor: grab;
+
+    &:active {
+        cursor: grabbing;
+    }
+
+    &__image {
+        position: absolute;
+        top: 50%;
+        left: 50%;
+        max-width: none; // Allow image to grow freely
+        max-height: none;
+        user-select: none;
+        pointer-events: none; // Events handled by container
+        transform-origin: center center;
+        will-change: transform;
+
+        // Disable default responsive styles that might conflict
+        @media screen and (max-width: 768px) {
+            border-radius: 0;
+        }
+    }
+}

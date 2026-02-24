@@ -1,0 +1,14 @@
+{
+  "name": "@workspace/compass-icons",
+  "version": "0.1.52",
+  "private": false,
+  "description": "",
+  "keywords": [
+    "workspace",
+    "compass",
+    "icons"
+  ],
+  "author": "Workspace",
+  "license": "MIT",
+  "main": "css/compass-icons.css"
+}

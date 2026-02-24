@@ -1,0 +1,11 @@
+.filezip {
+  .modal-dialog {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  .modal-content {
+    width: fit-content !important;
+    overflow: visible !important;
+  }
+}

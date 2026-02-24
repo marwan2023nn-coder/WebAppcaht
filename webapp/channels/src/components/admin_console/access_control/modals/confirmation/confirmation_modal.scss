@@ -1,0 +1,70 @@
+.PolicyConfirmationModal {
+    .modal-body {
+        .enforce-toggle {
+            margin-top: 20px;
+
+            .enforce-checkbox-label {
+                display: flex;
+                align-items: center;
+                color: #3d3c40;
+                cursor: pointer;
+
+                input[type="checkbox"] {
+                    margin-inline-end: 8px;
+                    cursor: pointer;
+                }
+            }
+        }
+
+        .confirmation {
+            margin-top: 20px;
+            color: #3d3c40;
+            font-family: 'Effra_Trial_SBd';
+        }
+    }
+
+    .modal-footer {
+        .btn-cancel {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            margin-inline-end: 10px;
+            background: #f2f4f8;
+            color: #3d3c40;
+            font-size: 14px;
+            font-family: 'Effra_Trial_SBd';
+
+            &:hover {
+                background: #e8eaed;
+            }
+        }
+
+        .btn-apply {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #C74A4A;
+            color: white;
+            font-size: 14px;
+            font-family: 'Effra_Trial_SBd';
+
+            &:hover {
+                background: #b73535;
+            }
+        }
+
+        .btn-save {
+            padding: 10px 16px;
+            border: none;
+            border-radius: 4px;
+            background: #166de0;
+            color: white;
+            font-size: 14px;
+            font-family: 'Effra_Trial_SBd';
+
+            &:hover {
+                background: #0f5fc0;
+            }
+        }
+    }
+}

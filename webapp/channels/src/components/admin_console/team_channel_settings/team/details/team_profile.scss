@@ -1,0 +1,18 @@
+.cloud-limits-disabled {
+    pointer-events: 'none';
+}
+
+.upgrade-options-button {
+    height: 38px;
+    padding: 9px, 16px;
+    border-radius: 4px;
+    margin-inline-start: 16px;
+    background: var(--sys-sidebar-text-active-border);
+    color: #fff;
+    font-family: 'Effra_Trial_SBd';
+}
+
+.disabled-overlay-wrapper {
+    display: inline-block;
+    cursor: not-allowed;
+}

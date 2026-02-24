@@ -1,0 +1,35 @@
+.bg-progress {
+  background-color: #00987e; /* Color for progress */
+}
+
+.bg-default {
+  background-color: #e5e7eb; /* Default color */
+}
+.waveform {
+  display: flex;
+  align-items: center;
+  height: 2rem;
+  gap: 2px;
+  cursor: pointer;
+  padding: 0.5rem 0;
+  /* styles.css */
+
+  &:hover {
+    .waveform__bar {
+      &:not(:hover) {
+        opacity: 0.9;
+      }
+    }
+  }
+
+  &__bar {
+    width: 0.25rem;
+    border-radius: 9999px;
+    transition: all 0.2s ease;
+
+    &:hover {
+      transform: scaleY(1.1);
+      opacity: 1;
+    }
+  }
+}

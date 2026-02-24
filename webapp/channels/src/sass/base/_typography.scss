@@ -1,0 +1,256 @@
+@use "utils/mixins";
+@use "utils/variables";
+
+b,
+strong {
+    font-family: 'Effra_Trial_SBd';
+    font-weight: inherit;
+}
+label{
+font-family: "Effra_Trial_Md" !important;
+font-weight: inherit;
+}
+a {
+    color: variables.$primary-color;
+    cursor: pointer;
+    text-decoration: none;
+    word-break: break-word;
+
+    &:focus,
+    &:hover {
+        color: variables.$primary-color--hover;
+    }
+}
+
+.color--link {
+    color: variables.$link-color;
+    cursor: pointer;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}
+
+body {
+    @include mixins.font-smoothing;
+
+    font-family: 'Effra_Trial_Rg', sans-serif;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5 {
+    font-family: 'Effra_Trial_Rg', sans-serif;
+    font-size: 1.6rem;
+    font-weight: inherit;
+}
+
+h1 {
+    font-family: 'Effra_Trial_SBd';
+    font-weight: inherit;
+}
+
+.is-empty:empty {
+    display: none;
+}
+
+label {
+    &.has-error {
+        color: variables.$red;
+    }
+}
+
+.small {
+    font-size: 12px;
+}
+
+.light {
+    opacity: 0.73;
+}
+
+.word-break--all {
+    word-break: break-all;
+}
+
+.whitespace--nowrap {
+    white-space: nowrap;
+}
+
+.whitespace--normal {
+    white-space: normal;
+}
+
+.overflow--ellipsis {
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+ul,
+ol {
+    padding-inline-start: 22px;
+    margin-top: 3px;
+    margin-bottom: 0.11em;
+}
+
+.fa {
+    &.fa-1x {
+        font-size: 1.6rem;
+    }
+}
+
+
+.font-weight--semibold {
+    font-family:'Effra_Trial_SBd';
+}
+
+.cursor--pointer {
+    cursor: pointer;
+}
+
+// Import GraphikArabic font files
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Hair.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Th.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Lt.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Rg.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Md.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_SBd.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'GraphikArabic';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Bd.ttf') format('truetype');
+}
+// font-weight mapping (normal):
+// 100: ../fonts/Effra_Trial_Hair.ttf
+// 200: ../fonts/Effra_Trial_Th.ttf
+// 300: ../fonts/Effra_Trial_Lt.ttf
+// 400: ../fonts/Effra_Trial_Rg.ttf
+// 500: ../fonts/Effra_Trial_Md.ttf
+// 600: ../fonts/Effra_Trial_SBd.ttf
+// 700: ../fonts/Effra_Trial_Bd.ttf
+@font-face {
+    font-family:'Effra_Trial_Hair';
+    font-style: normal;
+    font-weight: 100;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Hair.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_Th';
+    font-style: normal;
+    font-weight: 200;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Th.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_Lt';
+    font-style: normal;
+    font-weight: 300;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Lt.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_Rg';
+    font-style: normal;
+    font-weight: 400;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Rg.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_Md';
+    font-style: normal;
+    font-weight: 500;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Md.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_SBd';
+    font-style: normal;
+    font-weight: 600;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_SBd.ttf') format('truetype');
+}
+
+@font-face {
+    font-family: 'Effra_Trial_Bd';
+    font-style: normal;
+    font-weight: 700;
+    font-display: swap;
+    src: url('../fonts/Effra_Trial_Bd.ttf') format('truetype');
+}
+
+
+.app__body.font--open_sans {
+    font-family: 'Effra_Trial_Rg';
+}
+
+.app__body {
+    h1,
+    h2,
+    h3 {
+        font-family: 'Effra_Trial_Rg';
+    }
+}
+
+.color--link--adminack {
+    padding-inline-start: 20px;
+    color: variables.$white;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover,
+    &:focus {
+        text-decoration: underline;
+    }
+}

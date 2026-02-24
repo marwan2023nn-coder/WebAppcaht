@@ -1,0 +1,93 @@
+
+
+.sb-folders-list {
+  list-style: none;
+  margin: 0px 4px;
+  height: 100%;
+  overflow: auto;
+
+  .folder-collapsible {
+    margin-left: 10px;
+  }
+
+  .sb-folders-list-item {
+    display: flex;
+    align-items: center;
+    margin-bottom: 4px;
+    padding: 6px 5px;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+
+    }
+
+    .non-expanable {
+      min-width: 20px;
+    }
+
+    .sb-folder-details {
+      display: flex;
+      align-items: center;
+      font-family: 'Effra_Trial_SBd';
+      .folder-open-icon {
+        margin: 0 7px;
+      }
+
+      .folder-close-icon {
+        margin: 1px 9px 0px 8px;
+      }
+
+      .sb-folder-name {
+        width: max-content;
+        font-family: "Effra_Trial_Md";
+        ;
+      }
+    }
+
+    .folder-rotate-down {
+      animation: rotateFolderDown 0.5s linear forwards;
+    }
+
+    @keyframes rotateFolderDown {
+      from {
+        transform: rotate(0deg);
+      }
+
+      to {
+        transform: rotate(90deg);
+      }
+    }
+
+    .folder-rotate-left {
+      transform: rotate(-180deg);
+    }
+
+    @keyframes rotateRight {
+      from {
+        transform: rotate(90deg);
+      }
+
+      to {
+        transform: rotate(0deg);
+      }
+    }
+  }
+
+  .active-list-item {
+
+    color: white;
+
+    &:hover {
+      cursor: pointer;
+
+    }
+  }
+
+  .empty-nav-pane {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
+  }
+}

@@ -1,0 +1,190 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/login/LoginMfa should match snapshot 1`] = `
+<div
+  className="login-body"
+>
+  <div
+    className="login-body-content"
+  >
+    <div
+      className="login-body-message login-body-content custom-branding with-brand-image custom-branding with-brand-image"
+    >
+      <div
+        className="login-body-custom-branding-image"
+      >
+        <div
+          className="login-body-custom-branding-text"
+        >
+          <img
+            alt="brand image"
+            className="login-body-custom-branding-image-logo"
+            onError={[Function]}
+            src="/api/v4/brand/image?t=0"
+          />
+          <p>
+            مـنصة عمـل ســـوفـا
+          </p>
+          <p
+            className="custom-text"
+          >
+            Sofa Workspace
+          </p>
+        </div>
+        <img
+          alt="brand image"
+          className="login-body-custom-branding-image"
+          onError={[Function]}
+          src=""
+        />
+      </div>
+    </div>
+    <div
+      className="login-body-action"
+    >
+      <div
+        className="login-body-card custom-branding"
+      >
+        <div
+          className="login-body-card-content"
+          tabIndex={0}
+        >
+          <div
+            className="login-mfa-icon"
+          >
+            <Svg />
+          </div>
+          <p
+            className="login-body-card-title"
+          >
+            Enter MFA Token
+          </p>
+          <form
+            onSubmit={[Function]}
+            style={
+              Object {
+                "width": "100%",
+              }
+            }
+          >
+            <div
+              className="login-body-card-form"
+              style={
+                Object {
+                  "width": "100%",
+                }
+              }
+            >
+              <div
+                aria-label="Enter MFA Token"
+                className="login-mfa-otp"
+                dir="ltr"
+              >
+                <input
+                  aria-label="Enter MFA Token 1"
+                  autoComplete="one-time-code"
+                  autoFocus={true}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="0"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+                <input
+                  aria-label="Enter MFA Token 2"
+                  autoFocus={false}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="1"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+                <input
+                  aria-label="Enter MFA Token 3"
+                  autoFocus={false}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="2"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+                <input
+                  aria-label="Enter MFA Token 4"
+                  autoFocus={false}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="3"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+                <input
+                  aria-label="Enter MFA Token 5"
+                  autoFocus={false}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="4"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+                <input
+                  aria-label="Enter MFA Token 6"
+                  autoFocus={false}
+                  className="login-mfa-otp-input"
+                  disabled={false}
+                  inputMode="numeric"
+                  key="5"
+                  maxLength={1}
+                  onChange={[Function]}
+                  onKeyDown={[Function]}
+                  onPaste={[Function]}
+                  pattern="[0-9]*"
+                  type="text"
+                  value=""
+                />
+              </div>
+              <SaveButton
+                defaultMessage="Submit"
+                disabled={true}
+                extraClasses="login-body-card-form-button-submit"
+                onClick={[Function]}
+                saving={false}
+                savingMessage="Logging in…"
+              />
+            </div>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;

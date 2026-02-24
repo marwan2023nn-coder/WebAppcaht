@@ -1,0 +1,93 @@
+.AirGappedModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        inset-inline-start:50%;
+        width: 512px;
+        height: 660px;
+        border: 1 px solid rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 12px;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+
+    .modal-header {
+        .close {
+            &:hover,
+            &:active,
+            &:focus,
+            &:active:focus {
+                background-color: rgba(var(--center-channel-color-rgb), 0.08);
+                color: rgba(var(--center-channel-color-rgb), 0.8);
+                opacity: 1;
+            }
+
+            top: 26px;
+            inset-inline-end: 26px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.75) !important;
+            font-family: 'Effra_Trial_SBd', sans-serif;
+            font-size: 32px;
+
+        }
+
+        .title {
+            font-size: 22px;
+            font-style: normal;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 28px;
+            text-align: start;
+        }
+
+        display: block;
+        min-height: 48px;
+        padding-top: 26px;
+        padding-bottom: 0;
+        padding-inline-start: 32px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--center-channel-bg) !important;
+        color: var(--center-channel-color);
+    }
+
+    .modal-body {
+        display: flex;
+        overflow: hidden;
+        width: 100%;
+        flex-direction: column;
+        padding-top: 24px;
+        padding-inline-end: 32px;
+        padding-bottom: 26px;
+        padding-inline-start: 32px;
+
+        .description {
+            margin: 0 auto;
+            margin-top: 8px;
+            color: rgb(var(--center-channel-color-rgb));
+
+            font-size: 14px;
+            font-style: normal;
+
+            line-height: 20px;
+            text-align: start;
+        }
+
+        .icon {
+            width: 100%;
+            align-items: center;
+            margin-top: 32px;
+            text-align: center;
+        }
+
+        .buttons {
+            margin-top: 32px;
+            text-align: end;
+        }
+    }
+}

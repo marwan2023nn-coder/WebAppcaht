@@ -1,0 +1,52 @@
+
+@use 'utils/variables';
+@use "utils/functions";
+.AdminSectionPanel {
+    border: solid 1px functions.alpha-color(variables.$black, 0.1);
+    border-radius: var(--radius-m);
+    margin: 20px 0;
+    background-color: var(--sys-button-color);
+    box-shadow: var(--elevation-1);
+
+    &__header {
+        padding: 16px 24px;
+        border-bottom: solid 1px functions.alpha-color(variables.$black, 0.1);
+        background-color: variables.$white;
+    }
+
+    &__title {
+        display: flex;
+        align-items: center;
+        padding-bottom: 0 !important;
+        margin-top: 10px !important;
+        margin-bottom: 0 !important;
+        // color: var(--center-channel-color);
+        font-size: 18px;
+        font-family: 'Effra_Trial_SBd';
+        line-height: 24px;
+    }
+
+    &__description {
+        margin-top: 0;
+        margin-bottom: 8px;
+        // color: rgba(var(--center-channel-color-rgb), 0.72);
+        font-size: 14px;
+        line-height: 20px;
+    }
+
+    &__body {
+        padding: 24px;
+    }
+
+    // First child in body should not have top margin
+    &__body > *:first-child {
+        margin-top: 0;
+    }
+
+    // Remove redundant panel borders from nested components
+    .AdminPanel {
+        border: none;
+        margin: 0;
+        box-shadow: none;
+    }
+}

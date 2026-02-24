@@ -1,0 +1,136 @@
+
+
+.toolbar {
+  height: 35px;
+  min-height: 70px;
+  max-height: 70px;
+  border-bottom: 1px solid;
+  padding: 20px 18px;
+
+  .file-action-container {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+    }
+
+    .file-action {
+      background-color: transparent;
+      gap: 5px;
+
+      &:hover:not(:disabled) {
+        cursor: pointer;
+        background-color: rgba(253, 253, 253, 0.925) !important;
+        border-radius: 8px;
+        color: rgb(0, 0, 0);
+        text-shadow: 0px 0px 1px white;
+      }
+
+      &:hover:disabled {
+        cursor: default;
+        background-color: transparent !important;
+        color: #b0b0b0;
+        text-shadow: none;
+      }
+    }
+  }
+
+  .fm-toolbar {
+    display: flex;
+    justify-content: space-between;
+
+    > div {
+      display: flex;
+      position: relative;
+    }
+
+    .toolbar-left-items {
+      display: flex;
+    }
+
+    .toggle-view {
+      position: absolute;
+      z-index: 3;
+      top: 105%;
+      right: 11%;
+      background-color: white;
+      margin: 0;
+      border: 1px solid #c4c4c4;
+      border-radius: 5px;
+      direction: ltr;
+      background: var(--center-channel-bg);
+
+      ul {
+        list-style: none;
+        padding-left: 0;
+        margin: 0.4em 0;
+        display: flex;
+        flex-direction: column;
+        gap: 1px;
+
+        li {
+          display: flex;
+          align-items: center;
+          gap: 8px;
+          padding: 5px 20px 5px 10px;
+
+          &:hover {
+            cursor: pointer;
+            background-color: rgba(0, 0, 0, 0.075);
+          }
+
+          span:nth-child(1) {
+            width: 13px;
+          }
+        }
+      }
+    }
+  }
+
+  .item-action {
+    background-color: white;
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    padding: 8px 12px;
+    font-size: 14px;
+    width: fit-content;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    margin-inline-start: 6px;
+   font-family: 'Effra_Trial_Bd';
+
+    &:hover {
+      cursor: pointer;
+
+    }
+
+    .toggle-view-icon {
+      background-color: transparent;
+      border: none;
+
+      &:hover {
+        cursor: pointer;
+
+      }
+    }
+  }
+
+  .icon-only {
+    padding: 11px 11px !important;
+    border-radius: 50%;
+    border: 1px solid #cbd5e1;
+    background: transparent;
+    &:focus {
+      border-radius: 50%;
+    }
+  }
+
+  .item-separator {
+    height: 36px;
+    width: 1px;
+    margin: 0 5px;
+  }
+}
+

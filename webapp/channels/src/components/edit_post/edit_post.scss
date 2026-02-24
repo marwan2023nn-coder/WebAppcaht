@@ -1,0 +1,91 @@
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+.whatsapp-message-row:has(.post-edit__container) {
+    display: flex;
+    width: 100%;
+}
+
+.post--right1:has(.post-edit__container) {
+    background: transparent;
+    padding: 0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+
+    &.first-post {
+        background: transparent;
+    }
+
+    .post-edit__container {
+        direction: rtl;
+    }
+}
+
+.post--left1:has(.post-edit__container) {
+    &.first-post {
+        &::after {
+            background: transparent;
+        }
+    }
+
+    background: transparent;
+    padding:0;
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0;
+    [dir="ltr"] &{
+    direction: ltr;
+    }
+    .custom-textarea {
+            &.custom-textarea--emoji-picker {
+      [dir="rtl"] & {padding-inline-start: 50px !important;
+    padding-inline-end: 9px !important}
+    }}
+}
+
+.post--editing__wrapper {
+    position: relative;
+
+    textarea,
+    #edit_textbox_placeholder {
+        padding: 13px 16px 12px 16px;
+        padding-inline-end: 50px;
+    }
+
+    .edit-post-footer {
+        &.has-error {
+            color: rgb(var(--dnd-indicator-rgb));
+        }
+    }
+}
+
+.post-edit__container {
+    padding-top: 0px;
+    width: 100%;
+    background: transparent;
+    font-family: 'Effra_Trial_Rg';
+    .AdvancedTextEditor {
+        padding: 0;
+    }
+
+    [data-testid='formattingBarContainer'] {
+        background-color: var(--center-channel-bg);
+        ;
+    }
+
+    // .custom-textarea {
+    //     padding: 13px 13px 10px 0px !important;
+    //      [dir="rtl"] & {padding: 13px 0 10px 13px !important;}
+    // }
+
+    .AdvancedTextEditor__body {
+        .AutoHeight {
+            background-color: var(--center-channel-bg);
+        }
+    }
+
+    .AdvancedTextEditor__footer {
+        padding-inline: 0;
+    }
+}

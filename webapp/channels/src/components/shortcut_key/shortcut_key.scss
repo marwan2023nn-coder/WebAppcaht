@@ -1,0 +1,57 @@
+.app__body {
+    .shortcut-key {
+        display: inline-block;
+        padding: 10px 9px 8px 8px;
+        border-radius: 4px;
+        background: var(--center-channel-color);
+        color: var(--center-channel-bg);
+        font-size: 14px;
+        font-family: 'Effra_Trial_Md';
+        line-height: 1;
+
+        &.shortcut-key--contrast {
+            background-color: rgba(var(--center-channel-color-rgb), 0.08);
+            color: var(--center-channel-color);
+        }
+
+        &.shortcut-key--tooltip {
+            padding: 2px 5px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.75);
+            font-size: 12px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 16px;
+        }
+
+        &.shortcut-key--tutorial-tip {
+            padding: 2px 5px;
+            background-color: rgba(var(--button-color-rgb), 0.08);
+            color: rgba(var(--button-color-rgb), 0.75);
+            font-size: 12px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 16px;
+        }
+
+        &.shortcut-key--shortcut-modal {
+            font-size: 12px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 16px;
+        }
+    }
+}
+
+.console__body {
+    .shortcut-key {
+        display: inline-block;
+        border-radius: 4px;
+
+        &.shortcut-key--tooltip {
+            padding: 2px 5px;
+            background-color: rgba(255, 255, 255, 0.08);
+            color: rgba(255, 255, 255, 0.72);
+            font-size: 12px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 16px;
+        }
+    }
+}

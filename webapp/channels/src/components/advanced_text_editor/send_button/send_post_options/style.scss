@@ -1,0 +1,21 @@
+ul#dropdown_send_post_options {
+    li[role="menuitem"][aria-disabled="true"] {
+        opacity: 1;
+
+        .label-elements {
+ font-family: 'Effra_Trial_Bd';
+        }
+    }
+
+    li.core-menu-options{
+        display: flex;
+        flex-direction: column;
+        align-items: baseline;
+
+        .trailing-elements {
+            margin-top: 4px;
+            margin-inline-start: 0;
+            opacity: 0.8;
+        }
+    }
+}

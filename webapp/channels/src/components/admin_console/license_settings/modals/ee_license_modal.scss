@@ -1,0 +1,41 @@
+.EELicenseModal {
+    .modal-header {
+        background: none !important;
+
+        button.close {
+            span {
+                color: rgba(63, 67, 80, 0.75) !important;
+            }
+        }
+    }
+
+    .title {
+        margin: 10px 0;
+        color: #3f4350;
+        font-size: 22px;
+       font-family: 'Effra_Trial_Bd';
+        line-height: 28px;
+    }
+
+    .enterprise-license-text {
+        max-height: 200px;
+        padding: 10px;
+        background: white;
+        overflow-y: auto;
+        text-align: justify;
+    }
+
+    .content-footer {
+        display: flex;
+
+        button {
+            border-radius: 4px;
+            margin-top: 15px !important;
+            margin-inline-start: auto;
+        }
+    }
+
+    .modal-footer {
+        border-top: none !important;
+    }
+}

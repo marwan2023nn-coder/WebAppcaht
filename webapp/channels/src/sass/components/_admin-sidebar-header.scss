@@ -1,0 +1,70 @@
+@use "utils/mixins";
+@use "utils/functions";
+@use "utils/variables";
+
+.AdminSidebarHeader {
+     background: variables.$white;
+     border-bottom: 1px solid functions.alpha-color(variables.$black, 0.1);
+
+    > div {
+        &:first-child {
+            position: relative;
+            display: flex;
+            align-items: center;
+            padding: 10px;
+            cursor: pointer;
+        }
+
+        > img {
+            width: 36px;
+            height: 36px;
+            border-radius: 36px;
+        }
+
+        .header__info {
+            @include mixins.clearfix;
+
+            position: relative;
+            width: 100%;
+            flex-grow: 1;
+            padding: 3px 15px 0 8px;
+            color: variables.$black;
+
+            .team__name {
+                overflow: hidden;
+                max-width: 100%;
+                font-size: 14px;
+                font-family: 'Effra_Trial_SBd';
+                text-decoration: none;
+                text-overflow: ellipsis;
+                white-space: nowrap;
+            }
+
+            .user__name {
+
+                opacity: 0.8;
+            }
+        }
+
+        .menu-icon {
+            margin-inline-end: 10px;
+            fill: variables.$black;
+            opacity: 0.8;
+        }
+
+        &:hover {
+            .user__name,
+            .menu-icon {
+                opacity: 1;
+            }
+
+            > div > img {
+                opacity: 0.8;
+            }
+        }
+    }
+
+    .Menu {
+        margin-inline-start: 16px;
+    }
+}

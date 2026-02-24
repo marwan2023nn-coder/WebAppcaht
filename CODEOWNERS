@@ -1,0 +1,11 @@
+/.github/workflows/channels-ci.yml @workspace/web-platform
+/webapp/package.json @workspace/web-platform
+/webapp/channels/package.json @workspace/web-platform
+/webapp/channels/src/packages/workspace-redux/src/store/configureStore.ts @hmhealey
+/webapp/Makefile @workspace/web-platform
+/webapp/package-lock.json @workspace/web-platform
+/webapp/platform/*/package.json @workspace/web-platform
+/webapp/scripts @workspace/web-platform
+/server/channels/db/migrations @workspace/server-platform
+/server/boards/services/store/sqlstore/migrations @workspace/server-platform
+/server/playbooks/server/sqlstore/migrations @workspace/server-platform

@@ -1,0 +1,295 @@
+@use "utils/variables";
+
+.post--left {
+    direction: rtl;
+
+    .buzz-message {
+        direction: ltr;
+        width: fit-content;
+
+        .post-time-in-bubble {
+            .post__permalink {
+                position: static !important;
+                cursor: pointer;
+            }
+
+            .post__time {
+                opacity: 1 !important;
+                position: static !important;
+                font-size: 1.3rem;
+            }
+        }
+    }
+
+    .MenuItem {
+        html[dir="ltr"] & {
+            direction: ltr;
+        }
+    }
+}
+
+.whatsapp-message-row {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+}
+
+.whatsapp-post-options-trigger {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border: none;
+    border-radius: 4px;
+    background: transparent;
+    color: rgba(var(--text-color), var(--text-opacity), 0.56);
+    cursor: pointer;
+
+    >span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        line-height: 0;
+    }
+
+    svg {
+        display: block;
+        fill: rgba(var(--text-color), var(--text-opacity), 0.56);
+        stroke: none;
+    }
+
+    svg path {
+        fill: currentColor;
+        stroke: none;
+    }
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.08);
+    }
+}
+
+.whatsapp-post-options-anchor {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+}
+
+.whatsapp-post-options-bar {
+    position: absolute;
+    bottom: calc(100% + 6px);
+    left: 50%;
+    transform: translateX(-50%);
+    z-index: 7;
+
+    .post-menu {
+        position: static;
+        inset-inline-end: auto;
+        top: auto;
+        display: inline-flex;
+        padding: 4px;
+        border: 1px solid rgba(var(--center-channel-color-rgb), 0.2);
+        border-radius: 6px;
+        background: var(--center-channel-bg);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
+    }
+
+    .post-menu__item {
+        display: inline-flex !important;
+    }
+}
+
+.post--right {
+    .whatsapp-message-row {
+        flex-direction: row;
+    }
+}
+
+.post--left {
+    .whatsapp-message-row {
+        flex-direction: row;
+    }
+}
+
+.post--right {
+    direction: ltr;
+
+    .MenuItem {
+        html[dir="rtl"] & {
+            direction: rtl;
+        }
+    }
+
+    .buzz-message {
+        direction: ltr;
+        width: fit-content;
+
+        .post-time-in-bubble {
+            .post__permalink {
+                position: static !important;
+                cursor: pointer;
+            }
+
+            .post__time {
+                opacity: 1 !important;
+                position: static !important;
+                font-size: 1.3rem;
+            }
+        }
+    }
+
+    .post__body-reactions-acks {
+       display: none;
+    }
+}
+
+.post--left1 {
+    display: flex;
+    flex-direction: column;
+    border-radius: 13px;
+    background-color: rgb(var(--button-bg-rgb));
+    width: fit-content;
+   min-width: 6rem;
+    min-height: 3.9rem;
+    max-width: 71rem;
+    padding: 0px 1rem 0px 1rem;
+    padding-top: 0.8rem;
+   font-family: 'Effra_Trial_Rg';
+    font-size: 1.6rem;
+.body_deleted{
+    color: white;
+}
+    .app__content {
+        color: white;
+    }
+ .post-edited__indicator{
+         color: white;
+    }
+    .post-message__text {
+        text-align: start;
+        color: white;
+
+        a {
+            color: white;
+            background:transparent;
+
+            &:focus,
+            &:active,
+            &:hover {
+                color: rgb(69 73 72);
+            }
+
+        }
+    }
+
+    .cardButton button {
+        border: none;
+        color: white;
+    }
+
+    .markdown__link {
+        color: white;
+
+        &:hover {
+            color: rgb(69 73 72);
+        }
+    }
+
+    .attachment__container {
+        .markdown__link {
+            color: inherit;
+        }
+    }
+
+    .post-time-in-bubble {
+        .post__permalink {
+            position: static !important;
+            color: white;
+            cursor: pointer;
+
+        }
+
+        .post__time {
+            opacity: 1 !important;
+            position: static !important;
+            font-size: 1.3rem;
+        }
+    }
+
+    &.first-post {
+        border-radius: 13px 0 13px 13px;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 0;
+            right: -7px;
+            background: rgb(var(--button-bg-rgb));
+            clip-path: polygon(100% -13%, 72% 0, 72% 25%);
+        }
+    }
+}
+
+.post--right1 {
+    border-radius: 13px;
+    background-color: rgba(241, 241, 241, 1);
+    width: fit-content;
+    min-width: 6rem;
+    min-height: 3.9rem;
+    max-width: 71rem;
+    padding: 0px 1rem 0px 1rem;
+    padding-top: 0.8rem;
+    color: #000000e8;
+   font-family: 'Effra_Trial_Rg';
+    font-size: 1.6rem;
+    .m-1 {
+        color: var(--sidebar-text);
+    }
+    .post-edited__indicator{
+         color: #000000e8;
+    }
+    .post-message__text {
+        text-align: start;
+        color: #000000e8;
+    }
+
+    .post__time {
+        color: #000000e8;
+    }
+
+
+
+    .post-time-in-bubble {
+        .post__permalink {
+            position: static !important;
+            cursor: pointer;
+        }
+
+        .post__time {
+            opacity: 1 !important;
+            position: static !important;
+            font-size: 1.3rem;
+        }
+    }
+
+    &.first-post {
+        border-radius: 0px 13px 13px 13px;
+        position: relative;
+
+        &::after {
+            content: "";
+            position: absolute;
+            width: 30px;
+            height: 30px;
+            top: 0;
+            background: inherit;
+            left: -21px;
+            right: auto;
+            clip-path: polygon(50% -13%, 72% 0, 72% 25%);
+        }
+    }
+}

@@ -1,0 +1,47 @@
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {useEffect, useRef} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
+
+import {checkCWSAvailability} from 'workspace-redux/actions/general';
+import {getCWSAvailability} from 'workspace-redux/selectors/entities/general';
+
+export enum CSWAvailabilityCheckTypes {
+    Available = 'available',
+    Unavailable = 'unavailable',
+    Pending = 'pending',
+    NotApplicable = 'not_applicable',
+}
+
+export default function useCWSAvailabilityCheck(): CSWAvailabilityCheckTypes {
+    const dispatch = useDispatch();
+    const cwsAvailability = useSelector(getCWSAvailability);
+    const hasRequested = useRef(false);
+
+    useEffect(() => {
+        if (cwsAvailability !== 'pending') {
+            hasRequested.current = false;
+            return;
+        }
+
+        // React 18 StrictMode runs effects twice in development. Guard to avoid duplicate requests.
+        if (!hasRequested.current) {
+            hasRequested.current = true;
+            dispatch(checkCWSAvailability());
+        }
+    }, [dispatch, cwsAvailability]);
+
+    // Convert the string to the enum value
+    switch (cwsAvailability) {
+    case 'available':
+        return CSWAvailabilityCheckTypes.Available;
+    case 'unavailable':
+        return CSWAvailabilityCheckTypes.Unavailable;
+    case 'not_applicable':
+        return CSWAvailabilityCheckTypes.NotApplicable;
+    case 'pending':
+    default:
+        return CSWAvailabilityCheckTypes.Pending;
+    }
+}

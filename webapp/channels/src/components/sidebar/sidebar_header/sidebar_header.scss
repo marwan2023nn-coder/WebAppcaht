@@ -1,0 +1,50 @@
+.sidebarHeaderContainer {
+    display: flex;
+    height: 56px;
+    flex-direction: row;
+    flex-wrap: nowrap;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 14px;
+    color: var(--sidebar-header-text-color);
+    border-bottom: var(--border-default);
+
+    button#sidebarTeamMenuButton {
+        overflow: hidden;
+        padding: 0;
+        color:var(--center-channel-color);
+        font-size: 15px;
+        gap: 1px;
+        font-size: 1.6rem;
+        font-family: 'Effra_Trial_SBd';
+
+        &:hover {
+            background: rgba(var(--sidebar-header-text-color-rgb), 0.08);
+        }
+
+        &:active,
+        &[aria-expanded=true][aria-haspopup=true] {
+            background: rgba(var(--sidebar-header-text-color-rgb), 0.12);
+        }
+
+        & > span {
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            font-family: 'Effra_Trial_SBd';
+        }
+
+        & > .icon {
+            display: flex;
+            justify-content: center;
+        }
+    }
+}
+
+#sidebarTeamMenu {
+    .learnAboutTeamsMenuItem {
+        .leading-element,.label-elements>span {
+            color: var(--link-color);
+        }
+    }
+}

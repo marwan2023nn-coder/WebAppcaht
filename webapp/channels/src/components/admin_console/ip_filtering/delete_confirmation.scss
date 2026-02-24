@@ -1,0 +1,90 @@
+.DeleteConfirmationModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        inset-inline-start:50%;
+        width: 600px;
+        border: 1 px solid rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 12px;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+
+    .modal-header {
+        .close {
+            &:hover {
+                background-color:
+                    rgba(
+                        var(--center-channel-color-rgb),
+                        0.08
+                    );
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+
+            &:active {
+                background-color: rgba(var(--button-bg-rgb), 0.08);
+                color: var(--button-bg);
+            }
+
+            top: 26px;
+            inset-inline-end: 26px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56) !important;
+            font-family:
+                'Effra_Trial_Rg',
+                sans-serif;
+            font-size: 32px;
+
+        }
+
+        .title {
+            font-size: 1.7rem;
+            font-style: normal;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 28px;
+            text-align: start;
+        }
+
+        display: block;
+        min-height: 48px;
+        padding-top: 26px;
+        padding-bottom: 0;
+        padding-inline-start: 32px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--center-channel-bg) !important;
+        color: var(--center-channel-color);
+    }
+
+    .modal-body {
+        overflow: hidden;
+        width: 100%;
+        flex-direction: column;
+        padding-top: 24px;
+        padding-inline-end: 32px;
+        padding-bottom: 26px;
+        padding-inline-start: 32px;
+        color: var(--center-channel-color, #3f4350);
+        font-family: 'Effra_Trial_Rg';
+        font-size: 14px;
+        font-style: normal;
+
+        line-height: 20px;
+    }
+
+    .modal-footer {
+        padding: 24px 32px;
+        border-radius: 12px;
+        border-top: none;
+        font-size: 14px;
+        font-style: normal;
+        font-family: 'Effra_Trial_SBd';
+        line-height: 1.7rem;
+    }
+}

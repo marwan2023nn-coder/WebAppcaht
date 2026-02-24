@@ -1,0 +1,39 @@
+.ChannelsList {
+    .DataGrid {
+        .DataGrid_row {
+            min-height: 40px;
+            padding-inline-start: 16px;
+            cursor: pointer;
+        }
+
+        .DataGrid_cell {
+            .TeamList_editRow {
+                padding-inline-end: 20px;
+            }
+
+            .TeamList_channelDisplayName {
+                color: #333;
+                font-family: 'Effra_Trial_SBd';
+                opacity: 0.8;
+            }
+
+            .channel-icon {
+                display: inline-flex;
+                width: 16px;
+                justify-content: center;
+                margin-inline-end: 10px;
+                font-size: 120%;
+                opacity: 0.8;
+            }
+
+            .shared-channel-icon {
+                color: black;
+            }
+
+            .row-content {
+                display: flex;
+                align-items: center;
+            }
+        }
+    }
+}

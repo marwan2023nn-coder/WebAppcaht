@@ -1,0 +1,1286 @@
+@use "./variables.scss" as *;
+@use "./mixins.scss" as *;
+
+:root {
+  direction: rtl;
+  background: white !important;
+}
+
+.nav-links1 {
+  display: flex;
+  align-items: center;
+  gap: 5rem;
+  justify-content: center;
+
+  a {
+    color: #fff;
+  }
+}
+
+@media (max-width: 600px) {
+  .nav-links1 {
+    flex-direction: row;
+    font-size: 8px;
+    gap: 3rem;
+  }
+}
+.app {
+  min-height: 100vh;
+  background-color: #fff;
+  overflow: auto;
+}
+
+.containerHome {
+  width: 100%;
+  /* Use full width of the viewport */
+  max-width: $desktop !important;
+  /* Set maximum width for desktop */
+  padding: 0 0.5rem;
+  /* Add some horizontal padding */
+  margin: 0 auto;
+  /* Center the container */
+
+  @media (max-width: 768px) {
+    max-width: $tablet !important;
+    /* Set max width for tablet */
+    padding: 0 1rem;
+    /* Increase padding for better spacing on tablets */
+  }
+
+  @media (max-width: 640px) {
+    max-width: $mobile !important;
+    /* Set max width for mobile */
+    padding: 0 1rem;
+    /* Maintain padding for mobile */
+  }
+
+  @media (min-width: 350px) {
+    max-width: auto !important;
+    /* Set max width for mobile */
+    padding: 0 1rem;
+    /* Maintain padding for mobile */
+  }
+}
+
+.hero {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 5rem 1rem;
+  text-align: center;
+  color: $white;
+
+  .hero-content {
+    max-width: 92rem;
+    margin: 0 auto;
+  }
+
+  .subtitle {
+    font-size: 15.5px;
+    line-height: 25.6px;
+    margin-bottom: 1rem;
+  }
+
+  .title {
+    font-size: 36.6px;
+    font-family: 'Effra_Trial_SBd';
+    line-height: 51.8px;
+    margin-bottom: 2.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 29.6px;
+      /* Adjust title size for smaller screens */
+    }
+
+    @media (max-width: 420px) {
+      font-size: 20.6px;
+      /* Adjust title size for smaller screens */
+    }
+  }
+
+  .description {
+    font-size: 20.6px;
+    margin-bottom: 2rem;
+    line-height: 32px;
+    padding: 0 105px;
+
+
+    @media (max-width: 768px) {
+      padding: 0;
+      /* Remove padding on smaller screens */
+      font-size: 16px;
+      /* Adjust description size for smaller screens */
+    }
+
+    @media (max-width: 420px) {
+      padding: 0;
+      /* Remove padding on smaller screens */
+      font-size: 14px;
+      /* Adjust description size for smaller screens */
+    }
+  }
+
+  .buttons {
+    display: flex;
+    justify-content: center;
+    gap: 1rem;
+    margin-bottom: -10px;
+
+    @media (max-width: 768px) {
+      margin-bottom: 30px;
+    }
+
+    @media (max-width: 520px) {
+      flex-direction: column;
+    }
+
+    .btn-primary,
+    .btn-secondary {
+      background-color: rgba(255, 255, 255, 0.1);
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.375rem;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+
+      @media (max-width: 768px) {
+        padding: 0.5rem 1rem;
+        /* Adjust padding for smaller screens */
+      }
+    }
+
+    .btn-secondary {
+      color: $white;
+
+      &:hover {
+        background-color: rgba(255, 255, 255, 0.1);
+      }
+    }
+  }
+}
+
+.heroImage {
+  position: absolute;
+  max-width: 100% !important;
+  width: 90% !important;
+  height: 100%;
+  left: 5%;
+  background-image: url("../../../images/ML/heroImage.png");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: contain;
+
+  @media (min-width: 991px) {
+    top: 40%;
+  }
+
+  @media (min-width: 1300px) {
+    top: 42%;
+    height: 80%;
+  }
+
+  @media (max-width: 1299px) {
+    top: 42%;
+    height: 70%;
+  }
+
+  @media (min-width: 1600px) {
+    top: 43%;
+  }
+
+  @media (max-width: 992px) {
+    top: 55%;
+    height: 60%;
+  }
+
+  @media (max-width: 768px) {
+    height: 75%;
+    top: 70%;
+  }
+
+  @media (max-width: 560px) {
+    height: 50%;
+    top: 75%;
+  }
+
+  @media (max-width: 420px) {
+    height: 80%;
+    top: 54%;
+  }
+}
+
+.headerHome {
+  position: relative;
+  background: linear-gradient(to bottom, #00987e, #006b59);
+  padding: 1rem;
+  display: flex;
+  height: 1100px;
+  flex-direction: column;
+  align-items: center;
+  margin: 10px;
+  border: 1px solid $primary-color;
+  border-radius: 24px;
+  margin-bottom: 30rem;
+
+  @media (min-width: 991px) {
+    height: 1100px;
+    /* Fixed height on larger screens */
+    margin-bottom: 7rem;
+    /* Maintain margin on larger screens */
+    padding: 2rem;
+    /* Increase padding for larger screens */
+  }
+
+  @media (max-width: 992px) {
+    height: 1000px;
+    /* Fixed height on larger screens */
+    margin-bottom: 7rem;
+    /* Maintain margin on larger screens */
+    padding: 2rem;
+    /* Increase padding for larger screens */
+  }
+
+  @media (min-width: 1600px) {
+    height: 1100px;
+    /* Fixed height on larger screens */
+    margin-bottom: 40rem;
+    /* Maintain margin on larger screens */
+    padding: 2rem;
+    /* Increase padding for larger screens */
+  }
+
+  @media (min-width: 1400px) {
+    height: 1100px;
+    /* Fixed height on larger screens */
+    margin-bottom: 22rem;
+    /* Maintain margin on larger screens */
+    padding: 2rem;
+    /* Increase padding for larger screens */
+  }
+
+  @media (max-width: 768px) {
+    height: auto;
+    /* Allow height to adjust on smaller screens */
+    margin-bottom: 26rem;
+    /* Adjust margin for smaller screens */
+    padding: 2rem;
+    /* Maintain padding */
+    padding-bottom: 110px;
+    /* Maintain bottom padding */
+  }
+
+  @media (max-width: 560px) {
+    margin-bottom: 11rem;
+
+  }
+
+  @media (max-width: 420px) {
+    margin-bottom: 2rem;
+    /* Adjust margin for smaller screens */
+  }
+}
+
+.menu {
+  background-color: white;
+  padding: 1rem;
+  width: 80%;
+  position: relative;
+  margin: 20px auto;
+  /* Center the menu */
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  /* Allow items to wrap on smaller screens */
+  border: 1px solid #04092114;
+  border-radius: 12px;
+  justify-content: space-between;
+
+
+  @media (max-width: 768px) {
+    width: 100%;
+    margin: 0;
+  }
+
+  .nav-container {
+    display: flex;
+    gap: 20px;
+  }
+
+  .menu-icon {
+    display: none; // Initially hidden
+    cursor: pointer;
+    font-size: 24px; // Adjust size as needed
+  }
+
+  .nav-links {
+    display: flex;
+    align-items: center;
+    gap: 5rem;
+    color: #4b5563;
+
+    @media (max-width: 768px) {
+      display: none; // Hide by default on small screens
+      flex-direction: column; // Stack links vertically
+
+      &.active {
+        display: flex;
+        position: absolute;
+        left: 66px;
+        right: 0px;
+        width: 100%;
+        height: 39vh;
+        background-color: white;
+        z-index: 10;
+        top: 81px;
+        border-radius: 10px;
+        padding: 25px;
+      }
+    }
+
+    .nav-link {
+      text-decoration: none;
+      color: #7b7986cc;
+      transition: color 0.2s ease;
+
+      &:hover {
+        color: $primary-color;
+        /* Ensure this variable is defined */
+      }
+
+      &.nav-login {
+        text-decoration: none;
+        color: #fff !important;
+        transition: color 0.2s ease;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .menu-icon {
+      display: block; // Show menu icon on small screens
+    }
+
+    .nav-links {
+      position: absolute; // Position for dropdown effect
+      top: 60px; // Adjust based on your navbar height
+      left: 0;
+      right: 0;
+      background-color: white; // Background for dropdown
+      z-index: 10; // Ensure it appears above other content
+    }
+  }
+
+  .login-section {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+  }
+
+  .login-section-menu {
+    display: none;
+  }
+
+  .login-button {
+    a {
+      color: #fff !important;
+    }
+
+    background-color: $primary-color;
+    /* Ensure this variable is defined */
+    color: $white;
+    /* Ensure this variable is defined */
+    height: 34px;
+    width: auto;
+    /* Allow button width to adjust based on content */
+    padding: 0.5rem 1rem;
+    /* Add padding for better touch targets */
+    border-radius: 0.375rem;
+    font-size: 14px;
+    border: none;
+    cursor: pointer;
+    font-family: 'Effra_Trial_SBd';
+
+    @media (max-width: 768px) {
+      width: 100%;
+      /* Full width on small screens */
+      margin-top: 0.5rem;
+      /* Add space above button */
+    }
+  }
+
+  .brand-card {
+    align-items: center;
+    gap: 10px;
+  }
+
+  .brand {
+    display: flex;
+    align-items: center;
+    height: 100%;
+    gap: 0.5rem;
+    font-size: 16.6px;
+    font-family: 'Effra_Trial_Md';
+    line-height: 21.78px;
+    color: $text-color;
+
+    @media (max-width: 768px) {
+      justify-content: center;
+      /* Center brand on small screens */
+      width: 100%;
+      /* Full width for brand section */
+      margin-bottom: 0.5rem;
+      /* Space below brand section */
+    }
+
+    .logo {
+      width: 24px;
+      height: 24px;
+      background-color: $primary-color;
+      /* Ensure this variable is defined */
+      border-radius: 50%;
+    }
+  }
+}
+
+.titleBox {
+  width: 150px;
+  height: 32px;
+  border: 1px solid #04092114;
+  border-radius: 8px;
+  padding: 6px 8px;
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.titleCard {
+  display: flex;
+  justify-content: center;
+}
+
+.features {
+  padding: 5rem 0;
+  background-color: $white;
+
+  .main-title {
+    text-align: center !important;
+    font-size: 2rem;
+    /* Use rem for scalability */
+    line-height: 1.2;
+    /* Adjust line height for readability */
+    color: $text-color !important;
+    margin-bottom: 2rem !important;
+    font-family: 'Effra_Trial_SBd';
+  }
+
+  .main-description {
+    text-align: center;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    line-height: 1.6;
+    font-size: 2rem;
+    /* Responsive font size */
+  }
+
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    /* Default to 3 columns */
+    gap: 2rem;
+    margin-bottom: 4rem;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: repeat(2, 1fr);
+      /* Two columns on medium screens */
+    }
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      /* Single column on small screens */
+      gap: 1.5rem;
+      /* Reduce gap for smaller screens */
+    }
+  }
+
+  .feature-card {
+    padding: 2rem;
+    border-radius: 12px;
+    border: 1px solid #0102081a;
+    transition: transform 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+    }
+
+    .icon {
+      font-size: 2.5rem;
+      color: $primary-color;
+      margin-bottom: 1rem;
+    }
+
+    h3 {
+      color: $text-color;
+      margin-bottom: 1rem;
+      font-size: 1.25rem;
+      /* Use rem for scalability */
+      line-height: 1.4;
+      /* Adjust line height for readability */
+      font-family: 'Effra_Trial_SBd';
+    }
+
+    p {
+      color: #7b7986;
+      line-height: 1.6;
+      font-size: 1.2rem;
+
+      /* Responsive font size */
+    }
+  }
+
+  .advanced-features {
+    margin-top: 20rem;
+
+    h2 {
+      text-align: center;
+      font-size: 1.75rem;
+      /* Responsive font size */
+      color: $text-color;
+      margin-bottom: 1rem;
+    }
+
+    .section-description {
+      text-align: center;
+      color: #666;
+      max-width: 800px;
+      margin: 0 auto 4rem;
+      line-height: 1.6;
+      font-size: 1.2rem;
+      /* Responsive font size */
+    }
+
+    .feature-item {
+      padding: 1.5rem;
+      border-radius: 8px;
+      background: #fff;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.05);
+      transition: transform 0.3s ease;
+
+      &:hover {
+        transform: translateY(-3px);
+      }
+
+      h3 {
+        color: $text-color;
+        margin-bottom: 0.75rem;
+        font-size: 1.1rem;
+        /* Responsive font size */
+        position: relative;
+      }
+
+      p {
+        color: #666;
+        line-height: 1.6;
+        font-size: 0.85rem;
+        /* Responsive font size */
+      }
+    }
+  }
+}
+
+.pricing {
+  padding: 5rem 0;
+  background-color: $white;
+
+  .title {
+    text-align: center;
+    font-size: 2rem;
+    /* Use rem for scalability */
+    line-height: 1.2;
+    /* Adjust line height for readability */
+    color: $text-color;
+    font-family: 'Effra_Trial_SBd';
+    margin-bottom: 2rem;
+  }
+
+  .description {
+    text-align: center;
+    font-size: 1.75rem;
+    /* Responsive font size */
+    color: $text-color;
+    font-family: 'Effra_Trial_SBd';
+    margin-bottom: 1rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: #666;
+    max-width: 800px;
+    margin: 0 auto 4rem;
+    line-height: 1.6;
+    font-size: 1rem;
+    /* Responsive font size */
+  }
+
+  .pricing-cards {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+    max-width: 1000px;
+    margin: 0 auto;
+
+    @media (max-width: 768px) {
+      grid-template-columns: 1fr;
+      /* Stack cards on small screens */
+      gap: 1.5rem;
+      /* Reduce gap for smaller screens */
+    }
+  }
+
+  .pricing-card {
+    background: white;
+    border: 1px solid #0102081a;
+    border-radius: 12px;
+    padding: 2rem;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+    &:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    }
+
+    h3 {
+      font-size: 1.25rem;
+      /* Use rem for scalability */
+      line-height: 1.5;
+      /* Adjust line height for readability */
+      text-align: right;
+      color: $text-color;
+      font-family: 'Effra_Trial_SBd';
+      margin-bottom: 1rem;
+    }
+
+    .card-description {
+      color: #666;
+      margin-bottom: 2rem;
+      min-height: 3rem;
+      /* Ensure space for description */
+      font-size: 0.875rem;
+      /* Responsive font size */
+    }
+
+    .price {
+      text-align: right;
+      margin-bottom: 1rem;
+
+      .amount {
+        font-size: 2.5rem;
+        /* Use rem for scalability */
+        line-height: normal;
+        /* Adjust line height for readability */
+ font-family: 'Effra_Trial_Bd';
+        /* Make amount stand out */
+        color: $text-color;
+      }
+
+      .period {
+        color: #666;
+        font-size: 0.875rem;
+        /* Responsive font size */
+        margin-right: 0.5rem;
+      }
+    }
+
+    .features {
+      margin-bottom: 2rem;
+      padding: 10px;
+
+      h4 {
+        color: $text-color;
+        margin-bottom: 1rem;
+        font-size: 17.5px;
+        line-height: 26.25px;
+        font-family: 'Effra_Trial_SBd';
+      }
+
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+
+        li {
+          color: $text-color;
+          margin-bottom: 0.75rem;
+          padding-right: 1.5rem;
+          position: relative;
+          font-size: 14px !important;
+          line-height: 21px;
+
+          &:before {
+            content: "✓";
+            position: absolute;
+            right: 0;
+            font-size: 14px;
+            color: $primary-color;
+          }
+        }
+      }
+    }
+
+    .cta-button {
+      width: 100%;
+      padding: 0.875rem;
+      background-color: $primary-color;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 14px;
+      cursor: pointer;
+      transition: background-color 0.2s ease;
+    }
+
+    @media (max-width: 768px) {
+      .title {
+        font-size: 1.5rem;
+        /* Smaller title on small screens */
+      }
+
+      .description {
+        font-size: 1.25rem;
+        /* Smaller description on small screens */
+      }
+
+      .subtitle {
+        font-size: 0.9rem;
+
+        .subtitle {
+          font-size: 0.9rem;
+          /* Smaller subtitle on small screens */
+        }
+
+        .pricing-card {
+          padding: 1.5rem;
+          /* Reduce padding for smaller screens */
+
+          h3 {
+            font-size: 1.1rem;
+            /* Smaller heading size */
+          }
+
+          .card-description {
+            font-size: 0.8rem;
+            /* Smaller description font size */
+          }
+
+          .price {
+            .amount {
+              font-size: 2rem;
+              /* Smaller amount size */
+            }
+
+            .period {
+              font-size: 0.75rem;
+              /* Smaller period size */
+            }
+          }
+
+          .features {
+            h4 {
+              font-size: 1rem;
+              /* Smaller feature heading size */
+            }
+
+            li {
+              font-size: 12px !important;
+              /* Smaller feature list item size */
+            }
+          }
+
+          .cta-button {
+            font-size: 12px;
+            /* Smaller button font size */
+          }
+        }
+      }
+    }
+  }
+}
+
+.faq {
+  padding: 5rem 0;
+  margin: 10px;
+  border: 1px solid #f9fafb;
+  border-radius: 10px;
+  background-color: #f9fafb;
+
+  .title {
+    text-align: center;
+    color: $text-color;
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+
+  .subtitle {
+    text-align: center;
+    color: $text-color;
+    font-size: 28px;
+    line-height: 21.78px;
+    font-family: 'Effra_Trial_SBd';
+    margin-bottom: 3rem;
+  }
+
+  .faq-list {
+    max-width: 768px;
+    margin: 0 auto;
+  }
+
+  .faq-item {
+    border: 1px solid #0102081a;
+    border-radius: 8px;
+    margin-bottom: 1rem;
+    overflow: hidden;
+    cursor: pointer;
+    transition: all 0.3s ease;
+
+    &:hover {
+      border-color: $primary-color;
+    }
+
+    &.active {
+      .question {
+        border-bottom: 1px solid #0102081a;
+      }
+
+      .answer {
+        max-height: 500px;
+        padding: 1.5rem;
+      }
+
+      .icon {
+        color: $primary-color;
+      }
+    }
+
+    .question {
+      padding: 1.5rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+      p {
+        margin: 0;
+        color: $text-color;
+       font-family: 'Effra_Trial_Bd' !important;
+        font-size: 16px;
+        line-height: 24px;
+        letter-spacing: -0.18px;
+      }
+
+      .icon {
+        font-size: 1.5rem;
+        color: #000;
+        transition: color 0.3s ease;
+      }
+    }
+
+    .answer {
+      max-height: 0;
+      padding: 0 1.5rem;
+      overflow: hidden;
+      transition: all 0.3s ease;
+
+      p {
+        margin: 0;
+        color: #6b7280;
+        line-height: 1.6;
+      }
+    }
+  }
+
+  @media (max-width: 768px) {
+    .title {
+      font-size: 1.25rem;
+      /* Smaller title on small screens */
+    }
+
+    .subtitle {
+      font-size: 1.5rem;
+      /* Smaller subtitle on small screens */
+    }
+
+    .faq-list {
+      max-width: 100%;
+      /* Allow full width on small screens */
+    }
+
+    .faq-item {
+      .question {
+        padding: 1rem;
+        /* Reduce padding for smaller screens */
+      }
+
+      .question p {
+        font-size: 14px;
+        /* Smaller question text */
+      }
+
+      .icon {
+        font-size: 1.25rem;
+        /* Smaller icon size */
+      }
+
+      .answer {
+        padding: 0 1rem;
+        /* Reduce padding for answer */
+      }
+
+      .answer p {
+        font-size: 0.875rem;
+        /* Smaller answer text */
+      }
+    }
+  }
+}
+
+.header-footer-route .header-footer-route-container {
+  width: 100%;
+  margin: 0 !important;
+  padding: 0 !important;
+  // margin-top: 10px !important;
+  // margin-bottom: 10px !important;
+}
+
+.footer-section {
+  background-color: #001210;
+  margin: 10px !important;
+  // padding: 5rem 2rem;
+  text-align: center;
+  color: $white;
+  border: 1px solid #000;
+  border-radius: 24px;
+  margin-bottom: 20px;
+  line-height: 30px;
+
+  @media (max-width: 768px) {
+    width: 95%;
+    /* Full width on smaller screens */
+    padding: 3rem 1rem;
+    /* Adjust padding for smaller screens */
+  }
+
+  .description {
+    font-size: 20.6px;
+    margin-bottom: 2rem;
+    line-height: 32px;
+    max-width: 65rem;
+    margin: 0 auto;
+
+    font-size: x-large;
+
+    @media (max-width: 768px) {
+      font-size: 16px;
+      /* Smaller font size for mobile */
+      line-height: 28px;
+      /* Adjust line height for readability */
+    }
+  }
+
+  .divider {
+    height: 1px;
+    width: 100%;
+    margin-top: 20px;
+    margin-bottom: 20px;
+  }
+
+  // .footer-bottom {
+  //   display: flex;
+  //   justify-content: space-between;
+  //   align-items: center;
+  //   width: 100%;
+  //   padding: 0 10rem;
+
+  //   @media (max-width: 768px) {
+  //     flex-direction: column;
+  //     /* Stack items on smaller screens */
+  //     padding: 0 1rem;
+  //     /* Adjust padding for smaller screens */
+  //   }
+  // }
+
+  .footer-bottom-content {
+    background-image: url("../../../images/Logobg1.svg");
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background-repeat: repeat;
+    background-size: 225px 181%;
+    position: relative;
+    width: 100%;
+    height: 100px;
+    @media (max-width: 600px) {
+    height: 46px;
+    background-size: 85px 144%;
+  }
+  }
+
+
+  .start-button {
+    margin-top: 20px;
+    width: 279px;
+    height: 53px;
+    border: 1px solid $primary-color;
+    border-radius: 5px;
+    font-size: 16px;
+    background: #00987e;
+
+    @media (max-width: 768px) {
+      width: 100%;
+      /* Full width on smaller screens */
+      height: auto;
+      /* Allow height to adjust */
+      margin-top: 10px;
+      /* Adjust margin for better spacing */
+    }
+  }
+
+  .social-links {
+    font-size: 20px;
+    display: flex;
+    gap: 5px;
+
+    @media (max-width: 768px) {
+      font-size: 18px;
+      /* Slightly smaller font size for mobile */
+    }
+  }
+}
+
+.footer-section1 {
+
+  @media (max-width: 768px) {
+    width: 95%;
+    /* Full width on smaller screens */
+    padding: 3rem 1rem;
+    h4{
+        font-size:13px;
+    }
+    /* Adjust padding for smaller screens */
+  }
+}
+
+.about {
+  margin-bottom: 50px;
+
+  .about-description {
+    height: 362px;
+    max-width: 100%;
+    padding: 10rem 10rem;
+    font-size: 16px;
+    text-align: center;
+    font-family: 'Effra_Trial_SBd';
+    line-height: 36.8px;
+    background-image: url("../../../images/Logobg.svg");
+    background-repeat: no-repeat;
+    background-position: center;
+
+    @media (max-width: 768px) {
+      padding: 10rem 2%;
+      /* Reduce padding on smaller screens */
+      height: auto;
+      /* Allow height to adjust */
+      font-size: 14px;
+      /* Smaller font size for mobile */
+      line-height: 28px;
+      /* Adjust line height for readability */
+    }
+  }
+
+  .about-us {
+    text-align: center;
+    color: $text-color;
+    font-size: 20px;
+    margin-top: 20px;
+    margin-bottom: 10px;
+
+    @media (max-width: 768px) {
+      font-size: 1rem;
+      /* Smaller font size for mobile */
+      margin-top: 10px;
+      /* Adjust margin for better spacing */
+      margin-bottom: 5px;
+      /* Adjust margin for better spacing */
+    }
+  }
+}
+
+.iconCover {
+  background-color: #00987e1a;
+  width: 36px;
+  height: 36px;
+  padding: 11px;
+  border-radius: 9999px;
+}
+
+.cardContainer {
+  perspective: 1000px; // Enable 3D space for the flip effect
+
+  .card {
+    width: 40rem;
+    height: 550px;
+    position: relative;
+    transition: transform 0.1s;
+    transform-style: preserve-3d;
+    text-align: center;
+
+    .cardSide {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden; // Hide the back face when not flipped
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      background-color: white;
+      border: 1px solid $primary-color;
+
+      &:nth-child(2) {
+        transform: rotateY(180deg); // Rotate the back side
+      }
+    }
+
+    .cardSide1 {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      backface-visibility: hidden;
+      border-radius: 10px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      background-color: #ffffff;
+      border: 1px solid rgb(var(--button-bg-rgb));
+      overflow: hidden;
+      padding: 16px;
+
+      // Create a pseudo-element for the image
+      &::after {
+        content: "";
+        position: absolute;
+        top: -319px;
+        left: 53px;
+        right: -300px;
+        bottom: 28px;
+        background-image: url("../../../images/ML/Patterny.png");
+        background-repeat: no-repeat;
+        background-size: contain;
+        z-index: -113;
+        width: 249%;
+        height: 168%;
+      }
+
+      &:nth-child(2) {
+        transform: rotateY(180deg); // Rotate the back side
+      }
+    }
+
+    .cardImage {
+      margin: 20px 0;
+      margin-top: -20%;
+      width: 85% !important;
+      max-width: 100% !important;
+      height: 90% !important;
+      border-radius: 20px;
+      padding: 10px;
+      background-color: #2f987e1f;
+    }
+
+    .cardTitle {
+      margin: 0;
+      margin-top: 1rem;
+      text-align: center;
+      font-family: 'Effra_Trial_SBd';
+      font-size: 16px;
+      color: $text-color;
+      height: 25% !important;
+      border: 1px solid #2f987e69;
+      width: 100%;
+      border-bottom: none;
+      border-radius: 20px 20px 5px 5px;
+      background-color: $primary-color;
+      padding: 30px;
+      color: $white;
+    }
+
+    p {
+      margin: 0;
+      margin-top: 4.5rem;
+      line-height: 27px;
+      text-align: justify;
+      padding: 18px;
+      color: #000000;
+    }
+
+    .features-list {
+      margin: 0;
+      margin-top: -3.5rem;
+      line-height: 28px;
+      text-align: justify;
+      padding: 40px;
+      color: #040921;
+      font-family: 'Effra_Trial_SBd';
+      font-size: 13px;
+    }
+
+    .btnn {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+  }
+}
+
+.carousel {
+  display: flex;
+  justify-content: center !important;
+  background-color: white;
+  align-items: center !important;
+  flex-direction: column;
+  height: 90vh;
+  width: 100%;
+  margin-bottom: 100px;
+  margin-top: 15px;
+  padding: 0rem 300px;
+
+  @media screen and (max-width: 768px) {
+    padding: 0;
+    overflow: hidden !important;
+  }
+}
+
+.css-1qzevvg {
+  position: relative;
+  display: flex;
+  height: 40px;
+  margin: -50rem auto 0px !important;
+  width: 100% !important;
+  -webkit-box-pack: justify;
+  justify-content: space-between;
+  direction: initial !important;
+  z-index: 99;
+
+  @media screen and (max-width: 768px) {
+    margin: -5rem auto 0px !important;
+  }
+
+  img {
+    background-color: $white;
+    padding: 10px;
+    border-radius: 5px;
+    box-shadow: 0 8px 15px rgba(0, 0, 0, 25%);
+  }
+}
+
+img {
+  width: auto;
+  max-width: auto !important;
+}

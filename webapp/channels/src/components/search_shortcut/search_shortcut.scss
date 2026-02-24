@@ -1,0 +1,12 @@
+.search-shortcut {
+    display: inline-block;
+    margin: 0 4px;
+direction: ltr;
+    .shortcut-key {
+        margin-inline-end: 4px;
+    }
+
+    .shortcut-key:last-child {
+        margin-inline-end: 0;
+    }
+}

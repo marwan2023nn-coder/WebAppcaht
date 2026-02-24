@@ -1,0 +1,73 @@
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+import {connect} from 'react-redux';
+import type {ConnectedProps} from 'react-redux';
+import {bindActionCreators} from 'redux';
+import type {Dispatch} from 'redux';
+
+import type {Team} from '@workspace/types/teams';
+
+import {getPlugins} from 'workspace-redux/actions/admin';
+import {getSubscriptionProduct} from 'workspace-redux/selectors/entities/cloud';
+import {getConfig, getLicense} from 'workspace-redux/selectors/entities/general';
+import {getBool} from 'workspace-redux/selectors/entities/preferences';
+import {isFirstAdmin} from 'workspace-redux/selectors/entities/users';
+
+import {getAdminDefinition, getConsoleAccess} from 'selectors/admin_console';
+import {getNavigationBlocked} from 'selectors/views/admin';
+import {getIsMobileView} from 'selectors/views/browser';
+
+import {OnboardingTaskCategory, OnboardingTaskList} from 'components/onboarding_tasks';
+
+import type {GlobalState} from 'types/store';
+
+import AdminSidebar from './admin_sidebar';
+
+type OwnProps = {
+    onSearchChange: (term: string) => void;
+    team?: Team;
+    showBackButton?: boolean;
+};
+
+function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
+    const license = getLicense(state);
+    const config = getConfig(state);
+    const buildEnterpriseReady = config.BuildEnterpriseReady === 'true';
+    const siteName = config.SiteName;
+    const adminDefinition = getAdminDefinition(state);
+    const consoleAccess = getConsoleAccess(state);
+    const taskListStatus = getBool(state, OnboardingTaskCategory, OnboardingTaskList.ONBOARDING_TASK_LIST_SHOW);
+    const isUserFirstAdmin = isFirstAdmin(state);
+    const isMobileView = getIsMobileView(state);
+    const showTaskList = isUserFirstAdmin && taskListStatus && !isMobileView;
+    const subscriptionProduct = getSubscriptionProduct(state);
+
+    return {
+        license,
+        config: state.entities.admin.config,
+        plugins: state.entities.admin.plugins,
+        navigationBlocked: getNavigationBlocked(state),
+        buildEnterpriseReady,
+        siteName,
+        adminDefinition,
+        consoleAccess,
+        cloud: state.entities.cloud,
+        showTaskList,
+        subscriptionProduct,
+    };
+}
+
+function mapDispatchToProps(dispatch: Dispatch) {
+    return {
+        actions: bindActionCreators({
+            getPlugins,
+        }, dispatch),
+    };
+}
+
+const connector = connect(mapStateToProps, mapDispatchToProps);
+
+export type PropsFromRedux = ConnectedProps<typeof connector>;
+
+export default connector(AdminSidebar);

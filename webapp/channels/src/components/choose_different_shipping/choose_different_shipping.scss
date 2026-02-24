@@ -1,0 +1,43 @@
+@use '../payment_form/mixins';
+
+.shipping-address-section {
+    display: flex;
+    align-items: center;
+    padding-bottom: 24px;
+    ;
+
+    button.no-style {
+        height: auto;
+        padding-inline-start: 0;
+        border: none;
+        background: transparent;
+        outline: unset;
+        text-align: start;
+
+        &:focus {
+            outline: unset;
+        }
+    }
+
+    #address-same-than-billing-address {
+        width: 17px;
+        height: 17px;
+        flex-shrink: 0;
+    }
+
+    .Form-checkbox-label {
+        padding-inline-start: 12px;
+        cursor: default;
+         font-family: 'Effra_Trial_Bd';
+    }
+
+    .billing_address_btn_text {
+        color: var(--center-channel-color);
+        font-family: 'Effra_Trial_Bd';
+
+    }
+}
+
+.PurchaseModal .shipping-address-section {
+    @include mixins.payment-form-padding;
+}

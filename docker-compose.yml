@@ -1,0 +1,87 @@
+---
+services:
+
+  workspace-postgres:
+    container_name: 'workspace-postgres'
+    image: postgres:${POSTGRES_IMAGE_TAG}
+    # image: sofa-docker.duckdns.org/utils/postgres:16
+    restart: ${RESTART_POLICY}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+      # - ./volumes/db_bak:/bak
+    environment:
+      # timezone inside container
+      - TZ
+      # necessary Postgres options/variables
+      - POSTGRES_USER
+      - POSTGRES_PASSWORD
+      - POSTGRES_DB=postgres
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    ports:
+      - 5432:5432  
+
+  workspace:
+    image: git.sofa.io:4567/sofachat/web/worksapce-11.1.1:${VERSION}
+    # build:
+    #   context: .
+    #   dockerfile: Dockerfile
+    container_name: 'workspace'
+    depends_on:
+      workspace-postgres:
+        condition: service_healthy 
+    # image: mattermost/mattermost-enterprise-edition:10.2.0
+    # restart: ${RESTART_POLICY}l
+    ports:
+      - ${CHAT_PORT}:8065
+      # - ${CHAT_CALLS_PORT}:8443/udp
+      # - ${CHAT_CALLS_PORT}:8443/tcp
+    volumes:
+      - ${CHAT_PATH}/config:/opt/workspace/config:rw,z
+      - ${CHAT_PATH}/data:/opt/workspace/data:rw,z
+      - ${CHAT_PATH}/logs:/opt/workspace/logs:rw,z
+      - ${CHAT_PATH}/plugins:/opt/workspace/plugins:rw,z
+      - ${CHAT_PATH}/client/plugins:/opt/workspace/client/plugins:rw,z
+      - ${CHAT_PATH}/bleve-indexes:/opt/workspace/bleve-indexes:rw,z
+      # TLS
+      # - ./nginx/cert:/opt/workspace/certs:rw,z
+      # - ${CHAT_PATH}/client:/opt/workspace/client:rw,z # for development
+
+    environment:
+      # timezone inside container
+      - TZ
+
+      # necessary Mattermost options/variables (see env.example)
+      - MM_SQLSETTINGS_DRIVERNAME
+      - MM_SQLSETTINGS_DATASOURCE
+
+      # necessary for bleve
+      - MM_BLEVESETTINGS_INDEXDIR
+
+      # additional settings
+      - MM_SERVICESETTINGS_SITEURL
+      # - MM_SERVICESETTINGS_WEBSOCKETURL
+  
+      - MM_FILESETTINGS_DIRECTORY
+      - MM_PLUGINSETTINGS_DIRECTORY
+      - MM_PLUGINSETTINGS_CLIENTDIRECTORY
+      - MM_PLUGINSETTINGS_ENABLEUPLOADS
+      - MM_LOGSETTINGS_CONSOLEJSON
+      - MM_LOGSETTINGS_FILELOCATION
+      #TLS
+      - MM_SERVICESETTINGS_CONNECTIONSECURITY
+      - MM_SERVICESETTINGS_TLSCertFile
+      - MM_SERVICESETTINGS_TLSKeyFile
+      - MM_SERVICESETTINGS_LISTENADDRESS
+      - MM_SERVICESETTINGS_FORWARD80TO443
+
+      - MM_SERVICESETTINGS_ENABLEUSERACCESSTOKENS
+      - MM_TEAMSETTINGS_SITENAME
+
+
+volumes:
+  postgres_data:
+  

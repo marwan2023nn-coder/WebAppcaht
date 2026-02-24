@@ -1,0 +1,28 @@
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// See LICENSE.txt for license information.
+
+@use 'utils/mixins';
+
+.alternate-link {
+    margin-inline-start: auto;
+
+    &__message {
+        color: var(--center-channel-color-rgb);
+        font-size: 12px;
+        line-height: 16px;
+    }
+
+    &__link {
+        padding-inline-start: 4px;
+
+        @include mixins.link;
+    }
+}
+
+@media screen and (max-width: 699px) {
+    .alternate-link {
+        &__message {
+            display: none;
+        }
+    }
+}

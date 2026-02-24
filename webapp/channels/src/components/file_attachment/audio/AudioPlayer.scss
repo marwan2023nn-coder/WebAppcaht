@@ -1,0 +1,241 @@
+.audio-player1 {
+  .download-wrapper {
+    visibility: hidden;
+  }
+
+  &:hover {
+    .download-wrapper {
+      visibility: visible;
+    }
+  }
+
+}
+
+.audio-player1 {
+  width: 100%;
+  // height: 100%;
+  $primary-color: #00a884;
+  $background-color: #ffffff;
+  $text-color: #54656f;
+  $menu-background: #ffffff;
+  $border-radius: 8px !important;
+  padding: 1.3rem 1.3rem;
+  border-radius: $border-radius;
+  display: flex;
+  overflow-x: auto;
+  box-shadow: initial !important;
+  align-items: center;
+  gap: 8px;
+  position: relative;
+
+  .play-button1 {
+    background: none;
+    border: none;
+    color: $primary-color;
+    cursor: pointer;
+    padding: 0.25rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: color 0.2s ease;
+
+    .play {
+      fill: #fff;
+    }
+  }
+
+  .playback-rate {
+    font-size: 1rem;
+    color: #00a884;
+    font-family: 'Effra_Trial_Md';
+    background: rgba(255, 255, 255);
+    padding: 4px 5px;
+    text-align: center;
+    border-radius: 50%;
+    margin-inline-end: -10px;
+  }
+
+  .audio-icon {
+    position: absolute;
+    top: 50%;
+    font-size: 20px;
+    color: white;
+    left: -50px;
+
+
+    &:dir(ltr) {
+      right: -10px;
+      left: auto;
+    }
+  }
+
+  .progress-container1 {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 10px;
+
+    .waveform {
+      width: 150px;
+      display: flex;
+      align-items: center;
+      height: 2rem;
+      gap: 2px;
+      cursor: pointer;
+      padding: 0.1rem 0;
+
+      &:hover {
+        .waveform__bar {
+          &:not(:hover) {
+            opacity: 0.9;
+          }
+        }
+      }
+
+      &__bar {
+        width: 0.25rem;
+        border-radius: 9999px;
+        transition: all 0.2s ease;
+
+        &:hover {
+          transform: scaleY(1.1);
+          opacity: 1;
+        }
+      }
+    }
+
+    .progress-bar-container1 {
+      width: 100%;
+      height: 4px;
+      background: #e9edef;
+      border-radius: 2px;
+      cursor: pointer;
+      position: relative;
+      overflow: hidden;
+
+      .progress-bar1 {
+        position: absolute;
+        left: 0;
+        top: 0;
+        height: 100%;
+        background: $primary-color;
+        transition: width 0.1s linear;
+      }
+
+      .progress-handle1 {
+        display: none;
+      }
+
+      &:hover {
+        .progress-bar {
+          background: $primary-color;
+        }
+      }
+    }
+
+    .time-display {
+      display: flex;
+      justify-content: space-between;
+
+      .time {
+        font-size: 11px;
+       font-family: 'Effra_Trial_Lt';
+        color: $text-color;
+      }
+    }
+  }
+
+  .controls {
+    display: flex;
+    align-items: center;
+    gap: 1.75rem;
+
+    .playback-rate {
+      position: relative;
+      font-size: 1rem;
+      color: #00a884;
+      font-family: 'Effra_Trial_Md';
+      height: 39px;
+      width: 39px;
+      border-radius: 50%;
+      background: #2f987e2b;
+      padding: 4px 5px;
+      text-align: center;
+      margin-inline-end: -10px;
+
+      .audio-icon {
+        position: absolute;
+        top: 50%;
+        font-size: 20px;
+        color: white;
+        right: -12px;
+
+
+        .icon {
+          fill: #000;
+        }
+
+        html[dir="ltr"] & {
+          right: 32px;
+        }
+      }
+    }
+
+    .menu-container {
+      position: relative;
+
+      .menu-button {
+        background: none;
+        border: none;
+        color: $text-color;
+        cursor: pointer;
+        padding: 0.25rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: color 0.2s ease;
+
+        &:hover {
+          color: $primary-color;
+        }
+      }
+
+      .menus {
+        position: fixed;
+        margin-top: 0.5rem;
+        background-color: var(--sidebar-header-bg);
+        border-radius: 6px;
+        box-shadow: 0 2px 8px rgba(11, 20, 26, 0.16);
+        padding: 0.5rem;
+        z-index: 10;
+        min-width: 100px;
+
+        button {
+          width: 100%;
+          padding: 0.75rem 1rem;
+          text-align: left;
+          background: none;
+          border: none;
+          color: $text-color;
+          cursor: pointer;
+          font-size: 0.875rem;
+          display: flex;
+          align-items: center;
+          gap: 0.75rem;
+
+          &:hover {
+            background: #f0f2f5;
+          }
+
+          &.download-button {
+            border-top: 1px solid #e9edef;
+            margin-top: 0.5rem;
+            padding-top: 0.75rem;
+            font-size: 12px;
+          }
+        }
+      }
+    }
+  }
+}

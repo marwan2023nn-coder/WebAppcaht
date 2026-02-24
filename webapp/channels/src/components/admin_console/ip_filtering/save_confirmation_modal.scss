@@ -1,0 +1,147 @@
+.SaveConfirmationModal {
+    .modal-dialog {
+        position: absolute;
+        top: 50%;
+        inset-inline-start:50%;
+        width: 600px;
+        border: 1 px solid rgba(var(--center-channel-color-rgb), 0.08);
+        border-radius: 12px;
+        margin: auto;
+        transform: translate(-50%, -50%) !important;
+    }
+
+    .modal-content {
+        border-radius: 12px;
+    }
+
+    .modal-header {
+        .close {
+            &:hover {
+                background-color:
+                    rgba(
+                        var(--center-channel-color-rgb),
+                        0.08
+                    );
+                color: rgba(var(--center-channel-color-rgb), 0.72);
+            }
+
+            &:active {
+                background-color: rgba(var(--button-bg-rgb), 0.08);
+                color: var(--button-bg);
+            }
+
+            top: 26px;
+            inset-inline-end: 26px;
+            width: 24px;
+            height: 24px;
+            border-radius: 4px;
+            color: rgba(var(--center-channel-color-rgb), 0.56) !important;
+            font-family:
+                'GraphikArabic',
+                sans-serif;
+            font-size: 32px;
+
+        }
+
+        .title {
+            font-size: 1.7rem;
+            font-style: normal;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 28px;
+            text-align: start;
+        }
+
+        display: block;
+        min-height: 48px;
+        padding-top: 26px;
+        padding-bottom: 0;
+        padding-inline-start: 32px;
+        border: 0;
+        border-radius: 12px;
+        background: var(--center-channel-bg) !important;
+        color: var(--center-channel-color);
+    }
+
+    .modal-body {
+        overflow: hidden;
+        width: 100%;
+        flex-direction: column;
+        padding-top: 24px;
+        padding-inline-end: 32px;
+        padding-bottom: 26px;
+        padding-inline-start: 32px;
+        color: var(--center-channel-color, #3f4350);
+        font-family: 'Effra_Trial_Rg';
+        font-size: 1.6rem;
+        font-style: normal;
+
+        line-height: 20px;
+
+        .disclaimer {
+            display: inline-flex;
+            width: 536px;
+            height: 120px;
+            align-items: flex-start;
+            justify-content: flex-start;
+            padding: 16px;
+            border: 1px solid rgba(87, 158, 255, 0.16);
+            border-radius: 4px;
+            margin-top: 32px;
+            background: rgba(87, 158, 255, 0.08);
+            gap: 12px;
+
+            .Icon {
+                display: flex;
+                align-items: center;
+                justify-content: flex-start;
+                gap: 10px;
+
+                svg {
+                    width: 20px;
+                    height: 20px;
+                    fill: var(--sidebar-text-active-border, rgba(93, 137, 234, 1));
+                }
+            }
+
+            .Body {
+                display: inline-flex;
+                flex: 1 1 0;
+                flex-direction: column;
+                align-items: flex-start;
+                justify-content: flex-start;
+                padding-inline-end: 24px;
+                gap: 8px;
+
+                .Title {
+                    align-self: stretch;
+                    color: #3f4350;
+
+                    font-size: 14px;
+                    font-family: 'Effra_Trial_SBd';
+                    line-height: 20px;
+                    word-wrap: break-word;
+                }
+
+                .Subtitle {
+                    color: #3f4350;
+
+                    font-size: 14px;
+
+                    line-height: 20px;
+                    word-wrap: break-word;
+                }
+            }
+        }
+    }
+
+    .modal-footer {
+        padding: 24px 32px;
+        border-radius: 12px;
+        border-top: none;
+        font-family: GraphikArabic;
+        font-size: 14px;
+        font-style: normal;
+        font-family: 'Effra_Trial_SBd';
+        line-height: 20px;
+    }
+}

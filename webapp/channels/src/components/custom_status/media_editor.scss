@@ -1,0 +1,261 @@
+#media-editor {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    background: #000;
+    z-index: 9999;
+
+    .image-editor__header,
+    .video-editor__header {
+        margin-bottom: 12px;
+        display: flex;
+        justify-content: space-between;
+        align-items: start;
+
+        .image-editor__header__title,
+        .video-editor__header__title {
+            margin: 0;
+            font-size: 22px;
+            color: rgb(var(--button-color-rgb)) ;
+
+        }
+    }
+
+    #image-editor {
+        padding: 18px 0;
+        width: 60%;
+        height: 100%;
+        max-width: 1100px;
+        display: flex;
+        flex-direction: column;
+        background: #292c33;
+        border: var(--border-default);
+        border-radius: var(--radius-l);
+        margin: auto;
+        overflow: hidden;
+
+        div:not(
+                .tui-image-editor-canvas-container,
+                .tui-image-editor-button, .tui-image-editor-button *,
+                .tie-panel-history, .tie-panel-history *
+            ), .tui-image-editor-help-menu.top {
+                position: static;
+            }
+
+        .tui-image-editor-help-menu.top {
+            display: block;
+            transform: unset;
+
+            .tie-panel-history {
+                left: 50%;
+                transform: translateX(-50%);
+            }
+        }
+
+        .tui-image-editor-newline.tui-image-editor-range-wrap {
+            display: none;
+        }
+
+        .tui-image-editor-main {
+            height: 100%;
+            display: flex;
+            flex-direction: column-reverse;
+            justify-content: center;
+
+            &.tui-image-editor-menu-draw {
+                .tui-image-editor-wrap {
+                    flex-grow: 1;
+                }
+            }
+
+            .color-picker-control {
+                width: auto;
+                .tui-colorpicker-clearfix {
+                    .tui-colorpicker-palette-button {
+                        width: 15px;
+                        height: 15px;
+                    }
+                }
+
+                .triangle {
+                    left: 50%;
+                    transform: translateX(-75%);
+                }
+            }
+
+            .tui-image-editor-submenu {
+                margin-top: 12px;
+                height: auto;
+            }
+        }
+
+        .tui-image-editor-menu {
+            >.active {
+                background: rgb(var(--button-bg-rgb));
+                border-radius: var(--radius-m);
+
+                svg use {
+                    fill: #fff;
+                    stroke: #fff;
+                }
+            }
+        }
+
+        .tui-image-editor-container {
+            overflow: auto;
+            &.bottom {
+                flex-grow: 1;
+                display: grid;
+                grid-template-rows: auto 1fr auto;
+                background: inherit;
+
+                .tui-image-editor-main-container {
+                    flex-grow: 1;
+                }
+
+                use.hover.use-default,
+                .svg_ic-submenu use.active.use-default {
+                    fill: rgb(var(--button-bg-rgb));
+                    stroke: rgb(var(--button-bg-rgb));
+                }
+
+                .tui-image-editor-controls {
+                    height: auto;
+                    grid-row: 3;
+                }
+
+                .tui-image-editor-help-menu.top,
+                .tui-image-editor-controls,
+                .tui-image-editor-main-container {
+                    background: inherit !important;
+                }
+            }
+
+            .tui-image-editor-header-logo,
+            .tui-image-editor-header-buttons {
+                display: none;
+            }
+        }
+    }
+
+    #video-editor {
+        height: 100%;
+        padding: 0 12px;
+
+        .video-editor__video {
+            height: 100%;
+
+            .video-editor__video__video-container {
+                height: 500px;
+                margin: 12px 0;
+
+                video {
+                    width: 100%;
+                    height: 100%;
+                    object-fit: contain;
+                }
+            }
+
+            #video-timeline-container {
+                height: 60px;
+                position: relative;
+
+                #video-timeline {
+                    height: 100%;
+                    position: relative;
+                    z-index: 1;
+
+                    .video-timeline__handler {
+                        width: 5px;
+                        height: 100%;
+                        display: flex;
+                        justify-content: center;
+                        align-items: center;
+                        background-color: rgb(var(--button-bg-rgb));
+                        position: absolute;
+                        top: 0;
+                        cursor: ew-resize;
+
+                        svg {
+                            flex-shrink: 0;
+                            color: rgb(var(--button-bg-rgb));
+                        }
+                    }
+
+                    #video-timeline__start-handler {
+                        left: 0;
+                        border-radius: var(--radius-l) 0 0 var(--radius-l);
+                        transform: translateX(100%);
+
+                        &:dir(rtl) {
+                            border-radius: 0 var(--radius-l) var(--radius-l) 0;
+                            left: unset;
+                            right: 0;
+                        }
+                    }
+
+                    #video-timeline__end-handler {
+                        right: 0;
+                        border-radius: 0 var(--radius-l) var(--radius-l) 0;
+                        transform: translateX(-100%);
+
+                        &:dir(rtl) {
+                            border-radius: var(--radius-l) 0 0 var(--radius-l);
+                            right: unset;
+                            left: 0;
+                        }
+                    }
+
+                    #video-timeline__current-second-indicator {
+                        width: 2px;
+                        height: 100%;
+                        background-color: rgb(var(--button-bg-rgb));
+                        position: absolute;
+                        top: 0;
+                        right: 0;
+                    }
+                }
+
+                .frames-preview {
+                    width: 100%;
+                    height: 100%;
+                    overflow: hidden;
+                    display: flex;
+                    gap: 4px;
+                    position: absolute;
+                    top: 0;
+                    left: 0;
+
+                    .frames-preview__layer {
+                        height: 100%;
+                        background-color: rgba(0, 0, 0, 0.6);
+                        position: absolute;
+                        top: 0;
+
+                        &.frames-preview__layer--left {
+                            left: 0;
+                        }
+
+                        &.frames-preview__layer--right {
+                            right: 0;
+                        }
+                    }
+
+                    .frames-preview__frame {
+                        width: 50px;
+                        height: 100%;
+                        flex-shrink: 0;
+
+                        img {
+                            width: 100%;
+                            height: 100%;
+                            object-fit: cover;
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

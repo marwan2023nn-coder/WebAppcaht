@@ -1,0 +1,49 @@
+.container {
+    min-height: 100vh;
+    background: linear-gradient(to bottom, #e6fffa, #b2f5ea);
+
+    .content {
+      max-width: 42rem;
+      margin: 0 auto;
+      padding: 1rem;
+    }
+  }
+
+  .tabList {
+    display: flex;
+    gap: 0.25rem;
+    background-color: rgba(19, 78, 74, 0.2);
+    padding: 0.25rem;
+    border-radius: 0.75rem;
+  }
+
+  .tab {
+    width: 100%;
+    padding: 0.625rem;
+    font-size: 0.875rem;
+    font-family: 'Effra_Trial_Md';
+    line-height: 1.25rem;
+    border-radius: 0.5rem;
+    border: none;
+    cursor: pointer;
+    background: none;
+    transition: all 0.2s;
+    color: #134e4a;
+  .button1 {
+    background-color: transparent;
+  }
+    &:hover {
+      background-color: rgba(255, 255, 255, 0.12);
+      color: #115e59;
+    }
+
+    &.selected {
+      background-color: white;
+      color: #0f766e;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+    }
+  }
+
+  .panels {
+    margin-top: 1.5rem;
+  }

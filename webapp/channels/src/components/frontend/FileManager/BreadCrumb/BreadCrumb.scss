@@ -1,0 +1,77 @@
+
+
+.bread-crumb-container {
+  position: relative;
+
+  .breadcrumb {
+    height: 22px;
+    min-height: 50px;
+    max-height: 50px;
+    display: flex;
+    gap: 0.5rem;
+    padding: 20px 25px 8PX 15px;
+    overflow-x: hidden;
+    font-family: 'Effra_Trial_Md' !important;
+    border: 1px solid #dddddd;
+background-color: transparent !important;
+    &::-webkit-scrollbar {
+      height: 3px;
+    }
+
+
+    .folder-name {
+      display: flex;
+      align-items: center;
+      gap: 0.25rem;
+      font-family: 'Effra_Trial_SBd';
+      min-width: fit-content;
+      &:hover {
+        cursor: pointer;
+
+      }
+    }
+
+    .hidden-folders {
+      padding: 0 4px;
+    }
+
+    .folder-name-btn {
+      background-color: transparent;
+      border: none;
+      padding: 0;
+
+      &:hover,
+      &:focus {
+        cursor: pointer;
+        background-color: #dddcdc;
+        border-radius: 5px;
+      }
+    }
+
+  }
+}
+
+.hidden-folders-container {
+  position: absolute;
+  margin: 0;
+  z-index: 2;
+  background-color: rgb(99, 99, 99);
+  color: white;
+  padding: 4px;
+  border-radius: 5px;
+  font-size: .9em;
+  left: 3rem;
+  display: flex;
+  flex-direction: column;
+  gap: 5px;
+
+  li {
+    padding: 5px 10px;
+    border-radius: 4px;
+
+    &:hover {
+      cursor: pointer;
+      background-color: rgb(117, 117, 117);
+    }
+  }
+}

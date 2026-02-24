@@ -1,0 +1,35 @@
+.CommercialSupportModal {
+    padding: 0 32px 32px 32px;
+
+    .DownloadSupportPacket {
+        margin-top: 20px;
+    }
+
+    .AlertBanner {
+        margin-top: 20px;
+    }
+
+    &__packet_contents_download {
+        margin-top: 20px;
+        margin-bottom: 12px;
+    }
+
+    &__options_checkbox_label {
+        padding-inline-start: 12px;
+        font-family: 'Effra_Trial_Md';
+    }
+}
+
+.modal-header .modal-title {
+   font-family: 'Effra_Trial_Bd' !important;
+}
+
+.CommercialSupportModal__error {
+    margin-top: 12px;
+
+    .error-text {
+        display: inline-block;
+        color: var(--error-text);
+        word-break: break-word;
+    }
+}

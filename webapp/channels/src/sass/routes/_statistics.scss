@@ -1,0 +1,181 @@
+@use "utils/mixins";
+@use "utils/variables";
+
+.grid-statistics {
+    display: grid;
+    gap: 15px;
+    grid-template-columns: repeat(auto-fill, minmax(218px, 1fr));
+
+    &__card {
+        min-height: 1px;
+    }
+}
+
+.analytics_tooltip_body {
+
+}
+
+.team_statistics {
+    &--warning {
+        // Adding the !important because this class has less preference in some html elements
+        color: var(--warning-text) !important;
+       font-family: 'Effra_Trial_Bd' !important;
+    }
+
+    &--error {
+        // Adding the !important because this class has less preference in some html elements
+        color: var(--error-text) !important;
+       font-family: 'Effra_Trial_Bd' !important;
+    }
+
+    &__message {
+        display: flex;
+        align-items: center;
+
+        font-size: 12px;
+        font-family: 'Effra_Trial_SBd';
+        gap: 7px;
+        line-height: 16px;
+
+        html:lang(ar) & {
+            font-family: 'Effra_Trial_SBd', sans-serif;
+        }
+
+        &__text {
+            color: var(--error-text);
+            font-size: 14px;
+        }
+
+        &__icon {
+            display: inline-flex;
+            width: 14px;
+            height: 14px;
+            flex-grow: 0;
+            align-items: center;
+        }
+    }
+
+    .total-count {
+        width: 100%;
+        border: 1px solid variables.$light-gray;
+        border-radius: 10px;
+        margin: 1em 0;
+        background: variables.$white;
+        text-align: center;
+
+        &--has-message {
+            margin-bottom: 4px;
+        }
+
+         .title {
+            padding: 7px 10px;
+            border-bottom: 1px solid variables.$light-gray;
+            font-size: 13px;
+
+            text-align: start;
+
+            span {
+                display: inline-block;
+                overflow: hidden;
+                width: calc(100% - 20px);
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                a {
+                    color: black;
+                }
+
+                svg {
+                    margin-inline-start: 5px;
+                    vertical-align: text-top;
+                }
+            }
+
+            .fa {
+                margin: 0;
+                color: #555;
+                float: right;
+                font-size: 16px;
+
+                &:dir(rtl) {
+                    float: left;
+                }
+            }
+        }
+
+        .content {
+            overflow: auto;
+            padding: 0.3em 0 0.35em;
+            color: #555;
+            // font-size: 30px;
+            font-family: 'Effra_Trial_SBd';
+        }
+    }
+
+    .total-count--day {
+        width: 760px;
+        height: 275px;
+        padding: 5px 10px 10px;
+        border: 1px solid variables.$light-gray;
+        margin: 10px;
+        background: variables.$white;
+        clear: both;
+
+        > div {
+            font-size: 18px;
+           font-family: 'Effra_Trial_Lt';
+        }
+    }
+
+    .recent-active-users {
+        table {
+            width: 100%;
+            table-layout: fixed;
+        }
+
+        .content {
+            overflow: auto;
+            max-height: 400px;
+            padding: 0;
+        }
+
+        tr {
+            &:first-child {
+                td {
+                    border-top: none;
+                }
+            }
+
+            td {
+                @include mixins.clearfix;
+
+                padding: 5px 5px 6px;
+                border-top: 1px solid variables.$light-gray;
+                border-inline-start: 1px solid variables.$light-gray;
+                font-size: 13px;
+
+                text-overflow: ellipsis;
+                white-space: nowrap;
+
+                &:first-child {
+                   border-inline-start: none;
+                }
+            }
+        }
+    }
+
+    .admin-console__header {
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .team-statistics__header-row {
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    .team-statistics__team-filter {
+        display: inline-block;
+        width: 200px;
+    }
+}

@@ -1,0 +1,270 @@
+.SelectTeam__sub-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 10px;
+    margin-bottom: 24px;
+ .SelectTe {
+    display: inline-flex;
+    gap: 10px;
+    @media screen and (max-width: 500px) {
+      display: flex;
+      flex-direction: column;
+      width: auto;
+      min-width: 100px;
+    }
+    .card-button1 {
+      box-sizing: border-box;
+
+      border-radius: 6px;
+      flex: none;
+      order: 0;
+      flex-grow: 0;
+      border: 1px solid #eeeeee;
+      border-radius: 6px;
+      display: inline-flex;
+      height: 40px;
+      align-items: center;
+      justify-content: center;
+      border-radius: var(--radius-s);
+      padding: 5px 10px;
+      @media screen and (max-width: 500px) {
+        display: flex;
+        flex-direction: column;
+        width: auto;
+        min-width: 100px;
+      }
+      &:hover {
+        background: #fafafa;
+      }
+      a {
+        text-align: center;
+        color: #99a09f;
+
+        &:hover {
+          text-decoration: none;
+        }
+      }
+      .signup-team-login{
+      padding-bottom:0;
+      }
+    }
+  }
+    > h4 {
+        margin: 0;
+
+        span {
+            display: inline-flex;
+            font-size: 20px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 28px;
+        }
+    }
+
+    a.LearnAboutTeamsLink {
+        display: flex;
+        align-items: center;
+        padding: 6px 18px;
+        column-gap: 10px;
+
+        &:hover,
+        &:focus,
+        &:active {
+            text-decoration: none;
+        }
+
+        > i {
+            display: inline-flex;
+            padding: 3px;
+            border-radius: 50%;
+            background-color: rgba(var(--button-bg-rgb), 0.08);
+            font-size: 14px;
+
+            &::before {
+                margin: 0;
+            }
+        }
+
+        span {
+            font-size: 12px;
+            font-family: 'Effra_Trial_SBd';
+            line-height: 16px;
+
+            &:hover {
+                text-decoration: underline;
+            }
+        }
+    }
+}
+
+.signup__content {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    min-height: 0;
+    width: 100%;
+    overflow: hidden;
+}
+
+.SelectTeam__bottomSection {
+    display: flex;
+    flex-direction: column;
+    width: 70%;
+    margin-inline-start: auto;
+    margin-inline-end: auto;
+    flex: 1;
+    margin-top: 0;
+    .icon{
+        color: #777;
+    }
+}
+
+.SelectTeam__listCard {
+    background: #fff;
+    border: 1px solid rgba(var(--center-channel-color-rgb), 0.22);
+    border-radius: 6px;
+    outline: 1px solid rgba(0, 0, 0, 0.04);
+    outline-offset: 0;
+    padding: 12px;
+    flex: 1;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden;
+
+    .signup-team-all {
+        height: 100%;
+        overflow-y: auto;
+        overflow-x: hidden;
+        margin: 0;
+    }
+
+    .signup-team-dir {
+        width: 100%;
+        max-width: 100%;
+        box-sizing: border-box;
+        margin-left: 0;
+        margin-right: 0;
+        margin-inline-start: 0;
+        margin-inline-end: 0;
+    }
+
+    .signup-team-dir-err {
+        flex: 1;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        border-top: 0;
+        background: transparent;
+    }
+}
+
+.select-team__container.signup-team__container {
+
+    width: 100%;
+    margin: 0 ;
+    padding: 0;
+    position: relative;
+    overflow-x: hidden;
+}
+
+.card-select-team {
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: calc(100vh - (var(--announcement-bar-count, 0) * 40px));
+    box-sizing: border-box;
+    padding-bottom: 16px;
+    overflow: visible;
+}
+
+.SelectTeam__pageHeader {
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    margin-bottom: 16px;
+
+    text-align: start;
+
+    .name {
+        text-align: start;
+    }
+
+    #site_name,
+    #site_description {
+        text-align: start;
+    }
+}
+
+.SelectTeam__back {
+    display: inline-flex;
+    padding: 0;
+    color: rgba(var(--center-channel-color-rgb), 0.72);
+    text-decoration: none;
+
+    &:hover,
+    &:focus {
+        text-decoration: none;
+        color: rgba(var(--center-channel-color-rgb), 1);
+    }
+
+    .fa {
+        font-size: 30px;
+        line-height: 30px;
+        color:black;
+    }
+}
+
+.SelectTeam__title {
+    margin: 0;
+    font-size: 18px;
+   font-family: 'Effra_Trial_Bd';
+    text-align: end;
+}
+
+.SelectTeam__search-row {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin: 10px 0 10px;
+    padding: 0 1px 0 1px;
+    .search-form__container {
+        flex: 1;
+        min-width: 240px;
+    }
+
+    .SelectTe {
+        display: inline-flex;
+        gap: 10px;
+        flex: 0 0 auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .card-select-team {
+        padding: 0px;
+    }
+
+    .SelectTeam__bottomSection {
+        width: 100%;
+        margin-bottom: 9px
+    }
+
+    .SelectTeam__search-row {
+        flex-direction: column;
+        align-items: stretch;
+
+        .SelectTe {
+            width: 100%;
+            flex-direction: column;
+        }
+    }
+}
+
+.name {
+  text-align: start;
+}
+@media screen and (max-width: 768px) { .signup-team-all {
+        max-height: calc(75vh - (111px + 100px));
+    }}

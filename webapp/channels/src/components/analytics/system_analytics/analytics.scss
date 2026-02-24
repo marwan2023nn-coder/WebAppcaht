@@ -1,0 +1,55 @@
+details {
+    padding: 12px;
+    border: 1px solid rgba(var(--center-channel-color-rgb));
+    border-radius: 4px;
+    background-color: rgb(255, 255, 255);
+}
+
+summary {
+    position: relative;
+    padding: 12px 12px 12px 28px;
+    margin: -12px;
+    cursor: pointer;
+     font-family: 'Effra_Trial_Bd';
+
+    transition: background 0.15s ease-in-out;
+
+    [dir="rtl"] & {
+        padding: 12px 28px 12px 12px;
+    }
+
+    &:hover {
+        background: rgba(var(--center-channel-color-rgb), 0.04);
+    }
+
+    &::marker {
+        display: none;
+    }
+
+    &::before {
+        position: absolute;
+        top: 15px;
+        inset-inline-start:12px;
+        content: '\f105';
+        font-family: FontAwesome;
+        font-size: 10px;
+        transform: rotate(0deg);
+        transition: transform 0.15s ease-in-out;
+    }
+}
+
+details[open] {
+
+    summary {
+        border-bottom: 1px solid rgba(var(--center-channel-color-rgb), 0.16);
+        margin-bottom: 0;
+
+        &::before {
+            transform: rotate(90deg);
+        }
+    }
+
+    .row:last-child .total-count {
+        margin-bottom: 0;
+    }
+}
