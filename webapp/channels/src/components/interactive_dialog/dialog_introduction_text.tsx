@@ -5,6 +5,7 @@ import React from 'react';
 
 import type EmojiMap from 'utils/emoji_map';
 import * as Markdown from 'utils/markdown';
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import {getSiteURL} from 'utils/url';
 
 type Props = {
@@ -26,9 +27,8 @@ export default function DialogIntroductionText({id, value, emojiMap}: Props) {
     );
 
     return (
-        <span
-            id={id}
-            dangerouslySetInnerHTML={{__html: formattedMessage}}
-        />
+        <span id={id}>
+            {messageHtmlToComponent(formattedMessage)}
+        </span>
     );
 }

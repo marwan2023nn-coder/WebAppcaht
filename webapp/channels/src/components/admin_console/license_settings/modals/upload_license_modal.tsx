@@ -4,6 +4,8 @@
 import marked from 'marked';
 import React, {useRef} from 'react';
 import {defineMessage, FormattedDate, FormattedMessage} from 'react-intl';
+
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import {useSelector, useDispatch} from 'react-redux';
 
 import {GenericModal} from '@workspace/components';
@@ -189,10 +191,9 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
                 </div>
                 {serverError && <div className='serverError'>
                     <i className='icon icon-alert-outline'/>
-                    <span
-                        className='server-error-text'
-                        dangerouslySetInnerHTML={{__html: marked(serverError)}}
-                    />
+                    <span className='server-error-text'>
+                        {messageHtmlToComponent(marked(serverError))}
+                    </span>
                 </div>}
             </div>
             <div className='content-footer'>

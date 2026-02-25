@@ -6,6 +6,7 @@ import React from 'react';
 import type {MessageDescriptor} from 'react-intl';
 import {useIntl} from 'react-intl';
 
+import messageHtmlToComponent from 'utils/message_html_to_component';
 import {shouldOpenInNewTab, getSiteURL} from 'utils/url';
 
 const TARGET_BLANK_URL_PREFIX = '!';
@@ -70,5 +71,9 @@ export default function FormattedMarkdownMessage({
         renderer: new CustomRenderer(disableLinks),
     });
 
-    return (<span dangerouslySetInnerHTML={{__html: markedUpMessage}}/>);
+    return (
+        <span>
+            {messageHtmlToComponent(markedUpMessage)}
+        </span>
+    );
 }
