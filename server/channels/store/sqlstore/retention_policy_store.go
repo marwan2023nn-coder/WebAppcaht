@@ -317,7 +317,7 @@ func (s *SqlRetentionPolicyStore) buildGetPolicyQuery(id string) (string, []any,
 // ID, or, if `id` is the empty string, from all policies. The results returned will be sorted by
 // policy display name and ID.
 func (s *SqlRetentionPolicyStore) buildGetPoliciesQuery(id string, offset, limit int) (string, []any, error) {
-	rpcSubQuery := s.getQueryBuilder().
+	rpcSubQuery := s.getSubQueryBuilder().
 		Select("RetentionPolicies.Id, COUNT(RetentionPoliciesChannels.ChannelId) AS Count").
 		From("RetentionPolicies").
 		LeftJoin("RetentionPoliciesChannels ON RetentionPolicies.Id = RetentionPoliciesChannels.PolicyId").
@@ -330,12 +330,12 @@ func (s *SqlRetentionPolicyStore) buildGetPoliciesQuery(id string, offset, limit
 		rpcSubQuery = rpcSubQuery.Where(sq.Eq{"RetentionPolicies.Id": id})
 	}
 
-	rpcSubQueryString, args, err := rpcSubQuery.ToSql()
+	rpcSubQueryString, rpcArgs, err := rpcSubQuery.ToSql()
 	if err != nil {
 		return "", nil, errors.Wrap(err, "retention_policies_tosql")
 	}
 
-	rptSubQuery := s.getQueryBuilder().
+	rptSubQuery := s.getSubQueryBuilder().
 		Select("RetentionPolicies.Id, COUNT(RetentionPoliciesTeams.TeamId) AS Count").
 		From("RetentionPolicies").
 		LeftJoin("RetentionPoliciesTeams ON RetentionPolicies.Id = RetentionPoliciesTeams.PolicyId").
@@ -348,7 +348,7 @@ func (s *SqlRetentionPolicyStore) buildGetPoliciesQuery(id string, offset, limit
 		rptSubQuery = rptSubQuery.Where(sq.Eq{"RetentionPolicies.Id": id})
 	}
 
-	rptSubQueryString, _, err := rptSubQuery.ToSql()
+	rptSubQueryString, rptArgs, err := rptSubQuery.ToSql()
 	if err != nil {
 		return "", nil, errors.Wrap(err, "retention_policies_tosql")
 	}
@@ -362,11 +362,11 @@ func (s *SqlRetentionPolicyStore) buildGetPoliciesQuery(id string, offset, limit
 			B.Count AS TeamCount
 	  `).
 		From("RetentionPolicies").
-		InnerJoin(`(` + rpcSubQueryString + `) AS A ON RetentionPolicies.Id = A.Id`).
-		InnerJoin(`(` + rptSubQueryString + `) AS B ON RetentionPolicies.Id = B.Id`).
+		InnerJoin(`(`+rpcSubQueryString+`) AS A ON RetentionPolicies.Id = A.Id`, rpcArgs...).
+		InnerJoin(`(`+rptSubQueryString+`) AS B ON RetentionPolicies.Id = B.Id`, rptArgs...).
 		OrderBy("RetentionPolicies.DisplayName, RetentionPolicies.Id")
 
-	queryString, _, err := query.ToSql()
+	queryString, args, err := query.ToSql()
 	if err != nil {
 		return "", nil, errors.Wrap(err, "retention_policies_tosql")
 	}

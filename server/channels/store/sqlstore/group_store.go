@@ -627,14 +627,12 @@ func (s *SqlGroupStore) GetMemberUsersNotInChannel(groupID string, channelID str
 		Where(sq.Eq{
 			"GroupMembers.GroupId": groupID,
 		}).
-		Where(sq.NotEq{
-			"GroupMembers.UserId": s.getQueryBuilder().
-				Select("ChannelMembers.UserId").
-				From("ChannelMembers").
-				Where(sq.Eq{
-					"ChannelMembers.ChannelId": channelID,
-				}),
-		}).
+		Where(sq.Expr("GroupMembers.UserId NOT IN (?)", s.getSubQueryBuilder().
+			Select("ChannelMembers.UserId").
+			From("ChannelMembers").
+			Where(sq.Eq{
+				"ChannelMembers.ChannelId": channelID,
+			}))).
 		Where(sq.Eq{
 			"GroupMembers.UserId": s.getQueryBuilder().
 				Select("TeamMembers.UserId").
