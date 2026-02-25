@@ -6,7 +6,6 @@ package sqlstore
 import (
 	"database/sql"
 	"fmt"
-	"strings"
 
 	sq "github.com/mattermost/squirrel"
 	"github.com/pkg/errors"
