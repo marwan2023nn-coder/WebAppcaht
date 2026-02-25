@@ -7,6 +7,8 @@ import React from 'react';
 import type {MessageDescriptor} from 'react-intl';
 import {FormattedMessage} from 'react-intl';
 
+import messageHtmlToComponent from 'utils/message_html_to_component';
+
 import FormattedMarkdownMessage, {CustomRenderer} from 'components/formatted_markdown_message';
 
 type Props = {
@@ -28,7 +30,11 @@ const SchemaText = ({
                 renderer: new CustomRenderer(),
             });
 
-            return <span dangerouslySetInnerHTML={{__html: html}}/>;
+            return (
+                <span>
+                    {messageHtmlToComponent(html)}
+                </span>
+            );
         }
 
         return <span>{text}</span>;
