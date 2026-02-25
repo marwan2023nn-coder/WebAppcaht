@@ -38,7 +38,7 @@ func (api *API) InitPlugin() {
 
 	api.BaseRoutes.Plugins.Handle("/marketplace", api.APISessionRequired(getMarketplacePlugins)).Methods(http.MethodGet)
 
-	api.BaseRoutes.Plugins.Handle("/marketplace/first_admin_visit", api.APIHandler(setFirstAdminVisitMarketplaceStatus)).Methods(http.MethodPost)
+	api.BaseRoutes.Plugins.Handle("/marketplace/first_admin_visit", api.APISessionRequired(setFirstAdminVisitMarketplaceStatus)).Methods(http.MethodPost)
 	api.BaseRoutes.Plugins.Handle("/marketplace/first_admin_visit", api.APISessionRequired(getFirstAdminVisitMarketplaceStatus)).Methods(http.MethodGet)
 }
 

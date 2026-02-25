@@ -1251,24 +1251,24 @@ func (us SqlUserStore) GetProfileByGroupChannelIdsForUser(userId string, channel
 		channelIds = channelIds[0:MaxGroupChannelsForProfiles]
 	}
 
-	isMemberQuery := fmt.Sprintf(`
+	isMemberQuery := `
       EXISTS(
         SELECT
           1
         FROM
           ChannelMembers
         WHERE
-          UserId = '%s'
+          UserId = ?
         AND
           ChannelId = cm.ChannelId
-        )`, userId)
+        )`
 
 	query := us.usersQuery.
 		Columns("cm.ChannelId").
 		Join("ChannelMembers cm ON Users.Id = cm.UserId").
 		Join("Channels c ON cm.ChannelId = c.Id").
 		Where(sq.Eq{"c.Type": model.ChannelTypeGroup, "cm.ChannelId": channelIds}).
-		Where(isMemberQuery).
+		Where(sq.Expr(isMemberQuery, userId)).
 		Where(sq.NotEq{"Users.Id": userId}).
 		OrderBy("Users.Username ASC")
 
