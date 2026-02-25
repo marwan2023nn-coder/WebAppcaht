@@ -1658,10 +1658,12 @@ func (s *SqlGroupStore) teamMembersMinusGroupMembersQuery(teamID string, groupID
 	subQuery := s.getQueryBuilder().Select("GroupMembers.UserId").
 		From("GroupMembers").
 		Join("UserGroups ON UserGroups.Id = GroupMembers.GroupId").
-		Where("GroupMembers.DeleteAt = 0").
-		Where(fmt.Sprintf("GroupMembers.GroupId IN ('%s')", strings.Join(groupIDs, "', '")))
+		Where(sq.Eq{
+			"GroupMembers.DeleteAt": 0,
+			"GroupMembers.GroupId":  groupIDs,
+		})
 
-	query, _ := subQuery.MustSql()
+	subQuerySql, subQueryArgs := subQuery.MustSql()
 
 	builder = builder.
 		From("TeamMembers").
@@ -1674,8 +1676,8 @@ func (s *SqlGroupStore) teamMembersMinusGroupMembersQuery(teamID string, groupID
 		Where("Teams.DeleteAt = 0").
 		Where("Users.DeleteAt = 0").
 		Where("Bots.UserId IS NULL").
-		Where("Teams.Id = ?", teamID).
-		Where(fmt.Sprintf("Users.Id NOT IN (%s)", query))
+		Where(sq.Eq{"Teams.Id": teamID}).
+		Where(sq.Expr("Users.Id NOT IN ("+subQuerySql+")", subQueryArgs...))
 
 	if !isCount {
 		builder = builder.GroupBy("Users.Id, TeamMembers.SchemeGuest, TeamMembers.SchemeAdmin, TeamMembers.SchemeUser")
@@ -1733,10 +1735,12 @@ func (s *SqlGroupStore) channelMembersMinusGroupMembersQuery(channelID string, g
 	subQuery := s.getQueryBuilder().Select("GroupMembers.UserId").
 		From("GroupMembers").
 		Join("UserGroups ON UserGroups.Id = GroupMembers.GroupId").
-		Where("GroupMembers.DeleteAt = 0").
-		Where(fmt.Sprintf("GroupMembers.GroupId IN ('%s')", strings.Join(groupIDs, "', '")))
+		Where(sq.Eq{
+			"GroupMembers.DeleteAt": 0,
+			"GroupMembers.GroupId":  groupIDs,
+		})
 
-	query, _ := subQuery.MustSql()
+	subQuerySql, subQueryArgs := subQuery.MustSql()
 
 	builder = builder.
 		From("ChannelMembers").
@@ -1748,8 +1752,8 @@ func (s *SqlGroupStore) channelMembersMinusGroupMembersQuery(channelID string, g
 		Where("Channels.DeleteAt = 0").
 		Where("Users.DeleteAt = 0").
 		Where("Bots.UserId IS NULL").
-		Where("Channels.Id = ?", channelID).
-		Where(fmt.Sprintf("Users.Id NOT IN (%s)", query))
+		Where(sq.Eq{"Channels.Id": channelID}).
+		Where(sq.Expr("Users.Id NOT IN ("+subQuerySql+")", subQueryArgs...))
 
 	if !isCount {
 		builder = builder.GroupBy("Users.Id, ChannelMembers.SchemeGuest, ChannelMembers.SchemeAdmin, ChannelMembers.SchemeUser")
