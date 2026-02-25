@@ -12,7 +12,7 @@ type GlobalRetentionPolicy struct {
 
 type RetentionPolicy struct {
 	ID               string `db:"Id" json:"id"`
-	DisplayName      string `json:"display_name"`
+	DisplayName      string `db:"DisplayName" json:"display_name"`
 	PostDurationDays *int64 `db:"PostDuration" json:"post_duration"`
 }
 
@@ -32,8 +32,8 @@ func (o *RetentionPolicyWithTeamAndChannelIDs) Auditable() map[string]any {
 
 type RetentionPolicyWithTeamAndChannelCounts struct {
 	RetentionPolicy
-	ChannelCount int64 `json:"channel_count"`
-	TeamCount    int64 `json:"team_count"`
+	ChannelCount int64 `db:"ChannelCount" json:"channel_count"`
+	TeamCount    int64 `db:"TeamCount" json:"team_count"`
 }
 
 func (o *RetentionPolicyWithTeamAndChannelCounts) Auditable() map[string]any {

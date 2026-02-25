@@ -135,9 +135,9 @@ func (o *Channel) LogClone() any {
 
 type ChannelWithTeamData struct {
 	Channel
-	TeamDisplayName string `json:"team_display_name"`
-	TeamName        string `json:"team_name"`
-	TeamUpdateAt    int64  `json:"team_update_at"`
+	TeamDisplayName string `db:"TeamDisplayName" json:"team_display_name"`
+	TeamName        string `db:"TeamName" json:"team_name"`
+	TeamUpdateAt    int64  `db:"TeamUpdateAt" json:"team_update_at"`
 }
 
 type ChannelsWithCount struct {

@@ -356,10 +356,10 @@ func (s *SqlRetentionPolicyStore) buildGetPoliciesQuery(id string, offset, limit
 	query := s.getQueryBuilder().
 		Select(`
 			RetentionPolicies.Id as "Id",
-			RetentionPolicies.DisplayName,
+			RetentionPolicies.DisplayName as "DisplayName",
 			RetentionPolicies.PostDuration as "PostDuration",
-			A.Count AS ChannelCount,
-			B.Count AS TeamCount
+			A.Count AS "ChannelCount",
+			B.Count AS "TeamCount"
 	  `).
 		From("RetentionPolicies").
 		InnerJoin(`(`+rpcSubQueryString+`) AS A ON RetentionPolicies.Id = A.Id`, rpcArgs...).
@@ -434,7 +434,7 @@ func (s *SqlRetentionPolicyStore) Delete(id string) error {
 
 func (s *SqlRetentionPolicyStore) GetChannels(policyId string, offset, limit int) (model.ChannelListWithTeamData, error) {
 	query := s.getQueryBuilder().
-		Select("Teams.DisplayName AS TeamDisplayName", "Teams.Name AS TeamName", "Teams.UpdateAt AS TeamUpdateAt").
+		Select(`Teams.DisplayName AS "TeamDisplayName"`, `Teams.Name AS "TeamName"`, `Teams.UpdateAt AS "TeamUpdateAt"`).
 		Columns(channelSliceColumns(true, "Channels")...).
 		From("RetentionPoliciesChannels").
 		InnerJoin("Channels ON RetentionPoliciesChannels.ChannelId = Channels.Id").
@@ -488,27 +488,50 @@ func (s *SqlRetentionPolicyStore) AddChannels(policyId string, channelIds []stri
 	if err := s.checkChannelsExist(channelIds); err != nil {
 		return err
 	}
-	query := s.getQueryBuilder().
-		Insert("RetentionPoliciesChannels").
-		Columns("policyId", "channelId")
 
-	for _, channelId := range channelIds {
-		query = query.Values(policyId, channelId)
-	}
-
-	queryString, args, err := query.ToSql()
+	removeQuery, removeArgs, err := s.getQueryBuilder().
+		Delete("RetentionPoliciesChannels").
+		Where(sq.Eq{"ChannelId": channelIds}).
+		ToSql()
 	if err != nil {
 		return errors.Wrap(err, "retention_policies_channels_tosql")
 	}
 
-	_, err = s.GetMaster().Exec(queryString, args...)
+	insertQueryBuilder := s.getQueryBuilder().
+		Insert("RetentionPoliciesChannels").
+		Columns("PolicyId", "ChannelId")
+
+	for _, channelId := range channelIds {
+		insertQueryBuilder = insertQueryBuilder.Values(policyId, channelId)
+	}
+
+	insertQuery, insertArgs, err := insertQueryBuilder.ToSql()
 	if err != nil {
+		return errors.Wrap(err, "retention_policies_channels_tosql")
+	}
+
+	txn, err := s.GetMaster().Beginx()
+	if err != nil {
+		return errors.Wrap(err, "begin_transaction")
+	}
+	defer finalizeTransactionX(txn, &err)
+
+	if _, err = txn.Exec(removeQuery, removeArgs...); err != nil {
+		return errors.Wrap(err, "failed to remove existing retention policies channels")
+	}
+
+	if _, err = txn.Exec(insertQuery, insertArgs...); err != nil {
 		switch dbErr := err.(type) {
 		case *pq.Error:
 			if dbErr.Code == PGForeignKeyViolationErrorCode {
 				return store.NewErrNotFound("RetentionPolicy", policyId)
 			}
 		}
+		return errors.Wrap(err, "failed to insert retention policies channels")
+	}
+
+	if err = txn.Commit(); err != nil {
+		return errors.Wrap(err, "commit_transaction")
 	}
 
 	return nil
@@ -587,20 +610,43 @@ func (s *SqlRetentionPolicyStore) AddTeams(policyId string, teamIds []string) er
 	if err := s.checkTeamsExist(teamIds); err != nil {
 		return err
 	}
-	query := s.getQueryBuilder().
-		Insert("RetentionPoliciesTeams").
-		Columns("PolicyId", "TeamId")
-	for _, teamId := range teamIds {
-		query = query.Values(policyId, teamId)
-	}
 
-	queryString, args, err := query.ToSql()
+	removeQuery, removeArgs, err := s.getQueryBuilder().
+		Delete("RetentionPoliciesTeams").
+		Where(sq.Eq{"TeamId": teamIds}).
+		ToSql()
 	if err != nil {
 		return errors.Wrap(err, "retention_policies_teams_tosql")
 	}
 
-	if _, err := s.GetMaster().Exec(queryString, args...); err != nil {
+	insertQueryBuilder := s.getQueryBuilder().
+		Insert("RetentionPoliciesTeams").
+		Columns("PolicyId", "TeamId")
+	for _, teamId := range teamIds {
+		insertQueryBuilder = insertQueryBuilder.Values(policyId, teamId)
+	}
+
+	insertQuery, insertArgs, err := insertQueryBuilder.ToSql()
+	if err != nil {
+		return errors.Wrap(err, "retention_policies_teams_tosql")
+	}
+
+	txn, err := s.GetMaster().Beginx()
+	if err != nil {
+		return errors.Wrap(err, "begin_transaction")
+	}
+	defer finalizeTransactionX(txn, &err)
+
+	if _, err = txn.Exec(removeQuery, removeArgs...); err != nil {
+		return errors.Wrap(err, "failed to remove existing retention policies teams")
+	}
+
+	if _, err = txn.Exec(insertQuery, insertArgs...); err != nil {
 		return errors.Wrap(err, "failed to insert retention policies teams")
+	}
+
+	if err = txn.Commit(); err != nil {
+		return errors.Wrap(err, "commit_transaction")
 	}
 
 	return nil
