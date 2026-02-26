@@ -119,7 +119,8 @@ export default class UserList extends React.PureComponent <Props> {
         return (
             <div
                 ref={this.containerRef}
-                style={{height: 'calc(100vh - 300px)', minHeight: '400px'}}
+                className='user-list-container'
+                style={{flex: '1 1 auto', height: '100%', minHeight: '400px'}}
             >
                 <AutoSizer>
                     {({height, width}) => (

@@ -552,6 +552,7 @@ type SessionStore interface {
 	PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error)
 }
 
+
 type AuditStore interface {
 	Save(audit *model.Audit) error
 	Get(userID string, offset int, limit int) (model.Audits, error)
