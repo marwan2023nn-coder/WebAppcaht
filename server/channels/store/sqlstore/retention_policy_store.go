@@ -899,6 +899,7 @@ type RetentionPolicyBatchDeletionInfo struct {
 	GlobalPolicyEndTime int64
 	Limit               int64
 	StoreDeletedIds     bool
+	ReturningColumn     string
 }
 
 // genericPermanentDeleteBatchForRetentionPolicies is a helper function for tables
@@ -907,7 +908,7 @@ func genericPermanentDeleteBatchForRetentionPolicies(
 	r RetentionPolicyBatchDeletionInfo,
 	s *SqlStore,
 	cursor model.RetentionPolicyCursor,
-) (int64, model.RetentionPolicyCursor, error) {
+) (int64, []string, model.RetentionPolicyCursor, error) {
 	baseBuilder := r.BaseBuilder.InnerJoin("Channels ON " + r.ChannelIDTable + ".ChannelId = Channels.Id")
 
 	scopedTimeColumn := r.Table + "." + r.TimeColumn
@@ -932,6 +933,7 @@ func genericPermanentDeleteBatchForRetentionPolicies(
 	}
 
 	var totalRowsAffected int64
+	var allDeletedIds []string
 
 	// First, delete all of the records which fall under the scope of a channel-specific policy
 	if !cursor.ChannelPoliciesDone {
@@ -940,14 +942,15 @@ func genericPermanentDeleteBatchForRetentionPolicies(
 			InnerJoin("RetentionPolicies ON RetentionPoliciesChannels.PolicyId = RetentionPolicies.Id").
 			Where(fallsUnderGranularPolicy).
 			Limit(uint64(r.Limit))
-		rowsAffected, err := genericRetentionPoliciesDeletion(channelPoliciesBuilder, r, s)
+		rowsAffected, deletedIds, err := genericRetentionPoliciesDeletion(channelPoliciesBuilder, r, s)
 		if err != nil {
-			return 0, cursor, err
+			return 0, nil, cursor, err
 		}
 		if rowsAffected < r.Limit {
 			cursor.ChannelPoliciesDone = true
 		}
 		totalRowsAffected += rowsAffected
+		allDeletedIds = append(allDeletedIds, deletedIds...)
 		r.Limit -= rowsAffected
 	}
 
@@ -964,14 +967,15 @@ func genericPermanentDeleteBatchForRetentionPolicies(
 			}).
 			Where(fallsUnderGranularPolicy).
 			Limit(uint64(r.Limit))
-		rowsAffected, err := genericRetentionPoliciesDeletion(teamPoliciesBuilder, r, s)
+		rowsAffected, deletedIds, err := genericRetentionPoliciesDeletion(teamPoliciesBuilder, r, s)
 		if err != nil {
-			return 0, cursor, err
+			return 0, nil, cursor, err
 		}
 		if rowsAffected < r.Limit {
 			cursor.TeamPoliciesDone = true
 		}
 		totalRowsAffected += rowsAffected
+		allDeletedIds = append(allDeletedIds, deletedIds...)
 		r.Limit -= rowsAffected
 	}
 
@@ -988,17 +992,18 @@ func genericPermanentDeleteBatchForRetentionPolicies(
 			}).
 			Where(sq.Lt{scopedTimeColumn: r.GlobalPolicyEndTime}).
 			Limit(uint64(r.Limit))
-		rowsAffected, err := genericRetentionPoliciesDeletion(globalPolicyBuilder, r, s)
+		rowsAffected, deletedIds, err := genericRetentionPoliciesDeletion(globalPolicyBuilder, r, s)
 		if err != nil {
-			return 0, cursor, err
+			return 0, nil, cursor, err
 		}
 		if rowsAffected < r.Limit {
 			cursor.GlobalPoliciesDone = true
 		}
 		totalRowsAffected += rowsAffected
+		allDeletedIds = append(allDeletedIds, deletedIds...)
 	}
 
-	return totalRowsAffected, cursor, nil
+	return totalRowsAffected, allDeletedIds, cursor, nil
 }
 
 // genericRetentionPoliciesDeletion actually executes the DELETE query using a sq.SelectBuilder
@@ -1007,26 +1012,33 @@ func genericRetentionPoliciesDeletion(
 	builder sq.SelectBuilder,
 	r RetentionPolicyBatchDeletionInfo,
 	s *SqlStore,
-) (rowsAffected int64, err error) {
-	query, args, err := builder.ToSql()
+) (rowsAffected int64, deletedIds []string, err error) {
+	var query string
+	var args []any
+	query, args, err = builder.ToSql()
 	if err != nil {
-		return 0, errors.Wrap(err, r.Table+"_tosql")
+		return 0, nil, errors.Wrap(err, r.Table+"_tosql")
 	}
 
 	if r.StoreDeletedIds {
 		txn, err := s.GetMaster().Beginx()
 		if err != nil {
-			return 0, err
+			return 0, nil, err
 		}
 		defer finalizeTransactionX(txn, &err)
 
 		primaryKeysStr := "(" + strings.Join(r.PrimaryKeys, ",") + ")"
 
-		query = fmt.Sprintf("DELETE FROM %s WHERE %s IN (%s) RETURNING %s.%s", r.Table, primaryKeysStr, query, r.Table, r.PrimaryKeys[0])
+		returningColumn := r.PrimaryKeys[0]
+		if r.ReturningColumn != "" {
+			returningColumn = r.ReturningColumn
+		}
+
+		query = fmt.Sprintf("DELETE FROM %s WHERE %s IN (%s) RETURNING %s.%s", r.Table, primaryKeysStr, query, r.Table, returningColumn)
 		var rows *sql.Rows
 		rows, err = txn.Query(query, args...)
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to delete "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to delete "+r.Table)
 		}
 
 		defer rows.Close()
@@ -1034,14 +1046,15 @@ func genericRetentionPoliciesDeletion(
 		for rows.Next() {
 			var id string
 			if err = rows.Scan(&id); err != nil {
-				return 0, errors.Wrap(err, "unable to scan from rows")
+				return 0, nil, errors.Wrap(err, "unable to scan from rows")
 			}
 			ids = append(ids, id)
 		}
 		if err = rows.Err(); err != nil {
-			return 0, errors.Wrap(err, "failed while iterating over rows")
+			return 0, nil, errors.Wrap(err, "failed while iterating over rows")
 		}
 		rowsAffected = int64(len(ids))
+		deletedIds = ids
 
 		if len(ids) > 0 {
 			retentionIdsRow := model.RetentionIdsForDeletion{
@@ -1050,22 +1063,22 @@ func genericRetentionPoliciesDeletion(
 			}
 			err = insertRetentionIdsForDeletion(txn, &retentionIdsRow, s)
 			if err != nil {
-				return 0, err
+				return 0, nil, err
 			}
 		}
 		if err = txn.Commit(); err != nil {
-			return 0, err
+			return 0, nil, err
 		}
 	} else {
 		primaryKeysStr := "(" + strings.Join(r.PrimaryKeys, ",") + ")"
 		query = fmt.Sprintf("DELETE FROM %s WHERE %s IN (%s)", r.Table, primaryKeysStr, query)
 		result, err := s.GetMaster().Exec(query, args...)
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to delete "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to delete "+r.Table)
 		}
 		rowsAffected, err = result.RowsAffected()
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to get rows affected for "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to get rows affected for "+r.Table)
 		}
 	}
 	return

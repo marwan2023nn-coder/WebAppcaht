@@ -133,6 +133,7 @@ type UserReportOptions struct {
 	HasNoTeam        bool
 	HideActive       bool
 	HideInactive     bool
+	ShowOnlineOnly   bool
 	SearchTerm       string
 	ViewRestrictions *ViewUsersRestrictions
 }

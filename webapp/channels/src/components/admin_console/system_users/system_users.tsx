@@ -31,6 +31,7 @@ import {SystemUsersDateRangeMenu} from './system_users_date_range_menu';
 import {SystemUsersExport} from './system_users_export';
 import {SystemUsersFilterPopover} from './system_users_filters_popover';
 import {SystemUsersListAction} from './system_users_list_actions';
+import {SystemUsersOnlineFilter} from './system_users_online_filter';
 import {SystemUsersSearch} from './system_users_search';
 import {getSortableColumnValueBySortColumn, getPaginationInfo, convertTableOptionsToUserReportOptions} from './utils';
 
@@ -51,6 +52,7 @@ export type TableOptions = {
     filterTeam?: AdminConsoleUserManagementTableProperties['filterTeam'];
     filterRole?: AdminConsoleUserManagementTableProperties['filterRole'];
     filterStatus?: AdminConsoleUserManagementTableProperties['filterStatus'];
+    showOnlineOnly?: AdminConsoleUserManagementTableProperties['showOnlineOnly'];
     dateRange?: ReportDuration;
 }
 
@@ -90,6 +92,7 @@ function SystemUsers(props: Props) {
             filterTeam: props.tablePropertyFilterTeam,
             filterRole: props.tablePropertyFilterRole,
             filterStatus: props.tablePropertyFilterStatus,
+            showOnlineOnly: props.tablePropertyShowOnlineOnly,
         });
     }, [
         props.tablePropertyPageSize,
@@ -102,6 +105,7 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterTeam,
         props.tablePropertyFilterRole,
         props.tablePropertyFilterStatus,
+        props.tablePropertyShowOnlineOnly,
     ]);
 
     // Effect to get the user reports
@@ -134,6 +138,7 @@ function SystemUsers(props: Props) {
             filterTeam: props.tablePropertyFilterTeam,
             filterRole: props.tablePropertyFilterRole,
             filterStatus: props.tablePropertyFilterStatus,
+            showOnlineOnly: props.tablePropertyShowOnlineOnly,
             dateRange: props.tablePropertyDateRange,
         });
     }, [
@@ -147,6 +152,7 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterRole,
         props.tablePropertyFilterTeam,
         props.tablePropertyFilterStatus,
+        props.tablePropertyShowOnlineOnly,
         props.tablePropertyDateRange,
     ]);
 
@@ -490,6 +496,7 @@ function SystemUsers(props: Props) {
                         <SystemUsersSearch
                             searchTerm={props.tablePropertySearchTerm}
                         />
+                        <SystemUsersOnlineFilter/>
                         <SystemUsersFilterPopover
                             filterTeam={props.tablePropertyFilterTeam}
                             filterTeamLabel={props.tablePropertyFilterTeamLabel}

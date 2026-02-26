@@ -34,6 +34,7 @@ export type AdminConsoleUserManagementTableProperties = {
     filterTeamLabel: string;
     filterStatus: string;
     filterRole: string;
+    showOnlineOnly: boolean;
     dateRange?: ReportDuration;
 };
 
