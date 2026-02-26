@@ -2448,6 +2448,15 @@ func applyUserReportFilter(query sq.SelectBuilder, filter *model.UserReportOptio
 		query = query.Where(sq.Eq{"Users.DeleteAt": 0})
 	}
 
+	if filter.ShowOnlineOnly {
+		now := model.GetMillis()
+		fiveMinutesAgo := now - (1000 * 60 * 5)
+		query = query.Where(sq.Or{
+			sq.GtOrEq{"s.LastActivityAt": fiveMinutesAgo},
+			sq.Eq{"s.Status": model.StatusOnline},
+		})
+	}
+
 	if strings.TrimSpace(filter.SearchTerm) != "" {
 		query = generateSearchQuery(query, strings.Fields(sanitizeSearchTerm(filter.SearchTerm, "*")), UserSearchTypeAll)
 	}
@@ -2462,6 +2471,7 @@ func (us SqlUserStore) GetUserCountForReport(filter *model.UserReportOptions) (i
 		Select("COUNT(Users.Id)").
 		From("Users").
 		LeftJoin("Bots ON Users.Id = Bots.UserId").
+		LeftJoin("Status s ON s.UserId = Users.Id").
 		Where("Bots.UserId IS NULL")
 
 	query = applyUserReportFilter(query, filter)

@@ -88,3 +88,17 @@ table.systemUsersTable {
         margin-top: 12px;
     }
 }
+
+.systemUsersOnlineFilterContainer {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-right: 16px;
+
+    .systemUsersOnlineFilterLabel {
+        font-weight: 600;
+        font-size: 14px;
+        color: var(--sys-center-channel-text);
+        white-space: nowrap;
+    }
+}

@@ -72,6 +72,7 @@ export const adminConsoleUserManagementTablePropertiesInitialState: AdminConsole
     filterTeamLabel: '',
     filterStatus: '',
     filterRole: '',
+    showOnlineOnly: false,
 };
 
 export function adminConsoleUserManagementTableProperties(state = adminConsoleUserManagementTablePropertiesInitialState, action: MMAction) {
