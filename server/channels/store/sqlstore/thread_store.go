@@ -977,7 +977,7 @@ func (s *SqlThreadStore) PermanentDeleteBatchForRetentionPolicies(retentionPolic
 	builder := s.getQueryBuilder().
 		Select("Threads.PostId").
 		From("Threads")
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+	count, _, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
 		BaseBuilder:         builder,
 		Table:               "Threads",
 		TimeColumn:          "LastReplyAt",
@@ -988,6 +988,7 @@ func (s *SqlThreadStore) PermanentDeleteBatchForRetentionPolicies(retentionPolic
 		Limit:               retentionPolicyBatchConfigs.Limit,
 		StoreDeletedIds:     false,
 	}, s.SqlStore, cursor)
+	return count, newCursor, err
 }
 
 // PermanentDeleteBatchThreadMembershipsForRetentionPolicies deletes a batch of records
@@ -998,7 +999,7 @@ func (s *SqlThreadStore) PermanentDeleteBatchThreadMembershipsForRetentionPolici
 		Select("ThreadMemberships.PostId").
 		From("ThreadMemberships").
 		InnerJoin("Threads ON ThreadMemberships.PostId = Threads.PostId")
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+	count, _, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
 		BaseBuilder:         builder,
 		Table:               "ThreadMemberships",
 		TimeColumn:          "LastUpdated",
@@ -1009,6 +1010,7 @@ func (s *SqlThreadStore) PermanentDeleteBatchThreadMembershipsForRetentionPolici
 		Limit:               retentionPolicyBatchConfigs.Limit,
 		StoreDeletedIds:     false,
 	}, s.SqlStore, cursor)
+	return count, newCursor, err
 }
 
 // DeleteOrphanedRows removes orphaned rows from Threads and ThreadMemberships
