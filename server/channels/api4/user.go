@@ -258,7 +258,8 @@ func createUser(c *Context, w http.ResponseWriter, r *http.Request) {
 		auditRec.AddMeta("token_type", token.Type)
 
 		if token.Type == model.TokenTypeGuestInvitation {
-			if c.App.Channels().License() == nil {
+			license := c.App.Channels().License()
+			if license == nil || license.Features == nil || !model.SafeDereference(license.Features.GuestAccounts) {
 				c.Err = model.NewAppError("CreateUserWithToken", "api.user.create_user.guest_accounts.license.app_error", nil, "", http.StatusBadRequest)
 				return
 			}
@@ -2107,7 +2108,8 @@ func login(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	if user.IsGuest() {
-		if c.App.Channels().License() == nil {
+		license := c.App.Channels().License()
+		if license == nil || license.Features == nil || !model.SafeDereference(license.Features.GuestAccounts) {
 			c.Err = model.NewAppError("login", "api.user.login.guest_accounts.license.error", nil, "", http.StatusUnauthorized)
 			return
 		}
@@ -2288,7 +2290,7 @@ func getLoginType(c *Context, w http.ResponseWriter, r *http.Request) {
 	// login methods in the future, and this check may be removed.
 	if !*c.App.Config().GuestAccountsSettings.EnableGuestMagicLink ||
 		!*c.App.Config().GuestAccountsSettings.Enable ||
-		!*c.App.Channels().License().Features.GuestAccounts {
+		!model.SafeDereference(c.App.Channels().License().Features.GuestAccounts) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -2344,7 +2346,7 @@ func getLoginType(c *Context, w http.ResponseWriter, r *http.Request) {
 			return false
 		}
 
-		if !*c.App.Channels().License().Features.GuestAccounts {
+		if !model.SafeDereference(c.App.Channels().License().Features.GuestAccounts) {
 			return false
 		}
 
@@ -3186,7 +3188,8 @@ func demoteUserToGuest(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if c.App.Channels().License() == nil {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || !model.SafeDereference(license.Features.GuestAccounts) {
 		c.Err = model.NewAppError("Api4.demoteUserToGuest", "api.team.demote_user_to_guest.license.error", nil, "", http.StatusNotImplemented)
 		return
 	}
@@ -3196,7 +3199,7 @@ func demoteUserToGuest(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	guestEnabled := c.App.Channels().License() != nil && *c.App.Channels().License().Features.GuestAccounts
+	guestEnabled := model.SafeDereference(license.Features.GuestAccounts)
 
 	if !guestEnabled {
 		c.Err = model.NewAppError("Api4.demoteUserToGuest", "api.team.invite_guests_to_channels.disabled.error", nil, "", http.StatusForbidden)
@@ -3491,7 +3494,8 @@ func migrateAuthToLDAP(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if c.App.Channels().License() == nil || !*c.App.Channels().License().Features.LDAP {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || !model.SafeDereference(license.Features.LDAP) {
 		c.Err = model.NewAppError("api.migrateAuthToLDAP", "api.admin.ldap.not_available.app_error", nil, "", http.StatusNotImplemented)
 		return
 	}
@@ -3550,7 +3554,8 @@ func migrateAuthToSaml(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if c.App.Channels().License() == nil || !*c.App.Channels().License().Features.SAML {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || !model.SafeDereference(license.Features.SAML) {
 		c.Err = model.NewAppError("api.migrateAuthToSaml", "api.admin.saml.not_available.app_error", nil, "", http.StatusNotImplemented)
 		return
 	}
