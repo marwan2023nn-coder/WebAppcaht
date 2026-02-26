@@ -155,7 +155,8 @@ func getLdapGroups(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if c.App.Channels().License() == nil || !*c.App.Channels().License().Features.LDAPGroups {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || !model.SafeDereference(license.Features.LDAPGroups) {
 		c.Err = model.NewAppError("api4.getLdapGroups", "api.ldap_groups.license_error", nil, "", http.StatusNotImplemented)
 		return
 	}
