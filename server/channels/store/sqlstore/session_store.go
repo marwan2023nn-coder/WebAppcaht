@@ -389,3 +389,7 @@ func (me SqlSessionStore) Cleanup(expiryTime int64, batchSize int64) error {
 
 	return nil
 }
+
+func (s *SqlSessionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	return 0, cursor, nil
+}

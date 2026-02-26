@@ -344,3 +344,20 @@ func (s *SqlDraftStore) DeleteOrphanDraftsByCreateAtAndUserId(createAt int64, us
 
 	return nil
 }
+
+func (s *SqlDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	builder := s.getQueryBuilder().
+		Select("Drafts.UserId", "Drafts.ChannelId", "Drafts.RootId").
+		From("Drafts")
+
+	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+		BaseBuilder:         builder,
+		Table:               "Drafts",
+		TimeColumn:          "CreateAt",
+		PrimaryKeys:         []string{"UserId", "ChannelId", "RootId"},
+		ChannelIDTable:      "Drafts",
+		NowMillis:           retentionPolicyBatchConfigs.Now,
+		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
+		Limit:               retentionPolicyBatchConfigs.Limit,
+	}, s.SqlStore, cursor)
+}

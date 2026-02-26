@@ -352,7 +352,21 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if c.Err == nil {
+		// Read-after-write consistency logic
+		session := c.AppContext.Session()
+		if r.Method == "GET" && session != nil && session.Token != "" {
+			lastWrite := h.Srv.Platform().GetRecentWriteTime(session.Token)
+			if time.Since(lastWrite) < 5*time.Second {
+				c.AppContext = app.RequestContextWithMaster(c.AppContext)
+			}
+		}
+
 		h.HandleFunc(c, w, r)
+
+		// Record write operation for consistency window
+		if c.Err == nil && r.Method != "GET" && session != nil && session.Token != "" {
+			h.Srv.Platform().SetRecentWriteTime(session.Token)
+		}
 	}
 
 	// Handle errors that have occurred

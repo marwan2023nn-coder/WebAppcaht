@@ -35,11 +35,11 @@ const (
 	sendSlowWarn                   = (sendQueueSize * 50) / 100
 	sendFullWarn                   = (sendQueueSize * 95) / 100
 	writeWaitTime                  = 30 * time.Second
-	pongWaitTime                   = 100 * time.Second
-	pingInterval                   = (pongWaitTime * 6) / 10
-	authCheckInterval              = 5 * time.Second
-	webConnMemberCacheTime         = 1000 * 60 * 30 // 30 minutes
-	deadQueueSize                  = 128            // Approximated from /proc/sys/net/core/wmem_default / 2048 (avg msg size)
+	pongWaitTime                   = 120 * time.Second
+	pingInterval                   = (pongWaitTime * 8) / 10
+	authCheckInterval              = 10 * time.Second
+	webConnMemberCacheTime         = 1000 * 60 * 60 // 1 hour
+	deadQueueSize                  = 256            // Doubled for Enterprise-grade reliable delivery
 	websocketSuppressWarnThreshold = time.Minute
 )
 
@@ -890,7 +890,8 @@ func (wc *WebConn) ShouldSendEvent(msg *model.WebSocketEvent) bool {
 		switch msg.EventType() {
 		case model.WebsocketEventTyping,
 			model.WebsocketEventStatusChange,
-			model.WebsocketEventMultipleChannelsViewed:
+			model.WebsocketEventMultipleChannelsViewed,
+			model.WebsocketPresenceIndicator:
 			if wc.Active.Load() && time.Since(wc.lastLogTimeSlow) > websocketSuppressWarnThreshold {
 				wc.Platform.logger.Warn(
 					"websocket.slow: dropping message",

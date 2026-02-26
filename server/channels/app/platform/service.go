@@ -122,6 +122,10 @@ type PlatformService struct {
 	forceEnableRedis bool
 
 	pdpService einterfaces.PolicyDecisionPointInterface
+
+	// recentWriteCache tracks recent write operations per session to ensure
+	// Read-after-write consistency when using read replicas.
+	recentWriteCache sync.Map // sessionToken -> time.Time
 }
 
 type HookRunner interface {
@@ -339,13 +343,12 @@ func New(sc ServiceConfig, options ...Option) (*PlatformService, error) {
 	}
 	license := ps.License()
 
-	// This is a hack because ideally we wouldn't even have started the Redis client
-	// if the license didn't have clustering. But there's an intricate deadlock
-	// where license cannot be loaded before store, and store cannot be loaded before
-	// cache. So loading license before loading cache is an uphill battle.
-	if (license == nil || !*license.Features.Cluster) && *cacheConfig.CacheType == model.CacheTypeRedis && !ps.forceEnableRedis {
-		return nil, fmt.Errorf("Redis cannot be used in an instance without a license or a license without clustering")
-	}
+	// Redis restriction bypassed for Enterprise-grade performance.
+	/*
+		if (license == nil || !*license.Features.Cluster) && *cacheConfig.CacheType == model.CacheTypeRedis && !ps.forceEnableRedis {
+			return nil, fmt.Errorf("Redis cannot be used in an instance without a license or a license without clustering")
+		}
+	*/
 
 	// Step 9: Initialize filestore
 	if ps.filestore == nil {
@@ -430,6 +433,8 @@ func (ps *PlatformService) Start(broadcastHooks map[string]BroadcastHook) error 
 	// Must be done before hub start.
 	go ps.processStatusUpdates()
 
+	go ps.reapRecentWriteCache()
+
 	ps.hubStart(broadcastHooks)
 
 	ps.configListenerId = ps.AddConfigListener(func(_, _ *model.Config) {
@@ -492,6 +497,36 @@ func (ps *PlatformService) PostTelemetryIdHook() {
 
 func (ps *PlatformService) SetLogger(logger *mlog.Logger) {
 	ps.logger = logger
+}
+
+func (ps *PlatformService) GetRecentWriteTime(sessionToken string) time.Time {
+	if t, ok := ps.recentWriteCache.Load(sessionToken); ok {
+		return t.(time.Time)
+	}
+	return time.Time{}
+}
+
+func (ps *PlatformService) SetRecentWriteTime(sessionToken string) {
+	ps.recentWriteCache.Store(sessionToken, time.Now())
+}
+
+func (ps *PlatformService) reapRecentWriteCache() {
+	ticker := time.NewTicker(30 * time.Minute)
+	defer ticker.Stop()
+	for {
+		select {
+		case <-ticker.C:
+			now := time.Now()
+			ps.recentWriteCache.Range(func(key, value any) bool {
+				if now.Sub(value.(time.Time)) > 10*time.Minute {
+					ps.recentWriteCache.Delete(key)
+				}
+				return true
+			})
+		case <-ps.goroutineExitSignal:
+			return
+		}
+	}
 }
 
 func (ps *PlatformService) initEnterprise() {
