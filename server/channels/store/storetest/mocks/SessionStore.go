@@ -466,3 +466,7 @@ func NewSessionStore(t interface {
 
 	return mock
 }
+
+func (_m *SessionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	return 0, model.RetentionPolicyCursor{}, nil
+}

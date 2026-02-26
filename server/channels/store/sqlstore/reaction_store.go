@@ -422,3 +422,20 @@ func updatePostForReactionsOnInsert(transaction *sqlxTxWrapper, postId string) e
 
 	return err
 }
+
+func (s *SqlReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	builder := s.getQueryBuilder().
+		Select("Reactions.PostId", "Reactions.UserId", "Reactions.EmojiName").
+		From("Reactions")
+
+	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+		BaseBuilder:         builder,
+		Table:               "Reactions",
+		TimeColumn:          "CreateAt",
+		PrimaryKeys:         []string{"PostId", "UserId", "EmojiName"},
+		ChannelIDTable:      "Reactions",
+		NowMillis:           retentionPolicyBatchConfigs.Now,
+		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
+		Limit:               retentionPolicyBatchConfigs.Limit,
+	}, s.SqlStore, cursor)
+}

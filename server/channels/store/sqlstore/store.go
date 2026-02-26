@@ -406,9 +406,12 @@ func (ss *SqlStore) GetInternalMasterDB() *sql.DB {
 }
 
 func (ss *SqlStore) GetSearchReplicaX() *sqlxDBWrapper {
-	if !ss.hasLicense() {
-		return ss.GetMaster()
-	}
+	// License check bypassed for High-Scale Search performance
+	/*
+		if !ss.hasLicense() {
+			return ss.GetMaster()
+		}
+	*/
 
 	if len(ss.settings.DataSourceSearchReplicas) == 0 {
 		return ss.GetReplica()
@@ -426,7 +429,10 @@ func (ss *SqlStore) GetSearchReplicaX() *sqlxDBWrapper {
 }
 
 func (ss *SqlStore) GetReplica() *sqlxDBWrapper {
-	if len(ss.settings.DataSourceReplicas) == 0 || ss.lockedToMaster || !ss.hasLicense() {
+	// License check bypassed for Database Connection Pooling & Load Balancing
+	// To mitigate Replication Lag (Read-after-write consistency), high-fidelity
+	// operations should use RequestContextWithMaster(rctx) or ss.LockToMaster().
+	if len(ss.settings.DataSourceReplicas) == 0 || ss.lockedToMaster {
 		return ss.GetMaster()
 	}
 

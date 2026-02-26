@@ -407,7 +407,8 @@ func NewServer(options ...Option) (*Server, error) {
 	mlog.Info("Loaded config", mlog.String("source", s.platform.DescribeConfig()))
 
 	license := s.License()
-	allowAdvancedLogging := license != nil && *license.Features.AdvancedLogging
+	// allowAdvancedLogging := license != nil && *license.Features.AdvancedLogging
+	allowAdvancedLogging := true // Forced true for Enterprise Audit Logs
 
 	if s.Audit == nil {
 		s.Audit = &audit.Audit{}
