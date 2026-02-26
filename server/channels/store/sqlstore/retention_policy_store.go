@@ -1013,15 +1013,17 @@ func genericRetentionPoliciesDeletion(
 	r RetentionPolicyBatchDeletionInfo,
 	s *SqlStore,
 ) (rowsAffected int64, deletedIds []string, err error) {
-	query, args, err := builder.ToSql()
+	var query string
+	var args []any
+	query, args, err = builder.ToSql()
 	if err != nil {
-		return 0, errors.Wrap(err, r.Table+"_tosql")
+		return 0, nil, errors.Wrap(err, r.Table+"_tosql")
 	}
 
 	if r.StoreDeletedIds {
 		txn, err := s.GetMaster().Beginx()
 		if err != nil {
-			return 0, err
+			return 0, nil, err
 		}
 		defer finalizeTransactionX(txn, &err)
 
@@ -1036,7 +1038,7 @@ func genericRetentionPoliciesDeletion(
 		var rows *sql.Rows
 		rows, err = txn.Query(query, args...)
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to delete "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to delete "+r.Table)
 		}
 
 		defer rows.Close()
@@ -1044,12 +1046,12 @@ func genericRetentionPoliciesDeletion(
 		for rows.Next() {
 			var id string
 			if err = rows.Scan(&id); err != nil {
-				return 0, errors.Wrap(err, "unable to scan from rows")
+				return 0, nil, errors.Wrap(err, "unable to scan from rows")
 			}
 			ids = append(ids, id)
 		}
 		if err = rows.Err(); err != nil {
-			return 0, errors.Wrap(err, "failed while iterating over rows")
+			return 0, nil, errors.Wrap(err, "failed while iterating over rows")
 		}
 		rowsAffected = int64(len(ids))
 		deletedIds = ids
@@ -1061,22 +1063,22 @@ func genericRetentionPoliciesDeletion(
 			}
 			err = insertRetentionIdsForDeletion(txn, &retentionIdsRow, s)
 			if err != nil {
-				return 0, err
+				return 0, nil, err
 			}
 		}
 		if err = txn.Commit(); err != nil {
-			return 0, err
+			return 0, nil, err
 		}
 	} else {
 		primaryKeysStr := "(" + strings.Join(r.PrimaryKeys, ",") + ")"
 		query = fmt.Sprintf("DELETE FROM %s WHERE %s IN (%s)", r.Table, primaryKeysStr, query)
 		result, err := s.GetMaster().Exec(query, args...)
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to delete "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to delete "+r.Table)
 		}
 		rowsAffected, err = result.RowsAffected()
 		if err != nil {
-			return 0, errors.Wrap(err, "failed to get rows affected for "+r.Table)
+			return 0, nil, errors.Wrap(err, "failed to get rows affected for "+r.Table)
 		}
 	}
 	return
