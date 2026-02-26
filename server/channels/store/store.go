@@ -761,6 +761,7 @@ type FileInfoStore interface {
 	PermanentDeleteForPost(rctx request.CTX, postID string) error
 	PermanentDelete(rctx request.CTX, fileID string) error
 	PermanentDeleteBatch(rctx request.CTX, endTime int64, limit int64) (int64, error)
+	PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error)
 	PermanentDeleteByUser(rctx request.CTX, userID string) (int64, error)
 	SetContent(rctx request.CTX, fileID, content string) error
 	Search(rctx request.CTX, paramsList []*model.SearchParams, userID, teamID string, page, perPage int) (*model.FileInfoList, error)
