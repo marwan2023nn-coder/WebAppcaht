@@ -2288,9 +2288,10 @@ func getLoginType(c *Context, w http.ResponseWriter, r *http.Request) {
 	// For the time being, we only support getting the login type when
 	// guest magic link is enabled. We can consider adding support for other
 	// login methods in the future, and this check may be removed.
+	license := c.App.Channels().License()
 	if !*c.App.Config().GuestAccountsSettings.EnableGuestMagicLink ||
 		!*c.App.Config().GuestAccountsSettings.Enable ||
-		!model.SafeDereference(c.App.Channels().License().Features.GuestAccounts) {
+		license == nil || license.Features == nil || !model.SafeDereference(license.Features.GuestAccounts) {
 		w.WriteHeader(http.StatusNotFound)
 		return
 	}
@@ -2342,11 +2343,8 @@ func getLoginType(c *Context, w http.ResponseWriter, r *http.Request) {
 			return false
 		}
 
-		if c.App.Channels().License() == nil {
-			return false
-		}
-
-		if !model.SafeDereference(c.App.Channels().License().Features.GuestAccounts) {
+		license := c.App.Channels().License()
+		if license == nil || license.Features == nil || !model.SafeDereference(license.Features.GuestAccounts) {
 			return false
 		}
 
