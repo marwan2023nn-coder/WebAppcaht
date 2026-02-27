@@ -26,7 +26,7 @@ const SchemaText = ({
         if (isMarkdown) {
             const html = marked(text, {
                 breaks: true,
-                sanitize: true,
+                sanitize: false,
                 renderer: new CustomRenderer(),
             });
 

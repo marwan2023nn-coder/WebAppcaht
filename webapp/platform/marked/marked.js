@@ -1556,7 +1556,37 @@ marked.inlineLexer = InlineLexer.output;
 marked.parse = marked;
 
 if (typeof module !== 'undefined' && typeof exports === 'object') {
-  module.exports = marked;
+  var dp = require('dompurify');
+  var DOMPurify;
+  if (typeof window !== 'undefined' && window.document) {
+    DOMPurify = dp(window);
+  } else {
+    try {
+      var jsdom = eval('require')('jsdom');
+      DOMPurify = dp(new jsdom.JSDOM('').window);
+    } catch (e) {
+      // If jsdom is not available, we can't initialize DOMPurify in Node.
+    }
+  }
+
+  if (DOMPurify) {
+    var originalMarked = marked;
+    var wrappedMarked = function(src, opt, callback) {
+      var html = originalMarked(src, opt, callback);
+      if (typeof html === 'string') {
+        return DOMPurify.sanitize(html);
+      }
+      return html;
+    };
+    for (var key in originalMarked) {
+      if (Object.prototype.hasOwnProperty.call(originalMarked, key)) {
+        wrappedMarked[key] = originalMarked[key];
+      }
+    }
+    module.exports = wrappedMarked;
+  } else {
+    module.exports = marked;
+  }
 } else if (typeof define === 'function' && define.amd) {
   define(function() { return marked; });
 } else {

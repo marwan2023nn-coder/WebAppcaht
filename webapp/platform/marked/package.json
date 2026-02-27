@@ -3,7 +3,7 @@
   "description": "A markdown parser built for speed",
   "author": "Christopher Jeffrey",
   "version": "0.3.6",
-  "main": "./lib/marked.js",
+  "main": "./marked.js",
   "bin": "./marked.js",
   "man": "./man/marked.1",
   "preferGlobal": true,

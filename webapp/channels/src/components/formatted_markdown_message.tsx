@@ -67,7 +67,7 @@ export default function FormattedMarkdownMessage({
 
     const markedUpMessage = marked(origMsg, {
         breaks: true,
-        sanitize: true,
+        sanitize: false,
         renderer: new CustomRenderer(disableLinks),
     });
 
