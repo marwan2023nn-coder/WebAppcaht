@@ -1160,6 +1160,7 @@ type PreparePostForClientOpts struct {
 	IncludePriority bool
 	RetainContent   bool
 	IncludeDeleted  bool
+	SkipReactions   bool
 }
 
 // ReportPostOptions contains options for querying posts for reporting/compliance purposes

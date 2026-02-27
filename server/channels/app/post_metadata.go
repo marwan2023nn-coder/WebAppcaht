@@ -63,8 +63,60 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 		FirstInaccessiblePostTime: originalList.FirstInaccessiblePostTime,
 	}
 
+	postIDs := make([]string, 0, len(originalList.Posts))
+	for id := range originalList.Posts {
+		postIDs = append(postIDs, id)
+	}
+
+	reactions, appErr := a.GetBulkReactionsForPosts(postIDs)
+	if appErr != nil {
+		rctx.Logger().Warn("Failed to get bulk reactions for post list", mlog.Err(appErr))
+	}
+
+	var allEmojiNames []string
+	if reactions != nil {
+		for _, postReactions := range reactions {
+			for _, reaction := range postReactions {
+				allEmojiNames = append(allEmojiNames, reaction.EmojiName)
+			}
+		}
+	}
+
+	var bulkEmojis []*model.Emoji
+	if len(allEmojiNames) > 0 {
+		bulkEmojis, appErr = a.GetMultipleEmojiByName(rctx, model.RemoveDuplicateStrings(allEmojiNames))
+		if appErr != nil {
+			rctx.Logger().Warn("Failed to get bulk emojis for post list", mlog.Err(appErr))
+		}
+	}
+
+	emojiMap := make(map[string]*model.Emoji)
+	for _, emoji := range bulkEmojis {
+		emojiMap[emoji.Name] = emoji
+	}
+
 	for id, originalPost := range originalList.Posts {
-		post := a.PreparePostForClientWithEmbedsAndImages(rctx, originalPost, &model.PreparePostForClientOpts{})
+		post := a.PreparePostForClientWithEmbedsAndImages(rctx, originalPost, &model.PreparePostForClientOpts{
+			SkipReactions: true,
+		})
+
+		if reactions != nil {
+			post.Metadata.Reactions = reactions[id]
+			for _, reaction := range reactions[id] {
+				if emoji, ok := emojiMap[reaction.EmojiName]; ok {
+					found := false
+					for _, e := range post.Metadata.Emojis {
+						if e.Id == emoji.Id {
+							found = true
+							break
+						}
+					}
+					if !found {
+						post.Metadata.Emojis = append(post.Metadata.Emojis, emoji)
+					}
+				}
+			}
+		}
 
 		list.Posts[id] = post
 	}
@@ -202,11 +254,20 @@ func (a *App) PreparePostForClient(rctx request.CTX, originalPost *model.Post, o
 	}
 
 	// Emojis and reaction counts
-	if emojis, reactions, err := a.getEmojisAndReactionsForPost(rctx, post); err != nil {
-		rctx.Logger().Warn("Failed to get emojis and reactions for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+	if !opts.SkipReactions {
+		if emojis, reactions, err := a.getEmojisAndReactionsForPost(rctx, post); err != nil {
+			rctx.Logger().Warn("Failed to get emojis and reactions for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+		} else {
+			post.Metadata.Emojis = emojis
+			post.Metadata.Reactions = reactions
+		}
 	} else {
-		post.Metadata.Emojis = emojis
-		post.Metadata.Reactions = reactions
+		// Even if skipping reactions, we should still fetch custom emojis used in the post text/attachments
+		if emojis, err := a.getCustomEmojisForPost(rctx, post, nil); err != nil {
+			rctx.Logger().Warn("Failed to get custom emojis for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+		} else {
+			post.Metadata.Emojis = emojis
+		}
 	}
 
 	// Files
