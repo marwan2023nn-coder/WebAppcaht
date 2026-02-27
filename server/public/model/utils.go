@@ -363,6 +363,9 @@ func AppErrorFromJSON(r io.Reader) error {
 }
 
 func NewAppError(where string, id string, params map[string]any, details string, status int) *AppError {
+	if status == 0 {
+		status = 500
+	}
 	ap := &AppError{
 		Id:            id,
 		params:        params,

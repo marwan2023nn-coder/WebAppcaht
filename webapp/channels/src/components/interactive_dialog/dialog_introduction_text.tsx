@@ -19,7 +19,7 @@ export default function DialogIntroductionText({id, value, emojiMap}: Props) {
         value,
         {
             breaks: true,
-            sanitize: true,
+            sanitize: false,
             gfm: true,
             siteURL: getSiteURL(),
         },
