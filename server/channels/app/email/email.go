@@ -830,7 +830,7 @@ func (es *Service) SendInviteEmailsToTeamAndChannels(
 			if errorWhenNotSent {
 				inviteWithError := &model.EmailInviteWithError{
 					Email: invite,
-					Error: &model.AppError{Message: nErr.Error()},
+					Error: model.NewAppError("SendInviteEmailsToTeamAndChannels", "app.email.send_invite.app_error", nil, nErr.Error(), http.StatusInternalServerError),
 				}
 				invitesWithErrors = append(invitesWithErrors, inviteWithError)
 			}
