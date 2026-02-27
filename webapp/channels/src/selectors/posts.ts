@@ -21,8 +21,8 @@ import {StoragePrefixes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {EditingPostDetails} from 'types/store/views';
 
-export const getIsPostBeingEdited = createSelector(
-    'getIsPostBeingEdited',
+export const makeGetIsPostBeingEdited = () => createSelector(
+    'makeGetIsPostBeingEdited',
     (state: GlobalState) => state.views.posts.editingPost.postId,
     (state: GlobalState) => state.views.posts.editingPost.show,
     (_state: GlobalState, postId: string) => postId,
@@ -33,8 +33,8 @@ export const getIsPostMultiSelectModeEnabled = (state: GlobalState) => state.vie
 
 export const getMultiSelectedPostIds = (state: GlobalState) => state.views.posts.multiSelect.selectedPostIds;
 
-export const getIsPostBeingEditedInRHS = createSelector(
-    'getIsPostBeingEditedInRHS',
+export const makeGetIsPostBeingEditedInRHS = () => createSelector(
+    'makeGetIsPostBeingEditedInRHS',
     getEditingPostDetailsAndPost,
     (_state: GlobalState, postId: string) => postId,
     (editingPost, postId) => editingPost.isRHS && editingPost.postId === postId && editingPost.show,

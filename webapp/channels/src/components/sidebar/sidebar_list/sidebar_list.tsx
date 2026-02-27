@@ -27,14 +27,13 @@ import {mod} from 'utils/utils';
 
 import type {DraggingState} from 'types/store';
 import type {StaticPage} from 'types/store/lhs';
-import type {WrappedComponentProps} from 'react-intl';
 
 const DraftsLink = makeAsyncComponent('DraftsLink', lazy(() => import('components/drafts/drafts_link/drafts_link')));
 const GlobalThreadsLink = makeAsyncComponent('GlobalThreadsLink', lazy(() => import('components/threading/global_threads_link')));
 const UnreadChannelIndicator = makeAsyncComponent('UnreadChannelIndicator', lazy(() => import('../unread_channel_indicator')));
 const UnreadChannels = makeAsyncComponent('UnreadChannels', lazy(() => import('../unread_channels')));
 
-type Props = WrappedComponentProps & {
+type Props = {
     currentTeam?: Team;
     currentChannelId: string;
     categories?: ChannelCategory[];
@@ -273,6 +272,14 @@ export const SidebarList = (props: Props) => {
             updateUnreadIndicators();
         }
     }, [props.currentChannelId, props.currentTeam, updateUnreadIndicators]);
+
+    const prevTeamId = useRef(props.currentTeam?.id);
+    useEffect(() => {
+        if (props.currentTeam?.id !== prevTeamId.current) {
+            scrollbar.current?.scrollTo({top: 0});
+            prevTeamId.current = props.currentTeam?.id;
+        }
+    }, [props.currentTeam?.id]);
 
     useEffect(() => {
         if (props.currentChannelId) {
