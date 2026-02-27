@@ -214,9 +214,15 @@ func (a *App) FetchSamlMetadataFromIdp(url string) ([]byte, *model.AppError) {
 	}
 	defer resp.Body.Close()
 
-	bodyXML, err := io.ReadAll(resp.Body)
+	// Limit response size to 10MB to prevent potential DoS attacks via memory exhaustion.
+	const maxMetadataSize = 10 * 1024 * 1024
+	bodyXML, err := io.ReadAll(io.LimitReader(resp.Body, maxMetadataSize+1))
 	if err != nil {
 		return nil, model.NewAppError("FetchSamlMetadataFromIdp", "app.admin.saml.failure_read_response_body_from_idp.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	if len(bodyXML) > maxMetadataSize {
+		return nil, model.NewAppError("FetchSamlMetadataFromIdp", "app.admin.saml.failure_read_response_body_from_idp.app_error", nil, "Metadata response too large", http.StatusBadRequest)
 	}
 
 	return bodyXML, nil
@@ -260,6 +266,9 @@ func (a *App) SetSamlIdpCertificateFromMetadata(data []byte) *model.AppError {
 	fixedCertTxt := certPrefix + string(data) + certSuffix
 
 	block, _ := pem.Decode([]byte(fixedCertTxt))
+	if block == nil {
+		return model.NewAppError("SetSamlIdpCertificateFromMetadata", "api.admin.saml.failure_parse_idp_certificate.app_error", nil, "failed to decode PEM block", http.StatusInternalServerError)
+	}
 	if _, e := x509.ParseCertificate(block.Bytes); e != nil {
 		return model.NewAppError("SetSamlIdpCertificateFromMetadata", "api.admin.saml.failure_parse_idp_certificate.app_error", nil, "", http.StatusInternalServerError).Wrap(e)
 	}

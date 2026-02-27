@@ -350,7 +350,7 @@ func (s *SqlDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicy
 		Select("Drafts.UserId", "Drafts.ChannelId", "Drafts.RootId").
 		From("Drafts")
 
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+	count, _, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
 		BaseBuilder:         builder,
 		Table:               "Drafts",
 		TimeColumn:          "CreateAt",
@@ -360,4 +360,6 @@ func (s *SqlDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicy
 		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
 		Limit:               retentionPolicyBatchConfigs.Limit,
 	}, s.SqlStore, cursor)
+
+	return count, newCursor, err
 }
