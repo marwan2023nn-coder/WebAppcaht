@@ -428,7 +428,7 @@ func (s *SqlReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPol
 		Select("Reactions.PostId", "Reactions.UserId", "Reactions.EmojiName").
 		From("Reactions")
 
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+	count, _, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
 		BaseBuilder:         builder,
 		Table:               "Reactions",
 		TimeColumn:          "CreateAt",
@@ -438,4 +438,5 @@ func (s *SqlReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPol
 		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
 		Limit:               retentionPolicyBatchConfigs.Limit,
 	}, s.SqlStore, cursor)
+	return count, newCursor, err
 }

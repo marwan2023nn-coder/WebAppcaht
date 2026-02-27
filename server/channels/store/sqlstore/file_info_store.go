@@ -885,20 +885,3 @@ func (fs SqlFileInfoStore) RefreshFileStats() error {
 	return nil
 }
 
-func (fs SqlFileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
-	builder := fs.getQueryBuilder().
-		Select("FileInfo.Id").
-		From("FileInfo")
-
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
-		BaseBuilder:         builder,
-		Table:               "FileInfo",
-		TimeColumn:          "CreateAt",
-		PrimaryKeys:         []string{"Id"},
-		ChannelIDTable:      "FileInfo",
-		NowMillis:           retentionPolicyBatchConfigs.Now,
-		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
-		Limit:               retentionPolicyBatchConfigs.Limit,
-		StoreDeletedIds:     true,
-	}, fs.SqlStore, cursor)
-}
