@@ -82,15 +82,17 @@ export function handleNewPost(post: Post, msg?: {data?: NewPostMessageProps & Gr
             await dispatch(getMyChannelMember(post.channel_id));
         }
 
-        dispatch(completePostReceive(post, websocketMessageProps as NewPostMessageProps, myChannelMemberDoesntExist));
+        const actions: AnyAction[] = [completePostReceive(post, websocketMessageProps as NewPostMessageProps, myChannelMemberDoesntExist)];
 
         if (msg && msg.data) {
             if (msg.data.channel_type === Constants.DM_CHANNEL) {
-                dispatch(loadNewDMIfNeeded(post.channel_id));
+                actions.push(loadNewDMIfNeeded(post.channel_id));
             } else if (msg.data.channel_type === Constants.GM_CHANNEL) {
-                dispatch(loadNewGMIfNeeded(post.channel_id));
+                actions.push(loadNewGMIfNeeded(post.channel_id));
             }
         }
+
+        dispatch(batchActions(actions));
 
         return {data: true};
     };
@@ -145,17 +147,19 @@ export function createPost(
     options?: OnSubmitOptions,
 ): ActionFuncAsync<PostActions.CreatePostReturnType> {
     return async (dispatch) => {
-        dispatch(addRecentEmojisForMessage(post.message));
+        const actions: AnyAction[] = [addRecentEmojisForMessage(post.message)];
 
         const result = await dispatch(PostActions.createPost(post, files, afterSubmit));
 
         if (!options?.keepDraft) {
             if (post.root_id) {
-                dispatch(storeCommentDraft(post.root_id, null));
+                actions.push(storeCommentDraft(post.root_id, null));
             } else {
-                dispatch(storeDraft(post.channel_id, null));
+                actions.push(storeDraft(post.channel_id, null));
             }
         }
+
+        dispatch(batchActions(actions));
 
         options?.afterOptimisticSubmit?.();
         return result;
