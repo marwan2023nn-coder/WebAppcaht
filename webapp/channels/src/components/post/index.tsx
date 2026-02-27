@@ -26,7 +26,7 @@ import { getFullName } from 'workspace-redux/utils/user_utils';
 import { markPostAsUnread, emitShortcutReactToLastPostFrom } from 'actions/post_actions';
 import { closeRightHandSide, selectPost, setRhsExpanded, selectPostCard, selectPostFromRightHandSideSearch } from 'actions/views/rhs';
 import { getShortcutReactToLastPostEmittedFrom, getOneClickReactionEmojis } from 'selectors/emojis';
-import { makeGetIsPostBeingEdited, makeGetIsPostBeingEditedInRHS, isEmbedVisible } from 'selectors/posts';
+import { getIsPostBeingEdited, getIsPostBeingEditedInRHS, isEmbedVisible } from 'selectors/posts';
 import {
     isThisPostBurnOnReadPost,
     hasUserRevealedBurnOnReadPost,
@@ -91,8 +91,6 @@ function isConsecutivePost(state: GlobalState, ownProps: OwnProps) {
 function makeMapStateToProps() {
     const isPostCommentMention = makeIsPostCommentMention();
     const getReplyCount = makeGetCommentCountForPost();
-    const getIsPostBeingEdited = makeGetIsPostBeingEdited();
-    const getIsPostBeingEditedInRHS = makeGetIsPostBeingEditedInRHS();
 
     return function mapStateToProps(state: GlobalState, ownProps: OwnProps) {
         let post;

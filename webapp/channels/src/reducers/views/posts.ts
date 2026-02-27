@@ -50,15 +50,6 @@ function menuActions(state: {[postId: string]: {[actionId: string]: {text: strin
         }
         return nextState;
     }
-    case ActionTypes.REMOVE_POST:
-    case ActionTypes.POST_DELETED: {
-        if (!action.data || !state[action.data.id]) {
-            return state;
-        }
-        const nextState = {...state};
-        delete nextState[action.data.id];
-        return nextState;
-    }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:

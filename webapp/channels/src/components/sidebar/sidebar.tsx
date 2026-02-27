@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {lazy, useCallback, useEffect, useState, memo} from 'react';
+import React, {lazy} from 'react';
 
 import {makeAsyncComponent} from 'components/async_load';
 import DataPrefetch from 'components/data_prefetch';
@@ -59,41 +59,55 @@ type State = {
     channelSearchTerm: string;
 };
 
-const Sidebar = (props: Props) => {
-    const [showDirectChannelsModal, setShowDirectChannelsModal] = useState(false);
-    const [isDragging, setIsDragging] = useState(false);
-    const [channelSearchTerm, setChannelSearchTerm] = useState('');
+export default class Sidebar extends React.PureComponent<Props, State> {
+    constructor(props: Props) {
+        super(props);
+        this.state = {
+            showDirectChannelsModal: false,
+            isDragging: false,
+            channelSearchTerm: '',
+        };
+    }
 
-    const handleChannelSearchChange = useCallback((searchTerm: string) => {
-        setChannelSearchTerm(searchTerm);
-    }, []);
+    handleChannelSearchChange = (searchTerm: string) => {
+        this.setState({channelSearchTerm: searchTerm});
+    };
 
-    const handleClearChannelSearch = useCallback(() => {
-        setChannelSearchTerm('');
-    }, []);
+    handleClearChannelSearch = () => {
+        this.setState({channelSearchTerm: ''});
+    };
 
-    const closeEditRHS = useCallback(() => {
-        if (props.rhsOpen && props.rhsState === RHSStates.EDIT_HISTORY) {
-            props.actions.closeRightHandSide();
+    componentDidMount() {
+        if (this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
         }
-    }, [props.rhsOpen, props.rhsState, props.actions]);
 
-    useEffect(() => {
-        if (props.teamId) {
-            props.actions.fetchMyCategories(props.teamId);
+        window.addEventListener('click', this.handleClickClearChannelSelection);
+        window.addEventListener('keydown', this.handleKeyDownEvent);
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.teamId && prevProps.teamId !== this.props.teamId) {
+            this.props.actions.fetchMyCategories(this.props.teamId);
         }
-    }, [props.teamId, props.actions]);
+    }
 
-    const handleClickClearChannelSelection = useCallback((event: MouseEvent) => {
+    componentWillUnmount() {
+        window.removeEventListener('click', this.handleClickClearChannelSelection);
+        window.removeEventListener('keydown', this.handleKeyDownEvent);
+    }
+
+    handleClickClearChannelSelection = (event: MouseEvent) => {
         if (event.defaultPrevented) {
             return;
         }
-        props.actions.clearChannelSelection();
-    }, [props.actions]);
 
-    const handleKeyDownEvent = useCallback((event: KeyboardEvent) => {
+        this.props.actions.clearChannelSelection();
+    };
+
+    handleKeyDownEvent = (event: KeyboardEvent) => {
         if (isKeyPressed(event, Constants.KeyCodes.ESCAPE)) {
-            props.actions.clearChannelSelection();
+            this.props.actions.clearChannelSelection();
             return;
         }
 
@@ -102,17 +116,18 @@ const Sidebar = (props: Props) => {
         if (ctrlOrMetaKeyPressed) {
             if (isKeyPressed(event, Constants.KeyCodes.FORWARD_SLASH)) {
                 event.preventDefault();
-                if (props.isKeyBoardShortcutModalOpen) {
-                    props.actions.closeModal(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
+                if (this.props.isKeyBoardShortcutModalOpen) {
+                    this.props.actions.closeModal(ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL);
                 } else {
-                    props.actions.openModal({
+                    this.props.actions.openModal({
                         modalId: ModalIdentifiers.KEYBOARD_SHORTCUTS_MODAL,
                         dialogType: KeyboardShortcutsModal,
                     });
                 }
             } else if (isKeyPressed(event, Constants.KeyCodes.A) && event.shiftKey) {
                 event.preventDefault();
-                props.actions.openModal({
+
+                this.props.actions.openModal({
                     modalId: ModalIdentifiers.USER_SETTINGS,
                     dialogType: UserSettingsModal,
                     dialogProps: {
@@ -122,131 +137,154 @@ const Sidebar = (props: Props) => {
                 });
             }
         }
-    }, [props.actions, props.isKeyBoardShortcutModalOpen]);
+    };
 
-    useEffect(() => {
-        window.addEventListener('click', handleClickClearChannelSelection);
-        window.addEventListener('keydown', handleKeyDownEvent);
-        return () => {
-            window.removeEventListener('click', handleClickClearChannelSelection);
-            window.removeEventListener('keydown', handleKeyDownEvent);
-        };
-    }, [handleClickClearChannelSelection, handleKeyDownEvent]);
+    showMoreDirectChannelsModal = () => {
+        this.setState({showDirectChannelsModal: true});
+    };
 
-    const showCreateCategoryModal = useCallback(() => {
-        props.actions.openModal({
+    hideMoreDirectChannelsModal = () => {
+        this.setState({showDirectChannelsModal: false});
+    };
+
+    showCreateCategoryModal = () => {
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.EDIT_CATEGORY,
             dialogType: EditCategoryModal,
             dialogProps: {},
         });
-    }, [props.actions]);
+    };
 
-    const showMoreChannelsModal = useCallback(() => {
-        props.actions.openModal({
+    showMoreChannelsModal = () => {
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.MORE_CHANNELS,
             dialogType: BrowseChannels,
         });
-    }, [props.actions]);
+    };
 
-    const invitePeopleModal = useCallback(() => {
-        props.actions.openModal({
+    invitePeopleModal = () => {
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.INVITATION,
             dialogType: InvitationModal,
             dialogProps: {focusOriginElement: 'browseOrAddChannelMenuButton'},
         });
-    }, [props.actions]);
+    };
 
-    const showNewChannelModal = useCallback(() => {
-        props.actions.openModal({
+    showNewChannelModal = () => {
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.NEW_CHANNEL_MODAL,
             dialogType: NewChannelModal,
         });
-        closeEditRHS();
-    }, [props.actions, closeEditRHS]);
+        this.closeEditRHS();
+    };
 
-    const showCreateUserGroupModal = useCallback(() => {
-        props.actions.openModal({
+    showCreateUserGroupModal = () => {
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.USER_GROUPS_CREATE,
             dialogType: CreateUserGroupsModal,
         });
-    }, [props.actions]);
+    };
 
-    const handleOpenMoreDirectChannelsModal = useCallback((e?: Event) => {
+    handleOpenMoreDirectChannelsModal = (e?: Event) => {
         e?.preventDefault();
-        setShowDirectChannelsModal((prev) => {
-            if (!prev) {
-                closeEditRHS();
-            }
-            return !prev;
-        });
-    }, [closeEditRHS]);
+        if (this.state.showDirectChannelsModal) {
+            this.hideMoreDirectChannelsModal();
+        } else {
+            this.showMoreDirectChannelsModal();
+            this.closeEditRHS();
+        }
+    };
 
-    const onDragStart = useCallback(() => setIsDragging(true), []);
-    const onDragEnd = useCallback(() => setIsDragging(false), []);
+    onDragStart = () => {
+        this.setState({isDragging: true});
+    };
 
-    if (!props.teamId) {
-        return (<div/>);
-    }
+    onDragEnd = () => {
+        this.setState({isDragging: false});
+    };
 
-    const ariaLabel = localizeMessage({id: 'accessibility.sections.lhsNavigator', defaultMessage: 'channel navigator region'});
-
-    return (
-        <ResizableLhs
-            id='SidebarContainer'
-            className={classNames({
-                'move--right': props.isOpen && props.isMobileView,
-                dragging: isDragging,
-            })}
-        >
-            {props.isMobileView ? <MobileSidebarHeader/> : (
-                <SidebarHeader
-                    showNewChannelModal={showNewChannelModal}
-                    showMoreChannelsModal={showMoreChannelsModal}
-                    showCreateUserGroupModal={showCreateUserGroupModal}
-                    invitePeopleModal={invitePeopleModal}
-                    showCreateCategoryModal={showCreateCategoryModal}
-                    canCreateChannel={props.canCreatePrivateChannel || props.canCreatePublicChannel}
-                    canJoinPublicChannel={props.canJoinPublicChannel}
-                    handleOpenDirectMessagesModal={handleOpenMoreDirectChannelsModal}
-                    unreadFilterEnabled={props.unreadFilterEnabled}
-                    canCreateCustomGroups={props.canCreateCustomGroups}
-                />
-            )}
-            <div
-                id='lhsNavigator'
-                role='application'
-                aria-label={ariaLabel}
-                className='a11y__region'
-                data-a11y-sort-order='6'
-            >
-                <ChannelNavigator
-                    searchTerm={channelSearchTerm}
-                    onSearchTermChange={handleChannelSearchChange}
-                    onClearSearchTerm={handleClearChannelSearch}
-                />
-            </div>
-            <div className='sidebar--left__icons'>
-                <Pluggable pluggableName='LeftSidebarHeader'/>
-            </div>
-            <SidebarList
-                handleOpenMoreDirectChannelsModal={handleOpenMoreDirectChannelsModal}
-                onDragStart={onDragStart}
-                onDragEnd={onDragEnd}
-                toggleDirectMessagesSidebar={props.toggleDirectMessagesSidebar}
-                showDirectMessages={props.showDirectMessages}
-                channelSearchTerm={channelSearchTerm}
-                onClearChannelSearchTerm={handleClearChannelSearch}
-            />
-            <DataPrefetch/>
-            {showDirectChannelsModal && (
+    renderModals = () => {
+        let moreDirectChannelsModal;
+        if (this.state.showDirectChannelsModal) {
+            moreDirectChannelsModal = (
                 <MoreDirectChannels
-                    onModalDismissed={() => setShowDirectChannelsModal(false)}
+                    onModalDismissed={this.hideMoreDirectChannelsModal}
                     isExistingChannel={false}
                     focusOriginElement='newDirectMessageButton'
                 />
-            )}
-        </ResizableLhs>
-    );
-};
+            );
+        }
 
-export default memo(Sidebar);
+        return (
+            <>
+                {moreDirectChannelsModal}
+            </>
+        );
+    };
+
+    closeEditRHS = () => {
+        if (this.props.rhsOpen && this.props.rhsState === RHSStates.EDIT_HISTORY) {
+            this.props.actions.closeRightHandSide();
+        }
+    };
+
+    render() {
+        if (!this.props.teamId) {
+            return (<div/>);
+        }
+
+        const ariaLabel = localizeMessage({id: 'accessibility.sections.lhsNavigator', defaultMessage: 'channel navigator region'});
+
+        return (
+            <ResizableLhs
+                id='SidebarContainer'
+                className={classNames({
+                    'move--right': this.props.isOpen && this.props.isMobileView,
+                    dragging: this.state.isDragging,
+                })}
+            >
+                {this.props.isMobileView ? <MobileSidebarHeader/> : (
+                    <SidebarHeader
+                        showNewChannelModal={this.showNewChannelModal}
+                        showMoreChannelsModal={this.showMoreChannelsModal}
+                        showCreateUserGroupModal={this.showCreateUserGroupModal}
+                        invitePeopleModal={this.invitePeopleModal}
+                        showCreateCategoryModal={this.showCreateCategoryModal}
+                        canCreateChannel={this.props.canCreatePrivateChannel || this.props.canCreatePublicChannel}
+                        canJoinPublicChannel={this.props.canJoinPublicChannel}
+                        handleOpenDirectMessagesModal={this.handleOpenMoreDirectChannelsModal}
+                        unreadFilterEnabled={this.props.unreadFilterEnabled}
+                        canCreateCustomGroups={this.props.canCreateCustomGroups}
+                    />
+                )}
+                <div
+                    id='lhsNavigator'
+                    role='application'
+                    aria-label={ariaLabel}
+                    className='a11y__region'
+                    data-a11y-sort-order='6'
+                >
+                    <ChannelNavigator
+                        searchTerm={this.state.channelSearchTerm}
+                        onSearchTermChange={this.handleChannelSearchChange}
+                        onClearSearchTerm={this.handleClearChannelSearch}
+                    />
+                </div>
+                <div className='sidebar--left__icons'>
+                    <Pluggable pluggableName='LeftSidebarHeader'/>
+                </div>
+                <SidebarList
+                    handleOpenMoreDirectChannelsModal={this.handleOpenMoreDirectChannelsModal}
+                    onDragStart={this.onDragStart}
+                    onDragEnd={this.onDragEnd}
+                    toggleDirectMessagesSidebar={this.props.toggleDirectMessagesSidebar}
+                    showDirectMessages={this.props.showDirectMessages}
+                    channelSearchTerm={this.state.channelSearchTerm}
+                    onClearChannelSearchTerm={this.handleClearChannelSearch}
+                />
+                <DataPrefetch/>
+                {this.renderModals()}
+            </ResizableLhs>
+        );
+    }
+}
