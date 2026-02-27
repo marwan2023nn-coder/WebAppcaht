@@ -360,5 +360,6 @@ func (s *SqlDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicy
 		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
 		Limit:               retentionPolicyBatchConfigs.Limit,
 	}, s.SqlStore, cursor)
+
 	return count, newCursor, err
 }

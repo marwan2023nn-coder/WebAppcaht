@@ -180,3 +180,7 @@ func (d *dataRetention) GetChannelPoliciesForUser(userID string, offset, limit i
 func (d *dataRetention) internalError(methodName string, err error) *model.AppError {
 	return model.NewAppError("dataRetention."+methodName, "ent.data_retention.policies.internal_error", nil, "", http.StatusInternalServerError).Wrap(err)
 }
+
+func NewDataRetentionImpl(a *App) einterfaces.DataRetentionInterface {
+	return &dataRetention{a}
+}

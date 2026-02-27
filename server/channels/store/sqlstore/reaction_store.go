@@ -438,5 +438,6 @@ func (s *SqlReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPol
 		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
 		Limit:               retentionPolicyBatchConfigs.Limit,
 	}, s.SqlStore, cursor)
+
 	return count, newCursor, err
 }
