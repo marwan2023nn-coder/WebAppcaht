@@ -778,7 +778,6 @@ type FileInfoStore interface {
 	GetUptoNSizeFileTime(n int64) (int64, error)
 	// RefreshFileStats recomputes the fileinfo materialized views.
 	RefreshFileStats() error
-	PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error)
 }
 
 type UploadSessionStore interface {

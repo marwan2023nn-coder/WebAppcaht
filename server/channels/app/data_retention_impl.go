@@ -14,10 +14,8 @@ type dataRetention struct {
 	app *App
 }
 
-func init() {
-	RegisterDataRetentionInterface(func(a *App) einterfaces.DataRetentionInterface {
-		return &dataRetention{a}
-	})
+func NewDataRetentionImpl(a *App) einterfaces.DataRetentionInterface {
+	return &dataRetention{a}
 }
 
 func (d *dataRetention) GetGlobalPolicy() (*model.GlobalRetentionPolicy, *model.AppError) {
