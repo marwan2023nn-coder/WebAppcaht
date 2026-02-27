@@ -1008,7 +1008,8 @@ func (s *ServiceSettings) SetDefaults(isUpdate bool) {
 	}
 
 	if s.EnableWebHubChannelIteration == nil {
-		s.EnableWebHubChannelIteration = NewPointer(false)
+		// Enabled by default for Enterprise-grade performance (fast WebSocket iteration)
+		s.EnableWebHubChannelIteration = NewPointer(true)
 	}
 
 	if s.FrameAncestors == nil {
@@ -1498,11 +1499,13 @@ func (s *SqlSettings) SetDefaults(isUpdate bool) {
 	}
 
 	if s.MaxIdleConns == nil {
-		s.MaxIdleConns = NewPointer(50)
+		// Optimized for Enterprise-grade connection pooling
+		s.MaxIdleConns = NewPointer(100)
 	}
 
 	if s.MaxOpenConns == nil {
-		s.MaxOpenConns = NewPointer(100)
+		// Optimized for Enterprise-grade connection pooling
+		s.MaxOpenConns = NewPointer(200)
 	}
 
 	if s.ConnMaxLifetimeMilliseconds == nil {

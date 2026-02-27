@@ -2466,7 +2466,7 @@ func (s *SqlPostStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyB
 		})
 	}
 
-	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+	count, _, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
 		BaseBuilder:         builder,
 		Table:               "Posts",
 		TimeColumn:          "CreateAt",
@@ -2477,6 +2477,7 @@ func (s *SqlPostStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyB
 		Limit:               retentionPolicyBatchConfigs.Limit,
 		StoreDeletedIds:     true,
 	}, s.SqlStore, cursor)
+	return count, newCursor, err
 }
 
 func (s *SqlPostStore) PermanentDeleteBatch(endTime int64, limit int64) (int64, error) {

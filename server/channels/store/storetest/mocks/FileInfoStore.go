@@ -505,6 +505,41 @@ func (_m *FileInfoStore) PermanentDelete(rctx request.CTX, fileID string) error 
 	return r0
 }
 
+// PermanentDeleteBatchForRetentionPolicies provides a mock function with given fields: retentionPolicyBatchConfigs, cursor
+func (_m *FileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	ret := _m.Called(retentionPolicyBatchConfigs, cursor)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PermanentDeleteBatchForRetentionPolicies")
+	}
+
+	var r0 int64
+	var r1 model.RetentionPolicyCursor
+	var r2 error
+	if rf, ok := ret.Get(0).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error)); ok {
+		return rf(retentionPolicyBatchConfigs, cursor)
+	}
+	if rf, ok := ret.Get(0).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) int64); ok {
+		r0 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	if rf, ok := ret.Get(1).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) model.RetentionPolicyCursor); ok {
+		r1 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r1 = ret.Get(1).(model.RetentionPolicyCursor)
+	}
+
+	if rf, ok := ret.Get(2).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) error); ok {
+		r2 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // PermanentDeleteBatch provides a mock function with given fields: rctx, endTime, limit
 func (_m *FileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime int64, limit int64) (int64, error) {
 	ret := _m.Called(rctx, endTime, limit)
@@ -735,4 +770,8 @@ func NewFileInfoStore(t interface {
 	t.Cleanup(func() { mock.AssertExpectations(t) })
 
 	return mock
+}
+
+func (_m *FileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	return 0, model.RetentionPolicyCursor{}, nil
 }

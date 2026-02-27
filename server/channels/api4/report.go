@@ -190,12 +190,13 @@ func fillUserReportOptions(values url.Values) (*model.UserReportOptions, *model.
 	}
 
 	return &model.UserReportOptions{
-		Team:         teamFilter,
-		Role:         values.Get("role_filter"),
-		HasNoTeam:    values.Get("has_no_team") == "true",
-		HideActive:   hideActive,
-		HideInactive: hideInactive,
-		SearchTerm:   values.Get("search_term"),
+		Team:           teamFilter,
+		Role:           values.Get("role_filter"),
+		HasNoTeam:      values.Get("has_no_team") == "true",
+		HideActive:     hideActive,
+		HideInactive:   hideInactive,
+		ShowOnlineOnly: values.Get("show_online_only") == "true",
+		SearchTerm:     values.Get("search_term"),
 	}, nil
 }
 

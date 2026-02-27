@@ -32,7 +32,8 @@ func createScheme(c *Context, w http.ResponseWriter, r *http.Request) {
 	defer c.LogAuditRec(auditRec)
 	model.AddEventParameterAuditableToAuditRec(auditRec, "scheme", &scheme)
 
-	if c.App.Channels().License() == nil || (!*c.App.Channels().License().Features.CustomPermissionsSchemes && c.App.Channels().License().SkuShortName != model.LicenseShortSkuProfessional) {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || (!model.SafeDereference(license.Features.CustomPermissionsSchemes) && license.SkuShortName != model.LicenseShortSkuProfessional) {
 		c.Err = model.NewAppError("Api4.CreateScheme", "api.scheme.create_scheme.license.error", nil, "", http.StatusNotImplemented)
 		return
 	}
@@ -197,7 +198,8 @@ func patchScheme(c *Context, w http.ResponseWriter, r *http.Request) {
 	model.AddEventParameterAuditableToAuditRec(auditRec, "scheme_patch", &patch)
 	defer c.LogAuditRec(auditRec)
 
-	if c.App.Channels().License() == nil || (!*c.App.Channels().License().Features.CustomPermissionsSchemes && c.App.Channels().License().SkuShortName != model.LicenseShortSkuProfessional) {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || (!model.SafeDereference(license.Features.CustomPermissionsSchemes) && license.SkuShortName != model.LicenseShortSkuProfessional) {
 		c.Err = model.NewAppError("Api4.PatchScheme", "api.scheme.patch_scheme.license.error", nil, "", http.StatusNotImplemented)
 		return
 	}
@@ -242,7 +244,8 @@ func deleteScheme(c *Context, w http.ResponseWriter, r *http.Request) {
 	model.AddEventParameterToAuditRec(auditRec, "scheme_id", c.Params.SchemeId)
 	defer c.LogAuditRec(auditRec)
 
-	if c.App.Channels().License() == nil || (!*c.App.Channels().License().Features.CustomPermissionsSchemes && c.App.Channels().License().SkuShortName != model.LicenseShortSkuProfessional) {
+	license := c.App.Channels().License()
+	if license == nil || license.Features == nil || (!model.SafeDereference(license.Features.CustomPermissionsSchemes) && license.SkuShortName != model.LicenseShortSkuProfessional) {
 		c.Err = model.NewAppError("Api4.DeleteScheme", "api.scheme.delete_scheme.license.error", nil, "", http.StatusNotImplemented)
 		return
 	}

@@ -508,6 +508,42 @@ func (fs SqlFileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime int64,
 	return rowsAffected, nil
 }
 
+func (fs SqlFileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	builder := fs.getQueryBuilder().
+		Select("FileInfo.Id").
+		From("FileInfo")
+
+	count, deletedIds, newCursor, err := genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+		BaseBuilder:         builder,
+		Table:               "FileInfo",
+		TimeColumn:          "CreateAt",
+		PrimaryKeys:         []string{"Id"},
+		ChannelIDTable:      "FileInfo",
+		NowMillis:           retentionPolicyBatchConfigs.Now,
+		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
+		Limit:               retentionPolicyBatchConfigs.Limit,
+		StoreDeletedIds:     true,
+		ReturningColumn:     "Path", // Return Path so the worker can clean up storage
+	}, fs.SqlStore, cursor)
+
+	if err == nil && len(deletedIds) > 0 {
+		// Store paths in a special TableName for the worker to process
+		if txn, txnErr := fs.GetMaster().Beginx(); txnErr == nil {
+			row := &model.RetentionIdsForDeletion{
+				TableName: "FileInfoPaths",
+				Ids:       deletedIds,
+			}
+			if insertErr := insertRetentionIdsForDeletion(txn, row, fs.SqlStore); insertErr == nil {
+				txn.Commit()
+			} else {
+				txn.Rollback()
+			}
+		}
+	}
+
+	return count, newCursor, err
+}
+
 func (fs SqlFileInfoStore) PermanentDeleteByUser(rctx request.CTX, userId string) (int64, error) {
 	query := "DELETE from FileInfo WHERE CreatorId = ?"
 
@@ -847,4 +883,22 @@ func (fs SqlFileInfoStore) RefreshFileStats() error {
 	}
 
 	return nil
+}
+
+func (fs SqlFileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	builder := fs.getQueryBuilder().
+		Select("FileInfo.Id").
+		From("FileInfo")
+
+	return genericPermanentDeleteBatchForRetentionPolicies(RetentionPolicyBatchDeletionInfo{
+		BaseBuilder:         builder,
+		Table:               "FileInfo",
+		TimeColumn:          "CreateAt",
+		PrimaryKeys:         []string{"Id"},
+		ChannelIDTable:      "FileInfo",
+		NowMillis:           retentionPolicyBatchConfigs.Now,
+		GlobalPolicyEndTime: retentionPolicyBatchConfigs.GlobalPolicyEndTime,
+		Limit:               retentionPolicyBatchConfigs.Limit,
+		StoreDeletedIds:     true,
+	}, fs.SqlStore, cursor)
 }

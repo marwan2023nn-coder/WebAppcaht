@@ -43,6 +43,7 @@ function mapStateToProps(state: GlobalState) {
     const tablePropertyFilterTeamLabel = tableProperties?.filterTeamLabel ?? '';
     const tablePropertyFilterRole = tableProperties?.filterRole ?? RoleFilters.Any;
     const tablePropertyFilterStatus = tableProperties?.filterStatus ?? StatusFilter.Any;
+    const tablePropertyShowOnlineOnly = tableProperties?.showOnlineOnly ?? adminConsoleUserManagementTablePropertiesInitialState.showOnlineOnly;
     const tablePropertyDateRange = tableProperties?.dateRange ?? ReportDuration.AllTime;
 
     return {
@@ -64,6 +65,7 @@ function mapStateToProps(state: GlobalState) {
         tablePropertyFilterTeamLabel,
         tablePropertyFilterRole,
         tablePropertyFilterStatus,
+        tablePropertyShowOnlineOnly,
         tablePropertyDateRange,
     };
 }

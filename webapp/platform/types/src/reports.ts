@@ -35,6 +35,7 @@ export type UserReportFilter = {
     team_filter?: string;
     hide_active?: boolean;
     hide_inactive?: boolean;
+    show_online_only?: boolean;
     search_term?: string;
 }
 
