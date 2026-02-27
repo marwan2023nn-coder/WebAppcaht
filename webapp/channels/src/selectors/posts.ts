@@ -21,24 +21,23 @@ import {StoragePrefixes} from 'utils/constants';
 import type {GlobalState} from 'types/store';
 import type {EditingPostDetails} from 'types/store/views';
 
-export const makeGetIsPostBeingEdited = () => createSelector(
-    'makeGetIsPostBeingEdited',
-    (state: GlobalState) => state.views.posts.editingPost.postId,
-    (state: GlobalState) => state.views.posts.editingPost.show,
-    (_state: GlobalState, postId: string) => postId,
-    (editingPostId, show, postId) => editingPostId === postId && show,
-);
+export function getIsPostBeingEdited(state: GlobalState, postId: string) {
+    return state.views.posts.editingPost.postId === postId && state.views.posts.editingPost.show;
+}
 
-export const getIsPostMultiSelectModeEnabled = (state: GlobalState) => state.views.posts.multiSelect.enabled;
+export function getIsPostMultiSelectModeEnabled(state: GlobalState) {
+    return state.views.posts.multiSelect.enabled;
+}
 
-export const getMultiSelectedPostIds = (state: GlobalState) => state.views.posts.multiSelect.selectedPostIds;
+export function getMultiSelectedPostIds(state: GlobalState) {
+    return state.views.posts.multiSelect.selectedPostIds;
+}
 
-export const makeGetIsPostBeingEditedInRHS = () => createSelector(
-    'makeGetIsPostBeingEditedInRHS',
-    getEditingPostDetailsAndPost,
-    (_state: GlobalState, postId: string) => postId,
-    (editingPost, postId) => editingPost.isRHS && editingPost.postId === postId && editingPost.show,
-);
+export function getIsPostBeingEditedInRHS(state: GlobalState, postId: string) {
+    const editingPost = getEditingPostDetailsAndPost(state);
+
+    return editingPost.isRHS && editingPost.postId === postId && state.views.posts.editingPost.show;
+}
 
 export function getPostEditHistory(state: GlobalState): Post[] {
     return state.entities.posts.postEditHistory;

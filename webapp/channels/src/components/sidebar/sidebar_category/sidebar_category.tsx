@@ -3,10 +3,10 @@
 
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import React, {useCallback, useEffect, useMemo, useRef, useState, memo} from 'react';
+import React from 'react';
 import type {MouseEvent, KeyboardEvent} from 'react';
 import {Draggable, Droppable} from 'react-beautiful-dnd';
-import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
+import {FormattedMessage, defineMessages} from 'react-intl';
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 import glyphMap, {PlusIcon, ProductChannelsIcon} from '@workspace/compass-icons/components';
@@ -90,461 +90,713 @@ type State = {
     suggestedChannelsForTerm: string;
 }
 
-const SidebarCategory = (props: Props) => {
-    const categoryTitleRef = useRef<HTMLButtonElement>(null);
-    const newDropBoxRef = useRef<HTMLDivElement>(null);
+export default class SidebarCategory extends React.PureComponent<Props, State> {
+    categoryTitleRef: React.RefObject<HTMLButtonElement>;
+    newDropBoxRef: React.RefObject<HTMLDivElement>;
 
-    const [isMenuOpen] = useState(false);
-    const [newMembersLoading, setNewMembersLoading] = useState(false);
-    const [newMembers, setNewMembers] = useState<UserProfile[]>([]);
-    const [suggestedChannelsLoading, setSuggestedChannelsLoading] = useState(false);
-    const [suggestedChannels, setSuggestedChannels] = useState<Channel[]>([]);
+    searchNewMembersDebounced: ReturnType<typeof debounce>;
+    searchSuggestedChannelsDebounced: ReturnType<typeof debounce>;
 
-    const intl = useIntl();
+    a11yKeyDownRegistered: boolean;
 
-    const searchNewMembers = useCallback(async (term: string) => {
-        const currentTerm = props.searchTerm?.trim() || '';
+    constructor(props: Props) {
+        super(props);
+
+        this.categoryTitleRef = React.createRef();
+        this.newDropBoxRef = React.createRef();
+
+        this.state = {
+            isMenuOpen: false,
+            newMembersLoading: false,
+            newMembers: [],
+            newMembersForTerm: '',
+
+            suggestedChannelsLoading: false,
+            suggestedChannels: [],
+            suggestedChannelsForTerm: '',
+        };
+
+        this.searchNewMembersDebounced = debounce((term: string) => {
+            this.searchNewMembers(term);
+        }, 250);
+
+        this.searchSuggestedChannelsDebounced = debounce((term: string) => {
+            this.searchSuggestedChannels(term);
+        }, 400);
+
+        this.a11yKeyDownRegistered = false;
+    }
+
+    componentDidUpdate(prevProps: Props) {
+        if (this.props.category.collapsed !== prevProps.category.collapsed && this.newDropBoxRef.current) {
+            this.newDropBoxRef.current.classList.add('animating');
+        }
+
+        const isDmCategory = this.props.category.type === CategoryTypes.DIRECT_MESSAGES;
+        if (isDmCategory) {
+            const nextTerm = this.props.searchTerm?.trim() || '';
+            const prevTerm = prevProps.searchTerm?.trim() || '';
+            if (nextTerm !== prevTerm) {
+                this.onNewMembersSearchTermChange(nextTerm);
+            }
+        }
+
+        const isChannelsCategory = this.props.category.type === CategoryTypes.CHANNELS;
+        if (isChannelsCategory) {
+            const nextTerm = this.props.searchTerm?.trim() || '';
+            const prevTerm = prevProps.searchTerm?.trim() || '';
+            if (nextTerm !== prevTerm) {
+                this.onSuggestedChannelsSearchTermChange(nextTerm);
+            }
+        }
+    }
+
+    onNewMembersSearchTermChange = (term: string) => {
+        if (!term) {
+            this.setState({newMembers: [], newMembersLoading: false, newMembersForTerm: ''});
+            return;
+        }
+
+        this.setState({newMembersLoading: true, newMembersForTerm: term});
+        this.searchNewMembersDebounced(term);
+    };
+
+    searchNewMembers = async (term: string) => {
+        const currentTerm = this.props.searchTerm?.trim() || '';
         if (!term || term !== currentTerm) {
             return;
         }
 
         try {
-            const teamId = props.restrictDirectMessage === 'any' ? '' : props.currentTeamId;
-            const options: Record<string, any> = {team_id: teamId};
-            if (props.enableSharedChannelsDMs === false) {
+            const teamId = this.props.restrictDirectMessage === 'any' ? '' : this.props.currentTeamId;
+            const options: Record<string, any> = {};
+            if (teamId !== undefined) {
+                options.team_id = teamId;
+            }
+            if (this.props.enableSharedChannelsDMs === false) {
                 options.exclude_remote = true;
             }
 
-            const {data} = await props.actions.searchProfiles(term, options);
-            const existing = new Set(props.existingDirectMessageUserIds || []);
-            const filtered = (data || []).filter((u) => u && !existing.has(u.id));
+            const {data} = await this.props.actions.searchProfiles(term, options);
+            const existing = new Set(this.props.existingDirectMessageUserIds || []);
+            const filtered = (data || []).filter((u) => {
+                if (!u) {
+                    return false;
+                }
+                return !existing.has(u.id);
+            });
 
-            if ((props.searchTerm?.trim() || '') === term) {
-                setNewMembers(filtered.slice(0, 10));
-                setNewMembersLoading(false);
+            const stillCurrent = (this.props.searchTerm?.trim() || '') === term;
+            if (!stillCurrent) {
+                return;
             }
+
+            this.setState({newMembers: filtered.slice(0, 10), newMembersLoading: false, newMembersForTerm: term});
         } catch {
-            if ((props.searchTerm?.trim() || '') === term) {
-                setNewMembers([]);
-                setNewMembersLoading(false);
+            const stillCurrent = (this.props.searchTerm?.trim() || '') === term;
+            if (!stillCurrent) {
+                return;
             }
+
+            this.setState({newMembers: [], newMembersLoading: false, newMembersForTerm: term});
         }
-    }, [props.searchTerm, props.restrictDirectMessage, props.currentTeamId, props.enableSharedChannelsDMs, props.existingDirectMessageUserIds, props.actions]);
+    };
 
-    const searchNewMembersDebounced = useMemo(() => debounce(searchNewMembers, 250), [searchNewMembers]);
+    handleNewMemberClick = async (userId: string) => {
+        const result = await this.props.actions.openDirectChannelToUserId(userId);
+        const channel = result?.data;
+        if (channel?.name && this.props.currentTeamName) {
+            getHistory().push('/' + this.props.currentTeamName + '/channels/' + channel.name);
+            this.props.onClearSearch?.();
+        }
+    };
 
-    const searchSuggestedChannels = useCallback(async (term: string) => {
-        const currentTerm = props.searchTerm?.trim() || '';
+    onSuggestedChannelsSearchTermChange = (term: string) => {
+        if (!term || term.length < 2) {
+            this.setState({suggestedChannels: [], suggestedChannelsLoading: false, suggestedChannelsForTerm: ''});
+            return;
+        }
+
+        this.setState({suggestedChannelsLoading: true, suggestedChannelsForTerm: term});
+        this.searchSuggestedChannelsDebounced(term);
+    };
+
+    searchSuggestedChannels = async (term: string) => {
+        const currentTerm = this.props.searchTerm?.trim() || '';
         if (!term || term.length < 2 || term !== currentTerm) {
             return;
         }
 
         try {
-            const teamId = props.currentTeamId;
+            const teamId = this.props.currentTeamId;
             if (!teamId) {
-                setSuggestedChannels([]);
-                setSuggestedChannelsLoading(false);
+                this.setState({suggestedChannels: [], suggestedChannelsLoading: false, suggestedChannelsForTerm: term});
                 return;
             }
 
-            const {data} = await props.actions.searchAllChannels(term, {team_ids: [teamId], nonAdminSearch: true, include_deleted: true}) as ActionResult<Channel[]>;
+            const {data} = await this.props.actions.searchAllChannels(term, {team_ids: [teamId], nonAdminSearch: true, include_deleted: true}) as ActionResult<Channel[]>;
             const channels = (data || []).filter((c) => c && c.team_id === teamId);
-            const memberships = props.myChannelMemberships || {};
-            const filtered = channels.filter((c) => c.delete_at === 0 && c.type === Constants.OPEN_CHANNEL && !memberships[c.id]);
 
-            if ((props.searchTerm?.trim() || '') === term) {
-                setSuggestedChannels(filtered.slice(0, 10));
-                setSuggestedChannelsLoading(false);
+            const memberships = this.props.myChannelMemberships || {};
+            const filtered = channels.filter((c) => {
+                if (c.delete_at !== 0) {
+                    return false;
+                }
+                if (c.type !== Constants.OPEN_CHANNEL) {
+                    return false;
+                }
+                return !memberships[c.id];
+            });
+
+            const stillCurrent = (this.props.searchTerm?.trim() || '') === term;
+            if (!stillCurrent) {
+                return;
             }
+
+            this.setState({suggestedChannels: filtered.slice(0, 10), suggestedChannelsLoading: false, suggestedChannelsForTerm: term});
         } catch {
-            if ((props.searchTerm?.trim() || '') === term) {
-                setSuggestedChannels([]);
-                setSuggestedChannelsLoading(false);
+            const stillCurrent = (this.props.searchTerm?.trim() || '') === term;
+            if (!stillCurrent) {
+                return;
             }
+
+            this.setState({suggestedChannels: [], suggestedChannelsLoading: false, suggestedChannelsForTerm: term});
         }
-    }, [props.searchTerm, props.currentTeamId, props.actions, props.myChannelMemberships]);
+    };
 
-    const searchSuggestedChannelsDebounced = useMemo(() => debounce(searchSuggestedChannels, 400), [searchSuggestedChannels]);
-
-    useEffect(() => {
-        const term = props.searchTerm?.trim() || '';
-        if (props.category.type === CategoryTypes.DIRECT_MESSAGES) {
-            if (!term) {
-                setNewMembers([]);
-                setNewMembersLoading(false);
-            } else {
-                setNewMembersLoading(true);
-                searchNewMembersDebounced(term);
-            }
-        } else if (props.category.type === CategoryTypes.CHANNELS) {
-            if (!term || term.length < 2) {
-                setSuggestedChannels([]);
-                setSuggestedChannelsLoading(false);
-            } else {
-                setSuggestedChannelsLoading(true);
-                searchSuggestedChannelsDebounced(term);
-            }
+    handleSuggestedChannelClick = async (channel: Channel) => {
+        const joinResult = await this.props.actions.joinChannelById(channel.id);
+        if (joinResult?.error) {
+            return;
         }
-    }, [props.searchTerm, props.category.type, searchNewMembersDebounced, searchSuggestedChannelsDebounced]);
 
-    useEffect(() => {
-        return () => {
-            searchNewMembersDebounced.cancel();
-            searchSuggestedChannelsDebounced.cancel();
-        };
-    }, [searchNewMembersDebounced, searchSuggestedChannelsDebounced]);
-
-    const handleNewMemberClick = useCallback(async (userId: string) => {
-        const result = await props.actions.openDirectChannelToUserId(userId);
-        const channel = result?.data;
-        if (channel?.name && props.currentTeamName) {
-            getHistory().push('/' + props.currentTeamName + '/channels/' + channel.name);
-            props.onClearSearch?.();
+        const switchResult = await this.props.actions.switchToChannel(channel);
+        if (switchResult?.error) {
+            return;
         }
-    }, [props.actions, props.currentTeamName, props.onClearSearch]);
 
-    const handleSuggestedChannelClick = useCallback(async (channel: Channel) => {
-        const joinResult = await props.actions.joinChannelById(channel.id);
-        if (!joinResult?.error) {
-            const switchResult = await props.actions.switchToChannel(channel);
-            if (!switchResult?.error) {
-                props.onClearSearch?.();
-            }
+        this.props.onClearSearch?.();
+    };
+
+    componentDidMount() {
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.addEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+    }
+
+    componentWillUnmount() {
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.ACTIVATE, this.handleA11yActivateEvent);
+        this.categoryTitleRef.current?.removeEventListener(A11yCustomEventTypes.DEACTIVATE, this.handleA11yDeactivateEvent);
+
+        this.searchNewMembersDebounced.cancel();
+        this.searchSuggestedChannelsDebounced.cancel();
+
+        if (this.a11yKeyDownRegistered) {
+            this.handleA11yDeactivateEvent();
         }
-    }, [props.actions, props.onClearSearch]);
+    }
 
-    const handleCollapse = useCallback(() => {
-        if (!props.isDirectMessageList) {
-            props.actions.setCategoryCollapsed(props.category.id, !props.category.collapsed);
-        }
-    }, [props.isDirectMessageList, props.category.id, props.category.collapsed, props.actions]);
+    handleA11yActivateEvent = () => {
+        this.categoryTitleRef.current?.addEventListener('keydown', this.handleA11yKeyDown);
 
-    const handleA11yKeyDown = useCallback((e: KeyboardEvent) => {
+        this.a11yKeyDownRegistered = true;
+    };
+
+    handleA11yDeactivateEvent = () => {
+        this.categoryTitleRef.current?.removeEventListener('keydown', this.handleA11yKeyDown);
+
+        this.a11yKeyDownRegistered = false;
+    };
+
+    handleA11yKeyDown = (e: KeyboardEvent<HTMLButtonElement>['nativeEvent']) => {
         if (isKeyPressed(e, Constants.KeyCodes.ENTER)) {
             e.preventDefault();
-            handleCollapse();
+            this.handleCollapse();
         }
-    }, [handleCollapse]);
+    };
 
-    useEffect(() => {
-        const el = categoryTitleRef.current;
-        const handleActivate = () => el?.addEventListener('keydown', handleA11yKeyDown as any);
-        const handleDeactivate = () => el?.removeEventListener('keydown', handleA11yKeyDown as any);
+    renderChannel = (channelId: string, index: number) => {
+        const {setChannelRef, category, draggingState} = this.props;
+        return (
+            <SidebarChannel
+                key={channelId}
+                channelIndex={index}
+                channelId={channelId}
+                isDraggable={true}
+                setChannelRef={setChannelRef}
+                isCategoryCollapsed={category.collapsed}
+                isCategoryDragged={draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id}
+                isAutoSortedCategory={category.sorting === CategorySorting.Alphabetical || category.sorting === CategorySorting.Recency}
+            />
+        );
+    };
 
-        el?.addEventListener(A11yCustomEventTypes.ACTIVATE, handleActivate);
-        el?.addEventListener(A11yCustomEventTypes.DEACTIVATE, handleDeactivate);
+    handleCollapse = () => {
+        const {category} = this.props;
 
-        return () => {
-            el?.removeEventListener(A11yCustomEventTypes.ACTIVATE, handleActivate);
-            el?.removeEventListener(A11yCustomEventTypes.DEACTIVATE, handleDeactivate);
-            el?.removeEventListener('keydown', handleA11yKeyDown as any);
-        };
-    }, [handleA11yKeyDown]);
-
-    useEffect(() => {
-        if (newDropBoxRef.current) {
-            newDropBoxRef.current.classList.add('animating');
+        if (this.props.isDirectMessageList) {
+            return;
         }
-    }, [props.category.collapsed]);
 
-    const removeAnimation = useCallback(() => {
-        newDropBoxRef.current?.classList.remove('animating');
-    }, []);
+        this.props.actions.setCategoryCollapsed(category.id, !category.collapsed);
+    };
 
-    const handleOpenDirectMessagesModal = useCallback((event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
+    removeAnimation = () => {
+        if (this.newDropBoxRef.current) {
+            this.newDropBoxRef.current.classList.remove('animating');
+        }
+    };
+
+    handleOpenDirectMessagesModal = (event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
         event.preventDefault();
-        props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
-    }, [props.handleOpenMoreDirectChannelsModal]);
 
-    const openMessageMultipleUsersDmModal = useCallback((e: React.MouseEvent) => {
+        this.props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
+    };
+
+    private openMessageMultipleUsersDmModal = (e: React.MouseEvent) => {
         e.preventDefault();
-        props.actions.openModal({
+
+        this.props.actions.openModal({
             modalId: ModalIdentifiers.MESSAGE_MULTIPLE_USERS_DM,
             dialogType: MessageMultipleUsersDmModal,
             dialogProps: {
-                onExited: () => props.actions.closeModal(ModalIdentifiers.MESSAGE_MULTIPLE_USERS_DM),
+                onExited: () => this.props.actions.closeModal(ModalIdentifiers.MESSAGE_MULTIPLE_USERS_DM),
             },
         });
-    }, [props.actions]);
+    };
 
-    const clearStatusFilter = useCallback(() => {
-        props.actions.savePreferences(props.currentUserId, [{
-            user_id: props.currentUserId,
+    clearStatusFilter = () => {
+        const {currentUserId} = this.props;
+        this.props.actions.savePreferences(currentUserId, [{
+            user_id: currentUserId,
             category: Constants.Preferences.CATEGORY_SIDEBAR_SETTINGS,
             name: 'dm_gm_status_filter',
             value: 'all',
         }]);
-    }, [props.currentUserId, props.actions]);
+    };
 
-    const isDropDisabled = useCallback(() => {
-        if (props.category.type === CategoryTypes.DIRECT_MESSAGES) {
-            return props.draggingState.type === DraggingStateTypes.CHANNEL;
-        } else if (props.category.type === CategoryTypes.CHANNELS) {
-            return props.draggingState.type === DraggingStateTypes.DM;
+    isDropDisabled = () => {
+        const {draggingState, category} = this.props;
+
+        if (category.type === CategoryTypes.DIRECT_MESSAGES) {
+            return draggingState.type === DraggingStateTypes.CHANNEL;
+        } else if (category.type === CategoryTypes.CHANNELS) {
+            return draggingState.type === DraggingStateTypes.DM;
         }
+
         return false;
-    }, [props.category.type, props.draggingState.type]);
+    };
 
-    const showPlaceholder = useCallback(() => {
-        if (props.category.sorting === CategorySorting.Alphabetical || props.category.sorting === CategorySorting.Recency || props.isNewCategory) {
-            return Boolean(props.channelIds.find((id) => id === props.draggingState.id));
+    renderNewDropBox = (isDraggingOver: boolean) => {
+        const {draggingState, category, isNewCategory, channelIds} = this.props;
+
+        if (!isNewCategory || channelIds?.length) {
+            return null;
         }
-        return true;
-    }, [props.category.sorting, props.isNewCategory, props.channelIds, props.draggingState.id]);
-
-    const renderChannel = (channelId: string, index: number) => (
-        <SidebarChannel
-            key={channelId}
-            channelIndex={index}
-            channelId={channelId}
-            isDraggable={true}
-            setChannelRef={props.setChannelRef}
-            isCategoryCollapsed={props.category.collapsed}
-            isCategoryDragged={props.draggingState.type === DraggingStateTypes.CATEGORY && props.draggingState.id === props.category.id}
-            isAutoSortedCategory={props.category.sorting === CategorySorting.Alphabetical || props.category.sorting === CategorySorting.Recency}
-        />
-    );
-    const {category, categoryIndex, channelIds, isNewCategory} = props;
-
-    if (!category || (category.type === CategoryTypes.FAVORITES && !channelIds?.length)) {
-        return null;
-    }
-
-    const renderedChannels = channelIds.map(renderChannel);
-    const searchTermTrimmed = props.searchTerm?.trim();
-    const shouldShowNewMembers = category.type === CategoryTypes.DIRECT_MESSAGES && Boolean(searchTermTrimmed);
-    const showNewMembersHeader = shouldShowNewMembers && (newMembers.length > 0 || newMembersLoading);
-    const shouldShowSuggestedChannels = category.type === CategoryTypes.CHANNELS && Boolean(searchTermTrimmed);
-    const showSuggestedChannelsHeader = shouldShowSuggestedChannels && (suggestedChannels.length > 0 || suggestedChannelsLoading);
-
-    let noResults = null;
-    if (props.searchTerm && renderedChannels.length === 0 && newMembers.length === 0 && suggestedChannels.length === 0 && !newMembersLoading && !suggestedChannelsLoading) {
-        noResults = (
-            <li className='SidebarChannel'>
-                <p className='w-full text-center'>
-                    <FormattedMessage id='sidebar.no.results' defaultMessage='No results found' />
-                </p>
-            </li>
-        );
-    }
-
-    let categoryMenu: JSX.Element;
-    let newLabel: JSX.Element | null = null;
-    let isCollapsible = !props.isDirectMessageList;
-
-    if (isNewCategory) {
-        newLabel = (
-            <div className='SidebarCategory_newLabel'>
-                <FormattedMessage id='sidebar_left.sidebar_category.newLabel' defaultMessage='new' />
-            </div>
-        );
-        categoryMenu = <SidebarCategoryMenu category={category}/>;
-    } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
-        const messageMultipleHelpLabel = localizeMessage({id: 'sidebar.dm_menu.message_multiple', defaultMessage: 'Message multiple people'});
-        categoryMenu = (
-            <div className='SidebarChannelGroupHeader_actions'>
-                <WithTooltip title={messageMultipleHelpLabel}>
-                    <button
-                        id='messageMultipleUsersDmButton'
-                        className='SidebarChannelGroupHeader_addButton'
-                        onClick={openMessageMultipleUsersDmModal}
-                        aria-label={messageMultipleHelpLabel}
-                    >
-                        <ProductChannelsIcon size={'1.8rem'}/>
-                    </button>
-                </WithTooltip>
-                <SidebarCategorySortingMenu
-                    category={category}
-                    handleOpenDirectMessagesModal={handleOpenMoreDirectChannelsModal}
-                />
-            </div>
-        );
-        if (props.isDirectMessageList || !channelIds || !channelIds.length) {
-            isCollapsible = false;
-        }
-    } else {
-        categoryMenu = <SidebarCategoryMenu category={category}/>;
-    }
-
-    let displayName = category.display_name;
-    if (category.type !== CategoryTypes.CUSTOM) {
-        const message = categoryNames[category.type as keyof typeof categoryNames];
-        displayName = localizeMessage({id: message.id, defaultMessage: message.defaultMessage});
-    }
-
-    const addChannelsCtaButton = (category.type === CategoryTypes.CHANNELS && !category.collapsed) ? <AddChannelsCtaButton iconOnly={true}/> : null;
-
-    return (
-        <Draggable draggableId={category.id} index={categoryIndex} disableInteractiveElementBlocking={true}>
-            {(provided, snapshot) => (
-                <div
-                    className={classNames('SidebarChannelGroup a11y__section', {
-                        'direct-messages': category.type === CategoryTypes.DIRECT_MESSAGES,
-                        dropDisabled: isDropDisabled(),
-                        menuIsOpen: isMenuOpen,
-                        capture: props.draggingState.state === DraggingStates.CAPTURE,
-                        isCollapsed: category.collapsed,
-                    })}
-                    ref={provided.innerRef}
-                    {...provided.draggableProps}
+        return (
+            <>
+                <Draggable
+                    draggableId={`NEW_CHANNEL_SPACER__${category.id}`}
+                    isDragDisabled={true}
+                    index={0}
                 >
-                    <Droppable droppableId={category.id} type='SIDEBAR_CHANNEL' isDropDisabled={isDropDisabled()}>
-                        {(droppableProvided, droppableSnapshot) => (
-                            <div
-                                {...droppableProvided.droppableProps}
-                                ref={droppableProvided.innerRef}
-                                className={classNames({draggingOver: droppableSnapshot.isDraggingOver})}
-                            >
-                                <SidebarCategoryHeader
-                                    ref={categoryTitleRef}
-                                    displayName={displayName}
-                                    dragHandleProps={provided.dragHandleProps}
-                                    isCollapsed={category.collapsed}
-                                    isCollapsible={isCollapsible}
-                                    isDragging={snapshot.isDragging}
-                                    isDraggingOver={droppableSnapshot.isDraggingOver}
-                                    muted={category.muted}
-                                    onClick={handleCollapse}
-                                >
-                                    {newLabel}
-                                    {addChannelsCtaButton}
-                                    {categoryMenu}
-                                </SidebarCategoryHeader>
-                                <div className='SidebarChannelGroup_content'>
-                                    {category.type === CategoryTypes.DIRECT_MESSAGES && props.isDirectMessageList && props.searchBar}
-                                    {category.type === CategoryTypes.DIRECT_MESSAGES && props.selectedStatusFilter && props.selectedStatusFilter !== 'all' && (
-                                        <div className='SidebarDMFilterNotice'>
-                                            <span className='SidebarDMFilterNotice__label'>
-                                                <FormattedMessage id='sidebar.filterByStatus' defaultMessage='Filter' />
-                                                <FormattedMessage id={`sidebar.status.${props.selectedStatusFilter}`} defaultMessage={props.selectedStatusFilter} />
-                                            </span>
-                                            <button type='button' className='SidebarDMFilterNotice__clear' onClick={clearStatusFilter}>
-                                                <i className='icon icon-close-circle'/>
-                                                <FormattedMessage id='widget.input.clear' defaultMessage='Clear' />
-                                            </button>
-                                        </div>
-                                    )}
-                                    {category.type === CategoryTypes.DIRECT_MESSAGES && props.isDirectMessageList ? (
-                                        <Scrollbars ref={props.scrollbarRef} onScroll={props.onScroll}>
-                                            <ul className='NavGroupContent'>
-                                                {isNewCategory && !channelIds?.length && (
-                                                    <div className='SidebarCategory_newDropBox'>
-                                                        <div
-                                                            ref={newDropBoxRef}
-                                                            className={classNames('SidebarCategory_newDropBox-content', {
-                                                                collapsed: category.collapsed || (props.draggingState.type === DraggingStateTypes.CATEGORY && props.draggingState.id === category.id),
-                                                                isDraggingOver: droppableSnapshot.isDraggingOver,
-                                                            })}
-                                                            onTransitionEnd={removeAnimation}
-                                                        >
-                                                            <i className='icon-hand-right'/>
-                                                            <span className='SidebarCategory_newDropBox-label'>
-                                                                <FormattedMessage id='sidebar_left.sidebar_category.newDropBoxLabel' defaultMessage='Drag channels here...' />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {showSuggestedChannelsHeader && (
-                                                    <li className='SidebarChannel SidebarNewMembersHeader'>
-                                                        <span className='SidebarChannelLinkLabel'>
-                                                            <FormattedMessage id='suggestionList.label' defaultMessage='Suggestions' />
-                                                        </span>
-                                                    </li>
-                                                )}
-                                                {suggestedChannels.map((c) => (
-                                                    <li key={c.id} className='SidebarChannel SidebarNewMembersItem'>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); handleSuggestedChannelClick(c); }}>
-                                                            <span className='icon'><SidebarBaseChannelIcon channelType={c.type}/></span>
-                                                            <div className='SidebarChannelLinkLabel_wrapper'><span className='SidebarChannelLinkLabel sidebar-item__name'>{c.display_name}</span></div>
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                                {renderedChannels}
-                                                {showNewMembersHeader && (
-                                                    <li className='SidebarChannel SidebarNewMembersHeader'>
-                                                        <span className='SidebarChannelLinkLabel'>
-                                                            <FormattedMessage id='sidebar.new_members' defaultMessage='New members' />
-                                                        </span>
-                                                    </li>
-                                                )}
-                                                {newMembers.map((u) => (
-                                                    <li key={u.id} className={classNames('SidebarChannel SidebarNewMembersItem', {SidebarNewMembersItem__self: u.id === props.currentUserId})}>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
-                                                            <UserDetails option={u}/>
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                                {noResults}
-                                                {showPlaceholder() && droppableProvided.placeholder}
-                                            </ul>
-                                        </Scrollbars>
-                                    ) : (
-                                        <>
-                                            {props.searchBar}
-                                            <ul className='NavGroupContent'>
-                                                {isNewCategory && !channelIds?.length && (
-                                                    <div className='SidebarCategory_newDropBox'>
-                                                        <div
-                                                            ref={newDropBoxRef}
-                                                            className={classNames('SidebarCategory_newDropBox-content', {
-                                                                collapsed: category.collapsed || (props.draggingState.type === DraggingStateTypes.CATEGORY && props.draggingState.id === category.id),
-                                                                isDraggingOver: droppableSnapshot.isDraggingOver,
-                                                            })}
-                                                            onTransitionEnd={removeAnimation}
-                                                        >
-                                                            <i className='icon-hand-right'/>
-                                                            <span className='SidebarCategory_newDropBox-label'>
-                                                                <FormattedMessage id='sidebar_left.sidebar_category.newDropBoxLabel' defaultMessage='Drag channels here...' />
-                                                            </span>
-                                                        </div>
-                                                    </div>
-                                                )}
-                                                {showNewMembersHeader && (
-                                                    <li className='SidebarChannel SidebarNewMembersHeader'>
-                                                        <span className='SidebarChannelLinkLabel'>
-                                                            <FormattedMessage id='sidebar.new_members' defaultMessage='New members' />
-                                                        </span>
-                                                    </li>
-                                                )}
-                                                {newMembers.map((u) => (
-                                                    <li key={u.id} className={classNames('SidebarChannel SidebarNewMembersItem', {SidebarNewMembersItem__self: u.id === props.currentUserId})}>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
-                                                            <UserDetails option={u}/>
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                                {showSuggestedChannelsHeader && (
-                                                    <li className='SidebarChannel SidebarNewMembersHeader'>
-                                                        <span className='SidebarChannelLinkLabel'>
-                                                            <FormattedMessage id='suggestionList.label' defaultMessage='Suggestions' />
-                                                        </span>
-                                                    </li>
-                                                )}
-                                                {suggestedChannels.map((c) => (
-                                                    <li key={c.id} className='SidebarChannel SidebarNewMembersItem'>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); handleSuggestedChannelClick(c); }}>
-                                                            <span className='icon'><SidebarBaseChannelIcon channelType={c.type}/></span>
-                                                            <div className='SidebarChannelLinkLabel_wrapper'><span className='SidebarChannelLinkLabel sidebar-item__name'>{c.display_name}</span></div>
-                                                        </a>
-                                                    </li>
-                                                ))}
-                                                {renderedChannels}
-                                                {noResults}
-                                                {showPlaceholder() && droppableProvided.placeholder}
-                                            </ul>
-                                        </>
-                                    )}
-                                </div>
-                            </div>
-                        )}
-                    </Droppable>
+                    {(provided) => {
+                        // NEW_CHANNEL_SPACER here is used as a spacer to ensure react-beautiful-dnd will not try and place the first channel
+                        // on the header. This acts as a space filler for the header so that the first channel dragged in will float below it.
+                        return (
+                            <li
+                                ref={provided.innerRef}
+                                draggable='false'
+                                className={'SidebarChannel noFloat newChannelSpacer'}
+                                {...provided.draggableProps}
+                                tabIndex={-1}
+                            />
+                        );
+                    }}
+                </Draggable>
+                <div className='SidebarCategory_newDropBox'>
+                    <div
+                        ref={this.newDropBoxRef}
+                        className={classNames('SidebarCategory_newDropBox-content', {
+                            collapsed: category.collapsed || (draggingState.type === DraggingStateTypes.CATEGORY && draggingState.id === category.id),
+                            isDraggingOver,
+                        })}
+                        onTransitionEnd={this.removeAnimation}
+                    >
+                        <i className='icon-hand-right'/>
+                        <span className='SidebarCategory_newDropBox-label'>
+                            <FormattedMessage
+                                id='sidebar_left.sidebar_category.newDropBoxLabel'
+                                defaultMessage='Drag channels here...'
+                            />
+                        </span>
+                    </div>
                 </div>
-            )}
-        </Draggable>
-    );
-};
+            </>
+        );
+    };
 
-export default memo(SidebarCategory);
+    showPlaceholder = () => {
+        const {channelIds, draggingState, category, isNewCategory} = this.props;
+
+        if (category.sorting === CategorySorting.Alphabetical ||
+            category.sorting === CategorySorting.Recency ||
+            isNewCategory) {
+            // Always show the placeholder if the channel being dragged is from the current category
+            if (channelIds.find((id) => id === draggingState.id)) {
+                return true;
+            }
+
+            return false;
+        }
+
+        return true;
+    };
+
+    render() {
+        const {
+            category,
+            categoryIndex,
+            channelIds,
+            isNewCategory,
+        } = this.props;
+
+        if (!category) {
+            return null;
+        }
+
+        if (category.type === CategoryTypes.FAVORITES && !channelIds?.length) {
+            return null;
+        }
+
+        const renderedChannels = channelIds.map(this.renderChannel);
+
+        const shouldShowNewMembers = category.type === CategoryTypes.DIRECT_MESSAGES && Boolean(this.props.searchTerm?.trim());
+        const showNewMembersHeader = shouldShowNewMembers && (this.state.newMembers.length > 0 || this.state.newMembersLoading);
+
+        let newMembersSection = null;
+        if (showNewMembersHeader) {
+            newMembersSection = (
+                <>
+                    <li className='SidebarChannel SidebarNewMembersHeader'>
+                        <span className='SidebarChannelLinkLabel'>
+                            <FormattedMessage
+                                id='sidebar.new_members'
+                                defaultMessage='New members'
+                            />
+                        </span>
+                    </li>
+                    {this.state.newMembers.map((u) => (
+                        <li
+                            key={u.id}
+                            className={classNames('SidebarChannel SidebarNewMembersItem', {
+                                SidebarNewMembersItem__self: u.id === this.props.currentUserId,
+                            })}
+                        >
+                            <a
+                                className='SidebarLink sidebar-item SidebarNewMembersLink'
+                                draggable='false'
+                                href='#'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    if (u.id === this.props.currentUserId) {
+                                        return;
+                                    }
+                                    this.handleNewMemberClick(u.id);
+                                }}
+                            >
+                                <UserDetails option={u}/>
+                            </a>
+                        </li>
+                    ))}
+                </>
+            );
+        }
+
+        const shouldShowSuggestedChannels = category.type === CategoryTypes.CHANNELS && Boolean(this.props.searchTerm?.trim());
+        const showSuggestedChannelsHeader = shouldShowSuggestedChannels && (this.state.suggestedChannels.length > 0 || this.state.suggestedChannelsLoading);
+
+        let suggestedChannelsSection = null;
+        if (showSuggestedChannelsHeader) {
+            suggestedChannelsSection = (
+                <>
+                    <li className='SidebarChannel SidebarNewMembersHeader'>
+                        <span className='SidebarChannelLinkLabel'>
+                            <FormattedMessage
+                                id='suggestionList.label'
+                                defaultMessage='Suggestions'
+                            />
+                        </span>
+                    </li>
+                    {this.state.suggestedChannels.map((c) => (
+                        <li
+                            key={c.id}
+                            className='SidebarChannel SidebarNewMembersItem'
+                        >
+                            <a
+                                className='SidebarLink sidebar-item SidebarNewMembersLink'
+                                draggable='false'
+                                href='#'
+                                onClick={(e) => {
+                                    e.preventDefault();
+                                    this.handleSuggestedChannelClick(c);
+                                }}
+                            >
+                                <span className='icon'>
+                                    <SidebarBaseChannelIcon channelType={c.type}/>
+                                </span>
+                                <div className='SidebarChannelLinkLabel_wrapper'>
+                                    <span className='SidebarChannelLinkLabel sidebar-item__name'>
+                                        {c.display_name}
+                                    </span>
+                                </div>
+                            </a>
+                        </li>
+                    ))}
+                </>
+            );
+        }
+
+        let noResults = null;
+        if (this.props.searchTerm && renderedChannels.length === 0 && this.state.newMembers.length === 0 && this.state.suggestedChannels.length === 0 && !this.state.newMembersLoading && !this.state.suggestedChannelsLoading) {
+            noResults = (
+                <li className='SidebarChannel'>
+                    <p className='w-full text-center'>
+                        <FormattedMessage
+                            id='sidebar.no.results'
+                            defaultMessage='No results found'
+                        />
+                    </p>
+                </li>
+            );
+        }
+
+        let categoryMenu: JSX.Element;
+        let newLabel: JSX.Element;
+        const directMessagesModalButton: JSX.Element | null = null;
+        let isCollapsible = !this.props.isDirectMessageList;
+        if (isNewCategory) {
+            newLabel = (
+                <div className='SidebarCategory_newLabel'>
+                    <FormattedMessage
+                        id='sidebar_left.sidebar_category.newLabel'
+                        defaultMessage='new'
+                    />
+                </div>
+            );
+
+            categoryMenu = <SidebarCategoryMenu category={category}/>;
+        } else if (category.type === CategoryTypes.DIRECT_MESSAGES) {
+            // eslint-disable-next-line @typescript-eslint/no-unused-vars
+            const addHelpLabel = localizeMessage({id: 'sidebar.createDirectMessage', defaultMessage: 'Create new direct message'});
+            const messageMultipleHelpLabel = localizeMessage({id: 'sidebar.dm_menu.message_multiple', defaultMessage: 'Message multiple people'});
+
+            categoryMenu = (
+                <div className='SidebarChannelGroupHeader_actions'>
+                    {/* <WithTooltip
+                        title={
+                            addHelpLabel
+                        }
+                    >
+                        <button
+                            id='newDirectMessageButton'
+                            className='SidebarChannelGroupHeader_addButton'
+                            onClick={this.handleOpenDirectMessagesModal}
+                            aria-label={addHelpLabel}
+                        >
+                           <PlusIcon size={'1.8rem'}/>
+                        </button>
+                    </WithTooltip> */}
+                    <WithTooltip
+                        title={
+                            messageMultipleHelpLabel
+                        }
+                    >
+                        <button
+                            id='messageMultipleUsersDmButton'
+                            className='SidebarChannelGroupHeader_addButton'
+                            onClick={this.openMessageMultipleUsersDmModal}
+                            aria-label={messageMultipleHelpLabel}
+                        >
+                            <ProductChannelsIcon size={'1.8rem'}/>
+                        </button>
+                    </WithTooltip>
+                    <SidebarCategorySortingMenu
+                        category={category}
+                        handleOpenDirectMessagesModal={this.handleOpenDirectMessagesModal}
+                    />
+
+                </div>
+            );
+
+            if (this.props.isDirectMessageList) {
+                isCollapsible = false;
+            } else if (!channelIds || !channelIds.length) {
+                isCollapsible = false;
+            }
+        } else {
+            categoryMenu = <SidebarCategoryMenu category={category}/>;
+        }
+
+        let displayName = category.display_name;
+        if (category.type !== CategoryTypes.CUSTOM) {
+            const message = categoryNames[category.type as keyof typeof categoryNames];
+            displayName = localizeMessage({id: message.id, defaultMessage: message.defaultMessage});
+        }
+
+        return (
+            <Draggable
+                draggableId={category.id}
+                index={categoryIndex}
+                disableInteractiveElementBlocking={true}
+            >
+                {(provided, snapshot) => {
+                    // let inviteMembersButton = null;
+                    // if (category.type === 'direct_messages' && !category.collapsed) {
+                    //     inviteMembersButton = (
+                    //         <InviteMembersButton
+                    //             className='followingSibling'
+                    //         />
+                    //     );
+                    // }
+
+                    let addChannelsCtaButton = null;
+                    if (category.type === CategoryTypes.CHANNELS && !category.collapsed) {
+                        addChannelsCtaButton = (
+                            <AddChannelsCtaButton iconOnly={true}/>
+                        );
+                    }
+
+                    return (
+                        <div
+                            className={classNames('SidebarChannelGroup a11y__section', {
+                                'direct-messages': category.type === CategoryTypes.DIRECT_MESSAGES,
+                                dropDisabled: this.isDropDisabled(),
+                                menuIsOpen: this.state.isMenuOpen,
+                                capture: this.props.draggingState.state === DraggingStates.CAPTURE,
+                                isCollapsed: category.collapsed,
+                            })}
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                        >
+                            <Droppable
+                                droppableId={category.id}
+                                type='SIDEBAR_CHANNEL'
+                                isDropDisabled={this.isDropDisabled()}
+                            >
+                                {(droppableProvided, droppableSnapshot) => {
+                                    return (
+                                        <div
+                                            {...droppableProvided.droppableProps}
+                                            ref={droppableProvided.innerRef}
+                                            className={classNames({
+                                                draggingOver: droppableSnapshot.isDraggingOver,
+                                            })}
+                                        >
+                                            <SidebarCategoryHeader
+                                                ref={this.categoryTitleRef}
+                                                displayName={displayName}
+                                                dragHandleProps={provided.dragHandleProps}
+                                                isCollapsed={category.collapsed}
+                                                isCollapsible={isCollapsible}
+                                                isDragging={snapshot.isDragging}
+                                                isDraggingOver={droppableSnapshot.isDraggingOver}
+                                                muted={category.muted}
+                                                onClick={this.handleCollapse}
+                                            >
+                                                {newLabel}
+
+                                                {directMessagesModalButton}
+
+                                                {addChannelsCtaButton}
+                                                {categoryMenu}
+                                            </SidebarCategoryHeader>
+                                            <div
+                                                className={classNames('SidebarChannelGroup_content')}
+                                            >
+                                                {category.type === CategoryTypes.DIRECT_MESSAGES && this.props.isDirectMessageList ? this.props.searchBar : null}
+                                                {category.type === CategoryTypes.DIRECT_MESSAGES && this.props.selectedStatusFilter && this.props.selectedStatusFilter !== 'all' && (
+                                                    <div className='SidebarDMFilterNotice'>
+                                                        <span className='SidebarDMFilterNotice__label'>
+                                                            <FormattedMessage
+                                                                id='sidebar.filterByStatus'
+                                                                defaultMessage='Filter'
+                                                            />
+                                                            {this.props.selectedStatusFilter === 'online' && (
+                                                                <FormattedMessage
+                                                                    id='sidebar.status.online'
+                                                                    defaultMessage='Online'
+                                                                />
+                                                            )}
+                                                            {this.props.selectedStatusFilter === 'away' && (
+                                                                <FormattedMessage
+                                                                    id='sidebar.status.away'
+                                                                    defaultMessage='Away'
+                                                                />
+                                                            )}
+                                                            {this.props.selectedStatusFilter === 'offline' && (
+                                                                <FormattedMessage
+                                                                    id='sidebar.status.offline'
+                                                                    defaultMessage='Offline'
+                                                                />
+                                                            )}
+                                                        </span>
+                                                        <button
+                                                            type='button'
+                                                            className='SidebarDMFilterNotice__clear'
+                                                            onClick={this.clearStatusFilter}
+                                                        >
+                                                            <i className='icon icon-close-circle'/>
+                                                            <FormattedMessage
+                                                                id='widget.input.clear'
+                                                                defaultMessage='Clear'
+                                                            />
+                                                        </button>
+                                                    </div>
+                                                )}
+                                                {category.type === CategoryTypes.DIRECT_MESSAGES && this.props.isDirectMessageList ? (
+                                                    <Scrollbars
+                                                        ref={this.props.scrollbarRef}
+                                                        onScroll={this.props.onScroll}
+                                                    >
+                                                        <ul
+                                                            className='NavGroupContent'
+                                                        >
+                                                            {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
+                                                            {suggestedChannelsSection}
+                                                            {renderedChannels}
+                                                            {newMembersSection}
+                                                            {noResults}
+                                                            {this.showPlaceholder() ? droppableProvided.placeholder : null}
+                                                        </ul>
+                                                    </Scrollbars>
+                                                ) : (
+                                                    <>
+                                                        {this.props.searchBar}
+                                                        <ul
+                                                            className='NavGroupContent'
+                                                        >
+                                                            {this.renderNewDropBox(droppableSnapshot.isDraggingOver)}
+                                                            {newMembersSection}
+                                                            {suggestedChannelsSection}
+                                                            {renderedChannels}
+                                                            {noResults}
+                                                            {this.showPlaceholder() ? droppableProvided.placeholder : null}
+                                                        </ul>
+                                                    </>
+                                                )}
+                                            </div>
+                                        </div>
+                                    );
+                                }}
+                            </Droppable>
+                            {/* {inviteMembersButton} */}
+                        </div>
+                    );
+                }}
+            </Draggable>
+        );
+    }
+}
 
 const categoryNames = defineMessages({
     channels: {

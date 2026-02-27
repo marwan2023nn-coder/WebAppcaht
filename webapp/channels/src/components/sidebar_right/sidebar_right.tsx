@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useCallback, useEffect, useMemo, useRef, useState, memo} from 'react';
+import React from 'react';
 
 import type {Channel} from '@workspace/types/channels';
 import type {ProductIdentifier} from '@workspace/types/products';
@@ -68,242 +68,292 @@ type State = {
     isOpened: boolean;
 }
 
-const SidebarRight = (props: Props) => {
-    const sidebarRight = useRef<HTMLDivElement>(null);
-    const sidebarRightWidthHolder = useRef<HTMLDivElement>(null);
-    const previousRef = useRef<Partial<Props>>();
-    const focusSearchBarRef = useRef<() => void>();
-    const previousActiveElementRef = useRef<HTMLElement | null>(null);
+export default class SidebarRight extends React.PureComponent<Props, State> {
+    sidebarRight: React.RefObject<HTMLDivElement>;
+    sidebarRightWidthHolder: React.RefObject<HTMLDivElement>;
+    previous: Partial<Props> | undefined = undefined;
+    focusSearchBar?: () => void;
+    private previousActiveElement: HTMLElement | null = null;
 
-    const setPrevious = useCallback(() => {
-        if (!props.isOpen) {
+    constructor(props: Props) {
+        super(props);
+
+        this.sidebarRightWidthHolder = React.createRef<HTMLDivElement>();
+        this.sidebarRight = React.createRef<HTMLDivElement>();
+        this.state = {
+            isOpened: false,
+        };
+    }
+
+    setPrevious = () => {
+        if (!this.props.isOpen) {
             return;
         }
 
-        previousRef.current = {
-            searchVisible: props.searchVisible,
-            isPinnedPosts: props.isPinnedPosts,
-            isRecentMentions: props.isRecentMentions,
-            isSavedPosts: props.isSavedPosts,
-            isChannelFiles: props.isChannelFiles,
-            isChannelInfo: props.isChannelInfo,
-            isChannelMembers: props.isChannelMembers,
-            isPostEditHistory: props.isPostEditHistory,
-            selectedPostId: props.selectedPostId,
-            selectedPostCardId: props.selectedPostCardId,
-            previousRhsState: props.previousRhsState,
+        this.previous = {
+            searchVisible: this.props.searchVisible,
+            isPinnedPosts: this.props.isPinnedPosts,
+            isRecentMentions: this.props.isRecentMentions,
+            isSavedPosts: this.props.isSavedPosts,
+            isChannelFiles: this.props.isChannelFiles,
+            isChannelInfo: this.props.isChannelInfo,
+            isChannelMembers: this.props.isChannelMembers,
+            isPostEditHistory: this.props.isPostEditHistory,
+            selectedPostId: this.props.selectedPostId,
+            selectedPostCardId: this.props.selectedPostCardId,
+            previousRhsState: this.props.previousRhsState,
         };
-    }, [props.isOpen, props.searchVisible, props.isPinnedPosts, props.isRecentMentions, props.isSavedPosts, props.isChannelFiles, props.isChannelInfo, props.isChannelMembers, props.isPostEditHistory, props.selectedPostId, props.selectedPostCardId, props.previousRhsState]);
+    };
 
-    const handleShortcut = useCallback((e: KeyboardEvent) => {
+    handleShortcut = (e: KeyboardEvent) => {
         const channelInfoShortcutMac = isMac() && e.shiftKey;
         const channelInfoShortcut = !isMac() && e.altKey;
 
         if (cmdOrCtrlPressed(e, true)) {
             if (e.shiftKey && isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
-                if (props.isOpen) {
-                    props.actions.setRhsExpanded(!props.isExpanded);
+                if (this.props.isOpen) {
+                    if (this.props.isExpanded) {
+                        this.props.actions.setRhsExpanded(false);
+                    } else {
+                        this.props.actions.setRhsExpanded(true);
+                    }
                 } else {
-                    props.actions.openAtPrevious(previousRef.current);
+                    this.props.actions.openAtPrevious(this.previous);
                 }
             } else if (isKeyPressed(e, Constants.KeyCodes.PERIOD)) {
                 e.preventDefault();
-                if (props.isOpen) {
-                    props.actions.closeRightHandSide();
+                if (this.props.isOpen) {
+                    this.props.actions.closeRightHandSide();
                 } else {
-                    props.actions.openAtPrevious(previousRef.current);
+                    this.props.actions.openAtPrevious(this.previous);
                 }
             } else if (isKeyPressed(e, Constants.KeyCodes.I) && (channelInfoShortcutMac || channelInfoShortcut)) {
                 e.preventDefault();
-                if (props.isOpen && props.isChannelInfo) {
-                    props.actions.closeRightHandSide();
-                } else if (props.channel) {
-                    props.actions.showChannelInfo(props.channel.id);
+                if (this.props.isOpen && this.props.isChannelInfo) {
+                    this.props.actions.closeRightHandSide();
+                } else if (this.props.channel) {
+                    this.props.actions.showChannelInfo(this.props.channel.id);
                 }
             }
         }
-    }, [props.isOpen, props.isExpanded, props.isChannelInfo, props.channel, props.actions]);
+    };
 
-    const handleClickOutside = useCallback((e: MouseEvent) => {
-        if (
-            (props.isOpen && props.isExpanded) &&
-            e.target &&
-            document.getElementById('root')?.contains(e.target as Element) &&
-            !sidebarRight.current?.contains(e.target as Element) &&
-            !document.getElementById('global-header')?.contains(e.target as Element) &&
-            !document.querySelector('.app-bar')?.contains(e.target as Element)
-        ) {
-            props.actions.setRhsExpanded(false);
-        }
-    }, [props.isOpen, props.isExpanded, props.actions]);
-
-    useEffect(() => {
-        document.addEventListener('keydown', handleShortcut);
-        document.addEventListener('mousedown', handleClickOutside);
-        return () => {
-            document.removeEventListener('keydown', handleShortcut);
-            document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, [handleShortcut, handleClickOutside]);
-
-    const handleRHSFocus = useCallback((wasOpen: boolean) => {
-        const isOpen = props.isOpen;
+    handleRHSFocus(prevProps: Props) {
+        const wasOpen = prevProps.isOpen;
+        const isOpen = this.props.isOpen;
 
         const contentChanged = (
-            (props.isPinnedPosts !== previousRef.current?.isPinnedPosts) ||
-            (props.isRecentMentions !== previousRef.current?.isRecentMentions) ||
-            (props.isSavedPosts !== previousRef.current?.isSavedPosts) ||
-            (props.isChannelFiles !== previousRef.current?.isChannelFiles) ||
-            (props.isChannelInfo !== previousRef.current?.isChannelInfo) ||
-            (props.isChannelMembers !== previousRef.current?.isChannelMembers) ||
-            (props.isPostEditHistory !== previousRef.current?.isPostEditHistory) ||
-            (props.rhsChannel?.id !== previousRef.current?.rhsChannel?.id) ||
-            (props.teamId !== previousRef.current?.teamId)
+            (this.props.isPinnedPosts !== prevProps.isPinnedPosts) ||
+            (this.props.isRecentMentions !== prevProps.isRecentMentions) ||
+            (this.props.isSavedPosts !== prevProps.isSavedPosts) ||
+            (this.props.isChannelFiles !== prevProps.isChannelFiles) ||
+            (this.props.isChannelInfo !== prevProps.isChannelInfo) ||
+            (this.props.isChannelMembers !== prevProps.isChannelMembers) ||
+            (this.props.isPostEditHistory !== prevProps.isPostEditHistory) ||
+            (this.props.rhsChannel?.id !== prevProps.rhsChannel?.id) ||
+            (this.props.teamId !== prevProps.teamId)
         );
 
-        if (isOpen && (contentChanged || (!wasOpen && isOpen))) {
-            previousActiveElementRef.current = document.activeElement as HTMLElement;
+        if (this.props.isOpen && (contentChanged || (!wasOpen && isOpen))) {
+            this.previousActiveElement = document.activeElement as HTMLElement;
 
+            // Focus the sidebar after a tick
             setTimeout(() => {
-                if (sidebarRight.current) {
-                    const rhsContainer = sidebarRight.current.querySelector('#rhsContainer') as HTMLElement;
-                    const searchContainer = sidebarRight.current.querySelector('#searchContainer') as HTMLElement;
+                if (this.sidebarRight.current) {
+                    const rhsContainer = this.sidebarRight.current.querySelector('#rhsContainer') as HTMLElement;
+                    const searchContainer = this.sidebarRight.current.querySelector('#searchContainer') as HTMLElement;
                     if (rhsContainer || searchContainer) {
                         const firstFocusable = getFirstFocusableChild(rhsContainer || searchContainer);
                         focusElement(firstFocusable || rhsContainer, true);
                     } else {
-                        const firstFocusable = getFirstFocusableChild(sidebarRight.current);
-                        focusElement(firstFocusable || sidebarRight.current, true);
+                        // Fallback: if rhsContainer isn't found, use sidebarRight.current directly.
+                        const firstFocusable = getFirstFocusableChild(this.sidebarRight.current);
+                        focusElement(firstFocusable || this.sidebarRight.current, true);
                     }
                 }
             }, 0);
-        } else if (!isOpen && wasOpen) {
+        } else if (!this.props.isOpen && wasOpen) {
+            // RHS just was closed, restore focus to the previous element had it
             if (a11yController.originElement) {
                 a11yController.restoreOriginFocus();
             } else {
                 setTimeout(() => {
-                    if (previousActiveElementRef.current) {
-                        focusElement(previousActiveElementRef.current, true);
-                        previousActiveElementRef.current = null;
+                    if (this.previousActiveElement) {
+                        focusElement(this.previousActiveElement, true);
+                        this.previousActiveElement = null;
                     }
                 }, 0);
             }
         }
-    }, [props.isOpen, props.isPinnedPosts, props.isRecentMentions, props.isSavedPosts, props.isChannelFiles, props.isChannelInfo, props.isChannelMembers, props.isPostEditHistory, props.rhsChannel?.id, props.teamId]);
-
-    const prevOpen = useRef(props.isOpen);
-    useEffect(() => {
-        handleRHSFocus(prevOpen.current);
-        prevOpen.current = props.isOpen;
-    }, [props.isOpen, handleRHSFocus]);
-
-    useEffect(() => {
-        if (props.isPinnedPosts && props.rhsChannel && props.rhsChannel.id !== previousRef.current?.rhsChannel?.id) {
-            props.actions.showPinnedPosts(props.rhsChannel.id);
-        }
-
-        if (props.isChannelFiles && props.rhsChannel && props.rhsChannel.id !== previousRef.current?.rhsChannel?.id) {
-            props.actions.showChannelFiles(props.rhsChannel.id);
-        }
-
-        if (props.channel && (!previousRef.current?.channel || props.channel.id !== previousRef.current.channel.id)) {
-            props.actions.setRhsExpanded(false);
-        }
-
-        if ((previousRef.current?.teamId && props.teamId !== previousRef.current.teamId) || props.productId !== previousRef.current?.productId) {
-            props.actions.closeRightHandSide();
-        }
-
-        setPrevious();
-    }, [props.isPinnedPosts, props.rhsChannel, props.isChannelFiles, props.channel, props.teamId, props.productId, props.actions, setPrevious]);
-
-    const handleUpdateSearchTerms = useCallback((term: string) => {
-        props.actions.updateSearchTerms(term);
-        focusSearchBarRef.current?.();
-    }, [props.actions]);
-
-    const getSearchBarFocus = useCallback((focusSearchBar: () => void) => {
-        focusSearchBarRef.current = focusSearchBar;
-    }, []);
-
-    const {
-        team,
-        channel,
-        rhsChannel,
-        postRightVisible,
-        postCardVisible,
-        previousRhsState,
-        isPluginView,
-        isOpen,
-        isChannelInfo,
-        isChannelMembers,
-        isExpanded,
-        isPostEditHistory,
-        searchVisible,
-    } = props;
-
-    if (!isOpen) {
-        return null;
     }
 
-    let content = null;
-    if (postRightVisible) {
-        content = (
-            <div className='post-right__container'>
-                <FileUploadOverlay overlayType='right' id={DropOverlayIdRHS} />
-                <RhsThread previousRhsState={previousRhsState}/>
-            </div>
-        );
-    } else if (postCardVisible) {
-        content = <RhsCard previousRhsState={previousRhsState}/>;
-    } else if (isPluginView) {
-        content = <RhsPlugin/>;
-    } else if (isChannelInfo) {
-        content = <ChannelInfoRhs/>;
-    } else if (isChannelMembers) {
-        content = <ChannelMembersRhs/>;
-    } else if (isPostEditHistory) {
-        content = <PostEditHistory/>;
+    componentDidMount() {
+        document.addEventListener('keydown', this.handleShortcut);
+        document.addEventListener('mousedown', this.handleClickOutside);
     }
 
-    const isRHSLoading = Boolean((!team) || (postRightVisible && !rhsChannel) || ((isChannelInfo || isChannelMembers) && !channel));
-    const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
-    const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory) && isExpanded;
-    const containerClassName = classNames('sidebar--right', 'move--left is-open', {
-        'sidebar--right--expanded expanded': isSidebarRightExpanded,
-    });
+    componentWillUnmount() {
+        document.removeEventListener('keydown', this.handleShortcut);
+        document.removeEventListener('mousedown', this.handleClickOutside);
+    }
 
-    return (
-        <>
-            <div className={'sidebar--right sidebar--right--width-holder'} ref={sidebarRightWidthHolder} />
-            <ResizableRhs
-                className={containerClassName}
-                id='sidebar-right'
-                role='region'
-                rightWidthHolderRef={sidebarRightWidthHolder}
-                ariaLabel={props.ariaLabel}
-                ariaLabeledby={props.ariaLabeledby}
-            >
-                <div tabIndex={-1} className='sidebar-right-container' ref={sidebarRight} >
-                    {isRHSLoading ? (
-                        <div className='sidebar-right__body'>
-                            <LoadingScreen centered={true}/>
-                        </div>
-                    ) : (
-                        <Search
-                            isSideBarRight={true}
-                            isSideBarRightOpen={true}
-                            getFocus={getSearchBarFocus}
-                            channelDisplayName={channelDisplayName}
-                        >
-                            {content}
-                        </Search>
-                    )}
+    componentDidUpdate(prevProps: Props) {
+        this.handleRHSFocus(prevProps);
+
+        const {actions, isChannelFiles, isPinnedPosts, rhsChannel, channel} = this.props;
+        if (isPinnedPosts && prevProps.isPinnedPosts === isPinnedPosts && rhsChannel && rhsChannel.id !== prevProps.rhsChannel?.id) {
+            actions.showPinnedPosts(rhsChannel.id);
+        }
+
+        if (isChannelFiles && prevProps.isChannelFiles === isChannelFiles && rhsChannel && rhsChannel.id !== prevProps.rhsChannel?.id) {
+            actions.showChannelFiles(rhsChannel.id);
+        }
+
+        // in the case of navigating to another channel
+        // or from global threads to a channel
+        // we shrink the sidebar
+        if (
+            (channel && prevProps.channel && (channel.id !== prevProps.channel.id)) ||
+            (channel && !prevProps.channel)
+        ) {
+            this.props.actions.setRhsExpanded(false);
+        }
+
+        // close when changing products or teams
+        if (
+            (prevProps.teamId && this.props.teamId !== prevProps.teamId) ||
+            this.props.productId !== prevProps.productId
+        ) {
+            this.props.actions.closeRightHandSide();
+        }
+
+        this.setPrevious();
+    }
+
+    handleClickOutside = (e: MouseEvent) => {
+        if (
+            (this.props.isOpen && this.props.isExpanded) && // can be collapsed
+            e.target && // has target
+            document.getElementById('root')?.contains(e.target as Element) &&//  within Root
+            !this.sidebarRight.current?.contains(e.target as Element) && // not within RHS
+            !document.getElementById('global-header')?.contains(e.target as Element) && // not within Global Header
+            !document.querySelector('.app-bar')?.contains(e.target as Element) // not within App Bar
+        ) {
+            this.props.actions.setRhsExpanded(false);
+        }
+    };
+
+    handleUpdateSearchTerms = (term: string) => {
+        this.props.actions.updateSearchTerms(term);
+        this.focusSearchBar?.();
+    };
+
+    getSearchBarFocus = (focusSearchBar: () => void) => {
+        this.focusSearchBar = focusSearchBar;
+    };
+
+    render() {
+        const {
+            team,
+            channel,
+            rhsChannel,
+            postRightVisible,
+            postCardVisible,
+            previousRhsState,
+            searchVisible,
+            isPluginView,
+            isOpen,
+            isChannelInfo,
+            isChannelMembers,
+            isExpanded,
+            isPostEditHistory,
+        } = this.props;
+
+        if (!isOpen) {
+            return null;
+        }
+
+        const teamNeeded = true;
+        let selectedChannelNeeded;
+        let currentChannelNeeded;
+        let content = null;
+
+        if (postRightVisible) {
+            selectedChannelNeeded = true;
+            content = (
+                <div className='post-right__container'>
+                    <FileUploadOverlay
+                        overlayType='right'
+                        id={DropOverlayIdRHS}
+                    />
+                    <RhsThread previousRhsState={previousRhsState}/>
                 </div>
-            </ResizableRhs>
-        </>
-    );
-};
+            );
+        } else if (postCardVisible) {
+            content = <RhsCard previousRhsState={previousRhsState}/>;
+        } else if (isPluginView) {
+            content = <RhsPlugin/>;
+        } else if (isChannelInfo) {
+            currentChannelNeeded = true;
+            content = <ChannelInfoRhs/>;
+        } else if (isChannelMembers) {
+            currentChannelNeeded = true;
+            content = <ChannelMembersRhs/>;
+        } else if (isPostEditHistory) {
+            content = <PostEditHistory/>;
+        }
 
-export default memo(SidebarRight);
+        const isRHSLoading = Boolean(
+            (teamNeeded && !team) ||
+            (selectedChannelNeeded && !rhsChannel) ||
+            (currentChannelNeeded && !channel),
+        );
+
+        const channelDisplayName = rhsChannel ? rhsChannel.display_name : '';
+
+        const isSidebarRightExpanded = (postRightVisible || postCardVisible || isPluginView || searchVisible || isPostEditHistory) && isExpanded;
+        const containerClassName = classNames('sidebar--right', 'move--left is-open', {
+            'sidebar--right--expanded expanded': isSidebarRightExpanded,
+        });
+
+        return (
+            <>
+                <div
+                    className={'sidebar--right sidebar--right--width-holder'}
+                    ref={this.sidebarRightWidthHolder}
+                />
+                <ResizableRhs
+                    className={containerClassName}
+                    id='sidebar-right'
+                    role='region'
+                    rightWidthHolderRef={this.sidebarRightWidthHolder}
+                    ariaLabel={this.props.ariaLabel}
+                    ariaLabeledby={this.props.ariaLabeledby}
+                >
+                    <div
+                        tabIndex={-1}
+                        className='sidebar-right-container'
+                        ref={this.sidebarRight}
+                    >
+                        {isRHSLoading ? (
+                            <div className='sidebar-right__body'>
+                                {/* Sometimes the channel/team is not loaded yet, so we need to wait for it */}
+                                <LoadingScreen centered={true}/>
+                            </div>
+                        ) : (
+                            <Search
+                                isSideBarRight={true}
+                                isSideBarRightOpen={true}
+                                getFocus={this.getSearchBarFocus}
+                                channelDisplayName={channelDisplayName}
+                            >
+                                {content}
+                            </Search>
+                        )}
+                    </div>
+                </ResizableRhs>
+            </>
+        );
+    }
+}
