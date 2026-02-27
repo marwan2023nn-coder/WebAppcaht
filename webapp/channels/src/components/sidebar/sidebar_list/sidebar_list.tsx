@@ -3,13 +3,11 @@
 
 import classNames from 'classnames';
 import debounce from 'lodash/debounce';
-import React, {lazy} from 'react';
+import React, {lazy, useCallback, useEffect, useMemo, useRef, useState, memo} from 'react';
 import {DragDropContext, Droppable} from 'react-beautiful-dnd';
 import type {DropResult, DragStart, BeforeCapture} from 'react-beautiful-dnd';
-import {FormattedMessage, injectIntl, type WrappedComponentProps} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import {matchPath} from 'react-router-dom';
-import {SpringSystem} from 'rebound';
-import type {Spring} from 'rebound';
 
 import type {ChannelCategory} from '@workspace/types/channel_categories';
 import type {Channel} from '@workspace/types/channels';
@@ -29,6 +27,8 @@ import {mod} from 'utils/utils';
 
 import type {DraggingState} from 'types/store';
 import type {StaticPage} from 'types/store/lhs';
+import type {WrappedComponentProps} from 'react-intl';
+
 const DraftsLink = makeAsyncComponent('DraftsLink', lazy(() => import('components/drafts/drafts_link/drafts_link')));
 const GlobalThreadsLink = makeAsyncComponent('GlobalThreadsLink', lazy(() => import('components/threading/global_threads_link')));
 const UnreadChannelIndicator = makeAsyncComponent('UnreadChannelIndicator', lazy(() => import('../unread_channel_indicator')));
@@ -88,202 +88,112 @@ const categoryHeaderHeight = 32;
 // that the channel is not under the unread indicator.
 const scrollMarginWithUnread = 55;
 
-export class SidebarList extends React.PureComponent<Props, State> {
-    channelRefs: Map<string, HTMLLIElement>;
-    scrollbar: React.RefObject<HTMLElement>;
-    animate: SpringSystem;
-    scrollAnimation: Spring;
+export const SidebarList = (props: Props) => {
+    const channelRefs = useRef<Map<string, HTMLLIElement>>(new Map());
+    const scrollbar = useRef<HTMLElement>(null);
 
-    constructor(props: Props) {
-        super(props);
+    const [showTopUnread, setShowTopUnread] = useState(false);
+    const [showBottomUnread, setShowBottomUnread] = useState(false);
+    const [searchTerm, setSearchTerm] = useState('');
 
-        this.channelRefs = new Map();
-        this.state = {
-            showTopUnread: false,
-            showBottomUnread: false,
-            searchTerm: '',
-        };
-        this.scrollbar = React.createRef();
+    const intl = useIntl();
 
-        this.animate = new SpringSystem();
-        this.scrollAnimation = this.animate.createSpring();
-        this.scrollAnimation.setOvershootClampingEnabled(true); // disables the spring action at the end of animation
-        this.scrollAnimation.addListener({onSpringUpdate: this.handleScrollAnimationUpdate});
-    }
+    const getDisplayedChannelIds = useCallback(() => {
+        return props.displayedChannels.map((channel) => channel.id);
+    }, [props.displayedChannels]);
 
-    componentDidMount() {
-        document.addEventListener('keydown', this.navigateChannelShortcut);
-        document.addEventListener('keydown', this.navigateUnreadChannelShortcut);
-    }
+    const getDisplayedStaticPageIds = useCallback(() => {
+        return props.staticPages.map((item) => item.id);
+    }, [props.staticPages]);
 
-    componentWillUnmount() {
-        document.removeEventListener('keydown', this.navigateChannelShortcut);
-        document.removeEventListener('keydown', this.navigateUnreadChannelShortcut);
-    }
-
-    componentDidUpdate(prevProps: Props) {
-        if (!this.props.currentChannelId || !prevProps.currentChannelId) {
-            return;
-        }
-
-        // reset the scrollbar upon switching teams
-        if (this.props.currentTeam !== prevProps.currentTeam) {
-            this.scrollbar.current?.scrollTo?.({top: 0});
-        }
-
-        // Scroll to selected channel so it's in view
-        if (this.props.currentChannelId !== prevProps.currentChannelId) {
-            // This will be re-enabled when we can avoid animating the scroll on first load and team switch
-            // this.scrollToChannel(this.props.currentChannelId);
-        }
-
-        // TODO: Copying over so it doesn't get lost, but we don't have a design for the sidebar on mobile yet
-        // close the LHS on mobile when you change channels
-        if (this.props.currentChannelId !== prevProps.currentChannelId) {
-            this.props.actions.close();
-        }
-
-        this.updateUnreadIndicators();
-    }
-
-    getDisplayedChannelIds = () => {
-        return this.props.displayedChannels.map((channel) => channel.id);
-    };
-
-    getDisplayedStaticPageIds = () => {
-        return this.props.staticPages.map((item) => item.id);
-    };
-
-    setChannelRef = (channelId: string, ref: HTMLLIElement) => {
+    const setChannelRef = useCallback((channelId: string, ref: HTMLLIElement) => {
         if (ref) {
-            this.channelRefs.set(channelId, ref);
+            channelRefs.current.set(channelId, ref);
         } else {
-            this.channelRefs.delete(channelId);
+            channelRefs.current.delete(channelId);
         }
-    };
+    }, []);
 
-    getFirstUnreadChannelFromChannelIdArray = (channelIds: string[]) => {
+    const getFirstUnreadChannelFromChannelIdArray = useCallback((channelIds: string[]) => {
         return channelIds.find((channelId) => {
-            return channelId !== this.props.currentChannelId && this.props.unreadChannelIds.includes(channelId);
+            return channelId !== props.currentChannelId && props.unreadChannelIds.includes(channelId);
         });
-    };
+    }, [props.currentChannelId, props.unreadChannelIds]);
 
-    handleScrollAnimationUpdate = (spring: Spring) => {
-        const val = spring.getCurrentValue();
-        this.scrollbar.current!.scrollTo?.({top: val});
-    };
+    const getFirstUnreadChannel = useCallback(() => {
+        return getFirstUnreadChannelFromChannelIdArray(getDisplayedChannelIds());
+    }, [getDisplayedChannelIds, getFirstUnreadChannelFromChannelIdArray]);
 
-    scrollToFirstUnreadChannel = () => {
-        this.scrollToChannel(this.getFirstUnreadChannel(), true);
-    };
+    const getLastUnreadChannel = useCallback(() => {
+        return getFirstUnreadChannelFromChannelIdArray([...getDisplayedChannelIds()].reverse());
+    }, [getDisplayedChannelIds, getFirstUnreadChannelFromChannelIdArray]);
 
-    scrollToLastUnreadChannel = () => {
-        this.scrollToChannel(this.getLastUnreadChannel(), true);
-    };
-
-    scrollToChannel = (channelId: string | null | undefined, scrollingToUnread = false) => {
-        if (!channelId) {
+    const updateUnreadIndicators = useCallback(() => {
+        if (props.draggingState.state) {
+            setShowTopUnread(false);
+            setShowBottomUnread(false);
             return;
         }
 
-        const element = this.channelRefs.get(channelId);
+        let nextShowTopUnread = false;
+        let nextShowBottomUnread = false;
+
+        const firstUnreadChannel = getFirstUnreadChannel();
+        const lastUnreadChannel = getLastUnreadChannel();
+
+        if (firstUnreadChannel) {
+            const firstUnreadElement = channelRefs.current.get(firstUnreadChannel);
+            if (firstUnreadElement && ((firstUnreadElement.offsetTop + firstUnreadElement.offsetHeight) - scrollMargin - categoryHeaderHeight) < (scrollbar.current?.scrollTop || 0)) {
+                nextShowTopUnread = true;
+            }
+        }
+
+        if (lastUnreadChannel) {
+            const lastUnreadElement = channelRefs.current.get(lastUnreadChannel);
+            if (lastUnreadElement && (lastUnreadElement.offsetTop + scrollMargin) > ((scrollbar.current?.scrollTop || 0) + (scrollbar.current?.clientHeight || 0))) {
+                nextShowBottomUnread = true;
+            }
+        }
+
+        setShowTopUnread(nextShowTopUnread);
+        setShowBottomUnread(nextShowBottomUnread);
+    }, [props.draggingState.state, getFirstUnreadChannel, getLastUnreadChannel]);
+
+    const scrollToChannel = useCallback((channelId: string | null | undefined, scrollingToUnread = false) => {
+        if (!channelId || !scrollbar.current) {
+            return;
+        }
+
+        const element = channelRefs.current.get(channelId);
         if (!element) {
             return;
         }
 
         const top = element.offsetTop;
         const bottom = top + element.offsetHeight;
-
-        const scrollTop = this.scrollbar.current!.scrollTop;
-        const clientHeight = this.scrollbar.current!.clientHeight;
+        const scrollTop = scrollbar.current.scrollTop;
+        const clientHeight = scrollbar.current.clientHeight;
 
         if (top < (scrollTop + categoryHeaderHeight)) {
-            // Scroll up to the item
-            const margin = (scrollingToUnread || !this.state.showTopUnread) ? scrollMargin : scrollMarginWithUnread;
-
-            let scrollEnd;
-            const displayedChannels = this.getDisplayedChannelIds();
-            if (displayedChannels.length > 0 && displayedChannels[0] === channelId) {
-                // This is the first channel, so scroll right to the top
-                scrollEnd = 0;
-            } else {
-                scrollEnd = top - margin - categoryHeaderHeight;
-            }
-
-            this.scrollToPosition(scrollEnd);
+            const margin = (scrollingToUnread || !showTopUnread) ? scrollMargin : scrollMarginWithUnread;
+            const scrollEnd = (getDisplayedChannelIds()[0] === channelId) ? 0 : top - margin - categoryHeaderHeight;
+            scrollbar.current.scrollTo({top: scrollEnd, behavior: 'smooth'});
         } else if (bottom > scrollTop + clientHeight) {
-            // Scroll down to the item
-            const margin = (scrollingToUnread || !this.state.showBottomUnread) ? scrollMargin : scrollMarginWithUnread;
+            const margin = (scrollingToUnread || !showBottomUnread) ? scrollMargin : scrollMarginWithUnread;
             const scrollEnd = (bottom - clientHeight) + margin;
-
-            this.scrollToPosition(scrollEnd);
+            scrollbar.current.scrollTo({top: scrollEnd, behavior: 'smooth'});
         }
-    };
+    }, [showTopUnread, showBottomUnread, getDisplayedChannelIds]);
 
-    scrollToPosition = (scrollEnd: number) => {
-        // Stop the current animation before scrolling
-        this.scrollAnimation.setCurrentValue(this.scrollbar.current!.scrollTop).setAtRest();
-
-        this.scrollAnimation.setEndValue(scrollEnd);
-    };
-
-    updateUnreadIndicators = () => {
-        if (this.props.draggingState.state) {
-            this.setState({
-                showTopUnread: false,
-                showBottomUnread: false,
-            });
-            return;
-        }
-
-        let showTopUnread = false;
-        let showBottomUnread = false;
-
-        // Consider partially obscured channels as above/below
-        const firstUnreadChannel = this.getFirstUnreadChannel();
-        const lastUnreadChannel = this.getLastUnreadChannel();
-
-        if (firstUnreadChannel) {
-            const firstUnreadElement = this.channelRefs.get(firstUnreadChannel);
-
-            if (firstUnreadElement && ((firstUnreadElement.offsetTop + firstUnreadElement.offsetHeight) - scrollMargin - categoryHeaderHeight) < this.scrollbar.current!.scrollTop) {
-                showTopUnread = true;
-            }
-        }
-
-        if (lastUnreadChannel) {
-            const lastUnreadElement = this.channelRefs.get(lastUnreadChannel);
-
-            if (lastUnreadElement && (lastUnreadElement.offsetTop + scrollMargin) > (this.scrollbar.current!.scrollTop + this.scrollbar.current!.clientHeight)) {
-                showBottomUnread = true;
-            }
-        }
-
-        if (showTopUnread !== this.state.showTopUnread || showBottomUnread !== this.state.showBottomUnread) {
-            this.setState({
-                showTopUnread,
-                showBottomUnread,
-            });
-        }
-    };
-
-    getFirstUnreadChannel = () => {
-        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds());
-    };
-
-    getLastUnreadChannel = () => {
-        return this.getFirstUnreadChannelFromChannelIdArray(this.getDisplayedChannelIds().reverse());
-    };
-
-    navigateById = (id: string) => {
-        if (this.props.staticPages.findIndex((i) => i.id === id) === -1) {
-            this.props.actions.switchToChannelById(id);
+    const navigateById = useCallback((id: string) => {
+        if (props.staticPages.findIndex((i) => i.id === id) === -1) {
+            props.actions.switchToChannelById(id);
         } else {
-            this.props.actions.switchToLhsStaticPage(id);
+            props.actions.switchToLhsStaticPage(id);
         }
-    };
+    }, [props.staticPages, props.actions]);
 
-    handleDirectMessagesToggleClick = (e: React.MouseEvent) => {
+    const handleDirectMessagesToggleClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
         e.stopPropagation();
 
@@ -292,94 +202,165 @@ export class SidebarList extends React.PureComponent<Props, State> {
         const inDrafts = matchPath(pathname, {path: '/:team/drafts'}) != null;
         const inScheduledPosts = matchPath(pathname, {path: '/:team/scheduled_posts'}) != null;
 
-        const fallbackChannelId = this.props.displayedChannels?.[0]?.id;
-        const channelIdToSwitch = this.props.currentChannelId || fallbackChannelId;
+        const fallbackChannelId = props.displayedChannels?.[0]?.id;
+        const channelIdToSwitch = props.currentChannelId || fallbackChannelId;
 
         if ((inGlobalThreads || inDrafts || inScheduledPosts) && channelIdToSwitch) {
-            this.props.actions.switchToChannelById(channelIdToSwitch);
+            props.actions.switchToChannelById(channelIdToSwitch);
         }
 
-        this.props.toggleDirectMessagesSidebar?.();
-    };
+        props.toggleDirectMessagesSidebar?.();
+    }, [props.displayedChannels, props.currentChannelId, props.actions, props.toggleDirectMessagesSidebar]);
 
-    navigateChannelShortcut = (e: KeyboardEvent) => {
+    const navigateChannelShortcut = useCallback((e: KeyboardEvent) => {
         if (e.altKey && !e.shiftKey && !e.ctrlKey && !e.metaKey && (isKeyPressed(e, Constants.KeyCodes.UP) || isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const staticPageIds = this.getDisplayedStaticPageIds();
-            const allIds = [...staticPageIds, ...this.getDisplayedChannelIds()];
+            const staticPageIds = getDisplayedStaticPageIds();
+            const allIds = [...staticPageIds, ...getDisplayedChannelIds()];
 
-            const curSelectedId = this.props.currentChannelId || this.props.currentStaticPageId;
+            const curSelectedId = props.currentChannelId || props.currentStaticPageId;
             const curIndex = allIds.indexOf(curSelectedId);
 
-            let nextIndex;
-            if (isKeyPressed(e, Constants.KeyCodes.DOWN)) {
-                nextIndex = curIndex + 1;
-            } else {
-                nextIndex = curIndex - 1;
-            }
-
+            let nextIndex = isKeyPressed(e, Constants.KeyCodes.DOWN) ? curIndex + 1 : curIndex - 1;
             const nextId = allIds[mod(nextIndex, allIds.length)];
-            this.navigateById(nextId);
+
+            navigateById(nextId);
             if (nextIndex >= staticPageIds.length) {
-                this.scrollToChannel(nextId);
+                scrollToChannel(nextId);
             }
         } else if (cmdOrCtrlPressed(e) && e.shiftKey && isKeyPressed(e, Constants.KeyCodes.K)) {
-            this.props.handleOpenMoreDirectChannelsModal(e);
+            props.handleOpenMoreDirectChannelsModal(e as any);
         }
-    };
+    }, [getDisplayedStaticPageIds, getDisplayedChannelIds, props.currentChannelId, props.currentStaticPageId, navigateById, scrollToChannel, props.handleOpenMoreDirectChannelsModal]);
 
-    navigateUnreadChannelShortcut = (e: KeyboardEvent) => {
+    const navigateUnreadChannelShortcut = useCallback((e: KeyboardEvent) => {
         if (e.altKey && e.shiftKey && !e.ctrlKey && !e.metaKey && (isKeyPressed(e, Constants.KeyCodes.UP) || isKeyPressed(e, Constants.KeyCodes.DOWN))) {
             e.preventDefault();
 
-            const allChannelIds = this.getDisplayedChannelIds();
-            const unreadChannelIds = [...this.props.unreadChannelIds];
+            const allChannelIds = getDisplayedChannelIds();
+            const unreadChannelIds = [...props.unreadChannelIds];
 
-            if (this.props.collapsedThreads) {
+            if (props.collapsedThreads) {
                 allChannelIds.unshift('');
-
-                if (this.props.hasUnreadThreads) {
+                if (props.hasUnreadThreads) {
                     unreadChannelIds.unshift('');
                 }
             }
 
-            let direction = 0;
-            if (isKeyPressed(e, Constants.KeyCodes.UP)) {
-                direction = -1;
-            } else {
-                direction = 1;
-            }
-
-            const nextIndex = findNextUnreadChannelId(
-                this.props.currentChannelId,
-                allChannelIds,
-                unreadChannelIds,
-                direction,
-            );
+            const direction = isKeyPressed(e, Constants.KeyCodes.UP) ? -1 : 1;
+            const nextIndex = findNextUnreadChannelId(props.currentChannelId, allChannelIds, unreadChannelIds, direction);
 
             if (nextIndex !== -1) {
                 const nextChannelId = allChannelIds[nextIndex];
-                this.navigateById(nextChannelId);
-                this.scrollToChannel(nextChannelId);
+                navigateById(nextChannelId);
+                scrollToChannel(nextChannelId);
             }
         }
-    };
+    }, [getDisplayedChannelIds, props.unreadChannelIds, props.collapsedThreads, props.hasUnreadThreads, props.currentChannelId, navigateById, scrollToChannel]);
 
-    renderCategory = (category: ChannelCategory, index: number) => {
+    useEffect(() => {
+        document.addEventListener('keydown', navigateChannelShortcut);
+        document.addEventListener('keydown', navigateUnreadChannelShortcut);
+        return () => {
+            document.removeEventListener('keydown', navigateChannelShortcut);
+            document.removeEventListener('keydown', navigateUnreadChannelShortcut);
+        };
+    }, [navigateChannelShortcut, navigateUnreadChannelShortcut]);
+
+    useEffect(() => {
+        if (props.currentTeam && props.currentChannelId) {
+            updateUnreadIndicators();
+        }
+    }, [props.currentChannelId, props.currentTeam, updateUnreadIndicators]);
+
+    useEffect(() => {
+        if (props.currentChannelId) {
+            props.actions.close();
+        }
+    }, [props.currentChannelId, props.actions]);
+
+    const onScroll = useMemo(() => debounce(() => {
+        updateUnreadIndicators();
+    }, 100), [updateUnreadIndicators]);
+
+    const onTransitionEnd = useMemo(() => debounce(() => {
+        updateUnreadIndicators();
+    }, 100), [updateUnreadIndicators]);
+
+    useEffect(() => {
+        return () => {
+            onScroll.cancel();
+            onTransitionEnd.cancel();
+        };
+    }, [onScroll, onTransitionEnd]);
+
+    const handleClear = useCallback(() => setSearchTerm(''), []);
+    const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => setSearchTerm(e.target.value), []);
+
+    const onBeforeCapture = useCallback((before: BeforeCapture) => {
+        channelRefs.current.forEach((ref) => ref.classList.remove('animating'));
+
+        if (!props.multiSelectedChannelIds.find((id) => before.draggableId === id)) {
+            props.actions.clearChannelSelection();
+        }
+
+        const draggingState: DraggingState = {
+            state: DraggingStates.CAPTURE,
+            id: before.draggableId,
+        };
+
+        if (props.categories && props.categories.some((category) => category.id === before.draggableId)) {
+            draggingState.type = DraggingStateTypes.CATEGORY;
+        } else {
+            const draggingChannels = props.displayedChannels.filter((channel) => props.multiSelectedChannelIds.indexOf(channel.id) !== -1 || channel.id === before.draggableId);
+            if (draggingChannels.every((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.DM;
+            } else if (draggingChannels.every((channel) => channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL)) {
+                draggingState.type = DraggingStateTypes.CHANNEL;
+            } else {
+                draggingState.type = DraggingStateTypes.MIXED_CHANNELS;
+            }
+        }
+
+        props.actions.setDraggingState(draggingState);
+    }, [props.multiSelectedChannelIds, props.actions, props.categories, props.displayedChannels]);
+
+    const onBeforeDragStart = useCallback(() => {
+        props.actions.setDraggingState({state: DraggingStates.BEFORE});
+    }, [props.actions]);
+
+    const onDragStart = useCallback((initial: DragStart) => {
+        props.onDragStart(initial);
+        props.actions.setDraggingState({state: DraggingStates.DURING});
+    }, [props.onDragStart, props.actions]);
+
+    const onDragEnd = useCallback((result: DropResult) => {
+        props.onDragEnd(result);
+        if (result.reason === 'DROP' && result.destination) {
+            if (result.type === 'SIDEBAR_CHANNEL') {
+                props.actions.moveChannelsInSidebar(result.destination.droppableId, result.destination.index, result.draggableId);
+            } else if (result.type === 'SIDEBAR_CATEGORY') {
+                props.actions.moveCategory(props.currentTeam!.id, result.draggableId, result.destination.index);
+            }
+        }
+        props.actions.stopDragging();
+    }, [props.onDragEnd, props.actions, props.currentTeam]);
+
+    const renderCategory = (category: ChannelCategory, index: number) => {
         let searchBar: React.ReactNode;
         if (category.type === 'direct_messages') {
             searchBar = (
                 <div className='SidebarChannelNavigator'>
                     <SearchBar
-                        searchTerms={this.state.searchTerm}
+                        searchTerms={searchTerm}
                         isSearchingTerm={false}
                         suggestionProviders={[]}
                         updateHighlightedSearchHint={() => {}}
-                        handleChange={this.handleChange}
+                        handleChange={handleChange}
                         handleSubmit={(e: React.FormEvent<HTMLFormElement>) => e.preventDefault()}
                         handleEnterKey={() => {}}
-                        handleClear={this.handleClear}
+                        handleClear={handleClear}
                         handleFocus={() => {}}
                         handleBlur={() => {}}
                         keepFocused={false}
@@ -391,276 +372,170 @@ export class SidebarList extends React.PureComponent<Props, State> {
             );
         }
 
-        const searchTerm = category.type === 'direct_messages' ? this.state.searchTerm : (category.type === 'channels' ? (this.props.channelSearchTerm || '') : '');
-        const onClearSearch = category.type === 'direct_messages' ? this.handleClear : (category.type === 'channels' ? this.props.onClearChannelSearchTerm : undefined);
+        const categorySearchTerm = category.type === 'direct_messages' ? searchTerm : (category.type === 'channels' ? (props.channelSearchTerm || '') : '');
+        const onClearSearch = category.type === 'direct_messages' ? handleClear : (category.type === 'channels' ? props.onClearChannelSearchTerm : undefined);
 
         return (
             <SidebarCategory
                 key={category.id}
                 category={category}
                 categoryIndex={index}
-                setChannelRef={this.setChannelRef}
-                handleOpenMoreDirectChannelsModal={this.props.handleOpenMoreDirectChannelsModal}
-                isNewCategory={this.props.newCategoryIds.includes(category.id)}
-                isDirectMessageList={this.props.isDirectMessageList}
+                setChannelRef={setChannelRef}
+                handleOpenMoreDirectChannelsModal={props.handleOpenMoreDirectChannelsModal}
+                isNewCategory={props.newCategoryIds.includes(category.id)}
+                isDirectMessageList={props.isDirectMessageList}
                 searchBar={searchBar}
-                searchTerm={searchTerm}
-                scrollbarRef={this.scrollbar}
-                onScroll={this.onScroll}
+                searchTerm={categorySearchTerm}
+                scrollbarRef={scrollbar}
+                onScroll={onScroll}
                 onClearSearch={onClearSearch}
             />
         );
     };
 
-    onScroll = debounce(() => {
-        this.updateUnreadIndicators();
-    }, 100);
+    const {categories} = props;
 
-    onTransitionEnd = debounce(() => {
-        this.updateUnreadIndicators();
-    }, 100);
-
-    onBeforeCapture = (before: BeforeCapture) => {
-        // // Ensure no channels are animating
-        this.channelRefs.forEach((ref) => ref.classList.remove('animating'));
-
-        // Turn off scrolling temporarily so that dimensions can be captured
-        const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
-        droppable[0].style.height = `${droppable[0].scrollHeight}px`;
-
-        if (!this.props.multiSelectedChannelIds.find((id) => before.draggableId === id)) {
-            this.props.actions.clearChannelSelection();
+    let channelList: React.ReactNode;
+    if (props.isUnreadFilterEnabled && !props.isDirectMessageList) {
+        channelList = <UnreadChannels setChannelRef={setChannelRef} />;
+    } else {
+        let unreadsCategory;
+        if (props.showUnreadsCategory && !props.isDirectMessageList) {
+            unreadsCategory = <UnreadChannels setChannelRef={setChannelRef} />;
         }
 
-        const draggingState: DraggingState = {
-            state: DraggingStates.CAPTURE,
-            id: before.draggableId,
-        };
-
-        if (this.props.categories && this.props.categories.some((category) => category.id === before.draggableId)) {
-            draggingState.type = DraggingStateTypes.CATEGORY;
-        } else {
-            const draggingChannels = this.props.displayedChannels.filter((channel) => this.props.multiSelectedChannelIds.indexOf(channel.id) !== -1 || channel.id === before.draggableId);
-            if (draggingChannels.every((channel) => channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL)) {
-                draggingState.type = DraggingStateTypes.DM;
-            } else if (draggingChannels.every((channel) => channel.type !== General.DM_CHANNEL && channel.type !== General.GM_CHANNEL)) {
-                draggingState.type = DraggingStateTypes.CHANNEL;
-            } else {
-                draggingState.type = DraggingStateTypes.MIXED_CHANNELS;
+        const filteredCategories = categories?.filter((category) => {
+            if (props.isMobileView) {
+                return true;
             }
-        }
+            const isDM = category.type === 'direct_messages';
+            return props.isDirectMessageList ? isDM : !isDM;
+        });
 
-        this.props.actions.setDraggingState(draggingState);
-    };
+        const renderedCategories = filteredCategories?.map(renderCategory);
 
-    onBeforeDragStart = () => {
-        this.props.actions.setDraggingState({state: DraggingStates.BEFORE});
-    };
-
-    onDragStart = (initial: DragStart) => {
-        this.props.onDragStart(initial);
-
-        this.props.actions.setDraggingState({state: DraggingStates.DURING});
-
-        // Re-enable scroll box resizing
-        const droppable = [...document.querySelectorAll<HTMLDivElement>('[data-rbd-droppable-id*="droppable-categories"]')];
-        droppable[0].style.height = '';
-    };
-
-    handleClear = () => {
-        this.setState({searchTerm: ''});
-    };
-
-    handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        this.setState({searchTerm: e.target.value});
-    };
-
-    onDragEnd = (result: DropResult) => {
-        this.props.onDragEnd(result);
-
-        if (result.reason === 'DROP' && result.destination) {
-            if (result.type === 'SIDEBAR_CHANNEL') {
-                this.props.actions.moveChannelsInSidebar(result.destination.droppableId, result.destination.index, result.draggableId);
-            } else if (result.type === 'SIDEBAR_CATEGORY') {
-                this.props.actions.moveCategory(this.props.currentTeam!.id, result.draggableId, result.destination.index);
-            }
-        }
-
-        this.props.actions.stopDragging();
-    };
-
-    render() {
-        const {categories} = this.props;
-
-        let channelList: React.ReactNode;
-        if (this.props.isUnreadFilterEnabled && !this.props.isDirectMessageList) {
-            channelList = (
-                <UnreadChannels
-                    setChannelRef={this.setChannelRef}
-                />
-            );
-        } else {
-            let unreadsCategory;
-            if (this.props.showUnreadsCategory && !this.props.isDirectMessageList) {
-                unreadsCategory = (
-                    <UnreadChannels
-                        setChannelRef={this.setChannelRef}
-                    />
-                );
-            }
-
-            const filteredCategories = categories?.filter((category) => {
-                if (this.props.isMobileView) {
-                    return true;
-                }
-                const isDM = category.type === 'direct_messages';
-                return this.props.isDirectMessageList ? isDM : !isDM;
-            });
-
-            const renderedCategories = filteredCategories?.map(this.renderCategory);
-
-            channelList = (
-                <>
-                    {unreadsCategory}
-                    <DragDropContext
-                        onDragEnd={this.onDragEnd}
-                        onBeforeDragStart={this.onBeforeDragStart}
-                        onBeforeCapture={this.onBeforeCapture}
-                        onDragStart={this.onDragStart}
-                    >
-                        <Droppable
-                            droppableId='droppable-categories'
-                            type='SIDEBAR_CATEGORY'
-                        >
-                            {(provided) => {
-                                return (
-                                    <div
-                                        id={'sidebar-droppable-categories'}
-                                        ref={provided.innerRef}
-                                        {...provided.droppableProps}
-                                    >
-                                        {renderedCategories}
-                                        {provided.placeholder}
-                                    </div>
-                                );
-                            }}
-                        </Droppable>
-                    </DragDropContext>
-                </>
-            );
-        }
-
-        const above = (
-            <FormattedMessage
-                id='sidebar.unreads'
-                defaultMessage='More unreads'
-            />
-        );
-
-        const below = (
-            <FormattedMessage
-                id='sidebar.unreads'
-                defaultMessage='More unreads'
-            />
-        );
-
-        const ariaLabel = this.props.intl.formatMessage({id: 'accessibility.sections.lhsList', defaultMessage: 'channel sidebar region'});
-
-        return (
-
-            // NOTE: id attribute added to temporarily support the desktop app's at-mention DOM scraping of the old sidebar
+        channelList = (
             <>
-                {!this.props.isDirectMessageList && (
-                    <>
-                        {!this.props.isMobileView && (
-                            <ul className='SidebarDirectMessagesToggle NavGroupContent nav nav-pills__container'>
-                                <li
-                                    className={classNames('SidebarChannel', {active: this.props.showDirectMessages})}
-                                    tabIndex={-1}
-                                    id='sidebar-direct-messages-toggle'
-                                >
-                                    <a
-                                        onClick={this.handleDirectMessagesToggleClick}
-                                        href={window.location?.pathname || '/'}
-                                        id='sidebarItem_direct_messages'
-                                        draggable='false'
-                                        className={classNames('SidebarLink sidebar-item')}
-                                        tabIndex={0}
-                                    >
-                                        <span className='icon'>
-                                            <i className='icon icon-account-multiple-outline'/>
-                                        </span>
-                                        <div className='SidebarChannelLinkLabel_wrapper'>
-                                            <span className='SidebarChannelLinkLabel sidebar-item__name'>
-                                                {this.props.intl.formatMessage({id: 'sidebar.types.direct_messages', defaultMessage: 'DIRECT MESSAGES'})}
-                                            </span>
-                                        </div>
-
-                                    </a>
-                                </li>
-                            </ul>
-                        )}
-                        <div
-                            onClickCapture={() => {
-                                if (this.props.showDirectMessages) {
-                                    this.props.toggleDirectMessagesSidebar?.();
-                                }
-                            }}
-                        >
-                            <GlobalThreadsLink/>
-                        </div>
-                        <div
-                            onClickCapture={() => {
-                                if (this.props.showDirectMessages) {
-                                    this.props.toggleDirectMessagesSidebar?.();
-                                }
-                            }}
-                        >
-                            <DraftsLink/>
-                        </div>
-                    </>
-                )}
-                <div
-                    id='sidebar-left'
-                    role='application'
-                    aria-label={ariaLabel}
-                    className={classNames('SidebarNavContainer a11y__region', {
-                        disabled: this.props.isUnreadFilterEnabled,
-                    })}
-                    data-a11y-disable-nav={Boolean(this.props.draggingState.type)}
-                    data-a11y-sort-order='7'
-                    onTransitionEnd={this.onTransitionEnd}
+                {unreadsCategory}
+                <DragDropContext
+                    onDragEnd={onDragEnd}
+                    onBeforeDragStart={onBeforeDragStart}
+                    onBeforeCapture={onBeforeCapture}
+                    onDragStart={onDragStart}
                 >
-                    {!this.props.isDirectMessageList && (
-                        <>
-                            <UnreadChannelIndicator
-                                name='Top'
-                                show={this.state.showTopUnread}
-                                onClick={this.scrollToFirstUnreadChannel}
-                                extraClass='nav-pills__unread-indicator-top'
-                                content={above}
-                            />
-                            <UnreadChannelIndicator
-                                name='Bottom'
-                                show={this.state.showBottomUnread}
-                                onClick={this.scrollToLastUnreadChannel}
-                                extraClass='nav-pills__unread-indicator-bottom'
-                                content={below}
-                            />
-                        </>
-                    )}
-                    {this.props.isDirectMessageList ? channelList : (
-                        <Scrollbars
-                            ref={this.scrollbar}
-                            onScroll={this.onScroll}
-                        >
-                            {channelList}
-                        </Scrollbars>
-                    )}
-                </div>
+                    <Droppable
+                        droppableId='droppable-categories'
+                        type='SIDEBAR_CATEGORY'
+                    >
+                        {(provided) => (
+                            <div
+                                id={'sidebar-droppable-categories'}
+                                ref={provided.innerRef}
+                                {...provided.droppableProps}
+                            >
+                                {renderedCategories}
+                                {provided.placeholder}
+                            </div>
+                        )}
+                    </Droppable>
+                </DragDropContext>
             </>
         );
     }
-}
 
-export default injectIntl(SidebarList);
+    const ariaLabel = intl.formatMessage({id: 'accessibility.sections.lhsList', defaultMessage: 'channel sidebar region'});
+
+    return (
+        <>
+            {!props.isDirectMessageList && (
+                <>
+                    {!props.isMobileView && (
+                        <ul className='SidebarDirectMessagesToggle NavGroupContent nav nav-pills__container'>
+                            <li
+                                className={classNames('SidebarChannel', {active: props.showDirectMessages})}
+                                tabIndex={-1}
+                                id='sidebar-direct-messages-toggle'
+                            >
+                                <a
+                                    onClick={handleDirectMessagesToggleClick}
+                                    href={window.location?.pathname || '/'}
+                                    id='sidebarItem_direct_messages'
+                                    draggable='false'
+                                    className={classNames('SidebarLink sidebar-item')}
+                                    tabIndex={0}
+                                >
+                                    <span className='icon'>
+                                        <i className='icon icon-account-multiple-outline'/>
+                                    </span>
+                                    <div className='SidebarChannelLinkLabel_wrapper'>
+                                        <span className='SidebarChannelLinkLabel sidebar-item__name'>
+                                            {intl.formatMessage({id: 'sidebar.types.direct_messages', defaultMessage: 'DIRECT MESSAGES'})}
+                                        </span>
+                                    </div>
+                                </a>
+                            </li>
+                        </ul>
+                    )}
+                    <div
+                        onClickCapture={() => {
+                            if (props.showDirectMessages) {
+                                props.toggleDirectMessagesSidebar?.();
+                            }
+                        }}
+                    >
+                        <GlobalThreadsLink/>
+                    </div>
+                    <div
+                        onClickCapture={() => {
+                            if (props.showDirectMessages) {
+                                props.toggleDirectMessagesSidebar?.();
+                            }
+                        }}
+                    >
+                        <DraftsLink/>
+                    </div>
+                </>
+            )}
+            <div
+                id='sidebar-left'
+                role='application'
+                aria-label={ariaLabel}
+                className={classNames('SidebarNavContainer a11y__region', {
+                    disabled: props.isUnreadFilterEnabled,
+                })}
+                data-a11y-disable-nav={Boolean(props.draggingState.type)}
+                data-a11y-sort-order='7'
+                onTransitionEnd={onTransitionEnd}
+            >
+                {!props.isDirectMessageList && (
+                    <>
+                        <UnreadChannelIndicator
+                            name='Top'
+                            show={showTopUnread}
+                            onClick={() => scrollToChannel(getFirstUnreadChannel(), true)}
+                            extraClass='nav-pills__unread-indicator-top'
+                            content={<FormattedMessage id='sidebar.unreads' defaultMessage='More unreads' />}
+                        />
+                        <UnreadChannelIndicator
+                            name='Bottom'
+                            show={showBottomUnread}
+                            onClick={() => scrollToChannel(getLastUnreadChannel(), true)}
+                            extraClass='nav-pills__unread-indicator-bottom'
+                            content={<FormattedMessage id='sidebar.unreads' defaultMessage='More unreads' />}
+                        />
+                    </>
+                )}
+                {props.isDirectMessageList ? channelList : (
+                    <Scrollbars
+                        ref={scrollbar as any}
+                        onScroll={onScroll}
+                    >
+                        {channelList}
+                    </Scrollbars>
+                )}
+            </div>
+        </>
+    );
+};
+
+export default memo(SidebarList);
