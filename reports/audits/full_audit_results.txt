@@ -1,0 +1,152 @@
+File Analyzed: API Handler | Healthy - server/channels/api4/access_control.go
+File Analyzed: API Handler | Healthy - server/channels/api4/access_control_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/agents.go
+File Analyzed: API Handler | Healthy - server/channels/api4/api.go
+File Analyzed: API Handler | Issues found: Uses panic (line 454) - server/channels/api4/apitestlib.go
+File Analyzed: API Handler | Healthy - server/channels/api4/audit_logging.go
+File Analyzed: API Handler | Healthy - server/channels/api4/bot.go
+File Analyzed: API Handler | Healthy - server/channels/api4/bot_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/brand.go
+File Analyzed: API Handler | Issues found: Contains 1 TODOs - server/channels/api4/channel.go
+File Analyzed: API Handler | Healthy - server/channels/api4/channel_bookmark.go
+File Analyzed: API Handler | Healthy - server/channels/api4/channel_category.go
+File Analyzed: API Handler | Issues found: Contains 1 TODOs - server/channels/api4/channel_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/cloud.go
+File Analyzed: API Handler | Healthy - server/channels/api4/cluster.go
+File Analyzed: API Handler | Healthy - server/channels/api4/command.go
+File Analyzed: API Handler | Healthy - server/channels/api4/command_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/compliance.go
+File Analyzed: API Handler | Issues found: Contains 1 TODOs - server/channels/api4/config.go
+File Analyzed: API Handler | Healthy - server/channels/api4/config_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/content_flagging.go
+File Analyzed: API Handler | Healthy - server/channels/api4/custom_profile_attributes.go
+File Analyzed: API Handler | Healthy - server/channels/api4/custom_profile_attributes_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/data_retention.go
+File Analyzed: API Handler | Healthy - server/channels/api4/doc.go
+File Analyzed: API Handler | Healthy - server/channels/api4/drafts.go
+File Analyzed: API Handler | Issues found: Contains 1 TODOs - server/channels/api4/elasticsearch.go
+File Analyzed: API Handler | Healthy - server/channels/api4/emoji.go
+File Analyzed: API Handler | Healthy - server/channels/api4/export.go
+File Analyzed: API Handler | Healthy - server/channels/api4/export_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/file.go
+File Analyzed: API Handler | Healthy - server/channels/api4/group.go
+File Analyzed: API Handler | Healthy - server/channels/api4/group_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/handlers.go
+File Analyzed: API Handler | Healthy - server/channels/api4/helpers.go
+File Analyzed: API Handler | Healthy - server/channels/api4/hosted_customer.go
+File Analyzed: API Handler | Healthy - server/channels/api4/image.go
+File Analyzed: API Handler | Healthy - server/channels/api4/import.go
+File Analyzed: API Handler | Healthy - server/channels/api4/import_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/integration_action.go
+File Analyzed: API Handler | Healthy - server/channels/api4/ip_filtering.go
+File Analyzed: API Handler | Healthy - server/channels/api4/job.go
+File Analyzed: API Handler | Healthy - server/channels/api4/job_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/ldap.go
+File Analyzed: API Handler | Healthy - server/channels/api4/ldap_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/license.go
+File Analyzed: API Handler | Healthy - server/channels/api4/license_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/limits.go
+File Analyzed: API Handler | Healthy - server/channels/api4/metrics.go
+File Analyzed: API Handler | Healthy - server/channels/api4/notify_admin.go
+File Analyzed: API Handler | Healthy - server/channels/api4/oauth.go
+File Analyzed: API Handler | Healthy - server/channels/api4/outgoing_oauth_connection.go
+File Analyzed: API Handler | Healthy - server/channels/api4/permission.go
+File Analyzed: API Handler | Healthy - server/channels/api4/plugin.go
+File Analyzed: API Handler | Healthy - server/channels/api4/plugin_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/post.go
+File Analyzed: API Handler | Healthy - server/channels/api4/post_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/post_utils.go
+File Analyzed: API Handler | Healthy - server/channels/api4/preference.go
+File Analyzed: API Handler | Healthy - server/channels/api4/preference_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/reaction.go
+File Analyzed: API Handler | Healthy - server/channels/api4/recap.go
+File Analyzed: API Handler | Healthy - server/channels/api4/remote_cluster.go
+File Analyzed: API Handler | Healthy - server/channels/api4/report.go
+File Analyzed: API Handler | Healthy - server/channels/api4/role.go
+File Analyzed: API Handler | Healthy - server/channels/api4/role_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/saml.go
+File Analyzed: API Handler | Healthy - server/channels/api4/scheduled_post.go
+File Analyzed: API Handler | Healthy - server/channels/api4/scheme.go
+File Analyzed: API Handler | Healthy - server/channels/api4/shared_channel.go
+File Analyzed: API Handler | Healthy - server/channels/api4/shared_channel_test_utils.go
+File Analyzed: API Handler | Healthy - server/channels/api4/status.go
+File Analyzed: API Handler | Healthy - server/channels/api4/system.go
+File Analyzed: API Handler | Healthy - server/channels/api4/system_local.go
+File Analyzed: API Handler | Issues found: Contains 1 TODOs - server/channels/api4/team.go
+File Analyzed: API Handler | Healthy - server/channels/api4/team_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/terms_of_service.go
+File Analyzed: API Handler | Healthy - server/channels/api4/upload.go
+File Analyzed: API Handler | Healthy - server/channels/api4/upload_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/usage.go
+File Analyzed: API Handler | Healthy - server/channels/api4/user.go
+File Analyzed: API Handler | Healthy - server/channels/api4/user_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/webhook.go
+File Analyzed: API Handler | Healthy - server/channels/api4/webhook_local.go
+File Analyzed: API Handler | Healthy - server/channels/api4/websocket.go
+File Analyzed: Data Access Layer (Store) | Issues found: Uses panic (line 104), Uses panic (line 125) - server/channels/store/sqlstore/access_control_policy_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/adapters.go
+File Analyzed: Data Access Layer (Store) | Issues found: Uses panic (line 32) - server/channels/store/sqlstore/attributes_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/audit_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/autotranslation_store.go
+File Analyzed: Data Access Layer (Store) | Issues found: Contains 2 TODOs - server/channels/store/sqlstore/bot_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/channel_bookmark_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/channel_member_history_store.go
+File Analyzed: Data Access Layer (Store) | Issues found: Contains 4 TODOs, Uses panic (line 117) - server/channels/store/sqlstore/channel_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/channel_store_categories.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/cluster_discovery_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/command_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/command_webhook_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/compliance_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/content_flagging_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/context.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/desktop_tokens_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/draft_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/emoji_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/file_info_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/group_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/integrity.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/job_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/license_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/link_metadata_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/migrate.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/notify_admin_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/oauth_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/outgoing_oauth_connection_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/plugin_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/post_acknowledgements_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/post_persistent_notification_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/post_priority_store.go
+File Analyzed: Data Access Layer (Store) | Issues found: Contains 4 TODOs - server/channels/store/sqlstore/post_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/preference_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/product_notices_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/property_field_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/property_group_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/property_value_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/reaction_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/read_receipt_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/recap_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/remote_cluster_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/retention_policy_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/role_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/scheduled_post_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/schema_dump.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/scheme_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/session_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/shared_channel_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/shared_channel_store_membership.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/sqlx_wrapper.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/status_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/system_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/team_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/temporary_post_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/terms_of_service_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/testpool.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/thread_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/tokens_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/upload_session_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/user_access_token_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/user_store.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/user_terms_of_service.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/utils.go
+File Analyzed: Data Access Layer (Store) | Healthy - server/channels/store/sqlstore/webhook_store.go
