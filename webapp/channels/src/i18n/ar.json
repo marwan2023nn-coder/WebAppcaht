@@ -3210,6 +3210,8 @@
     "admin.system_users.revoke_all_sessions_button": "إلغاء كل الجلسات",
     "admin.system_users.revoke_all_sessions_modal_message": "هذا الإجراء يُلغي كل الجلسات في النظام. سيتم تسجيل خروج جميع المستخدمين من جميع الأجهزة، بما في ذلك جلستك. هل أنت متأكد من رغبتك في إلغاء كل الجلسات؟",
     "admin.system_users.revoke_all_sessions_modal_title": "إلغاء كل الجلسات في النظام",
+    "admin.system_users.online_only": "عرض المستخدمين المتصلين فقط",
+    "admin.system_users.online_only.aria": "تبديل عرض المستخدمين المتصلين فقط",
     "admin.system_users.search.placeholder": "بحث عن المستخدمين",
     "admin.system_users.title": "مستخدمي {siteName}",
     "admin.system_users_list.pagination": "عرض {firstPage} - {lastPage} من {totalItems} مستخدم",
