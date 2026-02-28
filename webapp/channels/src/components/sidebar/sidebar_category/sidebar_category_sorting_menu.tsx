@@ -231,19 +231,19 @@ const SidebarCategorySortingMenu = ({
         </Menu.SubMenu>
     );
 
-    // const openDirectMessageMenuItem = (
-    //     <Menu.Item
-    //         id={`openDirectMessage-${category.id}`}
-    //         onClick={handleOpenDirectMessagesModal}
-    //         leadingElement={<AccountPlusOutlineIcon size={18}/>}
-    //         labels={(
-    //             <FormattedMessage
-    //                 id='sidebar.openDirectMessage'
-    //                 defaultMessage='Open a direct message'
-    //             />
-    //         )}
-    //     />
-    // );
+    const openDirectMessageMenuItem = (
+        <Menu.Item
+            id={`openDirectMessage-${category.id}`}
+            onClick={handleOpenDirectMessagesModal}
+            leadingElement={<AccountPlusOutlineIcon size={18}/>}
+            labels={(
+                <FormattedMessage
+                    id='sidebar.openDirectMessage'
+                    defaultMessage='Open a direct message'
+                />
+            )}
+        />
+    );
 
     function handleMenuToggle(isOpen: boolean) {
         setIsMenuOpen(isOpen);
@@ -278,8 +278,8 @@ const SidebarCategorySortingMenu = ({
                 {sortDirectMessagesMenuItem}
                 {showMessagesCountMenuItem}
                 {filterByStatusMenuItem}
-                {/* <Menu.Separator/> */}
-                {/* {openDirectMessageMenuItem} */}
+                <Menu.Separator/>
+                {openDirectMessageMenuItem}
             </Menu.Container>
         </div>
     );

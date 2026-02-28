@@ -355,7 +355,7 @@ const SidebarCategory = (props: Props) => {
                 </WithTooltip>
                 <SidebarCategorySortingMenu
                     category={category}
-                    handleOpenDirectMessagesModal={handleOpenMoreDirectChannelsModal}
+                    handleOpenDirectMessagesModal={handleOpenDirectMessagesModal}
                 />
             </div>
         );
