@@ -17,7 +17,7 @@ import (
 // SyncLdap starts an LDAP sync job.
 func (a *App) SyncLdap(rctx request.CTX) {
 	a.Srv().Go(func() {
-		if license := a.Srv().License(); license != nil && *license.Features.LDAP {
+		if license := a.Srv().License(); license != nil && license.Features != nil && model.SafeDereference(license.Features.LDAP) {
 			if !*a.Config().LdapSettings.EnableSync {
 				rctx.Logger().Error("LdapSettings.EnableSync is set to false. Skipping LDAP sync.")
 				return
@@ -37,7 +37,7 @@ func (a *App) SyncLdap(rctx request.CTX) {
 
 func (a *App) TestLdap(rctx request.CTX) *model.AppError {
 	license := a.Srv().License()
-	if ldapI := a.LdapDiagnostic(); ldapI != nil && license != nil && *license.Features.LDAP && (*a.Config().LdapSettings.Enable || *a.Config().LdapSettings.EnableSync) {
+	if ldapI := a.LdapDiagnostic(); ldapI != nil && license != nil && license.Features != nil && model.SafeDereference(license.Features.LDAP) && (*a.Config().LdapSettings.Enable || *a.Config().LdapSettings.EnableSync) {
 		return ldapI.RunTest(rctx)
 	}
 
@@ -51,7 +51,7 @@ func (a *App) TestLdapConnection(rctx request.CTX, settings model.LdapSettings) 
 
 	// NOTE: normally we would test (*a.Config().LdapSettings.Enable || *a.Config().LdapSettings.EnableSync),
 	// but we want to allow sysadmins to test the connection without enabling and saving the config first.
-	if ldapI != nil && license != nil && model.SafeDereference(license.Features.LDAP) {
+	if ldapI != nil && license != nil && license.Features != nil && model.SafeDereference(license.Features.LDAP) {
 		return ldapI.RunTestConnection(rctx, settings)
 	}
 
@@ -65,7 +65,7 @@ func (a *App) TestLdapDiagnostics(rctx request.CTX, testType model.LdapDiagnosti
 
 	// NOTE: normally we would test (*a.Config().LdapSettings.Enable || *a.Config().LdapSettings.EnableSync),
 	// but we want to allow sysadmins to test the connection without enabling and saving the config first.
-	if ldapI != nil && license != nil && *license.Features.LDAP {
+	if ldapI != nil && license != nil && license.Features != nil && model.SafeDereference(license.Features.LDAP) {
 		return ldapI.RunTestDiagnostics(rctx, testType, settings)
 	}
 
