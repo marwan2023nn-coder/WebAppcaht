@@ -9,6 +9,8 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/require"
+
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestNewStoreFromDSN(t *testing.T) {
@@ -36,6 +38,33 @@ func TestNewStoreFromDSN(t *testing.T) {
 		fs, err := NewStoreFromDSN("config_test.json", false, nil, true)
 		require.NoError(t, err)
 		fs.Close()
+	})
+}
+
+func TestSQLSettingsDataSourceOverride(t *testing.T) {
+	os.Setenv("MM_SQLSETTINGS_DATASOURCE", "postgres://user:pass@remotehost:5432/dbname?sslmode=disable")
+	defer os.Unsetenv("MM_SQLSETTINGS_DATASOURCE")
+
+	memstore, err := NewMemoryStore()
+	require.NoError(t, err)
+
+	// Create a config with a different datasource
+	initialConfig := &model.Config{}
+	initialConfig.SqlSettings.DataSource = model.NewPointer("postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable")
+	initialConfig.SetDefaults()
+
+	err = memstore.Set(initialConfig)
+	require.NoError(t, err)
+
+	store, err := NewStoreFromBacking(memstore, nil, false)
+	require.NoError(t, err)
+
+	t.Run("Get should return the environment variable override", func(t *testing.T) {
+		require.Equal(t, "postgres://user:pass@remotehost:5432/dbname?sslmode=disable", *store.Get().SqlSettings.DataSource)
+	})
+
+	t.Run("GetNoEnv should return the original value from the store", func(t *testing.T) {
+		require.Equal(t, "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable", *store.GetNoEnv().SqlSettings.DataSource)
 	})
 }
 
