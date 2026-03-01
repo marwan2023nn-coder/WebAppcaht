@@ -158,6 +158,8 @@ func (a *App) RecycleDatabaseConnection(rctx request.CTX) {
 
 func (a *App) TestSiteURL(rctx request.CTX, siteURL string) *model.AppError {
 	url := fmt.Sprintf("%s/api/v4/system/ping", siteURL)
+	// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
+	// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
 	res, err := a.HTTPService().MakeClient(false).Get(url)
 	if err != nil || res.StatusCode != 200 {
 		return model.NewAppError("testSiteURL", "app.admin.test_site_url.failure", nil, "", http.StatusBadRequest)
@@ -207,6 +209,8 @@ func (a *App) GetLatestVersion(rctx request.CTX, latestVersionUrl string) (*mode
 		return cachedLatestVersion, nil
 	}
 
+	// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
+	// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
 	res, err := a.HTTPService().MakeClient(false).Get(latestVersionUrl)
 	if err != nil {
 		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)

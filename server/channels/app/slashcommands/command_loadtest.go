@@ -7,7 +7,6 @@ import (
 	"context"
 	"encoding/json"
 	"io"
-	"net/http"
 	"path"
 	"regexp"
 	"slices"
@@ -639,7 +638,7 @@ func (*LoadTestProvider) URLCommand(a *app.App, rctx request.CTX, args *model.Co
 		}
 	}
 
-	r, err := http.Get(url)
+	r, err := a.HTTPService().MakeClient(false).Get(url)
 	if err != nil {
 		return &model.CommandResponse{Text: "Unable to get file", ResponseType: model.CommandResponseTypeEphemeral}, err
 	}
@@ -696,7 +695,7 @@ func (*LoadTestProvider) JSONCommand(a *app.App, rctx request.CTX, args *model.C
 		}
 	}
 
-	r, err := http.Get(url)
+	r, err := a.HTTPService().MakeClient(false).Get(url)
 	if err != nil {
 		return &model.CommandResponse{Text: "Unable to get file", ResponseType: model.CommandResponseTypeEphemeral}, err
 	}

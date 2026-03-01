@@ -86,6 +86,8 @@ func (s *Server) DoSecurityUpdateCheck() {
 			v.Set(PropSecurityTeamCount, strconv.FormatInt(teamCount, 10))
 		}
 
+		// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
+		// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
 		res, err := s.HTTPService().MakeClient(false).Get(PropSecurityURL + "/security?" + v.Encode())
 		if err != nil {
 			mlog.Error("Failed to get security update information from Mattermost.")
@@ -109,6 +111,8 @@ func (s *Server) DoSecurityUpdateCheck() {
 						return
 					}
 
+					// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
+					// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
 					resBody, err := s.HTTPService().MakeClient(false).Get(PropSecurityURL + "/bulletins/" + bulletin.Id)
 					if err != nil {
 						mlog.Error("Failed to get security bulletin details")

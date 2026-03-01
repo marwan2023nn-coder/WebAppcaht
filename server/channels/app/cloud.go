@@ -49,7 +49,9 @@ func (a *App) GetPreviewModalData() ([]model.PreviewModalContentData, *model.App
 	// Construct the full URL to the modal_content.json file
 	fileURL := *bucketURL + "/modal_content.json"
 
-	// Make HTTP request to S3
+	// Make HTTP request to S3. We use MakeClient(false) to enable SSRF protection.
+	// Internal services can be whitelisted via ServiceSettings.AllowedUntrustedInternalConnections
+	// in the server configuration.
 	resp, err := a.HTTPService().MakeClient(false).Get(fileURL)
 	if err != nil {
 		return nil, model.NewAppError("GetPreviewModalData", "app.cloud.preview_modal_data_fetch_error", nil, "", http.StatusInternalServerError).Wrap(err)
