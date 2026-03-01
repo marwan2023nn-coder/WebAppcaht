@@ -901,3 +901,17 @@ func LimitBytes(s string, maxBytes int) (string, bool) {
 	}
 	return s, false
 }
+
+func SafeBool(b *bool) bool {
+	if b == nil {
+		return false
+	}
+	return *b
+}
+
+func SafeInt(i *int) int {
+	if i == nil {
+		return 0
+	}
+	return *i
+}

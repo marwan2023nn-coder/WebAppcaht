@@ -59,6 +59,9 @@ function menuActions(state: {[postId: string]: {[actionId: string]: {text: strin
         delete nextState[action.data.id];
         return nextState;
     }
+    case TeamTypes.SELECT_TEAM: {
+        return {};
+    }
     case UserTypes.LOGOUT_SUCCESS:
         return {};
     default:

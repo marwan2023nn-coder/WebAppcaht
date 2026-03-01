@@ -114,7 +114,7 @@ func channelSliceColumns(isSelect bool, prefix ...string) []string {
 	if len(prefix) == 1 {
 		p = prefix[0] + "."
 	} else if len(prefix) > 1 {
-		panic("cannot accept multiple prefixes")
+		p = prefix[0] + "."
 	}
 
 	columns := []string{

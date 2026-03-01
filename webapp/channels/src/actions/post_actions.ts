@@ -308,7 +308,8 @@ export function pinPost(postId: string): ActionFuncAsync<boolean> {
         const rhsState = getRhsState(state);
 
         if (rhsState === RHSStates.PIN) {
-            dispatch(addPostToSearchResults(postId));
+            const actions: AnyAction[] = [addPostToSearchResults(postId)];
+            dispatch(batchActions(actions));
         }
         return {data: true};
     };
@@ -452,8 +453,9 @@ export function deleteAndRemovePost(post: Post): ActionFuncAsync<boolean> {
             return {error};
         }
 
+        const actions: AnyAction[] = [];
         if (post.id === getSelectedPostId(getState())) {
-            dispatch({
+            actions.push({
                 type: ActionTypes.SELECT_POST,
                 postId: '',
                 channelId: '',
@@ -462,11 +464,15 @@ export function deleteAndRemovePost(post: Post): ActionFuncAsync<boolean> {
         }
 
         if (post.id === getSelectedPostCardId(getState())) {
-            dispatch({
+            actions.push({
                 type: ActionTypes.SELECT_POST_CARD,
                 postId: '',
                 channelId: '',
             });
+        }
+
+        if (actions.length > 0) {
+            dispatch(batchActions(actions));
         }
 
         if (post.root_id === '') {
