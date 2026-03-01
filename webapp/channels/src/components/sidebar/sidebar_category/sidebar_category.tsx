@@ -253,11 +253,13 @@ const SidebarCategory = (props: Props) => {
 
     const handleOpenDirectMessagesModal = useCallback((event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
         event.preventDefault();
+        event.stopPropagation();
         props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
     }, [props.handleOpenMoreDirectChannelsModal]);
 
     const openMessageMultipleUsersDmModal = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         props.actions.openModal({
             modalId: ModalIdentifiers.MESSAGE_MULTIPLE_USERS_DM,
             dialogType: MessageMultipleUsersDmModal,
@@ -453,7 +455,7 @@ const SidebarCategory = (props: Props) => {
                                                 )}
                                                 {suggestedChannels.map((c) => (
                                                     <li key={c.id} className='SidebarChannel SidebarNewMembersItem'>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); handleSuggestedChannelClick(c); }}>
+                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSuggestedChannelClick(c); }}>
                                                             <span className='icon'><SidebarBaseChannelIcon channelType={c.type}/></span>
                                                             <div className='SidebarChannelLinkLabel_wrapper'><span className='SidebarChannelLinkLabel sidebar-item__name'>{c.display_name}</span></div>
                                                         </a>
@@ -469,7 +471,7 @@ const SidebarCategory = (props: Props) => {
                                                 )}
                                                 {newMembers.map((u) => (
                                                     <li key={u.id} className={classNames('SidebarChannel SidebarNewMembersItem', {SidebarNewMembersItem__self: u.id === props.currentUserId})}>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
+                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
                                                             <UserDetails option={u}/>
                                                         </a>
                                                     </li>
@@ -508,7 +510,7 @@ const SidebarCategory = (props: Props) => {
                                                 )}
                                                 {newMembers.map((u) => (
                                                     <li key={u.id} className={classNames('SidebarChannel SidebarNewMembersItem', {SidebarNewMembersItem__self: u.id === props.currentUserId})}>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
+                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); e.stopPropagation(); if (u.id !== props.currentUserId) { handleNewMemberClick(u.id); } }}>
                                                             <UserDetails option={u}/>
                                                         </a>
                                                     </li>
@@ -522,7 +524,7 @@ const SidebarCategory = (props: Props) => {
                                                 )}
                                                 {suggestedChannels.map((c) => (
                                                     <li key={c.id} className='SidebarChannel SidebarNewMembersItem'>
-                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); handleSuggestedChannelClick(c); }}>
+                                                        <a className='SidebarLink sidebar-item SidebarNewMembersLink' href='#' onClick={(e) => { e.preventDefault(); e.stopPropagation(); handleSuggestedChannelClick(c); }}>
                                                             <span className='icon'><SidebarBaseChannelIcon channelType={c.type}/></span>
                                                             <div className='SidebarChannelLinkLabel_wrapper'><span className='SidebarChannelLinkLabel sidebar-item__name'>{c.display_name}</span></div>
                                                         </a>
