@@ -255,6 +255,9 @@ func (ps *PlatformService) SetLicense(license *model.License) bool {
 	}()
 
 	if license != nil {
+		if license.Features == nil {
+			license.Features = &model.Features{}
+		}
 		license.Features.SetDefaults()
 		ps.licenseValue.Store(license)
 		ps.clientLicenseValue.Store(utils.GetClientLicense(license))

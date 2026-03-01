@@ -163,39 +163,46 @@ func GetClientLicense(l *model.License) map[string]string {
 		props["Id"] = l.Id
 		props["SkuName"] = l.SkuName
 		props["SkuShortName"] = l.SkuShortName
-		props["Users"] = strconv.Itoa(*l.Features.Users)
-		props["LDAP"] = strconv.FormatBool(*l.Features.LDAP)
-		props["LDAPGroups"] = strconv.FormatBool(*l.Features.LDAPGroups)
-		props["MFA"] = strconv.FormatBool(*l.Features.MFA)
-		props["SAML"] = strconv.FormatBool(*l.Features.SAML)
-		props["Cluster"] = strconv.FormatBool(*l.Features.Cluster)
-		props["Metrics"] = strconv.FormatBool(*l.Features.Metrics)
-		props["GoogleOAuth"] = strconv.FormatBool(*l.Features.GoogleOAuth)
-		props["Office365OAuth"] = strconv.FormatBool(*l.Features.Office365OAuth)
-		props["OpenId"] = strconv.FormatBool(*l.Features.OpenId)
-		props["Compliance"] = strconv.FormatBool(*l.Features.Compliance)
-		props["MHPNS"] = strconv.FormatBool(*l.Features.MHPNS)
-		props["Announcement"] = strconv.FormatBool(*l.Features.Announcement)
-		props["Elasticsearch"] = strconv.FormatBool(*l.Features.Elasticsearch)
-		props["DataRetention"] = strconv.FormatBool(*l.Features.DataRetention)
-		props["IDLoadedPushNotifications"] = strconv.FormatBool(*l.Features.IDLoadedPushNotifications)
+
+		if l.Features != nil {
+			props["Users"] = strconv.Itoa(model.SafeInt(l.Features.Users))
+			props["LDAP"] = strconv.FormatBool(model.SafeBool(l.Features.LDAP))
+			props["LDAPGroups"] = strconv.FormatBool(model.SafeBool(l.Features.LDAPGroups))
+			props["MFA"] = strconv.FormatBool(model.SafeBool(l.Features.MFA))
+			props["SAML"] = strconv.FormatBool(model.SafeBool(l.Features.SAML))
+			props["Cluster"] = strconv.FormatBool(model.SafeBool(l.Features.Cluster))
+			props["Metrics"] = strconv.FormatBool(model.SafeBool(l.Features.Metrics))
+			props["GoogleOAuth"] = strconv.FormatBool(model.SafeBool(l.Features.GoogleOAuth))
+			props["Office365OAuth"] = strconv.FormatBool(model.SafeBool(l.Features.Office365OAuth))
+			props["OpenId"] = strconv.FormatBool(model.SafeBool(l.Features.OpenId))
+			props["Compliance"] = strconv.FormatBool(model.SafeBool(l.Features.Compliance))
+			props["MHPNS"] = strconv.FormatBool(model.SafeBool(l.Features.MHPNS))
+			props["Announcement"] = strconv.FormatBool(model.SafeBool(l.Features.Announcement))
+			props["Elasticsearch"] = strconv.FormatBool(model.SafeBool(l.Features.Elasticsearch))
+			props["DataRetention"] = strconv.FormatBool(model.SafeBool(l.Features.DataRetention))
+			props["IDLoadedPushNotifications"] = strconv.FormatBool(model.SafeBool(l.Features.IDLoadedPushNotifications))
+			props["EmailNotificationContents"] = strconv.FormatBool(model.SafeBool(l.Features.EmailNotificationContents))
+			props["MessageExport"] = strconv.FormatBool(model.SafeBool(l.Features.MessageExport))
+			props["CustomPermissionsSchemes"] = strconv.FormatBool(model.SafeBool(l.Features.CustomPermissionsSchemes))
+			props["GuestAccounts"] = strconv.FormatBool(model.SafeBool(l.Features.GuestAccounts))
+			props["GuestAccountsPermissions"] = strconv.FormatBool(model.SafeBool(l.Features.GuestAccountsPermissions))
+			props["CustomTermsOfService"] = strconv.FormatBool(model.SafeBool(l.Features.CustomTermsOfService))
+			props["LockTeammateNameDisplay"] = strconv.FormatBool(model.SafeBool(l.Features.LockTeammateNameDisplay))
+			props["Cloud"] = strconv.FormatBool(model.SafeBool(l.Features.Cloud))
+			props["SharedChannels"] = strconv.FormatBool(model.SafeBool(l.Features.SharedChannels))
+			props["RemoteClusterService"] = strconv.FormatBool(model.SafeBool(l.Features.RemoteClusterService))
+			props["OutgoingOAuthConnections"] = strconv.FormatBool(model.SafeBool(l.Features.OutgoingOAuthConnections))
+		}
+
 		props["IssuedAt"] = strconv.FormatInt(l.IssuedAt, 10)
 		props["StartsAt"] = strconv.FormatInt(l.StartsAt, 10)
 		props["ExpiresAt"] = strconv.FormatInt(l.ExpiresAt, 10)
-		props["Name"] = l.Customer.Name
-		props["Email"] = l.Customer.Email
-		props["Company"] = l.Customer.Company
-		props["EmailNotificationContents"] = strconv.FormatBool(*l.Features.EmailNotificationContents)
-		props["MessageExport"] = strconv.FormatBool(*l.Features.MessageExport)
-		props["CustomPermissionsSchemes"] = strconv.FormatBool(*l.Features.CustomPermissionsSchemes)
-		props["GuestAccounts"] = strconv.FormatBool(*l.Features.GuestAccounts)
-		props["GuestAccountsPermissions"] = strconv.FormatBool(*l.Features.GuestAccountsPermissions)
-		props["CustomTermsOfService"] = strconv.FormatBool(*l.Features.CustomTermsOfService)
-		props["LockTeammateNameDisplay"] = strconv.FormatBool(*l.Features.LockTeammateNameDisplay)
-		props["Cloud"] = strconv.FormatBool(*l.Features.Cloud)
-		props["SharedChannels"] = strconv.FormatBool(*l.Features.SharedChannels)
-		props["RemoteClusterService"] = strconv.FormatBool(*l.Features.RemoteClusterService)
-		props["OutgoingOAuthConnections"] = strconv.FormatBool(*l.Features.OutgoingOAuthConnections)
+
+		if l.Customer != nil {
+			props["Name"] = l.Customer.Name
+			props["Email"] = l.Customer.Email
+			props["Company"] = l.Customer.Company
+		}
 		props["IsTrial"] = strconv.FormatBool(l.IsTrial)
 		props["IsGovSku"] = strconv.FormatBool(l.IsGovSku)
 	}

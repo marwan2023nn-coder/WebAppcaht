@@ -29,9 +29,17 @@ export const makeGetIsPostBeingEdited = () => createSelector(
     (editingPostId, show, postId) => editingPostId === postId && show,
 );
 
-export const getIsPostMultiSelectModeEnabled = (state: GlobalState) => state.views.posts.multiSelect.enabled;
+export const getIsPostMultiSelectModeEnabled = createSelector(
+    'getIsPostMultiSelectModeEnabled',
+    (state: GlobalState) => state.views.posts.multiSelect.enabled,
+    (enabled) => enabled,
+);
 
-export const getMultiSelectedPostIds = (state: GlobalState) => state.views.posts.multiSelect.selectedPostIds;
+export const getMultiSelectedPostIds = createSelector(
+    'getMultiSelectedPostIds',
+    (state: GlobalState) => state.views.posts.multiSelect.selectedPostIds,
+    (selectedPostIds) => selectedPostIds,
+);
 
 export const makeGetIsPostBeingEditedInRHS = () => createSelector(
     'makeGetIsPostBeingEditedInRHS',

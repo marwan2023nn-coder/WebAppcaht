@@ -214,7 +214,7 @@ const SidebarRight = (props: Props) => {
             props.actions.setRhsExpanded(false);
         }
 
-        if ((previousRef.current?.teamId && props.teamId !== previousRef.current.teamId) || (previousRef.current?.productId && props.productId !== previousRef.current?.productId)) {
+        if ((props.teamId && previousRef.current?.teamId && props.teamId !== previousRef.current.teamId) || (props.productId && previousRef.current?.productId && props.productId !== previousRef.current?.productId)) {
             props.actions.closeRightHandSide();
         }
 
