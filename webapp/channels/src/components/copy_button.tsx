@@ -21,7 +21,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
     const [isCopied, setIsCopied] = useState(false);
     const timerRef = useRef<NodeJS.Timeout | null>(null);
 
-    const copyText = (e: React.MouseEvent<HTMLAnchorElement, MouseEvent>): void => {
+    const copyText = (e: React.MouseEvent<HTMLButtonElement>): void => {
         e.preventDefault();
         setIsCopied(true);
 
@@ -49,17 +49,17 @@ const CopyButton: React.FC<Props> = (props: Props) => {
         <FormattedMessage {...tooltipMessage}/>
     );
 
-    const spanClassName = classNames('post-code__clipboard', props.className);
+    const buttonClassName = classNames('post-code__clipboard style--none', props.className);
 
     return (
         <WithTooltip
             title={tooltipText}
         >
-            <span
-                className={spanClassName}
+            <button
+                type='button'
+                className={buttonClassName}
                 onClick={copyText}
                 aria-label={intl.formatMessage(tooltipMessage)}
-                role='button'
             >
                 {!isCopied &&
                     <i
@@ -71,7 +71,7 @@ const CopyButton: React.FC<Props> = (props: Props) => {
                         className='icon icon-check'
                     />
                 }
-            </span>
+            </button>
         </WithTooltip>
     );
 };

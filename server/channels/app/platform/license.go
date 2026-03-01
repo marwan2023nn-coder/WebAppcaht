@@ -12,6 +12,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/mattermost/mattermost/server/v8/channels/utils"
 	"github.com/mattermost/mattermost/server/v8/einterfaces"
@@ -397,7 +398,7 @@ func (ps *PlatformService) logLicense(message string, license *model.License) {
 
 	if license.Features != nil {
 		logger = logger.With(
-			mlog.Int("features.users", *license.Features.Users),
+			mlog.Int("features.users", model.SafeInt(license.Features.Users)),
 			mlog.Map("features", license.Features.ToMap()),
 		)
 	}
