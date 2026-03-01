@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {UserTypes} from 'workspace-redux/action_types';
+import {UserTypes, TeamTypes} from 'workspace-redux/action_types';
 
 import {ActionTypes} from 'utils/constants';
 

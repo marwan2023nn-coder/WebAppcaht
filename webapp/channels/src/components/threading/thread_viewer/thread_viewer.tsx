@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React from 'react';
+import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
 import type {HTMLAttributes} from 'react';
 
 import type {Channel} from '@workspace/types/channels';
@@ -58,73 +58,18 @@ export type Props = Attrs & {
     lastUpdateAt: number;
 };
 
-type State = {
-    isLoading: boolean;
-}
+const ThreadViewer: React.FC<Props> = (props) => {
+    const [isLoading, setIsLoading] = useState(false);
+    const prevSocketConnectionStatus = useRef(props.socketConnectionStatus);
+    const prevSelectedId = useRef(props.selected?.id);
+    const prevUserThreadId = useRef(props.userThread?.id);
+    const prevChannelId = useRef(props.channel?.id);
 
-export default class ThreadViewer extends React.PureComponent<Props, State> {
-    public constructor(props: Props) {
-        super(props);
+    const getReplyCount = useCallback((): number => {
+        return (props.selected as Post)?.reply_count || props.userThread?.reply_count || 0;
+    }, [props.selected, props.userThread]);
 
-        this.state = {
-            isLoading: false,
-        };
-    }
-
-    public componentDidMount() {
-        if (this.props.isCollapsedThreadsEnabled && this.props.userThread !== null) {
-            this.markThreadRead();
-        }
-
-        this.onInit();
-
-        if (this.props.appsEnabled) {
-            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected?.id || this.props.rootPostId);
-        }
-    }
-
-    public componentWillUnmount() {
-        if (this.props.enableWebSocketEventScope) {
-            WebSocketClient.updateActiveThread(this.props.isThreadView, '');
-        }
-    }
-
-    public componentDidUpdate(prevProps: Props) {
-        const reconnected = this.props.socketConnectionStatus && !prevProps.socketConnectionStatus;
-
-        if (!this.props.selected) {
-            return;
-        }
-
-        const selectedChanged = this.props.selected.id !== prevProps.selected?.id;
-        if (reconnected || selectedChanged) {
-            this.onInit(reconnected);
-        }
-
-        if (
-            this.props.isCollapsedThreadsEnabled &&
-            this.props.userThread?.id !== prevProps.userThread?.id
-        ) {
-            this.markThreadRead();
-        }
-
-        if (this.props.appsEnabled && (
-            this.props.channel?.id !== prevProps.channel?.id || selectedChanged
-        )) {
-            this.props.actions.fetchRHSAppsBindings(this.props.channel?.id || '', this.props.selected.id);
-        }
-    }
-
-    public morePostsToFetch(): boolean {
-        const replyCount = this.getReplyCount();
-        return Boolean(this.props.selected) && this.props.postIds.length < (replyCount + 1);
-    }
-
-    public getReplyCount(): number {
-        return (this.props.selected as Post)?.reply_count || this.props.userThread?.reply_count || 0;
-    }
-
-    fetchThread() {
+    const fetchThread = useCallback(() => {
         const {
             actions: {
                 getThread,
@@ -132,9 +77,9 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
             currentUserId,
             currentTeamId,
             selected,
-        } = this.props;
+        } = props;
 
-        if (selected && this.getReplyCount() && (this.props.selected as Post)?.is_following) {
+        if (selected && getReplyCount() && (props.selected as Post)?.is_following) {
             return getThread(
                 currentUserId,
                 currentTeamId,
@@ -144,39 +89,36 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
         }
 
         return Promise.resolve({data: true});
-    }
+    }, [props.actions, props.currentUserId, props.currentTeamId, props.selected, getReplyCount]);
 
-    markThreadRead() {
-        if (this.props.userThread) {
+    const markThreadRead = useCallback(() => {
+        if (props.userThread) {
             // update last viewed at for thread before marking as read.
-            this.props.actions.updateThreadLastOpened(
-                this.props.userThread.id,
-                this.props.userThread.last_viewed_at,
+            props.actions.updateThreadLastOpened(
+                props.userThread.id,
+                props.userThread.last_viewed_at,
             );
 
             if (
-                this.props.userThread.last_viewed_at < this.props.userThread.last_reply_at ||
-                this.props.userThread.unread_mentions ||
-                this.props.userThread.unread_replies
+                props.userThread.last_viewed_at < props.userThread.last_reply_at ||
+                props.userThread.unread_mentions ||
+                props.userThread.unread_replies
             ) {
-                this.props.actions.updateThreadRead(
-                    this.props.currentUserId,
-                    this.props.currentTeamId,
-                    this.props.selected?.id || this.props.rootPostId,
+                props.actions.updateThreadRead(
+                    props.currentUserId,
+                    props.currentTeamId,
+                    props.selected?.id || props.rootPostId,
                     Date.now(),
                 );
             }
         }
-    }
+    }, [props.userThread, props.actions, props.currentUserId, props.currentTeamId, props.selected?.id, props.rootPostId]);
 
-    // called either after mount, socket reconnected, or selected thread changed
-    // fetches the thread/posts if needed and
-    // scrolls to either bottom or new messages line
-    private onInit = async (reconnected = false): Promise<void> => {
-        this.setState({isLoading: !reconnected});
-        const res = await this.props.actions.getPostThread(this.props.selected?.id || this.props.rootPostId, !reconnected, this.props.lastUpdateAt);
+    const onInit = useCallback(async (reconnected = false): Promise<void> => {
+        setIsLoading(!reconnected);
+        const res = await props.actions.getPostThread(props.selected?.id || props.rootPostId, !reconnected, props.lastUpdateAt);
 
-        if (this.props.selected && res.data) {
+        if (props.selected && res.data) {
             const {order, posts} = res.data;
             if (order.length > 0 && posts[order[0]]) {
                 let highestUpdateAt = posts[order[0]].update_at;
@@ -191,77 +133,134 @@ export default class ThreadViewer extends React.PureComponent<Props, State> {
                     }
                 }
 
-                this.props.actions.updateThreadLastUpdateAt(this.props.selected.id, highestUpdateAt);
+                props.actions.updateThreadLastUpdateAt(props.selected.id, highestUpdateAt);
             }
         }
 
         if (
-            this.props.isCollapsedThreadsEnabled &&
-            this.props.userThread == null
+            props.isCollapsedThreadsEnabled &&
+            props.userThread == null
         ) {
-            await this.fetchThread();
+            await fetchThread();
         }
 
-        if (this.props.channel && this.props.enableWebSocketEventScope) {
-            WebSocketClient.updateActiveThread(this.props.isThreadView, this.props.channel?.id);
+        if (props.channel && props.enableWebSocketEventScope) {
+            WebSocketClient.updateActiveThread(props.isThreadView, props.channel?.id);
         }
-        this.setState({isLoading: false});
-    };
+        setIsLoading(false);
+    }, [props.actions, props.selected?.id, props.rootPostId, props.lastUpdateAt, props.isCollapsedThreadsEnabled, props.userThread, props.channel, props.enableWebSocketEventScope, props.isThreadView, fetchThread]);
 
-    private handleCardClick = (post: Post) => {
+    useEffect(() => {
+        if (props.isCollapsedThreadsEnabled && props.userThread !== null) {
+            markThreadRead();
+        }
+
+        onInit();
+
+        if (props.appsEnabled) {
+            props.actions.fetchRHSAppsBindings(props.channel?.id || '', props.selected?.id || props.rootPostId);
+        }
+
+        return () => {
+            if (props.enableWebSocketEventScope) {
+                WebSocketClient.updateActiveThread(props.isThreadView, '');
+            }
+        };
+        // eslint-disable-next-line react-hooks/exhaustive-deps
+    }, []);
+
+    useEffect(() => {
+        const reconnected = props.socketConnectionStatus && !prevSocketConnectionStatus.current;
+        const selectedChanged = props.selected?.id !== prevSelectedId.current;
+
+        if (props.selected && (reconnected || selectedChanged)) {
+            onInit(reconnected);
+        }
+
+        if (
+            props.isCollapsedThreadsEnabled &&
+            props.userThread?.id !== prevUserThreadId.current
+        ) {
+            markThreadRead();
+        }
+
+        if (props.appsEnabled && (
+            props.channel?.id !== prevChannelId.current || selectedChanged
+        )) {
+            props.actions.fetchRHSAppsBindings(props.channel?.id || '', props.selected?.id || props.rootPostId);
+        }
+
+        prevSocketConnectionStatus.current = props.socketConnectionStatus;
+        prevSelectedId.current = props.selected?.id;
+        prevUserThreadId.current = props.userThread?.id;
+        prevChannelId.current = props.channel?.id;
+    }, [
+        props.socketConnectionStatus,
+        props.selected,
+        props.isCollapsedThreadsEnabled,
+        props.userThread,
+        props.appsEnabled,
+        props.channel?.id,
+        props.actions,
+        props.rootPostId,
+        onInit,
+        markThreadRead,
+    ]);
+
+    const handleCardClick = useCallback((post: Post) => {
         if (!post) {
             return;
         }
 
-        this.props.actions.selectPostCard(post);
-    };
+        props.actions.selectPostCard(post);
+    }, [props.actions]);
 
-    public render(): JSX.Element {
-        if (this.props.postIds == null || this.props.selected == null || !this.props.channel) {
-            return (
-                <span/>
-            );
-        }
-
-        if (this.state.isLoading && this.props.postIds.length < 2) {
-            return (
-                <LoadingScreen
-                    style={{
-                        display: 'grid',
-                        placeContent: 'center',
-                        flex: '1',
-                    }}
-                />
-            );
-        }
-
+    if (props.postIds == null || props.selected == null || !props.channel) {
         return (
-            <>
-                <div className={classNames('ThreadViewer', this.props.className)}>
-                    <div className='post-right-comments-container'>
-                        <>
-                            <FileUploadOverlay
-                                overlayType='right'
-                                id={DropOverlayIdThreads}
-                            />
-                            {this.props.selected && (
-                                <DeferredThreadViewerVirt
-                                    inputPlaceholder={this.props.inputPlaceholder}
-                                    key={this.props.selected.id}
-                                    channelId={this.props.channel.id}
-                                    onCardClick={this.handleCardClick}
-                                    postIds={this.props.postIds}
-                                    selected={this.props.selected}
-                                    useRelativeTimestamp={this.props.useRelativeTimestamp || false}
-                                    highlightedPostId={this.props.highlightedPostId}
-                                    selectedPostFocusedAt={this.props.selectedPostFocusedAt}
-                                    isThreadView={Boolean(this.props.isCollapsedThreadsEnabled && this.props.isThreadView)}
-                                />
-                            )}
-                        </>
-                    </div>
-                </div>
-            </>
+            <span/>
         );
     }
-}
+
+    if (isLoading && props.postIds.length < 2) {
+        return (
+            <LoadingScreen
+                style={{
+                    display: 'grid',
+                    placeContent: 'center',
+                    flex: '1',
+                }}
+            />
+        );
+    }
+
+    return (
+        <>
+            <div className={classNames('ThreadViewer', props.className)}>
+                <div className='post-right-comments-container'>
+                    <>
+                        <FileUploadOverlay
+                            overlayType='right'
+                            id={DropOverlayIdThreads}
+                        />
+                        {props.selected && (
+                            <DeferredThreadViewerVirt
+                                inputPlaceholder={props.inputPlaceholder}
+                                key={props.selected.id}
+                                channelId={props.channel.id}
+                                onCardClick={handleCardClick}
+                                postIds={props.postIds}
+                                selected={props.selected}
+                                useRelativeTimestamp={props.useRelativeTimestamp || false}
+                                highlightedPostId={props.highlightedPostId}
+                                selectedPostFocusedAt={props.selectedPostFocusedAt}
+                                isThreadView={Boolean(props.isCollapsedThreadsEnabled && props.isThreadView)}
+                            />
+                        )}
+                    </>
+                </div>
+            </div>
+        </>
+    );
+};
+
+export default React.memo(ThreadViewer);
