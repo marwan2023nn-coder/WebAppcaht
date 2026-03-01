@@ -2118,9 +2118,18 @@ func (a *App) GetFileInfosForPostWithMigration(rctx request.CTX, postID string, 
 
 // GetFileInfosForPost also returns firstInaccessibleFileTime based on cloud plan's limit.
 func (a *App) GetFileInfosForPost(rctx request.CTX, postID string, fromMaster bool, includeDeleted bool) ([]*model.FileInfo, int64, *model.AppError) {
-	fileInfos, err := a.Srv().Store().FileInfo().GetForPost(postID, fromMaster, includeDeleted, true)
+	fileInfos, firstInaccessibleFileTime, err := a.GetBulkFileInfosForPosts(rctx, []string{postID}, fromMaster, includeDeleted)
 	if err != nil {
-		return nil, 0, model.NewAppError("GetFileInfosForPost", "app.file_info.get_for_post.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+		return nil, 0, err
+	}
+
+	return fileInfos[postID], firstInaccessibleFileTime, nil
+}
+
+func (a *App) GetBulkFileInfosForPosts(rctx request.CTX, postIDs []string, fromMaster bool, includeDeleted bool) (map[string][]*model.FileInfo, int64, *model.AppError) {
+	fileInfos, err := a.Srv().Store().FileInfo().GetForPosts(postIDs, fromMaster, includeDeleted, true)
+	if err != nil {
+		return nil, 0, model.NewAppError("GetBulkFileInfosForPosts", "app.file_info.get_for_post.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
 	firstInaccessibleFileTime, appErr := a.removeInaccessibleContentFromFilesSlice(fileInfos)
@@ -2130,7 +2139,18 @@ func (a *App) GetFileInfosForPost(rctx request.CTX, postID string, fromMaster bo
 
 	a.generateMiniPreviewForInfos(rctx, fileInfos)
 
-	return fileInfos, firstInaccessibleFileTime, nil
+	fileInfosByPost := make(map[string][]*model.FileInfo)
+	for _, fi := range fileInfos {
+		fileInfosByPost[fi.PostId] = append(fileInfosByPost[fi.PostId], fi)
+	}
+
+	for _, id := range postIDs {
+		if _, present := fileInfosByPost[id]; !present {
+			fileInfosByPost[id] = []*model.FileInfo{}
+		}
+	}
+
+	return fileInfosByPost, firstInaccessibleFileTime, nil
 }
 
 func (a *App) PostWithProxyAddedToImageURLs(post *model.Post) *model.Post {

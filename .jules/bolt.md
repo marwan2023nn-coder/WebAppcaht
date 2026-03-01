@@ -1,0 +1,3 @@
+## 2026-03-01 - N+1 Query Bottleneck in Post Metadata Preparation
+**Learning:** The `PreparePostListForClient` function in the app layer is a critical path for many API responses (channel loads, search results). While reactions and emojis were already bulk-loaded, file information was being fetched individually for each post, leading to up to 60+ additional database queries per request. This pattern is likely present in other metadata types and should be audited.
+**Action:** When preparing lists of entities that require associated metadata (files, reactions, priority), always implement bulk-loading methods in the store and app layers to keep database query counts constant (O(1)) relative to the list size.
