@@ -253,6 +253,7 @@ const SidebarCategory = (props: Props) => {
 
     const handleOpenDirectMessagesModal = useCallback((event: MouseEvent<HTMLLIElement | HTMLButtonElement> | KeyboardEvent<HTMLLIElement | HTMLButtonElement>) => {
         event.preventDefault();
+        event.stopPropagation();
         props.handleOpenMoreDirectChannelsModal(event.nativeEvent);
     }, [props.handleOpenMoreDirectChannelsModal]);
 
