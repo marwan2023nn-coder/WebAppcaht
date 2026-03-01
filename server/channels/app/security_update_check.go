@@ -6,7 +6,6 @@ package app
 import (
 	"encoding/json"
 	"io"
-	"net/http"
 	"net/url"
 	"runtime"
 	"strconv"
@@ -87,7 +86,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 			v.Set(PropSecurityTeamCount, strconv.FormatInt(teamCount, 10))
 		}
 
-		res, err := http.Get(PropSecurityURL + "/security?" + v.Encode())
+		res, err := s.HTTPService().MakeClient(false).Get(PropSecurityURL + "/security?" + v.Encode())
 		if err != nil {
 			mlog.Error("Failed to get security update information from Mattermost.")
 			return
@@ -110,7 +109,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 						return
 					}
 
-					resBody, err := http.Get(PropSecurityURL + "/bulletins/" + bulletin.Id)
+					resBody, err := s.HTTPService().MakeClient(false).Get(PropSecurityURL + "/bulletins/" + bulletin.Id)
 					if err != nil {
 						mlog.Error("Failed to get security bulletin details")
 						return

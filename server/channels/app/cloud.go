@@ -50,7 +50,7 @@ func (a *App) GetPreviewModalData() ([]model.PreviewModalContentData, *model.App
 	fileURL := *bucketURL + "/modal_content.json"
 
 	// Make HTTP request to S3
-	resp, err := http.Get(fileURL)
+	resp, err := a.HTTPService().MakeClient(false).Get(fileURL)
 	if err != nil {
 		return nil, model.NewAppError("GetPreviewModalData", "app.cloud.preview_modal_data_fetch_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
