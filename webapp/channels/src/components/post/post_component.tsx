@@ -662,6 +662,7 @@ function PostComponent(props: Props) {
 
     const handleJumpClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+        e.stopPropagation();
         if (props.isMobileView) {
             props.actions.closeRightHandSide();
         }
@@ -674,6 +675,7 @@ function PostComponent(props: Props) {
 
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
+        e.stopPropagation();
 
         if (!post) {
             return;

@@ -3019,6 +3019,8 @@
   "admin.system_users.filtersMenu": "Filters ({count})",
   "admin.system_users.filtersPopover.apply": "Apply",
   "admin.system_users.filtersPopover.title": "Filter by",
+  "admin.system_users.online_only": "Show Online Users Only",
+  "admin.system_users.online_only.aria": "Show Online Users Only Toggle",
   "admin.system_users.list.actions": "Actions",
   "admin.system_users.list.actions.deactivated": "Deactivated",
   "admin.system_users.list.actions.menu.activate": "Activate",
