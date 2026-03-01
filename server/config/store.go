@@ -186,7 +186,7 @@ func (s *Store) Set(newCfg *model.Config) (*model.Config, *model.Config, error) 
 
 	// We apply back environment overrides since the input config may or
 	// may not have them applied.
-	// newCfg = applyEnvironmentMap(newCfg, GetEnvironment())
+	newCfg = applyEnvironmentMap(newCfg, GetEnvironment())
 	fixConfig(newCfg)
 
 	if err := newCfg.IsValid(); err != nil {
@@ -289,7 +289,7 @@ func (s *Store) Load() error {
 	loadedCfgNoEnv := loadedCfg
 	fixConfig(loadedCfgNoEnv)
 
-	// loadedCfg = applyEnvironmentMap(loadedCfg, GetEnvironment())
+	loadedCfg = applyEnvironmentMap(loadedCfg, GetEnvironment())
 	fixConfig(loadedCfg)
 	if appErr := loadedCfg.IsValid(); appErr != nil {
 		// Translating the error before displaying it in the console.
