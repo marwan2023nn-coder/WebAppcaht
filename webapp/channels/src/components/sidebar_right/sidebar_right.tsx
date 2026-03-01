@@ -92,8 +92,11 @@ const SidebarRight = (props: Props) => {
             selectedPostId: props.selectedPostId,
             selectedPostCardId: props.selectedPostCardId,
             previousRhsState: props.previousRhsState,
+            teamId: props.teamId,
+            productId: props.productId,
+            channel: props.channel,
         };
-    }, [props.isOpen, props.searchVisible, props.isPinnedPosts, props.isRecentMentions, props.isSavedPosts, props.isChannelFiles, props.isChannelInfo, props.isChannelMembers, props.isPostEditHistory, props.selectedPostId, props.selectedPostCardId, props.previousRhsState]);
+    }, [props.isOpen, props.searchVisible, props.isPinnedPosts, props.isRecentMentions, props.isSavedPosts, props.isChannelFiles, props.isChannelInfo, props.isChannelMembers, props.isPostEditHistory, props.selectedPostId, props.selectedPostCardId, props.previousRhsState, props.teamId, props.productId, props.channel]);
 
     const handleShortcut = useCallback((e: KeyboardEvent) => {
         const channelInfoShortcutMac = isMac() && e.shiftKey;
@@ -207,11 +210,11 @@ const SidebarRight = (props: Props) => {
             props.actions.showChannelFiles(props.rhsChannel.id);
         }
 
-        if (props.channel && (!previousRef.current?.channel || props.channel.id !== previousRef.current.channel.id)) {
+        if (props.channel && previousRef.current?.channel && props.channel.id !== previousRef.current.channel.id) {
             props.actions.setRhsExpanded(false);
         }
 
-        if ((previousRef.current?.teamId && props.teamId !== previousRef.current.teamId) || props.productId !== previousRef.current?.productId) {
+        if ((previousRef.current?.teamId && props.teamId !== previousRef.current.teamId) || (previousRef.current?.productId && props.productId !== previousRef.current?.productId)) {
             props.actions.closeRightHandSide();
         }
 

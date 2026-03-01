@@ -31,11 +31,11 @@ const RhsThread = ({
     const dispatch = useDispatch();
 
     useEffect(() => {
-        if (channel?.team_id && channel.team_id !== currentTeam?.id) {
+        if (channel?.team_id && currentTeam?.id && channel.team_id !== currentTeam.id) {
             // if team-scoped and mismatched team, close rhs
             dispatch(closeRightHandSide());
         }
-    }, [currentTeam, channel, dispatch]);
+    }, [currentTeam?.id, channel?.team_id, dispatch]);
 
     if (selected == null || !channel) {
         return (
