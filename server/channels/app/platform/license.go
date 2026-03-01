@@ -12,6 +12,7 @@ import (
 
 	"github.com/golang-jwt/jwt/v5"
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/mattermost/mattermost/server/v8/channels/utils"
 	"github.com/mattermost/mattermost/server/v8/einterfaces"
@@ -331,7 +332,7 @@ func (ps *PlatformService) RequestTrialLicense(trialRequest *model.TrialLicenseR
 		return model.NewAppError("RequestTrialLicense", "api.unmarshal_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
-	resp, err := http.Post(ps.getRequestTrialURL(), "application/json", bytes.NewBuffer(trialRequestJSON))
+	resp, err := httpservice.MakeHTTPService(ps).MakeClient(false).Post(ps.getRequestTrialURL(), "application/json", bytes.NewBuffer(trialRequestJSON))
 	if err != nil {
 		return model.NewAppError("RequestTrialLicense", "api.license.request_trial_license.app_error", nil, "", http.StatusBadRequest).Wrap(err)
 	}
@@ -397,7 +398,7 @@ func (ps *PlatformService) logLicense(message string, license *model.License) {
 
 	if license.Features != nil {
 		logger = logger.With(
-			mlog.Int("features.users", *license.Features.Users),
+			mlog.Int("features.users", model.SafeInt(license.Features.Users)),
 			mlog.Map("features", license.Features.ToMap()),
 		)
 	}
