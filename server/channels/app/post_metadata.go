@@ -73,6 +73,11 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 		rctx.Logger().Warn("Failed to get bulk reactions for post list", mlog.Err(appErr))
 	}
 
+	fileInfos, _, appErr := a.GetBulkFileInfosForPosts(rctx, postIDs, false, false)
+	if appErr != nil {
+		rctx.Logger().Warn("Failed to get bulk file infos for post list", mlog.Err(appErr))
+	}
+
 	var allEmojiNames []string
 	if reactions != nil {
 		for _, postReactions := range reactions {
@@ -98,7 +103,12 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 	for id, originalPost := range originalList.Posts {
 		post := a.PreparePostForClientWithEmbedsAndImages(rctx, originalPost, &model.PreparePostForClientOpts{
 			SkipReactions: true,
+			SkipFiles:     true,
 		})
+
+		if fileInfos != nil {
+			post.Metadata.Files = fileInfos[id]
+		}
 
 		if reactions != nil {
 			post.Metadata.Reactions = reactions[id]
@@ -305,6 +315,10 @@ func (a *App) PreparePostForClient(rctx request.CTX, originalPost *model.Post, o
 }
 
 func (a *App) preparePostFilesForClient(rctx request.CTX, post *model.Post, opts *model.PreparePostForClientOpts) *model.Post {
+	if opts.SkipFiles {
+		return post
+	}
+
 	if fileInfos, _, err := a.getFileMetadataForPost(rctx, post, opts.IsNewPost || opts.IsEditPost, opts.IncludeDeleted); err != nil {
 		rctx.Logger().Warn("Failed to get files for a post", mlog.String("post_id", post.Id), mlog.Err(err))
 	} else {

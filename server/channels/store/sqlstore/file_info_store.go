@@ -342,6 +342,10 @@ func (fs SqlFileInfoStore) InvalidateFileInfosForPostCache(postId string, delete
 }
 
 func (fs SqlFileInfoStore) GetForPost(postId string, readFromMaster, includeDeleted, allowFromCache bool) ([]*model.FileInfo, error) {
+	return fs.GetForPosts([]string{postId}, readFromMaster, includeDeleted, allowFromCache)
+}
+
+func (fs SqlFileInfoStore) GetForPosts(postIds []string, readFromMaster, includeDeleted, allowFromCache bool) ([]*model.FileInfo, error) {
 	infos := []*model.FileInfo{}
 
 	dbmap := fs.GetReplica()
@@ -353,7 +357,7 @@ func (fs SqlFileInfoStore) GetForPost(postId string, readFromMaster, includeDele
 	query := fs.getQueryBuilder().
 		Select(fs.queryFields...).
 		From("FileInfo").
-		Where(sq.Eq{"PostId": postId}).
+		Where(sq.Eq{"PostId": postIds}).
 		OrderBy("CreateAt")
 
 	if !includeDeleted {
@@ -366,7 +370,7 @@ func (fs SqlFileInfoStore) GetForPost(postId string, readFromMaster, includeDele
 	}
 
 	if err := dbmap.Select(&infos, queryString, args...); err != nil {
-		return nil, errors.Wrapf(err, "failed to find FileInfos with postId=%s", postId)
+		return nil, errors.Wrapf(err, "failed to find FileInfos with postIds=%v", postIds)
 	}
 	return infos, nil
 }
