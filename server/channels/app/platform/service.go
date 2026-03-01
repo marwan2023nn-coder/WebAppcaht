@@ -10,6 +10,7 @@ import (
 	"hash/maphash"
 	"net/http"
 	"runtime"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
 	"strconv"
 	"sync"
 	"sync/atomic"
@@ -53,6 +54,8 @@ type PlatformService struct {
 	statusUpdateChan       chan *model.Status
 	statusUpdateExitSignal chan struct{}
 	statusUpdateDoneSignal chan struct{}
+
+	httpService httpservice.HTTPService
 
 	cacheProvider cache.Provider
 	statusCache   cache.Cache
@@ -152,6 +155,8 @@ func New(sc ServiceConfig, options ...Option) (*PlatformService, error) {
 		statusUpdateExitSignal:    make(chan struct{}),
 		statusUpdateDoneSignal:    make(chan struct{}),
 	}
+
+	ps.httpService = httpservice.MakeHTTPService(ps)
 
 	// Assume the first user account has not been created yet. A call to the DB will later check if this is really the case.
 	ps.isFirstUserAccount.Store(true)
@@ -665,6 +670,10 @@ func (ps *PlatformService) getPluginManifests() ([]*model.Manifest, error) {
 
 func (ps *PlatformService) FileBackend() filestore.FileBackend {
 	return ps.filestore
+}
+
+func (ps *PlatformService) HTTPService() httpservice.HTTPService {
+	return ps.httpService
 }
 
 func (ps *PlatformService) ExportFileBackend() filestore.FileBackend {

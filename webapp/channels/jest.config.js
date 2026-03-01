@@ -19,6 +19,9 @@ const config = {
         doNotFake: ['performance'],
     },
     moduleNameMapper: {
+        '^react-bootstrap$': '<rootDir>/../platform/react-bootstrap/lib/index.js',
+        '^react-bootstrap/lib/(.*)$': '<rootDir>/../platform/react-bootstrap/lib/$1',
+        '^@babel/runtime-corejs2/helpers/esm/(.*)$': '@babel/runtime-corejs2/helpers/$1',
         '^@workspace/(components)$': '<rootDir>/../platform/$1/src',
         '^@workspace/(client)$': '<rootDir>/../platform/$1/src',
         '^@workspace/(types)/(.*)$': '<rootDir>/../platform/$1/src/$2',
@@ -40,7 +43,7 @@ const config = {
         'node_modules/(?!react-native|react-router|pdfjs-dist|p-queue|p-timeout|@workspace/compass-icons|cidr-regex|ip-regex|serialize-error)',
     ],
     transform: {
-        '^.+\\.(js|jsx|ts|tsx|mjs)$': 'babel-jest',
+        '^.+\\.(js|jsx|ts|tsx|mjs)$': ['babel-jest', {configFile: './babel.config.js'}],
     },
     setupFiles: ['jest-canvas-mock'],
     setupFilesAfterEnv: ['<rootDir>/src/tests/setup_jest.ts'],

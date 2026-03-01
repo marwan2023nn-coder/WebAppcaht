@@ -332,7 +332,7 @@ func (ps *PlatformService) RequestTrialLicense(trialRequest *model.TrialLicenseR
 		return model.NewAppError("RequestTrialLicense", "api.unmarshal_error", nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
-	resp, err := httpservice.MakeHTTPService(ps).MakeClient(false).Post(ps.getRequestTrialURL(), "application/json", bytes.NewBuffer(trialRequestJSON))
+	resp, err := ps.HTTPService().MakeClient(false).Post(ps.getRequestTrialURL(), "application/json", bytes.NewBuffer(trialRequestJSON))
 	if err != nil {
 		return model.NewAppError("RequestTrialLicense", "api.license.request_trial_license.app_error", nil, "", http.StatusBadRequest).Wrap(err)
 	}
