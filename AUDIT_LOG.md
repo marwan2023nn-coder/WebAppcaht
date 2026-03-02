@@ -41,6 +41,34 @@ for id, originalPost := range originalList.Posts {
 
 ---
 
+### [USER-HARD-DELETE] Force Hard Delete for Users
+- **File:** `server/channels/api4/user.go`
+- **Severity:** Low (Feature Adjustment)
+- **Description:** Modified the `deleteUser` handler to always perform a hard delete (permanent removal from DB) instead of a soft delete/deactivation, regardless of the request parameters or the `EnableAPIUserDeletion` configuration setting.
+
+**Before:**
+```go
+	if permanent {
+		if *c.App.Config().ServiceSettings.EnableAPIUserDeletion {
+			err = c.App.PermanentDeleteUser(c.AppContext, user)
+		} else {
+            // ... error handling
+		}
+	} else {
+		err = c.App.SoftDeleteUser(c.AppContext, user)
+	}
+```
+
+**After:**
+```go
+	permanent := true // Forced to true as per user request to always hard delete
+    // ...
+	// Forced PermanentDeleteUser to ensure hard delete regardless of EnableAPIUserDeletion setting
+	err = c.App.PermanentDeleteUser(c.AppContext, user)
+```
+
+---
+
 ## Log
 
 | File Path | Status | Findings | Recommendations | Criticality |
