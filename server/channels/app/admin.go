@@ -160,22 +160,17 @@ func (a *App) RecycleDatabaseConnection(rctx request.CTX) {
 
 func (a *App) TestSiteURL(rctx request.CTX, siteURL string) *model.AppError {
 	url := fmt.Sprintf("%s/api/v4/system/ping", siteURL)
-	// We create a custom client for testing. It allows internal services (true) and bypasses TLS verification.
-	// This is safe as it's an admin-only tool specifically for testing the server's own reachability,
+	// We use MakeClient(true) to allow internal/SSRF-protected IP addresses.
+	// We also bypass TLS verification as it's an admin-only tool specifically for testing the server's own reachability,
 	// which may be using a local IP or a self-signed certificate.
-	tr := a.HTTPService().MakeTransport(true)
-	if tr.Transport != nil {
+	client := a.HTTPService().MakeClient(true)
+	if tr, ok := client.Transport.(*httpservice.MattermostTransport); ok {
 		if ht, ok := tr.Transport.(*http.Transport); ok {
 			if ht.TLSClientConfig == nil {
 				ht.TLSClientConfig = &tls.Config{}
 			}
 			ht.TLSClientConfig.InsecureSkipVerify = true
 		}
-	}
-
-	client := &http.Client{
-		Transport: tr,
-		Timeout:   httpservice.RequestTimeout,
 	}
 
 	res, err := client.Get(url)

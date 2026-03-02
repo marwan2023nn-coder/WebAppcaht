@@ -41,6 +41,41 @@ for id, originalPost := range originalList.Posts {
 
 ---
 
+### [DEV-INSECURE-CONN] Support Insecure/Internal Connections for Dev
+- **File:** `server/channels/app/admin.go`, `server/channels/api4/websocket.go`
+- **Severity:** Low (Developer Experience)
+- **Description:** Improved support for development environments with self-signed certificates or internal IP addresses. Modified `TestSiteURL` to skip TLS verification and allow internal addresses. Relaxed WebSocket origin checking when `AllowedUntrustedInternalConnections` is enabled.
+
+**Before (TestSiteURL):**
+```go
+tr := a.HTTPService().MakeTransport(true)
+// ... manually creating http.Client
+```
+
+**After (TestSiteURL):**
+```go
+client := a.HTTPService().MakeClient(true)
+if tr, ok := client.Transport.(*httpservice.MattermostTransport); ok {
+    if ht, ok := tr.Transport.(*http.Transport); ok {
+        // ... sets InsecureSkipVerify = true
+    }
+}
+```
+
+**Before (WebSocket Origin):**
+```go
+CheckOrigin: c.App.OriginChecker(),
+```
+
+**After (WebSocket Origin):**
+```go
+if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternalConnections) != "" {
+    originChecker = func(r *http.Request) bool { return true }
+}
+```
+
+---
+
 ### [USER-HARD-DELETE] Force Hard Delete for Users
 - **File:** `server/channels/api4/user.go`
 - **Severity:** Low (Feature Adjustment)
