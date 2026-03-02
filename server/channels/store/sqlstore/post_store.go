@@ -2057,7 +2057,7 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		"(SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN q2.RootId = '' THEN q2.Id ELSE q2.RootId END) AND Posts.DeleteAt = 0) as ReplyCount",
 	).From("Posts q2").
 		Where("q2.DeleteAt = 0").
-		Where(fmt.Sprintf("q2.Type NOT LIKE '%s%%'", model.PostSystemMessagePrefix)).
+		Where("q2.Type NOT LIKE ?", model.PostSystemMessagePrefix+"%").
 		OrderByClause("q2.CreateAt DESC").
 		Limit(100)
 

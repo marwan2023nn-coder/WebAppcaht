@@ -38,7 +38,7 @@ func (s *Server) downloadFromURL(downloadURL string) ([]byte, error) {
 		return nil, errors.Errorf("insecure url not allowed %s", downloadURL)
 	}
 
-	client := s.HTTPService().MakeClient(true)
+	client := s.HTTPService().MakeClient(false)
 	client.Timeout = HTTPRequestTimeout
 
 	var resp *http.Response

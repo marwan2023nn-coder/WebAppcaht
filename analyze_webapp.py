@@ -22,21 +22,22 @@ def analyze_file(filepath):
 
     return results
 
-root_dir = "webapp/channels/src"
+# Expanded scope
+scan_dirs = ["webapp"]
 log_entries = []
 
-for root, dirs, files in os.walk(root_dir):
-    for file in files:
-        if file.endswith((".ts", ".tsx")):
-            path = os.path.join(root, file)
-            findings = analyze_file(path)
-            status = "Suspicious" if findings else "Clean"
-            log_entries.append(f"| {path} | {status} | {', '.join(findings) if findings else 'None'} | {'Review needed' if findings else 'None'} | {'High' if 'XSS' in findings or 'Secret' in findings else 'Medium' if findings else 'Low'} |")
+for sdir in scan_dirs:
+    for root, dirs, files in os.walk(sdir):
+        for file in files:
+            if file.endswith((".ts", ".tsx")):
+                path = os.path.join(root, file)
+                findings = analyze_file(path)
+                status = "Suspicious" if findings else "Clean"
+                log_entries.append(f"| {path} | {status} | {', '.join(findings) if findings else 'None'} | {'Review needed' if findings else 'None'} | {'High' if 'XSS' in findings or 'Secret' in findings else 'Medium' if findings else 'Low'} |")
 
 with open("AUDIT_LOG.md", "a") as f:
-    f.write("\n## Webapp Sweep\n")
-    f.write("| File Path | Status | Findings | Recommendations | Criticality |\n|-----------|--------|----------|-----------------|-------------|\n")
+    f.write("\n## Expanded Webapp Audit\n")
     f.write("\n".join(log_entries))
     f.write("\n")
 
-print(f"Analyzed {len(log_entries)} files.")
+print(f"Analyzed {len(log_entries)} webapp files.")
