@@ -396,12 +396,21 @@ func (a *App) CreatePost(rctx request.CTX, post *model.Post, channel *model.Chan
 		attachedFileIds, err = a.attachFilesToPost(rctx, post, fileIDs)
 		if err != nil {
 			rctx.Logger().Warn("Encountered error attaching files to post", mlog.String("post_id", post.Id), mlog.Array("file_ids", fileIDs), mlog.Err(err))
-		} else if post.Type != model.PostTypeBurnOnRead {
+		} else if post.Type == model.PostTypeBurnOnRead {
+			// for BOR posts, we need to update the TemporaryPost with the successfully attached file IDs
+			tmpPost, tmpErr := a.Srv().Store().TemporaryPost().Get(rctx, post.Id)
+			if tmpErr == nil {
+				tmpPost.FileIDs = attachedFileIds
+				if _, tmpErr = a.Srv().Store().TemporaryPost().Save(rctx, tmpPost); tmpErr != nil {
+					rctx.Logger().Warn("Encountered error updating TemporaryPost file IDs", mlog.String("post_id", post.Id), mlog.Err(tmpErr))
+				}
+			}
+		} else {
 			post.FileIds = attachedFileIds
 		}
 
 		if a.Metrics() != nil {
-			a.Metrics().IncrementPostFileAttachment(len(post.FileIds))
+			a.Metrics().IncrementPostFileAttachment(len(attachedFileIds))
 		}
 	}
 
@@ -482,6 +491,20 @@ func (a *App) CreatePost(rctx request.CTX, post *model.Post, channel *model.Chan
 	// Send any ephemeral posts after the post is created to ensure it shows up after the latest post created
 	if ephemeralPost != nil {
 		a.SendEphemeralPost(rctx, post.UserId, ephemeralPost)
+	}
+
+	if rpost.Type == model.PostTypeBurnOnRead {
+		// if this is a burn-on-read post, we should return the original post contents for the author
+		// who just created it, ensuring it doesn't appear empty in their UI immediately.
+		revealedPost, revealErr := a.getBurnOnReadPost(rctx, rpost)
+		if revealErr == nil {
+			rpost = a.PreparePostForClientWithEmbedsAndImages(rctx, revealedPost, &model.PreparePostForClientOpts{
+				IncludePriority: true,
+				RetainContent:   true,
+			})
+		} else {
+			rctx.Logger().Warn("Failed to get burn-on-read post for author", mlog.String("post_id", rpost.Id), mlog.Err(revealErr))
+		}
 	}
 
 	rpost, isMemberForPreviews, err = a.SanitizePostMetadataForUser(rctx, rpost, rctx.Session().UserId)
