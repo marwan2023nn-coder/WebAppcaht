@@ -1567,6 +1567,7 @@ func (a *App) ExtractContentFromFileInfo(rctx request.CTX, fileInfo *model.FileI
 	defer file.Close()
 	text, err := docextractor.Extract(rctx.Logger(), fileInfo.Name, file, docextractor.ExtractSettings{
 		ArchiveRecursion: *a.Config().FileSettings.ArchiveRecursion,
+		HTTPClient:       a.HTTPService().MakeClient(false),
 	})
 	if err != nil {
 		return errors.Wrap(err, "failed to extract file content")
