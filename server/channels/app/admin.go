@@ -26,7 +26,7 @@ func (s *Server) GetLogs(rctx request.CTX, page, perPage int) ([]string, *model.
 	var lines []string
 
 	license := s.License()
-	if license != nil && *license.Features.Cluster && s.platform.Cluster() != nil && *s.platform.Config().ClusterSettings.Enable {
+	if license != nil && license.Features != nil && *license.Features.Cluster && s.platform.Cluster() != nil && *s.platform.Config().ClusterSettings.Enable {
 		if info := s.platform.Cluster().GetMyClusterInfo(); info != nil {
 			lines = append(lines, "-----------------------------------------------------------------------------------------------------------")
 			lines = append(lines, "-----------------------------------------------------------------------------------------------------------")
@@ -63,7 +63,7 @@ func (s *Server) QueryLogs(rctx request.CTX, page, perPage int, logFilter *model
 	serverName := "default"
 
 	license := s.License()
-	if license != nil && *license.Features.Cluster && s.platform.Cluster() != nil && *s.platform.Config().ClusterSettings.Enable {
+	if license != nil && license.Features != nil && *license.Features.Cluster && s.platform.Cluster() != nil && *s.platform.Config().ClusterSettings.Enable {
 		if info := s.platform.Cluster().GetMyClusterInfo(); info != nil {
 			serverName = info.Hostname
 		} else {
@@ -196,7 +196,8 @@ func (a *App) TestEmail(rctx request.CTX, userID string, cfg *model.Config) *mod
 	T := i18n.GetUserTranslations(user.Locale)
 	license := a.Srv().License()
 	mailConfig := a.Srv().MailServiceConfig()
-	if err := mail.SendMailUsingConfig(user.Email, T("api.admin.test_email.subject"), T("api.admin.test_email.body"), mailConfig, license != nil && *license.Features.Compliance, "", "", "", "", ""); err != nil {
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
+	if err := mail.SendMailUsingConfig(user.Email, T("api.admin.test_email.subject"), T("api.admin.test_email.body"), mailConfig, complianceEnabled, "", "", "", "", ""); err != nil {
 		return model.NewAppError("testEmail", "app.admin.test_email.failure", map[string]any{"Error": err.Error()}, "", http.StatusInternalServerError)
 	}
 

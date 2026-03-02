@@ -7,3 +7,8 @@
 **Vulnerability:** Direct use of Go's default `http.Get` for outgoing requests (e.g., `TestSiteURL`, `GetLatestVersion`, `GetPreviewModalData`), which lacks default timeouts and SSRF protection.
 **Learning:** Standard library functions like `http.Get` use a default client without timeouts or connection restrictions, potentially leading to resource exhaustion or Server-Side Request Forgery (SSRF) if URLs are influenced by users or external systems.
 **Prevention:** Mandatory use of the application's `HTTPService` (via `a.HTTPService()` or `s.HTTPService()`) to instantiate HTTP clients. Use `MakeClient(false)` for requests to untrusted or external URLs to enforce SSRF protection and standardized timeouts.
+
+## 2025-05-16 - Nested Nil Pointer Dereference in License Features
+**Vulnerability:** Potential server panics (DoS) in multiple modules (admin, email, jobs, file) when dereferencing `license.Features` or `license.Limits` pointers without ensuring they are non-nil.
+**Learning:** Even when the top-level `license` object is checked for nil, its nested components like `Features` and `Limits` can still be nil depending on how the license was loaded or forged. This pattern was widespread in background jobs and configuration-dependent logic.
+**Prevention:** Use `license.IsCloud()` or `license.IsMattermostEntry()` helpers where applicable as they handle nested nil checks. For other features, always explicitly check `license != nil && license.Features != nil` before dereferencing feature flags.
