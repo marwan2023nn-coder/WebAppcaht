@@ -38,6 +38,10 @@ func (ps *PlatformService) SetLicenseManager(impl einterfaces.LicenseInterface) 
 }
 
 func (ps *PlatformService) License() *model.License {
+	if ps.licenseRemoved.Load() {
+		return nil
+	}
+
 	lic := ps.licenseValue.Load()
 	if lic != nil {
 		return lic
@@ -133,6 +137,7 @@ func (ps *PlatformService) IsLicenseActive() bool {
 func (ps *PlatformService) LoadLicense() {
 	// Check if the license was explicitly removed by an admin.
 	if removed, err := ps.Store.System().GetByName("LicenseRemoved"); err == nil && removed != nil && removed.Value == "true" {
+		ps.licenseRemoved.Store(true)
 		ps.SetLicense(nil)
 		ps.logger.Info("Sofa Workspace: License remains removed (persistent state).")
 		return
@@ -255,6 +260,7 @@ func (ps *PlatformService) SetLicense(license *model.License) bool {
 	}()
 
 	if license != nil {
+		ps.licenseRemoved.Store(false)
 		if license.Features == nil {
 			license.Features = &model.Features{}
 		}
@@ -298,6 +304,9 @@ func (ps *PlatformService) ClientLicense() map[string]string {
 }
 
 func (ps *PlatformService) RemoveLicense() *model.AppError {
+	// Mark as explicitly removed so we don't return the virtual fallback.
+	ps.licenseRemoved.Store(true)
+
 	// Use SetLicense(nil) to clear license state so that post/file checks enforce restrictions
 	ps.SetLicense(nil)
 	ps.logger.Info("Sofa Workspace: License removed. Posts and file uploads are now blocked.")
