@@ -1,0 +1,648 @@
+# Translation Audit Report
+
+## 1. Duplicate Keys within each file
+These keys appear more than once in the same file.
+
+### en.json (0)
+No duplicates found in en.json.
+
+### ar.json (2)
+- `admin.system_users.online_only`
+- `admin.system_users.online_only.aria`
+
+## 2. Missing Keys
+Keys that exist in one file but not the other.
+
+### Present in en.json but missing in ar.json (0)
+None
+
+### Present in ar.json but missing in en.json (532)
+- `7LiuGt`
+- `Buzz`
+- `EGuJGy`
+- `Ek1Fx2`
+- `Yd9UJj`
+- `about.enterpriseEditione1`
+- `accessibility.button.dialog`
+- `accessibility.sections.lhsHeader`
+- `add_channels_to_scheme.title`
+- `add_teams_to_scheme.title`
+- `adldap_upsell_banner.trial_btn`
+- `admin.advance.performance`
+- `admin.advance.troubleshooting`
+- `admin.billing.payment_info.billingAddress`
+- `admin.billing.payment_info.cardBrandAndDigits`
+- `admin.billing.payment_info.cardExpiry`
+- `admin.billing.subscription.cloudTrial.daysLeftOnTrial`
+- `admin.billing.subscription.cloudTrial.lastDay`
+- `admin.billing.subscription.cloudTrial.moreThan3Days`
+- `admin.billing.subscription.planDetails.flatFeePerMonth`
+- `admin.billing.subscription.planDetails.howBillingWorks`
+- `admin.billing.subscription.planDetails.perUserPerMonth`
+- `admin.billing.subscription.privateCloudCard.contactSalesy`
+- `admin.bleve.bulkIndexingTitle`
+- `admin.bleve.createJob.help`
+- `admin.bleve.createJob.title`
+- `admin.bleve.enableAutocompleteDescription`
+- `admin.bleve.enableAutocompleteTitle`
+- `admin.bleve.enableIndexingDescription`
+- `admin.bleve.enableIndexingTitle`
+- `admin.bleve.enableSearchingDescription`
+- `admin.bleve.enableSearchingTitle`
+- `admin.bleve.indexDirDescription`
+- `admin.bleve.indexDirTitle`
+- `admin.bleve.percentComplete`
+- `admin.bleve.purgeIndexesButton`
+- `admin.bleve.purgeIndexesButton.error`
+- `admin.bleve.purgeIndexesButton.label`
+- `admin.bleve.purgeIndexesButton.success`
+- `admin.bleve.purgeIndexesHelpText`
+- `admin.bleve.title`
+- `admin.channel_settings.channel_detail.access_control_policy_label`
+- `admin.channel_settings.channel_detail.channelName`
+- `admin.channel_settings.channel_detail.channelOrganizations`
+- `admin.channel_settings.channel_detail.channelTeam`
+- `admin.channel_settings.channel_list.channelsFilter`
+- `admin.channel_settings.channel_list.managementFilter`
+- `admin.channel_settings.channel_list.teamsFilter`
+- `admin.cluster.EnableExperimentalGossipEncryption`
+- `admin.cluster.EnableExperimentalGossipEncryptionDesc`
+- `admin.complianceExport.exportFormat.description`
+- `admin.contentFlagging.additionalSettings.reasonsForFlagging.helpText`
+- `admin.customProfileAttribDesc`
+- `admin.experimental.clientSideCertCheck.desc`
+- `admin.experimental.clientSideCertCheck.options.primary`
+- `admin.experimental.clientSideCertCheck.options.secondary`
+- `admin.experimental.clientSideCertCheck.title`
+- `admin.experimental.clientSideCertEnable.desc`
+- `admin.experimental.clientSideCertEnable.title`
+- `admin.experimental.enablePreviewFeatures.desc`
+- `admin.experimental.enablePreviewFeatures.title`
+- `admin.experimental.enableSharedChannels.desc`
+- `admin.experimental.enableSharedChannels.title`
+- `admin.gitlab.enableDescription`
+- `admin.gitlab.enableTitle`
+- `admin.group_settings.group_profile.group_users.ldapConnector`
+- `admin.guest_access.enableDescription`
+- `admin.ldap.ldap_test_button`
+- `admin.ldap.testFailure`
+- `admin.ldap.testSuccess`
+- `admin.license.enterprise.restart`
+- `admin.license.enterprise.upgrade.acceptTermsFinal`
+- `admin.license.enterprise.upgrade.acceptTermsInitial`
+- `admin.license.enterpriseEdition`
+- `admin.license.enterpriseEdition.subtitle`
+- `admin.license.expiresInDays`
+- `admin.license.legend.activeUsers`
+- `admin.license.legend.companyOrg`
+- `admin.license.legend.edition`
+- `admin.license.legend.expires`
+- `admin.license.legend.licenseIssued`
+- `admin.license.legend.licensedSeats`
+- `admin.license.legend.name`
+- `admin.license.legend.startDate`
+- `admin.license.licenseDetails`
+- `admin.license.purchaseEnterpriseGovPlanTitle`
+- `admin.license.renewalCard.licensedUsersNum`
+- `admin.license.renewalCard.usersNumbers`
+- `admin.license.trialCard.description`
+- `admin.license.trialCard.description.expiringToday`
+- `admin.license.trialCard.purchase_license`
+- `admin.license.upgradeToEnterpriseGov`
+- `admin.license.upgraded-restart`
+- `admin.permissions.roles.system_custom_group_admin.detail_text`
+- `admin.permissions.sysconsole_section_experimental_bleve.name`
+- `admin.reset_email.cancel`
+- `admin.reset_email.reset`
+- `admin.reset_email.titleReset`
+- `admin.reset_password.cancel`
+- `admin.reset_password.curentPassword`
+- `admin.reset_password.titleReset`
+- `admin.reset_password.titleSwitch`
+- `admin.settings.multiselect.addPlaceholder`
+- `admin.settings.multiselect.placeholder`
+- `admin.sidebar.blevesearch`
+- `admin.support.problemDesc`
+- `admin.support.problemTitle`
+- `admin.system_roles.description`
+- `admin.system_roles.role`
+- `admin.system_roles.type`
+- `admin.system_users.column_toggler.mysql_unavailable.desc`
+- `admin.system_users.column_toggler.mysql_unavailable.label`
+- `admin.system_users.column_toggler.mysql_unavailable.title`
+- `admin.system_users.mysql_stats.desc`
+- `admin.system_users.mysql_stats.dismiss`
+- `admin.system_users.mysql_stats.learn_more`
+- `admin.system_users.mysql_stats.title`
+- `admin.team.restrictDescription`
+- `admin.teamSettings.teamDetail.teamId`
+- `admin.team_channel_settings.convertConfirmModal.toPrivateMessage`
+- `admin.team_channel_settings.convertConfirmModal.toPublicMessage`
+- `admin.team_channel_settings.usersToBeRemovedModal.title`
+- `admin.team_settings.team_detail.teamDescription`
+- `admin.team_settings.team_detail.teamName`
+- `admin.user_item.emailTitle`
+- `admin.viewArchivedChannelsHelpText`
+- `admin.viewArchivedChannelsTitle`
+- `analytics.system.textPosts`
+- `analytics.system.totalFilePosts`
+- `analytics.system.totalHashtagPosts`
+- `announcement_bar.notification.enable_notifications`
+- `announcement_bar.notification.needs_permisson`
+- `announcement_bar.warn.email_support`
+- `archivedChannelMessage`
+- `authorize.access`
+- `authorize.app`
+- `authorize.title`
+- `backstage_navbar.backToWorkspace`
+- `bots.manage.emptySearch`
+- `bots.manage.help2`
+- `change_url.helpText`
+- `channelHeader.confirmDeleteAll.body`
+- `channelHeader.confirmDeleteAll.title`
+- `channelHeader.confirmDeleteSelected.body`
+- `channelHeader.confirmDeleteSelected.title`
+- `channelHeader.delete.cancel`
+- `channelHeader.delete.clearSelection`
+- `channelHeader.delete.close`
+- `channelHeader.delete.confirm`
+- `channelHeader.delete.confirmForEveryone`
+- `channelHeader.delete.confirmMineOnly`
+- `channelHeader.delete.confirmSelectedMineOnly`
+- `channelHeader.delete.error`
+- `channelHeader.delete.noSelection`
+- `channelHeader.delete.notAllowedWithoutDeleteForEveryone`
+- `channelHeader.delete.selectedCountLabel`
+- `channelHeader.delete.success`
+- `channelHeader.delete.successWithSkipped`
+- `channelHeader.delete.unselectMode`
+- `channelHeader.deleteAll.failedToRetrieve`
+- `channelHeader.deleteAll.success`
+- `channelHeader.deleteForEveryoneLabel`
+- `channelHeader.deleteSelectedPosts`
+- `channelHeader.deleteTooltipAll`
+- `channelHeader.deleteTooltipSelected`
+- `channelHeader.multiselectMode.enableCta`
+- `channelHeader.multiselectMode.hint`
+- `channelHeader.multiselectMode.startCta`
+- `channelHeader.resultDeleteAll.title`
+- `channelHeader.resultDeleteSelected.title`
+- `channelHeader.unselectPosts`
+- `channel_header.addChannelHeader`
+- `channel_header.convert`
+- `channel_header.editLink`
+- `channel_header.manageMembers`
+- `channel_header.menuAriaLabel`
+- `channel_header.rename`
+- `channel_header.setHeader`
+- `channel_header.setPurpose`
+- `channel_header.viewMembers`
+- `channel_info_rhs.menu.links.filter.links`
+- `channel_loader.something`
+- `channel_members_dropdown.shared_member`
+- `channel_notifications.MobileNotificationAllLabel`
+- `channel_notifications.MobileNotificationMentionLabel`
+- `channel_notifications.MobileNotificationNothingLabel`
+- `channel_notifications.desktopNotificationAllLabel`
+- `channel_notifications.desktopNotificationMentionLabel`
+- `channel_notifications.desktopNotificationNothingLabel`
+- `cloud_billing.nudge_to_paid.view_plans`
+- `collapsedReplyThreadsModal.helpText`
+- `collapsed_reply_threads_modal.description`
+- `collapsed_reply_threads_modal.skip_tour`
+- `collapsed_reply_threads_modal.take_the_tour`
+- `collapsed_reply_threads_modal.title`
+- `commercial_support.description`
+- `commercial_support.download_contents`
+- `commercial_support.warning.banner`
+- `convert_channel.question1`
+- `convert_channel.question2`
+- `convert_channel.question3`
+- `create_comment.commentTitle`
+- `create_post.comment`
+- `create_post.deactivated`
+- `create_post.icon`
+- `create_post.post`
+- `create_post.send_message`
+- `create_team.agreement`
+- `create_team.display_name.charLength`
+- `create_team.display_name.required`
+- `custom_status.expiry.time_picker.title`
+- `custom_status.expiry.until_tomorrow`
+- `custom_user_status_modal.status_upload.cancel_button_text`
+- `custom_user_status_modal.status_upload.clip_video_error`
+- `custom_user_status_modal.status_upload.confirm_button_text`
+- `custom_user_status_modal.status_upload.emtpy_status_error`
+- `custom_user_status_modal.status_upload.fetch_channels_error`
+- `custom_user_status_modal.status_upload.modal_header_text`
+- `custom_user_status_modal.status_upload.no_file_error`
+- `custom_user_status_modal.status_upload.status_textarea_placeholder_text`
+- `custom_user_status_modal.status_upload.status_visibility`
+- `custom_user_status_modal.status_upload.unknown_error`
+- `custom_user_status_modal.status_upload.unsupported_file_error`
+- `custom_user_status_modal.status_upload.upload_file_button_text`
+- `datetime_input.meridiem.am`
+- `datetime_input.meridiem.pm`
+- `delete_channel.question`
+- `delete_channel.viewArchived.question`
+- `delete_multiple_posts.cancel`
+- `delete_multiple_posts.confirm_post`
+- `delete_multiple_posts.del`
+- `delete_multiple_posts.question_post`
+- `delete_post.comment`
+- `delete_post.confirm`
+- `delete_post.post`
+- `delete_post.question`
+- `dmin.user_item.manageSettings`
+- `dnd_custom_time_picker_modal.date`
+- `dnd_custom_time_picker_modal.time`
+- `download_file.audio`
+- `drafts.tutorialTip.description`
+- `drafts.tutorialTip.title`
+- `drafts.tutorial_tip.notNow`
+- `drafts.tutorial_tip.viewDrafts`
+- `edit_post.time_limit_modal.description`
+- `endTime`
+- `generic_icons.login.oneLogin`
+- `generic_icons.muted`
+- `generic_icons.sofa`
+- `generic_icons.upload`
+- `generic_icons.user_group_members`
+- `get_app.openLinkInBrowser`
+- `global_header.product_branding.channels`
+- `installed_commands.emptySearch`
+- `installed_outgoing_oauth_connections.delete.warning`
+- `installed_outgoing_webhooks.emptySearch`
+- `intro_messages.inviteOthers`
+- `invite_modal.add_channels_title_b`
+- `invite_modal.add_channels_title_c`
+- `join_team_group_constrained_denied_admin`
+- `leave_team_modal.desc`
+- `leave_team_modal_guest.desc`
+- `leave_team_modal_guest_only_private.desc`
+- `leave_team_modal_guest_only_public.desc`
+- `leave_team_modal_private.desc`
+- `leave_team_modal_public.desc`
+- `mark_all_threads_as_read_modal.cancel`
+- `marketplace_modal.list.configure.plugin`
+- `marketplace_modal.list.install.plugin`
+- `media_editor.image.cancel_btn`
+- `media_editor.image.header`
+- `media_editor.image.save_btn`
+- `media_editor.video.cancel_btn`
+- `media_editor.video.header`
+- `media_editor.video.save_btn`
+- `media_editor.video.save_loading`
+- `menu.cloudFree.priorTrial.tryEnterprise`
+- `message_multiple_users_dm.channel_failed`
+- `message_multiple_users_dm.no_message`
+- `message_multiple_users_dm.no_recipients`
+- `message_multiple_users_dm.placeholder`
+- `message_multiple_users_dm.send`
+- `message_multiple_users_dm.send_failed`
+- `message_multiple_users_dm.sending`
+- `message_multiple_users_dm.start`
+- `message_multiple_users_dm.start_group`
+- `message_multiple_users_dm.title`
+- `mfa.setup.required`
+- `mfa.setup.step2`
+- `mfa.setup.step3`
+- `more_channels.hide_joined_checked`
+- `more_channels.hide_joined_not_checked`
+- `navbar_Download.mobile`
+- `navbar_Download.tablet`
+- `navbar_Download.windows`
+- `next_steps_view.welcoworkspace`
+- `notify_all.question`
+- `notify_all.question_groups`
+- `notify_all.question_one_group`
+- `notify_all.question_timezone`
+- `notify_all.question_timezone_groups`
+- `notify_all.question_timezone_one_group`
+- `notify_here.question_timezone`
+- `onboardingTask.checklist.task_explore_other_tools_in_platform`
+- `onboardingTask.checklist.task_resolve_incidents_faster_with_playbooks`
+- `onboardingTask.checklist.video_title`
+- `onboardingTour.Playbooks.Description`
+- `onboardingTour.Playbooks.title`
+- `post_info.actions.noActions`
+- `post_info.multi_select`
+- `post_info.reply_to_post_privately`
+- `post_priority.picker.feedback`
+- `post_props.props.forwarded`
+- `post_props.props.forwarded_from`
+- `postypes.custom_open_plugin_install_post_rendered.app_installation_request_text`
+- `postypes.custom_open_plugin_install_post_rendered.plugin_instructions`
+- `postypes.custom_open_plugin_install_post_rendered.plugin_request`
+- `postypes.custom_open_plugin_install_post_rendered.plugins_installed`
+- `postypes.custom_open_plugin_install_post_rendered.plugins_instructions`
+- `postypes.custom_open_pricing_modal_post_renderer.and`
+- `postypes.custom_open_pricing_modal_post_renderer.members`
+- `postypes.custom_open_pricing_modal_post_renderer.unknown`
+- `pricing_modal.addons.USSupport`
+- `pricing_modal.addons.dedicatedDB`
+- `pricing_modal.addons.dedicatedDeployment`
+- `pricing_modal.addons.dedicatedEncryption`
+- `pricing_modal.addons.dedicatedK8sCluster`
+- `pricing_modal.addons.missionCritical`
+- `pricing_modal.addons.premiumSupport`
+- `pricing_modal.addons.title`
+- `pricing_modal.addons.uptimeGuarantee`
+- `pricing_modal.briefing.customUserGroups`
+- `pricing_modal.briefing.enterprise.advancedComplianceManagement`
+- `pricing_modal.briefing.enterprise.groupSync`
+- `pricing_modal.briefing.enterprise.mobileSecurity`
+- `pricing_modal.briefing.enterprise.rolesAndPermissions`
+- `pricing_modal.briefing.fullMessageAndHistory`
+- `pricing_modal.briefing.professional.advancedPlaybook`
+- `pricing_modal.briefing.professional.messageBoardsIntegrationsCalls`
+- `pricing_modal.briefing.professional.unLimitedTeams`
+- `pricing_modal.briefing.ssoWithGitLab`
+- `pricing_modal.briefing.title`
+- `pricing_modal.briefing.title_large_scale`
+- `pricing_modal.briefing.title_no_limit`
+- `pricing_modal.briefing.unlimitedPlaybookRuns`
+- `pricing_modal.briefing.unlimitedWorkspaceTeams`
+- `pricing_modal.btn.contactSales`
+- `pricing_modal.btn.contactSalesForQuote`
+- `pricing_modal.btn.downgrade`
+- `pricing_modal.btn.purchase`
+- `pricing_modal.btn.switch_to_annual`
+- `pricing_modal.btn.tryDays`
+- `pricing_modal.btn.upgrade`
+- `pricing_modal.contact_us`
+- `pricing_modal.extra_briefing.enterprise.playBookAnalytics`
+- `pricing_modal.extra_briefing.free.calls`
+- `pricing_modal.extra_briefing.professional.guestAccess`
+- `pricing_modal.extra_briefing.professional.ssoSaml`
+- `pricing_modal.extra_briefing.professional.ssoadLdap`
+- `pricing_modal.interested_self_hosting`
+- `pricing_modal.learn_more`
+- `pricing_modal.lookingForCloudOption`
+- `pricing_modal.noitfy_cta.request`
+- `pricing_modal.noitfy_cta.request_success`
+- `pricing_modal.or`
+- `pricing_modal.planDisclaimer.free`
+- `pricing_modal.planLabel.currentPlan`
+- `pricing_modal.planLabel.currentPlanMonthly`
+- `pricing_modal.planSummary.enterprise`
+- `pricing_modal.planSummary.free`
+- `pricing_modal.planSummary.professional`
+- `pricing_modal.questions`
+- `pricing_modal.rate.seatPerMonth`
+- `pricing_modal.reach_out`
+- `pricing_modal.reviewDeploymentOptions`
+- `pricing_modal.start_trial.disclaimer`
+- `pricing_modal.subtitle`
+- `pricing_modal.title`
+- `quick_switch_modal.help_no_team`
+- `reaction.reactWidth.ariaLabel`
+- `reaction.removeReact.ariaLabel`
+- `reaction_list.addReactionTooltip`
+- `rename_channel.cancel`
+- `rename_channel.defaultError`
+- `rename_channel.displayName`
+- `rename_channel.displayNameHolder`
+- `rename_channel.maxLength`
+- `rename_channel.minLength`
+- `rename_channel.save`
+- `rename_channel.title`
+- `rename_channel.url`
+- `replied_post_to_preview.error`
+- `replied_post_to_preview.you`
+- `reply.label`
+- `reply_box.reply_to`
+- `reply_box.you`
+- `reply_preview.media`
+- `rhs_comment.comment`
+- `saveChangesPanel.tryAgain`
+- `search_bar.channels`
+- `search_bar.users`
+- `setting_picture.help.profile.example`
+- `sidebar.allDirectMessages`
+- `sidebar.channel_link.last_message.data_spillage_report`
+- `sidebar.channel_link.last_message.gif`
+- `sidebar.createUserGroup`
+- `sidebar.dm_menu.message_multiple`
+- `sidebar.filterByStatus`
+- `sidebar.generic_channels`
+- `sidebar.new_members`
+- `sidebar.no.results`
+- `sidebar.status.away`
+- `sidebar.status.offline`
+- `sidebar.status.online`
+- `sidebar.suggested_channels`
+- `sidebar.team_menu.menuAriaLabel`
+- `sidebar.types.unreads`
+- `sidebar_left.add_channel_cta_dropdown.dropdownAriaLabel`
+- `sidebar_left.add_channel_dropdown.browseOrCreateChannels`
+- `sidebar_left.add_channel_dropdown.createCategory`
+- `sidebar_left.add_channel_dropdown.dropdownAriaLabel`
+- `sidebar_left.add_channel_dropdown.invitePeople`
+- `sidebar_left.add_channel_dropdown.invitePeopleExtraText`
+- `sidebar_left.sidebar_channel.filter`
+- `sidebar_left.sidebar_channel_menu.bookmarks`
+- `sidebar_left.sidebar_channel_menu.favorites1`
+- `sidebar_left.sidebar_channel_menu.muteConversation`
+- `sidebar_left.sidebar_channel_menu.unmuteConversation`
+- `sidebar_left.sidebar_channel_navigator.addChannelsCta`
+- `sidebar_left.sidebar_user_status_menu.mute`
+- `sidebar_left.sidebar_user_status_menu.unmute`
+- `someting.string`
+- `startTime`
+- `start_trial.modal.disclaimer`
+- `start_trial.modal_btn.start_free_trial`
+- `status_dropdown.dnd_sub_menu_header`
+- `status_dropdown.dnd_sub_menu_item.custom`
+- `status_dropdown.dnd_sub_menu_item.dont_clear`
+- `status_dropdown.dnd_sub_menu_item.one_hour`
+- `status_dropdown.dnd_sub_menu_item.thirty_minutes`
+- `status_dropdown.dnd_sub_menu_item.tomorrow`
+- `status_dropdown.dnd_sub_menu_item.two_hours`
+- `status_dropdown.menuAriaLabel`
+- `status_dropdown.profile_button_label`
+- `status_dropdown.profile_button_label.away`
+- `status_dropdown.profile_button_label.dnd`
+- `status_dropdown.profile_button_label.offline`
+- `status_dropdown.profile_button_label.online`
+- `status_dropdown.profile_button_label.ooo`
+- `status_dropdown.set_away`
+- `status_dropdown.set_custom`
+- `status_dropdown.set_custom_text`
+- `status_dropdown.set_dnd`
+- `status_dropdown.set_dnd.extra`
+- `status_dropdown.set_offline`
+- `status_dropdown.set_online`
+- `status_dropdown.set_ooo`
+- `status_dropdown.set_ooo.extra`
+- `suggestion.mention.groups`
+- `suggestion.mention.private.channels`
+- `suggestion.mention.unread.channels`
+- `suggestion_list.no_matches`
+- `system_notice.body.api3`
+- `system_notice.body.ee_upgrade_advice`
+- `system_notice.body.ie11_deprecation`
+- `system_notice.body.permissions`
+- `system_notice.title`
+- `system_notice.title.gm_as_dm`
+- `system_noticy.body.gm_as_dm`
+- `tag.default.new`
+- `test.description`
+- `test1`
+- `test2`
+- `threadFromArchivedChannelMessage`
+- `trial_btn.free.tryFreeFor30Days`
+- `tutorial_threads.list.Down`
+- `tutorial_threads.list.Up`
+- `tutorial_threads.list.description-p1`
+- `tutorial_threads.list.description-p2`
+- `tutorial_threads.list.title`
+- `tutorial_threads.threads_pane.description`
+- `tutorial_threads.threads_pane.title`
+- `tutorial_threads.unread.description`
+- `tutorial_threads.unread.title`
+- `tutorial_threads.welcome.description`
+- `tutorial_threads.welcome.title`
+- `unarchive_channel.viewArchived.question`
+- `user.settings.advance.enabledFeatures`
+- `user.settings.advance.markdown_preview`
+- `user.settings.advance.performance.disableTelemetry`
+- `user.settings.advance.preReleaseDesc`
+- `user.settings.advance.preReleaseTitle`
+- `user.settings.display.theme.import`
+- `user.settings.display.theme.themeColors`
+- `user.settings.general.nicknamee`
+- `user.settings.import_theme.cancel`
+- `user.settings.import_theme.importBody`
+- `user.settings.import_theme.importHeader`
+- `user.settings.import_theme.submit`
+- `user.settings.import_theme.submitError`
+- `user.settings.notifications.desktopNotificationSound`
+- `user.settings.notifications.email.immediately`
+- `user.settings.sidebar.limitVisibleGMsDMs.allDirectMessages`
+- `user.settings.tokens.confirmDeleteMessage`
+- `userGuideHelp.helpResources`
+- `user_status_modal.status_team.menu`
+- `user_status_modal.status_team.selectTeam`
+- `user_status_modal.status_team.visibilityButtonAriaLabel`
+- `user_status_sidebar.user_profile.my_story`
+- `user_status_sidebar.user_profile.user_name`
+- `webapp.sofa.feature.all_enterprise`
+- `webapp.sofa.feature.all_professional`
+- `webapp.sofa.feature.create_multiple_teams`
+- `webapp.sofa.feature.custom_user_groups`
+- `webapp.sofa.feature.guest_accounts`
+- `webapp.sofa.feature.highlight_without_notification`
+- `webapp.sofa.feature.playbooks_retro`
+- `webapp.sofa.feature.start_call`
+- `webapp.sofa.feature.unlimited_file_storage`
+- `webapp.sofa.feature.unlimited_messages`
+- `webapp.sofa.feature.upgrade_downgraded_workspace`
+- `widget.passwordInput.hidePassword`
+- `widget.passwordInput.passwordToggle`
+- `widget.passwordInput.showPassword`
+- `workspace_limits.message_history.locked.cta.admin`
+- `workspace_limits.message_history.locked.cta.end_user`
+- `workspace_limits.message_history.locked.description.end_user`
+- `workspace_limits.message_history.locked.title.end_user`
+- `workspace_limits.search_files_limit.banner_text`
+- `workspace_limits.search_limit.upgrade_now`
+- `workspace_limits.search_limit.view_plans`
+- `workspace_limits.search_message_limit.banner_text`
+
+## 3. Identical Translations
+Keys where the translation in ar.json is identical to the value in en.json.
+(Note: This may be intended for technical terms, IDs, or placeholders.)
+
+Count: 91
+- `FIFTY_TO_100` (Value: `51-100`)
+- `FIVE_HUNDRED_TO_1000` (Value: `501-1000`)
+- `ONE_HUNDRED_TO_500` (Value: `101-500`)
+- `ONE_THOUSAND_TO_2500` (Value: `1001-2500`)
+- `ONE_TO_50` (Value: `1-50`)
+- `TWO_THOUSAND_FIVE_HUNDRED_AND_UP` (Value: `2501-5000`)
+- `add_command.iconUrl.placeholder` (Value: `https://www.example.com/myicon.png`)
+- `add_command.method.get` (Value: `GET`)
+- `add_command.method.post` (Value: `POST`)
+- `admin.access_control.cel.line_and_column_number` (Value: `L{lineNumber}:{columnNumber}`)
+- `admin.authentication.gitlab` (Value: `GitLab`)
+- `admin.authentication.oauth` (Value: `OAuth 2.0`)
+- `admin.billing.subscription.planDetails.features.openid` (Value: `OpenID`)
+- `admin.billing.subscription.planDetails.productName.cloudAdvanced` (Value: `Cloud Enterprise Advanced`)
+- `admin.cacheSettings.cacheType.lru` (Value: `LRU`)
+- `admin.cacheSettings.cacheType.redis` (Value: `Redis`)
+- `admin.cacheSettings.redisAddressPlaceholder` (Value: `localhost:6379`)
+- `admin.cacheSettings.redisDBPlaceholder` (Value: `0`)
+- `admin.complianceExport.exportFormat.actiance` (Value: `Actiance XML`)
+- `admin.complianceExport.exportFormat.csv` (Value: `CSV`)
+- `admin.complianceExport.exportFormat.globalrelay` (Value: `Global Relay EML`)
+- `admin.complianceExport.globalRelayCustomerType.a10.description` (Value: `A10/Type 10`)
+- `admin.complianceExport.globalRelayCustomerType.a9.description` (Value: `A9/Type 9`)
+- `admin.connectionSecurityTls.title` (Value: `TLS`)
+- `admin.data_retention.channel_team_counts_empty` (Value: `N/A`)
+- `admin.data_retention.retention_days` (Value: `{count} {count, plural, one {day} other {days}}`)
+- `admin.data_retention.retention_hours` (Value: `{count} {count, plural, one {hour} other {hours}}`)
+- `admin.data_retention.retention_years` (Value: `{count} {count, plural, one {year} other {years}}`)
+- `admin.environment.smtp.connectionSecurity.option.starttls` (Value: `STARTTLS`)
+- `admin.image.maxFileSizeExample` (Value: `50`)
+- `admin.image.storeAmazonS3` (Value: `Amazon S3`)
+- `admin.integrations.cors` (Value: `CORS`)
+- `admin.intune.authServiceOffice365` (Value: `OpenID Connect (Office 365)`)
+- `admin.intune.authServiceSaml` (Value: `SAML 2.0`)
+- `admin.log.levelOptions.DEBUG` (Value: `DEBUG`)
+- `admin.log.levelOptions.ERROR` (Value: `ERROR`)
+- `admin.log.levelOptions.INFO` (Value: `INFO`)
+- `admin.log.levelOptions.WARN` (Value: `WARN`)
+- `admin.logs.logFormatJson` (Value: `JSON`)
+- `admin.manage_roles.postAllPublicRoleTitle` (Value: `post:channels`)
+- `admin.manage_roles.postAllRoleTitle` (Value: `post:all`)
+- `admin.mobileSecurity.sections.intune.title` (Value: `Microsoft Intune`)
+- `admin.oauth.gitlab` (Value: `GitLab`)
+- `admin.oauth.google` (Value: `Google Apps`)
+- `admin.openid.discovery.placeholder` (Value: `https://id.mydomain.com/.well-known/openid-configuration`)
+- `admin.openid.gitlab` (Value: `GitLab`)
+- `admin.openid.google` (Value: `Google Apps`)
+- `admin.permissions.sysconsole_section_environment_smtp.name` (Value: `SMTP`)
+- `admin.permissions.sysconsole_section_integrations_cors.name` (Value: `CORS`)
+- `admin.saml.signatureAlgorithmDisplay.sha1` (Value: `RSAwithSHA1`)
+- `admin.saml.signatureAlgorithmDisplay.sha256` (Value: `RSAwithSHA256`)
+- `admin.saml.signatureAlgorithmDisplay.sha512` (Value: `RSAwithSHA512`)
+- `admin.service.corsEx` (Value: `http://example.com`)
+- `admin.service.corsHeadersEx` (Value: `X-My-Header`)
+- `admin.service.internalConnectionsEx` (Value: `webhooks.internal.example.com 127.0.0.1 10.0.16.0/28`)
+- `admin.sidebar.cors` (Value: `CORS`)
+- `admin.sidebar.gitlab` (Value: `GitLab`)
+- `admin.sidebar.oauth` (Value: `OAuth 2.0`)
+- `admin.system_properties.user_properties.table.values.synced_with.ldap` (Value: `AD/LDAP: {propertyName}`)
+- `admin.system_properties.user_properties.table.values.synced_with.saml` (Value: `SAML: {propertyName}`)
+- `admin.system_users.date_range_selector.date_range.sublabel` (Value: `{startDate} - {endDate}`)
+- `admin.userManagement.userDetail.cpaField` (Value: `{fieldName}`)
+- `admin.userManagement.userDetail.ldap` (Value: `AD/LDAP: {propertyName}`)
+- `admin.userManagement.userDetail.saml` (Value: `SAML: {propertyName}`)
+- `admin.webserverModeGzip` (Value: `gzip`)
+- `adminConsole.list.table.rowsCount.10` (Value: `10`)
+- `adminConsole.list.table.rowsCount.100` (Value: `100`)
+- `adminConsole.list.table.rowsCount.20` (Value: `20`)
+- `adminConsole.list.table.rowsCount.50` (Value: `50`)
+- `atmos/camo` (Value: `atmos/camo`)
+- `error.oauth_missing_code.google.link` (Value: `Google Apps`)
+- `file_type.pdf` (Value: `Acrobat`)
+- `login.gitlab` (Value: `GitLab`)
+- `login.google` (Value: `Google`)
+- `login.openid` (Value: `Open ID`)
+- `login.saml` (Value: `SAML`)
+- `onboarding_wizard.plugins.github` (Value: `GitHub`)
+- `onboarding_wizard.plugins.gitlab` (Value: `GitLab`)
+- `onboarding_wizard.plugins.jira` (Value: `Jira`)
+- `onboarding_wizard.plugins.zoom` (Value: `Zoom`)
+- `rhs_plugin_popout.title` (Value: `{pluginDisplayName} - {serverName}`)
+- `search_file_extension_suggestion.aria_label` (Value: `{fileType} (.{extension})`)
+- `shortcuts.generic.alt` (Value: `Alt`)
+- `shortcuts.generic.ctrl` (Value: `Ctrl`)
+- `shortcuts.generic.shift` (Value: `Shift`)
+- `start_cloud_trial.modal.enter_trial_email.input.placeholder` (Value: `name@companyname.com`)
+- `team_members_dropdown.confirmDemotionCmd` (Value: `platform roles system_admin {username}`)
+- `user.settings.security.openid` (Value: `OpenID`)
+- `user.settings.security.saml` (Value: `SAML`)
+- `workspace_limits.file_storage.short.usage` (Value: `{actual} / {limit}`)
+- `workspace_limits.message_history.short.usage` (Value: `{actual} / {limit}`)
