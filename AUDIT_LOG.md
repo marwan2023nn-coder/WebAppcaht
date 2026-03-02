@@ -41,95 +41,26 @@ for id, originalPost := range originalList.Posts {
 
 ---
 
-### [DEV-INSECURE-CONN] Support Insecure/Internal Connections for Dev
-- **File:** `server/channels/app/admin.go`, `server/channels/api4/websocket.go`
-- **Severity:** Low (Developer Experience)
-- **Description:** Improved support for development environments with self-signed certificates or internal IP addresses. Modified `TestSiteURL` to skip TLS verification and allow internal addresses. Relaxed WebSocket origin checking when `AllowedUntrustedInternalConnections` is enabled.
+### [BUG-TEST-01] Panic in TestUserIsValid due to Nil Pointer Dereference
+- **File:** `server/public/model/user_test.go`
+- **Severity:** Medium
+- **Description:** `TestUserIsValid` and potentially other tests panic when an expected error is nil because they attempt to call `.Error()` on a nil `*AppError` object in the failure message of a `require.True` or `assert.True` call.
 
-**Before (TestSiteURL):**
+**Example of problematic code:**
 ```go
-tr := a.HTTPService().MakeTransport(true)
-// ... manually creating http.Client
+appErr = user.IsValid()
+require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
 ```
 
-**After (TestSiteURL):**
-```go
-client := a.HTTPService().MakeClient(true)
-if tr, ok := client.Transport.(*httpservice.MattermostTransport); ok {
-    if ht, ok := tr.Transport.(*http.Transport); ok {
-        // ... sets InsecureSkipVerify = true
-    }
-}
-```
-
-**Before (WebSocket Origin):**
-```go
-CheckOrigin: c.App.OriginChecker(),
-```
-
-**After (WebSocket Origin):**
-```go
-if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternalConnections) != "" {
-    originChecker = func(r *http.Request) bool { return true }
-}
-```
+**Recommendation:** Check if `appErr` is nil before calling `appErr.Error()` in the failure message, or use `require.NotNil(t, appErr)` before the assertion.
 
 ---
 
-### [WS-SYNC-FIX] WebSocket Synchronization and Proxy Support
-- **File:** `server/channels/app/platform/web_hub.go`, `server/channels/app/server.go`
-- **Severity:** High
-- **Description:** Fixed "Real-time" failures where messages only appeared after refresh. Improved visibility of WebSocket hub status and ensured handshakes succeed in environments where Nginx proxies TLS to plain HTTP/WS by allowing scheme mismatches when ConnectionSecurity is 'none'.
-
-**Before (OriginChecker):**
-```go
-siteURL, err := url.Parse(*a.Config().ServiceSettings.SiteURL)
-// ...
-return strings.EqualFold(u.Host, siteURL.Host) && strings.EqualFold(u.Scheme, siteURL.Scheme)
-```
-
-**After (OriginChecker):**
-```go
-// Allows scheme mismatch for SiteURL domain when ConnectionSecurity is none
-if strings.EqualFold(u.Host, siteURL.Host) {
-    if strings.EqualFold(u.Scheme, siteURL.Scheme) {
-        return true
-    }
-    if model.SafeDereference(a.Config().ServiceSettings.ConnectionSecurity) == model.ConnSecurityNone {
-        if (u.Scheme == "http" || u.Scheme == "https") && (siteURL.Scheme == "http" || siteURL.Scheme == "https") {
-            return true
-        }
-    }
-}
-```
-
----
-
-### [USER-HARD-DELETE] Force Hard Delete for Users
-- **File:** `server/channels/api4/user.go`
-- **Severity:** Low (Feature Adjustment)
-- **Description:** Modified the `deleteUser` handler to always perform a hard delete (permanent removal from DB) instead of a soft delete/deactivation, regardless of the request parameters or the `EnableAPIUserDeletion` configuration setting.
-
-**Before:**
-```go
-	if permanent {
-		if *c.App.Config().ServiceSettings.EnableAPIUserDeletion {
-			err = c.App.PermanentDeleteUser(c.AppContext, user)
-		} else {
-            // ... error handling
-		}
-	} else {
-		err = c.App.SoftDeleteUser(c.AppContext, user)
-	}
-```
-
-**After:**
-```go
-	permanent := true // Forced to true as per user request to always hard delete
-    // ...
-	// Forced PermanentDeleteUser to ensure hard delete regardless of EnableAPIUserDeletion setting
-	err = c.App.PermanentDeleteUser(c.AppContext, user)
-```
+### [BUILD-FAIL-01] Build Failure during Locale Change
+- **Context:** Changing default locale from 'en' to 'ar'.
+- **Severity:** Medium
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
 
 ---
 
@@ -9807,5 +9738,30 @@ Where(fmt.Sprintf("(Name %[1]s '%[2]s' OR DisplayName %[1]s '%[2]s')", operatorK
 ```go
 Where(fmt.Sprintf("(Name %[1]s ? OR DisplayName %[1]s ?)", operatorKeyword), term, term)
 ```
+
+---
+
+---
+
+### [BUG-TEST-01] Panic in TestUserIsValid due to Nil Pointer Dereference
+- **File:** `server/public/model/user_test.go`
+- **Severity:** Medium
+- **Description:** `TestUserIsValid` and potentially other tests panic when an expected error is nil because they attempt to call `.Error()` on a nil `*AppError` object in the failure message of a `require.True` or `assert.True` call.
+
+**Example of problematic code:**
+```go
+appErr = user.IsValid()
+require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
+```
+
+**Recommendation:** Check if `appErr` is nil before calling `appErr.Error()` in the failure message, or use `require.NotNil(t, appErr)` before the assertion.
+
+---
+
+### [BUILD-FAIL-01] Build Failure during Locale Change
+- **Context:** Changing default locale from 'en' to 'ar'.
+- **Severity:** Medium
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
 
 ---

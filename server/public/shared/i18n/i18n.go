@@ -24,7 +24,7 @@ import (
 // This should only be a concern in parallel tests.
 var mut sync.Mutex
 
-const defaultLocale = "en"
+const defaultLocale = "ar"
 
 // TranslateFunc is the type of the translate functions
 type TranslateFunc func(translationID string, args ...any) string
@@ -49,7 +49,7 @@ var T TranslateFunc = func(translationID string, args ...any) string {
 	return t(translationID, args...)
 }
 
-// TDefault is the translate function using english as fallback language
+// TDefault is the translate function using Arabic as fallback language
 var TDefault TranslateFunc = func(translationID string, args ...any) string {
 	mut.Lock()
 	defer mut.Unlock()
@@ -66,6 +66,7 @@ var locales = make(map[string]string)
 // supportedLocales is a hard-coded list of locales considered ready for production use. It must
 // be kept in sync with ../../../../webapp/channels/src/i18n/i18n.jsx.
 var supportedLocales = []string{
+	"ar",
 	"de",
 	"en",
 	"en-AU",
@@ -96,7 +97,7 @@ var (
 )
 
 // TranslationsPreInit loads translations from filesystem if they are not
-// loaded already and assigns english while loading server config
+// loaded already and assigns Arabic while loading server config
 func TranslationsPreInit(translationsDir string) error {
 	mut.Lock()
 	defer mut.Unlock()

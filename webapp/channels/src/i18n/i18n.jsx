@@ -15,7 +15,7 @@ export const languages = {
         value: 'ar',
         name: 'العربية',
         order: 1,
-        url: '',
+        url: langFiles.ar,
     },
     'en-AU': {
         value: 'en-AU',
