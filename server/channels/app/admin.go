@@ -4,6 +4,7 @@
 package app
 
 import (
+	"crypto/tls"
 	"encoding/json"
 	"fmt"
 	"io"
@@ -12,6 +13,7 @@ import (
 	"time"
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
 	"github.com/mattermost/mattermost/server/public/shared/i18n"
 	"github.com/mattermost/mattermost/server/public/shared/request"
 	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
@@ -158,16 +160,31 @@ func (a *App) RecycleDatabaseConnection(rctx request.CTX) {
 
 func (a *App) TestSiteURL(rctx request.CTX, siteURL string) *model.AppError {
 	url := fmt.Sprintf("%s/api/v4/system/ping", siteURL)
-	// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
-	// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
-	res, err := a.HTTPService().MakeClient(false).Get(url)
-	if err != nil || res.StatusCode != 200 {
-		return model.NewAppError("testSiteURL", "app.admin.test_site_url.failure", nil, "", http.StatusBadRequest)
+	// We use MakeClient(true) to allow internal/SSRF-protected IP addresses.
+	// We also bypass TLS verification as it's an admin-only tool specifically for testing the server's own reachability,
+	// which may be using a local IP or a self-signed certificate.
+	client := a.HTTPService().MakeClient(true)
+	if tr, ok := client.Transport.(*httpservice.MattermostTransport); ok {
+		if ht, ok := tr.Transport.(*http.Transport); ok {
+			if ht.TLSClientConfig == nil {
+				ht.TLSClientConfig = &tls.Config{}
+			}
+			ht.TLSClientConfig.InsecureSkipVerify = true
+		}
+	}
+
+	res, err := client.Get(url)
+	if err != nil {
+		return model.NewAppError("testSiteURL", "app.admin.test_site_url.failure", nil, err.Error(), http.StatusBadRequest)
 	}
 	defer func() {
 		_, _ = io.Copy(io.Discard, res.Body)
 		_ = res.Body.Close()
 	}()
+
+	if res.StatusCode != http.StatusOK {
+		return model.NewAppError("testSiteURL", "app.admin.test_site_url.failure", nil, fmt.Sprintf("status code %d", res.StatusCode), http.StatusBadRequest)
+	}
 
 	return nil
 }

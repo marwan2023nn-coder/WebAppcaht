@@ -581,7 +581,7 @@ export function SystemUsersListAction({user, currentUser, tableId, rowIndex, onE
             )}
             {user.delete_at === 0 && (
                 <Menu.Item
-                    id={`${menuItemIdPrefix}-delete`}
+                    id='deleteUserButton'
                     isDestructive={true}
                     labels={
                         <FormattedMessage

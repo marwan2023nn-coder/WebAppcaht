@@ -311,14 +311,16 @@ var config = {
 };
 
 function generateCSP() {
-    let csp = 'script-src \'self\' js.stripe.com/v3';
+    let scriptSrc = 'script-src \'self\' js.stripe.com/v3';
 
     if (DEV) {
         // Development source maps require eval
-        csp += ' \'unsafe-eval\'';
+        scriptSrc += ' \'unsafe-eval\'';
     }
 
-    return csp;
+    const connectSrc = 'connect-src \'self\' ws: wss: https: blob: data: chrome-extension: moz-extension: safari-extension:';
+
+    return `${scriptSrc}; ${connectSrc}`;
 }
 
 async function initializeModuleFederation() {

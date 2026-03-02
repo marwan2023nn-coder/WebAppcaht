@@ -1249,6 +1249,21 @@ func (a *App) getAddChannelAutoTranslationPermissionMigration() (permissionsMap,
 	}, nil
 }
 
+func (a *App) getRemoveUnrecognizedConfigPermissionsMigration() (permissionsMap, error) {
+	return permissionsMap{
+		permissionTransformation{
+			On: func(role *model.Role, permissionsMap map[string]map[string]bool) bool {
+				return true
+			},
+			Remove: []string{
+				"sysconsole_read_mobile_intune",
+				"sysconsole_write_mobile_intune",
+				"sysconsole_write_*_read",
+			},
+		},
+	}, nil
+}
+
 // Only sysadmins, team admins, and users with channels and groups managements have access to "convert channel to public"
 func (a *App) getRestrictAcessToChannelConversionToPublic() (permissionsMap, error) {
 	return []permissionTransformation{
@@ -1323,6 +1338,7 @@ func (s *Server) doPermissionsMigrations() error {
 		{Key: model.MigrationKeyAddChannelBannerPermissions, Migration: a.getAddChannelBannerPermissionMigration},
 		{Key: model.MigrationKeyAddChannelAccessRulesPermission, Migration: a.getAddChannelAccessRulesPermissionMigration},
 		{Key: model.MigrationKeyAddChannelAutoTranslationPermissions, Migration: a.getAddChannelAutoTranslationPermissionMigration},
+		{Key: model.MigrationKeyRemoveUnrecognizedConfigPermissions, Migration: a.getRemoveUnrecognizedConfigPermissionsMigration},
 	}
 
 	roles, err := s.Store().Role().GetAll()

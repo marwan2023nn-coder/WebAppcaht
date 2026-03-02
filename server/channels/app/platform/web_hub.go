@@ -135,6 +135,7 @@ func (ps *PlatformService) hubStart(broadcastHooks map[string]BroadcastHook) {
 	// Assigning to the hubs slice without any mutex is fine because it is only assigned once
 	// during the start of the program and always read from after that.
 	ps.hubs = hubs
+	ps.logger.Info("Websocket hubs started", mlog.Int("number_of_hubs", numberOfHubs))
 }
 
 func (ps *PlatformService) InvalidateCacheForWebhook(webhookID string) {
@@ -528,7 +529,7 @@ func (h *Hub) Start() {
 	var doRecover func()
 
 	doStart = func() {
-		mlog.Debug("Hub is starting", mlog.Int("index", h.connectionIndex))
+		mlog.Info("Hub is starting", mlog.Int("index", h.connectionIndex))
 
 		ticker := time.NewTicker(inactiveConnReaperInterval)
 		defer ticker.Stop()
