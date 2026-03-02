@@ -912,7 +912,8 @@ func (es *Service) sendEmailWithCustomReplyTo(to, subject, htmlBody, replyToAddr
 
 	category = getSendGridCategory(category, license.IsCloud())
 
-	return mail.SendMailUsingConfig(to, subject, htmlBody, mailConfig, license != nil && *license.Features.Compliance, "", "", "", "", category)
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
+	return mail.SendMailUsingConfig(to, subject, htmlBody, mailConfig, complianceEnabled, "", "", "", "", category)
 }
 
 func (es *Service) sendMailWithCC(to, subject, htmlBody, ccMail, category string) error {
@@ -921,7 +922,8 @@ func (es *Service) sendMailWithCC(to, subject, htmlBody, ccMail, category string
 
 	category = getSendGridCategory(category, license.IsCloud())
 
-	return mail.SendMailUsingConfig(to, subject, htmlBody, mailConfig, license != nil && *license.Features.Compliance, "", "", "", ccMail, category)
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
+	return mail.SendMailUsingConfig(to, subject, htmlBody, mailConfig, complianceEnabled, "", "", "", ccMail, category)
 }
 
 func (es *Service) SendMailWithEmbeddedFilesAndCustomReplyTo(to, subject, htmlBody, replyToAddress string, embeddedFiles map[string]io.Reader, category string) error {
@@ -930,7 +932,8 @@ func (es *Service) SendMailWithEmbeddedFilesAndCustomReplyTo(to, subject, htmlBo
 
 	category = getSendGridCategory(category, license.IsCloud())
 
-	return mail.SendMailWithEmbeddedFilesUsingConfig(to, subject, htmlBody, embeddedFiles, mailConfig, license != nil && *license.Features.Compliance, "", "", "", "", category)
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
+	return mail.SendMailWithEmbeddedFilesUsingConfig(to, subject, htmlBody, embeddedFiles, mailConfig, complianceEnabled, "", "", "", "", category)
 }
 
 func (es *Service) SendMailWithEmbeddedFiles(to, subject, htmlBody string, embeddedFiles map[string]io.Reader, messageID string, inReplyTo string, references string, category string) error {
@@ -939,7 +942,8 @@ func (es *Service) SendMailWithEmbeddedFiles(to, subject, htmlBody string, embed
 
 	category = getSendGridCategory(category, license.IsCloud())
 
-	return mail.SendMailWithEmbeddedFilesUsingConfig(to, subject, htmlBody, embeddedFiles, mailConfig, license != nil && *license.Features.Compliance, messageID, inReplyTo, references, "", category)
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
+	return mail.SendMailWithEmbeddedFilesUsingConfig(to, subject, htmlBody, embeddedFiles, mailConfig, complianceEnabled, messageID, inReplyTo, references, "", category)
 }
 
 func (es *Service) InvalidateVerifyEmailTokensForUser(userID string) *model.AppError {

@@ -96,7 +96,7 @@ func (a *App) TestFileStoreConnectionWithConfig(cfg *model.FileSettings) *model.
 	insecure := a.Config().ServiceSettings.EnableInsecureOutgoingConnections
 	var backend filestore.FileBackend
 	var err error
-	complianceEnabled := license != nil && *license.Features.Compliance
+	complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
 	if license.IsCloud() && a.Config().FeatureFlags.CloudDedicatedExportUI && a.Config().FileSettings.DedicatedExportStore != nil && *a.Config().FileSettings.DedicatedExportStore {
 		allowInsecure := a.Config().ServiceSettings.EnableInsecureOutgoingConnections != nil && *a.Config().ServiceSettings.EnableInsecureOutgoingConnections
 		backend, err = filestore.NewFileBackend(filestore.NewExportFileBackendSettingsFromConfig(cfg, complianceEnabled && license.IsCloud(), allowInsecure))
