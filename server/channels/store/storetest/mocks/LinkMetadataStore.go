@@ -44,6 +44,36 @@ func (_m *LinkMetadataStore) Get(url string, timestamp int64) (*model.LinkMetada
 	return r0, r1
 }
 
+// GetBulk provides a mock function with given fields: hashes
+func (_m *LinkMetadataStore) GetBulk(hashes []int64) ([]*model.LinkMetadata, error) {
+	ret := _m.Called(hashes)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetBulk")
+	}
+
+	var r0 []*model.LinkMetadata
+	var r1 error
+	if rf, ok := ret.Get(0).(func([]int64) ([]*model.LinkMetadata, error)); ok {
+		return rf(hashes)
+	}
+	if rf, ok := ret.Get(0).(func([]int64) []*model.LinkMetadata); ok {
+		r0 = rf(hashes)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.LinkMetadata)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func([]int64) error); ok {
+		r1 = rf(hashes)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Save provides a mock function with given fields: linkMetadata
 func (_m *LinkMetadataStore) Save(linkMetadata *model.LinkMetadata) (*model.LinkMetadata, error) {
 	ret := _m.Called(linkMetadata)

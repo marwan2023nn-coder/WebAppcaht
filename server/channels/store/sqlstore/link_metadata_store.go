@@ -97,3 +97,31 @@ func (s SqlLinkMetadataStore) Get(url string, timestamp int64) (*model.LinkMetad
 
 	return &metadata, nil
 }
+
+func (s SqlLinkMetadataStore) GetBulk(hashes []int64) ([]*model.LinkMetadata, error) {
+	if len(hashes) == 0 {
+		return []*model.LinkMetadata{}, nil
+	}
+
+	var metadata []*model.LinkMetadata
+	query, args, err := s.linkMetadataQuery.
+		Where(sq.Eq{"Hash": hashes}).
+		ToSql()
+	if err != nil {
+		return nil, errors.Wrap(err, "could not create query with querybuilder")
+	}
+
+	err = s.GetReplica().Select(&metadata, query, args...)
+	if err != nil {
+		return nil, errors.Wrap(err, "could not get metadata batch")
+	}
+
+	for _, m := range metadata {
+		err = m.DeserializeDataToConcreteType()
+		if err != nil {
+			return nil, errors.Wrapf(err, "could not deserialize metadata to concrete type for hash=%d", m.Hash)
+		}
+	}
+
+	return metadata, nil
+}

@@ -64,9 +64,13 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 	}
 
 	postIDs := make([]string, 0, len(originalList.Posts))
-	for id := range originalList.Posts {
+	posts := make([]*model.Post, 0, len(originalList.Posts))
+	for id, post := range originalList.Posts {
 		postIDs = append(postIDs, id)
+		posts = append(posts, post)
 	}
+
+	a.primeLinkMetadataCache(rctx, posts)
 
 	reactions, appErr := a.GetBulkReactionsForPosts(postIDs)
 	if appErr != nil {
@@ -1003,6 +1007,97 @@ func (a *App) getLinkMetadataFromDatabase(requestURL string, timestamp int64) (*
 		return nil, v, true
 	default:
 		return nil, nil, true
+	}
+}
+
+func (a *App) GetBulkLinkMetadata(hashes []int64) ([]*model.LinkMetadata, *model.AppError) {
+	metadata, err := a.Srv().Store().LinkMetadata().GetBulk(hashes)
+	if err != nil {
+		return nil, model.NewAppError("GetBulkLinkMetadata", "app.link_metadata.get_bulk.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	return metadata, nil
+}
+
+func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
+	if !*a.Config().ServiceSettings.EnableLinkPreviews && !*a.Config().ServiceSettings.EnablePermalinkPreviews {
+		return
+	}
+
+	siteURL := a.GetSiteURL()
+
+	type entry struct {
+		url       string
+		flooredAt int64
+	}
+
+	entriesToFetch := make(map[int64]entry)
+
+	for _, post := range posts {
+		if post.DeleteAt > 0 {
+			continue
+		}
+
+		flooredAt := model.FloorToNearestHour(post.CreateAt)
+		firstLink, images := a.getFirstLinkAndImages(rctx, post.Message)
+		allURLs := append(images, firstLink)
+		allURLs = append(allURLs, a.getImagesInMessageAttachments(rctx, post)...)
+
+		for _, requestURL := range allURLs {
+			if requestURL == "" {
+				continue
+			}
+
+			resolvedURL := resolveMetadataURL(requestURL, siteURL)
+			if resolvedURL == "" || strings.HasPrefix(strings.ToLower(resolvedURL), "data:image/") || looksLikeAPermalink(resolvedURL, siteURL) {
+				continue
+			}
+
+			hash := model.GenerateLinkMetadataHash(resolvedURL, flooredAt)
+			cacheKey := strconv.FormatInt(hash, 16)
+
+			var dummy linkMetadataCache
+			if err := platform.LinkCache().Get(cacheKey, &dummy); err != nil {
+				entriesToFetch[hash] = entry{url: resolvedURL, flooredAt: flooredAt}
+			}
+		}
+	}
+
+	if len(entriesToFetch) == 0 {
+		return
+	}
+
+	hashes := make([]int64, 0, len(entriesToFetch))
+	for h := range entriesToFetch {
+		hashes = append(hashes, h)
+	}
+
+	bulkMetadata, appErr := a.GetBulkLinkMetadata(hashes)
+	if appErr != nil {
+		rctx.Logger().Warn("Failed to bulk fetch link metadata", mlog.Err(appErr))
+		return
+	}
+
+	foundHashes := make(map[int64]bool)
+	for _, m := range bulkMetadata {
+		foundHashes[m.Hash] = true
+		var og *opengraph.OpenGraph
+		var img *model.PostImage
+
+		switch v := m.Data.(type) {
+		case *opengraph.OpenGraph:
+			og = v
+		case *model.PostImage:
+			img = v
+		}
+
+		cacheLinkMetadata(rctx, m.URL, m.Timestamp, og, img, nil)
+	}
+
+	for hash, entry := range entriesToFetch {
+		if !foundHashes[hash] {
+			cacheLinkMetadata(rctx, entry.url, entry.flooredAt, nil, nil, nil)
+		}
 	}
 }
 

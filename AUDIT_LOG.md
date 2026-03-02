@@ -15,6 +15,32 @@ This file tracks the comprehensive, line-by-line audit of the project codebase, 
 
 ---
 
+### [PERF-BATCH-01] N+1 Query in Post Link Metadata
+- **File:** `server/channels/app/post_metadata.go`
+- **Severity:** Medium
+- **Description:** Loading a list of posts caused individual database queries for each post's link metadata (Opengraph/Image info). This was optimized by bulk-fetching metadata for all posts in the list at once.
+
+**Before:**
+```go
+// Inside PreparePostListForClient loop:
+for id, originalPost := range originalList.Posts {
+    post := a.PreparePostForClientWithEmbedsAndImages(rctx, originalPost, ...)
+    // ... triggers individual DB Get for each link/image
+}
+```
+
+**After:**
+```go
+// At start of PreparePostListForClient:
+a.primeLinkMetadataCache(rctx, posts) // Batch fetches and primes LRU cache
+
+for id, originalPost := range originalList.Posts {
+    // ... processes posts normally, hitting primed cache
+}
+```
+
+---
+
 ## Log
 
 | File Path | Status | Findings | Recommendations | Criticality |
