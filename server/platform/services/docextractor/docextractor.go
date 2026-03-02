@@ -5,6 +5,7 @@ package docextractor
 
 import (
 	"io"
+	"net/http"
 
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
@@ -14,6 +15,7 @@ type ExtractSettings struct {
 	ArchiveRecursion bool
 	MMPreviewURL     string
 	MMPreviewSecret  string
+	HTTPClient       *http.Client
 }
 
 // Extract extract the text from a document using the system default extractors
@@ -39,7 +41,7 @@ func ExtractWithExtraExtractors(logger mlog.LoggerIFace, filename string, r io.R
 	}
 
 	if settings.MMPreviewURL != "" {
-		enabledExtractors.Add(newMMPreviewExtractor(settings.MMPreviewURL, settings.MMPreviewSecret, pdfExtractor{}))
+		enabledExtractors.Add(newMMPreviewExtractor(settings.MMPreviewURL, settings.MMPreviewSecret, settings.HTTPClient, pdfExtractor{}))
 	}
 	enabledExtractors.Add(&plainExtractor{})
 

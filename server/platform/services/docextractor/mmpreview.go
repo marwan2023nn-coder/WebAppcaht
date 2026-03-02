@@ -21,6 +21,7 @@ import (
 type mmPreviewExtractor struct {
 	url          string
 	secret       string
+	client       *http.Client
 	pdfExtractor pdfExtractor
 }
 
@@ -32,8 +33,8 @@ var mmpreviewSupportedExtensions = map[string]bool{
 	"ods":  true,
 }
 
-func newMMPreviewExtractor(url string, secret string, pdfExtractor pdfExtractor) *mmPreviewExtractor {
-	return &mmPreviewExtractor{url: url, secret: secret, pdfExtractor: pdfExtractor}
+func newMMPreviewExtractor(url string, secret string, client *http.Client, pdfExtractor pdfExtractor) *mmPreviewExtractor {
+	return &mmPreviewExtractor{url: url, secret: secret, client: client, pdfExtractor: pdfExtractor}
 }
 
 func (mpe *mmPreviewExtractor) Name() string {
@@ -58,7 +59,13 @@ func (mpe *mmPreviewExtractor) Extract(filename string, file io.ReadSeeker) (str
 	if mpe.secret != "" {
 		req.Header.Add("Authentication", mpe.secret)
 	}
-	resp, err := http.DefaultClient.Do(req)
+
+	client := mpe.client
+	if client == nil {
+		client = http.DefaultClient
+	}
+
+	resp, err := client.Do(req)
 	if err != nil {
 		return "", errors.Wrap(err, "Unable to generate file preview using mmpreview.")
 	}
