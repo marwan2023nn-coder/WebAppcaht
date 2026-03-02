@@ -41,10 +41,10 @@ func applyEnvKey(key, value string, rValueSubject reflect.Value) {
 	}
 
 	if rFieldValue.Kind() == reflect.Ptr {
-		rFieldValue = rFieldValue.Elem()
-		if !rFieldValue.IsValid() {
-			return
+		if rFieldValue.IsNil() {
+			rFieldValue.Set(reflect.New(rFieldValue.Type().Elem()))
 		}
+		rFieldValue = rFieldValue.Elem()
 	}
 
 	switch rFieldValue.Kind() {
