@@ -41,6 +41,29 @@ for id, originalPost := range originalList.Posts {
 
 ---
 
+### [BUG-TEST-01] Panic in TestUserIsValid due to Nil Pointer Dereference
+- **File:** `server/public/model/user_test.go`
+- **Severity:** Medium
+- **Description:** `TestUserIsValid` and potentially other tests panic when an expected error is nil because they attempt to call `.Error()` on a nil `*AppError` object in the failure message of a `require.True` or `assert.True` call.
+
+**Example of problematic code:**
+```go
+appErr = user.IsValid()
+require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
+```
+
+**Recommendation:** Check if `appErr` is nil before calling `appErr.Error()` in the failure message, or use `require.NotNil(t, appErr)` before the assertion.
+
+---
+
+### [BUILD-FAIL-01] Build Failure during Locale Change
+- **Context:** Changing default locale from 'en' to 'ar'.
+- **Severity:** Medium
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
+
+---
+
 ## Log
 
 | File Path | Status | Findings | Recommendations | Criticality |
@@ -9660,5 +9683,30 @@ Where(fmt.Sprintf("(Name %[1]s '%[2]s' OR DisplayName %[1]s '%[2]s')", operatorK
 ```go
 Where(fmt.Sprintf("(Name %[1]s ? OR DisplayName %[1]s ?)", operatorKeyword), term, term)
 ```
+
+---
+
+---
+
+### [BUG-TEST-01] Panic in TestUserIsValid due to Nil Pointer Dereference
+- **File:** `server/public/model/user_test.go`
+- **Severity:** Medium
+- **Description:** `TestUserIsValid` and potentially other tests panic when an expected error is nil because they attempt to call `.Error()` on a nil `*AppError` object in the failure message of a `require.True` or `assert.True` call.
+
+**Example of problematic code:**
+```go
+appErr = user.IsValid()
+require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
+```
+
+**Recommendation:** Check if `appErr` is nil before calling `appErr.Error()` in the failure message, or use `require.NotNil(t, appErr)` before the assertion.
+
+---
+
+### [BUILD-FAIL-01] Build Failure during Locale Change
+- **Context:** Changing default locale from 'en' to 'ar'.
+- **Severity:** Medium
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
 
 ---

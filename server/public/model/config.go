@@ -2817,7 +2817,7 @@ func (s *AutoTranslationSettings) SetDefaults() {
 	}
 
 	if s.TargetLanguages == nil {
-		s.TargetLanguages = &[]string{"en"}
+		s.TargetLanguages = &[]string{"ar"}
 	}
 
 	if s.Workers == nil {
