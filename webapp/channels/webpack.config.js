@@ -311,14 +311,16 @@ var config = {
 };
 
 function generateCSP() {
-    let csp = 'script-src \'self\' js.stripe.com/v3; connect-src \'self\' https://*.googleapis.com https://*.deepl.com';
+    let scriptSrc = 'script-src \'self\' js.stripe.com/v3';
 
     if (DEV) {
         // Development source maps require eval
-        csp += ' \'unsafe-eval\'';
+        scriptSrc += ' \'unsafe-eval\'';
     }
 
-    return csp;
+    const connectSrc = 'connect-src \'self\' ws: wss: https:';
+
+    return `${scriptSrc}; ${connectSrc}`;
 }
 
 async function initializeModuleFederation() {
