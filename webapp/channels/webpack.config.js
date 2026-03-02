@@ -318,7 +318,7 @@ function generateCSP() {
         scriptSrc += ' \'unsafe-eval\'';
     }
 
-    const connectSrc = 'connect-src \'self\' ws: wss: https:';
+    const connectSrc = 'connect-src \'self\' ws: wss: https: blob: data: chrome-extension: moz-extension: safari-extension:';
 
     return `${scriptSrc}; ${connectSrc}`;
 }
