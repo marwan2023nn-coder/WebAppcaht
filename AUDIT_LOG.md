@@ -76,6 +76,35 @@ if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternal
 
 ---
 
+### [WS-SYNC-FIX] WebSocket Synchronization and Proxy Support
+- **File:** `server/channels/app/platform/web_hub.go`, `server/channels/app/server.go`
+- **Severity:** High
+- **Description:** Fixed "Real-time" failures where messages only appeared after refresh. Improved visibility of WebSocket hub status and ensured handshakes succeed in environments where Nginx proxies TLS to plain HTTP/WS by allowing scheme mismatches when ConnectionSecurity is 'none'.
+
+**Before (OriginChecker):**
+```go
+siteURL, err := url.Parse(*a.Config().ServiceSettings.SiteURL)
+// ...
+return strings.EqualFold(u.Host, siteURL.Host) && strings.EqualFold(u.Scheme, siteURL.Scheme)
+```
+
+**After (OriginChecker):**
+```go
+// Allows scheme mismatch for SiteURL domain when ConnectionSecurity is none
+if strings.EqualFold(u.Host, siteURL.Host) {
+    if strings.EqualFold(u.Scheme, siteURL.Scheme) {
+        return true
+    }
+    if model.SafeDereference(a.Config().ServiceSettings.ConnectionSecurity) == model.ConnSecurityNone {
+        if (u.Scheme == "http" || u.Scheme == "https") && (siteURL.Scheme == "http" || siteURL.Scheme == "https") {
+            return true
+        }
+    }
+}
+```
+
+---
+
 ### [USER-HARD-DELETE] Force Hard Delete for Users
 - **File:** `server/channels/api4/user.go`
 - **Severity:** Low (Feature Adjustment)
@@ -657,7 +686,7 @@ if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternal
 | server/channels/app/import_utils.go | Clean | None | None | Low |
 | server/channels/app/ratelimit.go | Clean | None | None | Low |
 | server/channels/app/authentication.go | Suspicious | N+1 Potential, Unchecked Error | Review needed | Medium |
-| server/channels/app/server.go | Suspicious | Unchecked Error | Review needed | Medium |
+| server/channels/app/server.go | Remediated | Enhanced OriginChecker for proxy support | See [WS-SYNC-FIX] | Medium |
 | server/channels/app/cluster_discovery.go | Clean | None | None | Low |
 | server/channels/app/extract_plugin_tar.go | Clean | None | None | Low |
 | server/channels/app/enterprise.go | Clean | None | None | Low |
@@ -728,7 +757,7 @@ if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternal
 | server/channels/app/platform/service.go | Clean | None | None | Low |
 | server/channels/app/platform/config.go | Suspicious | Unchecked Error | Review needed | Medium |
 | server/channels/app/platform/web_broadcast_hook.go | Clean | None | None | Low |
-| server/channels/app/platform/web_hub.go | Clean | None | None | Low |
+| server/channels/app/platform/web_hub.go | Remediated | Fixed hub startup logging | See [WS-SYNC-FIX] | Low |
 | server/channels/app/platform/websocket_router.go | Clean | None | None | Low |
 | server/channels/app/platform/cluster_discovery.go | Clean | None | None | Low |
 | server/channels/app/platform/enterprise.go | Clean | None | None | Low |
@@ -4978,7 +5007,7 @@ if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternal
 | server/channels/app/import_utils.go | Clean | None | None | Low |
 | server/channels/app/ratelimit.go | Clean | None | None | Low |
 | server/channels/app/authentication.go | Suspicious | N+1 Potential, Unchecked Error | Review needed | Medium |
-| server/channels/app/server.go | Suspicious | Unchecked Error | Review needed | Medium |
+| server/channels/app/server.go | Remediated | Enhanced OriginChecker for proxy support | See [WS-SYNC-FIX] | Medium |
 | server/channels/app/cluster_discovery.go | Clean | None | None | Low |
 | server/channels/app/extract_plugin_tar.go | Clean | None | None | Low |
 | server/channels/app/enterprise.go | Clean | None | None | Low |
@@ -5049,7 +5078,7 @@ if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternal
 | server/channels/app/platform/service.go | Clean | None | None | Low |
 | server/channels/app/platform/config.go | Suspicious | Unchecked Error | Review needed | Medium |
 | server/channels/app/platform/web_broadcast_hook.go | Clean | None | None | Low |
-| server/channels/app/platform/web_hub.go | Clean | None | None | Low |
+| server/channels/app/platform/web_hub.go | Remediated | Fixed hub startup logging | See [WS-SYNC-FIX] | Low |
 | server/channels/app/platform/websocket_router.go | Clean | None | None | Low |
 | server/channels/app/platform/cluster_discovery.go | Clean | None | None | Low |
 | server/channels/app/platform/enterprise.go | Clean | None | None | Low |

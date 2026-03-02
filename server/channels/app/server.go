@@ -1122,6 +1122,18 @@ func (a *App) OriginChecker() func(*http.Request) bool {
 			if err == nil {
 				siteURL.Path = ""
 				allowed += " " + siteURL.String()
+
+				// If ConnectionSecurity is none, we allow both http and https schemes for the SiteURL domain.
+				// This is to support environments where Nginx handles TLS termination and proxies to Mattermost via plain HTTP/WS.
+				if model.SafeDereference(a.Config().ServiceSettings.ConnectionSecurity) == model.ConnSecurityNone {
+					if siteURL.Scheme == "https" {
+						siteURL.Scheme = "http"
+						allowed += " " + siteURL.String()
+					} else if siteURL.Scheme == "http" {
+						siteURL.Scheme = "https"
+						allowed += " " + siteURL.String()
+					}
+				}
 			}
 		}
 
@@ -1150,7 +1162,20 @@ func (a *App) OriginChecker() func(*http.Request) bool {
 		if err != nil {
 			return false
 		}
-		return strings.EqualFold(u.Host, siteURL.Host) && strings.EqualFold(u.Scheme, siteURL.Scheme)
+
+		if strings.EqualFold(u.Host, siteURL.Host) {
+			if strings.EqualFold(u.Scheme, siteURL.Scheme) {
+				return true
+			}
+			// If ConnectionSecurity is none, we allow both http and https schemes for the SiteURL domain.
+			if model.SafeDereference(a.Config().ServiceSettings.ConnectionSecurity) == model.ConnSecurityNone {
+				if (u.Scheme == "http" || u.Scheme == "https") && (siteURL.Scheme == "http" || siteURL.Scheme == "https") {
+					return true
+				}
+			}
+		}
+
+		return false
 	}
 }
 
