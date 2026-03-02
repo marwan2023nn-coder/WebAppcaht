@@ -670,6 +670,13 @@ export default class Client4 {
         );
     };
 
+    deleteUser = (userId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getUserRoute(userId)}`,
+            {method: 'delete'},
+        );
+    };
+
     updateUserRoles = (userId: string, roles: string) => {
         return this.doFetch<StatusOK>(
             `${this.getUserRoute(userId)}/roles`,

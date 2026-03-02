@@ -1480,6 +1480,29 @@ func (us SqlUserStore) VerifyEmail(userId, email string) (string, error) {
 	return userId, nil
 }
 
+func (us SqlUserStore) SoftDelete(rctx request.CTX, userId string) error {
+	curTime := model.GetMillis()
+	if _, err := us.GetMaster().Exec("UPDATE Users SET DeleteAt = ?, UpdateAt = ? WHERE Id = ?", curTime, curTime, userId); err != nil {
+		return errors.Wrapf(err, "failed to soft delete User with userId=%s", userId)
+	}
+
+	actorID := ""
+	if rctx.Session() != nil {
+		actorID = rctx.Session().UserId
+	}
+
+	audit := &model.Audit{
+		UserId:    actorID,
+		Action:    "soft_delete_user",
+		ExtraInfo: fmt.Sprintf("user_id=%v", userId),
+	}
+	if err := us.Audit().Save(audit); err != nil {
+		return errors.Wrapf(err, "failed to save audit for soft delete User with userId=%s", userId)
+	}
+
+	return nil
+}
+
 func (us SqlUserStore) PermanentDelete(rctx request.CTX, userId string) error {
 	if _, err := us.GetMaster().Exec("DELETE FROM Users WHERE Id = ?", userId); err != nil {
 		return errors.Wrapf(err, "failed to delete User with userId=%s", userId)

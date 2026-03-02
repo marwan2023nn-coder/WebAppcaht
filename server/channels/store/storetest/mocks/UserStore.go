@@ -299,6 +299,34 @@ func (_m *UserStore) DeactivateGuests() ([]string, error) {
 	return r0, r1
 }
 
+// DeactivateInactiveUsers provides a mock function with given fields: threshold
+func (_m *UserStore) DeactivateInactiveUsers(threshold int64) (int64, error) {
+	ret := _m.Called(threshold)
+
+	if len(ret) == 0 {
+		panic("no return value specified for DeactivateInactiveUsers")
+	}
+
+	var r0 int64
+	var r1 error
+	if rf, ok := ret.Get(0).(func(int64) (int64, error)); ok {
+		return rf(threshold)
+	}
+	if rf, ok := ret.Get(0).(func(int64) int64); ok {
+		r0 = rf(threshold)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	if rf, ok := ret.Get(1).(func(int64) error); ok {
+		r1 = rf(threshold)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // DeactivateMagicLinkGuests provides a mock function with no fields
 func (_m *UserStore) DeactivateMagicLinkGuests() ([]string, error) {
 	ret := _m.Called()
@@ -322,34 +350,6 @@ func (_m *UserStore) DeactivateMagicLinkGuests() ([]string, error) {
 
 	if rf, ok := ret.Get(1).(func() error); ok {
 		r1 = rf()
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
-// DeactivateInactiveUsers provides a mock function with given fields: threshold
-func (_m *UserStore) DeactivateInactiveUsers(threshold int64) (int64, error) {
-	ret := _m.Called(threshold)
-
-	if len(ret) == 0 {
-		panic("no return value specified for DeactivateInactiveUsers")
-	}
-
-	var r0 int64
-	var r1 error
-	if rf, ok := ret.Get(0).(func(int64) (int64, error)); ok {
-		return rf(threshold)
-	}
-	if rf, ok := ret.Get(0).(func(int64) int64); ok {
-		r0 = rf(threshold)
-	} else {
-		r0 = ret.Get(0).(int64)
-	}
-
-	if rf, ok := ret.Get(1).(func(int64) error); ok {
-		r1 = rf(threshold)
 	} else {
 		r1 = ret.Error(1)
 	}
@@ -2030,6 +2030,24 @@ func (_m *UserStore) SearchWithoutTeam(term string, options *model.UserSearchOpt
 	}
 
 	return r0, r1
+}
+
+// SoftDelete provides a mock function with given fields: rctx, userID
+func (_m *UserStore) SoftDelete(rctx request.CTX, userID string) error {
+	ret := _m.Called(rctx, userID)
+
+	if len(ret) == 0 {
+		panic("no return value specified for SoftDelete")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(request.CTX, string) error); ok {
+		r0 = rf(rctx, userID)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
 }
 
 // StoreMfaUsedTimestamps provides a mock function with given fields: userID, ts

@@ -1441,6 +1441,24 @@ export function checkForModifiedUsers(): ActionFuncAsync {
     };
 }
 
+export function deleteUser(userId: string): ActionFuncAsync<true> {
+    return async (dispatch, getState) => {
+        try {
+            await Client4.deleteUser(userId);
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const profile = getState().entities.users.profiles[userId];
+        if (profile) {
+            dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...profile, delete_at: Date.now()}});
+        }
+
+        return {data: true};
+    };
+}
+
 export function deactivateInactiveUsers(days: number): ActionFuncAsync {
     return async (dispatch, getState) => {
         try {
@@ -1455,6 +1473,7 @@ export function deactivateInactiveUsers(days: number): ActionFuncAsync {
 }
 
 export default {
+    deleteUser,
     generateMfaSecret,
     logout,
     getProfiles,

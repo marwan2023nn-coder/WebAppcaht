@@ -181,6 +181,41 @@ func (_m *DraftStore) GetLastCreateAtAndUserIdValuesForEmptyDraftsMigration(crea
 	return r0, r1, r2
 }
 
+// PermanentDeleteBatchForRetentionPolicies provides a mock function with given fields: retentionPolicyBatchConfigs, cursor
+func (_m *DraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	ret := _m.Called(retentionPolicyBatchConfigs, cursor)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PermanentDeleteBatchForRetentionPolicies")
+	}
+
+	var r0 int64
+	var r1 model.RetentionPolicyCursor
+	var r2 error
+	if rf, ok := ret.Get(0).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error)); ok {
+		return rf(retentionPolicyBatchConfigs, cursor)
+	}
+	if rf, ok := ret.Get(0).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) int64); ok {
+		r0 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	if rf, ok := ret.Get(1).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) model.RetentionPolicyCursor); ok {
+		r1 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r1 = ret.Get(1).(model.RetentionPolicyCursor)
+	}
+
+	if rf, ok := ret.Get(2).(func(model.RetentionPolicyBatchConfigs, model.RetentionPolicyCursor) error); ok {
+		r2 = rf(retentionPolicyBatchConfigs, cursor)
+	} else {
+		r2 = ret.Error(2)
+	}
+
+	return r0, r1, r2
+}
+
 // PermanentDeleteByUser provides a mock function with given fields: userId
 func (_m *DraftStore) PermanentDeleteByUser(userId string) error {
 	ret := _m.Called(userId)
@@ -241,8 +276,4 @@ func NewDraftStore(t interface {
 	t.Cleanup(func() { mock.AssertExpectations(t) })
 
 	return mock
-}
-
-func (_m *DraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
-	return 0, model.RetentionPolicyCursor{}, nil
 }

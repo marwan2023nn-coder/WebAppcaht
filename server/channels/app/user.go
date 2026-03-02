@@ -1994,6 +1994,30 @@ func (a *App) UpdateUserRolesWithUser(rctx request.CTX, user *model.User, newRol
 	return ruser, nil
 }
 
+func (a *App) SoftDeleteUser(rctx request.CTX, user *model.User) *model.AppError {
+	rctx.Logger().Warn("Attempting to soft delete account", mlog.String("user_id", user.Id), mlog.String("user_email", user.Email))
+
+	if user.DeleteAt > 0 {
+		return model.NewAppError("SoftDeleteUser", "app.user.soft_delete.app_error", nil, "userId="+user.Id, http.StatusBadRequest)
+	}
+
+	if err := a.Srv().Store().User().SoftDelete(rctx, user.Id); err != nil {
+		return model.NewAppError("SoftDeleteUser", "app.user.soft_delete.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	if err := a.RevokeAllSessions(rctx, user.Id); err != nil {
+		return err
+	}
+
+	if err := a.userDeactivated(rctx, user.Id); err != nil {
+		return err
+	}
+
+	a.InvalidateCacheForUser(user.Id)
+
+	return nil
+}
+
 func (a *App) PermanentDeleteUser(rctx request.CTX, user *model.User) *model.AppError {
 	rctx.Logger().Warn("Attempting to permanently delete account", mlog.String("user_id", user.Id), mlog.String("user_email", user.Email))
 	if user.IsInRole(model.SystemAdminRoleId) {
