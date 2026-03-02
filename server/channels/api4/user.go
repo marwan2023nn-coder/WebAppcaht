@@ -1569,14 +1569,8 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	model.AddEventParameterToAuditRec(auditRec, "permanent", permanent)
 	defer c.LogAuditRec(auditRec)
 
-	if !c.App.SessionHasPermissionToUserOrBot(c.AppContext, *c.AppContext.Session(), userId) {
-		c.SetPermissionError(model.PermissionEditOtherUsers)
-		return
-	}
-
-	// if EnableUserDeactivation flag is disabled the user cannot deactivate himself.
-	if c.Params.UserId == c.AppContext.Session().UserId && !*c.App.Config().TeamSettings.EnableUserDeactivation && !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionManageSystem) {
-		c.Err = model.NewAppError("deleteUser", "api.user.update_active.not_enable.app_error", nil, "userId="+c.Params.UserId, http.StatusUnauthorized)
+	if !c.IsSystemAdmin() {
+		c.SetPermissionError(model.PermissionManageSystem)
 		return
 	}
 
@@ -1587,12 +1581,6 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 	auditRec.AddEventPriorState(user)
 	auditRec.AddEventObjectType("user")
-
-	// Cannot update a system admin unless user making request is a systemadmin also
-	if user.IsSystemAdmin() && !c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionManageSystem) {
-		c.SetPermissionError(model.PermissionManageSystem)
-		return
-	}
 
 	if permanent {
 		if *c.App.Config().ServiceSettings.EnableAPIUserDeletion {
@@ -1607,7 +1595,7 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 			}
 		}
 	} else {
-		_, err = c.App.UpdateActive(c.AppContext, user, false)
+		err = c.App.SoftDeleteUser(c.AppContext, user)
 	}
 	if err != nil {
 		c.Err = err

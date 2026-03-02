@@ -66,36 +66,6 @@ func (_m *FileInfoStore) CountAll() (int64, error) {
 	return r0, r1
 }
 
-// GetForPosts provides a mock function with given fields: postIDs, readFromMaster, includeDeleted, allowFromCache
-func (_m *FileInfoStore) GetForPosts(postIDs []string, readFromMaster bool, includeDeleted bool, allowFromCache bool) ([]*model.FileInfo, error) {
-	ret := _m.Called(postIDs, readFromMaster, includeDeleted, allowFromCache)
-
-	if len(ret) == 0 {
-		panic("no return value specified for GetForPosts")
-	}
-
-	var r0 []*model.FileInfo
-	var r1 error
-	if rf, ok := ret.Get(0).(func([]string, bool, bool, bool) ([]*model.FileInfo, error)); ok {
-		return rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
-	}
-	if rf, ok := ret.Get(0).(func([]string, bool, bool, bool) []*model.FileInfo); ok {
-		r0 = rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
-	} else {
-		if ret.Get(0) != nil {
-			r0 = ret.Get(0).([]*model.FileInfo)
-		}
-	}
-
-	if rf, ok := ret.Get(1).(func([]string, bool, bool, bool) error); ok {
-		r1 = rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
-}
-
 // CountAttached provides a mock function with no fields
 func (_m *FileInfoStore) CountAttached() (int64, error) {
 	ret := _m.Called()
@@ -348,6 +318,36 @@ func (_m *FileInfoStore) GetForPost(postID string, readFromMaster bool, includeD
 	return r0, r1
 }
 
+// GetForPosts provides a mock function with given fields: postIDs, readFromMaster, includeDeleted, allowFromCache
+func (_m *FileInfoStore) GetForPosts(postIDs []string, readFromMaster bool, includeDeleted bool, allowFromCache bool) ([]*model.FileInfo, error) {
+	ret := _m.Called(postIDs, readFromMaster, includeDeleted, allowFromCache)
+
+	if len(ret) == 0 {
+		panic("no return value specified for GetForPosts")
+	}
+
+	var r0 []*model.FileInfo
+	var r1 error
+	if rf, ok := ret.Get(0).(func([]string, bool, bool, bool) ([]*model.FileInfo, error)); ok {
+		return rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
+	}
+	if rf, ok := ret.Get(0).(func([]string, bool, bool, bool) []*model.FileInfo); ok {
+		r0 = rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
+	} else {
+		if ret.Get(0) != nil {
+			r0 = ret.Get(0).([]*model.FileInfo)
+		}
+	}
+
+	if rf, ok := ret.Get(1).(func([]string, bool, bool, bool) error); ok {
+		r1 = rf(postIDs, readFromMaster, includeDeleted, allowFromCache)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // GetForUser provides a mock function with given fields: userID
 func (_m *FileInfoStore) GetForUser(userID string) ([]*model.FileInfo, error) {
 	ret := _m.Called(userID)
@@ -535,6 +535,34 @@ func (_m *FileInfoStore) PermanentDelete(rctx request.CTX, fileID string) error 
 	return r0
 }
 
+// PermanentDeleteBatch provides a mock function with given fields: rctx, endTime, limit
+func (_m *FileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime int64, limit int64) (int64, error) {
+	ret := _m.Called(rctx, endTime, limit)
+
+	if len(ret) == 0 {
+		panic("no return value specified for PermanentDeleteBatch")
+	}
+
+	var r0 int64
+	var r1 error
+	if rf, ok := ret.Get(0).(func(request.CTX, int64, int64) (int64, error)); ok {
+		return rf(rctx, endTime, limit)
+	}
+	if rf, ok := ret.Get(0).(func(request.CTX, int64, int64) int64); ok {
+		r0 = rf(rctx, endTime, limit)
+	} else {
+		r0 = ret.Get(0).(int64)
+	}
+
+	if rf, ok := ret.Get(1).(func(request.CTX, int64, int64) error); ok {
+		r1 = rf(rctx, endTime, limit)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // PermanentDeleteBatchForRetentionPolicies provides a mock function with given fields: retentionPolicyBatchConfigs, cursor
 func (_m *FileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
 	ret := _m.Called(retentionPolicyBatchConfigs, cursor)
@@ -568,34 +596,6 @@ func (_m *FileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolic
 	}
 
 	return r0, r1, r2
-}
-
-// PermanentDeleteBatch provides a mock function with given fields: rctx, endTime, limit
-func (_m *FileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime int64, limit int64) (int64, error) {
-	ret := _m.Called(rctx, endTime, limit)
-
-	if len(ret) == 0 {
-		panic("no return value specified for PermanentDeleteBatch")
-	}
-
-	var r0 int64
-	var r1 error
-	if rf, ok := ret.Get(0).(func(request.CTX, int64, int64) (int64, error)); ok {
-		return rf(rctx, endTime, limit)
-	}
-	if rf, ok := ret.Get(0).(func(request.CTX, int64, int64) int64); ok {
-		r0 = rf(rctx, endTime, limit)
-	} else {
-		r0 = ret.Get(0).(int64)
-	}
-
-	if rf, ok := ret.Get(1).(func(request.CTX, int64, int64) error); ok {
-		r1 = rf(rctx, endTime, limit)
-	} else {
-		r1 = ret.Error(1)
-	}
-
-	return r0, r1
 }
 
 // PermanentDeleteByUser provides a mock function with given fields: rctx, userID
@@ -801,4 +801,3 @@ func NewFileInfoStore(t interface {
 
 	return mock
 }
-

@@ -3895,6 +3895,22 @@ func (s *TimerLayerDraftStore) GetLastCreateAtAndUserIdValuesForEmptyDraftsMigra
 	return result, resultVar1, err
 }
 
+func (s *TimerLayerDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	start := time.Now()
+
+	result, resultVar1, err := s.DraftStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("DraftStore.PermanentDeleteBatchForRetentionPolicies", success, elapsed)
+	}
+	return result, resultVar1, err
+}
+
 func (s *TimerLayerDraftStore) PermanentDeleteByUser(userId string) error {
 	start := time.Now()
 
@@ -4230,6 +4246,22 @@ func (s *TimerLayerFileInfoStore) GetForPost(postID string, readFromMaster bool,
 	return result, err
 }
 
+func (s *TimerLayerFileInfoStore) GetForPosts(postIDs []string, readFromMaster bool, includeDeleted bool, allowFromCache bool) ([]*model.FileInfo, error) {
+	start := time.Now()
+
+	result, err := s.FileInfoStore.GetForPosts(postIDs, readFromMaster, includeDeleted, allowFromCache)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("FileInfoStore.GetForPosts", success, elapsed)
+	}
+	return result, err
+}
+
 func (s *TimerLayerFileInfoStore) GetForUser(userID string) ([]*model.FileInfo, error) {
 	start := time.Now()
 
@@ -4371,6 +4403,22 @@ func (s *TimerLayerFileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime
 		s.Root.Metrics.ObserveStoreMethodDuration("FileInfoStore.PermanentDeleteBatch", success, elapsed)
 	}
 	return result, err
+}
+
+func (s *TimerLayerFileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	start := time.Now()
+
+	result, resultVar1, err := s.FileInfoStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("FileInfoStore.PermanentDeleteBatchForRetentionPolicies", success, elapsed)
+	}
+	return result, resultVar1, err
 }
 
 func (s *TimerLayerFileInfoStore) PermanentDeleteByUser(rctx request.CTX, userID string) (int64, error) {
@@ -8323,6 +8371,22 @@ func (s *TimerLayerReactionStore) PermanentDeleteBatch(endTime int64, limit int6
 	return result, err
 }
 
+func (s *TimerLayerReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	start := time.Now()
+
+	result, resultVar1, err := s.ReactionStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("ReactionStore.PermanentDeleteBatchForRetentionPolicies", success, elapsed)
+	}
+	return result, resultVar1, err
+}
+
 func (s *TimerLayerReactionStore) PermanentDeleteByUser(userID string) error {
 	start := time.Now()
 
@@ -9680,6 +9744,22 @@ func (s *TimerLayerSessionStore) GetSessionsWithActiveDeviceIds(userID string) (
 		s.Root.Metrics.ObserveStoreMethodDuration("SessionStore.GetSessionsWithActiveDeviceIds", success, elapsed)
 	}
 	return result, err
+}
+
+func (s *TimerLayerSessionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+	start := time.Now()
+
+	result, resultVar1, err := s.SessionStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("SessionStore.PermanentDeleteBatchForRetentionPolicies", success, elapsed)
+	}
+	return result, resultVar1, err
 }
 
 func (s *TimerLayerSessionStore) PermanentDeleteSessionsByUser(teamID string) error {
@@ -12365,6 +12445,22 @@ func (s *TimerLayerUserStore) DeactivateGuests() ([]string, error) {
 	return result, err
 }
 
+func (s *TimerLayerUserStore) DeactivateInactiveUsers(threshold int64) (int64, error) {
+	start := time.Now()
+
+	result, err := s.UserStore.DeactivateInactiveUsers(threshold)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("UserStore.DeactivateInactiveUsers", success, elapsed)
+	}
+	return result, err
+}
+
 func (s *TimerLayerUserStore) DeactivateMagicLinkGuests() ([]string, error) {
 	start := time.Now()
 
@@ -13368,6 +13464,22 @@ func (s *TimerLayerUserStore) SearchWithoutTeam(term string, options *model.User
 		s.Root.Metrics.ObserveStoreMethodDuration("UserStore.SearchWithoutTeam", success, elapsed)
 	}
 	return result, err
+}
+
+func (s *TimerLayerUserStore) SoftDelete(rctx request.CTX, userID string) error {
+	start := time.Now()
+
+	err := s.UserStore.SoftDelete(rctx, userID)
+
+	elapsed := float64(time.Since(start)) / float64(time.Second)
+	if s.Root.Metrics != nil {
+		success := "false"
+		if err == nil {
+			success = "true"
+		}
+		s.Root.Metrics.ObserveStoreMethodDuration("UserStore.SoftDelete", success, elapsed)
+	}
+	return err
 }
 
 func (s *TimerLayerUserStore) StoreMfaUsedTimestamps(userID string, ts []int) error {

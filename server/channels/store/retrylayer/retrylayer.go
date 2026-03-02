@@ -4736,6 +4736,27 @@ func (s *RetryLayerDraftStore) GetLastCreateAtAndUserIdValuesForEmptyDraftsMigra
 
 }
 
+func (s *RetryLayerDraftStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+
+	tries := 0
+	for {
+		result, resultVar1, err := s.DraftStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+		if err == nil {
+			return result, resultVar1, nil
+		}
+		if !isRepeatableError(err) {
+			return result, resultVar1, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, resultVar1, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerDraftStore) PermanentDeleteByUser(userId string) error {
 
 	tries := 0
@@ -5162,6 +5183,27 @@ func (s *RetryLayerFileInfoStore) GetForPost(postID string, readFromMaster bool,
 
 }
 
+func (s *RetryLayerFileInfoStore) GetForPosts(postIDs []string, readFromMaster bool, includeDeleted bool, allowFromCache bool) ([]*model.FileInfo, error) {
+
+	tries := 0
+	for {
+		result, err := s.FileInfoStore.GetForPosts(postIDs, readFromMaster, includeDeleted, allowFromCache)
+		if err == nil {
+			return result, nil
+		}
+		if !isRepeatableError(err) {
+			return result, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerFileInfoStore) GetForUser(userID string) ([]*model.FileInfo, error) {
 
 	tries := 0
@@ -5330,6 +5372,27 @@ func (s *RetryLayerFileInfoStore) PermanentDeleteBatch(rctx request.CTX, endTime
 		if tries >= 3 {
 			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
 			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
+func (s *RetryLayerFileInfoStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+
+	tries := 0
+	for {
+		result, resultVar1, err := s.FileInfoStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+		if err == nil {
+			return result, resultVar1, nil
+		}
+		if !isRepeatableError(err) {
+			return result, resultVar1, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, resultVar1, err
 		}
 		timepkg.Sleep(100 * timepkg.Millisecond)
 	}
@@ -10463,6 +10526,27 @@ func (s *RetryLayerReactionStore) PermanentDeleteBatch(endTime int64, limit int6
 
 }
 
+func (s *RetryLayerReactionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+
+	tries := 0
+	for {
+		result, resultVar1, err := s.ReactionStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+		if err == nil {
+			return result, resultVar1, nil
+		}
+		if !isRepeatableError(err) {
+			return result, resultVar1, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, resultVar1, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerReactionStore) PermanentDeleteByUser(userID string) error {
 
 	tries := 0
@@ -12212,6 +12296,27 @@ func (s *RetryLayerSessionStore) GetSessionsWithActiveDeviceIds(userID string) (
 		if tries >= 3 {
 			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
 			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
+func (s *RetryLayerSessionStore) PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs model.RetentionPolicyBatchConfigs, cursor model.RetentionPolicyCursor) (int64, model.RetentionPolicyCursor, error) {
+
+	tries := 0
+	for {
+		result, resultVar1, err := s.SessionStore.PermanentDeleteBatchForRetentionPolicies(retentionPolicyBatchConfigs, cursor)
+		if err == nil {
+			return result, resultVar1, nil
+		}
+		if !isRepeatableError(err) {
+			return result, resultVar1, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, resultVar1, err
 		}
 		timepkg.Sleep(100 * timepkg.Millisecond)
 	}
@@ -15671,6 +15776,27 @@ func (s *RetryLayerUserStore) DeactivateGuests() ([]string, error) {
 
 }
 
+func (s *RetryLayerUserStore) DeactivateInactiveUsers(threshold int64) (int64, error) {
+
+	tries := 0
+	for {
+		result, err := s.UserStore.DeactivateInactiveUsers(threshold)
+		if err == nil {
+			return result, nil
+		}
+		if !isRepeatableError(err) {
+			return result, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerUserStore) DeactivateMagicLinkGuests() ([]string, error) {
 
 	tries := 0
@@ -16898,6 +17024,27 @@ func (s *RetryLayerUserStore) SearchWithoutTeam(term string, options *model.User
 		if tries >= 3 {
 			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
 			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
+func (s *RetryLayerUserStore) SoftDelete(rctx request.CTX, userID string) error {
+
+	tries := 0
+	for {
+		err := s.UserStore.SoftDelete(rctx, userID)
+		if err == nil {
+			return nil
+		}
+		if !isRepeatableError(err) {
+			return err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return err
 		}
 		timepkg.Sleep(100 * timepkg.Millisecond)
 	}

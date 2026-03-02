@@ -2917,3 +2917,48 @@ func TestConsumeTokenOnce(t *testing.T) {
 		assert.Equal(t, http.StatusNotFound, appErr.StatusCode)
 	})
 }
+
+func TestSoftDeleteUser(t *testing.T) {
+	th := SetupWithStoreMock(t)
+
+	user := &model.User{
+		Id:       model.NewId(),
+		Username: "testuser",
+	}
+
+	mockStore := th.App.Srv().Store().(*storemocks.Store)
+	mockUserStore := storemocks.UserStore{}
+	mockSessionStore := storemocks.SessionStore{}
+	mockStatusStore := storemocks.StatusStore{}
+	mockBotStore := storemocks.BotStore{}
+
+	mockStore.On("User").Return(&mockUserStore)
+	mockStore.On("Session").Return(&mockSessionStore)
+	mockStore.On("Status").Return(&mockStatusStore)
+	mockStore.On("Bot").Return(&mockBotStore)
+
+	t.Run("successfully soft delete user", func(t *testing.T) {
+		mockUserStore.On("Get", mock.Anything, user.Id).Return(user, nil)
+		mockUserStore.On("SoftDelete", mock.Anything, user.Id).Return(nil)
+		mockSessionStore.On("GetSessions", user.Id).Return([]*model.Session{{Id: model.NewId()}}, nil)
+		mockSessionStore.On("Remove", mock.Anything).Return(nil)
+		mockStatusStore.On("SaveOrUpdate", mock.Anything).Return(nil)
+		mockBotStore.On("GetAllAfter", 100, "").Return([]*model.Bot{}, nil)
+
+		err := th.App.SoftDeleteUser(th.Context, user)
+		require.Nil(t, err)
+
+		mockUserStore.AssertCalled(t, "SoftDelete", mock.Anything, user.Id)
+		mockSessionStore.AssertCalled(t, "GetSessions", user.Id)
+	})
+
+	t.Run("fail if user is already deleted", func(t *testing.T) {
+		deletedUser := &model.User{
+			Id:       model.NewId(),
+			DeleteAt: 12345,
+		}
+		err := th.App.SoftDeleteUser(th.Context, deletedUser)
+		require.NotNil(t, err)
+		assert.Equal(t, "app.user.soft_delete.app_error", err.Id)
+	})
+}

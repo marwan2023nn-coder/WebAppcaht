@@ -534,6 +534,7 @@ export const ModalIdentifiers = {
     USER_PROPERTY_FIELD_DELETE: 'user_property_field_delete',
     ATTRIBUTE_MODAL_LDAP: 'attribute_modal_ldap',
     ATTRIBUTE_MODAL_SAML: 'attribute_modal_saml',
+    DELETE_USER_MODAL: 'delete_user_modal',
     FLAG_POST: 'flag_post',
     REMOVE_FLAGGED_POST: 'remove_flagged_post',
     CREATE_RECAP_MODAL: 'create_recap_modal',
