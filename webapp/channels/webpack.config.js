@@ -311,7 +311,7 @@ var config = {
 };
 
 function generateCSP() {
-    let csp = 'script-src \'self\' js.stripe.com/v3';
+    let csp = 'script-src \'self\' js.stripe.com/v3; connect-src \'self\' https://*.googleapis.com https://*.deepl.com';
 
     if (DEV) {
         // Development source maps require eval
