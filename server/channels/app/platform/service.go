@@ -84,6 +84,7 @@ type PlatformService struct {
 	clientLicenseValue atomic.Value
 	licenseListeners   map[string]func(*model.License, *model.License)
 	licenseManager     einterfaces.LicenseInterface
+	licenseRemoved     atomic.Bool
 
 	// fakeLicense is the pre-built fake Enterprise license returned by License().
 	// Built exactly once via fakeLicenseOnce to avoid per-request allocations.
