@@ -1016,6 +1016,7 @@ type GroupStore interface {
 type LinkMetadataStore interface {
 	Save(linkMetadata *model.LinkMetadata) (*model.LinkMetadata, error)
 	Get(url string, timestamp int64) (*model.LinkMetadata, error)
+	GetBulk(hashes []int64) ([]*model.LinkMetadata, error)
 }
 
 type NotifyAdminStore interface {

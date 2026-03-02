@@ -7184,6 +7184,27 @@ func (s *RetryLayerLinkMetadataStore) Get(url string, timestamp int64) (*model.L
 
 }
 
+func (s *RetryLayerLinkMetadataStore) GetBulk(hashes []int64) ([]*model.LinkMetadata, error) {
+
+	tries := 0
+	for {
+		result, err := s.LinkMetadataStore.GetBulk(hashes)
+		if err == nil {
+			return result, nil
+		}
+		if !isRepeatableError(err) {
+			return result, err
+		}
+		tries++
+		if tries >= 3 {
+			err = errors.Wrap(err, "giving up after 3 consecutive repeatable transaction failures")
+			return result, err
+		}
+		timepkg.Sleep(100 * timepkg.Millisecond)
+	}
+
+}
+
 func (s *RetryLayerLinkMetadataStore) Save(linkMetadata *model.LinkMetadata) (*model.LinkMetadata, error) {
 
 	tries := 0
