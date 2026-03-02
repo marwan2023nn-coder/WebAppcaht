@@ -3251,7 +3251,7 @@
     "admin.user_grid.team_admin": "مسؤول المجتمع",
     "admin.user_item.cancel": "إلغاء",
     "admin.user_item.deactivate": "تعطيل",
-    "admin.user_item.delete": "Delete",
+    "admin.user_item.delete": "حذف",
     "admin.user_item.email_title": "<strong>البريد الإلكتروني:</strong> {email}",
     "admin.user_item.guest": "زائر",
     "admin.user_item.invalidEmail": "عنوان بريد إلكتروني غير صالح",
