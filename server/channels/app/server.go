@@ -763,7 +763,7 @@ func (s *Server) CanIUpgradeToE0() error {
 }
 
 func (s *Server) UpgradeToE0() error {
-	if err := upgrader.UpgradeToE0(); err != nil {
+	if err := upgrader.UpgradeToE0(s.httpService); err != nil {
 		return err
 	}
 	upgradedFromTE := &model.System{Name: model.SystemUpgradedFromTeId, Value: "true"}

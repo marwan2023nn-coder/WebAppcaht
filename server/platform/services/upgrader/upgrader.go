@@ -5,11 +5,15 @@
 
 package upgrader
 
+import (
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
+)
+
 func CanIUpgradeToE0() error {
 	return &InvalidArch{}
 }
 
-func UpgradeToE0() error {
+func UpgradeToE0(httpService httpservice.HTTPService) error {
 	return &InvalidArch{}
 }
 
