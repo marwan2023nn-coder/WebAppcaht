@@ -12,3 +12,8 @@
 **Vulnerability:** Potential server panics (DoS) in multiple modules (admin, email, jobs, file) when dereferencing `license.Features` or `license.Limits` pointers without ensuring they are non-nil.
 **Learning:** Even when the top-level `license` object is checked for nil, its nested components like `Features` and `Limits` can still be nil depending on how the license was loaded or forged. This pattern was widespread in background jobs and configuration-dependent logic.
 **Prevention:** Use `license.IsCloud()` or `license.IsMattermostEntry()` helpers where applicable as they handle nested nil checks. For other features, always explicitly check `license != nil && license.Features != nil` before dereferencing feature flags.
+
+## 2025-05-17 - Insecure Default HTTP Client and Missing Timeouts
+**Vulnerability:** Resource exhaustion (DoS) and potential SSRF due to usage of `http.Get` or unconfigured `http.Client` which lacks timeouts and security overrides.
+**Learning:** Even in non-critical paths like product notices or internal test utilities (inbucket), using Go's default HTTP client is risky as it can hang indefinitely and bypass SSRF protections.
+**Prevention:** Always use the application's `HTTPService` to create clients, or at minimum, configure an explicit timeout on a dedicated `http.Client`. Avoid `http.Get`, `http.Post`, and falling back to `http.DefaultClient`.

@@ -60,12 +60,11 @@ func (mpe *mmPreviewExtractor) Extract(filename string, file io.ReadSeeker) (str
 		req.Header.Add("Authentication", mpe.secret)
 	}
 
-	client := mpe.client
-	if client == nil {
-		client = http.DefaultClient
+	if mpe.client == nil {
+		return "", errors.New("Unable to generate file preview using mmpreview: no HTTP client provided")
 	}
 
-	resp, err := client.Do(req)
+	resp, err := mpe.client.Do(req)
 	if err != nil {
 		return "", errors.Wrap(err, "Unable to generate file preview using mmpreview.")
 	}

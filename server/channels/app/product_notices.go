@@ -341,7 +341,7 @@ func (a *App) UpdateProductNotices() *model.AppError {
 
 	a.ch.cachedDBMSVersion = strings.Split(a.ch.cachedDBMSVersion, " ")[0] // get rid of trailing strings attached to the version
 
-	data, err := utils.GetURLWithCache(url, &noticesCache, skip)
+	data, err := utils.GetURLWithCache(a.HTTPService().MakeClient(false), url, &noticesCache, skip)
 	if err != nil {
 		return model.NewAppError("UpdateProductNotices", "api.system.update_notices.fetch_failed", nil, "", http.StatusBadRequest).Wrap(err)
 	}
