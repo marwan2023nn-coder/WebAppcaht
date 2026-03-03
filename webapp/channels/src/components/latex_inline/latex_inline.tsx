@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import type {KatexOptions} from 'katex';
 import React, {useState, useEffect} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -47,7 +48,7 @@ const LatexInline = ({content, enableInlineLatex}: Props) => {
             <span
                 className='post-body--code inline-tex'
                 data-testid='latex-enabled'
-                dangerouslySetInnerHTML={{__html: html}}
+                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(html)}}
             />
         );
     } catch (e) {

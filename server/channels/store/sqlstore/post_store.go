@@ -525,65 +525,55 @@ func (s *SqlPostStore) GetFlaggedPostsForChannel(userId, channelId string, offse
 	return s.getFlaggedPosts(userId, channelId, "", offset, limit)
 }
 
-// TODO: convert to squirrel HW
 func (s *SqlPostStore) getFlaggedPosts(userId, channelId, teamId string, offset int, limit int) (*model.PostList, error) {
 	pl := model.NewPostList()
 
-	postColumnsA := strings.Join(postSliceColumnsWithName("A"), ", ")
-	postColumnsPosts := strings.Join(postSliceColumnsWithName("Posts"), ", ")
+	replyCountSubQuery := s.getQueryBuilder().
+		Select("COUNT(*)").
+		From("Posts").
+		Where(sq.Expr("Posts.RootId = (CASE WHEN A.RootId = '' THEN A.Id ELSE A.RootId END) AND Posts.DeleteAt = 0"))
+
+	preferenceSubQuery := s.getQueryBuilder().
+		Select("Name").
+		From("Preferences").
+		Where(sq.Eq{"UserId": userId, "Category": model.PreferenceCategoryFlaggedPost})
+
+	innerSelect := s.getQueryBuilder().
+		Select(postSliceColumnsWithName("Posts")...).
+		From("Posts").
+		Where(sq.And{
+			sq.Expr("Id IN (?)", preferenceSubQuery),
+			sq.Eq{"Posts.DeleteAt": 0},
+		})
+
+	if channelId != "" {
+		innerSelect = innerSelect.Where(sq.Eq{"ChannelId": channelId})
+	}
+
+	memberSubQuery := s.getQueryBuilder().
+		Select("ChannelId").
+		From("ChannelMembers").
+		Where(sq.Eq{"UserId": userId})
+
+	query := s.getQueryBuilder().
+		Select(postSliceColumnsWithName("A")...).
+		Column(sq.Alias(replyCountSubQuery, "ReplyCount")).
+		FromSelect(innerSelect, "A").
+		Join("Channels AS B ON B.Id = A.ChannelId").
+		Where(sq.Expr("ChannelId IN (?)", memberSubQuery)).
+		OrderBy("CreateAt DESC").
+		Limit(uint64(limit)).
+		Offset(uint64(offset))
+
+	if teamId != "" {
+		query = query.Where(sq.Or{
+			sq.Eq{"B.TeamId": teamId},
+			sq.Eq{"B.TeamId": ""},
+		})
+	}
 
 	posts := []*model.Post{}
-	query := `
-            SELECT
-                ` + postColumnsA + `, (SELECT count(*) FROM Posts WHERE Posts.RootId = (CASE WHEN A.RootId = '' THEN A.Id ELSE A.RootId END) AND Posts.DeleteAt = 0) as ReplyCount
-            FROM
-                (SELECT
-                    ` + postColumnsPosts + `
-                FROM
-                    Posts
-                WHERE
-                    Id
-                IN
-                    (
-						SELECT
-							Name
-						FROM
-							Preferences
-						WHERE
-							UserId = ?
-							AND Category = ?
-					)
-					CHANNEL_FILTER
-					AND Posts.DeleteAt = 0
-                ) as A
-            INNER JOIN Channels as B
-                ON B.Id = A.ChannelId
-			WHERE
-				ChannelId IN (
-					SELECT
-						ChannelId
-					FROM
-						ChannelMembers
-					WHERE UserId = ?
-				)
-				TEAM_FILTER
-            ORDER BY CreateAt DESC
-            LIMIT ? OFFSET ?`
-
-	queryParams := []any{userId, model.PreferenceCategoryFlaggedPost}
-
-	var channelClause, teamClause string
-	channelClause, queryParams = s.buildFlaggedPostChannelFilterClause(channelId, queryParams)
-	query = strings.Replace(query, "CHANNEL_FILTER", channelClause, 1)
-
-	queryParams = append(queryParams, userId)
-
-	teamClause, queryParams = s.buildFlaggedPostTeamFilterClause(teamId, queryParams)
-	query = strings.Replace(query, "TEAM_FILTER", teamClause, 1)
-
-	queryParams = append(queryParams, limit, offset)
-
-	if err := s.GetReplica().Select(&posts, query, queryParams...); err != nil {
+	if err := s.GetReplica().SelectBuilder(&posts, query); err != nil {
 		return nil, errors.Wrap(err, "failed to find Posts")
 	}
 
@@ -593,22 +583,6 @@ func (s *SqlPostStore) getFlaggedPosts(userId, channelId, teamId string, offset 
 	}
 
 	return pl, nil
-}
-
-func (s *SqlPostStore) buildFlaggedPostTeamFilterClause(teamId string, queryParams []any) (string, []any) {
-	if teamId == "" {
-		return "", queryParams
-	}
-
-	return "AND B.TeamId = ? OR B.TeamId = ''", append(queryParams, teamId)
-}
-
-func (s *SqlPostStore) buildFlaggedPostChannelFilterClause(channelId string, queryParams []any) (string, []any) {
-	if channelId == "" {
-		return "", queryParams
-	}
-
-	return "AND ChannelId = ?", append(queryParams, channelId)
 }
 
 func (s *SqlPostStore) getPostWithCollapsedThreads(rctx request.CTX, id, userID string, opts model.GetPostsOptions, sanitizeOptions map[string]bool) (*model.PostList, error) {
@@ -1825,22 +1799,31 @@ func (s *SqlPostStore) GetPostAfterTime(channelId string, time int64, collapsedT
 
 func (s *SqlPostStore) getRootPosts(channelId string, offset int, limit int, skipFetchThreads bool, includeDeleted bool) ([]*model.Post, error) {
 	posts := []*model.Post{}
-	var fetchQuery string
-	postColumnsP := strings.Join(postSliceColumnsWithName("p"), ", ")
-	postColumnsPosts := strings.Join(postSliceColumnsWithName("Posts"), ", ")
+
+	query := s.getQueryBuilder().
+		Select(postSliceColumnsWithName("p")...).
+		From("Posts p").
+		Where(sq.Eq{"p.ChannelId": channelId}).
+		OrderBy("p.CreateAt DESC").
+		Limit(uint64(limit)).
+		Offset(uint64(offset))
+
 	if skipFetchThreads {
-		fetchQuery = "SELECT " + postColumnsP + ", (SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN p.RootId = '' THEN p.Id ELSE p.RootId END)) as ReplyCount FROM Posts p WHERE p.ChannelId = ? ORDER BY p.CreateAt DESC LIMIT ? OFFSET ?"
+		replyCountSubQuery := s.getQueryBuilder().
+			Select("COUNT(*)").
+			From("Posts").
+			Where(sq.Expr("Posts.RootId = (CASE WHEN p.RootId = '' THEN p.Id ELSE p.RootId END)"))
 		if !includeDeleted {
-			fetchQuery = "SELECT " + postColumnsP + ", (SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN p.RootId = '' THEN p.Id ELSE p.RootId END) AND Posts.DeleteAt = 0) as ReplyCount FROM Posts p WHERE p.ChannelId = ? AND p.DeleteAt = 0 ORDER BY p.CreateAt DESC LIMIT ? OFFSET ?"
+			replyCountSubQuery = replyCountSubQuery.Where(sq.Eq{"Posts.DeleteAt": 0})
 		}
-	} else {
-		fetchQuery = "SELECT " + postColumnsPosts + " FROM Posts WHERE Posts.ChannelId = ? ORDER BY Posts.CreateAt DESC LIMIT ? OFFSET ?"
-		if !includeDeleted {
-			fetchQuery = "SELECT " + postColumnsPosts + " FROM Posts WHERE Posts.ChannelId = ? AND Posts.DeleteAt = 0 ORDER BY Posts.CreateAt DESC LIMIT ? OFFSET ?"
-		}
+		query = query.Column(sq.Alias(replyCountSubQuery, "ReplyCount"))
 	}
 
-	err := s.GetReplica().Select(&posts, fetchQuery, channelId, limit, offset)
+	if !includeDeleted {
+		query = query.Where(sq.Eq{"p.DeleteAt": 0})
+	}
+
+	err := s.GetReplica().SelectBuilder(&posts, query)
 	if err != nil {
 		return nil, errors.Wrap(err, "failed to find Posts")
 	}
@@ -2187,35 +2170,26 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 	return list, nil
 }
 
-// TODO: convert to squirrel HW
 func (s *SqlPostStore) AnalyticsUserCountsWithPostsByDay(teamId string) (model.AnalyticsRows, error) {
-	var args []any
-	query :=
-		`SELECT
-			TO_CHAR(DATE(TO_TIMESTAMP(Posts.CreateAt / 1000)), 'YYYY-MM-DD') AS Name, COUNT(DISTINCT Posts.UserId) AS Value
-		FROM Posts`
-
-	if teamId != "" {
-		query += " INNER JOIN Channels ON Posts.ChannelId = Channels.Id AND Channels.TeamId = ? AND"
-		args = []any{teamId}
-	} else {
-		query += " WHERE"
-	}
-
-	query += ` Posts.CreateAt >= ? AND Posts.CreateAt <= ?
-		GROUP BY DATE(TO_TIMESTAMP(Posts.CreateAt / 1000))
-		ORDER BY Name DESC
-		LIMIT 30`
-
 	end := utils.MillisFromTime(utils.EndOfDay(utils.Yesterday()))
 	start := utils.MillisFromTime(utils.StartOfDay(utils.Yesterday().AddDate(0, 0, -31)))
-	args = append(args, start, end)
+
+	query := s.getQueryBuilder().
+		Select("TO_CHAR(DATE(TO_TIMESTAMP(Posts.CreateAt / 1000)), 'YYYY-MM-DD') AS Name", "COUNT(DISTINCT Posts.UserId) AS Value").
+		From("Posts").
+		Where(sq.GtOrEq{"Posts.CreateAt": start}).
+		Where(sq.LtOrEq{"Posts.CreateAt": end}).
+		GroupBy("DATE(TO_TIMESTAMP(Posts.CreateAt / 1000))").
+		OrderBy("Name DESC").
+		Limit(30)
+
+	if teamId != "" {
+		query = query.Join("Channels ON Posts.ChannelId = Channels.Id").
+			Where(sq.Eq{"Channels.TeamId": teamId})
+	}
 
 	rows := model.AnalyticsRows{}
-	err := s.GetReplica().Select(
-		&rows,
-		query,
-		args...)
+	err := s.GetReplica().SelectBuilder(&rows, query)
 	if err != nil {
 		return nil, errors.Wrapf(err, "failed to find Posts with teamId=%s", teamId)
 	}
@@ -2280,7 +2254,6 @@ func (s *SqlPostStore) countPostsByDay(teamID, startDay, endDay string) (model.A
 	return rows, nil
 }
 
-// TODO: convert to squirrel HW
 func (s *SqlPostStore) AnalyticsPostCountsByDay(options *model.AnalyticsPostCountsOptions) (model.AnalyticsRows, error) {
 	endDay := utils.Yesterday().Format("2006-01-02")
 	startDay := utils.Yesterday().AddDate(0, 0, -31).Format("2006-01-02")

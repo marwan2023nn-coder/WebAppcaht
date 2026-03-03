@@ -11,6 +11,7 @@ import (
 	"net/http"
 	"reflect"
 	"runtime"
+	"runtime/debug"
 	"strconv"
 	"strings"
 	"time"
@@ -143,6 +144,19 @@ func (h Handler) basicSecurityChecks(c *Context, w http.ResponseWriter, r *http.
 }
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
+	defer func() {
+		if rec := recover(); rec != nil {
+			mlog.Error("Panic in ServeHTTP",
+				mlog.Any("panic", rec),
+				mlog.String("stack", string(debug.Stack())),
+				mlog.String("url", r.URL.Path),
+				mlog.String("method", r.Method),
+			)
+			w.WriteHeader(http.StatusInternalServerError)
+			w.Write([]byte(`{"id": "api.context.panic.app_error", "message": "A panic occurred in the server", "status_code": 500}`))
+		}
+	}()
+
 	w = newWrappedWriter(w)
 	now := time.Now()
 
@@ -408,7 +422,7 @@ func (h Handler) handleContextError(c *Context, w http.ResponseWriter, r *http.R
 	}
 
 	// Detect and fix AppError with missing StatusCode to prevent panics
-	if c.Err.StatusCode == 0 {
+	if c.Err != nil && c.Err.StatusCode == 0 {
 		c.Logger.Error("AppError with zero StatusCode detected",
 			mlog.String("error_id", c.Err.Id),
 			mlog.String("error_message", c.Err.Message),

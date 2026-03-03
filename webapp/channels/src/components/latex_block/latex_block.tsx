@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import type {KatexOptions} from 'katex';
 import React, {useEffect, useState} from 'react';
 import {FormattedMessage} from 'react-intl';
@@ -49,7 +50,7 @@ const LatexBlock = ({
         return (
             <div
                 className='post-body--code tex'
-                dangerouslySetInnerHTML={{__html: html}}
+                dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(html)}}
                 data-testid='latex-enabled'
             />
         );

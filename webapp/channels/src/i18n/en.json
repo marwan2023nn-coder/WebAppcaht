@@ -4953,6 +4953,8 @@
   "login.or": "or log in with",
   "login.pageTitle": "Log in - {siteName}",
   "login.passwordChanged": "Password updated successfully",
+  "login.sofa_platform": "Sofa Workspace Platform",
+  "login.subtext": "Log in to start chatting with your team.",
   "login.placeholderOr": " or ",
   "login.saml": "SAML",
   "login.session_expired": "Your session has expired. Please log in again.",
