@@ -951,6 +951,8 @@ func (o *Post) Attachments() []*SlackAttachment {
 				}
 			}
 		}
+
+		o.AddProp(PostPropsAttachments, ret)
 	}
 	return ret
 }
