@@ -1068,39 +1068,34 @@ func (a *App) setupBroadcastHookForPermalink(rctx request.CTX, post *model.Post,
 
 	previewedPost, appErr := a.GetSinglePost(rctx, previewProp, false)
 	if appErr != nil {
-		if appErr.StatusCode == http.StatusNotFound {
-			a.CountNotificationReason(model.NotificationStatusError, model.NotificationTypeAll, model.NotificationReasonFetchError, model.NotificationNoPlatform)
-			a.Log().LogM(mlog.MlvlNotificationError, "permalink post not found",
-				mlog.String("type", model.NotificationTypeWebsocket),
-				mlog.String("post_id", post.Id),
-				mlog.String("status", model.NotificationStatusError),
-				mlog.String("reason", model.NotificationReasonFetchError),
-				mlog.String("referenced_post_id", previewProp),
-				mlog.Err(appErr),
-			)
-			rctx.Logger().Warn("permalinked post not found", mlog.String("referenced_post_id", previewProp))
-			// In this case, it will broadcast the message with metadata wiped out
-			return nil
-		}
-		return appErr
+		a.CountNotificationReason(model.NotificationStatusError, model.NotificationTypeAll, model.NotificationReasonFetchError, model.NotificationNoPlatform)
+		a.Log().LogM(mlog.MlvlNotificationError, "permalink post fetch failed",
+			mlog.String("type", model.NotificationTypeWebsocket),
+			mlog.String("post_id", post.Id),
+			mlog.String("status", model.NotificationStatusError),
+			mlog.String("reason", model.NotificationReasonFetchError),
+			mlog.String("referenced_post_id", previewProp),
+			mlog.Err(appErr),
+		)
+		rctx.Logger().Warn("permalinked post fetch failed", mlog.String("referenced_post_id", previewProp), mlog.Err(appErr))
+		// In this case, it will broadcast the message with metadata wiped out
+		return nil
 	}
 
 	permalinkPreviewedChannel, appErr := a.GetChannel(rctx, previewedPost.ChannelId)
 	if appErr != nil {
-		if appErr.StatusCode == http.StatusNotFound {
-			a.CountNotificationReason(model.NotificationStatusError, model.NotificationTypeAll, model.NotificationReasonFetchError, model.NotificationNoPlatform)
-			a.Log().LogM(mlog.MlvlNotificationError, "Cannot get channel",
-				mlog.String("type", model.NotificationTypeWebsocket),
-				mlog.String("post_id", post.Id),
-				mlog.String("status", model.NotificationStatusError),
-				mlog.String("reason", model.NotificationReasonFetchError),
-				mlog.String("referenced_post_id", previewedPost.Id),
-			)
-			rctx.Logger().Warn("channel containing permalinked post not found", mlog.String("referenced_channel_id", previewedPost.ChannelId))
-			// In this case, it will broadcast the message with metadata wiped out
-			return nil
-		}
-		return appErr
+		a.CountNotificationReason(model.NotificationStatusError, model.NotificationTypeAll, model.NotificationReasonFetchError, model.NotificationNoPlatform)
+		a.Log().LogM(mlog.MlvlNotificationError, "Cannot get channel for permalink",
+			mlog.String("type", model.NotificationTypeWebsocket),
+			mlog.String("post_id", post.Id),
+			mlog.String("status", model.NotificationStatusError),
+			mlog.String("reason", model.NotificationReasonFetchError),
+			mlog.String("referenced_post_id", previewedPost.Id),
+			mlog.Err(appErr),
+		)
+		rctx.Logger().Warn("channel containing permalinked post fetch failed", mlog.String("referenced_channel_id", previewedPost.ChannelId), mlog.Err(appErr))
+		// In this case, it will broadcast the message with metadata wiped out
+		return nil
 	}
 
 	// In case the user does have permission to read, we set the metadata back.

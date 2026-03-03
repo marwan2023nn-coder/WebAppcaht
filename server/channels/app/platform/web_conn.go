@@ -1052,7 +1052,7 @@ func (wc *WebConn) logSocketErr(source string, err error) {
 			mlog.String("conn_id", wc.GetConnectionID()),
 			mlog.String("origin_client", wc.originClient))
 	} else {
-		wc.Platform.logger.Debug(source+": closing websocket",
+		wc.Platform.logger.Warn(source+": closing websocket",
 			mlog.String("user_id", wc.UserId),
 			mlog.String("conn_id", wc.GetConnectionID()),
 			mlog.String("origin_client", wc.originClient),

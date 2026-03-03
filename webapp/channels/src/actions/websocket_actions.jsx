@@ -743,10 +743,11 @@ function debouncePostEvent(wait) {
     return function fx(msg) {
         if (timeout && count > 4) {
             // If the timeout is going this is the second or further event so queue them up.
-            if (queue.push(msg) > 200) {
+            if (queue.push(msg) > 500) {
                 // Don't run us out of memory, give up if the queue gets insane
-                queue = [];
-                console.log('channel broken because of too many incoming messages'); //eslint-disable-line no-console
+                const last200 = queue.splice(-200);
+                queue = last200;
+                console.warn('High message volume detected: oldest pending messages dropped to prevent memory overflow'); //eslint-disable-line no-console
             }
             clearTimeout(timeout);
             timeout = setTimeout(triggered, wait);
