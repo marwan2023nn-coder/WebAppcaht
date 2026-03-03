@@ -11,6 +11,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"path"
 	"regexp"
 	"strconv"
 	"strings"
@@ -26,6 +27,7 @@ import (
 	"github.com/mattermost/mattermost/server/public/shared/request"
 	"github.com/mattermost/mattermost/server/v8/channels/app/imaging"
 	"github.com/mattermost/mattermost/server/v8/channels/app/oembed"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
 	"github.com/mattermost/mattermost/server/v8/channels/utils/imgutils"
 )
@@ -83,12 +85,19 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 	}
 
 	var allEmojiNames []string
-	if reactions != nil {
-		for _, postReactions := range reactions {
-			for _, reaction := range postReactions {
-				allEmojiNames = append(allEmojiNames, reaction.EmojiName)
+	postEmojiNames := make(map[string][]string, len(posts))
+	for _, post := range posts {
+		postReactions := reactions[post.Id]
+		names := getEmojiNamesForPost(post, postReactions)
+
+		if prop, ok := post.GetProps()[model.PostPropsOverrideIconEmoji]; ok {
+			if emojiName, ok := prop.(string); ok && emojiName != "" {
+				names = append(names, strings.ReplaceAll(emojiName, ":", ""))
 			}
 		}
+
+		postEmojiNames[post.Id] = names
+		allEmojiNames = append(allEmojiNames, names...)
 	}
 
 	var bulkEmojis []*model.Emoji
@@ -104,29 +113,55 @@ func (a *App) PreparePostListForClient(rctx request.CTX, originalList *model.Pos
 		emojiMap[emoji.Name] = emoji
 	}
 
+	subPath, err := utils.GetSubpathFromConfig(a.Config())
+	if err != nil {
+		rctx.Logger().Error("Failed to get subpath from config", mlog.Err(err))
+		subPath = "/"
+	}
+
 	for id, originalPost := range originalList.Posts {
 		post := a.PreparePostForClientWithEmbedsAndImages(rctx, originalPost, &model.PreparePostForClientOpts{
-			SkipReactions: true,
-			SkipFiles:     true,
+			SkipReactions:   true,
+			SkipFiles:       true,
+			SkipIconEmoji:   true,
+			SkipCustomEmoji: true,
 		})
 
 		if fileInfos != nil {
 			post.Metadata.Files = fileInfos[id]
 		}
 
-		if reactions != nil {
-			post.Metadata.Reactions = reactions[id]
-			for _, reaction := range reactions[id] {
-				if emoji, ok := emojiMap[reaction.EmojiName]; ok {
-					found := false
-					for _, e := range post.Metadata.Emojis {
-						if e.Id == emoji.Id {
-							found = true
-							break
-						}
+		postReactions := reactions[id]
+		if postReactions != nil {
+			post.Metadata.Reactions = postReactions
+		}
+
+		// Populate custom emojis
+		names := postEmojiNames[id]
+		for _, name := range names {
+			if emoji, ok := emojiMap[name]; ok {
+				found := false
+				for _, e := range post.Metadata.Emojis {
+					if e.Id == emoji.Id {
+						found = true
+						break
 					}
-					if !found {
-						post.Metadata.Emojis = append(post.Metadata.Emojis, emoji)
+				}
+				if !found {
+					post.Metadata.Emojis = append(post.Metadata.Emojis, emoji)
+				}
+			}
+		}
+
+		// Populate icon emoji override
+		if *a.Config().ServiceSettings.EnablePostIconOverride {
+			if prop, ok := post.GetProps()[model.PostPropsOverrideIconEmoji]; ok {
+				if emojiName, ok := prop.(string); ok && emojiName != "" {
+					emojiName = strings.ReplaceAll(emojiName, ":", "")
+					if emojiID, found := model.GetSystemEmojiId(emojiName); found {
+						post.AddProp(model.PostPropsOverrideIconURL, path.Join(subPath, "/static/emoji", emojiID+".png"))
+					} else if emoji, ok := emojiMap[emojiName]; ok {
+						post.AddProp(model.PostPropsOverrideIconURL, path.Join(subPath, "/api/v4/emoji", emoji.Id, "image"))
 					}
 				}
 			}
@@ -255,7 +290,9 @@ func (a *App) PreparePostForClient(rctx request.CTX, originalPost *model.Post, o
 	// Proxy image links before constructing metadata so that requests go through the proxy
 	post = a.PostWithProxyAddedToImageURLs(post)
 
-	a.OverrideIconURLIfEmoji(rctx, post)
+	if !opts.SkipIconEmoji {
+		a.OverrideIconURLIfEmoji(rctx, post)
+	}
 	if post.Metadata == nil {
 		post.Metadata = &model.PostMetadata{}
 	}
@@ -268,19 +305,21 @@ func (a *App) PreparePostForClient(rctx request.CTX, originalPost *model.Post, o
 	}
 
 	// Emojis and reaction counts
-	if !opts.SkipReactions {
-		if emojis, reactions, err := a.getEmojisAndReactionsForPost(rctx, post); err != nil {
-			rctx.Logger().Warn("Failed to get emojis and reactions for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+	if !opts.SkipCustomEmoji {
+		if !opts.SkipReactions {
+			if emojis, reactions, err := a.getEmojisAndReactionsForPost(rctx, post); err != nil {
+				rctx.Logger().Warn("Failed to get emojis and reactions for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+			} else {
+				post.Metadata.Emojis = emojis
+				post.Metadata.Reactions = reactions
+			}
 		} else {
-			post.Metadata.Emojis = emojis
-			post.Metadata.Reactions = reactions
-		}
-	} else {
-		// Even if skipping reactions, we should still fetch custom emojis used in the post text/attachments
-		if emojis, err := a.getCustomEmojisForPost(rctx, post, nil); err != nil {
-			rctx.Logger().Warn("Failed to get custom emojis for a post", mlog.String("post_id", post.Id), mlog.Err(err))
-		} else {
-			post.Metadata.Emojis = emojis
+			// Even if skipping reactions, we should still fetch custom emojis used in the post text/attachments
+			if emojis, err := a.getCustomEmojisForPost(rctx, post, nil); err != nil {
+				rctx.Logger().Warn("Failed to get custom emojis for a post", mlog.String("post_id", post.Id), mlog.Err(err))
+			} else {
+				post.Metadata.Emojis = emojis
+			}
 		}
 	}
 

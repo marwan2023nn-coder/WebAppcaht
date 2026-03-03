@@ -1162,6 +1162,8 @@ type PreparePostForClientOpts struct {
 	IncludeDeleted  bool
 	SkipReactions   bool
 	SkipFiles       bool
+	SkipIconEmoji   bool
+	SkipCustomEmoji bool
 }
 
 // ReportPostOptions contains options for querying posts for reporting/compliance purposes
