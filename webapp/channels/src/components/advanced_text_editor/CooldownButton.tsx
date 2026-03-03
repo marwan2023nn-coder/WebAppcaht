@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {useState, useEffect} from 'react';
+import {useIntl} from 'react-intl';
 import {useSelector} from 'react-redux';
 
 import WithTooltip from 'components/with_tooltip';
@@ -19,7 +20,8 @@ type CooldownButtonProps = {
 };
 
 const CooldownButton = ({handleSubmit, channelId}: CooldownButtonProps) => {
-    const COOLDOWN_TIME_MS = 180000; // 3 دقائق
+    const {formatMessage} = useIntl();
+    const COOLDOWN_TIME_MS = 180000; // 3 minutes
     const [isCooldown, setIsCooldown] = useState(false);
     const [timeLeft, setTimeLeft] = useState<number | null>(null);
 
@@ -28,7 +30,7 @@ const CooldownButton = ({handleSubmit, channelId}: CooldownButtonProps) => {
 
     useEffect(() => {
         const checkCooldown = () => {
-            // إذا كان المستخدم أدمن، لا نطبق الكولداون
+            // If the user is an admin, we don't apply the cooldown
             if (isAdmin) {
                 setIsCooldown(false);
                 setTimeLeft(null);
@@ -55,7 +57,7 @@ const CooldownButton = ({handleSubmit, channelId}: CooldownButtonProps) => {
     const onClick = () => {
         const now = Date.now();
 
-        // إذا كان المستخدم أدمن، يرسل مباشرة بدون فحص الوقت
+        // If the user is an admin, send directly without time check
         if (isAdmin) {
             handleSubmit();
             return;
@@ -67,17 +69,29 @@ const CooldownButton = ({handleSubmit, channelId}: CooldownButtonProps) => {
         }
 
         localStorage.setItem(`lastSentTime_${channelId}`, now.toString());
-        handleSubmit(); // ← ترسل الرسالة
+        handleSubmit(); // Sends the message
     };
+
+    let tooltipTitle;
+    if (isAdmin) {
+        tooltipTitle = formatMessage({id: 'advanced_text_editor.buzz.admin_tooltip', defaultMessage: 'Click to send buzz (Admin - no cooldown)'});
+    } else if (isCooldown && timeLeft !== null) {
+        tooltipTitle = formatMessage({id: 'advanced_text_editor.buzz.cooldown_tooltip', defaultMessage: 'Time remaining: {seconds} seconds'}, {seconds: timeLeft});
+    } else {
+        tooltipTitle = formatMessage({id: 'advanced_text_editor.buzz.tooltip', defaultMessage: 'Click to send buzz'});
+    }
+
+    const ariaLabel = formatMessage({id: 'advanced_text_editor.buzz.aria_label', defaultMessage: 'Send buzz'});
 
     return (
         <WithTooltip
-            title={isAdmin ? 'أنقر لإرسال تنبيه (أدمن - بدون قيو )' : (isCooldown && timeLeft !== null ? `الوقت المتبقي: ${timeLeft} ثانية` : 'أنقر لإرسال تنبيه')}
+            title={tooltipTitle}
         >
             <button
                 onClick={onClick}
                 disabled={isCooldown}
                 className={`style--none AdvancedTextEditor__action-button ${isCooldown ? 'cooldown' : ''}`}
+                aria-label={ariaLabel}
             >
                 <BuzzSvg/>
             </button>
