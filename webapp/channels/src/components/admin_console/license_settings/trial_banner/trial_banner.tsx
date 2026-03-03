@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import React, {useEffect, useState} from 'react';
 import type {ReactNode} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
@@ -375,7 +376,7 @@ const TrialBanner = ({
                             <div
                                 className='as-bs-label control-label'
                                 dangerouslySetInnerHTML={{
-                                    __html: format(upgradeError),
+                                    __html: DOMPurify.sanitize(format(upgradeError)),
                                 }}
                             />
                         </div>
