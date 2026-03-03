@@ -18,6 +18,10 @@ const (
 	InbucketAPI = "/api/v1/mailbox/"
 )
 
+var inbucketClient = &http.Client{
+	Timeout: 30 * time.Second,
+}
+
 // OutputJSONHeader holds the received Header to test sending emails (inbucket)
 type JSONMessageHeaderInbucket []struct {
 	Mailbox             string
@@ -56,7 +60,7 @@ func GetMailBox(email string) (results JSONMessageHeaderInbucket, err error) {
 	parsedEmail := ParseEmail(email)
 
 	url := fmt.Sprintf("%s%s%s", getInbucketHost(), InbucketAPI, parsedEmail)
-	resp, err := http.Get(url)
+	resp, err := inbucketClient.Get(url)
 
 	if err != nil {
 		return nil, err
@@ -89,7 +93,7 @@ func GetMessageFromMailbox(email, id string) (JSONMessageInbucket, error) {
 	var record JSONMessageInbucket
 
 	url := fmt.Sprintf("%s%s%s/%s", getInbucketHost(), InbucketAPI, parsedEmail, id)
-	emailResponse, err := http.Get(url)
+	emailResponse, err := inbucketClient.Get(url)
 	if err != nil {
 		return record, err
 	}
@@ -119,7 +123,7 @@ func GetMessageFromMailbox(email, id string) (JSONMessageInbucket, error) {
 }
 
 func downloadAttachment(url string) ([]byte, error) {
-	attachmentResponse, err := http.Get(url)
+	attachmentResponse, err := inbucketClient.Get(url)
 	if err != nil {
 		return nil, err
 	}
@@ -139,9 +143,7 @@ func DeleteMailBox(email string) (err error) {
 		return err
 	}
 
-	client := &http.Client{}
-
-	resp, err := client.Do(req)
+	resp, err := inbucketClient.Do(req)
 	if err != nil {
 		return err
 	}
