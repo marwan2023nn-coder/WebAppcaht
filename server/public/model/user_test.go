@@ -260,36 +260,45 @@ func TestUserUpdateMentionKeysFromUsername(t *testing.T) {
 func TestUserIsValid(t *testing.T) {
 	user := User{}
 	appErr := user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "id", "", user.Id), "expected user is valid error: %s", appErr.Error())
 
 	user.Id = NewId()
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "create_at", user.Id, user.CreateAt), "expected user is valid error: %s", appErr.Error())
 
 	user.CreateAt = GetMillis()
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "update_at", user.Id, user.UpdateAt), "expected user is valid error: %s", appErr.Error())
 
 	user.UpdateAt = GetMillis()
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "username", user.Id, user.Username), "expected user is valid error: %s", appErr.Error())
 
 	user.Username = NewUsername() + "^hello#"
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "username", user.Id, user.Username), "expected user is valid error: %s", appErr.Error())
 
 	user.Username = NewUsername()
+	user.Email = "invalid-email"
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
 
 	user.Email = strings.Repeat("01234567890", 20)
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
 
 	user.Email = "user@example.com"
 
 	user.Nickname = strings.Repeat("a", 65)
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "nickname", user.Id, user.Nickname), "expected user is valid error: %s", appErr.Error())
 
 	user.Nickname = strings.Repeat("a", 64)
@@ -301,6 +310,7 @@ func TestUserIsValid(t *testing.T) {
 
 	user.Email = NewId()
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email), "expected user is valid error: %s", appErr.Error())
 
 	user.RemoteId = NewPointer(NewId())
@@ -308,11 +318,13 @@ func TestUserIsValid(t *testing.T) {
 
 	user.FirstName = strings.Repeat("a", 65)
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "first_name", user.Id, user.FirstName), "expected user is valid error: %s", appErr.Error())
 
 	user.FirstName = strings.Repeat("a", 64)
 	user.LastName = strings.Repeat("a", 65)
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "last_name", user.Id, user.LastName), "expected user is valid error: %s", appErr.Error())
 
 	user.LastName = strings.Repeat("a", 64)
@@ -321,6 +333,7 @@ func TestUserIsValid(t *testing.T) {
 
 	user.Position = strings.Repeat("a", 129)
 	appErr = user.IsValid()
+	require.NotNil(t, appErr)
 	require.True(t, HasExpectedUserIsValidError(appErr, "position", user.Id, user.Position), "expected user is valid error: %s", appErr.Error())
 	user.Position = ""
 

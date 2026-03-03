@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import React, {useCallback, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -110,7 +111,7 @@ const CodeBlock: React.FC<Props> = ({code, language, searchedContent, channelId}
             </div>
             <div className='hljs'>
                 {lineNumbers}
-                <code dangerouslySetInnerHTML={{__html: htmlContent}}/>
+                <code dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(htmlContent)}}/>
             </div>
         </div>
     );
