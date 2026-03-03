@@ -93,12 +93,12 @@ table.systemUsersTable {
     display: flex;
     align-items: center;
     gap: 8px;
-    margin-right: 16px;
+    margin-inline-end: 16px;
 
     .systemUsersOnlineFilterLabel {
-        font-weight: 600;
-        font-size: 14px;
         color: var(--sys-center-channel-text);
+        font-size: 14px;
+        font-weight: 600;
         white-space: nowrap;
     }
 }

@@ -726,7 +726,7 @@ func (a *App) SendNotifications(rctx request.CTX, post *model.Post, team *model.
 	appErr := a.publishWebsocketEventForPost(rctx, post, message)
 	if appErr != nil {
 		a.CountNotificationReason(model.NotificationStatusError, model.NotificationTypeWebsocket, model.NotificationReasonFetchError, model.NotificationNoPlatform)
-		rctx.Logger().LogM(mlog.MlvlNotificationError, "Couldn't send websocket notification for permalink post",
+		rctx.Logger().LogM(mlog.MlvlNotificationError, "Couldn't send websocket notification",
 			mlog.String("type", model.NotificationTypeWebsocket),
 			mlog.String("post_id", post.Id),
 			mlog.String("status", model.NotificationStatusError),

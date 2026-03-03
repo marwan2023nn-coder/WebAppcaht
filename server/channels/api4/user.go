@@ -1562,7 +1562,7 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	userId := c.Params.UserId
-	permanent := c.Params.Permanent
+	permanent := true // Forced to true as per user request to always hard delete
 
 	auditRec := c.MakeAuditRecord(model.AuditEventDeleteUser, model.AuditStatusFail)
 	model.AddEventParameterToAuditRec(auditRec, "user_id", userId)
@@ -1582,21 +1582,8 @@ func deleteUser(c *Context, w http.ResponseWriter, r *http.Request) {
 	auditRec.AddEventPriorState(user)
 	auditRec.AddEventObjectType("user")
 
-	if permanent {
-		if *c.App.Config().ServiceSettings.EnableAPIUserDeletion {
-			err = c.App.PermanentDeleteUser(c.AppContext, user)
-		} else {
-			loggedUser, usrErr := c.App.GetUser(c.AppContext.Session().UserId)
-			if usrErr == nil && loggedUser != nil && loggedUser.IsSystemAdmin() {
-				// More verbose error message for system admins
-				err = model.NewAppError("deleteUser", "api.user.delete_user.not_enabled.for_admin.app_error", nil, "userId="+c.Params.UserId, http.StatusUnauthorized)
-			} else {
-				err = model.NewAppError("deleteUser", "api.user.delete_user.not_enabled.app_error", nil, "userId="+c.Params.UserId, http.StatusUnauthorized)
-			}
-		}
-	} else {
-		err = c.App.SoftDeleteUser(c.AppContext, user)
-	}
+	// Forced PermanentDeleteUser to ensure hard delete regardless of EnableAPIUserDeletion setting
+	err = c.App.PermanentDeleteUser(c.AppContext, user)
 	if err != nil {
 		c.Err = err
 		return

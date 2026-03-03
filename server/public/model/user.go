@@ -51,7 +51,7 @@ const (
 	PushThreadsNotifyProp          = "push_threads"
 	EmailThreadsNotifyProp         = "email_threads"
 
-	DefaultLocale        = "en"
+	DefaultLocale        = "ar"
 	UserAuthServiceEmail = "email"
 
 	UserEmailMaxLength    = 128

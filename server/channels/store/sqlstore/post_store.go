@@ -76,6 +76,7 @@ func postSliceColumnsWithTypes() []struct {
 		{"FileIds", reflect.Slice},
 		{"HasReactions", reflect.Bool},
 		{"RemoteId", reflect.String},
+		{"MessageSource", reflect.String},
 	}
 }
 
@@ -99,6 +100,7 @@ func postToSlice(post *model.Post) []any {
 		model.ArrayToJSON(post.FileIds),
 		post.HasReactions,
 		post.RemoteId,
+		post.MessageSource,
 	}
 }
 
@@ -408,6 +410,7 @@ func (s *SqlPostStore) Update(rctx request.CTX, newPost *model.Post, oldPost *mo
 			RootId=:RootId,
 			OriginalId=:OriginalId,
 			Message=:Message,
+			MessageSource=:MessageSource,
 			Type=:Type,
 			Props=:Props,
 			Hashtags=:Hashtags,
@@ -474,6 +477,7 @@ func (s *SqlPostStore) OverwriteMultiple(rctx request.CTX, posts []*model.Post) 
 					RootId=:RootId,
 					OriginalId=:OriginalId,
 					Message=:Message,
+					MessageSource=:MessageSource,
 					Type=:Type,
 					Props=:Props,
 					Hashtags=:Hashtags,

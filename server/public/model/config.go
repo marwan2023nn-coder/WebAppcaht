@@ -1385,10 +1385,10 @@ func (s *Office365Settings) SSOSettings() *SSOSettings {
 }
 
 type IntuneSettings struct {
-	Enable      *bool   `access:"mobile_intune"`
-	TenantId    *string `access:"mobile_intune"` // telemetry: none
-	ClientId    *string `access:"mobile_intune"` // telemetry: none
-	AuthService *string `access:"mobile_intune"` // "office365" or "saml"
+	Enable      *bool   `access:"environment_mobile_security"`
+	TenantId    *string `access:"environment_mobile_security"` // telemetry: none
+	ClientId    *string `access:"environment_mobile_security"` // telemetry: none
+	AuthService *string `access:"environment_mobile_security"` // "office365" or "saml"
 }
 
 func (s *IntuneSettings) SetDefaults() {
@@ -2817,7 +2817,7 @@ func (s *AutoTranslationSettings) SetDefaults() {
 	}
 
 	if s.TargetLanguages == nil {
-		s.TargetLanguages = &[]string{"en"}
+		s.TargetLanguages = &[]string{"ar"}
 	}
 
 	if s.Workers == nil {
@@ -4342,6 +4342,7 @@ func (s *SqlSettings) isValid() *AppError {
 	if *s.DataSource == "" {
 		return NewAppError("Config.IsValid", "model.config.is_valid.sql_data_src.app_error", nil, "", http.StatusBadRequest)
 	}
+
 
 	if *s.MaxOpenConns <= 0 {
 		return NewAppError("Config.IsValid", "model.config.is_valid.sql_max_conn.app_error", nil, "", http.StatusBadRequest)

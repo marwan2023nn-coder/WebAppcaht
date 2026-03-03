@@ -76,7 +76,7 @@ func TestUserAuditable(t *testing.T) {
 			"last_password_update":       int64(0),
 			"last_picture_update":        int64(0),
 			"failed_attempts":            0,
-			"locale":                     "en",
+			"locale":                     "ar",
 			"timezone":                   StringMap(timezones.DefaultUserTimezone()),
 			"mfa_active":                 true,
 			"remote_id":                  "some_remote",
@@ -157,7 +157,7 @@ func TestUserLogClone(t *testing.T) {
 			"notify_props": StringMap{
 				"bar": "foo",
 			},
-			"locale":     "en",
+			"locale":     "ar",
 			"timezone":   StringMap(timezones.DefaultUserTimezone()),
 			"mfa_active": true,
 			"remote_id":  "some_remote",

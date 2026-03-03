@@ -63,6 +63,7 @@ export default function DeleteUserModal({user, onExited, onSuccess, onError}: Pr
 
     return (
         <ConfirmModalRedux
+            id='deleteUserModal'
             title={title}
             message={message}
             confirmButtonClass={confirmButtonClass}
