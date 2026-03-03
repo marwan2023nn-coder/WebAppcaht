@@ -17,3 +17,8 @@
 **Vulnerability:** Resource exhaustion (DoS) and potential SSRF due to usage of `http.Get` or unconfigured `http.Client` which lacks timeouts and security overrides.
 **Learning:** Even in non-critical paths like product notices or internal test utilities (inbucket), using Go's default HTTP client is risky as it can hang indefinitely and bypass SSRF protections.
 **Prevention:** Always use the application's `HTTPService` to create clients, or at minimum, configure an explicit timeout on a dedicated `http.Client`. Avoid `http.Get`, `http.Post`, and falling back to `http.DefaultClient`.
+
+## 2025-05-18 - XSS via Unsanitized Markdown in Admin Console
+**Vulnerability:** Potential XSS when rendering `upgradeError` messages using `dangerouslySetInnerHTML` without sanitization.
+**Learning:** The application's default markdown renderer is configured with `sanitize: false`, assuming callers will handle sanitization. High-privilege components like Admin Console banners rendered dynamic error strings (potentially from external or system-level sources) directly into the DOM.
+**Prevention:** Mandatory use of `DOMPurify.sanitize()` when using `dangerouslySetInnerHTML` for any content processed by the markdown `format()` utility, especially for strings like error messages that might contain unsanitized input.
