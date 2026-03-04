@@ -9,7 +9,7 @@ import type {GlobalState} from '@workspace/types/store';
 import {getCustomProfileAttributeFields} from 'workspace-redux/actions/general';
 import {getUserPreferences} from 'workspace-redux/actions/preferences';
 import {addUserToTeam} from 'workspace-redux/actions/teams';
-import {updateUserActive, getUser, patchUser, updateUserMfa, getCustomProfileAttributeValues, saveCustomProfileAttribute} from 'workspace-redux/actions/users';
+import {updateUserActive, deleteUser, getUser, patchUser, updateUserMfa, getCustomProfileAttributeValues, saveCustomProfileAttribute} from 'workspace-redux/actions/users';
 import {getConfig, getCustomProfileAttributes} from 'workspace-redux/selectors/entities/general';
 
 import {setNavigationBlocked} from 'actions/admin_actions.jsx';
@@ -37,6 +37,7 @@ const mapDispatchToProps = {
     getUser,
     patchUser,
     updateUserActive,
+    deleteUser,
     updateUserMfa,
     addUserToTeam,
     setNavigationBlocked,

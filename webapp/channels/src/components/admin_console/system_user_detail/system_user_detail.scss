@@ -93,6 +93,16 @@
             margin-inline-start: auto;
             cursor: pointer;
         }
+
+        .manageUserSettingsBtn--disabled {
+            opacity: 1;
+            color: rgba(var(--center-channel-color-rgb), 0.48);
+            cursor: default;
+        }
+
+        .manageUserSettingsBtn--disabled .RestrictedIndicator__icon-tooltip {
+            color: currentColor;
+        }
     }
 
     // Mobile responsiveness for two-column layout

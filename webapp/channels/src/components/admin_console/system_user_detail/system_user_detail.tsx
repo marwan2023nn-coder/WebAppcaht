@@ -25,14 +25,17 @@ import BlockableLink from 'components/admin_console/blockable_link';
 import ResetPasswordModal from 'components/admin_console/reset_password_modal';
 import TeamList from 'components/admin_console/system_user_detail/team_list';
 import ConfirmManageUserSettingsModal from 'components/admin_console/system_users/system_users_list_actions/confirm_manage_user_settings_modal';
+import DeleteUserModal from 'components/admin_console/system_users/system_users_list_actions/delete_user_modal';
 import ConfirmModal from 'components/confirm_modal';
 import FormError from 'components/form_error';
 import SaveButton from 'components/save_button';
 import TeamSelectorModal from 'components/team_selector_modal';
 import UserSettingsModal from 'components/user_settings/modal';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
+// eslint-disable-next-line import/order
 import AdminPanel from 'components/widgets/admin_console/admin_panel';
-import AtIcon from 'components/widgets/icons/at_icon';
+
+// import AtIcon from 'components/widgets/icons/at_icon';
 import SheidOutlineIcon from 'components/widgets/icons/shield_outline_icon';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
 import WithTooltip from 'components/with_tooltip';
@@ -162,6 +165,7 @@ export type State = {
     refreshTeams: boolean;
     showResetPasswordModal: boolean;
     showDeactivateMemberModal: boolean;
+    showDeleteUserModal: boolean;
     showTeamSelectorModal: boolean;
     fieldErrors: {
         positionField?: string;
@@ -189,6 +193,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
             teamIds: [],
             refreshTeams: true,
             showResetPasswordModal: false,
+            showDeleteUserModal: false,
             showDeactivateMemberModal: false,
             showTeamSelectorModal: false,
             fieldErrors: {},
@@ -309,6 +314,16 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         }
 
         this.toggleCloseModalDeactivateMember();
+    };
+
+    handleDeleted = () => {
+        this.toggleCloseModalDeleteUser();
+        this.props.history.push('/admin_console/user_management/users');
+    };
+
+    handleDeletedError = (error: ServerError) => {
+        this.setState({error: error.message});
+        this.toggleCloseModalDeleteUser();
     };
 
     handleRemoveMFA = async () => {
@@ -657,6 +672,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                 <span>{getUserAuthenticationTextField(this.props.intl, this.props.mfaEnabled, this.state.user)}</span>
             </label>
         );
+
         // Add system fields
         fields.push(
             <label key='username'>
@@ -674,8 +690,6 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                 />
             </label>,
         );
-
-
 
         fields.push(
             <label key='email'>
@@ -997,6 +1011,14 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         this.setState({showDeactivateMemberModal: false});
     };
 
+    toggleOpenModalDeleteUser = () => {
+        this.setState({showDeleteUserModal: true});
+    };
+
+    toggleCloseModalDeleteUser = () => {
+        this.setState({showDeleteUserModal: false});
+    };
+
     toggleOpenModalResetPassword = () => {
         this.props.openModal({
             modalId: ModalIdentifiers.RESET_PASSWORD_MODAL,
@@ -1138,6 +1160,18 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                                             {this.getManagedByLdapText()}
                                         </button>
                                     )}
+
+                                    {this.state.user?.delete_at === 0 && (
+                                        <button
+                                            className='btn btn-secondary btn-danger'
+                                            onClick={this.toggleOpenModalDeleteUser}
+                                        >
+                                            <FormattedMessage
+                                                id='admin.user_item.delete'
+                                                defaultMessage='Delete'
+                                            />
+                                        </button>
+                                    )}
                                     {this.state.user?.delete_at === 0 && (
                                         <button
                                             className='btn btn-secondary btn-danger'
@@ -1179,7 +1213,8 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                                             })}
                                         >
                                             <button
-                                                className='manageUserSettingsBtn btn disabled'
+                                                className='manageUserSettingsBtn btn btn-tertiary manageUserSettingsBtn--disabled'
+                                                aria-disabled='true'
                                             >
                                                 <div className='RestrictedIndicator__content'>
                                                     <i className={classNames('RestrictedIndicator__icon-tooltip', 'icon', 'icon-key-variant')}/>
@@ -1314,6 +1349,15 @@ export class SystemUserDetail extends PureComponent<Props, State> {
                         onTeamsSelected={this.handleAddUserToTeams}
                         alreadySelected={this.state.teamIds}
                         excludeGroupConstrained={true}
+                    />
+                )}
+
+                {this.state.showDeleteUserModal && this.state.user && (
+                    <DeleteUserModal
+                        user={this.state.user}
+                        onExited={this.toggleCloseModalDeleteUser}
+                        onSuccess={this.handleDeleted}
+                        onError={this.handleDeletedError}
                     />
                 )}
             </div>

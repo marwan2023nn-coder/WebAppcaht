@@ -66,6 +66,8 @@ const messages = defineMessages({
     monthlyActiveUsers: {id: 'analytics.system.monthlyActiveUsers', defaultMessage: 'Monthly Active Users'},
     totalFiles: {id: 'analytics.system.totalFiles', defaultMessage: 'Total Files'},
     totalFilesSize: {id: 'analytics.system.totalFilesSize', defaultMessage: 'Total Files Size'},
+    totalAttachedFiles: {id: 'analytics.system.totalAttachedFiles', defaultMessage: 'Attached Files'},
+    totalDownloadedFiles: {id: 'analytics.system.totalDownloadedFiles', defaultMessage: 'Downloaded Files'},
 });
 
 export const searchableStrings = [
@@ -87,6 +89,8 @@ export const searchableStrings = [
     messages.monthlyActiveUsers,
     messages.totalFiles,
     messages.totalFilesSize,
+    messages.totalAttachedFiles,
+    messages.totalDownloadedFiles,
 ];
 
 export default class SystemAnalytics extends React.PureComponent<Props, State> {
@@ -250,6 +254,8 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
         let outgoingCount;
         let totalFiles;
         let totalFilesSize;
+        let totalAttachedFiles;
+        let totalDownloadedFiles;
         if (this.props.isLicensed) {
             sessionCount = (
                 <StatisticCount
@@ -295,6 +301,24 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     title={<FormattedMessage {...messages.totalFiles}/>}
                     icon='fa-files-o'
                     count={this.getStatValue(stats[StatTypes.TOTAL_FILE_COUNT])}
+                />
+            );
+
+            totalAttachedFiles = (
+                <StatisticCount
+                    id='totalAttachedFiles'
+                    title={<FormattedMessage {...messages.totalAttachedFiles}/>}
+                    icon='fa-paperclip'
+                    count={this.getStatValue(stats[StatTypes.TOTAL_ATTACHED_FILE_COUNT])}
+                />
+            );
+
+            totalDownloadedFiles = (
+                <StatisticCount
+                    id='totalDownloadedFiles'
+                    title={<FormattedMessage {...messages.totalDownloadedFiles}/>}
+                    icon='fa-download'
+                    count={this.getStatValue(stats[StatTypes.TOTAL_DOWNLOADED_FILE_COUNT])}
                 />
             );
 
@@ -489,6 +513,8 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     {incomingCount}
                     {outgoingCount}
                     {totalFiles}
+                    {totalAttachedFiles}
+                    {totalDownloadedFiles}
                     {totalFilesSize}
                 </>
             );
