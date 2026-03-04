@@ -18,7 +18,7 @@ import LocalStorageStore from 'stores/local_storage_store';
 import JoinPrivateChannelModal from 'components/join_private_channel_modal';
 
 import Constants, {ModalIdentifiers} from 'utils/constants';
-import {mod} from 'utils/math_utils';
+import * as Utils from 'utils/utils';
 
 import type {ActionFuncAsync, GlobalState} from 'types/store';
 
@@ -51,7 +51,7 @@ export function findNextUnreadChannelId(curChannelId: string, allChannelIds: str
     const curIndex = allChannelIds.indexOf(curChannelId);
 
     for (let i = 1; i < allChannelIds.length; i++) {
-        const index = mod(curIndex + (i * direction), allChannelIds.length);
+        const index = Utils.mod(curIndex + (i * direction), allChannelIds.length);
 
         if (unreadChannelIds.includes(allChannelIds[index])) {
             return index;

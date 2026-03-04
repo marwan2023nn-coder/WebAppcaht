@@ -1,23 +1,23 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {fireEvent, screen} from '@testing-library/react';
+import { fireEvent, screen } from '@testing-library/react';
 import React from 'react';
-import type {ComponentProps} from 'react';
+import type { ComponentProps } from 'react';
 
 import Preferences from 'workspace-redux/constants/preferences';
-import {DATE_LINE} from 'workspace-redux/utils/post_list';
+import { DATE_LINE } from 'workspace-redux/utils/post_list';
 
-import {HINT_TOAST_TESTID} from 'components/hint-toast/hint_toast';
-import {SCROLL_TO_BOTTOM_DISMISS_BUTTON_TESTID, SCROLL_TO_BOTTOM_TOAST_TESTID} from 'components/scroll_to_bottom_toast/scroll_to_bottom_toast';
+import { HINT_TOAST_TESTID } from 'components/hint-toast/hint_toast';
+import { SCROLL_TO_BOTTOM_DISMISS_BUTTON_TESTID, SCROLL_TO_BOTTOM_TOAST_TESTID } from 'components/scroll_to_bottom_toast/scroll_to_bottom_toast';
 
-import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import {renderWithContext} from 'tests/react_testing_utils';
-import {getHistory} from 'utils/browser_history';
-import {PostListRowListIds} from 'utils/constants';
+import { shallowWithIntl } from 'tests/helpers/intl-test-helper';
+import { renderWithContext } from 'tests/react_testing_utils';
+import { getHistory } from 'utils/browser_history';
+import { PostListRowListIds } from 'utils/constants';
 
 import ToastWrapper from './toast_wrapper';
-import type {Props, ToastWrapperClass} from './toast_wrapper';
+import type { Props, ToastWrapperClass } from './toast_wrapper';
 
 describe('components/ToastWrapper', () => {
     const baseProps: ComponentProps<typeof ToastWrapper> = {
@@ -71,7 +71,7 @@ describe('components/ToastWrapper', () => {
                 newRecentMessagesCount: 5,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('unreadCount')).toBe(15);
         });
 
@@ -92,7 +92,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('unreadCount')).toBe(10);
         });
 
@@ -111,7 +111,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('unreadCount')).toBe(3);
         });
 
@@ -123,8 +123,21 @@ describe('components/ToastWrapper', () => {
                 unreadCountInChannel: 10,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('unreadCount')).toBe(10);
+        });
+
+        test('If atLatestPost is true but START_OF_NEW_MESSAGES is missing, unreadCount should fallback to unreadCountInChannel', () => {
+            const props = {
+                ...baseProps,
+                atLatestPost: true,
+                unreadCountInChannel: 7,
+                newRecentMessagesCount: 0,
+                postListIds: ['post1', 'post2'], // Missing PostListRowListIds.START_OF_NEW_MESSAGES
+            };
+
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            expect(wrapper.state('unreadCount')).toBe(7);
         });
     });
 
@@ -136,7 +149,7 @@ describe('components/ToastWrapper', () => {
                 newRecentMessagesCount: 5,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -148,9 +161,9 @@ describe('components/ToastWrapper', () => {
                 atBottom: null,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(undefined);
-            wrapper.setProps({atBottom: false});
+            wrapper.setProps({ atBottom: false });
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -170,9 +183,9 @@ describe('components/ToastWrapper', () => {
                 channelMarkedAsUnread: false,
                 atBottom: true,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({channelMarkedAsUnread: true, atBottom: false});
+            wrapper.setProps({ channelMarkedAsUnread: true, atBottom: false });
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -182,7 +195,7 @@ describe('components/ToastWrapper', () => {
                 channelMarkedAsUnread: false,
                 atLatestPost: true,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(false);
 
             wrapper.setProps({
@@ -199,10 +212,10 @@ describe('components/ToastWrapper', () => {
             });
 
             expect(wrapper.state('showUnreadToast')).toBe(true);
-            wrapper.setProps({atBottom: true});
+            wrapper.setProps({ atBottom: true });
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({atBottom: false});
-            wrapper.setProps({lastViewedAt: 12342});
+            wrapper.setProps({ atBottom: false });
+            wrapper.setProps({ lastViewedAt: 12342 });
             expect(wrapper.state('showUnreadToast')).toBe(true);
         });
 
@@ -213,10 +226,10 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: null,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showMessageHistoryToast')).toBe(undefined);
 
-            wrapper.setProps({atBottom: false});
+            wrapper.setProps({ atBottom: false });
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
         });
 
@@ -227,7 +240,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: true,
                 initScrollOffsetFromBottom: 1001,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
         });
@@ -238,9 +251,9 @@ describe('components/ToastWrapper', () => {
                 channelMarkedAsUnread: false,
                 atLatestPost: true,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(false);
-            wrapper.setProps({atBottom: true});
+            wrapper.setProps({ atBottom: true });
             wrapper.setProps({
                 channelMarkedAsUnread: true,
                 postListIds: [
@@ -263,9 +276,9 @@ describe('components/ToastWrapper', () => {
                 unreadCountInChannel: 10,
                 newRecentMessagesCount: 5,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setState({showUnreadToast: false, lastViewedBottom: 1234});
-            wrapper.setProps({latestPostTimeStamp: 1235});
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            wrapper.setState({ showUnreadToast: false, lastViewedBottom: 1234 });
+            wrapper.setProps({ latestPostTimeStamp: 1235 });
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
         });
 
@@ -284,9 +297,9 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(true);
-            wrapper.setProps({atBottom: true});
+            wrapper.setProps({ atBottom: true });
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
@@ -297,10 +310,10 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: true,
                 initScrollOffsetFromBottom: 1001,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
-            wrapper.setProps({atBottom: true});
+            wrapper.setProps({ atBottom: true });
             expect(wrapper.state('showMessageHistoryToast')).toBe(false);
         });
 
@@ -318,11 +331,11 @@ describe('components/ToastWrapper', () => {
                     'post5',
                 ],
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setState({showUnreadToast: false});
-            wrapper.setProps({latestPostTimeStamp: 1235, lastViewedBottom: 1234});
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            wrapper.setState({ showUnreadToast: false });
+            wrapper.setProps({ latestPostTimeStamp: 1235, lastViewedBottom: 1234 });
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            wrapper.setProps({atBottom: true});
+            wrapper.setProps({ atBottom: true });
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
         });
 
@@ -341,7 +354,7 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(true);
             (wrapper.instance() as ToastWrapperClass).scrollToLatestMessages();
             expect(wrapper.state('showUnreadToast')).toBe(false);
@@ -363,11 +376,11 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setState({showUnreadToast: false});
-            wrapper.setProps({lastViewedBottom: 1234, latestPostTimeStamp: 1235, atBottom: false});
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            wrapper.setState({ showUnreadToast: false });
+            wrapper.setProps({ lastViewedBottom: 1234, latestPostTimeStamp: 1235, atBottom: false });
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            wrapper.setProps({lastViewedBottom: 1235, latestPostTimeStamp: 1235});
+            wrapper.setProps({ lastViewedBottom: 1235, latestPostTimeStamp: 1235 });
             (wrapper.instance() as ToastWrapperClass).scrollToNewMessage();
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
             expect(baseProps.scrollToNewMessage).toHaveBeenCalledTimes(1);
@@ -388,10 +401,10 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(true);
 
-            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27} as KeyboardEvent);
+            (wrapper.instance() as ToastWrapperClass).handleShortcut({ key: 'ESC', keyCode: 27 } as KeyboardEvent);
             expect(wrapper.state('showUnreadToast')).toBe(false);
         });
 
@@ -410,11 +423,11 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setState({atBottom: false, showUnreadToast: false});
-            wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            wrapper.setState({ atBottom: false, showUnreadToast: false });
+            wrapper.setProps({ atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235 });
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            (wrapper.instance() as ToastWrapperClass).handleShortcut({key: 'ESC', keyCode: 27} as KeyboardEvent);
+            (wrapper.instance() as ToastWrapperClass).handleShortcut({ key: 'ESC', keyCode: 27 } as KeyboardEvent);
             expect(baseProps.updateLastViewedBottomAt).toHaveBeenCalledTimes(1);
         });
 
@@ -433,11 +446,11 @@ describe('components/ToastWrapper', () => {
                 ],
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
-            wrapper.setState({atBottom: false, showUnreadToast: false});
-            wrapper.setProps({atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235});
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
+            wrapper.setState({ atBottom: false, showUnreadToast: false });
+            wrapper.setProps({ atBottom: false, lastViewedBottom: 1234, latestPostTimeStamp: 1235 });
             expect(wrapper.state('showNewMessagesToast')).toBe(true);
-            wrapper.setProps({postListIds: baseProps.postListIds});
+            wrapper.setProps({ postListIds: baseProps.postListIds });
             expect(wrapper.state('showNewMessagesToast')).toBe(false);
         });
 
@@ -449,10 +462,10 @@ describe('components/ToastWrapper', () => {
             };
             const updateToastStatus = baseProps.actions.updateToastStatus;
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadToast')).toBe(true);
             expect(updateToastStatus).toHaveBeenCalledWith(true);
-            wrapper.setProps({atBottom: true, atLatestPost: true});
+            wrapper.setProps({ atBottom: true, atLatestPost: true });
             expect(updateToastStatus).toHaveBeenCalledTimes(2);
             expect(updateToastStatus).toHaveBeenCalledWith(false);
         });
@@ -472,9 +485,9 @@ describe('components/ToastWrapper', () => {
                 atBottom: true,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
-            wrapper.setProps({atBottom: null});
+            wrapper.setProps({ atBottom: null });
             wrapper.setProps({
                 postListIds: [
                     'post1',
@@ -515,7 +528,7 @@ describe('components/ToastWrapper', () => {
                 isNewMessageLineReached: false,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
         });
 
@@ -527,10 +540,10 @@ describe('components/ToastWrapper', () => {
                 isNewMessageLineReached: false,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(true);
 
-            wrapper.setProps({isNewMessageLineReached: true});
+            wrapper.setProps({ isNewMessageLineReached: true });
             expect(wrapper.state('showUnreadWithBottomStartToast')).toBe(false);
         });
     });
@@ -543,7 +556,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance() as ToastWrapperClass;
@@ -558,7 +571,7 @@ describe('components/ToastWrapper', () => {
                 atLatestPost: false,
                 atBottom: false,
             };
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             expect(wrapper.state('showMessageHistoryToast')).toBe(true);
 
             const instance = wrapper.instance() as ToastWrapperClass;
@@ -576,7 +589,7 @@ describe('components/ToastWrapper', () => {
                 showSearchHintToast: true,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
             expect(wrapper.find('.toast__hint')).toEqual({});
         });
@@ -589,7 +602,7 @@ describe('components/ToastWrapper', () => {
                 atBottom: false,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
             expect(wrapper.find('.toast__hint')).toEqual({});
         });
@@ -600,7 +613,7 @@ describe('components/ToastWrapper', () => {
                 showSearchHintToast: true,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
 
             expect(wrapper.find('.toast__hint')).toBeDefined();
         });
@@ -613,7 +626,7 @@ describe('components/ToastWrapper', () => {
                 onSearchHintDismiss: dismissHandler,
             };
 
-            const wrapper = shallowWithIntl(<ToastWrapper {...props}/>);
+            const wrapper = shallowWithIntl(<ToastWrapper {...props} />);
             const instance = wrapper.instance() as ToastWrapperClass;
 
             instance.hideSearchHintToast();
@@ -630,7 +643,7 @@ describe('components/ToastWrapper', () => {
                 newRecentMessagesCount: 5,
                 showScrollToBottomToast: true,
             };
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
             const scrollToBottomToast = screen.queryByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             expect(scrollToBottomToast).not.toBeInTheDocument();
         });
@@ -644,7 +657,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: true,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
 
             const scrollToBottomToast = screen.queryByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             expect(scrollToBottomToast).not.toBeInTheDocument();
@@ -656,7 +669,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: false,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
 
             const scrollToBottomToast = screen.queryByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             expect(scrollToBottomToast).not.toBeInTheDocument();
@@ -669,7 +682,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: true,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
 
             const scrollToBottomToast = screen.queryByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             expect(scrollToBottomToast).toBeInTheDocument();
@@ -682,7 +695,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: true,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
 
             const scrollToBottomToast = screen.queryByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             const hintToast = screen.queryByTestId(HINT_TOAST_TESTID);
@@ -698,7 +711,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: true,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
             const scrollToBottomToast = screen.getByTestId(SCROLL_TO_BOTTOM_TOAST_TESTID);
             fireEvent.click(scrollToBottomToast);
 
@@ -715,7 +728,7 @@ describe('components/ToastWrapper', () => {
                 showScrollToBottomToast: true,
             };
 
-            renderWithContext(<ToastWrapper {...props}/>);
+            renderWithContext(<ToastWrapper {...props} />);
             const scrollToBottomToastDismiss = screen.getByTestId(SCROLL_TO_BOTTOM_DISMISS_BUTTON_TESTID);
             fireEvent.click(scrollToBottomToastDismiss);
 

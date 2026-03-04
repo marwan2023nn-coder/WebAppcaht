@@ -47,7 +47,7 @@ export default function AppBar() {
     const [coreProductComponents, pluginComponents] = partition(
         appBarPluginComponents.filter(({pluginId}) => pluginId !== 'jitsi'),
         ({pluginId}) => {
-        return coreProductsPluginIds.includes(pluginId);
+            return coreProductsPluginIds.includes(pluginId);
         },
     );
 

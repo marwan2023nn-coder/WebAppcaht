@@ -2,24 +2,24 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import {FormattedMessage, injectIntl} from 'react-intl';
-import type {IntlShape, WrappedComponentProps} from 'react-intl';
-import type {RouteComponentProps} from 'react-router-dom';
+import { FormattedMessage, injectIntl } from 'react-intl';
+import type { IntlShape, WrappedComponentProps } from 'react-intl';
+import type { RouteComponentProps } from 'react-router-dom';
 
-import {Preferences} from 'workspace-redux/constants';
-import {getNewMessagesIndex} from 'workspace-redux/utils/post_list';
+import { Preferences } from 'workspace-redux/constants';
+import { getNewMessagesIndex } from 'workspace-redux/utils/post_list';
 
-import {HintToast} from 'components/hint-toast/hint_toast';
+import { HintToast } from 'components/hint-toast/hint_toast';
 import ScrollToBottomToast from 'components/scroll_to_bottom_toast';
-import {SearchShortcut} from 'components/search_shortcut';
-import Timestamp, {RelativeRanges} from 'components/timestamp';
+import { SearchShortcut } from 'components/search_shortcut';
+import Timestamp, { RelativeRanges } from 'components/timestamp';
 import Toast from 'components/toast/toast';
 
-import {getHistory} from 'utils/browser_history';
+import { getHistory } from 'utils/browser_history';
 import Constants from 'utils/constants';
-import {isToday} from 'utils/datetime';
-import {isKeyPressed} from 'utils/keyboard';
-import {isIdNotPost} from 'utils/post_utils';
+import { isToday } from 'utils/datetime';
+import { isKeyPressed } from 'utils/keyboard';
+import { isIdNotPost } from 'utils/post_utils';
 
 import './toast__wrapper.scss';
 
@@ -29,7 +29,7 @@ const TOAST_REL_RANGES = [
     RelativeRanges.TODAY_YESTERDAY,
 ];
 
-export type Props = WrappedComponentProps & RouteComponentProps<{team: string}> & {
+export type Props = WrappedComponentProps & RouteComponentProps<{ team: string }> & {
     channelMarkedAsUnread?: boolean;
     postListIds: string[];
     latestPostTimeStamp?: number;
@@ -103,7 +103,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
     };
 
     static getDerivedStateFromProps(props: Props, prevState: State) {
-        let {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = prevState;
+        let { showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast } = prevState;
         let unreadCount;
 
         if (props.atLatestPost) {
@@ -119,7 +119,11 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
                 unreadCount = prevState.unreadCountInChannel;
             }
         } else {
-            unreadCount = prevState.unreadCountInChannel + props.newRecentMessagesCount;
+            unreadCount = (prevState.unreadCountInChannel || props.unreadCountInChannel) + props.newRecentMessagesCount;
+        }
+
+        if (props.atLatestPost && unreadCount === 0 && (props.unreadCountInChannel > 0 || props.newRecentMessagesCount > 0)) {
+            unreadCount = props.unreadCountInChannel || props.newRecentMessagesCount;
         }
 
         // show unread toast on mount when channel is not at bottom and unread count greater than 0
@@ -178,20 +182,21 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             lastViewedAt: props.lastViewedAt,
             atBottom: props.atBottom,
             channelMarkedAsUnread: props.channelMarkedAsUnread,
+            unreadCountInChannel: props.unreadCountInChannel,
             showMessageHistoryToast,
         };
     }
 
     componentDidMount() {
         this.mounted = true;
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = this.state;
+        const { showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast } = this.state;
         const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast || showUnreadWithBottomStartToast);
         document.addEventListener('keydown', this.handleShortcut);
         this.props.actions.updateToastStatus(toastPresent);
     }
 
     componentDidUpdate(prevProps: Props, prevState: State) {
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast} = this.state;
+        const { showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast } = this.state;
         const {
             atBottom,
             atLatestPost,
@@ -219,9 +224,9 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
         }
 
         const toastStateChanged = prevState.showUnreadToast !== showUnreadToast ||
-                                  prevState.showNewMessagesToast !== showNewMessagesToast ||
-                                  prevState.showMessageHistoryToast !== showMessageHistoryToast ||
-                                  prevState.showUnreadWithBottomStartToast !== showUnreadWithBottomStartToast;
+            prevState.showNewMessagesToast !== showNewMessagesToast ||
+            prevState.showMessageHistoryToast !== showMessageHistoryToast ||
+            prevState.showUnreadWithBottomStartToast !== showUnreadWithBottomStartToast;
 
         if (toastStateChanged) {
             const toastPresent = Boolean(showUnreadToast || showNewMessagesToast || showMessageHistoryToast || showUnreadWithBottomStartToast);
@@ -312,7 +317,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
             <FormattedMessage
                 id='postlist.toast.newMessages'
                 defaultMessage={'{count, number} new {count, plural, one {message} other {messages}}'}
-                values={{count}}
+                values={{ count }}
             />
         );
     };
@@ -332,14 +337,14 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
                 id='postlist.toast.searchHint'
                 defaultMessage='Tip: Try {searchShortcut} to search this channel'
                 values={{
-                    searchShortcut: <SearchShortcut/>,
+                    searchShortcut: <SearchShortcut />,
                 }}
             />
         );
     };
 
     changeUrlToRemountChannelView = () => {
-        const {match} = this.props;
+        const { match } = this.props;
 
         // Inorder of mount the channel view we are redirecting to /team url to load the channel again
         // Todo: Can be changed to dispatch if we put focussedPostId in redux state.
@@ -347,7 +352,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
     };
 
     scrollToNewMessage = () => {
-        const {focusedPostId, atLatestPost, scrollToNewMessage, updateLastViewedBottomAt} = this.props;
+        const { focusedPostId, atLatestPost, scrollToNewMessage, updateLastViewedBottomAt } = this.props;
 
         // if latest set of posts are not loaded in the view then we cannot scroll to the message
         // We will be chaging the url to remount the channel view so we can remove the focussedPostId react state
@@ -363,7 +368,7 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
     };
 
     scrollToLatestMessages = () => {
-        const {focusedPostId, atLatestPost, scrollToLatestMessages} = this.props;
+        const { focusedPostId, atLatestPost, scrollToLatestMessages } = this.props;
 
         if (focusedPostId) {
             if (!atLatestPost) {
@@ -384,8 +389,8 @@ export class ToastWrapperClass extends React.PureComponent<Props, State> {
     };
 
     getToastToRender() {
-        const {atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast, showScrollToBottomToast} = this.props;
-        const {showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast, unreadCount} = this.state;
+        const { atLatestPost, atBottom, width, lastViewedAt, showSearchHintToast, showScrollToBottomToast } = this.props;
+        const { showUnreadToast, showNewMessagesToast, showMessageHistoryToast, showUnreadWithBottomStartToast, unreadCount } = this.state;
 
         const unreadToastProps = {
             show: true,

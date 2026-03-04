@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { ClientLicense, ClientConfig } from '@workspace/types/config';
-import type { ScheduledPost, ScheduledPostsState } from '@workspace/types/schedule_post';
-import type { GlobalState } from '@workspace/types/store';
+import type {ClientLicense, ClientConfig} from '@workspace/types/config';
+import type {ScheduledPost, ScheduledPostsState} from '@workspace/types/schedule_post';
+import type {GlobalState} from '@workspace/types/store';
 
-import { createSelector } from 'workspace-redux/selectors/create_selector';
-import { getConfig, getLicense } from 'workspace-redux/selectors/entities/general';
+import {createSelector} from 'workspace-redux/selectors/create_selector';
+import {getConfig, getLicense} from 'workspace-redux/selectors/entities/general';
 
 const emptyList: string[] = [];
 
@@ -78,8 +78,6 @@ export function showChannelOrThreadScheduledPostIndicator(state: GlobalState, ch
     return data;
 }
 
-export const isScheduledPostsEnabled: (a: GlobalState) => boolean = (state: GlobalState) => true;
-/*
 export const isScheduledPostsEnabled: (a: GlobalState) => boolean = createSelector(
     'isScheduledPostsEnabled',
     getConfig,
@@ -88,4 +86,3 @@ export const isScheduledPostsEnabled: (a: GlobalState) => boolean = createSelect
         return config.ScheduledPosts === 'true' && license.IsLicensed === 'true';
     },
 );
-*/

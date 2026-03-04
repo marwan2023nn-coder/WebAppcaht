@@ -9,7 +9,7 @@ import {createElement, PureComponent} from 'react';
 
 import ListItem from './list_item';
 
-const atBottomMargin = 500;
+const atBottomMargin = 10;
 
 export class DynamicVirtualizedList extends PureComponent {
     _listMetaData = {
@@ -133,15 +133,19 @@ export class DynamicVirtualizedList extends PureComponent {
         this._commitHook();
     }
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     getSnapshotBeforeUpdate(_, prevState) {
-        const element = this._outerRef;
-        const previousScrollTop = element.scrollTop;
-        const previousScrollHeight = element.scrollHeight;
-        return {
-            previousScrollTop,
-            previousScrollHeight,
-        };
+        if (prevState.localOlderPostsToRender[0] !== this.state.localOlderPostsToRender[0] ||
+            prevState.localOlderPostsToRender[1] !== this.state.localOlderPostsToRender[1]
+        ) {
+            const element = this._outerRef;
+            const previousScrollTop = element.scrollTop;
+            const previousScrollHeight = element.scrollHeight;
+            return {
+                previousScrollTop,
+                previousScrollHeight,
+            };
+        }
+        return null;
     }
 
     componentDidUpdate(prevProps, prevState, snapshot) {
@@ -177,23 +181,6 @@ export class DynamicVirtualizedList extends PureComponent {
         this._commitHook();
         if (prevProps.itemData !== this.props.itemData) {
             this._dataChange();
-
-            // Smart Force Scroll: Only force scroll if:
-            // 1. A new post was added at the bottom (latest post changed)
-            // 2. We were previously within 500px of the bottom
-            const postsAddedAtBottom = prevProps.itemData.length > 0 && this.props.itemData.length > 0 && prevProps.itemData[0] !== this.props.itemData[0];
-
-            if (postsAddedAtBottom && snapshot) {
-                const distanceFromBottom = snapshot.previousScrollHeight - snapshot.previousScrollTop - this.props.height;
-                if (distanceFromBottom < 500) {
-                    // Double rAF to wait for layout and paint to stabilize
-                    window.requestAnimationFrame(() => {
-                        window.requestAnimationFrame(() => {
-                            this.scrollToItem(0, 'end');
-                        });
-                    });
-                }
-            }
         }
 
         if (prevProps.height !== this.props.height) {

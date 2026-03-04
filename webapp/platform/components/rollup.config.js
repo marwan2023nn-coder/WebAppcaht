@@ -6,7 +6,7 @@ import resolve from '@rollup/plugin-node-resolve';
 import typescript from '@rollup/plugin-typescript';
 import scss from 'rollup-plugin-scss';
 import path from 'path';
-import {fileURLToPath} from 'url';
+import { fileURLToPath } from 'url';
 
 import packagejson from './package.json';
 
@@ -36,14 +36,10 @@ export default [
                 sourcemap: true,
                 file: packagejson.module,
                 format: 'es',
-                globals: {'styled-components': 'styled'},
+                globals: { 'styled-components': 'styled' },
             },
         ],
         plugins: [
-            scss({
-                fileName: 'index.esm.css',
-                outputToFilesystem: true,
-            }),
             resolve({
                 browser: true,
                 extensions: ['.ts', '.tsx'],
@@ -52,8 +48,12 @@ export default [
                     path.resolve(webappRoot, 'node_modules'),
                 ],
             }),
-            commonjs(),
             typescript({
+                outputToFilesystem: true,
+            }),
+            commonjs(),
+            scss({
+                fileName: 'index.esm.css',
                 outputToFilesystem: true,
             }),
         ],

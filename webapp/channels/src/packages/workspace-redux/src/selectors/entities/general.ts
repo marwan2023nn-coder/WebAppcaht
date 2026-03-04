@@ -12,29 +12,7 @@ import {isMinimumServerVersion} from 'workspace-redux/utils/helpers';
 import type {CWSAvailabilityState} from '../../reducers/entities/general';
 
 export function getConfig(state: GlobalState): Partial<ClientConfig> {
-    const config = state.entities.general.config;
-    if (config) {
-        return {
-            ...config,
-            FeatureFlagChannelBookmarks: 'true',
-            FeatureFlagAttributeBasedAccessControl: 'true',
-            FeatureFlagRemoteClusterService: 'true',
-            FeatureFlagAppsEnabled: 'true',
-            FeatureFlagGraphQL: 'true',
-            FeatureFlagEnableSharedChannelsDMs: 'true',
-            ScheduledPosts: 'true',
-            PostPriority: 'true',
-            PostAcknowledgements: 'true',
-            AllowPersistentNotifications: 'true',
-            AllowPersistentNotificationsForGuests: 'true',
-            PersistentNotificationIntervalMinutes: '1',
-            PersistentNotificationMaxRecipients: '100',
-            EnableRecaps: 'true',
-            WebsocketEventScope: 'true',
-            MaxPostSize: '16384',
-        } as any;
-    }
-    return config;
+    return state.entities.general.config;
 }
 
 /**
@@ -67,14 +45,7 @@ export const getPasswordConfig: (state: GlobalState) => PasswordConfig = createS
 );
 
 export function getLicense(state: GlobalState): ClientLicense {
-    const license = state.entities.general.license;
-    if (license) {
-        return {
-            ...license,
-            IsLicensed: 'true',
-        };
-    }
-    return license;
+    return state.entities.general.license;
 }
 
 export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
@@ -86,8 +57,8 @@ export const isCloudLicense: (state: GlobalState) => boolean = createSelector(
 export function isCompatibleWithJoinViewTeamPermissions(state: GlobalState): boolean {
     const version = state.entities.general.serverVersion;
     return isMinimumServerVersion(version, 5, 10, 0) ||
-        (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 5, 8, 0)) ||
-        (version.match(/^5.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 5, 8, 0));
+       (version.indexOf('dev') !== -1 && isMinimumServerVersion(version, 5, 8, 0)) ||
+       (version.match(/^5.8.\d.\d\d\d\d.*$/) !== null && isMinimumServerVersion(version, 5, 8, 0));
 }
 
 export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelector(
@@ -97,7 +68,7 @@ export const canUploadFilesOnMobile: (a: GlobalState) => boolean = createSelecto
     (config: Partial<ClientConfig>, license: any): boolean => {
         // Defaults to true if either setting doesn't exist
         return config.EnableFileAttachments !== 'false' &&
-            (license.IsLicensed === 'false' || license.Compliance === 'false' || config.EnableMobileFileUpload !== 'false');
+           (license.IsLicensed === 'false' || license.Compliance === 'false' || config.EnableMobileFileUpload !== 'false');
     },
 );
 

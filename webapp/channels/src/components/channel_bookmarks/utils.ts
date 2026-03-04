@@ -1,29 +1,29 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import { useEffect, useMemo, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import {useEffect, useMemo, useState} from 'react';
+import {useDispatch, useSelector} from 'react-redux';
 
-import type { Channel } from '@workspace/types/channels';
-import type { GlobalState } from '@workspace/types/store';
+import type {Channel} from '@workspace/types/channels';
+import type {GlobalState} from '@workspace/types/store';
 
-import { Permissions } from 'workspace-redux/constants';
-import { getChannelBookmarks } from 'workspace-redux/selectors/entities/channel_bookmarks';
-import { getChannel, getMyChannelMember } from 'workspace-redux/selectors/entities/channels';
-import { getConfig, getFeatureFlagValue, getLicense } from 'workspace-redux/selectors/entities/general';
-import { haveIChannelPermission } from 'workspace-redux/selectors/entities/roles';
-import { insertWithoutDuplicates } from 'workspace-redux/utils/array_utils';
+import {Permissions} from 'workspace-redux/constants';
+import {getChannelBookmarks} from 'workspace-redux/selectors/entities/channel_bookmarks';
+import {getChannel, getMyChannelMember} from 'workspace-redux/selectors/entities/channels';
+import {getConfig, getFeatureFlagValue, getLicense} from 'workspace-redux/selectors/entities/general';
+import {haveIChannelPermission} from 'workspace-redux/selectors/entities/roles';
+import {insertWithoutDuplicates} from 'workspace-redux/utils/array_utils';
 
-import { fetchChannelBookmarks, reorderBookmark } from 'actions/channel_bookmarks';
-import { loadCustomEmojisIfNeeded } from 'actions/emoji_actions';
+import {fetchChannelBookmarks, reorderBookmark} from 'actions/channel_bookmarks';
+import {loadCustomEmojisIfNeeded} from 'actions/emoji_actions';
 
 import Constants from 'utils/constants';
-import { trimmedEmojiName } from 'utils/emoji_utils';
-import { canUploadFiles, isPublicLinksEnabled } from 'utils/file_utils';
+import {trimmedEmojiName} from 'utils/emoji_utils';
+import {canUploadFiles, isPublicLinksEnabled} from 'utils/file_utils';
 
 export const MAX_BOOKMARKS_PER_CHANNEL = 50;
 
-const { OPEN_CHANNEL, PRIVATE_CHANNEL, GM_CHANNEL, DM_CHANNEL } = Constants as { OPEN_CHANNEL: 'O'; PRIVATE_CHANNEL: 'P'; GM_CHANNEL: 'G'; DM_CHANNEL: 'D' };
+const {OPEN_CHANNEL, PRIVATE_CHANNEL, GM_CHANNEL, DM_CHANNEL} = Constants as {OPEN_CHANNEL: 'O'; PRIVATE_CHANNEL: 'P'; GM_CHANNEL: 'G'; DM_CHANNEL: 'D'};
 
 type TAction = 'add' | 'edit' | 'delete' | 'order';
 type TActionKey = `${TAction}${typeof OPEN_CHANNEL | typeof PRIVATE_CHANNEL}`;
@@ -62,7 +62,7 @@ export const getHaveIChannelBookmarkPermission = (state: GlobalState, channelId:
         return false;
     }
 
-    const { type } = channel;
+    const {type} = channel;
 
     if (type === 'threads') {
         return false;
@@ -91,18 +91,15 @@ export const useCanGetLinkPreviews = () => {
 };
 
 export const getIsChannelBookmarksEnabled = (state: GlobalState) => {
-    return true;
-    /*
-        const isEnabled = getFeatureFlagValue(state, 'ChannelBookmarks') === 'true';
-    
-        if (!isEnabled) {
-            return false;
-        }
-    
-        const license = getLicense(state);
-    
-        return license?.IsLicensed === 'true';
-    */
+    const isEnabled = getFeatureFlagValue(state, 'ChannelBookmarks') === 'true';
+
+    if (!isEnabled) {
+        return false;
+    }
+
+    const license = getLicense(state);
+
+    return license?.IsLicensed === 'true';
 };
 
 export const useChannelBookmarks = (channelId: string) => {
@@ -127,7 +124,7 @@ export const useChannelBookmarks = (channelId: string) => {
     }, [channelId]);
 
     useEffect(() => {
-        const emojis = Object.values(bookmarks).reduce<string[]>((result, { emoji }) => {
+        const emojis = Object.values(bookmarks).reduce<string[]>((result, {emoji}) => {
             if (emoji) {
                 result.push(trimmedEmojiName(emoji));
             }
@@ -142,7 +139,7 @@ export const useChannelBookmarks = (channelId: string) => {
 
     const reorder = async (id: string, prevOrder: number, nextOrder: number) => {
         setTempOrder(insertWithoutDuplicates(order, id, nextOrder));
-        const { error } = await dispatch(reorderBookmark(channelId, id, nextOrder));
+        const {error} = await dispatch(reorderBookmark(channelId, id, nextOrder));
 
         if (error) {
             setTempOrder(undefined);

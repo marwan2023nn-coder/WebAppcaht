@@ -3,7 +3,7 @@
 
 import {combineReducers} from 'redux';
 
-import {UserTypes, TeamTypes} from 'workspace-redux/action_types';
+import {UserTypes} from 'workspace-redux/action_types';
 
 import {ActionTypes} from 'utils/constants';
 
@@ -49,18 +49,6 @@ function menuActions(state: {[postId: string]: {[actionId: string]: {text: strin
             nextState[action.data.postId] = action.data.actions;
         }
         return nextState;
-    }
-    case ActionTypes.REMOVE_POST:
-    case ActionTypes.POST_DELETED: {
-        if (!action.data || !state[action.data.id]) {
-            return state;
-        }
-        const nextState = {...state};
-        delete nextState[action.data.id];
-        return nextState;
-    }
-    case TeamTypes.SELECT_TEAM: {
-        return {};
     }
     case UserTypes.LOGOUT_SUCCESS:
         return {};

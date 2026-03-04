@@ -3,8 +3,6 @@
 
 import React from 'react';
 import {FormattedMessage} from 'react-intl';
-import {FixedSizeList as List} from 'react-window';
-import AutoSizer from 'react-virtualized-auto-sizer';
 
 import type {Channel, ChannelMembership} from '@workspace/types/channels';
 import type {TeamMembership} from '@workspace/types/teams';
@@ -66,12 +64,30 @@ export default class UserList extends React.PureComponent <Props> {
         const users = this.props.users;
         const RowComponentType = this.props.rowComponentType;
 
+        let content;
         if (users == null) {
             return <LoadingScreen/>;
-        }
-
-        if (users.length === 0) {
-            return (
+        } else if (users.length > 0 && RowComponentType && this.props.actionProps) {
+            content = users.map((user: UserProfile, index: number) => {
+                const {actionUserProps, extraInfo} = this.props;
+                const userId = user.id;
+                return (
+                    <RowComponentType
+                        key={user.id}
+                        user={user}
+                        extraInfo={extraInfo?.[userId]}
+                        actions={this.props.actions}
+                        actionProps={this.props.actionProps}
+                        actionUserProps={actionUserProps?.[userId]}
+                        index={index}
+                        totalUsers={users.length}
+                        userCount={index >= 0 ? index : -1}
+                        isDisabled={this.props.isDisabled}
+                    />
+                );
+            });
+        } else {
+            content = (
                 <div
                     key='no-users-found'
                     className='more-modal__placeholder-row no-users-found'
@@ -87,54 +103,9 @@ export default class UserList extends React.PureComponent <Props> {
             );
         }
 
-        if (!RowComponentType || !this.props.actionProps) {
-            return null;
-        }
-
-        const {actionUserProps, extraInfo, actions, actionProps, isDisabled} = this.props;
-
-        const Row = ({index, style}: {index: number; style: React.CSSProperties}) => {
-            const user = users[index];
-            if (!user) {
-                return null;
-            }
-            return (
-                <div style={style}>
-                    <RowComponentType
-                        key={user.id}
-                        user={user}
-                        extraInfo={extraInfo?.[user.id]}
-                        actions={actions}
-                        actionProps={actionProps}
-                        actionUserProps={actionUserProps?.[user.id]}
-                        index={index}
-                        totalUsers={users.length}
-                        userCount={index}
-                        isDisabled={isDisabled}
-                    />
-                </div>
-            );
-        };
-
         return (
-            <div
-                ref={this.containerRef}
-                className='user-list-container'
-                style={{flex: '1 1 auto', height: '100%', minHeight: '400px'}}
-            >
-                <AutoSizer>
-                    {({height, width}) => (
-                        <List
-                            height={height}
-                            itemCount={users.length}
-                            itemSize={65}
-                            width={width}
-                            overscanCount={5}
-                        >
-                            {Row}
-                        </List>
-                    )}
-                </AutoSizer>
+            <div ref={this.containerRef}>
+                {content}
             </div>
         );
     }

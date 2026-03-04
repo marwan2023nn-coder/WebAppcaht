@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { LogObject } from '@workspace/types/admin';
-import type { DataRetentionCustomPolicies, DataRetentionCustomPolicy } from '@workspace/types/data_retention';
-import type { PluginStatusRedux } from '@workspace/types/plugins';
-import type { GlobalState } from '@workspace/types/store';
+import type {LogObject} from '@workspace/types/admin';
+import type {DataRetentionCustomPolicies, DataRetentionCustomPolicy} from '@workspace/types/data_retention';
+import type {PluginStatusRedux} from '@workspace/types/plugins';
+import type {GlobalState} from '@workspace/types/store';
 
-import { createSelector } from 'workspace-redux/selectors/create_selector';
+import {createSelector} from 'workspace-redux/selectors/create_selector';
 
 export function getLogs(state: GlobalState) {
     return state.entities.admin.logs;
@@ -45,7 +45,7 @@ export function getLdapGroupsCount(state: GlobalState) {
 }
 
 export function getEnvironmentConfig(state: GlobalState) {
-    return {}; // Force empty environment config to unlock UI
+    return state.entities.admin.environmentConfig;
 }
 
 export function getComplianceReports(state: GlobalState) {

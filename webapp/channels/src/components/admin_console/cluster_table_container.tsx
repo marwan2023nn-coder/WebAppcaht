@@ -1,12 +1,12 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type { MouseEvent } from 'react';
+import React, {useCallback, useEffect, useRef, useState} from 'react';
+import type {MouseEvent} from 'react';
 
-import type { ClusterInfo } from '@workspace/types/admin';
+import type {ClusterInfo} from '@workspace/types/admin';
 
-import { getClusterStatus } from 'actions/admin_actions.jsx';
+import {getClusterStatus} from 'actions/admin_actions.jsx';
 
 import ClusterTable from './cluster_table';
 
@@ -18,7 +18,7 @@ const ClusterTableContainer = () => {
 
     const load = useCallback(() => {
         setClusterInfos(null);
-        getClusterStatus(setClusterInfos, () => setClusterInfos([]));
+        getClusterStatus(setClusterInfos, null);
     }, []);
 
     useEffect(() => {
@@ -42,7 +42,7 @@ const ClusterTableContainer = () => {
     }, [load]);
 
     if (clusterInfos == null) {
-        return (<LoadingScreen />);
+        return (<LoadingScreen/>);
     }
 
     return (

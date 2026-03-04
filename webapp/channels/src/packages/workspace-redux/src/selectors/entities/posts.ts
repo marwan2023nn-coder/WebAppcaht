@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { Channel } from '@workspace/types/channels';
+import type {Channel} from '@workspace/types/channels';
 import type {
     MessageHistory,
     OpenGraphMetadata,
@@ -9,24 +9,24 @@ import type {
     PostAcknowledgement,
     PostOrderBlock,
 } from '@workspace/types/posts';
-import type { Reaction } from '@workspace/types/reactions';
-import type { GlobalState } from '@workspace/types/store';
-import type { Team } from '@workspace/types/teams';
-import type { UserProfile } from '@workspace/types/users';
+import type {Reaction} from '@workspace/types/reactions';
+import type {GlobalState} from '@workspace/types/store';
+import type {Team} from '@workspace/types/teams';
+import type {UserProfile} from '@workspace/types/users';
 import type {
     RelationOneToOne,
     RelationOneToMany,
 } from '@workspace/types/utilities';
 
-import { General, Posts, Preferences } from 'workspace-redux/constants';
-import { createSelector } from 'workspace-redux/selectors/create_selector';
-import { getChannel } from 'workspace-redux/selectors/entities/channels';
-import { getCurrentChannelId, getCurrentUser } from 'workspace-redux/selectors/entities/common';
-import { getConfig } from 'workspace-redux/selectors/entities/general';
-import { getBool, shouldShowJoinLeaveMessages } from 'workspace-redux/selectors/entities/preferences';
-import { getCurrentTeamId } from 'workspace-redux/selectors/entities/teams';
-import { getUsers, getCurrentUserId, getUserStatuses } from 'workspace-redux/selectors/entities/users';
-import { createIdsSelector } from 'workspace-redux/utils/helpers';
+import {General, Posts, Preferences} from 'workspace-redux/constants';
+import {createSelector} from 'workspace-redux/selectors/create_selector';
+import {getChannel} from 'workspace-redux/selectors/entities/channels';
+import {getCurrentChannelId, getCurrentUser} from 'workspace-redux/selectors/entities/common';
+import {getConfig} from 'workspace-redux/selectors/entities/general';
+import {getBool, shouldShowJoinLeaveMessages} from 'workspace-redux/selectors/entities/preferences';
+import {getCurrentTeamId} from 'workspace-redux/selectors/entities/teams';
+import {getUsers, getCurrentUserId, getUserStatuses} from 'workspace-redux/selectors/entities/users';
+import {createIdsSelector} from 'workspace-redux/utils/helpers';
 import {
     isPostEphemeral,
     isSystemMessage,
@@ -35,7 +35,7 @@ import {
     isPostPendingOrFailed,
     isPostCommentMention,
 } from 'workspace-redux/utils/post_utils';
-import { isGuest } from 'workspace-redux/utils/user_utils';
+import {isGuest} from 'workspace-redux/utils/user_utils';
 
 export function getAllPosts(state: GlobalState) {
     return state.entities.posts.posts;
@@ -124,7 +124,7 @@ export function makeGetPostIdsForThread(): (state: GlobalState, postId: Post['id
     );
 }
 
-export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id']) => PostOrderBlock | null | undefined {
+export function makeGetPostsChunkAroundPost(): (state: GlobalState, postId: Post['id'], channelId: Channel['id']) => PostOrderBlock| null | undefined {
     return createIdsSelector(
         'makeGetPostsChunkAroundPost',
         (state: GlobalState, postId: string, channelId: string) => state.entities.posts.postsInChannel[channelId],
@@ -287,7 +287,7 @@ export function makeGetProfilesForThread(): (state: GlobalState, rootId: string)
             const profileIds = posts.map((post) => post.user_id).filter(Boolean);
             const uniqueIds = [...new Set(profileIds)];
             return uniqueIds.reduce((acc: UserProfile[], id: string) => {
-                const profile: UserProfile = userStatuses ? { ...allUsers[id], status: userStatuses[id] } : { ...allUsers[id] };
+                const profile: UserProfile = userStatuses ? {...allUsers[id], status: userStatuses[id]} : {...allUsers[id]};
 
                 if (profile && Object.keys(profile).length > 0 && currentUserId !== id) {
                     return [
@@ -351,7 +351,7 @@ export function getSearchMatches(state: GlobalState): {
     return state.entities.search.matches;
 }
 
-export function makeGetMessageInHistoryItem(type: 'post' | 'comment'): (state: GlobalState) => string {
+export function makeGetMessageInHistoryItem(type: 'post'|'comment'): (state: GlobalState) => string {
     return createSelector(
         'makeGetMessageInHistoryItem',
         (state: GlobalState) => state.entities.posts.messagesHistory,
@@ -475,7 +475,7 @@ export function getPostsChunkInChannelAroundTime(state: GlobalState, channelId: 
     }
 
     const blockAroundTimestamp = postsForChannel.find((block) => {
-        const { order } = block;
+        const {order} = block;
         const recentPostInBlock = posts[order[0]];
         const oldestPostInBlock = posts[order[order.length - 1]];
         if (recentPostInBlock && oldestPostInBlock) {
@@ -514,7 +514,7 @@ export function getUnreadPostsChunk(state: GlobalState, channelId: Channel['id']
             return recentChunk;
         }
 
-        const { order } = recentChunk;
+        const {order} = recentChunk;
         const oldestPostInBlock = posts[order[order.length - 1]];
 
         // check for only oldest posts because this can be higher than the latest post if the last post is edited
@@ -526,7 +526,7 @@ export function getUnreadPostsChunk(state: GlobalState, channelId: Channel['id']
     const oldestPostsChunk = getOldestPostsChunkInChannel(state, channelId);
 
     if (oldestPostsChunk && oldestPostsChunk.order.length) {
-        const { order } = oldestPostsChunk;
+        const {order} = oldestPostsChunk;
         const oldestPostInBlock = posts[order[order.length - 1]];
 
         if (oldestPostInBlock.create_at >= timeStamp) {
@@ -553,7 +553,7 @@ export const isPostsChunkIncludingUnreadsPosts = (state: GlobalState, chunk: Pos
         return false;
     }
 
-    const { order } = chunk;
+    const {order} = chunk;
     const oldestPostInBlock = posts[order[order.length - 1]];
 
     return oldestPostInBlock.create_at <= timeStamp;
@@ -594,7 +594,7 @@ export const makeIsPostCommentMention = (): ((state: GlobalState, postId: Post['
 
                 const rootPost = allPosts[rootId];
 
-                isCommentMention = isPostCommentMention({ post, currentUser, threadRepliedToByCurrentUser, rootPost });
+                isCommentMention = isPostCommentMention({post, currentUser, threadRepliedToByCurrentUser, rootPost});
             }
 
             return isCommentMention;
@@ -607,27 +607,21 @@ export function getLimitedViews(state: GlobalState): GlobalState['entities']['po
 }
 
 export function isPostPriorityEnabled(state: GlobalState) {
-    return true; // getConfig(state).PostPriority === 'true';
+    return getConfig(state).PostPriority === 'true';
 }
 
 export function isPostAcknowledgementsEnabled(state: GlobalState) {
-    return true;
-    /*
-        return (
-            isPostPriorityEnabled(state) &&
-            getConfig(state).PostAcknowledgements === 'true'
-        );
-    */
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).PostAcknowledgements === 'true'
+    );
 }
 
 export function getAllowPersistentNotifications(state: GlobalState) {
-    return true;
-    /*
-        return (
-            isPostPriorityEnabled(state) &&
-            getConfig(state).AllowPersistentNotifications === 'true'
-        );
-    */
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).AllowPersistentNotifications === 'true'
+    );
 }
 
 export function getPersistentNotificationMaxRecipients(state: GlobalState) {
@@ -639,21 +633,16 @@ export function getPersistentNotificationIntervalMinutes(state: GlobalState) {
 }
 
 export function getAllowPersistentNotificationsForGuests(state: GlobalState) {
-    return true;
-    /*
-        return (
-            isPostPriorityEnabled(state) &&
-            getConfig(state).AllowPersistentNotificationsForGuests === 'true'
-        );
-    */
+    return (
+        isPostPriorityEnabled(state) &&
+        getConfig(state).AllowPersistentNotificationsForGuests === 'true'
+    );
 }
 
 export function getPostAcknowledgements(state: GlobalState, postId: Post['id']): Record<UserProfile['id'], PostAcknowledgement['acknowledged_at']> {
     return state.entities.posts.acknowledgements[postId];
 }
 
-export const isPersistentNotificationsEnabled = (state: GlobalState) => true;
-/*
 export const isPersistentNotificationsEnabled = createSelector(
     'getPersistentNotificationsEnabled',
     getCurrentUser,
@@ -661,9 +650,8 @@ export const isPersistentNotificationsEnabled = createSelector(
     getAllowPersistentNotificationsForGuests,
     (user, forAll, forGuests) => (isGuest(user.roles) ? (forAll && forGuests) : forAll),
 );
-*/
 
-export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{ user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at'] }> {
+export function makeGetPostAcknowledgementsWithProfiles(): (state: GlobalState, postId: Post['id']) => Array<{user: UserProfile; acknowledgedAt: PostAcknowledgement['acknowledged_at']}> {
     return createSelector(
         'makeGetPostAcknowledgementsWithProfiles',
         getUsers,

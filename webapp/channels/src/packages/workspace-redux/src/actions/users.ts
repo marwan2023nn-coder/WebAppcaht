@@ -350,7 +350,7 @@ export enum ProfilesInChannelSortBy {
     Admin = 'admin',
 }
 
-export function getProfilesInChannel(channelId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: { active?: boolean } = {}): ActionFuncAsync<UserProfile[]> {
+export function getProfilesInChannel(channelId: string, page: number, perPage: number = General.PROFILE_CHUNK_SIZE, sort = '', options: {active?: boolean} = {}): ActionFuncAsync<UserProfile[]> {
     return async (dispatch, getState) => {
         let profiles;
 
@@ -644,7 +644,7 @@ export function getUserByEmail(email: string) {
     });
 }
 
-export function canUserDirectMessage(userId: string, otherUserId: string): ActionFuncAsync<{ can_dm: boolean }> {
+export function canUserDirectMessage(userId: string, otherUserId: string): ActionFuncAsync<{can_dm: boolean}> {
     return async (dispatch, getState) => {
         try {
             const result = await Client4.canUserDirectMessage(userId, otherUserId);
@@ -1268,8 +1268,7 @@ export function createUserAccessToken(userId: string, description: string): Acti
 
         const actions: AnyAction[] = [{
             type: AdminTypes.RECEIVED_USER_ACCESS_TOKEN,
-            data: {
-                ...data,
+            data: {...data,
                 token: '',
             },
         }];
@@ -1441,39 +1440,7 @@ export function checkForModifiedUsers(): ActionFuncAsync {
     };
 }
 
-export function deleteUser(userId: string): ActionFuncAsync<true> {
-    return async (dispatch, getState) => {
-        try {
-            await Client4.deleteUser(userId);
-        } catch (error) {
-            dispatch(logError(error));
-            return {error};
-        }
-
-        const profile = getState().entities.users.profiles[userId];
-        if (profile) {
-            dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...profile, delete_at: Date.now()}});
-        }
-
-        return {data: true};
-    };
-}
-
-export function deactivateInactiveUsers(days: number): ActionFuncAsync {
-    return async (dispatch, getState) => {
-        try {
-            const data = await Client4.deactivateInactiveUsers(days);
-            return {data};
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error as ServerError));
-            return {error};
-        }
-    };
-}
-
 export default {
-    deleteUser,
     generateMfaSecret,
     logout,
     getProfiles,
@@ -1516,5 +1483,4 @@ export default {
     disableUserAccessToken,
     enableUserAccessToken,
     checkForModifiedUsers,
-    deactivateInactiveUsers,
 };

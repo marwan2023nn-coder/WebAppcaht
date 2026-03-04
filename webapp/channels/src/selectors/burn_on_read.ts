@@ -1,16 +1,16 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type { ClientLicense } from '@workspace/types/config';
+import type {ClientLicense} from '@workspace/types/config';
 
-import { createSelector } from 'workspace-redux/selectors/create_selector';
-import { getCurrentUserId } from 'workspace-redux/selectors/entities/common';
-import { getConfig, getLicense } from 'workspace-redux/selectors/entities/general';
-import { getInt } from 'workspace-redux/selectors/entities/preferences';
+import {createSelector} from 'workspace-redux/selectors/create_selector';
+import {getCurrentUserId} from 'workspace-redux/selectors/entities/common';
+import {getConfig, getLicense} from 'workspace-redux/selectors/entities/general';
+import {getInt} from 'workspace-redux/selectors/entities/preferences';
 
-import { isMinimumEnterpriseAdvancedLicense } from 'utils/license_utils';
+import {isMinimumEnterpriseAdvancedLicense} from 'utils/license_utils';
 
-import type { GlobalState } from 'types/store';
+import type {GlobalState} from 'types/store';
 
 // Preference category for storing whether user has seen the Burn-on-Read tour tip
 export const BURN_ON_READ_TOUR_TIP_PREFERENCE = 'burn_on_read_tour_tip';
@@ -20,8 +20,6 @@ export const BURN_ON_READ_TOUR_TIP_PREFERENCE = 'burn_on_read_tour_tip';
  * the license supports it (Enterprise Advanced or higher).
  * When enabled, users can send messages that auto-delete after being read by recipients.
  */
-export const isBurnOnReadEnabled: (state: GlobalState) => boolean = (state: GlobalState) => true;
-/*
 export const isBurnOnReadEnabled: (state: GlobalState) => boolean = createSelector(
     'isBurnOnReadEnabled',
     getConfig,
@@ -32,7 +30,6 @@ export const isBurnOnReadEnabled: (state: GlobalState) => boolean = createSelect
         return configEnabled && licenseSupportsFeature;
     },
 );
-*/
 
 /**
  * Returns the configured duration (in minutes) that Burn-on-Read messages

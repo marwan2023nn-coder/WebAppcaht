@@ -2137,7 +2137,7 @@ const AdminDefinition: AdminDefinitionType = {
                     sections: [
                         {
                             key: 'MobileSecuritySettings.General',
-                            title: defineMessage({ id: 'admin.mobileSecurity.sections.general.title', defaultMessage: 'General Mobile Security' }),
+                            title: defineMessage({id: 'admin.mobileSecurity.sections.general.title', defaultMessage: 'General Mobile Security'}),
                             description: defineMessage({ id: 'admin.mobileSecurity.sections.general.description', defaultMessage: 'Configure device security features for the mobile app.' }),
                             settings: [
                                 {
@@ -2189,7 +2189,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'MobileSecuritySettings.Intune',
-                            title: defineMessage({ id: 'admin.mobileSecurity.sections.intune.title', defaultMessage: 'Microsoft Intune' }),
+                            title: defineMessage({id: 'admin.mobileSecurity.sections.intune.title', defaultMessage: 'Microsoft Intune'}),
                             description: defineMessage({ id: 'admin.mobileSecurity.sections.intune.description', defaultMessage: 'Configure Microsoft Intune Mobile Application Management (MAM) for App Protection Policies.' }),
                             license_sku: LicenseSkus.EnterpriseAdvanced,
                             component: LicensedSectionContainer,
@@ -3006,7 +3006,7 @@ const AdminDefinition: AdminDefinitionType = {
                     sections: [
                         {
                             key: 'PostSettings.Threads',
-                            title: defineMessage({ id: 'admin.posts.sections.threads.title', defaultMessage: 'Threads' }),
+                            title: defineMessage({id: 'admin.posts.sections.threads.title', defaultMessage: 'Threads'}),
                             description: defineMessage({ id: 'admin.posts.sections.threads.description', defaultMessage: 'Configure threaded discussions and auto-follow defaults.' }),
                             settings: [
                                 {
@@ -3066,7 +3066,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'PostSettings.Drafts',
-                            title: defineMessage({ id: 'admin.posts.sections.drafts.title', defaultMessage: 'Drafts and Scheduled Posts' }),
+                             title: defineMessage({id: 'admin.posts.sections.drafts.title', defaultMessage: 'Drafts and Scheduled Posts'}),
                             description: defineMessage({ id: 'admin.posts.sections.drafts.description', defaultMessage: 'Control draft syncing and scheduled sending.' }),
                             settings: [
                                 {
@@ -3089,7 +3089,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'PostSettings.Priority',
-                            title: defineMessage({ id: 'admin.posts.sections.priority.title', defaultMessage: 'Priority & Urgent Notifications' }),
+                             title: defineMessage({id: 'admin.posts.sections.priority.title', defaultMessage: 'Priority & Urgent Notifications'}),
                             description: defineMessage({ id: 'admin.posts.sections.priority.description', defaultMessage: 'Set message priority and repeating notifications for urgent delivery.' }),
                             settings: [
                                 {
@@ -3223,7 +3223,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'PostSettings.BurnOnRead',
-                            title: defineMessage({ id: 'admin.posts.sections.burnOnRead.title', defaultMessage: 'Self-Deleting Messages' }),
+                            title: defineMessage({id: 'admin.posts.sections.burnOnRead.title', defaultMessage: 'Self-Deleting Messages'}),
                             description: defineMessage({ id: 'admin.posts.sections.burnOnRead.description', defaultMessage: 'Controls for messages that delete automatically a certain time after being sent or read.' }),
                             license_sku: LicenseSkus.EnterpriseAdvanced,
                             component: LicensedSectionContainer,
@@ -3333,7 +3333,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'PostSettings.Previews',
-                            title: defineMessage({ id: 'admin.posts.sections.previews.title', defaultMessage: 'Content & Previews' }),
+                            title: defineMessage({id: 'admin.posts.sections.previews.title', defaultMessage: 'Content & Previews'}),
                             description: defineMessage({ id: 'admin.posts.sections.previews.description', defaultMessage: 'Configure link previews and how advanced formatting renders.' }),
                             settings: [
                                 {
@@ -3437,7 +3437,7 @@ const AdminDefinition: AdminDefinitionType = {
                         },
                         {
                             key: 'PostSettings.Performance',
-                            title: defineMessage({ id: 'admin.posts.sections.performance.title', defaultMessage: 'Performance & Limits' }),
+                            title: defineMessage({id: 'admin.posts.sections.performance.title', defaultMessage: 'Performance & Limits'}),
                             description: defineMessage({ id: 'admin.posts.sections.performance.description', defaultMessage: 'Configure limits that protect client performance and rendering.' }),
                             settings: [
                                 {
@@ -5929,7 +5929,7 @@ const AdminDefinition: AdminDefinitionType = {
                     it.not(it.licensedForFeature('CustomTermsOfService')),
                     it.not(it.userHasReadPermissionOnResource(RESOURCE_KEYS.COMPLIANCE.CUSTOM_TERMS_OF_SERVICE)),
                 ),
-                isDisabled: () => false,
+                isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.COMPLIANCE.CUSTOM_TERMS_OF_SERVICE)),
                 schema: {
                     id: 'TermsOfServiceSettings',
                     component: CustomTermsOfServiceSettings,

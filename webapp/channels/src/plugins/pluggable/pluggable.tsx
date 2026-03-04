@@ -18,7 +18,7 @@ type ComponentProps<
     SubKey extends ProductSubComponentNames,
 > = Key extends 'Product' ?
     (PluginsState['components'][Key][number][SubKey] extends React.ComponentType<any> ? React.ComponentProps<PluginsState['components'][Key][number][SubKey]> : never) :
-    (PluginsState['components'][Key][number] extends {component: React.ComponentType<any>} ? React.ComponentProps<PluginsState['components'][Key][number]['component']> : never);
+    (PluginsState['components'][Key][number] extends { component: React.ComponentType<any> } ? React.ComponentProps<PluginsState['components'][Key][number]['component']> : never);
 type WrapperProps<T extends keyof PluginsState['components'], U extends ProductSubComponentNames> = {
 
     /*
@@ -37,6 +37,11 @@ type WrapperProps<T extends keyof PluginsState['components'], U extends ProductS
      * Only supported when pluggableName is "Product".
      */
     subComponentName?: U;
+
+    /*
+     * Optional CSS styles to apply to the component
+     */
+    css?: React.CSSProperties | { gridArea?: string };
 }
 
 export type PluggableProps<Key extends keyof PluginsState['components'], SubKey extends ProductSubComponentNames> = WrapperProps<Key, SubKey> & Omit<ComponentProps<Key, SubKey>, keyof WrapperProps<Key, SubKey> | 'theme' | (Key extends 'Product' ? never : 'webSocketClient')>

@@ -845,7 +845,7 @@ const Login = () => {
         return (
             <>
                 <span>{title}</span>
-                <span className='Log-Text'> {formatMessage({id: 'login.subtext', defaultMessage: 'Log in to start chatting with your team.'})}</span>
+                <span className='Log-Text'> {'قم بتسجيل الدخول لبدء الدردشة مع فريقك.'}</span>
             </>
         );
     };
@@ -957,7 +957,7 @@ const Login = () => {
                                 src={Client4.getBrandImageUrl('0')}
                                 onError={handleBrandImageError}
                             />
-                            <p >{siteName || formatMessage({id: 'login.sofa_platform', defaultMessage: 'Sofa Workspace Platform'})}</p>
+                            <p >{siteName || 'مـنصة عمـل ســـوفـا'}</p>
                             <p className='custom-text'>{CustomBrandText || 'Sofa Workspace'}</p>
                         </div>
 

@@ -29,7 +29,6 @@ export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptio
         ...getTeamFilterOption(tableOptions?.filterTeam),
         ...getStatusFilterOption(tableOptions?.filterStatus),
         ...getRoleFilterOption(tableOptions?.filterRole),
-        show_online_only: tableOptions?.showOnlineOnly,
         date_range: tableOptions?.dateRange,
     };
 }

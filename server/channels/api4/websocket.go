@@ -55,15 +55,10 @@ func (api *API) InitWebSocket() {
 }
 
 func connectWebSocket(c *Context, w http.ResponseWriter, r *http.Request) {
-	originChecker := c.App.OriginChecker()
-	if model.SafeDereference(c.App.Config().ServiceSettings.AllowedUntrustedInternalConnections) != "" {
-		originChecker = func(r *http.Request) bool { return true }
-	}
-
 	upgrader := websocket.Upgrader{
 		ReadBufferSize:  model.SocketMaxMessageSizeKb,
 		WriteBufferSize: model.SocketMaxMessageSizeKb,
-		CheckOrigin:     originChecker,
+		CheckOrigin:     c.App.OriginChecker(),
 	}
 
 	ws, err := upgrader.Upgrade(w, r, nil)

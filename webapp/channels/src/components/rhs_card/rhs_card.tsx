@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import deepEqual from 'fast-deep-equal';
-import React, {memo, useCallback, useEffect, useMemo, useState} from 'react';
+import React from 'react';
 import type {ReactNode} from 'react';
 import {FormattedMessage} from 'react-intl';
 import {Link} from 'react-router-dom';
@@ -34,120 +34,137 @@ type Props = {
     teamUrl?: string;
 };
 
-const RhsCard = ({
-    isMobileView,
-    selected,
-    pluginPostCardTypes = {},
-    previousRhsState,
-    enablePostUsernameOverride,
-    teamUrl,
-}: Props) => {
-    const [isScrolling, setIsScrolling] = useState(false);
+type State = {
+    isScrolling: boolean;
+};
 
-    const handleScrollStop = useCallback(() => {
-        setIsScrolling(false);
-    }, []);
+export default class RhsCard extends React.Component<Props, State> {
+    scrollStopAction: DelayedAction;
 
-    const scrollStopAction = useMemo(() => new DelayedAction(handleScrollStop), [handleScrollStop]);
+    static defaultProps = {
+        pluginPostCardTypes: {},
+    };
 
-    useEffect(() => {
-        return () => {
-            scrollStopAction.cancel();
+    constructor(props: Props) {
+        super(props);
+
+        this.scrollStopAction = new DelayedAction(this.handleScrollStop);
+
+        this.state = {
+            isScrolling: false,
         };
-    }, [scrollStopAction]);
+    }
 
-    const handleScroll = useCallback(() => {
-        if (!isScrolling) {
-            setIsScrolling(true);
+    shouldComponentUpdate(nextProps: Props, nextState: State) {
+        if (!deepEqual(nextProps.selected?.props?.card, this.props.selected?.props?.card)) {
+            return true;
+        }
+        if (nextState.isScrolling !== this.state.isScrolling) {
+            return true;
+        }
+        return false;
+    }
+
+    handleScroll = () => {
+        if (!this.state.isScrolling) {
+            this.setState({
+                isScrolling: true,
+            });
         }
 
-        scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
-    }, [isScrolling, scrollStopAction]);
+        this.scrollStopAction.fireAfter(Constants.SCROLL_DELAY);
+    };
 
-    const handleClick = useCallback(() => {
-        if (isMobileView) {
+    handleScrollStop = () => {
+        this.setState({
+            isScrolling: false,
+        });
+    };
+
+    handleClick = () => {
+        if (this.props.isMobileView) {
             emitCloseRightHandSide();
         }
-    }, [isMobileView]);
+    };
 
-    if (selected == null) {
-        return (<div/>);
-    }
+    render() {
+        if (this.props.selected == null) {
+            return (<div/>);
+        }
 
-    const postType = selected.type;
-    let content: ReactNode = null;
-    if (pluginPostCardTypes && Object.hasOwn(pluginPostCardTypes, postType)) {
-        const PluginComponent = pluginPostCardTypes[postType].component;
-        content = <PluginComponent post={selected}/>;
-    }
+        const {selected, pluginPostCardTypes, teamUrl} = this.props;
+        const postType = selected.type;
+        let content: ReactNode = null;
+        if (pluginPostCardTypes && Object.hasOwn(pluginPostCardTypes, postType)) {
+            const PluginComponent = pluginPostCardTypes[postType].component;
+            content = <PluginComponent post={selected}/>;
+        }
 
-    if (!content) {
-        const message = ensureString(selected.props?.card);
-        content = (
-            <div className='info-card'>
-                <Markdown message={message}/>
+        if (!content) {
+            const message = ensureString(selected.props?.card);
+            content = (
+                <div className='info-card'>
+                    <Markdown message={message}/>
+                </div>
+            );
+        }
+
+        let user = (
+            <UserProfile
+                userId={selected.user_id}
+                hideStatus={true}
+                disablePopover={true}
+            />
+        );
+        const overrideUsername = ensureString(selected.props.override_username);
+        if (overrideUsername && this.props.enablePostUsernameOverride) {
+            user = (
+                <UserProfile
+                    userId={selected.user_id}
+                    hideStatus={true}
+                    disablePopover={true}
+                    overwriteName={overrideUsername}
+                />
+            );
+        }
+        const avatar = (
+            <PostProfilePicture
+                compactDisplay={false}
+                post={selected}
+                userId={selected.user_id}
+            />
+        );
+
+        return (
+            <div className='sidebar-right__body sidebar-right__card'>
+                <RhsCardHeader previousRhsState={this.props.previousRhsState}/>
+                <Scrollbars onScroll={this.handleScroll}>
+                    <div className='post-right__scroll'>
+                        {content}
+                        <div className='d-flex post-card--info'>
+                            <div className='post-card--post-by overflow--ellipsis'>
+                                <FormattedMessage
+                                    id='rhs_card.message_by'
+                                    defaultMessage='Message by {avatar} {user}'
+                                    values={{user, avatar}}
+                                />
+                            </div>
+                            <div className='post-card--view-post'>
+                                <Link
+                                    to={`${teamUrl}/pl/${selected.id}`}
+                                    className='post__permalink'
+                                    onClick={this.handleClick}
+                                >
+                                    <FormattedMessage
+                                        id='rhs_card.jump'
+                                        defaultMessage='Jump'
+                                    />
+                                </Link>
+                            </div>
+                        </div>
+                    </div>
+                </Scrollbars>
             </div>
         );
     }
-
-    const overrideUsername = ensureString(selected.props.override_username);
-    const overwriteName = (overrideUsername && enablePostUsernameOverride) ? overrideUsername : undefined;
-
-    const user = (
-        <UserProfile
-            userId={selected.user_id}
-            hideStatus={true}
-            disablePopover={true}
-            overwriteName={overwriteName}
-        />
-    );
-
-    const avatar = (
-        <PostProfilePicture
-            compactDisplay={false}
-            post={selected}
-            userId={selected.user_id}
-        />
-    );
-
-    return (
-        <div className='sidebar-right__body sidebar-right__card'>
-            <RhsCardHeader previousRhsState={previousRhsState}/>
-            <Scrollbars onScroll={handleScroll}>
-                <div className='post-right__scroll'>
-                    {content}
-                    <div className='d-flex post-card--info'>
-                        <div className='post-card--post-by overflow--ellipsis'>
-                            <FormattedMessage
-                                id='rhs_card.message_by'
-                                defaultMessage='Message by {avatar} {user}'
-                                values={{user, avatar}}
-                            />
-                        </div>
-                        <div className='post-card--view-post'>
-                            <Link
-                                to={`${teamUrl}/pl/${selected.id}`}
-                                className='post__permalink'
-                                onClick={handleClick}
-                            >
-                                <FormattedMessage
-                                    id='rhs_card.jump'
-                                    defaultMessage='Jump'
-                                />
-                            </Link>
-                        </div>
-                    </div>
-                </div>
-            </Scrollbars>
-        </div>
-    );
-};
-
-export default memo(RhsCard, (prevProps, nextProps) => {
-    return deepEqual(prevProps.selected?.props?.card, nextProps.selected?.props?.card) &&
-           prevProps.isMobileView === nextProps.isMobileView &&
-           prevProps.enablePostUsernameOverride === nextProps.enablePostUsernameOverride &&
-           prevProps.teamUrl === nextProps.teamUrl &&
-           prevProps.previousRhsState === nextProps.previousRhsState &&
-           prevProps.pluginPostCardTypes === nextProps.pluginPostCardTypes;
-});
+}

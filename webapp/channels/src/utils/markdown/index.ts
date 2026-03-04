@@ -28,7 +28,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
 
     const markdownOptions = {
         renderer,
-        sanitize: false,
+        sanitize: true,
         gfm: true,
         tables: true,
         mangle: false,

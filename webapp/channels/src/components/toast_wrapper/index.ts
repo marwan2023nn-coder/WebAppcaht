@@ -1,22 +1,22 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {connect} from 'react-redux';
-import {withRouter} from 'react-router-dom';
-import {bindActionCreators} from 'redux';
-import type {Dispatch} from 'redux';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import { bindActionCreators } from 'redux';
+import type { Dispatch } from 'redux';
 
-import {Posts} from 'workspace-redux/constants';
-import {createSelector} from 'workspace-redux/selectors/create_selector';
-import {getCurrentChannel, countCurrentChannelUnreadMessages, isManuallyUnread} from 'workspace-redux/selectors/entities/channels';
-import {getAllPosts, getPostIdsInChannel} from 'workspace-redux/selectors/entities/posts';
-import {getUnreadScrollPositionPreference, isCollapsedThreadsEnabled} from 'workspace-redux/selectors/entities/preferences';
-import {getCurrentUserId} from 'workspace-redux/selectors/entities/users';
-import {makePreparePostIdsForPostList} from 'workspace-redux/utils/post_list';
+import { Posts } from 'workspace-redux/constants';
+import { createSelector } from 'workspace-redux/selectors/create_selector';
+import { getCurrentChannel, countCurrentChannelUnreadMessages, isManuallyUnread } from 'workspace-redux/selectors/entities/channels';
+import { getAllPosts, getPostIdsInChannel } from 'workspace-redux/selectors/entities/posts';
+import { getUnreadScrollPositionPreference, isCollapsedThreadsEnabled } from 'workspace-redux/selectors/entities/preferences';
+import { getCurrentUserId } from 'workspace-redux/selectors/entities/users';
+import { makePreparePostIdsForPostList } from 'workspace-redux/utils/post_list';
 
-import {updateToastStatus} from 'actions/views/channel';
+import { updateToastStatus } from 'actions/views/channel';
 
-import type {GlobalState} from 'types/store/index';
+import type { GlobalState } from 'types/store/index';
 
 import ToastWrapper from './toast_wrapper';
 
@@ -91,11 +91,9 @@ function makeMapStateToProps() {
         const channelMarkedAsUnread = isManuallyUnread(state, ownProps.channelId);
         const lastViewedAt = state.views.channel.lastChannelViewTime[ownProps.channelId] || 0;
         const unreadScrollPosition = getUnreadScrollPositionPreference(state);
-        if (!ownProps.atLatestPost) {
-            let postIds = getPostIdsInChannel(state, ownProps.channelId) || [];
-            if (postIds) {
-                postIds = preparePostIdsForPostList(state, {postIds, lastViewedAt});
-            }
+        let postIds = getPostIdsInChannel(state, ownProps.channelId) || [];
+        if (postIds) {
+            postIds = preparePostIdsForPostList(state, { postIds, lastViewedAt });
             newRecentMessagesCount = countUnreadsBelow(state, postIds, lastViewedAt);
         }
         return {

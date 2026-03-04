@@ -3,10 +3,10 @@
 
 import moment from 'moment';
 
-import type { Product } from '@workspace/types/cloud';
-import type { ClientLicense } from '@workspace/types/config';
+import type {Product} from '@workspace/types/cloud';
+import type {ClientLicense} from '@workspace/types/config';
 
-import { CloudProducts, getLicenseTier, LicenseSkus, SelfHostedProducts } from 'utils/constants';
+import {CloudProducts, getLicenseTier, LicenseSkus, SelfHostedProducts} from 'utils/constants';
 
 const LICENSE_EXPIRY_NOTIFICATION = 1000 * 60 * 60 * 24 * 60; // 60 days
 const LICENSE_GRACE_PERIOD = 1000 * 60 * 60 * 24 * 10; // 10 days
@@ -85,7 +85,15 @@ export function getIsGovSku(license: ClientLicense) {
 }
 
 export const isEnterpriseLicense = (license?: ClientLicense) => {
-    return true;
+    switch (license?.SkuShortName) {
+    case LicenseSkus.Enterprise:
+    case LicenseSkus.E20:
+    case LicenseSkus.EnterpriseAdvanced:
+    case LicenseSkus.Entry:
+        return true;
+    }
+
+    return false;
 };
 
 export const isNonEnterpriseLicense = (license?: ClientLicense) => !isEnterpriseLicense(license);
@@ -99,7 +107,7 @@ export function isEnterpriseOrCloudOrSKUStarterFree(license: ClientLicense, subs
     const isCloud = license?.Cloud === 'true';
     const isCloudStarterFree = isCloud && subscriptionProduct?.sku === CloudProducts.STARTER;
 
-    const isSelfHostedStarter = isEnterpriseReady && (license.IsLicensed === 'true');
+    const isSelfHostedStarter = isEnterpriseReady && (license.IsLicensed === 'false');
 
     const isStarterSKULicense = license.IsLicensed === 'true' && license.SelfHostedProducts === SelfHostedProducts.STARTER;
 
@@ -107,13 +115,25 @@ export function isEnterpriseOrCloudOrSKUStarterFree(license: ClientLicense, subs
 }
 
 export function isMinimumProfessionalLicense(license: ClientLicense): boolean {
-    return true;
+    if (!license) {
+        return false;
+    }
+
+    return getLicenseTier(license.SkuShortName) >= getLicenseTier(LicenseSkus.Professional);
 }
 
 export function isMinimumEnterpriseLicense(license: ClientLicense): boolean {
-    return true;
+    if (!license) {
+        return false;
+    }
+
+    return getLicenseTier(license.SkuShortName) >= getLicenseTier(LicenseSkus.Enterprise);
 }
 
 export function isMinimumEnterpriseAdvancedLicense(license?: ClientLicense): boolean {
-    return true;
+    if (!license) {
+        return false;
+    }
+
+    return getLicenseTier(license.SkuShortName) >= getLicenseTier(LicenseSkus.EnterpriseAdvanced);
 }

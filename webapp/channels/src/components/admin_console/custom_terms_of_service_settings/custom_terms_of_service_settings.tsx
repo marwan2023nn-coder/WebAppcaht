@@ -2,22 +2,22 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { FormattedMessage, defineMessages } from 'react-intl';
-import { Link } from 'react-router-dom';
+import {FormattedMessage, defineMessages} from 'react-intl';
+import {Link} from 'react-router-dom';
 
-import type { AdminConfig, ClientLicense } from '@workspace/types/config';
-import type { TermsOfService } from '@workspace/types/terms_of_service';
+import type {AdminConfig, ClientLicense} from '@workspace/types/config';
+import type {TermsOfService} from '@workspace/types/terms_of_service';
 
-import type { ActionResult } from 'workspace-redux/types/actions';
+import type {ActionResult} from 'workspace-redux/types/actions';
 
 import BooleanSetting from 'components/admin_console/boolean_setting';
 import OLDAdminSettings from 'components/admin_console/old_admin_settings';
-import type { BaseProps, BaseState } from 'components/admin_console/old_admin_settings';
+import type {BaseProps, BaseState} from 'components/admin_console/old_admin_settings';
 import SettingsGroup from 'components/admin_console/settings_group';
 import TextSetting from 'components/admin_console/text_setting';
 import LoadingScreen from 'components/loading_screen';
 
-import { Constants } from 'utils/constants';
+import {Constants} from 'utils/constants';
 
 type Props = BaseProps & {
     actions: {
@@ -47,13 +47,13 @@ type State = BaseState & {
 }
 
 export const messages = defineMessages({
-    termsOfServiceTitle: { id: 'admin.support.termsOfServiceTitle', defaultMessage: 'Custom Terms of Service' },
-    enableTermsOfServiceTitle: { id: 'admin.support.enableTermsOfServiceTitle', defaultMessage: 'Enable Custom Terms of Service' },
-    termsOfServiceTextTitle: { id: 'admin.support.termsOfServiceTextTitle', defaultMessage: 'Custom Terms of Service Text' },
-    termsOfServiceTextHelp: { id: 'admin.support.termsOfServiceTextHelp', defaultMessage: 'Text that will appear in your custom Terms of Service. Supports Markdown-formatted text.' },
-    termsOfServiceReAcceptanceTitle: { id: 'admin.support.termsOfServiceReAcceptanceTitle', defaultMessage: 'Re-Acceptance Period:' },
-    termsOfServiceReAcceptanceHelp: { id: 'admin.support.termsOfServiceReAcceptanceHelp', defaultMessage: 'The number of days before Terms of Service acceptance expires, and the terms must be re-accepted.' },
-    enableTermsOfServiceHelp: { id: 'admin.support.enableTermsOfServiceHelp', defaultMessage: 'When true, new users must accept the terms of service before accessing any Workspace teams on desktop, web or mobile. Existing users must accept them after login or a page refresh. To update terms of service link displayed in account creation and login pages, go to <a>Site Configuration > Customization</a>' },
+    termsOfServiceTitle: {id: 'admin.support.termsOfServiceTitle', defaultMessage: 'Custom Terms of Service'},
+    enableTermsOfServiceTitle: {id: 'admin.support.enableTermsOfServiceTitle', defaultMessage: 'Enable Custom Terms of Service'},
+    termsOfServiceTextTitle: {id: 'admin.support.termsOfServiceTextTitle', defaultMessage: 'Custom Terms of Service Text'},
+    termsOfServiceTextHelp: {id: 'admin.support.termsOfServiceTextHelp', defaultMessage: 'Text that will appear in your custom Terms of Service. Supports Markdown-formatted text.'},
+    termsOfServiceReAcceptanceTitle: {id: 'admin.support.termsOfServiceReAcceptanceTitle', defaultMessage: 'Re-Acceptance Period:'},
+    termsOfServiceReAcceptanceHelp: {id: 'admin.support.termsOfServiceReAcceptanceHelp', defaultMessage: 'The number of days before Terms of Service acceptance expires, and the terms must be re-accepted.'},
+    enableTermsOfServiceHelp: {id: 'admin.support.enableTermsOfServiceHelp', defaultMessage: 'When true, new users must accept the terms of service before accessing any Workspace teams on desktop, web or mobile. Existing users must accept them after login or a page refresh. To update terms of service link displayed in account creation and login pages, go to <a>Site Configuration > Customization</a>'},
 });
 
 export const searchableStrings = [
@@ -120,7 +120,7 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
         let config = JSON.parse(JSON.stringify(this.props.config));
         config = this.getConfigFromState(config);
 
-        const { data, error } = await this.props.patchConfig(config);
+        const {data, error} = await this.props.patchConfig(config);
 
         if (data) {
             this.setState(this.getStateFromConfig(data));
@@ -140,7 +140,7 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
                 this.handleSaved(config);
             }
         } else if (error) {
-            this.handleAPIError({ id: error.server_error_id, ...error }, callback, config);
+            this.handleAPIError({id: error.server_error_id, ...error}, callback, config);
         }
     };
 
@@ -161,9 +161,9 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
     };
 
     getTermsOfService = async () => {
-        this.setState({ loadingTermsText: true });
+        this.setState({loadingTermsText: true});
 
-        const { data } = await this.props.actions.getTermsOfService();
+        const {data} = await this.props.actions.getTermsOfService();
         if (data) {
             this.setState({
                 termsText: data.text,
@@ -171,7 +171,7 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
             });
         }
 
-        this.setState({ loadingTermsText: false });
+        this.setState({loadingTermsText: false});
     };
 
     handleTermsTextChange = (id: string, value: boolean) => {
@@ -187,12 +187,12 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
     };
 
     renderTitle() {
-        return (<FormattedMessage {...messages.termsOfServiceTitle} />);
+        return (<FormattedMessage {...messages.termsOfServiceTitle}/>);
     }
 
     renderSettings = () => {
         if (this.state.loadingTermsText) {
-            return <LoadingScreen />;
+            return <LoadingScreen/>;
         }
 
         return (
@@ -200,7 +200,7 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
                 <BooleanSetting
                     key={'customTermsOfServiceEnabled'}
                     id={'SupportSettings.CustomTermsOfServiceEnabled'}
-                    label={<FormattedMessage {...messages.enableTermsOfServiceTitle} />}
+                    label={<FormattedMessage {...messages.enableTermsOfServiceTitle}/>}
                     helpText={
                         <FormattedMessage
                             {...messages.enableTermsOfServiceHelp}
@@ -212,14 +212,14 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
                     value={Boolean(this.state.termsEnabled)}
                     onChange={this.handleTermsEnabledChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceEnabled')}
-                    disabled={this.props.isDisabled}
+                    disabled={this.props.isDisabled || !(this.props.license.IsLicensed && this.props.license.CustomTermsOfService === 'true')}
                 />
                 <TextSetting
                     key={'customTermsOfServiceText'}
                     id={'SupportSettings.CustomTermsOfServiceText'}
                     type={'textarea'}
-                    label={<FormattedMessage {...messages.termsOfServiceTextTitle} />}
-                    helpText={<FormattedMessage {...messages.termsOfServiceTextHelp} />}
+                    label={<FormattedMessage {...messages.termsOfServiceTextTitle}/>}
+                    helpText={<FormattedMessage {...messages.termsOfServiceTextHelp}/>}
                     onChange={this.handleTermsTextChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceText')}
                     value={this.state.termsText}
@@ -230,8 +230,8 @@ export default class CustomTermsOfServiceSettings extends OLDAdminSettings<Props
                     key={'customTermsOfServiceReAcceptancePeriod'}
                     id={'SupportSettings.CustomTermsOfServiceReAcceptancePeriod'}
                     type={'number'}
-                    label={<FormattedMessage {...messages.termsOfServiceReAcceptanceTitle} />}
-                    helpText={<FormattedMessage {...messages.termsOfServiceReAcceptanceHelp} />}
+                    label={<FormattedMessage {...messages.termsOfServiceReAcceptanceTitle}/>}
+                    helpText={<FormattedMessage {...messages.termsOfServiceReAcceptanceHelp}/>}
                     value={this.state.reAcceptancePeriod || ''}
                     onChange={this.handleReAcceptancePeriodChange}
                     setByEnv={this.isSetByEnv('SupportSettings.CustomTermsOfServiceReAcceptancePeriod')}
