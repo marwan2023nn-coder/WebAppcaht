@@ -25,6 +25,7 @@ import (
 	"golang.org/x/crypto/openpgp" //nolint:staticcheck
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
@@ -184,7 +185,7 @@ func CanIUpgradeToE0() error {
 	return nil
 }
 
-func UpgradeToE0() error {
+func UpgradeToE0(httpService httpservice.HTTPService) error {
 	if !atomic.CompareAndSwapInt32(&upgrading, 0, 1) {
 		mlog.Warn("Trying to upgrade while another upgrade is running")
 		return errors.New("another upgrade is already running")
@@ -202,7 +203,7 @@ func UpgradeToE0() error {
 		return err
 	}
 
-	filename, err := download(getCurrentVersionTgzURL())
+	filename, err := download(httpService, getCurrentVersionTgzURL())
 	if err != nil {
 		if filename != "" {
 			os.Remove(filename)
@@ -214,7 +215,7 @@ func UpgradeToE0() error {
 	}
 	defer os.Remove(filename)
 
-	sigfilename, err := download(getCurrentVersionTgzURL() + ".sig")
+	sigfilename, err := download(httpService, getCurrentVersionTgzURL()+".sig")
 	if err != nil {
 		if sigfilename != "" {
 			os.Remove(sigfilename)
@@ -250,8 +251,8 @@ func UpgradeToE0Status() (int64, error) {
 	return getUpgradePercentage(), getUpgradeError()
 }
 
-func download(url string) (string, error) {
-	resp, err := http.Get(url)
+func download(httpService httpservice.HTTPService, url string) (string, error) {
+	resp, err := httpService.MakeClient(false).Get(url)
 	if err != nil {
 		return "", err
 	}
