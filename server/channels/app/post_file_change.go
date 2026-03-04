@@ -19,7 +19,7 @@ func (a *App) processPostFileChanges(rctx request.CTX, newPost, oldPost *model.P
 		if updatePostOptions != nil && updatePostOptions.IsRestorePost {
 			err := a.Srv().Store().FileInfo().RestoreForPostByIds(rctx, newPost.Id, addedFileIDs)
 			if err != nil {
-				return nil, model.NewAppError("app.processPostFileChanges", "app.file_info.undelete_for_post_ids.app_error", map[string]any{"post_id": newPost.Id}, "", 0).Wrap(err)
+				return nil, model.NewAppError("app.processPostFileChanges", "app.file_info.undelete_for_post_ids.app_error", map[string]any{"post_id": newPost.Id}, "", 500).Wrap(err)
 			}
 		} else {
 			a.attachNewFilesToPost(rctx, newPost, addedFileIDs, unchangedFileIDs)
@@ -63,7 +63,7 @@ func (a *App) attachNewFilesToPost(rctx request.CTX, post *model.Post, addedFile
 
 func (a *App) detachFilesFromPost(rctx request.CTX, postId string, removedFileIDs []string) *model.AppError {
 	if err := a.Srv().Store().FileInfo().DeleteForPostByIds(rctx, postId, removedFileIDs); err != nil {
-		return model.NewAppError("app.detachFilesFromPost", "app.file_info.delete_for_post_ids.app_error", map[string]any{"post_id": postId}, "", 0).Wrap(err)
+		return model.NewAppError("app.detachFilesFromPost", "app.file_info.delete_for_post_ids.app_error", map[string]any{"post_id": postId}, "", 500).Wrap(err)
 	}
 
 	return nil

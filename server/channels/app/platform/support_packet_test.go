@@ -336,7 +336,7 @@ func TestGetSupportPacketDiagnostics(t *testing.T) {
 		ldapMock.On(
 			"RunTest",
 			mock.AnythingOfType("*request.Context"),
-		).Return(model.NewAppError("", "some error", nil, "", 0))
+		).Return(model.NewAppError("", "some error", nil, "", 500))
 		originalLDAP := th.Service.ldapDiagnostic
 		t.Cleanup(func() {
 			th.Service.ldapDiagnostic = originalLDAP

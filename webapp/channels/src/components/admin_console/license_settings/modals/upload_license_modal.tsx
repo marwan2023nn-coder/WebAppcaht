@@ -193,7 +193,19 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
                 {serverError && <div className='serverError'>
                     <i className='icon icon-alert-outline'/>
                     <span className='server-error-text'>
-                        {messageHtmlToComponent(DOMPurify.sanitize(marked(serverError)))}
+                        {messageHtmlToComponent(DOMPurify.sanitize(marked(serverError), {
+                            ALLOWED_TAGS: [
+                                'span', 'div', 'p', 'br', 'img', 'a', 'blockquote', 'code', 'pre',
+                                'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6',
+                                'table', 'thead', 'tbody', 'tr', 'th', 'td', 'del', 'strong', 'em', 'ins', 'hr',
+                                'input',
+                            ],
+                            ALLOWED_ATTR: [
+                                'target', 'rel', 'href', 'src', 'alt', 'title',
+                                'width', 'height', 'class', 'className', 'id', 'style',
+                                'type', 'checked', 'disabled',
+                            ],
+                        }))}
                     </span>
                 </div>}
             </div>
