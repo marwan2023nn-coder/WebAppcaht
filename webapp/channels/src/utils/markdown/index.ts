@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import marked from 'marked';
 
 import {createSelector} from 'workspace-redux/selectors/create_selector';
@@ -36,7 +37,30 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         urlFilter,
     };
 
-    return marked(text, markdownOptions).trim();
+    const html = marked(text, markdownOptions).trim();
+
+    return DOMPurify.sanitize(html, {
+        ADD_ATTR: [
+            'data-mention',
+            'data-hashtag',
+            'data-emoticon',
+            'data-channel-mention',
+            'data-channel-mention-team',
+            'data-sum-of-members-mention',
+            'data-plan-mention',
+            'data-latex',
+            'data-inline-latex',
+            'data-codeblock-code',
+            'data-codeblock-language',
+            'data-codeblock-searchedcontent',
+            'data-link',
+            'data-edited-post-id',
+            'target',
+        ],
+        ADD_TAGS: ['span', 'div', 'p', 'br', 'img', 'a', 'blockquote', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'del', 'strong', 'em', 'ins', 'hr'],
+        FORBID_TAGS: ['style', 'script', 'iframe', 'frame', 'object', 'embed', 'form', 'input', 'textarea', 'button', 'select', 'option', 'meta', 'link', 'base'],
+        FORBID_ATTR: ['onerror', 'onload', 'onmouseover', 'onfocus', 'onclick'],
+    });
 }
 
 const getAutolinkedUrlSchemeFilter = createSelector(

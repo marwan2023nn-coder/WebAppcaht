@@ -1,6 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
+import DOMPurify from 'dompurify';
 import marked from 'marked';
 import React from 'react';
 import type {MessageDescriptor} from 'react-intl';
@@ -71,9 +72,16 @@ export default function FormattedMarkdownMessage({
         renderer: new CustomRenderer(disableLinks),
     });
 
+    const sanitizedMessage = DOMPurify.sanitize(markedUpMessage, {
+        ADD_ATTR: ['target', 'rel'],
+        ADD_TAGS: ['span', 'div', 'p', 'br', 'img', 'a', 'blockquote', 'code', 'pre', 'ul', 'ol', 'li', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'table', 'thead', 'tbody', 'tr', 'th', 'td', 'del', 'strong', 'em', 'ins', 'hr'],
+        FORBID_TAGS: ['style', 'script', 'iframe', 'frame', 'object', 'embed', 'form', 'input', 'textarea', 'button', 'select', 'option', 'meta', 'link', 'base'],
+        FORBID_ATTR: ['onerror', 'onload', 'onmouseover', 'onfocus', 'onclick'],
+    });
+
     return (
         <span>
-            {messageHtmlToComponent(markedUpMessage)}
+            {messageHtmlToComponent(sanitizedMessage)}
         </span>
     );
 }
