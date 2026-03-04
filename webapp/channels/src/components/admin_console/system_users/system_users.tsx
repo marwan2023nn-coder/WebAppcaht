@@ -12,6 +12,8 @@ import type {ServerError} from '@workspace/types/errors';
 import {CursorPaginationDirection} from '@workspace/types/reports';
 import type {ReportDuration, UserReport} from '@workspace/types/reports';
 
+import {isSystemAdmin} from 'workspace-redux/utils/user_utils';
+
 import {AdminConsoleListTable, ElapsedDurationCell, PAGE_SIZES, LoadingStates} from 'components/admin_console/list_table';
 import type {TableMeta} from 'components/admin_console/list_table';
 import SharedUserIndicator from 'components/shared_user_indicator';
@@ -22,12 +24,14 @@ import {getDisplayName, imageURLForUser} from 'utils/utils';
 import type {AdminConsoleUserManagementTableProperties} from 'types/store/views';
 
 import {ColumnNames} from './constants';
+import {DeactivateInactiveUsersTool} from './deactivate_inactive_users_tool';
 import {RevokeSessionsButton} from './revoke_sessions_button';
 import {SystemUsersColumnTogglerMenu} from './system_users_column_toggler_menu';
 import {SystemUsersDateRangeMenu} from './system_users_date_range_menu';
 import {SystemUsersExport} from './system_users_export';
 import {SystemUsersFilterPopover} from './system_users_filters_popover';
 import {SystemUsersListAction} from './system_users_list_actions';
+import {SystemUsersOnlineFilter} from './system_users_online_filter';
 import {SystemUsersSearch} from './system_users_search';
 import {getSortableColumnValueBySortColumn, getPaginationInfo, convertTableOptionsToUserReportOptions} from './utils';
 
@@ -48,10 +52,11 @@ export type TableOptions = {
     filterTeam?: AdminConsoleUserManagementTableProperties['filterTeam'];
     filterRole?: AdminConsoleUserManagementTableProperties['filterRole'];
     filterStatus?: AdminConsoleUserManagementTableProperties['filterStatus'];
+    showOnlineOnly?: AdminConsoleUserManagementTableProperties['showOnlineOnly'];
     dateRange?: ReportDuration;
 }
 
-type UserReportWithError = UserReport & {error?: ServerError};
+type UserReportWithError = UserReport & { error?: ServerError };
 
 const tableId = 'systemUsersTable';
 
@@ -59,7 +64,7 @@ const messages = defineMessages({
     title: {id: 'admin.system_users.title', defaultMessage: '{siteName} Users'},
 });
 
-export const searchableStrings: Array<string|MessageDescriptor|[MessageDescriptor, {[key: string]: any}]> = [[messages.title, {siteName: ''}]];
+export const searchableStrings: Array<string | MessageDescriptor | [MessageDescriptor, { [key: string]: any }]> = [[messages.title, {siteName: ''}]];
 
 function SystemUsers(props: Props) {
     const {formatMessage} = useIntl();
@@ -87,6 +92,7 @@ function SystemUsers(props: Props) {
             filterTeam: props.tablePropertyFilterTeam,
             filterRole: props.tablePropertyFilterRole,
             filterStatus: props.tablePropertyFilterStatus,
+            showOnlineOnly: props.tablePropertyShowOnlineOnly,
         });
     }, [
         props.tablePropertyPageSize,
@@ -99,6 +105,7 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterTeam,
         props.tablePropertyFilterRole,
         props.tablePropertyFilterStatus,
+        props.tablePropertyShowOnlineOnly,
     ]);
 
     // Effect to get the user reports
@@ -131,6 +138,7 @@ function SystemUsers(props: Props) {
             filterTeam: props.tablePropertyFilterTeam,
             filterRole: props.tablePropertyFilterRole,
             filterStatus: props.tablePropertyFilterStatus,
+            showOnlineOnly: props.tablePropertyShowOnlineOnly,
             dateRange: props.tablePropertyDateRange,
         });
     }, [
@@ -144,6 +152,7 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterRole,
         props.tablePropertyFilterTeam,
         props.tablePropertyFilterStatus,
+        props.tablePropertyShowOnlineOnly,
         props.tablePropertyDateRange,
     ]);
 
@@ -280,12 +289,12 @@ function SystemUsers(props: Props) {
                                 {info.row.original.username}
                             </div>
                             {info.row.original.error &&
-                            <div
-                                className='error'
-                                title={info.row.original.error.message}
-                            >
-                                {info.row.original.error.message}
-                            </div>}
+                                <div
+                                    className='error'
+                                    title={info.row.original.error.message}
+                                >
+                                    {info.row.original.error.message}
+                                </div>}
                         </div>
                     );
                 },
@@ -429,6 +438,8 @@ function SystemUsers(props: Props) {
         ...props.tablePropertyColumnVisibility,
     };
 
+    const isAdmin = isSystemAdmin(props.currentUser.roles);
+
     const table = useReactTable({
         data: userReports,
         columns,
@@ -479,11 +490,13 @@ function SystemUsers(props: Props) {
                 <RevokeSessionsButton/>
             </AdminHeader>
             <div className='admin-console__wrapper'>
+                {isAdmin && <DeactivateInactiveUsersTool/>}
                 <div className='admin-console__container ignore-marking'>
                     <div className='admin-console__filters-rows'>
                         <SystemUsersSearch
                             searchTerm={props.tablePropertySearchTerm}
                         />
+                        <SystemUsersOnlineFilter/>
                         <SystemUsersFilterPopover
                             filterTeam={props.tablePropertyFilterTeam}
                             filterTeamLabel={props.tablePropertyFilterTeamLabel}

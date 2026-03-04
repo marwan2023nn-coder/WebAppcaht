@@ -240,6 +240,12 @@ export function convertAnalyticsRowsToStats(data: AnalyticsRow[], name: string):
         case 'total_file_size':
             key = Stats.TOTAL_FILE_SIZE;
             break;
+        case 'total_attached_file_count':
+            key = Stats.TOTAL_ATTACHED_FILE_COUNT;
+            break;
+        case 'total_downloaded_file_count':
+            key = Stats.TOTAL_DOWNLOADED_FILE_COUNT;
+            break;
         }
 
         if (key) {

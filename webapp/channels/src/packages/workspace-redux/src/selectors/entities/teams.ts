@@ -120,6 +120,14 @@ export const isCurrentUserCurrentTeamAdmin: (state: GlobalState) => boolean = cr
     },
 );
 
+export const isCurrentUserTeamAdminInAnyTeam: (state: GlobalState) => boolean = createSelector(
+    'isCurrentUserTeamAdminInAnyTeam',
+    getTeamMemberships,
+    (teamMemberships) => {
+        return Object.values(teamMemberships).some((member) => isTeamAdmin(member.roles || ''));
+    },
+);
+
 export const getCurrentTeamUrl: (state: GlobalState) => string = createSelector(
     'getCurrentTeamUrl',
     getCurrentTeam,

@@ -75,12 +75,13 @@ const StarterLeftPanel: React.FC<StarterEditionProps> = ({
                         >
                             {'here'}
                         </a>
-                        {' for "Enterprise Edition License" for details. '}
-                        {'See NOTICE.txt for information about open source software used in the system.'}
+                        {' لمزيد من التفاصيل حول "رخصة إصدار المؤسسة (Enterprise Edition License)". '}
+                        {'راجع ملف NOTICE.txt للحصول على معلومات حول البرمجيات مفتوحة المصدر المستخدمة في النظام.'}
                     </p>
                 </> : <p>
-                    {'This software is offered under a commercial license.\n\nSee ENTERPRISE-EDITION-LICENSE.txt in your root install directory for details. See NOTICE.txt for information about open source software used in this system.'}
+                    {'يتم تقديم هذا البرنامج بموجب رخصة تجارية.\n\nراجع ملف ENTERPRISE-EDITION-LICENSE.txt في مجلد التثبيت الرئيسي لديك لمزيد من التفاصيل. وراجع ملف NOTICE.txt للحصول على معلومات حول البرمجيات مفتوحة المصدر المستخدمة في هذا النظام.'}
                 </p>
+
                 }
             </div>
             <div className='licenseInformation'>

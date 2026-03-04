@@ -1440,7 +1440,39 @@ export function checkForModifiedUsers(): ActionFuncAsync {
     };
 }
 
+export function deleteUser(userId: string): ActionFuncAsync<true> {
+    return async (dispatch, getState) => {
+        try {
+            await Client4.deleteUser(userId);
+        } catch (error) {
+            dispatch(logError(error));
+            return {error};
+        }
+
+        const profile = getState().entities.users.profiles[userId];
+        if (profile) {
+            dispatch({type: UserTypes.RECEIVED_PROFILE, data: {...profile, delete_at: Date.now()}});
+        }
+
+        return {data: true};
+    };
+}
+
+export function deactivateInactiveUsers(days: number): ActionFuncAsync {
+    return async (dispatch, getState) => {
+        try {
+            const data = await Client4.deactivateInactiveUsers(days);
+            return {data};
+        } catch (error) {
+            forceLogoutIfNecessary(error, dispatch, getState);
+            dispatch(logError(error as ServerError));
+            return {error};
+        }
+    };
+}
+
 export default {
+    deleteUser,
     generateMfaSecret,
     logout,
     getProfiles,
@@ -1483,4 +1515,5 @@ export default {
     disableUserAccessToken,
     enableUserAccessToken,
     checkForModifiedUsers,
+    deactivateInactiveUsers,
 };

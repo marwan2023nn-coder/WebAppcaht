@@ -28,7 +28,9 @@ import LatestPostReader from './latest_post_reader';
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
-const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
+
+// Treat near-bottom as bottom so small manual nudges don't disable auto-follow.
+const BUFFER_TO_BE_CONSIDERED_BOTTOM = 80;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -727,7 +729,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
                                             innerRef={this.postListRef}
-                                            style={{...virtListStyles, ...dynamicListStyle, direction: 'rtl',}}
+                                            style={{...virtListStyles, ...dynamicListStyle, direction: 'rtl'}}
                                             innerListStyle={postListStyle}
                                             initRangeToRender={this.initRangeToRender}
                                             loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
