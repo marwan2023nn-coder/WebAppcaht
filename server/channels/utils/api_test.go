@@ -49,3 +49,22 @@ func TestRenderWebError(t *testing.T) {
 	h := sha256.Sum256([]byte("/error?foo=bar"))
 	assert.True(t, ecdsa.Verify(&key.PublicKey, h[:], rs.R, rs.S))
 }
+
+func TestRenderMobileErrorXSS(t *testing.T) {
+	w := httptest.NewRecorder()
+	config := &model.Config{
+		ServiceSettings: model.ServiceSettings{
+			SiteURL: model.NewPointer("http://localhost:8065"),
+		},
+	}
+	appErr := &model.AppError{
+		Message: "<script>alert('xss')</script>",
+	}
+	redirectURL := "http://localhost:8065/mmauth/callback"
+
+	RenderMobileError(config, w, appErr, redirectURL)
+
+	body := w.Body.String()
+	assert.Contains(t, body, "&lt;script&gt;alert(&#39;xss&#39;)&lt;/script&gt;")
+	assert.NotContains(t, body, "<script>alert('xss')</script>")
+}

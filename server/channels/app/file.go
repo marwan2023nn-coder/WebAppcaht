@@ -1518,6 +1518,19 @@ func (a *App) FilterFilesByChannelPermissions(rctx request.CTX, fileList *model.
 		}
 	}
 
+	// Optimization: Fetch all channel memberships for the user once
+	memberships, err := a.Srv().Store().Channel().GetAllChannelMembersForUser(rctx, userID, true, true)
+	if err != nil {
+		return false, model.NewAppError("FilterFilesByChannelPermissions", "app.channel.get_all_channel_members_for_user.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+	}
+
+	// Optimization: Fetch user to check system permissions once
+	user, userErr := a.GetUser(userID)
+	if userErr != nil {
+		return false, userErr
+	}
+	isSystemAdmin := a.RolesGrantPermission(user.GetRoles(), model.PermissionManageSystem.Id)
+
 	channelReadPermission := make(map[string]bool)
 	filteredFiles := make(map[string]*model.FileInfo)
 	filteredOrder := []string{}
@@ -1532,10 +1545,24 @@ func (a *App) FilterFilesByChannelPermissions(rctx request.CTX, fileList *model.
 		if _, ok := channelReadPermission[fileInfo.ChannelId]; !ok {
 			channel := channels[fileInfo.ChannelId]
 			allowed := false
-			isMember := true
+			isMember := false
+
 			if channel != nil {
-				allowed, isMember = a.HasPermissionToReadChannel(rctx, userID, channel)
+				if isSystemAdmin {
+					allowed = true
+				} else if roles, ok := memberships[channel.Id]; ok {
+					isMember = true
+					if a.RolesGrantPermission(strings.Fields(roles), model.PermissionReadChannelContent.Id) {
+						allowed = true
+					}
+				}
+
+				if !allowed && channel.Type == model.ChannelTypeOpen && !*a.Config().ComplianceSettings.Enable {
+					// Fallback to team permission for open channels
+					allowed = a.HasPermissionToTeam(rctx, userID, channel.TeamId, model.PermissionReadPublicChannel)
+				}
 			}
+
 			channelReadPermission[fileInfo.ChannelId] = allowed
 			if allowed {
 				allFilesHaveMembership = allFilesHaveMembership && isMember

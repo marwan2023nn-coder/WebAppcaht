@@ -86,7 +86,7 @@ const Preferences = {
     CATEGORY_THEME: 'theme',
     THEMES: {
         quartz: {
-            type: 'الوضع الفاتح',
+            type: 'light',
             awayIndicator: '#e6bb27',
             buttonBg: '#00987e',
             buttonColor: '#ffffff',
@@ -115,7 +115,7 @@ const Preferences = {
         },
 
         denim: {
-            type: 'الوضع الليلي',
+            type: 'dark',
             sidebarBg: '#202228',
             sidebarText: '#ffffff',
             sidebarUnreadText: '#ffffff',

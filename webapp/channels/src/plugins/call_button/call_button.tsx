@@ -127,7 +127,7 @@ export default function CallButton({pluginCallComponents, currentChannel, channe
 
         return (
              <WithTooltip
-                title='مكالمة صوتية'
+                title={formatMessage({id: 'call_button.voice_call', defaultMessage: 'Voice call'})}
                 disabled={hidden}
             >
             <div

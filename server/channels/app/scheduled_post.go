@@ -59,8 +59,39 @@ func (a *App) GetUserTeamScheduledPosts(rctx request.CTX, userId, teamId string)
 		scheduledPosts = []*model.ScheduledPost{}
 	}
 
+	// Optimization: Bulk fetch all file IDs from all scheduled posts
+	allFileIDs := []string{}
 	for _, scheduledPost := range scheduledPosts {
-		a.prepareDraftWithFileInfos(rctx, userId, &scheduledPost.Draft)
+		allFileIDs = append(allFileIDs, scheduledPost.FileIds...)
+	}
+
+	if len(allFileIDs) > 0 {
+		fileInfos, err := a.Srv().Store().FileInfo().GetByIds(allFileIDs, false, true)
+		if err != nil {
+			return nil, model.NewAppError("App.GetUserTeamScheduledPosts", "app.draft.get_for_draft.app_error", nil, "", http.StatusInternalServerError).Wrap(err)
+		}
+
+		// Create a map for fast lookup
+		fileInfoMap := make(map[string]*model.FileInfo)
+		for _, info := range fileInfos {
+			fileInfoMap[info.Id] = info
+		}
+
+		// Map files back to each scheduled post
+		for _, scheduledPost := range scheduledPosts {
+			scheduledPost.Metadata = &model.PostMetadata{}
+			for _, fileID := range scheduledPost.FileIds {
+				if info, ok := fileInfoMap[fileID]; ok {
+					// Security check matching original prepareDraftWithFileInfos logic
+					if info.PostId == "" && info.CreatorId == scheduledPost.UserId {
+						scheduledPost.Metadata.Files = append(scheduledPost.Metadata.Files, info)
+					}
+				}
+			}
+			if len(scheduledPost.Metadata.Files) > 0 {
+				a.generateMiniPreviewForInfos(rctx, scheduledPost.Metadata.Files)
+			}
+		}
 	}
 
 	return scheduledPosts, nil
