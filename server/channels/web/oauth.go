@@ -422,32 +422,6 @@ func completeOAuth(c *Context, w http.ResponseWriter, r *http.Request) {
 		}
 		c.AppContext = c.AppContext.WithSession(session)
 
-		// FIXED (Issue #3 & #11 — OIDC id_token Security Hardening):
-		// Persist the id_token from the OIDC provider as a short-lived browser cookie.
-		// Required by the frontend SLO (Single Log-Out) implementation to call
-		// the IDP's /logout endpoint with `id_token_hint`.
-		//
-		// Security decisions:
-		//   - HttpOnly: false  — intentionally readable by JS for the SLO logout redirect.
-		//   - MaxAge: 5 min    — drastically reduced from the previous 30-day design.
-		//                        5 minutes is sufficient: the user lands on the app and
-		//                        can trigger logout. After that the cookie is auto-expired.
-		//   - SameSite: Lax   — mitigates CSRF on cross-site requests (keeps redirect flows working).
-		//   - Secure: true on HTTPS — prevents transmission over plaintext connections.
-		if idToken, ok := props["id_token"]; ok && idToken != "" {
-			subpath, _ := utils.GetSubpathFromConfig(c.App.Config())
-			isSecure := strings.HasPrefix(*c.App.Config().ServiceSettings.SiteURL, "https")
-			http.SetCookie(w, &http.Cookie{
-				Name:     "MMIDTOKEN",
-				Value:    idToken,
-				Path:     subpath,
-				MaxAge:   300, // 5 minutes — minimal exposure window for SLO logout
-				HttpOnly: false,
-				Secure:   isSecure,
-				SameSite: http.SameSiteLaxMode,
-			})
-		}
-
 		// Old mobile version
 		if isMobile && !hasRedirectURL {
 			c.App.AttachSessionCookies(c.AppContext, w, r)
@@ -462,6 +436,7 @@ func completeOAuth(c *Context, w http.ResponseWriter, r *http.Request) {
 			redirectURL = utils.AppendQueryParamsToURL(redirectURL, map[string]string{
 				model.SessionCookieToken: c.AppContext.Session().Token,
 				model.SessionCookieCsrf:  c.AppContext.Session().GetCSRF(),
+				"srv":                    c.App.GetSiteURL(), // Server URL for mobile client verification
 			})
 			utils.RenderMobileAuthComplete(w, redirectURL)
 

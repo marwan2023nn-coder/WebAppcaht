@@ -1,24 +1,24 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useFloating, offset, useClick, useDismiss, useInteractions} from '@floating-ui/react';
+import { useFloating, offset, useClick, useDismiss, useInteractions } from '@floating-ui/react';
 import classNames from 'classnames';
-import React, {memo, useCallback, useEffect, useMemo, useRef, useState} from 'react';
-import {useIntl} from 'react-intl';
-import {CSSTransition} from 'react-transition-group';
+import React, { memo, useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useIntl } from 'react-intl';
+import { CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
-import {DotsHorizontalIcon} from '@workspace/compass-icons/components';
+import { DotsHorizontalIcon } from '@workspace/compass-icons/components';
 
 import VideoIcon from 'components/app_bar/video_icon';
 import VoiceIcon from 'components/app_bar/voice_icon';
 import WithTooltip from 'components/with_tooltip';
 
 import CallButton from 'plugins/call_button';
-import type {ApplyMarkdownOptions, MarkdownMode} from 'utils/markdown/apply_markdown';
+import type { ApplyMarkdownOptions, MarkdownMode } from 'utils/markdown/apply_markdown';
 
-import FormattingIcon, {IconContainer} from './formatting_icon';
-import {useFormattingBarControls} from './hooks';
+import FormattingIcon, { IconContainer } from './formatting_icon';
+import { useFormattingBarControls } from './hooks';
 
 export const Separator = styled.div`
     display: block;
@@ -40,7 +40,7 @@ const FormattingBarContainer = styled.div`
     display: flex;
     height: 48px;
     padding-inline-start: 7px;
-    background: transparent;
+    background: var(--sidebar-header-bg);
     align-items: center;
     gap: 2px;
     position: relative;
@@ -121,7 +121,7 @@ interface FormattingBarProps {
      *       range we should probably refactor this and only pass down the
      *       selectionStart and selectionEnd values
      */
-    getCurrentSelection: () => {start: number; end: number};
+    getCurrentSelection: () => { start: number; end: number };
 
     /**
      * the handler function that applies the markdown to the value
@@ -170,25 +170,25 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
     } = props;
     const [showHiddenControls, setShowHiddenControls] = useState(false);
     const formattingBarRef = useRef<HTMLDivElement>(null);
-    const {controls, hiddenControls, wideMode} = useFormattingBarControls(formattingBarRef);
+    const { controls, hiddenControls, wideMode } = useFormattingBarControls(formattingBarRef);
 
-    const {formatMessage} = useIntl();
-    const HiddenControlsButtonAriaLabel = formatMessage({id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options'});
+    const { formatMessage } = useIntl();
+    const HiddenControlsButtonAriaLabel = formatMessage({ id: 'accessibility.button.hidden_controls_button', defaultMessage: 'show hidden formatting options' });
 
-    const {x, y, strategy, update, context, refs: {setReference, setFloating}} = useFloating<HTMLButtonElement>({
+    const { x, y, strategy, update, context, refs: { setReference, setFloating } } = useFloating<HTMLButtonElement>({
         open: showHiddenControls,
         onOpenChange: setShowHiddenControls,
         placement: 'top',
-        middleware: [offset({mainAxis: 4})],
+        middleware: [offset({ mainAxis: 4 })],
     });
 
     const click = useClick(context);
-    const {getReferenceProps: getClickReferenceProps, getFloatingProps: getClickFloatingProps} = useInteractions([
+    const { getReferenceProps: getClickReferenceProps, getFloatingProps: getClickFloatingProps } = useInteractions([
         click,
     ]);
 
     const dismiss = useDismiss(context);
-    const {getReferenceProps: getDismissReferenceProps, getFloatingProps: getDismissFloatingProps} = useInteractions([
+    const { getReferenceProps: getDismissReferenceProps, getFloatingProps: getDismissFloatingProps } = useInteractions([
         dismiss,
     ]);
 
@@ -210,7 +210,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         }
 
         // get the current selection values and return early (doing nothing) when we don't get valid values
-        const {start, end} = getCurrentSelection();
+        const { start, end } = getCurrentSelection();
 
         if (start === null || end === null) {
             return;
@@ -231,21 +231,19 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
         }
     }, [getCurrentSelection, getCurrentMessage, applyMarkdown, showHiddenControls, disableControls]);
 
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const leftPosition = wideMode === 'min' ? (x ?? 0) + DEFAULT_MIN_MODE_X_COORD : x ?? 0;
 
     const hiddenControlsContainerStyles: React.CSSProperties = {
         position: strategy,
         top: y ?? 0,
-
         // insetInlinee: leftPosition,
     };
 
     const showSeparators = wideMode === 'wide';
 
-    const {priorityAdditionalControl, burnOnReadAdditionalControl, otherAdditionalControls} = useMemo(() => {
+    const { priorityAdditionalControl, burnOnReadAdditionalControl, otherAdditionalControls } = useMemo(() => {
         if (!Array.isArray(additionalControls) || additionalControls.length === 0) {
-            return {priorityAdditionalControl: null, burnOnReadAdditionalControl: null, otherAdditionalControls: null};
+            return { priorityAdditionalControl: null, burnOnReadAdditionalControl: null, otherAdditionalControls: null };
         }
 
         const priorityControl = additionalControls.find((control) => {
@@ -286,7 +284,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                         <IconContainer
                             id={'HiddenControlsButton' + location}
                             ref={setReference}
-                            className={classNames({active: showHiddenControls})}
+                            className={classNames({ active: showHiddenControls })}
                             aria-label={HiddenControlsButtonAriaLabel}
                             type='button'
                             {...getClickReferenceProps()}
@@ -301,15 +299,15 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 </>
             )}
             {burnOnReadAdditionalControl}
-            {(wideMode === 'wide' || wideMode === 'normal') && (
+            {wideMode === 'wide' && (
                 <>
                     {priorityAdditionalControl}
-                    {showSeparators && <Separator/>}
+                    {showSeparators}
                     {!isInEditMode && showCallControls && (
                         <>
-                            <VoiceIcon/>
-                            <VideoIcon/>
-                            <CallButton/>
+                            <VoiceIcon />
+                            <VideoIcon />
+                            <CallButton />
                         </>
                     )}
                 </>
@@ -335,24 +333,24 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                                     onClick={makeFormattingHandler(mode)}
                                     disabled={disableControls}
                                 />
-                                {mode === 'heading' && showSeparators && <Separator/>}
+                                {mode === 'heading' && showSeparators && <Separator />}
                             </React.Fragment>
                         );
                     })}
 
                     {Array.isArray(otherAdditionalControls) && otherAdditionalControls.length > 0 && (
                         <>
-                            {showSeparators && <Separator/>}
+                            {showSeparators && <Separator />}
                             {otherAdditionalControls}
                         </>
                     )}
 
                     {!isInEditMode && wideMode !== 'wide' && showCallControls && (
                         <>
-                            {showSeparators && <Separator/>}
-                            <VoiceIcon/>
-                            <VideoIcon/>
-                            <CallButton/>
+                            {showSeparators && <Separator />}
+                            <VoiceIcon />
+                            <VideoIcon />
+                            <CallButton />
                         </>
                     )}
 

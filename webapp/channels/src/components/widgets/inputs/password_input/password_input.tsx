@@ -55,10 +55,7 @@ const PasswordInput = React.forwardRef((
 
     const derivedPlaceholder = createMode ? formatMessage({id: 'widget.passwordInput.createPassword', defaultMessage: 'Choose a Password'}) : formatMessage({id: 'widget.passwordInput.password', defaultMessage: 'Password'});
     const effectivePlaceholder = placeholder || derivedPlaceholder;
-    let effectiveCustomMessage = customMessage;
-    if (effectiveCustomMessage === undefined && (error || info)) {
-        effectiveCustomMessage = derivedCustomMessage;
-    }
+    const effectiveCustomMessage = customMessage !== undefined ? customMessage : (error || info ? derivedCustomMessage : undefined);
 
     return (
         <Input
@@ -69,7 +66,7 @@ const PasswordInput = React.forwardRef((
             inputSize={inputSize}
             addon={
                 <button
-                    id={`${name || 'password'}_toggle`}
+                    id='password_toggle'
                     type='button'
                     aria-label={formatMessage({
                         id: showPassword ? 'widget.passwordInput.hidePassword' : 'widget.passwordInput.showPassword',

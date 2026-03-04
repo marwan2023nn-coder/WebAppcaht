@@ -47,14 +47,6 @@ type State = {
     lineChartsDataLoaded: boolean;
 }
 
-// FIXED (Issue #8 — React Memoization):
-// A single Intl.NumberFormat instance created once at module load time.
-// All StatisticCount components share this stable function reference.
-// Inline `(val) => val.toLocaleString()` arrow functions were creating a NEW
-// function object on every render(), preventing PureComponent from bailing out
-// on unchanged props, and generating unnecessary GC pressure on low-resource devices.
-const formatNumber = (val: number): string => new Intl.NumberFormat().format(val);
-
 const messages = defineMessages({
     title: {id: 'analytics.system.title', defaultMessage: 'System Statistics'},
     totalPosts: {id: 'analytics.system.totalPosts', defaultMessage: 'Total Posts'},
@@ -65,7 +57,7 @@ const messages = defineMessages({
     totalOutgoingWebhooks: {id: 'analytics.system.totalOutgoingWebhooks', defaultMessage: 'Outgoing Webhooks'},
     totalWebsockets: {id: 'analytics.system.totalWebsockets', defaultMessage: 'WebSocket Conns'},
     totalMasterDbConnections: {id: 'analytics.system.totalMasterDbConnections', defaultMessage: 'Master DB Conns'},
-    totalReadDbConnections: {id: 'analytics.system.totalReadDbConnections', defaultMessage: 'Total Read DB Conns'},
+    totalReadDbConnections: {id: 'analytics.system.totalReadDbConnections', defaultMessage: 'Replica DB Conns'},
     postTypes: {id: 'analytics.system.postTypes', defaultMessage: 'Posts, Files and Hashtags'},
     channelTypes: {id: 'analytics.system.channelTypes', defaultMessage: 'Channel Types'},
     totalTeams: {id: 'analytics.system.totalTeams', defaultMessage: 'Total Teams'},
@@ -74,8 +66,6 @@ const messages = defineMessages({
     monthlyActiveUsers: {id: 'analytics.system.monthlyActiveUsers', defaultMessage: 'Monthly Active Users'},
     totalFiles: {id: 'analytics.system.totalFiles', defaultMessage: 'Total Files'},
     totalFilesSize: {id: 'analytics.system.totalFilesSize', defaultMessage: 'Total Files Size'},
-    totalAttachedFiles: {id: 'analytics.system.totalAttachedFiles', defaultMessage: 'Attached Files'},
-    totalDownloadedFiles: {id: 'analytics.system.totalDownloadedFiles', defaultMessage: 'Downloaded Files'},
 });
 
 export const searchableStrings = [
@@ -97,8 +87,6 @@ export const searchableStrings = [
     messages.monthlyActiveUsers,
     messages.totalFiles,
     messages.totalFilesSize,
-    messages.totalAttachedFiles,
-    messages.totalDownloadedFiles,
 ];
 
 export default class SystemAnalytics extends React.PureComponent<Props, State> {
@@ -209,7 +197,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     title={<FormattedMessage {...messages.totalPosts}/>}
                     icon='fa-comment'
                     count={this.getStatValue(stats[StatTypes.TOTAL_POSTS])}
-                    formatter={formatNumber}
                 />
             );
 
@@ -263,8 +250,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
         let outgoingCount;
         let totalFiles;
         let totalFilesSize;
-        let totalAttachedFiles;
-        let totalDownloadedFiles;
         if (this.props.isLicensed) {
             sessionCount = (
                 <StatisticCount
@@ -272,7 +257,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     title={<FormattedMessage {...messages.totalSessions}/>}
                     icon='fa-signal'
                     count={this.getStatValue(stats[StatTypes.TOTAL_SESSIONS])}
-                    formatter={formatNumber}
                 />
             );
 
@@ -282,7 +266,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     title={<FormattedMessage {...messages.totalCommands}/>}
                     icon='fa-terminal'
                     count={this.getStatValue(stats[StatTypes.TOTAL_COMMANDS])}
-                    formatter={formatNumber}
                 />
             );
 
@@ -306,33 +289,12 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 />
             );
 
-            totalAttachedFiles = (
-                <StatisticCount
-                    id='totalAttachedFiles'
-                    title={<FormattedMessage {...messages.totalAttachedFiles}/>}
-                    icon='fa-paperclip'
-                    count={this.getStatValue(stats[StatTypes.TOTAL_ATTACHED_FILE_COUNT])}
-                    formatter={formatNumber}
-                />
-            );
-
-            totalDownloadedFiles = (
-                <StatisticCount
-                    id='totalDownloadedFiles'
-                    title={<FormattedMessage {...messages.totalDownloadedFiles}/>}
-                    icon='fa-download'
-                    count={this.getStatValue(stats[StatTypes.TOTAL_DOWNLOADED_FILE_COUNT])}
-                    formatter={formatNumber}
-                />
-            );
-
             totalFiles = (
                 <StatisticCount
                     id='totalFiles'
                     title={<FormattedMessage {...messages.totalFiles}/>}
                     icon='fa-files-o'
                     count={this.getStatValue(stats[StatTypes.TOTAL_FILE_COUNT])}
-                    formatter={formatNumber}
                 />
             );
 
@@ -354,7 +316,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                         }
                         icon='fa-user'
                         count={this.getStatValue(stats[StatTypes.TOTAL_WEBSOCKET_CONNECTIONS])}
-                        formatter={formatNumber}
                     />
                     <StatisticCount
                         id='masterDbConns'
@@ -362,7 +323,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                         }
                         icon='fa-terminal'
                         count={this.getStatValue(stats[StatTypes.TOTAL_MASTER_DB_CONNECTIONS])}
-                        formatter={formatNumber}
                     />
                     <StatisticCount
                         id='replicaDbConns'
@@ -370,7 +330,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                         }
                         icon='fa-terminal'
                         count={this.getStatValue(stats[StatTypes.TOTAL_READ_DB_CONNECTIONS])}
-                        formatter={formatNumber}
                     />
                 </>
             );
@@ -410,7 +369,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 }
                 icon='fa-users'
                 count={parseInt(this.props.license.Users, 10)}
-                formatter={formatNumber}
             />
         );
 
@@ -421,7 +379,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 }
                 icon='fa-users'
                 count={this.getStatValue(stats[StatTypes.TOTAL_TEAMS])}
-                formatter={formatNumber}
             />
         );
         const totalPublicChannelsCount = this.getStatValue(stats[StatTypes.TOTAL_PUBLIC_CHANNELS]);
@@ -443,7 +400,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 }
                 icon='fa-globe'
                 count={totalChannelCount()}
-                formatter={formatNumber}
             />
         );
 
@@ -454,7 +410,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 }
                 icon='fa-users'
                 count={this.getStatValue(stats[StatTypes.DAILY_ACTIVE_USERS])}
-                formatter={formatNumber}
             />
         );
 
@@ -465,7 +420,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                 }
                 icon='fa-users'
                 count={this.getStatValue(stats[StatTypes.MONTHLY_ACTIVE_USERS])}
-                formatter={formatNumber}
             />
         );
 
@@ -535,8 +489,6 @@ export default class SystemAnalytics extends React.PureComponent<Props, State> {
                     {incomingCount}
                     {outgoingCount}
                     {totalFiles}
-                    {totalAttachedFiles}
-                    {totalDownloadedFiles}
                     {totalFilesSize}
                 </>
             );

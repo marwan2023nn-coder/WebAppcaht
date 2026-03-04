@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import DOMPurify from 'dompurify';
 import React, {useEffect, useState} from 'react';
 
 import type {FileInfo} from '@workspace/types/files';
@@ -112,7 +111,7 @@ const CodePreview = ({
                 <div className='post-code__line-numbers'>
                     {SyntaxHighlighting.renderLineNumbers(codeInfo.code)}
                 </div>
-                <code dangerouslySetInnerHTML={{__html: DOMPurify.sanitize(codeInfo.highlighted)}}/>
+                <code dangerouslySetInnerHTML={{__html: codeInfo.highlighted}}/>
             </div>
         </div>
     );

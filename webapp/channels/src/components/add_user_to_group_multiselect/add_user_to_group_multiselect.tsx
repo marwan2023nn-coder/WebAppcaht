@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
+import React from 'react';
 import type {IntlShape, MessageDescriptor} from 'react-intl';
 import {defineMessage, injectIntl} from 'react-intl';
 
@@ -63,180 +63,192 @@ export type Props = {
     };
 }
 
-const AddUserToGroupMultiSelect = ({
-    multilSelectKey,
-    userStatuses,
-    focusOnLoad,
-    intl,
-    groupId,
-    onSubmitCallback,
-    addUserCallback,
-    deleteUserCallback,
-    searchOptions,
-    excludeUsers = {},
-    includeUsers = {},
-    profiles,
-    savingEnabled,
-    saving,
-    buttonSubmitText = defineMessage({id: 'multiselect.createGroup', defaultMessage: 'Create Group'}),
-    buttonSubmitLoadingText = defineMessage({id: 'multiselect.creating', defaultMessage: 'Creating...'}),
-    backButtonClick,
-    backButtonClass,
-    backButtonText,
-    actions,
-}: Props) => {
-    const [values, setValues] = useState<UserProfileValue[]>([]);
-    const [term, setTerm] = useState('');
-    const [loadingUsers, setLoadingUsers] = useState(true);
+type State = {
+    values: UserProfileValue[];
+    term: string;
+    loadingUsers: boolean;
+}
 
-    const searchTimeoutId = useRef<number>(0);
-    const selectedItemRef = useRef<HTMLDivElement>(null);
+export class AddUserToGroupMultiSelect extends React.PureComponent<Props, State> {
+    private searchTimeoutId = 0;
+    selectedItemRef;
 
-    const addValue = useCallback((value: UserProfileValue) => {
-        setValues((prevValues) => {
-            const nextValues = [...prevValues];
-            if (nextValues.indexOf(value) === -1) {
-                nextValues.push(value);
-            }
+    public static defaultProps = {
+        includeUsers: {},
+        excludeUsers: {},
+    };
 
-            if (addUserCallback) {
-                addUserCallback(nextValues);
-            }
+    constructor(props: Props) {
+        super(props);
 
-            return nextValues;
+        this.state = {
+            values: [],
+            term: '',
+            loadingUsers: true,
+        } as State;
+
+        this.selectedItemRef = React.createRef<HTMLDivElement>();
+    }
+
+    private addValue = (value: UserProfileValue): void => {
+        const values: UserProfileValue[] = Object.assign([], this.state.values);
+        if (values.indexOf(value) === -1) {
+            values.push(value);
+        }
+
+        if (this.props.addUserCallback) {
+            this.props.addUserCallback(values);
+        }
+
+        this.setState({values});
+    };
+
+    public componentDidMount(): void {
+        if (this.props.groupId) {
+            this.props.actions.getProfilesNotInGroup(this.props.groupId).then(() => {
+                this.setUsersLoadingState(false);
+            });
+        } else {
+            this.props.actions.getProfiles().then(() => {
+                this.setUsersLoadingState(false);
+            });
+        }
+
+        this.props.actions.loadStatusesForProfilesList(this.props.profiles);
+    }
+
+    private handleDelete = (values: UserProfileValue[]): void => {
+        if (this.props.deleteUserCallback) {
+            this.props.deleteUserCallback(values);
+        }
+
+        this.setState({values});
+    };
+
+    private setUsersLoadingState = (loadingState: boolean): void => {
+        this.setState({
+            loadingUsers: loadingState,
         });
-    }, [addUserCallback]);
+    };
 
-    useEffect(() => {
-        const fetchProfiles = async () => {
-            if (groupId) {
-                await actions.getProfilesNotInGroup(groupId);
-            } else {
-                await actions.getProfiles();
-            }
-            setLoadingUsers(false);
-        };
-
-        fetchProfiles();
-        actions.loadStatusesForProfilesList(profiles);
-    }, [groupId, actions, profiles]);
-
-    const handleDelete = useCallback((nextValues: UserProfileValue[]) => {
-        if (deleteUserCallback) {
-            deleteUserCallback(nextValues);
-        }
-
-        setValues(nextValues);
-    }, [deleteUserCallback]);
-
-    const handlePageChange = useCallback((page: number, prevPage: number) => {
+    private handlePageChange = (page: number, prevPage: number): void => {
         if (page > prevPage) {
-            setLoadingUsers(true);
-            const fetchNextPage = async () => {
-                if (groupId) {
-                    await actions.getProfilesNotInGroup(groupId, page + 1, USERS_PER_PAGE);
-                } else {
-                    await actions.getProfiles(page + 1, USERS_PER_PAGE);
-                }
-                setLoadingUsers(false);
-            };
-            fetchNextPage();
+            this.setUsersLoadingState(true);
+            if (this.props.groupId) {
+                this.props.actions.getProfilesNotInGroup(this.props.groupId, page + 1, USERS_PER_PAGE).then(() => {
+                    this.setUsersLoadingState(false);
+                });
+            } else {
+                this.props.actions.getProfiles(page + 1, USERS_PER_PAGE).then(() => {
+                    this.setUsersLoadingState(false);
+                });
+            }
         }
-    }, [groupId, actions]);
+    };
 
-    const handleSubmit = useCallback(() => {
-        if (values.length === 0) {
+    public handleSubmit = (): void => {
+        const userIds = this.state.values.map((v) => v.id);
+        if (userIds.length === 0) {
             return;
         }
-        onSubmitCallback(values);
-    }, [values, onSubmitCallback]);
+        this.props.onSubmitCallback(this.state.values);
+    };
 
-    const search = useCallback((searchTerm: string) => {
-        const trimmedTerm = searchTerm.trim();
-        window.clearTimeout(searchTimeoutId.current);
-        setTerm(trimmedTerm);
+    public search = (searchTerm: string): void => {
+        const term = searchTerm.trim();
+        clearTimeout(this.searchTimeoutId);
+        this.setState({
+            term,
+        });
 
-        if (trimmedTerm) {
-            setLoadingUsers(true);
-            searchTimeoutId.current = window.setTimeout(
+        if (term) {
+            this.setUsersLoadingState(true);
+            this.searchTimeoutId = window.setTimeout(
                 async () => {
-                    await actions.searchProfiles(trimmedTerm, searchOptions);
-                    setLoadingUsers(false);
+                    await this.props.actions.searchProfiles(term, this.props.searchOptions);
+                    this.setUsersLoadingState(false);
                 },
                 Constants.SEARCH_TIMEOUT_MILLISECONDS,
             );
         }
-    }, [actions, searchOptions]);
+    };
 
-    const renderAriaLabel = useCallback((option: UserProfileValue): string => {
+    private renderAriaLabel = (option: UserProfileValue): string => {
         if (!option) {
             return '';
         }
         return option.username;
-    }, []);
+    };
 
-    const renderOption = useCallback((option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
+    renderOption = (option: UserProfileValue, isSelected: boolean, onAdd: (user: UserProfileValue) => void, onMouseMove: (user: UserProfileValue) => void) => {
         return (
             <MultiSelectOption
                 option={option}
                 onAdd={onAdd}
                 isSelected={isSelected}
                 onMouseMove={onMouseMove}
-                userStatuses={userStatuses}
-                ref={isSelected ? selectedItemRef : undefined}
+                userStatuses={this.props.userStatuses}
+                ref={isSelected ? this.selectedItemRef : undefined}
                 key={option.id}
             />
         );
-    }, [userStatuses]);
+    };
 
-    const filteredUsers = useMemo(() => {
-        let users = filterProfilesStartingWithTerm(profiles, term).filter((user) => {
-            return user.delete_at === 0 && !excludeUsers[user.id];
+    public render = (): JSX.Element => {
+        const buttonSubmitText = this.props.buttonSubmitText || defineMessage({id: 'multiselect.createGroup', defaultMessage: 'Create Group'});
+        const buttonSubmitLoadingText = this.props.buttonSubmitLoadingText || defineMessage({id: 'multiselect.creating', defaultMessage: 'Creating...'});
+
+        let users = filterProfilesStartingWithTerm(this.props.profiles, this.state.term).filter((user) => {
+            return user.delete_at === 0 &&
+                (this.props.excludeUsers !== undefined && !this.props.excludeUsers[user.id]);
         }).map((user) => user as UserProfileValue);
 
-        if (includeUsers) {
-            const extraUsers = Object.values(includeUsers);
-            users = [...users, ...extraUsers];
+        if (this.props.includeUsers) {
+            const includeUsers = Object.values(this.props.includeUsers);
+            users = [...users, ...includeUsers];
         }
 
-        return users;
-    }, [profiles, term, excludeUsers, includeUsers]);
+        let maxValues;
+        let numRemainingText = null;
 
-    const maxValues = values.length >= MAX_SELECTABLE_VALUES ? MAX_SELECTABLE_VALUES : undefined;
-    const numRemainingText = maxValues ? defineMessage({id: 'multiselect.maxGroupMembers', defaultMessage: 'No more than 256 members can be added to a group at once.'}) : undefined;
+        if (this.state.values.length >= MAX_SELECTABLE_VALUES) {
+            maxValues = MAX_SELECTABLE_VALUES;
+            numRemainingText = defineMessage({id: 'multiselect.maxGroupMembers', defaultMessage: 'No more than 256 members can be added to a group at once.'});
+        }
 
-    return (
-        <MultiSelect
-            key={multilSelectKey}
-            options={filteredUsers}
-            optionRenderer={renderOption}
-            intl={intl}
-            selectedItemRef={selectedItemRef}
-            values={values}
-            ariaLabelRenderer={renderAriaLabel}
-            saveButtonPosition={'bottom'}
-            perPage={USERS_PER_PAGE}
-            handlePageChange={handlePageChange}
-            handleInput={search}
-            handleDelete={handleDelete}
-            handleAdd={addValue}
-            handleSubmit={handleSubmit}
-            buttonSubmitText={buttonSubmitText}
-            buttonSubmitLoadingText={buttonSubmitLoadingText}
-            saving={saving}
-            loading={loadingUsers}
-            placeholderText={defineMessage({id: 'multiselect.placeholder', defaultMessage: 'Search for people'})}
-            valueWithImage={true}
-            focusOnLoad={focusOnLoad}
-            savingEnabled={savingEnabled}
-            backButtonClick={backButtonClick}
-            backButtonClass={backButtonClass}
-            backButtonText={backButtonText}
-            maxValues={maxValues}
-            numRemainingText={numRemainingText}
-            required={true}
-        />
-    );
-};
+        return (
+            <MultiSelect
+                key={this.props.multilSelectKey}
+                options={users}
+                optionRenderer={this.renderOption}
+                intl={this.props.intl}
+                selectedItemRef={this.selectedItemRef}
+                values={this.state.values}
+                ariaLabelRenderer={this.renderAriaLabel}
+                saveButtonPosition={'bottom'}
+                perPage={USERS_PER_PAGE}
+                handlePageChange={this.handlePageChange}
+                handleInput={this.search}
+                handleDelete={this.handleDelete}
+                handleAdd={this.addValue}
+                handleSubmit={this.handleSubmit}
+                buttonSubmitText={buttonSubmitText}
+                buttonSubmitLoadingText={buttonSubmitLoadingText}
+                saving={this.props.saving}
+                loading={this.state.loadingUsers}
+                placeholderText={defineMessage({id: 'multiselect.placeholder', defaultMessage: 'Search for people'})}
+                valueWithImage={true}
+                focusOnLoad={this.props.focusOnLoad}
+                savingEnabled={this.props.savingEnabled}
+                backButtonClick={this.props.backButtonClick}
+                backButtonClass={this.props.backButtonClass}
+                backButtonText={this.props.backButtonText}
+                maxValues={maxValues}
+                numRemainingText={numRemainingText}
+                required={true}
+            />
+        );
+    };
+}
 
-export default injectIntl(React.memo(AddUserToGroupMultiSelect));
+export default injectIntl(AddUserToGroupMultiSelect);

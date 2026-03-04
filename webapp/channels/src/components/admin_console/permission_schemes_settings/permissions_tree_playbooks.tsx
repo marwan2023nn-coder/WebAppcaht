@@ -2,14 +2,14 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { FormattedMessage } from 'react-intl';
+import {FormattedMessage} from 'react-intl';
 
-import type { ClientLicense } from '@workspace/types/config';
-import type { Role } from '@workspace/types/roles';
+import type {ClientLicense} from '@workspace/types/config';
+import type {Role} from '@workspace/types/roles';
 
 import Permissions from 'workspace-redux/constants/permissions';
 
-import { isEnterpriseLicense, isNonEnterpriseLicense } from 'utils/license_utils';
+import {isEnterpriseLicense, isNonEnterpriseLicense} from 'utils/license_utils';
 
 import PermissionGroup from './permission_group';
 
@@ -29,10 +29,17 @@ const groups = [
         permissions: [
             Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
             Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
+        ],
+        isVisible: isNonEnterpriseLicense,
+    },
+    {
+        id: 'playbook_public',
+        permissions: [
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_PROPERTIES,
+            Permissions.PLAYBOOK_PUBLIC_MANAGE_MEMBERS,
             Permissions.PLAYBOOK_PUBLIC_MAKE_PRIVATE,
         ],
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        isVisible: (_license?: any) => true,
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'playbook_private',
@@ -41,8 +48,7 @@ const groups = [
             Permissions.PLAYBOOK_PRIVATE_MANAGE_MEMBERS,
             Permissions.PLAYBOOK_PRIVATE_MAKE_PUBLIC,
         ],
-        // eslint-disable-next-line @typescript-eslint/no-unused-vars
-        isVisible: (_license?: any) => true,
+        isVisible: isEnterpriseLicense,
     },
     {
         id: 'runs',

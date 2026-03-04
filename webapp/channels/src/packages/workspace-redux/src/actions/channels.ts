@@ -422,7 +422,7 @@ export function getChannelTimezones(channelId: string): ActionFuncAsync<string[]
     };
 }
 
-export function fetchChannelsAndMembers(teamId: string): ActionFuncAsync<{ channels: ServerChannel[]; channelMembers: ChannelMembership[] }> {
+export function fetchChannelsAndMembers(teamId: string): ActionFuncAsync<{channels: ServerChannel[]; channelMembers: ChannelMembership[]}> {
     return async (dispatch, getState) => {
         let channels: ServerChannel[] = [];
         let channelMembers: ChannelMembership[] = [];
@@ -564,7 +564,7 @@ export function leaveChannel(channelId: string): ActionFuncAsync {
         (async function removeFromChannelWrapper() {
             try {
                 await Client4.removeFromChannel(currentUserId, channelId);
-            } catch (_error) {
+            } catch {
                 dispatch(batchActions([
                     {
                         type: ChannelTypes.RECEIVED_CHANNEL,
@@ -587,7 +587,7 @@ export function leaveChannel(channelId: string): ActionFuncAsync {
     };
 }
 
-export function joinChannel(userId: string, teamId: string, channelId: string, channelName?: string): ActionFuncAsync<{ channel: Channel; member: ChannelMembership } | null> {
+export function joinChannel(userId: string, teamId: string, channelId: string, channelName?: string): ActionFuncAsync<{channel: Channel; member: ChannelMembership} | null> {
     return async (dispatch, getState) => {
         if (!channelId && !channelName) {
             return {data: null};

@@ -5,28 +5,28 @@ import React, {
     useState,
     useRef,
 } from 'react';
-import { useIntl } from 'react-intl';
-import { useSelector, useDispatch } from 'react-redux';
+import {useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
 
-import { GenericModal } from '@workspace/components';
-import type { Channel } from '@workspace/types/channels';
+import {GenericModal} from '@workspace/components';
+import type {Channel} from '@workspace/types/channels';
 
 import Permissions from 'workspace-redux/constants/permissions';
-import { getChannel } from 'workspace-redux/selectors/entities/channels';
-import { getLicense } from 'workspace-redux/selectors/entities/general';
-import { haveIChannelPermission } from 'workspace-redux/selectors/entities/roles';
+import {getChannel} from 'workspace-redux/selectors/entities/channels';
+import {getLicense} from 'workspace-redux/selectors/entities/general';
+import {haveIChannelPermission} from 'workspace-redux/selectors/entities/roles';
 
 import {
     setShowPreviewOnChannelSettingsHeaderModal,
     setShowPreviewOnChannelSettingsPurposeModal,
 } from 'actions/views/textbox';
-import { isChannelAccessControlEnabled } from 'selectors/general';
+import {isChannelAccessControlEnabled} from 'selectors/general';
 
-import { focusElement } from 'utils/a11y_utils';
+import {focusElement} from 'utils/a11y_utils';
 import Constants from 'utils/constants';
-import { isMinimumEnterpriseAdvancedLicense } from 'utils/license_utils';
+import {isMinimumEnterpriseAdvancedLicense} from 'utils/license_utils';
 
-import type { GlobalState } from 'types/store';
+import type {GlobalState} from 'types/store';
 
 import ChannelSettingsAccessRulesTab from './channel_settings_access_rules_tab';
 import ChannelSettingsArchiveTab from './channel_settings_archive_tab';
@@ -54,8 +54,8 @@ enum ChannelSettingsTabs {
 
 const SHOW_PANEL_ERROR_STATE_TAB_SWITCH_TIMEOUT = 3000;
 
-function ChannelSettingsModal({ channelId, isOpen, onExited, focusOriginElement }: ChannelSettingsModalProps) {
-    const { formatMessage } = useIntl();
+function ChannelSettingsModal({channelId, isOpen, onExited, focusOriginElement}: ChannelSettingsModalProps) {
+    const {formatMessage} = useIntl();
     const dispatch = useDispatch();
     const channel = useSelector((state: GlobalState) => getChannel(state, channelId)) as Channel;
     const channelBannerEnabled = isMinimumEnterpriseAdvancedLicense(useSelector(getLicense));
@@ -68,7 +68,7 @@ function ChannelSettingsModal({ channelId, isOpen, onExited, focusOriginElement 
     );
     const hasManageChannelBannerPermission = (channel.type === 'O' && canManagePublicChannelBanner) || (channel.type === 'P' && canManagePrivateChannelBanner);
 
-    const shouldShowConfigurationTab = true; // channelBannerEnabled && hasManageChannelBannerPermission;
+    const shouldShowConfigurationTab = channelBannerEnabled && hasManageChannelBannerPermission;
 
     const canArchivePrivateChannels = useSelector((state: GlobalState) =>
         haveIChannelPermission(state, channel.team_id, channel.id, Permissions.DELETE_PRIVATE_CHANNEL),
@@ -162,16 +162,16 @@ function ChannelSettingsModal({ channelId, isOpen, onExited, focusOriginElement 
     // Renders content based on active tab
     const renderTabContent = () => {
         switch (activeTab) {
-            case ChannelSettingsTabs.INFO:
-                return renderInfoTab();
-            case ChannelSettingsTabs.ACCESS_RULES:
-                return renderAccessRulesTab();
-            case ChannelSettingsTabs.CONFIGURATION:
-                return renderConfigurationTab();
-            case ChannelSettingsTabs.ARCHIVE:
-                return renderArchiveTab();
-            default:
-                return renderInfoTab();
+        case ChannelSettingsTabs.INFO:
+            return renderInfoTab();
+        case ChannelSettingsTabs.ACCESS_RULES:
+            return renderAccessRulesTab();
+        case ChannelSettingsTabs.CONFIGURATION:
+            return renderConfigurationTab();
+        case ChannelSettingsTabs.ARCHIVE:
+            return renderArchiveTab();
+        default:
+            return renderInfoTab();
         }
     };
 
@@ -218,33 +218,33 @@ function ChannelSettingsModal({ channelId, isOpen, onExited, focusOriginElement 
     const tabs = [
         {
             name: ChannelSettingsTabs.INFO,
-            uiName: formatMessage({ id: 'channel_settings.tab.info', defaultMessage: 'Info' }),
+            uiName: formatMessage({id: 'channel_settings.tab.info', defaultMessage: 'Info'}),
             icon: 'icon icon-information-outline',
-            iconTitle: formatMessage({ id: 'generic_icons.info', defaultMessage: 'Info Icon' }),
+            iconTitle: formatMessage({id: 'generic_icons.info', defaultMessage: 'Info Icon'}),
         },
         {
             name: ChannelSettingsTabs.ACCESS_RULES,
-            uiName: formatMessage({ id: 'channel_settings.tab.access_control', defaultMessage: 'Access Control' }),
+            uiName: formatMessage({id: 'channel_settings.tab.access_control', defaultMessage: 'Access Control'}),
             icon: 'icon icon-shield-outline',
-            iconTitle: formatMessage({ id: 'generic_icons.access_rules', defaultMessage: 'Access Rules Icon' }),
+            iconTitle: formatMessage({id: 'generic_icons.access_rules', defaultMessage: 'Access Rules Icon'}),
             display: shouldShowAccessRulesTab,
         },
         {
             name: ChannelSettingsTabs.CONFIGURATION,
-            uiName: formatMessage({ id: 'channel_settings.tab.configuration', defaultMessage: 'Configuration' }),
+            uiName: formatMessage({id: 'channel_settings.tab.configuration', defaultMessage: 'Configuration'}),
             icon: 'icon icon-cog-outline',
-            iconTitle: formatMessage({ id: 'generic_icons.settings', defaultMessage: 'Settings Icon' }),
+            iconTitle: formatMessage({id: 'generic_icons.settings', defaultMessage: 'Settings Icon'}),
             display: shouldShowConfigurationTab,
         },
         {
             name: ChannelSettingsTabs.ARCHIVE,
-            uiName: formatMessage({ id: 'channel_settings.tab.archive', defaultMessage: 'Archive Channel' }),
+            uiName: formatMessage({id: 'channel_settings.tab.archive', defaultMessage: 'Archive Channel'}),
             icon: 'icon icon-archive-outline',
-            iconTitle: formatMessage({ id: 'generic_icons.archive', defaultMessage: 'Archive Icon' }),
+            iconTitle: formatMessage({id: 'generic_icons.archive', defaultMessage: 'Archive Icon'}),
             newGroup: true,
             display: channel.name !== Constants.DEFAULT_CHANNEL && // archive is not available for the default channel
                 ((channel.type === Constants.PRIVATE_CHANNEL && canArchivePrivateChannels) ||
-                    (channel.type === Constants.OPEN_CHANNEL && canArchivePublicChannels)),
+                (channel.type === Constants.OPEN_CHANNEL && canArchivePublicChannels)),
         },
     ];
 
@@ -271,7 +271,7 @@ function ChannelSettingsModal({ channelId, isOpen, onExited, focusOriginElement 
         );
     };
 
-    const modalTitle = formatMessage({ id: 'channel_settings.modal.title', defaultMessage: 'Channel Settings' });
+    const modalTitle = formatMessage({id: 'channel_settings.modal.title', defaultMessage: 'Channel Settings'});
 
     return (
         <GenericModal

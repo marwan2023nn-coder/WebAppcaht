@@ -38,7 +38,6 @@ import ConfirmManageUserSettingsModal from './confirm_manage_user_settings_modal
 import ConfirmResetFailedAttemptsModal from './confirm_reset_failed_attempts_modal';
 import CreateGroupSyncablesMembershipsModal from './create_group_syncables_membership_modal';
 import DeactivateMemberModal from './deactivate_member_modal';
-import DeleteUserModal from './delete_user_modal';
 import DemoteToGuestModal from './demote_to_guest_modal';
 import PromoteToMemberModal from './promote_to_member_modal';
 import RevokeSessionsModal from './revoke_sessions_modal';
@@ -289,7 +288,7 @@ export function SystemUsersListAction({user, currentUser, tableId, rowIndex, onE
             return;
         }
         function onDeactivateMemberSuccess() {
-            updateUser({delete_at: Date.now()});
+            updateUser({delete_at: new Date().getMilliseconds()});
         }
 
         dispatch(
@@ -300,24 +299,6 @@ export function SystemUsersListAction({user, currentUser, tableId, rowIndex, onE
                     user,
                     onError,
                     onSuccess: onDeactivateMemberSuccess,
-                },
-            }),
-        );
-    }, [user, updateUser, onError]);
-
-    const handleDeleteUserClick = useCallback(() => {
-        function onDeleteUserSuccess() {
-            updateUser({delete_at: Date.now()});
-        }
-
-        dispatch(
-            openModal({
-                modalId: ModalIdentifiers.DELETE_USER_MODAL,
-                dialogType: DeleteUserModal,
-                dialogProps: {
-                    user,
-                    onError,
-                    onSuccess: onDeleteUserSuccess,
                 },
             }),
         );
@@ -577,19 +558,6 @@ export function SystemUsersListAction({user, currentUser, tableId, rowIndex, onE
                     onClick={handleDeactivateMemberClick}
                     disabled={disableActivationToggle}
                     {...getManagedByLDAPText(disableActivationToggle)}
-                />
-            )}
-            {user.delete_at === 0 && (
-                <Menu.Item
-                    id='deleteUserButton'
-                    isDestructive={true}
-                    labels={
-                        <FormattedMessage
-                            id='admin.system_users.list.actions.menu.delete'
-                            defaultMessage='Delete'
-                        />
-                    }
-                    onClick={handleDeleteUserClick}
                 />
             )}
         </Menu.Container>

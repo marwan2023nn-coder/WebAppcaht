@@ -2,32 +2,33 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, { useEffect, useState } from 'react';
-import { Modal, Button } from 'react-bootstrap';
-import { FormattedMessage, defineMessages, useIntl } from 'react-intl';
-import { useSelector, useDispatch } from 'react-redux';
+import React, {useEffect, useState} from 'react';
+import {Modal, Button} from 'react-bootstrap';
+import {FormattedMessage, defineMessages, useIntl} from 'react-intl';
+import {useSelector, useDispatch} from 'react-redux';
 
-import { getLicenseConfig } from 'workspace-redux/actions/general';
-import { getCurrentUser } from 'workspace-redux/selectors/entities/common';
+import {getLicenseConfig} from 'workspace-redux/actions/general';
+import {getCurrentUser} from 'workspace-redux/selectors/entities/common';
 
-import { requestTrialLicense } from 'actions/admin_actions';
-import { validateBusinessEmail } from 'actions/cloud';
-import { closeModal, openModal } from 'actions/views/modals';
-import { isModalOpen } from 'selectors/views/modals';
+import {requestTrialLicense} from 'actions/admin_actions';
+import {validateBusinessEmail} from 'actions/cloud';
+import {closeModal, openModal} from 'actions/views/modals';
+import {isModalOpen} from 'selectors/views/modals';
 
-import { makeAsyncComponent } from 'components/async_load';
+import {makeAsyncComponent} from 'components/async_load';
+import useCWSAvailabilityCheck, {CSWAvailabilityCheckTypes} from 'components/common/hooks/useCWSAvailabilityCheck';
 import useGetTotalUsersNoBots from 'components/common/hooks/useGetTotalUsersNoBots';
 import DropdownInput from 'components/dropdown_input';
 import ExternalLink from 'components/external_link';
 import CountrySelector from 'components/payment_form/country_selector';
-import Input, { SIZE } from 'components/widgets/inputs/input/input';
-import type { CustomMessageInputType } from 'components/widgets/inputs/input/input';
+import Input, {SIZE} from 'components/widgets/inputs/input/input';
+import type {CustomMessageInputType} from 'components/widgets/inputs/input/input';
 
-import { AboutLinks, LicenseLinks, ModalIdentifiers } from 'utils/constants';
+import {AboutLinks, LicenseLinks, ModalIdentifiers} from 'utils/constants';
 
-import type { GlobalState } from 'types/store';
+import type {GlobalState} from 'types/store';
 
-
+import AirGappedModal from './air_gapped_modal';
 import StartTrialFormModalResult from './failure_modal';
 
 import './start_trial_form_modal.scss';
@@ -91,8 +92,8 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
     const [orgSize, setOrgSize] = useState<OrgSize | undefined>();
     const [country, setCountry] = useState('');
     const [businessEmailError, setBusinessEmailError] = useState<CustomMessageInputType | undefined>(undefined);
-    const { formatMessage } = useIntl();
-
+    const {formatMessage} = useIntl();
+    const cwsAvailability = useCWSAvailabilityCheck();
     const show = useSelector((state: GlobalState) => isModalOpen(state, ModalIdentifiers.START_TRIAL_FORM_MODAL));
     const totalUsers = useGetTotalUsersNoBots(true) || 0;
     const [didOnce, setDidOnce] = useState(false);
@@ -112,7 +113,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
 
         setBusinessEmailError({
             type: 'error',
-            value: formatMessage({ id: 'start_trial_form.invalid_business_email', defaultMessage: 'Please enter a valid business email address.' },
+            value: formatMessage({id: 'start_trial_form.invalid_business_email', defaultMessage: 'Please enter a valid business email address.'},
             ),
         });
     };
@@ -131,7 +132,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
         dispatch(openModal({
             modalId: ModalIdentifiers.TRIAL_BENEFITS_MODAL,
             dialogType: TrialBenefitsModal,
-            dialogProps: { trialJustStarted: true },
+            dialogProps: {trialJustStarted: true},
         }));
     };
 
@@ -154,7 +155,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
             company_country: country,
             company_size: orgSize,
         };
-        const { error, data } = await dispatch(requestTrialLicense(trialRequestBody));
+        const {error, data} = await dispatch(requestTrialLicense(trialRequestBody));
         if (error) {
             setLoadStatus(TrialLoadStatus.Failed);
             let title;
@@ -209,14 +210,14 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
 
     const btnText = (status: TrialLoadStatus): string => {
         switch (status) {
-            case TrialLoadStatus.Started:
-                return formatMessage({ id: 'start_trial.modal.loading', defaultMessage: 'Loading...' });
-            case TrialLoadStatus.Success:
-                return formatMessage({ id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!' });
-            case TrialLoadStatus.Failed:
-                return formatMessage({ id: 'start_trial.modal.failed', defaultMessage: 'Failed' });
-            default:
-                return formatMessage({ id: 'start_trial_form.modal_btn.start', defaultMessage: 'Start trial' });
+        case TrialLoadStatus.Started:
+            return formatMessage({id: 'start_trial.modal.loading', defaultMessage: 'Loading...'});
+        case TrialLoadStatus.Success:
+            return formatMessage({id: 'start_trial.modal.loaded', defaultMessage: 'Loaded!'});
+        case TrialLoadStatus.Failed:
+            return formatMessage({id: 'start_trial.modal.failed', defaultMessage: 'Failed'});
+        default:
+            return formatMessage({id: 'start_trial_form.modal_btn.start', defaultMessage: 'Start trial'});
         }
     };
 
@@ -233,7 +234,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
         }
         return {
             value: orgSize,
-            label: formatMessage({ id: orgSize, defaultMessage: OrgSize[orgSize as unknown as keyof typeof OrgSize] }),
+            label: formatMessage({id: orgSize, defaultMessage: OrgSize[orgSize as unknown as keyof typeof OrgSize]}),
         };
     };
 
@@ -248,11 +249,17 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
         status === TrialLoadStatus.Success
     );
 
-
+    if (cwsAvailability === CSWAvailabilityCheckTypes.Unavailable) {
+        return (
+            <AirGappedModal
+                onClose={handleOnClose}
+            />
+        );
+    }
 
     return (
         <Modal
-            className={classNames('StartTrialFormModal', { error: TrialLoadStatus.Failed === status })}
+            className={classNames('StartTrialFormModal', {error: TrialLoadStatus.Failed === status})}
             dialogClassName='a11y__modal'
             show={show}
             id='StartTrialFormModal'
@@ -282,7 +289,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
                     inputSize={SIZE.LARGE}
                     onChange={(e) => setName(e.target.value)}
                     required={true}
-                    placeholder={formatMessage({ id: 'start_trial_form.name', defaultMessage: 'Name' })}
+                    placeholder={formatMessage({id: 'start_trial_form.name', defaultMessage: 'Name'})}
                 />
                 <Input
                     className={'email_input'}
@@ -293,7 +300,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
                     inputSize={SIZE.LARGE}
                     onChange={(e) => setEmail(e.target.value)}
                     required={true}
-                    placeholder={formatMessage({ id: 'start_trial_form.email', defaultMessage: 'Business Email' })}
+                    placeholder={formatMessage({id: 'start_trial_form.email', defaultMessage: 'Business Email'})}
                     customMessage={businessEmailError}
                 />
                 <Input
@@ -304,7 +311,7 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
                     value={companyName}
                     onChange={(e) => setCompanyName(e.target.value)}
                     required={true}
-                    placeholder={formatMessage({ id: 'start_trial_form.company_name', defaultMessage: 'Company Name' })}
+                    placeholder={formatMessage({id: 'start_trial_form.company_name', defaultMessage: 'Company Name'})}
                 />
                 <DropdownInput
                     className={'company_size_dropdown'}
@@ -312,9 +319,9 @@ function StartTrialFormModal(props: Props): JSX.Element | null {
                         setOrgSize(e.value as OrgSize);
                     }}
                     value={getOrgSizeDropdownValue()}
-                    options={Object.entries(OrgSize).map(([value, label]) => ({ value, label })) as any} // options type is not correctly set in DropdownInput component.
-                    legend={formatMessage({ id: 'start_trial_form.company_size', defaultMessage: 'Company Size' })}
-                    placeholder={formatMessage({ id: 'start_trial_form.company_size', defaultMessage: 'Company Size' })}
+                    options={Object.entries(OrgSize).map(([value, label]) => ({value, label})) as any} // options type is not correctly set in DropdownInput component.
+                    legend={formatMessage({id: 'start_trial_form.company_size', defaultMessage: 'Company Size'})}
+                    placeholder={formatMessage({id: 'start_trial_form.company_size', defaultMessage: 'Company Size'})}
                     name='company_size_dropdown'
                 />
                 <div className='countries-section'>

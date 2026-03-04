@@ -6,9 +6,12 @@ import cloneDeep from 'lodash/cloneDeep';
 import Permissions from 'workspace-redux/constants/permissions';
 import {ResourceToSysConsolePermissionsTable, RESOURCE_KEYS} from 'workspace-redux/constants/permissions_sysconsole';
 import {createSelector} from 'workspace-redux/selectors/create_selector';
+import {getLicense} from 'workspace-redux/selectors/entities/general';
 import {getMySystemPermissions, haveISystemPermission} from 'workspace-redux/selectors/entities/roles_helpers';
 
 import AdminDefinition from 'components/admin_console/admin_definition';
+
+import {isEnterpriseLicense} from '../utils/license_utils';
 
 export const getAdminDefinition = createSelector(
     'getAdminDefinition',
@@ -56,15 +59,26 @@ export const getConsoleAccess = createSelector(
 
 export const getShowManageUserSettings = createSelector(
     'showManageUserSettings',
+    getLicense,
     (state) => state,
-    (state) => {
+    (license, state) => {
         const hasWriteUserManagementPermission = haveISystemPermission(state, {permission: Permissions.SYSCONSOLE_WRITE_USERMANAGEMENT_USERS});
 
-        return hasWriteUserManagementPermission;
+        const isEnterprise = isEnterpriseLicense(license);
+
+        return hasWriteUserManagementPermission && isEnterprise;
     },
 );
 
 export const getShowLockedManageUserSettings = createSelector(
     'showLockedManageUserSettings',
-    () => false,
+    getLicense,
+    (state) => state,
+    (license, state) => {
+        const hasWriteUserManagementPermission = haveISystemPermission(state, {permission: Permissions.SYSCONSOLE_WRITE_USERMANAGEMENT_USERS});
+
+        const isEnterprise = isEnterpriseLicense(license);
+
+        return hasWriteUserManagementPermission && !isEnterprise;
+    },
 );

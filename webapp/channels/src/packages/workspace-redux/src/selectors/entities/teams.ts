@@ -36,7 +36,7 @@ export function getTeamsInPolicy() {
     return (createSelector(
         'getTeamsInPolicy',
         getTeams,
-        (state: GlobalState, props: { policyId: string }) => getDataRetentionCustomPolicy(state, props.policyId),
+        (state: GlobalState, props: {policyId: string}) => getDataRetentionCustomPolicy(state, props.policyId),
         (allTeams, policy) => {
             if (!policy) {
                 return [];
@@ -103,7 +103,7 @@ export const getCurrentTeamMembership: (state: GlobalState) => TeamMembership | 
     'getCurrentTeamMembership',
     getCurrentTeamId,
     getTeamMemberships,
-    (currentTeamId: string, teamMemberships: { [teamId: string]: TeamMembership }): TeamMembership => {
+    (currentTeamId: string, teamMemberships: {[teamId: string]: TeamMembership}): TeamMembership => {
         return teamMemberships[currentTeamId];
     },
 );
@@ -117,17 +117,6 @@ export const isCurrentUserCurrentTeamAdmin: (state: GlobalState) => boolean = cr
             return isTeamAdmin(roles);
         }
         return false;
-    },
-);
-
-export const isCurrentUserTeamAdminInAnyTeam: (state: GlobalState) => boolean = createSelector(
-    'isCurrentUserTeamAdminInAnyTeam',
-    getTeamMemberships,
-    (teamMemberships) => {
-        if (!teamMemberships || Object.keys(teamMemberships).length === 0) {
-            return false;
-        }
-        return Object.values(teamMemberships).some((member) => member && member.scheme_admin === true);
     },
 );
 
@@ -247,7 +236,7 @@ export const getSortedListableTeams: (state: GlobalState, locale: string) => Tea
     getListableTeamIds,
     (state: GlobalState, locale: string) => locale,
     (teams, listableTeamIds, locale) => {
-        const listableTeams: { [x: string]: Team } = {};
+        const listableTeams: {[x: string]: Team} = {};
 
         for (const id of listableTeamIds) {
             listableTeams[id] = teams[id];
@@ -292,7 +281,7 @@ export const getSortedJoinableTeams: (state: GlobalState, locale: string) => Tea
     getJoinableTeamIds,
     (state: GlobalState, locale: string) => locale,
     (teams, joinableTeamIds, locale) => {
-        const joinableTeams: { [x: string]: Team } = {};
+        const joinableTeams: {[x: string]: Team} = {};
 
         for (const id of joinableTeamIds) {
             joinableTeams[id] = teams[id];

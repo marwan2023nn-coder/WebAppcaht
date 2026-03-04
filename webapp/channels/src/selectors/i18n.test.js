@@ -155,8 +155,8 @@ describe('selectors/i18n', () => {
             views: {
                 i18n: {
                     translations: {
-                        ar: {
-                            'test.hello_world': 'مرحبا بالعالم!',
+                        en: {
+                            'test.hello_world': 'Hello, World!',
                         },
                     },
                 },
@@ -164,16 +164,16 @@ describe('selectors/i18n', () => {
         };
 
         test('returns loaded translations', () => {
-            expect(getTranslations(state, 'ar')).toBe(state.views.i18n.translations.ar);
+            expect(getTranslations(state, 'en')).toBe(state.views.i18n.translations.en);
         });
 
         test('returns null for unloaded translations', () => {
             expect(getTranslations(state, 'fr')).toEqual(undefined);
         });
 
-        test('returns Arabic translations for unsupported locale', () => {
+        test('returns English translations for unsupported locale', () => {
             // This test will have to be changed if we add support for Gaelic
-            expect(getTranslations(state, 'gd')).toBe(state.views.i18n.translations.ar);
+            expect(getTranslations(state, 'gd')).toBe(state.views.i18n.translations.en);
         });
     });
 });

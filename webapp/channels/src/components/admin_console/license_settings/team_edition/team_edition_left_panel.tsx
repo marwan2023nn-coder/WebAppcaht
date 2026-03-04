@@ -8,17 +8,27 @@ export interface TeamEditionProps {
     openEELicenseModal: () => void;
 }
 
-const TeamEdition: React.FC<TeamEditionProps> = ({ openEELicenseModal }: TeamEditionProps) => {
-    const title = 'نسخة workspace';
+const TeamEdition: React.FC<TeamEditionProps> = ({openEELicenseModal}: TeamEditionProps) => {
+    const title = 'Team Edition';
     return (
         <div className='TeamEditionLeftPanel'>
             <div className='TeamEditionLeftPanel__Header'>
                 <div className='TeamEditionLeftPanel__Title'>{title}</div>
             </div>
             <div className='TeamEditionLeftPanel__LicenseNotices'>
-                <p>{'عند استخدام نسخة workspace يتم تقديم البرنامج بموجب ترخيص workspace. '}</p>
-                <p>{'عند استخدام نسخة المؤسسات، يتم تقديم البرنامج بموجب ترخيص تجاري. '}</p>
-                <p>{'راجع workspace للحصول على معلومات حول البرامج مفتوحة المصدر المستخدمة في النظام.'}</p>
+                <p>{'When using Workspace Team Edition, the software is offered under a Workspace MIT Compiled License. See MIT-COMPILED-LICENSE.md in your root install directory for details.'}</p>
+                <p>
+                    {'When using Workspace Enterprise Edition, the software is offered under a commercial license. See '}
+                    <a
+                        role='button'
+                        onClick={openEELicenseModal}
+                        className='openEELicenseModal'
+                    >
+                        {'here'}
+                    </a>
+                    {' for “Enterprise Edition License” for details.'}
+                </p>
+                <p>{'See NOTICE.txt for information about open source software used in the system.'}</p>
             </div>
         </div>
     );

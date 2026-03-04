@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, { useCallback, useEffect, useRef, useState, useMemo, memo } from 'react';
+import React, { useCallback, useEffect, useRef, useState, useMemo } from 'react';
 import type { MouseEvent as ReactMouseEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { FormattedMessage, useIntl } from 'react-intl';
@@ -60,7 +60,6 @@ import type { GlobalState } from 'types/store';
 import { withPostErrorBoundary } from './post_error_boundary';
 import PostOptions from './post_options';
 import PostUserProfile from './user_profile';
-import PostSearchHeader from './post_search_header';
 import './custom.scss';
 import ReplyPreview from 'components/reply_preview/reply_preview';
 import EmojiIcon from 'components/widgets/icons/emoji_icon';
@@ -254,18 +253,22 @@ function PostComponent(props: Props) {
         };
     }, [clearClickDebounceTimeout, clearJumpHighlightTimeout]);
 
-    const [jumpHighlightPostId, setJumpHighlightPostId] = useState<string | null>(null);
-
     const highlightPostElementTemporarily = useCallback((postId: string) => {
         if (!postId) {
             return;
         }
 
         clearJumpHighlightTimeout();
-        setJumpHighlightPostId(postId);
 
+        const el = document.getElementById(`${postId}_message`);
+        const postEl = el?.closest?.('.post') as HTMLElement | null;
+        if (!postEl) {
+            return;
+        }
+
+        postEl.classList.add('post--jump-highlight');
         jumpHighlightTimeoutRef.current = setTimeout(() => {
-            setJumpHighlightPostId(null);
+            postEl.classList.remove('post--jump-highlight');
             jumpHighlightTimeoutRef.current = null;
         }, 5000);
     }, [clearJumpHighlightTimeout]);
@@ -405,7 +408,6 @@ function PostComponent(props: Props) {
             hover || fileDropdownOpened || dropdownOpened || a11yActive || props.isPostBeingEdited || (shouldHighlight && !fadeOutHighlight);
         return classNames('a11y__section post', {
             'post--highlight': shouldHighlight && !fadeOutHighlight,
-            'post--jump-highlight': jumpHighlightPostId === post.id,
             'same--root': hasSameRoot(props),
             'other--root': !hasSameRoot(props) && !isSystemMessage,
             'post--bot': PostUtils.isFromBot(post),
@@ -662,7 +664,6 @@ function PostComponent(props: Props) {
 
     const handleJumpClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
         if (props.isMobileView) {
             props.actions.closeRightHandSide();
         }
@@ -675,7 +676,6 @@ function PostComponent(props: Props) {
 
     const handleCommentClick = useCallback((e: React.MouseEvent) => {
         e.preventDefault();
-        e.stopPropagation();
 
         if (!post) {
             return;
@@ -986,16 +986,32 @@ function PostComponent(props: Props) {
                 onMouseOver={handleMouseOver}
                 onMouseLeave={handleMouseLeave}
             >
-                <PostSearchHeader
-                    post={post}
-                    location={props.location}
-                    isFlagged={props.isFlagged}
-                    isFlaggedPosts={props.isFlaggedPosts}
-                    isPinnedPosts={props.isPinnedPosts}
-                    channelDisplayName={channelDisplayName}
-                    teamDisplayName={props.teamDisplayName}
-                    channelIsArchived={props.channelIsArchived}
-                />
+                {(Boolean(isSearchResultItem) || (props.location !== Locations.CENTER && props.isFlagged)) &&
+                    <div
+                        className='search-channel__name__container'
+                        aria-hidden='true'
+                    >
+                        {(Boolean(isSearchResultItem) || props.isFlaggedPosts) &&
+                            <span className='search-channel__name'>
+                                {channelDisplayName}
+                            </span>
+                        }
+                        {props.channelIsArchived &&
+                            <span className='search-channel__archived'>
+                                <ArchiveIcon className='icon icon__archive channel-header-archived-icon svg-text-color' />
+                                <FormattedMessage
+                                    id='search_item.channelArchived'
+                                    defaultMessage='Archived'
+                                />
+                            </span>
+                        }
+                        {(Boolean(isSearchResultItem) || props.isFlaggedPosts) && Boolean(props.teamDisplayName) &&
+                            <span className='search-team__name'>
+                                {props.teamDisplayName}
+                            </span>
+                        }
+                    </div>
+                }
                 <div className={props.currentUserId === post.user_id ? 'post--left' : 'post--right'}>
                     <PostPreHeader
                         isFlagged={props.isFlagged}
@@ -1301,4 +1317,4 @@ function PostComponent(props: Props) {
     );
 }
 
-export default withPostErrorBoundary(memo(PostComponent));
+export default withPostErrorBoundary(PostComponent);

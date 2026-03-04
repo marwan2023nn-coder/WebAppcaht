@@ -29,7 +29,7 @@ export function deletePreferences(userId: string, preferences: PreferenceType[])
                 });
 
                 await Client4.deletePreferences(userId, preferences);
-            } catch (_error) {
+            } catch {
                 dispatch({
                     type: PreferenceTypes.RECEIVED_PREFERENCES,
                     data: currentPreferences,
@@ -84,7 +84,7 @@ export function savePreferences(userId: string, preferences: PreferenceType[]): 
                 });
 
                 await Client4.savePreferences(userId, preferences);
-            } catch (_error) {
+            } catch {
                 dispatch({
                     type: PreferenceTypes.DELETED_PREFERENCES,
                     data: preferences,

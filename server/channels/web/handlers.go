@@ -11,7 +11,6 @@ import (
 	"net/http"
 	"reflect"
 	"runtime"
-	"runtime/debug"
 	"strconv"
 	"strings"
 	"time"
@@ -144,19 +143,6 @@ func (h Handler) basicSecurityChecks(c *Context, w http.ResponseWriter, r *http.
 }
 
 func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	defer func() {
-		if rec := recover(); rec != nil {
-			mlog.Error("Panic in ServeHTTP",
-				mlog.Any("panic", rec),
-				mlog.String("stack", string(debug.Stack())),
-				mlog.String("url", r.URL.Path),
-				mlog.String("method", r.Method),
-			)
-			w.WriteHeader(http.StatusInternalServerError)
-			w.Write([]byte(`{"id": "api.context.panic.app_error", "message": "A panic occurred in the server", "status_code": 500}`))
-		}
-	}()
-
 	w = newWrappedWriter(w)
 	now := time.Now()
 
@@ -242,7 +228,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	// Hardcoded sensible default values for these security headers. Feel free to override in proxy or ingress
 	w.Header().Set("Permissions-Policy", "")
 	w.Header().Set("X-Content-Type-Options", "nosniff")
-	w.Header().Set("Referrer-Policy", "strict-origin-when-cross-origin")
+	w.Header().Set("Referrer-Policy", "no-referrer")
 
 	if h.IsStatic {
 		// Instruct the browser not to display us in an iframe unless is the same origin for anti-clickjacking
@@ -252,7 +238,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		// Set content security policy. This is also specified in the root.html of the webapp in a meta tag.
 		w.Header().Set("Content-Security-Policy", fmt.Sprintf(
-			"frame-ancestors 'self' %s; script-src 'self'%s%s; connect-src 'self' ws: wss: https:",
+			"frame-ancestors 'self' %s; script-src 'self'%s%s",
 			*c.App.Config().ServiceSettings.FrameAncestors,
 			h.cspShaDirective,
 			devCSP,
@@ -366,21 +352,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if c.Err == nil {
-		// Read-after-write consistency logic
-		session := c.AppContext.Session()
-		if r.Method == "GET" && session != nil && session.Token != "" {
-			lastWrite := h.Srv.Platform().GetRecentWriteTime(session.Token)
-			if time.Since(lastWrite) < 5*time.Second {
-				c.AppContext = app.RequestContextWithMaster(c.AppContext)
-			}
-		}
-
 		h.HandleFunc(c, w, r)
-
-		// Record write operation for consistency window
-		if c.Err == nil && r.Method != "GET" && session != nil && session.Token != "" {
-			h.Srv.Platform().SetRecentWriteTime(session.Token)
-		}
 	}
 
 	// Handle errors that have occurred
@@ -422,7 +394,7 @@ func (h Handler) handleContextError(c *Context, w http.ResponseWriter, r *http.R
 	}
 
 	// Detect and fix AppError with missing StatusCode to prevent panics
-	if c.Err != nil && c.Err.StatusCode == 0 {
+	if c.Err.StatusCode == 0 {
 		c.Logger.Error("AppError with zero StatusCode detected",
 			mlog.String("error_id", c.Err.Id),
 			mlog.String("error_message", c.Err.Message),

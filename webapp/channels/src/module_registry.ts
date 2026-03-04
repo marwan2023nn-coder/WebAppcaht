@@ -15,12 +15,3 @@ export const setModule = <T>(name: string, component: T) => {
     modules[name] = component;
     return true;
 };
-
-export const removeModule = (name: string) => {
-    if (!modules[name]) {
-        return false;
-    }
-
-    delete modules[name];
-    return true;
-};

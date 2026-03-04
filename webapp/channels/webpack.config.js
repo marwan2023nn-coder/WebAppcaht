@@ -12,7 +12,7 @@ const MiniCssExtractPlugin = require('mini-css-extract-plugin');
 const MonacoWebpackPlugin = require('monaco-editor-webpack-plugin');
 const url = require('url');
 const webpack = require('webpack');
-const {ModuleFederationPlugin} = require('webpack').container;
+const { ModuleFederationPlugin } = require('webpack').container;
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 
 const packageJson = require('./package.json');
@@ -172,33 +172,33 @@ var config = {
         }),
         new CopyWebpackPlugin({
             patterns: [
-                {from: 'src/images/emoji', to: 'emoji'},
-                {from: 'src/images/img_trans.gif', to: 'images'},
-                {from: 'src/images/logo-email.png', to: 'images'},
-                {from: 'src/images/favicon', to: 'images/favicon'},
-                {from: 'src/images/appIcons.png', to: 'images'},
-                {from: 'src/images/logo-email.png', to: 'images'},
-                {from: 'src/images/browser-icons', to: 'images/browser-icons'},
-                {from: 'src/images/cloud', to: 'images'},
-                {from: 'src/images/welcome_illustration_new.png', to: 'images'},
-                {from: 'src/images/logo_email_blue.png', to: 'images'},
-                {from: 'src/images/logo_email_dark.png', to: 'images'},
-                {from: 'src/images/logo_email_gray.png', to: 'images'},
-                {from: 'src/images/forgot_password_illustration.png', to: 'images'},
-                {from: 'src/images/invite_illustration.png', to: 'images'},
-                {from: 'src/images/channel_icon.png', to: 'images'},
-                {from: 'src/images/c_avatar.png', to: 'images'},
-                {from: 'src/images/c_download.png', to: 'images'},
-                {from: 'src/images/c_socket.png', to: 'images'},
-                {from: 'src/images/admin-onboarding-background.jpg', to: 'images'},
-                {from: 'src/images/cloud-laptop.png', to: 'images'},
-                {from: 'src/images/cloud-laptop-error.png', to: 'images'},
-                {from: 'src/images/cloud-laptop-warning.png', to: 'images'},
-                {from: 'src/images/cloud-upgrade-person-hand-to-face.png', to: 'images'},
-                {from: 'src/images/payment_processing.png', to: 'images'},
-                {from: 'src/images/purchase_alert.png', to: 'images'},
-                {from: '../node_modules/pdfjs-dist/cmaps', to: 'cmaps'},
-                {from: 'src/components/initial_loading_screen/initial_loading_screen.css', to: 'css'},
+                { from: 'src/images/emoji', to: 'emoji' },
+                { from: 'src/images/img_trans.gif', to: 'images' },
+                { from: 'src/images/logo-email.png', to: 'images' },
+                { from: 'src/images/favicon', to: 'images/favicon' },
+                { from: 'src/images/appIcons.png', to: 'images' },
+                { from: 'src/images/logo-email.png', to: 'images' },
+                { from: 'src/images/browser-icons', to: 'images/browser-icons' },
+                { from: 'src/images/cloud', to: 'images' },
+                { from: 'src/images/welcome_illustration_new.png', to: 'images' },
+                { from: 'src/images/logo_email_blue.png', to: 'images' },
+                { from: 'src/images/logo_email_dark.png', to: 'images' },
+                { from: 'src/images/logo_email_gray.png', to: 'images' },
+                { from: 'src/images/forgot_password_illustration.png', to: 'images' },
+                { from: 'src/images/invite_illustration.png', to: 'images' },
+                { from: 'src/images/channel_icon.png', to: 'images' },
+                { from: 'src/images/c_avatar.png', to: 'images' },
+                { from: 'src/images/c_download.png', to: 'images' },
+                { from: 'src/images/c_socket.png', to: 'images' },
+                { from: 'src/images/admin-onboarding-background.jpg', to: 'images' },
+                { from: 'src/images/cloud-laptop.png', to: 'images' },
+                { from: 'src/images/cloud-laptop-error.png', to: 'images' },
+                { from: 'src/images/cloud-laptop-warning.png', to: 'images' },
+                { from: 'src/images/cloud-upgrade-person-hand-to-face.png', to: 'images' },
+                { from: 'src/images/payment_processing.png', to: 'images' },
+                { from: 'src/images/purchase_alert.png', to: 'images' },
+                { from: '../node_modules/pdfjs-dist/cmaps', to: 'cmaps' },
+                { from: 'src/components/initial_loading_screen/initial_loading_screen.css', to: 'css' },
             ],
         }),
 
@@ -303,24 +303,17 @@ var config = {
             ],
         }),
     ],
-    watchOptions: {
-
-        // By default, Webpack doesn't watch node_modules for changes, but we want it to watch packages in the monorepo
-        ignored: /node_modules([\\]+|\/)(?!@worksapce\/(client|components|types|shared))/,
-    },
 };
 
 function generateCSP() {
-    let scriptSrc = 'script-src \'self\' js.stripe.com/v3';
+    let csp = 'script-src \'self\' js.stripe.com/v3';
 
     if (DEV) {
         // Development source maps require eval
-        scriptSrc += ' \'unsafe-eval\'';
+        csp += ' \'unsafe-eval\'';
     }
 
-    const connectSrc = 'connect-src \'self\' ws: wss: https:';
-
-    return `${scriptSrc}; ${connectSrc}`;
+    return csp;
 }
 
 async function initializeModuleFederation() {
@@ -355,10 +348,10 @@ async function initializeModuleFederation() {
             remotes[product.name] = `${product.name}@[window.basename]/static/products/${product.name}/remote_entry.js?bt=${buildTimestamp}`;
         }
 
-        return {remotes};
+        return { remotes };
     }
 
-    const {remotes} = await getRemoteContainers();
+    const { remotes } = await getRemoteContainers();
 
     const moduleFederationPluginOptions = {
         name: 'workspace_webapp',
@@ -434,7 +427,7 @@ config.plugins.push(new webpack.DefinePlugin({
 if (targetIsDevServer) {
     const proxyToServer = {
         logLevel: 'silent',
-        target: process.env.MM_SERVICESETTINGS_SITEURL ?? 'http://192.168.20.135:8065',
+        target: process.env.MM_SERVICESETTINGS_SITEURL ?? 'http://192.168.20.209:8065',
         xfwd: true,
     };
 

@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {getName} from 'country-list';
+import crypto from 'crypto';
 import cssVars from 'css-vars-ponyfill';
 import type {Locale} from 'date-fns';
 import isNil from 'lodash/isNil';
@@ -88,7 +89,7 @@ export enum TimeInformation {
 export type TimeUnit = Exclude<TimeInformation, TimeInformation.FUTURE | TimeInformation.PAST>;
 export type TimeDirection = TimeInformation.FUTURE | TimeInformation.PAST;
 
-export function createSafeId(prop: { props: { defaultMessage: string } } | string): string | undefined {
+export function createSafeId(prop: {props: {defaultMessage: string}} | string): string | undefined {
     let str = '';
 
     if (typeof prop !== 'string' && prop.props && prop.props.defaultMessage) {
@@ -327,7 +328,7 @@ export function getCompassIconClassName(fileTypeIn: string, outline = true, larg
 }
 
 export function getIconClassName(fileTypeIn: string) {
-    const fileType = fileTypeIn.toLowerCase() as keyof typeof Constants.ICON_FROM_TYPE;
+    const fileType = fileTypeIn.toLowerCase()as keyof typeof Constants.ICON_FROM_TYPE;
 
     if (fileType in Constants.ICON_NAME_FROM_TYPE) {
         return Constants.ICON_NAME_FROM_TYPE[fileType];
@@ -826,7 +827,7 @@ export function getSuggestionBoxAlgn(textArea: HTMLTextAreaElement, pxToSubstrac
 export function getPxToSubstract(char = '@') {
     // depending on the triggering character different values must be substracted
     if (char === '@') {
-        // mention name padding-left 2.4rem as stated in suggestion-list__content .suggestion-list__item
+    // mention name padding-left 2.4rem as stated in suggestion-list__content .suggestion-list__item
         const mentionNamePaddingLft = convertEmToPixels(document.documentElement, Constants.MENTION_NAME_PADDING_LEFT);
 
         // half of width of avatar stated in .Avatar.Avatar-sm (24px)
@@ -854,24 +855,31 @@ export function setCaretPosition(input: HTMLInputElement | HTMLTextAreaElement, 
 }
 
 export function isValidUsername(name: string) {
+    let error;
     if (!name) {
-        return {
+        error = {
             id: ValidationErrors.USERNAME_REQUIRED,
         };
-    }
-
-    let error;
-    if (!(/^[a-z0-9.\-_]+$/).test(name)) {
-        return {
+    } else if (name.length < Constants.MIN_USERNAME_LENGTH || name.length > Constants.MAX_USERNAME_LENGTH) {
+        error = {
+            id: ValidationErrors.INVALID_LENGTH,
+        };
+    } else if (!(/^[a-z0-9.\-_]+$/).test(name)) {
+        error = {
             id: ValidationErrors.INVALID_CHARACTERS,
         };
-    }
-    for (const reserved of Constants.RESERVED_USERNAMES) {
-        if (name === reserved) {
-            error = {
-                id: ValidationErrors.RESERVED_NAME,
-            };
-            break;
+    } else if (!(/[a-z]/).test(name.charAt(0))) { //eslint-disable-line no-negated-condition
+        error = {
+            id: ValidationErrors.INVALID_FIRST_CHARACTER,
+        };
+    } else {
+        for (const reserved of Constants.RESERVED_USERNAMES) {
+            if (name === reserved) {
+                error = {
+                    id: ValidationErrors.RESERVED_NAME,
+                };
+                break;
+            }
         }
     }
 
@@ -1041,6 +1049,10 @@ export function displayEntireNameForUser(user: UserProfile): React.ReactNode {
         displayName = displayName + ' (' + user.nickname + ')';
     }
 
+    if (user.position) {
+        displayName = displayName + ' - ' + user.position;
+    }
+
     displayName = (
         <span id={'displayedUserName' + user.username}>
             <span className='light'>{displayName || user.username}</span>
@@ -1204,9 +1216,9 @@ export function isTextTransfer(dataTransfer: DataTransfer) {
 
 export function isTextDroppableEvent(e: Event) {
     return (e instanceof DragEvent) &&
-        (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
-        e.dataTransfer !== null &&
-        isTextTransfer(e.dataTransfer);
+           (e.target instanceof HTMLTextAreaElement || e.target instanceof HTMLInputElement) &&
+           e.dataTransfer !== null &&
+           isTextTransfer(e.dataTransfer);
 }
 
 export function clearFileInput(elm: HTMLInputElement) {
@@ -1225,7 +1237,7 @@ export function clearFileInput(elm: HTMLInputElement) {
 /**
  * @deprecated Use react-intl instead, only place its usage can be justified is in the redux actions
  */
-export function localizeMessage({id, defaultMessage}: { id: string; defaultMessage?: string }) {
+export function localizeMessage({id, defaultMessage}: {id: string; defaultMessage?: string}) {
     const state = store.getState();
 
     const locale = getCurrentLocale(state);
@@ -1241,7 +1253,7 @@ export function localizeMessage({id, defaultMessage}: { id: string; defaultMessa
 /**
  * @deprecated If possible, use intl.formatMessage instead. If you have to use this, remember to mark the id using `t`
  */
-export function localizeAndFormatMessage(descriptor: { id: string; defaultMessage?: string }, template: { [name: string]: any } | undefined) {
+export function localizeAndFormatMessage(descriptor: {id: string; defaultMessage?: string}, template: { [name: string]: any } | undefined) {
     const base = localizeMessage(descriptor);
 
     if (!template) {
@@ -1254,7 +1266,9 @@ export function localizeAndFormatMessage(descriptor: { id: string; defaultMessag
     });
 }
 
-export {mod} from 'utils/math_utils';
+export function mod(a: number, b: number): number {
+    return ((a % b) + b) % b;
+}
 
 export const REACTION_PATTERN = /^(\+|-):([^:\s]+):\s*$/;
 
@@ -1491,9 +1505,9 @@ export function isTextSelectedInPostOrReply(e: React.KeyboardEvent | KeyboardEve
     const {id} = e.target as HTMLElement;
 
     const isTypingInValidTextbox =
-        id === AdvancedTextEditorTextboxIds.InCenter ||
-        id === AdvancedTextEditorTextboxIds.InRHSComment ||
-        id === AdvancedTextEditorTextboxIds.InEditMode;
+    id === AdvancedTextEditorTextboxIds.InCenter ||
+    id === AdvancedTextEditorTextboxIds.InRHSComment ||
+    id === AdvancedTextEditorTextboxIds.InEditMode;
 
     if (isTypingInValidTextbox === false) {
         return false;
@@ -1626,14 +1640,7 @@ export function getBlankAddressWithCountry(country?: string): Address {
 }
 
 export function generateSlug(): string {
-    // eslint-disable-next-line no-undef
-    const array = new Uint8Array(16);
-    window.crypto.getRandomValues(array);
-    let result = '';
-    for (const item of array) {
-        result += item.toString(16).padStart(2, '0');
-    }
-    return result;
+    return crypto.randomBytes(16).toString('hex');
 }
 export function sortUsersAndGroups(a: UserProfile | Group, b: UserProfile | Group) {
     let aSortString = '';

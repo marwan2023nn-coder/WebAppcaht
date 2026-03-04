@@ -2,20 +2,20 @@
 // See LICENSE.txt for license information.
 
 import React from 'react';
-import { FormattedMessage, defineMessage, defineMessages } from 'react-intl';
+import {FormattedMessage, defineMessage, defineMessages} from 'react-intl';
 
-import type { AdminConfig, ClientLicense } from '@workspace/types/config';
+import type {AdminConfig, ClientLicense} from '@workspace/types/config';
 
-import { Client4 } from 'workspace-redux/client';
+import {Client4} from 'workspace-redux/client';
 
 import ExternalLink from 'components/external_link';
 import WarningIcon from 'components/widgets/icons/fa_warning_icon';
 
-import { DocLinks } from 'utils/constants';
+import {DocLinks} from 'utils/constants';
 
 import BooleanSetting from './boolean_setting';
 import ClusterTableContainer from './cluster_table_container';
-import type { BaseProps, BaseState } from './old_admin_settings';
+import type {BaseProps, BaseState} from './old_admin_settings';
 import OLDAdminSettings from './old_admin_settings';
 import SettingsGroup from './settings_group';
 import TextSetting from './text_setting';
@@ -36,22 +36,22 @@ type State = {
 } & BaseState;
 
 const messages = defineMessages({
-    cluster: { id: 'admin.advance.cluster', defaultMessage: 'High Availability' },
-    noteDescription: { id: 'admin.cluster.noteDescription', defaultMessage: 'Changing properties in this section will require a server restart before taking effect.' },
-    enableTitle: { id: 'admin.cluster.enableTitle', defaultMessage: 'Enable High Availability Mode:' },
-    enableDescription: { id: 'admin.cluster.enableDescription', defaultMessage: 'When true, Workspace will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Workspace.' },
-    clusterName: { id: 'admin.cluster.ClusterName', defaultMessage: 'Cluster Name:' },
-    clusterNameDesc: { id: 'admin.cluster.ClusterNameDesc', defaultMessage: 'The cluster to join by name. Only nodes with the same cluster name will join together. This is to support Blue-Green deployments or staging pointing to the same database.' },
-    overrideHostname: { id: 'admin.cluster.OverrideHostname', defaultMessage: 'Override Hostname:' },
-    overrideHostnameDesc: { id: 'admin.cluster.OverrideHostnameDesc', defaultMessage: "The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address. You can override the hostname of this server with this property. It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed." },
-    useIPAddress: { id: 'admin.cluster.UseIPAddress', defaultMessage: 'Use IP Address:' },
-    useIPAddressDesc: { id: 'admin.cluster.UseIPAddressDesc', defaultMessage: 'When true, the cluster will attempt to communicate via IP Address vs using the hostname.' },
-    enableGossipEncryption: { id: 'admin.cluster.EnableGossipEncryption', defaultMessage: 'Enable Gossip encryption:' },
-    enableGossipEncryptionDesc: { id: 'admin.cluster.EnableGossipEncryptionDesc', defaultMessage: 'When true, all communication through the gossip protocol will be encrypted.' },
-    enableGossipCompression: { id: 'admin.cluster.EnableGossipCompression', defaultMessage: 'Enable Gossip compression:' },
-    enableGossipCompressionDesc: { id: 'admin.cluster.EnableGossipCompressionDesc', defaultMessage: 'When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled.' },
-    gossipPort: { id: 'admin.cluster.GossipPort', defaultMessage: 'Gossip Port:' },
-    gossipPortDesc: { id: 'admin.cluster.GossipPortDesc', defaultMessage: 'The port used for the gossip protocol. Both UDP and TCP should be allowed on this port.' },
+    cluster: {id: 'admin.advance.cluster', defaultMessage: 'High Availability'},
+    noteDescription: {id: 'admin.cluster.noteDescription', defaultMessage: 'Changing properties in this section will require a server restart before taking effect.'},
+    enableTitle: {id: 'admin.cluster.enableTitle', defaultMessage: 'Enable High Availability Mode:'},
+    enableDescription: {id: 'admin.cluster.enableDescription', defaultMessage: 'When true, Workspace will run in High Availability mode. Please see <link>documentation</link> to learn more about configuring High Availability for Workspace.'},
+    clusterName: {id: 'admin.cluster.ClusterName', defaultMessage: 'Cluster Name:'},
+    clusterNameDesc: {id: 'admin.cluster.ClusterNameDesc', defaultMessage: 'The cluster to join by name. Only nodes with the same cluster name will join together. This is to support Blue-Green deployments or staging pointing to the same database.'},
+    overrideHostname: {id: 'admin.cluster.OverrideHostname', defaultMessage: 'Override Hostname:'},
+    overrideHostnameDesc: {id: 'admin.cluster.OverrideHostnameDesc', defaultMessage: "The default value of '<blank>' will attempt to get the Hostname from the OS or use the IP Address. You can override the hostname of this server with this property. It is not recommended to override the Hostname unless needed. This property can also be set to a specific IP Address if needed."},
+    useIPAddress: {id: 'admin.cluster.UseIPAddress', defaultMessage: 'Use IP Address:'},
+    useIPAddressDesc: {id: 'admin.cluster.UseIPAddressDesc', defaultMessage: 'When true, the cluster will attempt to communicate via IP Address vs using the hostname.'},
+    enableGossipEncryption: {id: 'admin.cluster.EnableGossipEncryption', defaultMessage: 'Enable Gossip encryption:'},
+    enableGossipEncryptionDesc: {id: 'admin.cluster.EnableGossipEncryptionDesc', defaultMessage: 'When true, all communication through the gossip protocol will be encrypted.'},
+    enableGossipCompression: {id: 'admin.cluster.EnableGossipCompression', defaultMessage: 'Enable Gossip compression:'},
+    enableGossipCompressionDesc: {id: 'admin.cluster.EnableGossipCompressionDesc', defaultMessage: 'When true, all communication through the gossip protocol will be compressed. It is recommended to keep this flag disabled.'},
+    gossipPort: {id: 'admin.cluster.GossipPort', defaultMessage: 'Gossip Port:'},
+    gossipPortDesc: {id: 'admin.cluster.GossipPortDesc', defaultMessage: 'The port used for the gossip protocol. Both UDP and TCP should be allowed on this port.'},
 });
 
 export const searchableStrings = [
@@ -101,7 +101,7 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
     }
 
     renderTitle() {
-        return (<FormattedMessage {...messages.cluster} />);
+        return (<FormattedMessage {...messages.cluster}/>);
     }
 
     overrideHandleChange = (id: string, value: unknown) => {
@@ -113,10 +113,10 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
     };
 
     renderSettings = () => {
-        // const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
-        // if (!licenseEnabled) {
-        //    return (<></>);
-        // }
+        const licenseEnabled = this.props.license.IsLicensed === 'true' && this.props.license.Cluster === 'true';
+        if (!licenseEnabled) {
+            return (<></>);
+        }
 
         let configLoadedFromCluster = null;
 
@@ -126,7 +126,7 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                     style={style.configLoadedFromCluster}
                     className='alert alert-warning'
                 >
-                    <WarningIcon />
+                    <WarningIcon/>
                     <FormattedMessage
                         id='admin.cluster.loadedFrom'
                         defaultMessage='This configuration file was loaded from Node ID {clusterId}. Please see the Troubleshooting Guide in our <link>documentation</link> if you are accessing the System Console through a load balancer and experiencing issues.'
@@ -154,7 +154,7 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                     style={style.warning}
                     className='alert alert-warning'
                 >
-                    <WarningIcon />
+                    <WarningIcon/>
                     <FormattedMessage
                         id='admin.cluster.should_not_change'
                         defaultMessage='WARNING: These settings may not sync with the other servers in the cluster. High Availability inter-node communication will not start until you modify the config.json to be identical on all servers and restart Workspace. Please see the <link>documentation</link> on how to add or remove a server from the cluster. If you are accessing the System Console through a load balancer and experiencing issues, please see the Troubleshooting Guide in our <link>documentation</link>.'
@@ -175,7 +175,7 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
 
         let clusterTableContainer: React.ReactNode = null;
         if (this.state.Enable) {
-            clusterTableContainer = (<ClusterTableContainer />);
+            clusterTableContainer = (<ClusterTableContainer/>);
         }
 
         return (
@@ -183,13 +183,13 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 {configLoadedFromCluster}
                 {clusterTableContainer}
                 <div className='banner'>
-                    <FormattedMessage {...messages.noteDescription} />
+                    <FormattedMessage {...messages.noteDescription}/>
                 </div>
                 {warning}
                 <BooleanSetting
                     id='Enable'
                     label={
-                        <FormattedMessage {...messages.enableTitle} />
+                        <FormattedMessage {...messages.enableTitle}/>
                     }
                     helpText={
                         <FormattedMessage
@@ -213,9 +213,9 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <TextSetting
                     id='ClusterName'
-                    label={<FormattedMessage {...messages.clusterName} />}
-                    placeholder={defineMessage({ id: 'admin.cluster.ClusterNameEx', defaultMessage: 'E.g.: "Production" or "Staging"' })}
-                    helpText={<FormattedMessage {...messages.clusterNameDesc} />}
+                    label={<FormattedMessage {...messages.clusterName}/>}
+                    placeholder={defineMessage({id: 'admin.cluster.ClusterNameEx', defaultMessage: 'E.g.: "Production" or "Staging"'})}
+                    helpText={<FormattedMessage {...messages.clusterNameDesc}/>}
                     value={this.state.ClusterName}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.ClusterName')}
@@ -223,9 +223,9 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <TextSetting
                     id='OverrideHostname'
-                    label={<FormattedMessage {...messages.overrideHostname} />}
-                    placeholder={defineMessage({ id: 'admin.cluster.OverrideHostnameEx', defaultMessage: 'E.g.: "app-server-01"' })}
-                    helpText={<FormattedMessage {...messages.overrideHostnameDesc} />}
+                    label={<FormattedMessage {...messages.overrideHostname}/>}
+                    placeholder={defineMessage({id: 'admin.cluster.OverrideHostnameEx', defaultMessage: 'E.g.: "app-server-01"'})}
+                    helpText={<FormattedMessage {...messages.overrideHostnameDesc}/>}
                     value={this.state.OverrideHostname}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.OverrideHostname')}
@@ -233,8 +233,8 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <BooleanSetting
                     id='UseIPAddress'
-                    label={<FormattedMessage {...messages.useIPAddress} />}
-                    helpText={<FormattedMessage {...messages.useIPAddressDesc} />}
+                    label={<FormattedMessage {...messages.useIPAddress}/>}
+                    helpText={<FormattedMessage {...messages.useIPAddressDesc}/>}
                     value={this.state.UseIPAddress}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.UseIPAddress')}
@@ -242,8 +242,8 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <BooleanSetting
                     id='EnableGossipEncryption'
-                    label={<FormattedMessage {...messages.enableGossipEncryption} />}
-                    helpText={<FormattedMessage {...messages.enableGossipEncryptionDesc} />}
+                    label={<FormattedMessage {...messages.enableGossipEncryption}/>}
+                    helpText={<FormattedMessage {...messages.enableGossipEncryptionDesc}/>}
                     value={this.state.EnableGossipEncryption}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.EnableGossipEncryption')}
@@ -251,8 +251,8 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <BooleanSetting
                     id='EnableGossipCompression'
-                    label={<FormattedMessage {...messages.enableGossipCompression} />}
-                    helpText={<FormattedMessage {...messages.enableGossipCompressionDesc} />}
+                    label={<FormattedMessage {...messages.enableGossipCompression}/>}
+                    helpText={<FormattedMessage {...messages.enableGossipCompressionDesc}/>}
                     value={this.state.EnableGossipCompression}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.EnableGossipCompression')}
@@ -260,9 +260,9 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
                 />
                 <TextSetting
                     id='GossipPort'
-                    label={<FormattedMessage {...messages.gossipPort} />}
-                    placeholder={defineMessage({ id: 'admin.cluster.GossipPortEx', defaultMessage: 'E.g.: "8074"' })}
-                    helpText={<FormattedMessage {...messages.gossipPortDesc} />}
+                    label={<FormattedMessage {...messages.gossipPort}/>}
+                    placeholder={defineMessage({id: 'admin.cluster.GossipPortEx', defaultMessage: 'E.g.: "8074"'})}
+                    helpText={<FormattedMessage {...messages.gossipPortDesc}/>}
                     value={this.state.GossipPort}
                     onChange={this.overrideHandleChange}
                     setByEnv={this.isSetByEnv('ClusterSettings.GossipPort')}
@@ -274,6 +274,6 @@ export default class ClusterSettings extends OLDAdminSettings<Props, State> {
 }
 
 const style = {
-    configLoadedFromCluster: { marginBottom: 10 },
-    warning: { marginBottom: 10 },
+    configLoadedFromCluster: {marginBottom: 10},
+    warning: {marginBottom: 10},
 };

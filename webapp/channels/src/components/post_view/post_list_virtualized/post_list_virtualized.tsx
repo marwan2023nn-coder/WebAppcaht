@@ -28,7 +28,7 @@ import LatestPostReader from './latest_post_reader';
 const OVERSCAN_COUNT_BACKWARD = 80;
 const OVERSCAN_COUNT_FORWARD = 80;
 const HEIGHT_TRIGGER_FOR_MORE_POSTS = 1000;
-const BUFFER_TO_BE_CONSIDERED_BOTTOM = 500;
+const BUFFER_TO_BE_CONSIDERED_BOTTOM = 10;
 
 const MAXIMUM_POSTS_FOR_SLICING = {
     channel: 50,
@@ -228,7 +228,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         return null;
     }
 
-    componentDidUpdate(prevProps: Props, _prevState: State, snapshot: { previousScrollTop: number; previousScrollHeight: number }) {
+    componentDidUpdate(prevProps: Props, _prevState: State, snapshot: {previousScrollTop: number; previousScrollHeight: number}) {
         if (this.props.isMobileView && !prevProps.isMobileView) {
             this.scrollStopAction = new DelayedAction(this.handleScrollStop);
         }
@@ -332,7 +332,7 @@ export default class PostList extends React.PureComponent<Props, State> {
         });
     };
 
-    renderRow = ({data, itemId, style}: { data: string[]; itemId: string; style: Record<string, string> }) => {
+    renderRow = ({data, itemId, style}: {data: string[]; itemId: string; style: Record<string, string>}) => {
         const index = data.indexOf(itemId);
         let className = '';
         const basePaddingClass = 'post-row__padding';
@@ -564,9 +564,9 @@ export default class PostList extends React.PureComponent<Props, State> {
 
         if (
             this.newMessageLineIndex > 0 &&
-            !this.state.isNewMessageLineReached &&
-            this.newMessageLineIndex <= visibleStartIndex &&
-            this.newMessageLineIndex >= visibleStopIndex
+             !this.state.isNewMessageLineReached &&
+             this.newMessageLineIndex <= visibleStartIndex &&
+             this.newMessageLineIndex >= visibleStopIndex
         ) {
             this.onNewMessageLineReached();
         }
@@ -727,7 +727,7 @@ export default class PostList extends React.PureComponent<Props, State> {
                                             initScrollToIndex={this.initScrollToIndex}
                                             canLoadMorePosts={this.props.actions.canLoadMorePosts}
                                             innerRef={this.postListRef}
-                                            style={{...virtListStyles, ...dynamicListStyle, direction: 'rtl'}}
+                                            style={{...virtListStyles, ...dynamicListStyle, direction: 'rtl',}}
                                             innerListStyle={postListStyle}
                                             initRangeToRender={this.initRangeToRender}
                                             loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
