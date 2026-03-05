@@ -2523,44 +2523,12 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 		sortDirection = "DESC"
 	}
 
-	query := us.getQueryBuilder().
+	baseQuery := us.getQueryBuilder().
 		Select(selectColumns...).
 		From("Users").
 		LeftJoin("Status s ON s.UserId = Users.Id").
 		Where(sq.Expr("Users.Id NOT IN (SELECT UserId FROM Bots)")).
 		GroupBy("Users.Id")
-
-	// no need to apply any filtering and pagination if there are no
-	// previous element ID and value provided.
-	if filter.FromId != "" && filter.FromColumnValue != "" {
-		if (filter.Direction == "prev" && !filter.SortDesc) || (filter.Direction == "next" && filter.SortDesc) {
-			sortDirection = "DESC"
-
-			query = query.Where(sq.Or{
-				sq.Lt{filter.SortColumn: filter.FromColumnValue},
-				sq.And{
-					sq.Eq{filter.SortColumn: filter.FromColumnValue},
-					sq.Lt{"Users.Id": filter.FromId},
-				},
-			})
-		} else {
-			sortDirection = "ASC"
-
-			query = query.Where(sq.Or{
-				sq.Gt{filter.SortColumn: filter.FromColumnValue},
-				sq.And{
-					sq.Eq{filter.SortColumn: filter.FromColumnValue},
-					sq.Gt{"Users.Id": filter.FromId},
-				},
-			})
-		}
-	}
-
-	query = query.OrderBy(filter.SortColumn+" "+sortDirection, "Users.Id")
-
-	if filter.PageSize > 0 {
-		query = query.Limit(uint64(filter.PageSize))
-	}
 
 	joinSql := sq.And{}
 	if filter.StartAt > 0 {
@@ -2575,9 +2543,46 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 	if err != nil {
 		return nil, err
 	}
-	query = query.LeftJoin("PostStats ps ON ps.UserId = Users.Id AND "+sql, args...)
+	baseQuery = baseQuery.LeftJoin("PostStats ps ON ps.UserId = Users.Id AND "+sql, args...)
 
-	query = applyUserReportFilter(query, filter)
+	baseQuery = applyUserReportFilter(baseQuery, filter)
+
+	// Wrap in a subquery to allow filtering and sorting by aggregate columns
+	query := us.getQueryBuilder().
+		Select(getUsersColumnsWithName("data", "LastLogin", "LastStatusAt", "LastPostDate", "DaysActive", "TotalPosts")...).
+		FromSelect(baseQuery, "data")
+
+	// no need to apply any filtering and pagination if there are no
+	// previous element ID and value provided.
+	if filter.FromId != "" && filter.FromColumnValue != "" {
+		if (filter.Direction == "prev" && !filter.SortDesc) || (filter.Direction == "next" && filter.SortDesc) {
+			sortDirection = "DESC"
+
+			query = query.Where(sq.Or{
+				sq.Lt{filter.SortColumn: filter.FromColumnValue},
+				sq.And{
+					sq.Eq{filter.SortColumn: filter.FromColumnValue},
+					sq.Lt{"Id": filter.FromId},
+				},
+			})
+		} else {
+			sortDirection = "ASC"
+
+			query = query.Where(sq.Or{
+				sq.Gt{filter.SortColumn: filter.FromColumnValue},
+				sq.And{
+					sq.Eq{filter.SortColumn: filter.FromColumnValue},
+					sq.Gt{"Id": filter.FromId},
+				},
+			})
+		}
+	}
+
+	query = query.OrderBy(filter.SortColumn+" "+sortDirection, "Id")
+
+	if filter.PageSize > 0 {
+		query = query.Limit(uint64(filter.PageSize))
+	}
 
 	parentQuery := query
 	// If we're going a page back...
@@ -2592,8 +2597,8 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 		}
 
 		parentQuery = us.getQueryBuilder().
-			Select(getUsersColumnsWithName("data", "LastStatusAt", "LastPostDate", "DaysActive", "TotalPosts")...).
-			FromSelect(query, "data").
+			Select("*").
+			FromSelect(query, "inner_data").
 			OrderBy(filter.SortColumn+" "+reverseSortDirection, "Id")
 	}
 

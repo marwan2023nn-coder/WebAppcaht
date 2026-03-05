@@ -336,7 +336,7 @@ function SystemUsers(props: Props) {
                 cell: (info: CellContext<UserReport, number | undefined>) => <ElapsedDurationCell date={info.getValue()}/>,
                 enableHiding: true,
                 enablePinning: false,
-                enableSorting: false,
+                enableSorting: true,
             },
             {
                 id: ColumnNames.lastStatusAt,
@@ -348,7 +348,7 @@ function SystemUsers(props: Props) {
                 cell: (info: CellContext<UserReport, number | undefined>) => <ElapsedDurationCell date={info.getValue()}/>,
                 enableHiding: true,
                 enablePinning: false,
-                enableSorting: false,
+                enableSorting: true,
             },
             {
                 id: ColumnNames.lastPostDate,
@@ -360,7 +360,7 @@ function SystemUsers(props: Props) {
                 cell: (info: CellContext<UserReport, number | undefined>) => <ElapsedDurationCell date={info.getValue()}/>,
                 enableHiding: true,
                 enablePinning: false,
-                enableSorting: false,
+                enableSorting: true,
             },
             {
                 id: ColumnNames.daysActive,
@@ -375,7 +375,7 @@ function SystemUsers(props: Props) {
                 },
                 enableHiding: true,
                 enablePinning: false,
-                enableSorting: false,
+                enableSorting: true,
             },
             {
                 id: ColumnNames.totalPosts,
@@ -390,7 +390,7 @@ function SystemUsers(props: Props) {
                 },
                 enableHiding: true,
                 enablePinning: false,
-                enableSorting: false,
+                enableSorting: true,
             },
             {
                 id: ColumnNames.actions,
