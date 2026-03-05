@@ -430,7 +430,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
 
         const regex = /^(73|77|71|78|70)\d{7}$/;
         if (value && !regex.test(value)) {
-            errors.positionField = 'يجب ان يكون رقم وان يبدا ب 71او 73 او 78 او 70 وان يكون من 9 ارقام بضبط';
+            errors.positionField = this.props.intl.formatMessage({id: 'admin.user_item.invalidPosition', defaultMessage: 'The number must start with 70, 71, 73, 77, or 78 and be exactly 9 digits'});
         } else {
             delete errors.positionField;
         }
@@ -846,7 +846,7 @@ export class SystemUserDetail extends PureComponent<Props, State> {
         if (this.state.positionField) {
             const positionRegex = /^(73|77|71|78|70)\d{7}$/;
             if (!positionRegex.test(this.state.positionField)) {
-                this.setState({error: 'يجب أن يبدأ الرقم بـ 71 أو 73 أو 77 أو 78 أو 70 ويتكوّن من 9 أرقام بالضبط'});
+                this.setState({error: this.props.intl.formatMessage({id: 'admin.user_item.invalidPosition', defaultMessage: 'The number must start with 70, 71, 73, 77, or 78 and be exactly 9 digits'})});
                 return;
             }
         }
