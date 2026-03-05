@@ -73,7 +73,7 @@ func authorizeOAuthApp(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	if c.AppContext.Session().IsOAuth {
 		c.SetPermissionError(model.PermissionEditOtherUsers)
-		c.Err.DetailedError += ", attempted access by oauth app"
+		c.Err.DetailedError = fmt.Sprintf("%s, attempted access by oauth app", c.Err.DetailedError)
 		return
 	}
 

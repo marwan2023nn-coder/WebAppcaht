@@ -21,12 +21,7 @@ func appendAncillaryPermissionsPost(c *Context, w http.ResponseWriter, r *http.R
 		c.Err = model.NewAppError("appendAncillaryPermissionsPost", model.PayloadParseError, nil, "", http.StatusBadRequest).Wrap(err)
 		return
 	}
-	b, err := json.Marshal(model.AddAncillaryPermissions(permissions))
-	if err != nil {
-		c.SetJSONEncodingError(err)
-		return
-	}
-	if _, err := w.Write(b); err != nil {
+	if err := json.NewEncoder(w).Encode(model.AddAncillaryPermissions(permissions)); err != nil {
 		c.Logger.Warn("Error while writing response", mlog.Err(err))
 	}
 }
