@@ -150,8 +150,7 @@ function PostComponent(props: Props) {
     const dispatch = useDispatch();
 
     const isPostMultiSelectModeEnabled = useSelector(getIsPostMultiSelectModeEnabled);
-    const multiSelectedPostIds = useSelector(getMultiSelectedPostIds);
-    const isMultiSelected = Boolean(post?.id) && multiSelectedPostIds.includes(post.id);
+    const isMultiSelected = useSelector((state: GlobalState) => (post?.id ? getMultiSelectedPostIds(state).includes(post.id) : false));
 
     const postClickDelay = 170;
 
