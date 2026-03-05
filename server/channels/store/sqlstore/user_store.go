@@ -1794,16 +1794,27 @@ func (us SqlUserStore) SearchNotInGroup(groupID string, term string, options *mo
 }
 
 func generateSearchQuery(query sq.SelectBuilder, terms []string, fields []string) sq.SelectBuilder {
+	allowedFields := map[string]bool{
+		"Username":  true,
+		"FirstName": true,
+		"LastName":  true,
+		"Nickname":  true,
+		"Email":     true,
+	}
+
 	for _, term := range terms {
-		searchFields := []string{}
-		termArgs := []any{}
+		var searchFields sq.Or
+		cleanedTerm := strings.TrimLeft(term, "@")
+		likeTerm := "%" + cleanedTerm + "%"
+
 		for _, field := range fields {
-			searchFields = append(searchFields, fmt.Sprintf("lower(%s) LIKE lower(?) escape '*' ", field))
-			termArgs = append(termArgs, fmt.Sprintf("%%%s%%", strings.TrimLeft(term, "@")))
+			if !allowedFields[field] {
+				continue
+			}
+			searchFields = append(searchFields, sq.Expr("LOWER("+field+") LIKE LOWER(?) ESCAPE '*'", likeTerm))
 		}
-		searchFields = append(searchFields, "Id = ?")
-		termArgs = append(termArgs, strings.TrimLeft(term, "@"))
-		query = query.Where(fmt.Sprintf("(%s)", strings.Join(searchFields, " OR ")), termArgs...)
+		searchFields = append(searchFields, sq.Eq{"Users.Id": cleanedTerm})
+		query = query.Where(searchFields)
 	}
 
 	return query
@@ -2193,10 +2204,10 @@ func applyViewRestrictionsFilter(query sq.SelectBuilder, restrictions *model.Vie
 	}
 	resultQuery := query
 	if len(restrictions.Teams) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("TeamMembers rtm ON ( rtm.UserId = Users.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (%s))", sq.Placeholders(len(teams))), teams...)
+		resultQuery = resultQuery.Join("TeamMembers rtm ON ( rtm.UserId = Users.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (?) )", restrictions.Teams)
 	}
 	if len(restrictions.Channels) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("ChannelMembers rcm ON ( rcm.UserId = Users.Id AND rcm.ChannelId IN (%s))", sq.Placeholders(len(channels))), channels...)
+		resultQuery = resultQuery.Join("ChannelMembers rcm ON ( rcm.UserId = Users.Id AND rcm.ChannelId IN (?) )", restrictions.Channels)
 	}
 
 	if distinct {
