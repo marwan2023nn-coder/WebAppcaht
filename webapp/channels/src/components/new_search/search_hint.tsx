@@ -105,7 +105,7 @@ const SearchHints = ({onSelectFilter, searchType, searchTerms, searchTeam, hasSe
                 return (
                     <SearchFilter
                         key={filter.searchTerm}
-                        onClick={() => onSelectFilter(filter.additionalDisplay || filter.searchTerm)}
+                        onClick={() => onSelectFilter(display)}
                     >
                         <span title={intl.formatMessage(filter.message)}>
                             {display}

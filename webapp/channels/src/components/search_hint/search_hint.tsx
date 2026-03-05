@@ -137,24 +137,27 @@ const SearchHint = (props: Props): JSX.Element => {
                 onMouseDown={props.onMouseDown}
                 onTouchEnd={props.onMouseDown}
             >
-                {props.options.map((option, optionIndex) => (
-                    <li
-                        className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
-                        key={option.searchTerm}
-                        onMouseDown={() => props.onOptionSelected(option.searchTerm)}
-                        onTouchEnd={() => props.onOptionSelected(option.searchTerm)}
-                        onMouseOver={() => handleOnOptionHover(optionIndex)}
-                    >
-                        <div className='search-hint__suggestion-list__flex-wrap'>
-                            <span className='search-hint__suggestion-list__label'>{option.additionalDisplay ? option.additionalDisplay : (option.displayMessage ? intl.formatMessage(option.displayMessage) : option.searchTerm)}</span>
-                        </div>
-                        <div className='search-hint__suggestion-list__value'>
-                            <FormattedMessage
-                                id={option.message.id}
-                                defaultMessage={option.message.defaultMessage}
-                            />
-                        </div>
-                    </li>))}
+                {props.options.map((option, optionIndex) => {
+                    const display = option.additionalDisplay || (option.displayMessage ? intl.formatMessage(option.displayMessage) : option.searchTerm);
+                    return (
+                        <li
+                            className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
+                            key={option.searchTerm}
+                            onMouseDown={() => props.onOptionSelected(display)}
+                            onTouchEnd={() => props.onOptionSelected(display)}
+                            onMouseOver={() => handleOnOptionHover(optionIndex)}
+                        >
+                            <div className='search-hint__suggestion-list__flex-wrap'>
+                                <span className='search-hint__suggestion-list__label'>{display}</span>
+                            </div>
+                            <div className='search-hint__suggestion-list__value'>
+                                <FormattedMessage
+                                    id={option.message.id}
+                                    defaultMessage={option.message.defaultMessage}
+                                />
+                            </div>
+                        </li>);
+                })}
             </ul>
         </>
     );
