@@ -16,8 +16,8 @@ import type {ActionResult} from 'workspace-redux/types/actions';
 import ExternalLink from 'components/external_link';
 import AdminHeader from 'components/widgets/admin_console/admin_header';
 
-import {AboutLinks, CloudLinks, LicenseSkus, ModalIdentifiers} from 'utils/constants';
-import {isLicenseExpired, isLicenseExpiring, isTrialLicense, licenseSKUWithFirstLetterCapitalized, isEnterpriseLicense} from 'utils/license_utils';
+import {CloudLinks, LicenseSkus, ModalIdentifiers} from 'utils/constants';
+import {isLicenseExpired, isLicenseExpiring, isTrialLicense, licenseSKUWithFirstLetterCapitalized} from 'utils/license_utils';
 
 import type {ModalData} from 'types/actions';
 
@@ -249,7 +249,10 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     currentPlan = (
         <div className='current-plan-legend'>
             <i className='icon-check-circle'/>
-            {'Current Plan'}
+            <FormattedMessage
+                id='admin.billing.subscription.planDetails.currentPlan'
+                defaultMessage='Current Plan'
+            />
         </div>
     );
 
@@ -268,9 +271,9 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
     // termsAndPolicy = (
     //     <div className='terms-and-policy'>
     //         {'See also '}
-    //         {this.createLink(AboutLinks.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
+    //         {this.createLink(.TERMS_OF_SERVICE, 'Enterprise Edition Terms of Use')}
     //         {' and '}
-    //         {this.createLink(AboutLinks.PRIVACY_POLICY, 'Privacy Policy')}
+    //         {this.createLink(.PRIVACY_POLICY, 'Privacy Policy')}
     //     </div>
     // );
 
@@ -394,7 +397,7 @@ export default class LicenseSettings extends React.PureComponent<Props, State> {
                                 <div className={classNames('panel-card', {entry: license.SkuShortName === LicenseSkus.Entry})}>
                                     {rightPanel}
                                 </div>
-                                {!isEnterpriseLicense(license) && this.comparePlans}
+                                (license) && this.comparePlans}
                             </div> */}
                         </div>
                     </div>
