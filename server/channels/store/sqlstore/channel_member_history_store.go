@@ -5,7 +5,6 @@ package sqlstore
 
 import (
 	"database/sql"
-	"fmt"
 
 	sq "github.com/mattermost/squirrel"
 	"github.com/pkg/errors"
@@ -278,9 +277,7 @@ func (s SqlChannelMemberHistoryStore) PermanentDeleteBatch(endTime int64, limit 
 	}
 	query, _, err := s.getQueryBuilder().
 		Delete("ChannelMemberHistory").
-		Where(fmt.Sprintf(
-			"ctid IN (%s)", innerSelect,
-		)).ToSql()
+		Where("ctid IN (" + innerSelect + ")").ToSql()
 	if err != nil {
 		return 0, errors.Wrap(err, "channel_member_history_to_sql")
 	}

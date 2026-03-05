@@ -468,9 +468,7 @@ func (s SqlTeamStore) teamSearchQuery(opts *model.TeamSearch, countQuery bool) s
 		term = sanitizeSearchTerm(term, "\\")
 		term = wildcardSearchTerm(term)
 
-		operatorKeyword := "ILIKE"
-
-		query = query.Where(fmt.Sprintf("(Name %[1]s ? OR DisplayName %[1]s ?)", operatorKeyword), term, term)
+		query = query.Where("(t.Name ILIKE ? OR t.DisplayName ILIKE ?)", term, term)
 	}
 
 	if len(opts.TeamIds) > 0 {
@@ -1723,10 +1721,10 @@ func applyTeamMemberViewRestrictionsFilter(query sq.SelectBuilder, restrictions 
 
 	resultQuery := query.Join("Users ru ON (TeamMembers.UserId = ru.Id)")
 	if len(restrictions.Teams) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("TeamMembers rtm ON ( rtm.UserId = ru.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (%s))", sq.Placeholders(len(teams))), teams...)
+		resultQuery = resultQuery.Join("TeamMembers rtm ON ( rtm.UserId = ru.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (?) )", restrictions.Teams)
 	}
 	if len(restrictions.Channels) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("ChannelMembers rcm ON ( rcm.UserId = ru.Id AND rcm.ChannelId IN (%s))", sq.Placeholders(len(channels))), channels...)
+		resultQuery = resultQuery.Join("ChannelMembers rcm ON ( rcm.UserId = ru.Id AND rcm.ChannelId IN (?) )", restrictions.Channels)
 	}
 
 	return resultQuery.Distinct()
@@ -1753,10 +1751,10 @@ func applyTeamMemberViewRestrictionsFilterForStats(query sq.SelectBuilder, restr
 
 	resultQuery := query
 	if len(restrictions.Teams) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("TeamMembers rtm ON ( rtm.UserId = Users.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (%s))", sq.Placeholders(len(teams))), teams...)
+		resultQuery = resultQuery.Join("TeamMembers rtm ON ( rtm.UserId = Users.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (?) )", restrictions.Teams)
 	}
 	if len(restrictions.Channels) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("ChannelMembers rcm ON ( rcm.UserId = Users.Id AND rcm.ChannelId IN (%s))", sq.Placeholders(len(channels))), channels...)
+		resultQuery = resultQuery.Join("ChannelMembers rcm ON ( rcm.UserId = Users.Id AND rcm.ChannelId IN (?) )", restrictions.Channels)
 	}
 
 	return resultQuery
