@@ -25,8 +25,9 @@ export function files(state: Record<string, FileInfo> = {}, action: MMReduxActio
     }
 
     case PostTypes.RECEIVED_NEW_POST:
-    case PostTypes.RECEIVED_POST: {
-        const post = action.data;
+    case PostTypes.RECEIVED_POST:
+    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
+        const post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
 
         return storeAllFilesForPost(storeFilesForPost, state, post);
     }
@@ -173,8 +174,9 @@ export function fileIdsByPostId(state: Record<string, string[]> = {}, action: MM
     }
 
     case PostTypes.RECEIVED_NEW_POST:
-    case PostTypes.RECEIVED_POST: {
-        const post = action.data;
+    case PostTypes.RECEIVED_POST:
+    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
+        const post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
 
         return storeAllFilesForPost(storeFilesIdsForPost, state, post);
     }

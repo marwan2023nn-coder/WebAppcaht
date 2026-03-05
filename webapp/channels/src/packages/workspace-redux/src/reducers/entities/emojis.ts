@@ -39,8 +39,9 @@ export function customEmoji(state: IDMappedObjects<CustomEmoji> = {}, action: MM
         return {};
 
     case PostTypes.RECEIVED_NEW_POST:
-    case PostTypes.RECEIVED_POST: {
-        const post: Post = action.data;
+    case PostTypes.RECEIVED_POST:
+    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
+        const post: Post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
 
         return storeEmojisForPost(state, post);
     }
