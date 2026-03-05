@@ -162,6 +162,10 @@ func (s *SqlReactionStore) GetUniqueCountForPost(postId string) (int, error) {
 }
 
 func (s *SqlReactionStore) BulkGetForPosts(postIds []string) ([]*model.Reaction, error) {
+	if len(postIds) == 0 {
+		return []*model.Reaction{}, nil
+	}
+
 	placeholder, values := constructArrayArgs(postIds)
 	var reactions []*model.Reaction
 
