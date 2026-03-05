@@ -203,12 +203,12 @@ func (me SqlSessionStore) GetMobileSessionMetadata() ([]*model.MobileSessionMeta
 	platformQuery := "NULLIF(SPLIT_PART(deviceid, ':', 1), '')"
 
 	query, args, err := me.getQueryBuilder().
-		Select(
-			"COUNT(userid) AS Count",
-			"COALESCE("+platformQuery+",'N/A') AS Platform",
-		).
-		Column(sq.Expr("COALESCE(props->>?,'N/A') AS Version", versionProp)).
-		Column(sq.Expr("COALESCE(props->>?,'false') AS NotificationDisabled", notificationDisabledProp)).
+		Select(fmt.Sprintf(
+			"COUNT(userid) AS Count, COALESCE(%s,'N/A') AS Platform, COALESCE(props->>'%s','N/A') AS Version, COALESCE(props->>'%s','false') as NotificationDisabled",
+			platformQuery,
+			versionProp,
+			notificationDisabledProp,
+		)).
 		From("Sessions").
 		GroupBy("Platform", "Version", "NotificationDisabled").
 		ToSql()

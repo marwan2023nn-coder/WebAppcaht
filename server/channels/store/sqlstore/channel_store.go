@@ -3422,7 +3422,7 @@ func (s SqlChannelStore) channelSearchQuery(opts *store.ChannelSearchOpts) sq.Se
 	if opts.ExcludeAccessControlPolicyEnforced {
 		query = query.Where("c.Id NOT IN (SELECT ID From AccessControlPolicies WHERE Type = ?)", model.AccessControlPolicyTypeChannel)
 	} else if opts.ParentAccessControlPolicyId != "" {
-		query = query.Where(sq.Expr("c.Id IN (SELECT ID From AccessControlPolicies WHERE Type = ? AND Data->'imports' @> JSONB_BUILD_ARRAY(?::text))", model.AccessControlPolicyTypeChannel, opts.ParentAccessControlPolicyId))
+		query = query.Where(sq.Expr("c.Id IN (SELECT ID From AccessControlPolicies WHERE Type = ? AND Data->'imports' @> ?)", model.AccessControlPolicyTypeChannel, fmt.Sprintf("%q", opts.ParentAccessControlPolicyId)))
 	} else if opts.AccessControlPolicyEnforced {
 		query = query.InnerJoin("AccessControlPolicies acp ON acp.ID = c.Id")
 	}
@@ -3518,30 +3518,12 @@ func (s SqlChannelStore) buildLIKEClauseX(term string, searchColumns ...string) 
 	// add a placeholder at the beginning and end
 	likeTerm = wildcardSearchTerm(likeTerm)
 
-	allowedFields := map[string]bool{
-		"c.Name":        true,
-		"c.DisplayName": true,
-		"c.Purpose":     true,
-		"Name":          true,
-		"DisplayName":   true,
-		"Purpose":       true,
-		"IU.Username":   true,
-		"IU.Nickname":   true,
-	}
-
 	// Prepare the LIKE portion of the query.
 	var searchFields sq.Or
 
 	for _, field := range searchColumns {
-		if !allowedFields[field] {
-			continue
-		}
 		expr := fmt.Sprintf("LOWER(%s) LIKE LOWER(?) ESCAPE '*'", field)
 		searchFields = append(searchFields, sq.Expr(expr, likeTerm))
-	}
-
-	if len(searchFields) == 0 {
-		return nil
 	}
 
 	return searchFields
@@ -3570,27 +3552,7 @@ func (s SqlChannelStore) buildFulltextClause(term string, searchColumns ...strin
 	// Join the search terms with & for AND matching
 	fulltextTerm = strings.Join(splitTerm, " & ")
 
-	allowedFields := map[string]bool{
-		"c.Name":        true,
-		"c.DisplayName": true,
-		"c.Purpose":     true,
-		"Name":          true,
-		"DisplayName":   true,
-		"Purpose":       true,
-	}
-
-	sanitizedColumns := []string{}
-	for _, col := range searchColumns {
-		if allowedFields[col] {
-			sanitizedColumns = append(sanitizedColumns, col)
-		}
-	}
-
-	if len(sanitizedColumns) == 0 {
-		return sq.Expr("1=0")
-	}
-
-	expr := fmt.Sprintf("((to_tsvector('%[1]s', %[2]s)) @@ to_tsquery('%[1]s', ?))", s.pgDefaultTextSearchConfig, strings.Join(sanitizedColumns, " || ' ' || "))
+	expr := fmt.Sprintf("((to_tsvector('%[1]s', %[2]s)) @@ to_tsquery('%[1]s', ?))", s.pgDefaultTextSearchConfig, strings.Join(searchColumns, " || ' ' || "))
 	return sq.Expr(expr, fulltextTerm)
 }
 

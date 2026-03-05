@@ -1333,8 +1333,9 @@ func (s *SqlGroupStore) groupsBySyncableBaseQuery(st model.GroupSyncableType, t 
 	}
 
 	if opts.Q != "" {
-		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
-		query = query.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
+		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
+		operatorKeyword := "ILIKE"
+		query = query.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
 	}
 
 	return query
@@ -1392,8 +1393,9 @@ func (s *SqlGroupStore) getGroupsAssociatedToChannelsByTeam(teamID string, opts 
 	}
 
 	if opts.Q != "" {
-		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
-		query = query.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
+		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
+		operatorKeyword := "ILIKE"
+		query = query.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
 	}
 
 	return query
@@ -1543,8 +1545,9 @@ func (s *SqlGroupStore) GetGroups(page, perPage int, opts model.GroupSearchOpts,
 	}
 
 	if opts.Q != "" {
-		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
-		groupsQuery = groupsQuery.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
+		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
+		operatorKeyword := "ILIKE"
+		groupsQuery = groupsQuery.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
 	}
 
 	if len(opts.NotAssociatedToTeam) == 26 {
@@ -1822,24 +1825,9 @@ func (s *SqlGroupStore) AdminRoleGroupsForSyncableMember(userID, syncableID stri
 }
 
 func (s *SqlGroupStore) PermittedSyncableAdmins(syncableID string, syncableType model.GroupSyncableType) ([]string, error) {
-	var table, joinExpr, whereExpr string
-	switch syncableType {
-	case model.GroupSyncableTypeTeam:
-		table = "GroupTeams"
-		joinExpr = "GroupMembers ON GroupMembers.GroupId = GroupTeams.GroupId AND GroupTeams.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0"
-		whereExpr = "GroupTeams.TeamId = ?"
-	case model.GroupSyncableTypeChannel:
-		table = "GroupChannels"
-		joinExpr = "GroupMembers ON GroupMembers.GroupId = GroupChannels.GroupId AND GroupChannels.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0"
-		whereExpr = "GroupChannels.ChannelId = ?"
-	default:
-		return nil, fmt.Errorf("invalid syncable type: %s", syncableType)
-	}
-
 	builder := s.getQueryBuilder().Select("UserId").
-		From(table).
-		Join(joinExpr).
-		Where(whereExpr, syncableID)
+		From(fmt.Sprintf("Group%ss", syncableType)).
+		Join(fmt.Sprintf("GroupMembers ON GroupMembers.GroupId = Group%ss.GroupId AND Group%[1]ss.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0", syncableType.String())).Where(fmt.Sprintf("Group%[1]ss.%[1]sId = ?", syncableType.String()), syncableID)
 
 	var userIDs []string
 	if err := s.GetMaster().SelectBuilder(&userIDs, builder); err != nil {
@@ -1857,8 +1845,9 @@ func (s *SqlGroupStore) GroupCount(opts model.GroupSearchOpts, viewRestrictions 
 	countQuery = applyGroupViewRestrictionsFilter(countQuery, viewRestrictions)
 
 	if opts.Q != "" {
-		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
-		countQuery = countQuery.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
+		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
+		operatorKeyword := "ILIKE"
+		countQuery = countQuery.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
 	}
 
 	if opts.Source != "" {

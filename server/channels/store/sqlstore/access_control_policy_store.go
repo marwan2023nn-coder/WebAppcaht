@@ -359,7 +359,7 @@ func (s *SqlAccessControlPolicyStore) SetActiveStatus(rctx request.CTX, id strin
 
 	if existingPolicy.Type == model.AccessControlPolicyTypeParent {
 		// if the policy is a parent, we need to update the child policies
-		expr := sq.Expr("Data->'imports' @> JSONB_BUILD_ARRAY(?::text)", id)
+		expr := sq.Expr("Data->'imports' @> ?::jsonb", fmt.Sprintf("%q", id))
 		query, args, err = s.getQueryBuilder().Update("AccessControlPolicies").Set("Active", active).Where(expr).ToSql()
 		if err != nil {
 			return nil, errors.Wrapf(err, "failed to build query for policy with id=%s", id)
@@ -536,7 +536,7 @@ func (s *SqlAccessControlPolicyStore) GetAll(_ request.CTX, opts model.GetAccess
 	query := s.selectQueryBuilder
 
 	if opts.ParentID != "" {
-		query = query.Where("Data->'imports' @> ?", sq.Expr("JSONB_BUILD_ARRAY(?::text)", opts.ParentID))
+		query = query.Where(sq.Expr("Data->'imports' @> ?", fmt.Sprintf("%q", opts.ParentID)))
 	}
 
 	if opts.Type != "" {
@@ -615,7 +615,7 @@ func (s *SqlAccessControlPolicyStore) SearchPolicies(rctx request.CTX, opts mode
 	}
 
 	if opts.ParentID != "" {
-		condition := sq.Expr("Data->'imports' @> JSONB_BUILD_ARRAY(?::text)", opts.ParentID)
+		condition := sq.Expr("Data->'imports' @> ?", fmt.Sprintf("%q", opts.ParentID))
 		query = query.Where(condition)
 		count = count.Where(condition)
 	}

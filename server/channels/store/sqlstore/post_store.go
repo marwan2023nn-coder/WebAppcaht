@@ -2133,7 +2133,7 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		return nil, err
 	}
 
-	baseQuery = baseQuery.Where("ChannelId IN ("+inQueryClause+")", inQueryClauseArgs...)
+	baseQuery = baseQuery.Where(fmt.Sprintf("ChannelId IN (%s)", inQueryClause), inQueryClauseArgs...)
 
 	var posts []*model.Post
 
@@ -2552,14 +2552,8 @@ func (s *SqlPostStore) GetParentsForExportAfter(limit int, afterId string, inclu
 		aggFn := "COALESCE(json_agg(u1.username) FILTER (WHERE u1.username IS NOT NULL), '[]')"
 		result := []*model.PostForExport{}
 
-		columns := append(postSliceColumnsWithName("p1"),
-			"Users.Username as Username",
-			"Teams.Name as TeamName",
-			"Channels.Name as ChannelName",
-			aggFn+" as FlaggedBy",
-		)
 		query := s.getQueryBuilder().
-			Select(columns...).
+			Select(fmt.Sprintf("%s, Users.Username as Username, Teams.Name as TeamName, Channels.Name as ChannelName, %s as FlaggedBy", strings.Join(postSliceColumnsWithName("p1"), ", "), aggFn)).
 			FromSelect(sq.Select(postSliceColumnsWithName("Posts")...).From("Posts").Where(sq.Eq{"Posts.Id": rootIds}), "p1").
 			LeftJoin("Preferences ON p1.Id = Preferences.Name").
 			LeftJoin("Users u1 ON Preferences.UserId = u1.Id").
@@ -2567,7 +2561,7 @@ func (s *SqlPostStore) GetParentsForExportAfter(limit int, afterId string, inclu
 			InnerJoin("Teams ON Channels.TeamId = Teams.Id").
 			InnerJoin("Users ON p1.UserId = Users.Id").
 			Where(excludeDeletedCond).
-			GroupBy(append(postSliceColumnsWithName("p1"), "Users.Username", "Teams.Name", "Channels.Name")...).
+			GroupBy(fmt.Sprintf("%s, Users.Username, Teams.Name, Channels.Name", strings.Join(postSliceColumnsWithName("p1"), ", "))).
 			OrderBy("p1.Id")
 
 		if err := s.GetSearchReplicaX().SelectBuilder(&result, query); err != nil {
@@ -2591,7 +2585,7 @@ func (s *SqlPostStore) GetRepliesForExport(rootId string) ([]*model.ReplyForExpo
 
 	query := s.postsQuery.
 		Column("u2.Username as Username").
-		Column(sq.Alias(sq.Expr(aggFn), "FlaggedBy")).
+		Column(fmt.Sprintf("%s as FlaggedBy", aggFn)).
 		LeftJoin("Preferences ON Posts.Id = Preferences.Name").
 		LeftJoin("Users u1 ON Preferences.UserId = u1.Id").
 		InnerJoin("Users u2 ON Posts.UserId = u2.Id").
