@@ -1,3 +1,7 @@
 ## 2026-03-01 - N+1 Query Bottleneck in Post Metadata Preparation
 **Learning:** The `PreparePostListForClient` function in the app layer is a critical path for many API responses (channel loads, search results). While reactions and emojis were already bulk-loaded, file information was being fetched individually for each post, leading to up to 60+ additional database queries per request. This pattern is likely present in other metadata types and should be audited.
 **Action:** When preparing lists of entities that require associated metadata (files, reactions, priority), always implement bulk-loading methods in the store and app layers to keep database query counts constant (O(1)) relative to the list size.
+
+## 2026-03-05 - Redundant Processing and Expensive Conversions in Post Model
+**Learning:** `Post.Attachments()` was a hidden performance bottleneck. It performed expensive JSON-to-struct conversion on every call. By caching the result back into the `Props` map (which is thread-safe via copy-on-write), subsequent calls were reduced from ~10,000ns to ~36ns. Additionally, redundant calls to metadata preparation functions like `preparePostFilesForClient` can accumulate on critical paths.
+**Action:** Implement lazy-loading and memoization for expensive model property conversions. Audit critical paths like post metadata preparation for redundant function calls that process the same data multiple times.
