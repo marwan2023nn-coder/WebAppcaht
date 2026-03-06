@@ -18,31 +18,6 @@ describe('getSortColumnForOptions', () => {
         expect(result.sort_column).toBe('CreateAt');
     });
 
-    it('should return correct sort column for lastLoginAt', () => {
-        const result = getSortColumnForOptions(ColumnNames.lastLoginAt);
-        expect(result.sort_column).toBe('LastLogin');
-    });
-
-    it('should return correct sort column for lastStatusAt', () => {
-        const result = getSortColumnForOptions(ColumnNames.lastStatusAt);
-        expect(result.sort_column).toBe('LastStatusAt');
-    });
-
-    it('should return correct sort column for lastPostDate', () => {
-        const result = getSortColumnForOptions(ColumnNames.lastPostDate);
-        expect(result.sort_column).toBe('LastPostDate');
-    });
-
-    it('should return correct sort column for daysActive', () => {
-        const result = getSortColumnForOptions(ColumnNames.daysActive);
-        expect(result.sort_column).toBe('DaysActive');
-    });
-
-    it('should return correct sort column for totalPosts', () => {
-        const result = getSortColumnForOptions(ColumnNames.totalPosts);
-        expect(result.sort_column).toBe('TotalPosts');
-    });
-
     it('should default to username if no id is provided', () => {
         const result = getSortColumnForOptions();
         expect(result.sort_column).toBe('Username');
@@ -73,36 +48,6 @@ describe('getSortableColumnValueBySortColumn', () => {
         const result = getSortableColumnValueBySortColumn(row, ColumnNames.createAt);
         expect(typeof result).toBe('string');
         expect(result).toBe('1234');
-    });
-
-    it('should return last_login_at value as string when sortColumn is lastLoginAt', () => {
-        const row = {last_login_at: 1234} as UserReport;
-        const result = getSortableColumnValueBySortColumn(row, ColumnNames.lastLoginAt);
-        expect(result).toBe('1234');
-    });
-
-    it('should return last_status_at value as string when sortColumn is lastStatusAt', () => {
-        const row = {last_status_at: 1234} as UserReport;
-        const result = getSortableColumnValueBySortColumn(row, ColumnNames.lastStatusAt);
-        expect(result).toBe('1234');
-    });
-
-    it('should return last_post_date value as string when sortColumn is lastPostDate', () => {
-        const row = {last_post_date: 1234} as UserReport;
-        const result = getSortableColumnValueBySortColumn(row, ColumnNames.lastPostDate);
-        expect(result).toBe('1234');
-    });
-
-    it('should return days_active value as string when sortColumn is daysActive', () => {
-        const row = {days_active: 5} as UserReport;
-        const result = getSortableColumnValueBySortColumn(row, ColumnNames.daysActive);
-        expect(result).toBe('5');
-    });
-
-    it('should return total_posts value as string when sortColumn is totalPosts', () => {
-        const row = {total_posts: 10} as UserReport;
-        const result = getSortableColumnValueBySortColumn(row, ColumnNames.totalPosts);
-        expect(result).toBe('10');
     });
 
     it('should return username value by default', () => {

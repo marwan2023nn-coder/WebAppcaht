@@ -299,7 +299,7 @@ export function handlePosts(state: IDMappedObjects<Post> = {}, action: MMReduxAc
 
         return {
             ...state,
-            [post.id]: removeUnneededMetadata({
+            [post.id]: {
                 ...currentPost,
                 ...post,
                 metadata: {
@@ -307,7 +307,7 @@ export function handlePosts(state: IDMappedObjects<Post> = {}, action: MMReduxAc
                     ...newMetadata,
                     expire_at: expireAt,
                 },
-            }),
+            },
         };
     }
 
@@ -1278,9 +1278,8 @@ export function reactions(state: RelationOneToOne<Post, Record<string, Reaction>
     }
 
     case PostTypes.RECEIVED_NEW_POST:
-    case PostTypes.RECEIVED_POST:
-    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
-        const post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
+    case PostTypes.RECEIVED_POST: {
+        const post = action.data;
 
         return storeReactionsForPost(state, post);
     }
@@ -1350,9 +1349,8 @@ export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfil
         };
     }
 
-    case PostTypes.RECEIVED_POST:
-    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
-        const post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
+    case PostTypes.RECEIVED_POST: {
+        const post = action.data;
 
         return storeAcknowledgementsForPost(state, post);
     }
@@ -1428,9 +1426,8 @@ function storeAcknowledgementsForPost(state: any, post: Post) {
 export function openGraph(state: RelationOneToOne<Post, Record<string, OpenGraphMetadata>> = {}, action: MMReduxAction) {
     switch (action.type) {
     case PostTypes.RECEIVED_NEW_POST:
-    case PostTypes.RECEIVED_POST:
-    case PostTypes.REVEAL_BURN_ON_READ_SUCCESS: {
-        const post = action.type === PostTypes.REVEAL_BURN_ON_READ_SUCCESS ? action.data.post : action.data;
+    case PostTypes.RECEIVED_POST: {
+        const post = action.data;
 
         return storeOpenGraphForPost(state, post);
     }

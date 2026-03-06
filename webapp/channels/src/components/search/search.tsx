@@ -36,7 +36,7 @@ interface SearchHintOption {
     };
 }
 
-const determineVisibleSearchHintOptions = (searchTerms: string, searchType: SearchType, intl: any): SearchHintOption[] => {
+const determineVisibleSearchHintOptions = (searchTerms: string, searchType: SearchType): SearchHintOption[] => {
     let newVisibleSearchHintOptions: SearchHintOption[] = [];
     let options = searchHintOptions;
     if (searchType === 'files') {
@@ -53,16 +53,10 @@ const determineVisibleSearchHintOptions = (searchTerms: string, searchType: Sear
 
     let shouldShowHintOptions: boolean;
 
-    const matchesOption = (text: string, option: any) => {
-        const term = option.searchTerm.toLowerCase();
-        const display = option.displayMessage ? intl.formatMessage(option.displayMessage).toLowerCase() : '';
-        return text.toLowerCase().endsWith(term) || (display && text.toLowerCase().endsWith(display));
-    };
-
     if (penultimatePretext) {
-        shouldShowHintOptions = !(options.some((option) => matchesOption(penultimatePretext, option)) && penultimatePretext !== '@');
+        shouldShowHintOptions = !(options.some(({searchTerm}) => penultimatePretext.toLowerCase().endsWith(searchTerm.toLowerCase())) && penultimatePretext !== '@');
     } else {
-        shouldShowHintOptions = !options.some((option) => matchesOption(searchTerms, option)) || searchTerms === '@';
+        shouldShowHintOptions = !options.some(({searchTerm}) => searchTerms.toLowerCase().endsWith(searchTerm.toLowerCase())) || searchTerms === '@';
     }
 
     if (shouldShowHintOptions) {
@@ -133,7 +127,7 @@ const Search = ({
     const [indexChangedViaKeyPress, setIndexChangedViaKeyPress] = useState<boolean>(false);
     const [highlightedSearchHintIndex, setHighlightedSearchHintIndex] = useState<number>(-1);
     const [visibleSearchHintOptions, setVisibleSearchHintOptions] = useState<SearchHintOption[]>(
-        determineVisibleSearchHintOptions(searchTerms, searchType, intl),
+        determineVisibleSearchHintOptions(searchTerms, searchType),
     );
     const [searchFilterType, setSearchFilterType] = useState<SearchFilterType>('all');
 
@@ -186,9 +180,9 @@ const Search = ({
 
     useEffect((): void => {
         if (!isMobileView) {
-            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType, intl));
+            setVisibleSearchHintOptions(determineVisibleSearchHintOptions(searchTerms, searchType));
         }
-    }, [isMobileView, searchTerms, searchType, intl]);
+    }, [isMobileView, searchTerms, searchType]);
 
     useEffect((): void => {
         if (!isMobileView && focused && keepInputFocused) {
@@ -436,12 +430,7 @@ const Search = ({
             if (searchType === 'files') {
                 options = searchFilesHintOptions;
             }
-            if (options.some((option) => {
-                const term = option.searchTerm.toLowerCase();
-                const display = option.displayMessage ? intl.formatMessage(option.displayMessage).toLowerCase() : '';
-                const cleanWord = (word + (searchTerms.includes(word + ':') ? ':' : '')).toLowerCase();
-                return term === cleanWord || (display && display === cleanWord);
-            })) {
+            if (options.some(({searchTerm}) => searchTerm.toLowerCase() === word.toLowerCase())) {
                 termsUsed++;
             }
         });

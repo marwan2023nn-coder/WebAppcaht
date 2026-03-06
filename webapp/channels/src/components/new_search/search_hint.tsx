@@ -100,19 +100,16 @@ const SearchHints = ({onSelectFilter, searchType, searchTerms, searchTeam, hasSe
                     defaultMessage='Filter your search with:'
                 />
             </h2>
-            {filters.map((filter) => {
-                const display = filter.additionalDisplay || (filter.displayMessage ? intl.formatMessage(filter.displayMessage) : filter.searchTerm);
-                return (
-                    <SearchFilter
-                        key={filter.searchTerm}
-                        onClick={() => onSelectFilter(display)}
-                    >
-                        <span title={intl.formatMessage(filter.message)}>
-                            {display}
-                        </span>
-                    </SearchFilter>
-                );
-            })}
+            {filters.map((filter) => (
+                <SearchFilter
+                    key={filter.searchTerm}
+                    onClick={() => onSelectFilter(filter.additionalDisplay || filter.searchTerm)}
+                >
+                    <span title={intl.formatMessage(filter.message)}>
+                        {filter.additionalDisplay || filter.searchTerm}
+                    </span>
+                </SearchFilter>
+            ))}
         </SearchHintsContainer>
     );
 };

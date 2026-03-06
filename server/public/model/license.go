@@ -495,15 +495,27 @@ func (lr *LicenseRecord) PreSave() {
 // MinimumProfessionalLicense returns true if the provided license is at least a professional license.
 // Higher tier licenses also satisfy the condition.
 func MinimumProfessionalLicense(license *License) bool {
-	return true
+	if license == nil {
+		return false
+	}
+	tier, ok := LicenseToLicenseTier[license.SkuShortName]
+	return ok && tier >= ProfessionalTier
 }
 
 // MinimumEnterpriseLicense returns true if the provided license is at least a enterprise license.
 // Higher tier licenses also satisfy the condition.
 func MinimumEnterpriseLicense(license *License) bool {
-	return true
+	if license == nil {
+		return false
+	}
+	tier, ok := LicenseToLicenseTier[license.SkuShortName]
+	return ok && tier >= EnterpriseTier
 }
 
 func MinimumEnterpriseAdvancedLicense(license *License) bool {
-	return true
+	if license == nil {
+		return false
+	}
+	tier, ok := LicenseToLicenseTier[license.SkuShortName]
+	return ok && tier >= EnterpriseAdvancedTier
 }

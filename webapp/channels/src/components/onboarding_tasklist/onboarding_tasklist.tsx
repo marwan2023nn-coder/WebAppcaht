@@ -90,7 +90,7 @@ const Button = styled.button<{open: boolean}>(({open}) => {
         height: 36px;
         padding: 7px;
         border-radius: var(--radius-full);
-        inset-inline-start: auto;
+        inset-inline-start: 15px;
         bottom: 15px;
         position: fixed;
         z-index: 101;

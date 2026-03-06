@@ -134,9 +134,7 @@ func getSharedChannelRemotesByRemoteCluster(c *Context, w http.ResponseWriter, r
 		return
 	}
 
-	if err := json.NewEncoder(w).Encode(sharedChannelRemotes); err != nil {
-		c.Logger.Warn("Error while writing response", mlog.Err(err))
-	}
+	w.Write(model.ToJSON(sharedChannelRemotes))
 }
 
 func inviteRemoteClusterToChannel(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -292,9 +290,7 @@ func getSharedChannelRemotes(c *Context, w http.ResponseWriter, r *http.Request)
 		}
 	}
 
-	if err := json.NewEncoder(w).Encode(remoteInfos); err != nil {
-		c.Logger.Warn("Error while writing response", mlog.Err(err))
-	}
+	w.Write(model.ToJSON(remoteInfos))
 }
 
 func canUserDirectMessage(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -311,9 +307,7 @@ func canUserDirectMessage(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 	if !canSee {
 		result := map[string]bool{"can_dm": false}
-		if err := json.NewEncoder(w).Encode(result); err != nil {
-			c.Logger.Warn("Error encoding JSON response", mlog.Err(err))
-		}
+		w.Write([]byte(model.MapBoolToJSON(result)))
 		return
 	}
 
@@ -346,7 +340,5 @@ func canUserDirectMessage(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	result := map[string]bool{"can_dm": canDM}
-	if err := json.NewEncoder(w).Encode(result); err != nil {
-		c.Logger.Warn("Error encoding JSON response", mlog.Err(err))
-	}
+	w.Write([]byte(model.MapBoolToJSON(result)))
 }

@@ -468,9 +468,7 @@ func (s SqlTeamStore) teamSearchQuery(opts *model.TeamSearch, countQuery bool) s
 		term = sanitizeSearchTerm(term, "\\")
 		term = wildcardSearchTerm(term)
 
-		operatorKeyword := "ILIKE"
-
-		query = query.Where(fmt.Sprintf("(Name %[1]s ? OR DisplayName %[1]s ?)", operatorKeyword), term, term)
+		query = query.Where("(t.Name ILIKE ? OR t.DisplayName ILIKE ?)", term, term)
 	}
 
 	if len(opts.TeamIds) > 0 {
@@ -1747,14 +1745,14 @@ func applyTeamMemberViewRestrictionsFilterForStats(query sq.SelectBuilder, restr
 			Select("UserId").
 			From("TeamMembers").
 			Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})
-		restrictionClause = append(restrictionClause, sq.Expr("TeamMembers.UserId IN ?", teamSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("TeamMembers.UserId IN (?)", teamSubquery))
 	}
 	if len(restrictions.Channels) > 0 {
 		channelSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
 			Select("UserId").
 			From("ChannelMembers").
 			Where(sq.Eq{"ChannelId": restrictions.Channels})
-		restrictionClause = append(restrictionClause, sq.Expr("TeamMembers.UserId IN ?", channelSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("TeamMembers.UserId IN (?)", channelSubquery))
 	}
 
 	return query.Where(restrictionClause)

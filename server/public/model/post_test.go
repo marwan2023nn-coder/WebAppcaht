@@ -951,46 +951,6 @@ func TestPostAttachments(t *testing.T) {
 		assert.Equal(t, attachments[0].Fields[0].Value, ":emoji1:")
 		assert.Equal(t, attachments[0].Fields[1].Value, ":emoji2:")
 	})
-
-	t.Run("cache invalidation", func(t *testing.T) {
-		p := &Post{}
-		attachments1 := []any{
-			map[string]any{"text": "attachment1"},
-		}
-		p.AddProp(PostPropsAttachments, attachments1)
-
-		// First call caches it
-		atts1 := p.Attachments()
-		require.Len(t, atts1, 1)
-		require.Equal(t, "attachment1", atts1[0].Text)
-
-		// Verify it's cached as []*SlackAttachment
-		cached, ok := p.GetProp(PostPropsAttachments).([]*SlackAttachment)
-		require.True(t, ok)
-		require.Equal(t, atts1, cached)
-
-		// Update prop with new data (simulating an edit)
-		attachments2 := []any{
-			map[string]any{"text": "attachment2"},
-		}
-		p.AddProp(PostPropsAttachments, attachments2)
-
-		// Verify cache was overwritten by new []any
-		_, ok = p.GetProp(PostPropsAttachments).([]*SlackAttachment)
-		require.False(t, ok)
-		_, ok = p.GetProp(PostPropsAttachments).([]any)
-		require.True(t, ok)
-
-		// Second call should re-process and re-cache
-		atts2 := p.Attachments()
-		require.Len(t, atts2, 1)
-		require.Equal(t, "attachment2", atts2[0].Text)
-
-		// Verify it's cached again
-		cached2, ok := p.GetProp(PostPropsAttachments).([]*SlackAttachment)
-		require.True(t, ok)
-		require.Equal(t, atts2, cached2)
-	})
 }
 
 func TestPostForPlugin(t *testing.T) {
