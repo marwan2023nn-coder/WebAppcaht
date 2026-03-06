@@ -374,7 +374,6 @@ func (a *App) preparePostFilesForClient(rctx request.CTX, post *model.Post, opts
 func (a *App) PreparePostForClientWithEmbedsAndImages(rctx request.CTX, originalPost *model.Post, opts *model.PreparePostForClientOpts) *model.Post {
 	post := a.PreparePostForClient(rctx, originalPost, opts)
 	post = a.getEmbedsAndImages(rctx, post, opts.IsNewPost)
-	// Optimization: Removed redundant call to preparePostFilesForClient since it is already called by PreparePostForClient above.
 	return post
 }
 

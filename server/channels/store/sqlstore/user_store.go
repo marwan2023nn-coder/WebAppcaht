@@ -2178,32 +2178,39 @@ func applyViewRestrictionsFilter(query sq.SelectBuilder, restrictions *model.Vie
 		return query
 	}
 
-	// If you have no access to teams or channels, return and empty result.
-	if restrictions.Teams != nil && len(restrictions.Teams) == 0 && restrictions.Channels != nil && len(restrictions.Channels) == 0 {
+	// If you have no access to teams or channels, return an empty result.
+	if len(restrictions.Teams) == 0 && len(restrictions.Channels) == 0 {
 		return query.Where("1 = 0")
 	}
 
-	teams := make([]any, len(restrictions.Teams))
-	for i, v := range restrictions.Teams {
-		teams[i] = v
-	}
-	channels := make([]any, len(restrictions.Channels))
-	for i, v := range restrictions.Channels {
-		channels[i] = v
-	}
-	resultQuery := query
+	// FIXED (Issue #3 — RBAC Data Leakage):
+	// The previous implementation used multiple JOINs which created an INTERSECTION (user MUST be in team X AND channel Y).
+	// This was logically incorrect for "Community Manager + User Manager" roles where a user should see anyone
+	// they share ANY boundary with (UNION).
+	//
+	// We now use a UNION of permissions using subqueries, which correctly implements the logic
+	// and is significantly more performant as it avoids cross-product joins.
+	//
+	// We use sq.Expr with explicit subqueries to ensure correct SQL generation and slice expansion
+	// across all supported database backends.
+
+	restrictionClause := sq.Or{}
 	if len(restrictions.Teams) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("TeamMembers rtm ON ( rtm.UserId = Users.Id AND rtm.DeleteAt = 0 AND rtm.TeamId IN (%s))", sq.Placeholders(len(teams))), teams...)
+		teamSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
+			From("TeamMembers").
+			Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", teamSubquery))
 	}
 	if len(restrictions.Channels) > 0 {
-		resultQuery = resultQuery.Join(fmt.Sprintf("ChannelMembers rcm ON ( rcm.UserId = Users.Id AND rcm.ChannelId IN (%s))", sq.Placeholders(len(channels))), channels...)
+		channelSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
+			From("ChannelMembers").
+			Where(sq.Eq{"ChannelId": restrictions.Channels})
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", channelSubquery))
 	}
 
-	if distinct {
-		return resultQuery.Distinct()
-	}
-
-	return resultQuery
+	return query.Where(restrictionClause)
 }
 
 func (us SqlUserStore) PromoteGuestToUser(userId string) (err error) {

@@ -1054,12 +1054,17 @@ func (s *SqlPostStore) permanentDeleteAllCommentByUser(userId string) (err error
 		return errors.Wrapf(err, "failed to delete Posts with userId=%s", userId)
 	}
 
-	postIds := []string{}
+	postIds := make([]string, 0, len(results))
+	rootIds := make([]string, 0, len(results))
 	for _, ids := range results {
-		if err = s.updateThreadAfterReplyDeletion(transaction, ids.RootId, userId); err != nil {
-			return err
-		}
 		postIds = append(postIds, ids.Id)
+		if ids.RootId != "" {
+			rootIds = append(rootIds, ids.RootId)
+		}
+	}
+
+	if err = s.bulkUpdateThreadsAfterReplyDeletion(transaction, rootIds, userId); err != nil {
+		return err
 	}
 
 	// Delete all the reactions on the comments
@@ -2828,54 +2833,92 @@ func (s *SqlPostStore) deleteThreadFiles(transaction *sqlxTxWrapper, postID stri
 // updateThreadAfterReplyDeletion decrements the thread reply count and adjusts the participants
 // list as necessary.
 func (s *SqlPostStore) updateThreadAfterReplyDeletion(transaction *sqlxTxWrapper, rootId string, userId string) error {
-	if rootId != "" {
-		query := s.getQueryBuilder().
-			Select("COUNT(Posts.Id)").
-			From("Posts").
-			Where(sq.And{
-				sq.Eq{"Posts.RootId": rootId},
-				sq.Eq{"Posts.UserId": userId},
-				sq.Eq{"Posts.DeleteAt": 0},
-			})
+	return s.bulkUpdateThreadsAfterReplyDeletion(transaction, []string{rootId}, userId)
+}
 
-		var count int64
-		if err := transaction.GetBuilder(&count, query); err != nil {
-			return errors.Wrap(err, "failed to count user's posts in thread")
-		}
-
-		// Updating replyCount, and reducing participants if this was the last post in the thread for the user
-		updateQuery := s.getQueryBuilder().Update("Threads")
-
-		if count == 0 {
-			updateQuery = updateQuery.Set("Participants", sq.Expr("Participants - ?", userId))
-		}
-
-		lastReplyAtSubquery := sq.Select("COALESCE(MAX(CreateAt), 0)").
-			From("Posts").
-			Where(sq.Eq{
-				"RootId":   rootId,
-				"DeleteAt": 0,
-			})
-
-		lastReplyCountSubquery := sq.Select("Count(*)").
-			From("Posts").
-			Where(sq.Eq{
-				"RootId":   rootId,
-				"DeleteAt": 0,
-			})
-
-		updateQuery = updateQuery.
-			Set("LastReplyAt", lastReplyAtSubquery).
-			Set("ReplyCount", lastReplyCountSubquery).
-			Where(sq.And{
-				sq.Eq{"PostId": rootId},
-				sq.Gt{"ReplyCount": 0},
-			})
-
-		if _, err := transaction.ExecBuilder(updateQuery); err != nil {
-			return errors.Wrap(err, "failed to update Threads")
+func (s *SqlPostStore) bulkUpdateThreadsAfterReplyDeletion(transaction *sqlxTxWrapper, rootIds []string, userId string) error {
+	uniqueRootIds := make([]string, 0, len(rootIds))
+	rootIdMap := make(map[string]bool)
+	for _, id := range rootIds {
+		if id != "" && !rootIdMap[id] {
+			rootIdMap[id] = true
+			uniqueRootIds = append(uniqueRootIds, id)
 		}
 	}
+
+	if len(uniqueRootIds) == 0 {
+		return nil
+	}
+
+	// We process in batches to avoid extremely long IN clauses
+	batchSize := 100
+	for i := 0; i < len(uniqueRootIds); i += batchSize {
+		end := i + batchSize
+		if end > len(uniqueRootIds) {
+			end = len(uniqueRootIds)
+		}
+		batch := uniqueRootIds[i:end]
+
+		// FIXED (Issue #2 — N+1 Thread Metadata Updates):
+		// The previous implementation called updateThreadAfterReplyDeletion in a loop,
+		// triggering multiple subqueries per deleted post.
+		//
+		// Scoped fix:
+		// We use a single bulk UPDATE with correlated subqueries to refresh ReplyCount,
+		// LastReplyAt, and Participants for all affected threads in one go.
+		// This reduces O(N) queries to O(N/batchSize).
+
+		// FIXED (Issue #2 — N+1 Thread Metadata Updates):
+		// The previous implementation called updateThreadAfterReplyDeletion in a loop,
+		// triggering multiple subqueries per deleted post.
+		//
+		// Scoped fix:
+		// We use a single bulk UPDATE with correlated subqueries to refresh ReplyCount,
+		// LastReplyAt, and Participants for all affected threads in one go.
+		// This reduces O(N) queries to O(N/batchSize).
+		//
+		// We use Squirrel's ExecBuilder to handle placeholders correctly.
+		// Since we're using Postgres-specific JSONB operators (-) or MySQL JSON functions,
+		// we branch based on the driver.
+		updateQuery := s.getQueryBuilder().
+			Update("Threads").
+			Set("ReplyCount", sq.Expr("(SELECT COUNT(*) FROM Posts WHERE Posts.RootId = Threads.PostId AND Posts.DeleteAt = 0)")).
+			Set("LastReplyAt", sq.Expr("COALESCE((SELECT MAX(CreateAt) FROM Posts WHERE Posts.RootId = Threads.PostId AND Posts.DeleteAt = 0), 0)"))
+
+		if s.DriverName() == model.DatabaseDriverPostgres {
+			updateQuery = updateQuery.Set("Participants", sq.Expr(`(
+				CASE
+					WHEN (SELECT COUNT(*) FROM Posts WHERE Posts.RootId = Threads.PostId AND Posts.UserId = ? AND Posts.DeleteAt = 0) = 0
+					THEN Participants - ?
+					ELSE Participants
+				END
+			)`, userId, userId))
+		} else {
+			// MySQL implementation using JSON_REMOVE and JSON_SEARCH
+			updateQuery = updateQuery.Set("Participants", sq.Expr(`(
+				CASE
+					WHEN (SELECT COUNT(*) FROM Posts WHERE Posts.RootId = Threads.PostId AND Posts.UserId = ? AND Posts.DeleteAt = 0) = 0
+					THEN (
+						CASE
+							WHEN JSON_SEARCH(Participants, 'one', ?) IS NOT NULL
+							THEN JSON_REMOVE(Participants, JSON_UNQUOTE(JSON_SEARCH(Participants, 'one', ?)))
+							ELSE Participants
+						END
+					)
+					ELSE Participants
+				END
+			)`, userId, userId, userId))
+		}
+
+		updateQuery = updateQuery.
+			Where(sq.Eq{"PostId": batch}).
+			Where(sq.Gt{"ReplyCount": 0})
+
+		if _, err := transaction.ExecBuilder(updateQuery); err != nil {
+			return errors.Wrap(err, "failed to bulk update Threads")
+		}
+	}
+
 	return nil
 }
 

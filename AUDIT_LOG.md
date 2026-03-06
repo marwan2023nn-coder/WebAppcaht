@@ -64,6 +64,61 @@ require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email
 
 ---
 
+### [PERF-BATCH-02] O(N) Thread Metadata Update Bottleneck
+- **File:** `server/channels/store/sqlstore/post_store.go`
+- **Severity:** High
+- **Description:** During mass post deletions, thread metadata (ReplyCount, Participants) was being updated in a loop, triggering N subqueries and significant DB lock contention. Refactored to a single bulk correlated UPDATE.
+
+**Before:**
+```go
+for _, id := range rootIds {
+    s.updateThreadAfterReplyDeletion(transaction, id.RootId, ...) // O(N) queries
+}
+```
+
+**After:**
+```go
+s.bulkUpdateThreadsAfterReplyDeletion(transaction, rootIds, ...) // Single batch UPDATE with subqueries
+```
+
+---
+
+### [PERF-BATCH-03] Stop-the-World WebSocket Hub Registration
+- **Files:** `server/channels/app/platform/web_hub.go`, `cluster_handlers.go`
+- **Severity:** High
+- **Description:** Connection registration was performing blocking DB lookups (channel memberships) inside the main Hub event loop. This caused serialized registrations and blocked real-time broadcasts for all users during mass-reconnection events.
+
+**Fix:** Refactored the registration sequence to perform DB lookups in the Platform/API layer, passing results as a payload to the Hub, ensuring the Hub loop remains 100% non-blocking (O(1) memory update).
+
+---
+
+### [SEC-RBAC-01] Data Leakage via Logical Intersection
+- **Files:** `server/channels/store/sqlstore/user_store.go`, `team_store.go`, `group_store.go`
+- **Severity:** High
+- **Description:** View restriction logic used multiple JOINs, enforcing an intersection (AND) between permission boundaries. This prevented multi-role admins (e.g., Community Manager + User Manager) from seeing the full union of their permitted users.
+
+**Fix:** Switched to a UNION-based approach using `sq.Or` and subqueries (`Id IN (...)`), correctly implementing sharing boundaries and improving query plan efficiency by avoiding cross-product joins.
+
+---
+
+### [BUG-BOT-01] "Ghost" Bot Retrieval Failure
+- **File:** `server/channels/app/bot.go`, `post.go`
+- **Severity:** Medium
+- **Description:** System Bot lookups would fail if a user record existed but the corresponding `Bots` table entry was missing (partial deletion/failed sync). Additionally, post reminders used an empty context, causing delivery failures in restricted multi-tenant environments.
+
+**Fix:** Hardened `getOrCreateBot` to perform self-repair on ghost bot records. Updated `CheckPostReminders` to use a context initialized with the system bot's session, bypassing administrative boundary checks for system-level delivery.
+
+---
+
+### [PERF-METADATA-01] Redundant Metadata Processing Path
+- **File:** `server/channels/app/post_metadata.go`
+- **Severity:** Low
+- **Description:** `PreparePostForClientWithEmbedsAndImages` was invoking file info processing twice for every post load.
+
+**Fix:** Streamlined the execution graph to ensure file metadata is processed exactly once per post lifecycle event.
+
+---
+
 ## Log
 
 | File Path | Status | Findings | Recommendations | Criticality |

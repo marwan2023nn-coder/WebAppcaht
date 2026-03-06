@@ -9,6 +9,7 @@ import (
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
 	"github.com/mattermost/mattermost/server/v8/einterfaces"
 )
 
@@ -97,9 +98,25 @@ func (ps *PlatformService) clusterBusyStateChgHandler(msg *model.ClusterMessage)
 
 func (ps *PlatformService) invalidateWebConnSessionCacheForUserSkipClusterSend(userID string) {
 	hub := ps.GetHubForUserId(userID)
-	if hub != nil {
-		hub.InvalidateUser(userID)
+	if hub == nil {
+		return
 	}
+
+	// PERFORMANCE: Fetch memberships outside the hub loop to keep the loop non-blocking.
+	memberships, err := ps.Store.Channel().GetAllChannelMembersForUser(
+		request.EmptyContext(ps.logger),
+		userID,
+		false,
+		false,
+	)
+	if err != nil {
+		ps.logger.Error("Error while fetching channel members for invalidation", mlog.String("user_id", userID), mlog.Err(err))
+		// If we can't get memberships, we pass nil. The Hub will force-close connections
+		// to ensure security/correctness when memberships are unknown.
+		memberships = nil
+	}
+
+	hub.InvalidateUser(userID, memberships)
 }
 
 func (ps *PlatformService) InvalidateAllCachesSkipSend() *model.AppError {
