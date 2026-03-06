@@ -3,7 +3,7 @@
 
 import classNames from 'classnames';
 import React from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import type {MessageDescriptor} from 'react-intl';
 import {useSelector} from 'react-redux';
 
@@ -16,6 +16,7 @@ import {isFileAttachmentsEnabled} from 'utils/file_utils';
 interface SearchTerm {
     searchTerm: string;
     message: MessageDescriptor;
+    displayMessage?: MessageDescriptor;
     additionalDisplay?: string;
 }
 
@@ -33,6 +34,7 @@ type Props = {
 }
 
 const SearchHint = (props: Props): JSX.Element => {
+    const intl = useIntl();
     const handleOnOptionHover = (optionIndex: number) => {
         if (props.onOptionHover) {
             props.onOptionHover(optionIndex);
@@ -135,24 +137,27 @@ const SearchHint = (props: Props): JSX.Element => {
                 onMouseDown={props.onMouseDown}
                 onTouchEnd={props.onMouseDown}
             >
-                {props.options.map((option, optionIndex) => (
-                    <li
-                        className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
-                        key={option.searchTerm}
-                        onMouseDown={() => props.onOptionSelected(option.searchTerm)}
-                        onTouchEnd={() => props.onOptionSelected(option.searchTerm)}
-                        onMouseOver={() => handleOnOptionHover(optionIndex)}
-                    >
-                        <div className='search-hint__suggestion-list__flex-wrap'>
-                            <span className='search-hint__suggestion-list__label'>{option.additionalDisplay ? option.additionalDisplay : option.searchTerm}</span>
-                        </div>
-                        <div className='search-hint__suggestion-list__value'>
-                            <FormattedMessage
-                                id={option.message.id}
-                                defaultMessage={option.message.defaultMessage}
-                            />
-                        </div>
-                    </li>))}
+                {props.options.map((option, optionIndex) => {
+                    const display = option.additionalDisplay || (option.displayMessage ? intl.formatMessage(option.displayMessage) : option.searchTerm);
+                    return (
+                        <li
+                            className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
+                            key={option.searchTerm}
+                            onMouseDown={() => props.onOptionSelected(display)}
+                            onTouchEnd={() => props.onOptionSelected(display)}
+                            onMouseOver={() => handleOnOptionHover(optionIndex)}
+                        >
+                            <div className='search-hint__suggestion-list__flex-wrap'>
+                                <span className='search-hint__suggestion-list__label'>{display}</span>
+                            </div>
+                            <div className='search-hint__suggestion-list__value'>
+                                <FormattedMessage
+                                    id={option.message.id}
+                                    defaultMessage={option.message.defaultMessage}
+                                />
+                            </div>
+                        </li>);
+                })}
             </ul>
         </>
     );

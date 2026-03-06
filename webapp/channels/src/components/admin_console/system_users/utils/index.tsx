@@ -44,6 +44,16 @@ export function getSortColumnForOptions(id?: SortingState[0]['id']): Pick<UserRe
         sortColumn = UserReportSortColumns.email;
     } else if (id === ColumnNames.createAt) {
         sortColumn = UserReportSortColumns.createAt;
+    } else if (id === ColumnNames.lastLoginAt) {
+        sortColumn = UserReportSortColumns.lastLoginAt;
+    } else if (id === ColumnNames.lastStatusAt) {
+        sortColumn = UserReportSortColumns.lastStatusAt;
+    } else if (id === ColumnNames.lastPostDate) {
+        sortColumn = UserReportSortColumns.lastPostDate;
+    } else if (id === ColumnNames.daysActive) {
+        sortColumn = UserReportSortColumns.daysActive;
+    } else if (id === ColumnNames.totalPosts) {
+        sortColumn = UserReportSortColumns.totalPosts;
     } else {
         // Default sorting to first User details column
         sortColumn = UserReportSortColumns.username;
@@ -80,6 +90,16 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
         return row.email;
     case ColumnNames.createAt:
         return String(row.create_at);
+    case ColumnNames.lastLoginAt:
+        return String(row.last_login_at);
+    case ColumnNames.lastStatusAt:
+        return String(row.last_status_at || 0);
+    case ColumnNames.lastPostDate:
+        return String(row.last_post_date || 0);
+    case ColumnNames.daysActive:
+        return String(row.days_active || 0);
+    case ColumnNames.totalPosts:
+        return String(row.total_posts || 0);
     default:
         return row.username;
     }

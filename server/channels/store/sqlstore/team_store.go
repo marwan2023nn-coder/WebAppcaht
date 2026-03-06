@@ -468,7 +468,9 @@ func (s SqlTeamStore) teamSearchQuery(opts *model.TeamSearch, countQuery bool) s
 		term = sanitizeSearchTerm(term, "\\")
 		term = wildcardSearchTerm(term)
 
-		query = query.Where("(t.Name ILIKE ? OR t.DisplayName ILIKE ?)", term, term)
+		operatorKeyword := "ILIKE"
+
+		query = query.Where(fmt.Sprintf("(Name %[1]s ? OR DisplayName %[1]s ?)", operatorKeyword), term, term)
 	}
 
 	if len(opts.TeamIds) > 0 {

@@ -397,7 +397,7 @@ func (jss SqlJobStore) GetByTypeAndData(rctx request.CTX, jobType string, data m
 
 	// Add JSON data filtering for each key-value pair
 	for key, value := range data {
-		query = query.Where(sq.Expr("Data->>? = ?", key, value))
+		query = query.Where(sq.Expr("Data->? = ?", key, fmt.Sprintf(`"%s"`, value)))
 	}
 
 	queryString, args, err := query.ToSql()

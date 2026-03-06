@@ -109,7 +109,7 @@ func (p *SearchParams) GetExcludedDateMillis() (int64, int64) {
 	return GetStartOfDayMillis(date, p.TimeZoneOffset), GetEndOfDayMillis(date, p.TimeZoneOffset)
 }
 
-var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext"}
+var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext", "من", "في", "قبل", "بعد", "بتاريخ", "ملحق"}
 
 type flag struct {
 	name    string
@@ -272,37 +272,37 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 	extensions := []string{}
 
 	for _, flag := range flags {
-		if flag.name == "in" || flag.name == "channel" {
+		if flag.name == "in" || flag.name == "channel" || flag.name == "في" {
 			if flag.exclude {
 				excludedChannels = append(excludedChannels, flag.value)
 			} else {
 				inChannels = append(inChannels, flag.value)
 			}
-		} else if flag.name == "from" {
+		} else if flag.name == "from" || flag.name == "من" {
 			if flag.exclude {
 				excludedUsers = append(excludedUsers, flag.value)
 			} else {
 				fromUsers = append(fromUsers, flag.value)
 			}
-		} else if flag.name == "after" {
+		} else if flag.name == "after" || flag.name == "بعد" {
 			if flag.exclude {
 				excludedAfterDate = flag.value
 			} else {
 				afterDate = flag.value
 			}
-		} else if flag.name == "before" {
+		} else if flag.name == "before" || flag.name == "قبل" {
 			if flag.exclude {
 				excludedBeforeDate = flag.value
 			} else {
 				beforeDate = flag.value
 			}
-		} else if flag.name == "on" {
+		} else if flag.name == "on" || flag.name == "بتاريخ" {
 			if flag.exclude {
 				excludedDate = flag.value
 			} else {
 				onDate = flag.value
 			}
-		} else if flag.name == "ext" {
+		} else if flag.name == "ext" || flag.name == "ملحق" {
 			if flag.exclude {
 				excludedExtensions = append(excludedExtensions, flag.value)
 			} else {

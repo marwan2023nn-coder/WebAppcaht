@@ -4,9 +4,11 @@
 package api4
 
 import (
+	"encoding/json"
 	"net/http"
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 func (api *API) InitPermissions() {
@@ -19,5 +21,7 @@ func appendAncillaryPermissionsPost(c *Context, w http.ResponseWriter, r *http.R
 		c.Err = model.NewAppError("appendAncillaryPermissionsPost", model.PayloadParseError, nil, "", http.StatusBadRequest).Wrap(err)
 		return
 	}
-	w.Write(model.ToJSON(model.AddAncillaryPermissions(permissions)))
+	if err := json.NewEncoder(w).Encode(model.AddAncillaryPermissions(permissions)); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
 }

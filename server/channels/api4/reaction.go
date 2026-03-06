@@ -8,6 +8,7 @@ import (
 	"net/http"
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 func (api *API) InitReaction() {
@@ -45,7 +46,9 @@ func saveReaction(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(model.ToJSON(re))
+	if err := json.NewEncoder(w).Encode(re); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
 }
 
 func getReactions(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -65,7 +68,9 @@ func getReactions(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(model.ToJSON(reactions))
+	if err := json.NewEncoder(w).Encode(reactions); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
 }
 
 func deleteReaction(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -117,5 +122,7 @@ func getBulkReactions(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	w.Write(model.ToJSON(reactions))
+	if err := json.NewEncoder(w).Encode(reactions); err != nil {
+		c.Logger.Warn("Error while writing response", mlog.Err(err))
+	}
 }

@@ -22,7 +22,7 @@ const (
 var (
 	ReportExportFormats = []string{"csv"}
 
-	UserReportSortColumns = []string{"CreateAt", "Username", "FirstName", "LastName", "Nickname", "Email", "Roles"}
+	UserReportSortColumns = []string{"CreateAt", "Username", "FirstName", "LastName", "Nickname", "Email", "Roles", "LastLogin", "LastStatusAt", "LastPostDate", "DaysActive", "TotalPosts"}
 )
 
 type ReportableObject interface {

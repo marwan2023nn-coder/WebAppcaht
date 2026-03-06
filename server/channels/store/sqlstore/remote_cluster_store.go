@@ -247,7 +247,7 @@ func (s sqlRemoteClusterStore) GetAll(offset, limit int, filter model.RemoteClus
 	}
 
 	if filter.RequireOptions != 0 {
-		query = query.Where(sq.Expr("(rc.Options & ?) != 0", filter.RequireOptions))
+		query = query.Where(sq.NotEq{fmt.Sprintf("(rc.Options & %d)", filter.RequireOptions): 0})
 	}
 
 	if !filter.IncludeDeleted {
