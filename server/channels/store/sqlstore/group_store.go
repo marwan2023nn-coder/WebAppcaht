@@ -1882,17 +1882,17 @@ func applyGroupViewRestrictionsFilter(query sq.SelectBuilder, restrictions *mode
 		return query
 	}
 
-	// If you have no access to teams or channels, return and empty result.
-	if restrictions.Teams != nil && len(restrictions.Teams) == 0 && restrictions.Channels != nil && len(restrictions.Channels) == 0 {
+	// If you have no access to teams or channels, return an empty result.
+	if len(restrictions.Teams) == 0 && len(restrictions.Channels) == 0 {
 		return query.Where("1 = 0")
 	}
 
 	itemConditions := sq.Or{}
 	if len(restrictions.Teams) > 0 {
-		itemConditions = append(itemConditions, sq.Expr("UserGroups.Id IN (SELECT GroupId FROM GroupTeams WHERE DeleteAt = 0 AND TeamId IN (?))", restrictions.Teams))
+		itemConditions = append(itemConditions, sq.Eq{"UserGroups.Id": sq.Select("GroupId").From("GroupTeams").Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})})
 	}
 	if len(restrictions.Channels) > 0 {
-		itemConditions = append(itemConditions, sq.Expr("UserGroups.Id IN (SELECT GroupId FROM GroupChannels WHERE DeleteAt = 0 AND ChannelId IN (?))", restrictions.Channels))
+		itemConditions = append(itemConditions, sq.Eq{"UserGroups.Id": sq.Select("GroupId").From("GroupChannels").Where(sq.Eq{"DeleteAt": 0, "ChannelId": restrictions.Channels})})
 	}
 
 	return query.Where(itemConditions)

@@ -2640,9 +2640,16 @@ func (a *App) CheckPostReminders(rctx request.CTX) {
 
 	siteURL := *a.Config().ServiceSettings.SiteURL
 	for userID, postIDs := range groupedReminders {
-		ch, appErr := a.GetOrCreateDirectChannel(request.EmptyContext(a.Log()), userID, systemBot.UserId)
+		// FIXED (Issue #1 — Bot Retrieval Failure):
+		// We use a context initialized with the system bot's session to bypass
+		// administrative boundary restrictions in multi-tenant environments.
+		// System-level reminders must always be deliverable regardless of
+		// the bot's team membership.
+		botCtx := request.EmptyContext(a.Log()).WithSession(&model.Session{UserId: systemBot.UserId})
+
+		ch, appErr := a.GetOrCreateDirectChannel(botCtx, userID, systemBot.UserId)
 		if appErr != nil {
-			rctx.Logger().Error("Failed to get direct channel", mlog.Err(appErr))
+			rctx.Logger().Error("Failed to get direct channel", mlog.Err(appErr), mlog.String("user_id", userID))
 			return
 		}
 
@@ -2671,8 +2678,8 @@ func (a *App) CheckPostReminders(rctx request.CTX) {
 				},
 			}
 
-			if _, _, err := a.CreatePost(request.EmptyContext(a.Log()), dm, ch, model.CreatePostFlags{SetOnline: true}); err != nil {
-				rctx.Logger().Error("Failed to post reminder message", mlog.Err(err))
+			if _, _, err := a.CreatePost(botCtx, dm, ch, model.CreatePostFlags{SetOnline: true}); err != nil {
+				rctx.Logger().Error("Failed to post reminder message", mlog.Err(err), mlog.String("post_id", postID))
 			}
 		}
 	}

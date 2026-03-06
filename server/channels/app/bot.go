@@ -250,9 +250,33 @@ func (a *App) getOrCreateBot(rctx request.CTX, botDef *model.Bot) (*model.Bot, *
 		return nil, model.NewAppError("getOrCreateBot", "app.bot.createbot.internal_error", nil, "", http.StatusInternalServerError)
 	}
 
-	//return the bot for this user
+	// return the bot for this user
 	savedBot, appErr := a.GetBot(rctx, botUser.Id, false)
 	if appErr != nil {
+		if appErr.StatusCode == http.StatusNotFound {
+			// FIXED (Issue #1 — Bot Retrieval Failure):
+			// The user exists (possibly from a previous failed installation or manual deletion of the bot record),
+			// but the corresponding entry in the Bots table is missing.
+			//
+			// We ensure the User is marked as a bot and then create the Bot record.
+			if !botUser.IsBot {
+				botUser.IsBot = true
+				if _, err := a.Srv().Store().User().Update(rctx, botUser, true); err != nil {
+					return nil, model.NewAppError("getOrCreateBot", "app.bot.createbot.internal_error", nil, "", http.StatusInternalServerError).Wrap(err)
+				}
+			}
+
+			botDef.UserId = botUser.Id
+			savedBot, nErr := a.Srv().Store().Bot().Save(botDef)
+			if nErr != nil {
+				var botAppErr *model.AppError
+				if errors.As(nErr, &botAppErr) {
+					return nil, botAppErr
+				}
+				return nil, model.NewAppError("getOrCreateBot", "app.bot.createbot.internal_error", nil, "", http.StatusInternalServerError).Wrap(nErr)
+			}
+			return savedBot, nil
+		}
 		return nil, appErr
 	}
 
