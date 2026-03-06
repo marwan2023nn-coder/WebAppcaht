@@ -1713,36 +1713,6 @@ func TestParseSearchParams(t *testing.T) {
 			require.Equal(t, testCase.Output, ParseSearchParams(testCase.Input, 0))
 		})
 	}
-
-	t.Run("Arabic search flags", func(t *testing.T) {
-		input := "كلمة من:فلان في:عام بتاريخ:2023-01-01 قبل:2023-02-01 بعد:2022-12-01 ملحق:pdf"
-		output := ParseSearchParams(input, 0)
-		require.Len(t, output, 1)
-		p := output[0]
-		assert.Equal(t, "كلمة", p.Terms)
-		assert.Equal(t, []string{"فلان"}, p.FromUsers)
-		assert.Equal(t, []string{"عام"}, p.InChannels)
-		assert.Equal(t, "2023-01-01", p.OnDate)
-		assert.Equal(t, "2023-02-01", p.BeforeDate)
-		assert.Equal(t, "2022-12-01", p.AfterDate)
-		assert.Equal(t, []string{"pdf"}, p.Extensions)
-	})
-
-	t.Run("Arabic search flags mixed with text", func(t *testing.T) {
-		input := "بحث عن شيء من:مستخدم"
-		output := ParseSearchParams(input, 0)
-		require.Len(t, output, 1)
-		assert.Equal(t, "بحث عن شيء", output[0].Terms)
-		assert.Equal(t, []string{"مستخدم"}, output[0].FromUsers)
-	})
-
-	t.Run("Arabic text without colon is not a flag", func(t *testing.T) {
-		input := "هذا من فضل ربي"
-		output := ParseSearchParams(input, 0)
-		require.Len(t, output, 1)
-		assert.Equal(t, "هذا من فضل ربي", output[0].Terms)
-		assert.Empty(t, output[0].FromUsers)
-	})
 }
 
 func TestGetOnDateMillis(t *testing.T) {

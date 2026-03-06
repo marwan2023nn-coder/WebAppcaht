@@ -598,20 +598,22 @@ func (s *SqlGroupStore) GetMemberCountWithRestrictions(groupID string, viewRestr
 func (s *SqlGroupStore) GetMemberUsersInTeam(groupID string, teamID string) ([]*model.User, error) {
 	groupMembers := []*model.User{}
 
+	teamSubquery := s.getSubQueryBuilder().
+		Select("TeamMembers.UserId").
+		From("TeamMembers").
+		Join("Teams ON Teams.Id = TeamMembers.TeamId").
+		Where(sq.Eq{
+			"TeamMembers.TeamId":   teamID,
+			"TeamMembers.DeleteAt": 0,
+		})
+
 	query := s.groupMemberUsersSelectQuery.
 		Where(sq.Eq{
-			"GroupMembers.GroupId": groupID,
-			"GroupMembers.UserId": s.getQueryBuilder().
-				Select("TeamMembers.UserId").
-				From("TeamMembers").
-				Join("Teams ON Teams.Id = TeamMembers.TeamId").
-				Where(sq.Eq{
-					"TeamMembers.TeamId":   teamID,
-					"TeamMembers.DeleteAt": 0,
-				}),
+			"GroupMembers.GroupId":  groupID,
 			"GroupMembers.DeleteAt": 0,
 			"Users.DeleteAt":        0,
-		})
+		}).
+		Where(sq.Expr("GroupMembers.UserId IN (?)", teamSubquery))
 
 	if err := s.GetReplica().SelectBuilder(&groupMembers, query); err != nil {
 		return nil, errors.Wrapf(err, "failed to member Users for groupId=%s and teamId=%s", groupID, teamID)
@@ -1333,9 +1335,8 @@ func (s *SqlGroupStore) groupsBySyncableBaseQuery(st model.GroupSyncableType, t 
 	}
 
 	if opts.Q != "" {
-		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
-		operatorKeyword := "ILIKE"
-		query = query.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
+		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
+		query = query.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
 	}
 
 	return query
@@ -1393,9 +1394,8 @@ func (s *SqlGroupStore) getGroupsAssociatedToChannelsByTeam(teamID string, opts 
 	}
 
 	if opts.Q != "" {
-		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
-		operatorKeyword := "ILIKE"
-		query = query.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
+		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
+		query = query.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
 	}
 
 	return query
@@ -1545,9 +1545,8 @@ func (s *SqlGroupStore) GetGroups(page, perPage int, opts model.GroupSearchOpts,
 	}
 
 	if opts.Q != "" {
-		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
-		operatorKeyword := "ILIKE"
-		groupsQuery = groupsQuery.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
+		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
+		groupsQuery = groupsQuery.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
 	}
 
 	if len(opts.NotAssociatedToTeam) == 26 {
@@ -1825,9 +1824,24 @@ func (s *SqlGroupStore) AdminRoleGroupsForSyncableMember(userID, syncableID stri
 }
 
 func (s *SqlGroupStore) PermittedSyncableAdmins(syncableID string, syncableType model.GroupSyncableType) ([]string, error) {
+	var table, joinExpr, whereExpr string
+	switch syncableType {
+	case model.GroupSyncableTypeTeam:
+		table = "GroupTeams"
+		joinExpr = "GroupMembers ON GroupMembers.GroupId = GroupTeams.GroupId AND GroupTeams.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0"
+		whereExpr = "GroupTeams.TeamId = ?"
+	case model.GroupSyncableTypeChannel:
+		table = "GroupChannels"
+		joinExpr = "GroupMembers ON GroupMembers.GroupId = GroupChannels.GroupId AND GroupChannels.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0"
+		whereExpr = "GroupChannels.ChannelId = ?"
+	default:
+		return nil, fmt.Errorf("invalid syncable type: %s", syncableType)
+	}
+
 	builder := s.getQueryBuilder().Select("UserId").
-		From(fmt.Sprintf("Group%ss", syncableType)).
-		Join(fmt.Sprintf("GroupMembers ON GroupMembers.GroupId = Group%ss.GroupId AND Group%[1]ss.SchemeAdmin = TRUE AND GroupMembers.DeleteAt = 0", syncableType.String())).Where(fmt.Sprintf("Group%[1]ss.%[1]sId = ?", syncableType.String()), syncableID)
+		From(table).
+		Join(joinExpr).
+		Where(whereExpr, syncableID)
 
 	var userIDs []string
 	if err := s.GetMaster().SelectBuilder(&userIDs, builder); err != nil {
@@ -1845,9 +1859,8 @@ func (s *SqlGroupStore) GroupCount(opts model.GroupSearchOpts, viewRestrictions 
 	countQuery = applyGroupViewRestrictionsFilter(countQuery, viewRestrictions)
 
 	if opts.Q != "" {
-		pattern := fmt.Sprintf("%%%s%%", sanitizeSearchTerm(opts.Q, "\\"))
-		operatorKeyword := "ILIKE"
-		countQuery = countQuery.Where(fmt.Sprintf("(UserGroups.Name %[1]s ? OR UserGroups.DisplayName %[1]s ?)", operatorKeyword), pattern, pattern)
+		pattern := "%" + sanitizeSearchTerm(opts.Q, "\\") + "%"
+		countQuery = countQuery.Where("(UserGroups.Name ILIKE ? OR UserGroups.DisplayName ILIKE ?)", pattern, pattern)
 	}
 
 	if opts.Source != "" {
@@ -1876,15 +1889,23 @@ func applyGroupViewRestrictionsFilter(query sq.SelectBuilder, restrictions *mode
 		return query.Where("1 = 0")
 	}
 
-	itemConditions := sq.Or{}
+	restrictionClause := sq.Or{}
 	if len(restrictions.Teams) > 0 {
-		itemConditions = append(itemConditions, sq.Eq{"UserGroups.Id": sq.Select("GroupId").From("GroupTeams").Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})})
+		teamSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("GroupId").
+			From("GroupTeams").
+			Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})
+		restrictionClause = append(restrictionClause, sq.Expr("UserGroups.Id IN (?)", teamSubquery))
 	}
 	if len(restrictions.Channels) > 0 {
-		itemConditions = append(itemConditions, sq.Eq{"UserGroups.Id": sq.Select("GroupId").From("GroupChannels").Where(sq.Eq{"DeleteAt": 0, "ChannelId": restrictions.Channels})})
+		channelSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("GroupId").
+			From("GroupChannels").
+			Where(sq.Eq{"DeleteAt": 0, "ChannelId": restrictions.Channels})
+		restrictionClause = append(restrictionClause, sq.Expr("UserGroups.Id IN (?)", channelSubquery))
 	}
 
-	return query.Where(itemConditions)
+	return query.Where(restrictionClause)
 }
 
 func (s *SqlGroupStore) GroupCountBySource(source model.GroupSource) (int64, error) {

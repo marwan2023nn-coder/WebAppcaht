@@ -2238,81 +2238,23 @@ export const WindowSizes = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export const searchHintOptions = [
-    {
-        searchTerm: 'From:',
-        message: defineMessage({id: 'search_list_option.from', defaultMessage: 'Messages from a user'}),
-        displayMessage: defineMessage({id: 'search_list_option.from_display', defaultMessage: 'From:'}),
-    },
-    {
-        searchTerm: 'In:',
-        message: defineMessage({id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}),
-        displayMessage: defineMessage({id: 'search_list_option.in_display', defaultMessage: 'In:'}),
-    },
-    {
-        searchTerm: 'On:',
-        message: defineMessage({id: 'search_list_option.on', defaultMessage: 'Messages on a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.on_display', defaultMessage: 'On:'}),
-    },
-    {
-        searchTerm: 'Before:',
-        message: defineMessage({id: 'search_list_option.before', defaultMessage: 'Messages before a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.before_display', defaultMessage: 'Before:'}),
-    },
-    {
-        searchTerm: 'After:',
-        message: defineMessage({id: 'search_list_option.after', defaultMessage: 'Messages after a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.after_display', defaultMessage: 'After:'}),
-    },
-    {
-        searchTerm: '-',
-        message: defineMessage({id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'}),
-    },
-    {
-        searchTerm: '""',
-        message: defineMessage({id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'}),
-    },
+export const searchHintOptions = [{ searchTerm: 'From:', message: defineMessage({ id: 'search_list_option.from', defaultMessage: 'Messages from a user' }) },
+{ searchTerm: 'In:', message: defineMessage({ id: 'search_list_option.in', defaultMessage: 'Messages in a channel' }) },
+{ searchTerm: 'On:', message: defineMessage({ id: 'search_list_option.on', defaultMessage: 'Messages on a date' }) },
+{ searchTerm: 'Before:', message: defineMessage({ id: 'search_list_option.before', defaultMessage: 'Messages before a date' }) },
+{ searchTerm: 'After:', message: defineMessage({ id: 'search_list_option.after', defaultMessage: 'Messages after a date' }) },
+{ searchTerm: '-', message: defineMessage({ id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms' }) },
+{ searchTerm: '""', message: defineMessage({ id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases' }) },
 ];
 
-export const searchFilesHintOptions = [
-    {
-        searchTerm: 'From:',
-        message: defineMessage({id: 'search_files_list_option.from', defaultMessage: 'Files from a user'}),
-        displayMessage: defineMessage({id: 'search_list_option.from_display', defaultMessage: 'From:'}),
-    },
-    {
-        searchTerm: 'In:',
-        message: defineMessage({id: 'search_files_list_option.in', defaultMessage: 'Files in a channel'}),
-        displayMessage: defineMessage({id: 'search_list_option.in_display', defaultMessage: 'In:'}),
-    },
-    {
-        searchTerm: 'On:',
-        message: defineMessage({id: 'search_files_list_option.on', defaultMessage: 'Files on a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.on_display', defaultMessage: 'On:'}),
-    },
-    {
-        searchTerm: 'Before:',
-        message: defineMessage({id: 'search_files_list_option.before', defaultMessage: 'Files before a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.before_display', defaultMessage: 'Before:'}),
-    },
-    {
-        searchTerm: 'After:',
-        message: defineMessage({id: 'search_files_list_option.after', defaultMessage: 'Files after a date'}),
-        displayMessage: defineMessage({id: 'search_list_option.after_display', defaultMessage: 'After:'}),
-    },
-    {
-        searchTerm: 'Ext:',
-        message: defineMessage({id: 'search_files_list_option.ext', defaultMessage: 'Files with a extension'}),
-        displayMessage: defineMessage({id: 'search_list_option.ext_display', defaultMessage: 'Ext:'}),
-    },
-    {
-        searchTerm: '-',
-        message: defineMessage({id: 'search_files_list_option.exclude', defaultMessage: 'Exclude search terms'}),
-    },
-    {
-        searchTerm: '""',
-        message: defineMessage({id: 'search_files_list_option.phrases', defaultMessage: 'Files with phrases'}),
-    },
+export const searchFilesHintOptions = [{ searchTerm: 'From:', message: defineMessage({ id: 'search_files_list_option.from', defaultMessage: 'Files from a user' }) },
+{ searchTerm: 'In:', message: defineMessage({ id: 'search_files_list_option.in', defaultMessage: 'Files in a channel' }) },
+{ searchTerm: 'On:', message: defineMessage({ id: 'search_files_list_option.on', defaultMessage: 'Files on a date' }) },
+{ searchTerm: 'Before:', message: defineMessage({ id: 'search_files_list_option.before', defaultMessage: 'Files before a date' }) },
+{ searchTerm: 'After:', message: defineMessage({ id: 'search_files_list_option.after', defaultMessage: 'Files after a date' }) },
+{ searchTerm: 'Ext:', message: defineMessage({ id: 'search_files_list_option.ext', defaultMessage: 'Files with a extension' }) },
+{ searchTerm: '-', message: defineMessage({ id: 'search_files_list_option.exclude', defaultMessage: 'Exclude search terms' }) },
+{ searchTerm: '""', message: defineMessage({ id: 'search_files_list_option.phrases', defaultMessage: 'Files with phrases' }) },
 ];
 
 

@@ -171,7 +171,7 @@ func (s *SqlAttributesStore) GetChannelMembersToRemove(rctx request.CTX, channel
 		OrderBy("ChannelMembers.UserId ASC")
 
 	if opts.Query != "" {
-		query = query.Where(sq.Expr(fmt.Sprintf("(NOT COALESCE((%s), FALSE) OR AttributeView.TargetID IS NULL)", opts.Query), opts.Args...))
+		query = query.Where("(NOT COALESCE(("+opts.Query+"), FALSE) OR AttributeView.TargetID IS NULL)", opts.Args...)
 	}
 
 	query = query.Where("ChannelMembers.ChannelId = ?", channelID)
@@ -200,16 +200,27 @@ func (s *SqlAttributesStore) GetChannelMembersToRemove(rctx request.CTX, channel
 }
 
 func generateSearchQueryForExpression(query sq.SelectBuilder, terms []string, fields []string) sq.SelectBuilder {
+	allowedFields := map[string]bool{
+		"Users.Username":  true,
+		"Users.FirstName": true,
+		"Users.LastName":  true,
+		"Users.Nickname":  true,
+		"Users.Email":     true,
+	}
+
 	for _, term := range terms {
-		searchFields := []string{}
-		termArgs := []any{}
+		var searchFields sq.Or
+		cleanedTerm := strings.TrimLeft(term, "@")
+		likeTerm := "%" + cleanedTerm + "%"
+
 		for _, field := range fields {
-			searchFields = append(searchFields, fmt.Sprintf("lower(%s) LIKE lower(?) escape '*' ", field))
-			termArgs = append(termArgs, fmt.Sprintf("%%%s%%", strings.TrimLeft(term, "@")))
+			if !allowedFields[field] {
+				continue
+			}
+			searchFields = append(searchFields, sq.Expr(fmt.Sprintf("LOWER(%s) LIKE LOWER(?) ESCAPE '*'", field), likeTerm))
 		}
-		searchFields = append(searchFields, "lower(Id) LIKE lower(?) escape '*'")
-		termArgs = append(termArgs, strings.TrimLeft(term, "@"))
-		query = query.Where(fmt.Sprintf("(%s)", strings.Join(searchFields, " OR ")), termArgs...)
+		searchFields = append(searchFields, sq.Expr("LOWER(Users.Id) LIKE LOWER(?) ESCAPE '*'", cleanedTerm))
+		query = query.Where(searchFields)
 	}
 
 	return query

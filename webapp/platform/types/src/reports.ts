@@ -10,11 +10,6 @@ export enum UserReportSortColumns {
     firstName = 'FirstName',
     lastName = 'LastName',
     nickname = 'Nickname',
-    lastLoginAt = 'LastLogin',
-    lastStatusAt = 'LastStatusAt',
-    lastPostDate = 'LastPostDate',
-    daysActive = 'DaysActive',
-    totalPosts = 'TotalPosts',
 }
 
 export enum ReportSortDirection {
