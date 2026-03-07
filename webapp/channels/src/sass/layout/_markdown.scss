@@ -163,6 +163,7 @@ h6.markdown__heading {
     overflow-x: auto;
     overflow-y: hidden;
     max-width: 100%;
+    min-width: 0;
 
     code {
         position: relative;
@@ -217,6 +218,7 @@ h6.markdown__heading {
         cursor: auto;
         font-size: 13px;
         max-width: 100%;
+        min-width: 0;
         overflow-x: auto;
         visibility: visible;
         white-space: pre;
