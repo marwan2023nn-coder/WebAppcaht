@@ -33,7 +33,7 @@ export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptio
         date_range: tableOptions?.dateRange,
     };
 
-    if (tableOptions?.sortOrder && tableOptions.sortOrder !== '') {
+    if (tableOptions?.sortOrder) {
         options.sort_column = UserReportSortColumns.firstName;
         options.sort_direction = tableOptions.sortOrder as ReportSortDirection;
     }

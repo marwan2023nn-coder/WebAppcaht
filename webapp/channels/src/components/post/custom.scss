@@ -6,8 +6,6 @@
     .buzz-message {
         direction: ltr;
         width: fit-content;
-        max-width: 100%;
-        min-width: 0;
 
         .post-time-in-bubble {
             .post__permalink {
@@ -143,8 +141,6 @@
     .buzz-message {
         direction: ltr;
         width: fit-content;
-        max-width: 100%;
-        min-width: 0;
 
         .post-time-in-bubble {
             .post__permalink {
@@ -171,13 +167,9 @@
     border-radius: 13px;
     background-color: rgb(var(--button-bg-rgb));
     width: fit-content;
-    flex: 1 1 auto;
-    min-width: 0;
-    box-sizing: border-box;
+   min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 100%;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    max-width: 71rem;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
    font-family: 'Effra_Trial_Rg';
@@ -263,13 +255,9 @@
     border-radius: 13px;
     background-color: rgba(241, 241, 241, 1);
     width: fit-content;
-    flex: 1 1 auto;
-    min-width: 0;
-    box-sizing: border-box;
+    min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 100%;
-    word-break: break-word;
-    overflow-wrap: anywhere;
+    max-width: 71rem;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
     color: #000000e8;

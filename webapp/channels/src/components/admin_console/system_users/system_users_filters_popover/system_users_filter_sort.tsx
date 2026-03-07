@@ -8,7 +8,7 @@ import DropdownInput from 'components/dropdown_input';
 
 import type {AdminConsoleUserManagementTableProperties} from 'types/store/views';
 
-import {getDefaultSelectedValueFromList} from '../../utils';
+import {getDefaultSelectedValueFromList} from '../utils';
 
 type OptionType = {
     label: string;
@@ -23,7 +23,7 @@ interface Props {
 export function SystemUsersFilterSort(props: Props) {
     const {formatMessage} = useIntl();
 
-    const options = useMemo(() => {
+    const options = useMemo<OptionType[]>(() => {
         return [
             {
                 value: '',
@@ -47,9 +47,9 @@ export function SystemUsersFilterSort(props: Props) {
                 }),
             },
         ];
-    }, []);
+    }, [formatMessage]);
 
-    const [value, setValue] = useState(() => getDefaultSelectedValueFromList(props.initialValue, options));
+    const [value, setValue] = useState<OptionType>(() => getDefaultSelectedValueFromList<OptionType>(props.initialValue, options));
 
     function handleChange(value: OptionType) {
         setValue(value);
