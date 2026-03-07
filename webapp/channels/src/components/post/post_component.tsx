@@ -1028,7 +1028,7 @@ function PostComponent(props: Props) {
                     <div className='post__img'>
                         {profilePic}
                     </div>
-                    <div>
+                    <div className='post__header-body'>
                         <div
                             className='post__header'
                             ref={postHeaderRef}

@@ -22,12 +22,20 @@
 }
 
 .post--right1:has(.table-responsive),
-.post--left1:has(.table-responsive) {
+.post--left1:has(.table-responsive),
+.post--right1:has(.markdown__table),
+.post--left1:has(.markdown__table),
+.post--right1:has(.post-code),
+.post--left1:has(.post-code) {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 .post--right1:has(code),
 .post--left1:has(code) {
     width: 100%;
+    max-width: 100%;
+    min-width: 0;
 }
 .post--right1:has(.post-collapse),
 .post--left1:has(.post-collapse) {
@@ -1245,6 +1253,11 @@
             display: table-cell;
         }
 
+    .post__header-body {
+        width: 100%;
+        min-width: 0;
+    }
+
         > div {
             vertical-align: top;
         }
@@ -1265,7 +1278,8 @@
         .col__name {
             display: flex;
             min-width: 0;
-            flex: 0 auto;
+            flex: 0 1 auto;
+            overflow: hidden;
             margin-inline-end: 8px;
             font-family: 'Effra_Trial_SBd';
             gap: 8px;
@@ -2064,6 +2078,8 @@
 .post-code,
 .table-responsive {
     direction: ltr;
+    max-width: 100%;
+    overflow-x: auto;
      [dir="rtl"] & {direction: rtl;}
 }
 

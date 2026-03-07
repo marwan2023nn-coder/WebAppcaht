@@ -216,6 +216,7 @@ h6.markdown__heading {
         margin: 5px 0;
         cursor: auto;
         font-size: 13px;
+        max-width: 100%;
         overflow-x: auto;
         visibility: visible;
         white-space: pre;
@@ -318,7 +319,10 @@ h6.markdown__heading {
     background: var(--center-channel-bg);
     width: 100%;
     table-layout: auto;
-    min-width: 100%;
+    min-width: 0;
+    max-width: 100%;
+    display: block;
+    overflow-x: auto;
     th,
     td {
         padding: 6px 13px;

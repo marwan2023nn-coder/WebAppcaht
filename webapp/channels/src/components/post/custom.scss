@@ -6,6 +6,8 @@
     .buzz-message {
         direction: ltr;
         width: fit-content;
+        max-width: 100%;
+        min-width: 0;
 
         .post-time-in-bubble {
             .post__permalink {
@@ -30,9 +32,26 @@
 
 .whatsapp-message-row {
     position: relative;
-    display: inline-flex;
+    display: flex;
     align-items: center;
     gap: 6px;
+    max-width: 100%;
+    min-width: 0;
+    width: fit-content;
+    box-sizing: border-box;
+
+    &:has(.post--left1),
+    &:has(.post--right1) {
+        flex-grow: 1;
+        width: 100%;
+    }
+
+    &:has(.markdown__table),
+    &:has(.post-code),
+    &:has(.table-responsive),
+    &:has(.post-image__column) {
+        width: 100%;
+    }
 }
 
 .whatsapp-post-options-trigger {
@@ -124,6 +143,8 @@
     .buzz-message {
         direction: ltr;
         width: fit-content;
+        max-width: 100%;
+        min-width: 0;
 
         .post-time-in-bubble {
             .post__permalink {
@@ -150,7 +171,9 @@
     border-radius: 13px;
     background-color: rgb(var(--button-bg-rgb));
     width: fit-content;
-    min-width: 6rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    box-sizing: border-box;
     min-height: 3.9rem;
     max-width: 100%;
     word-break: break-word;
@@ -240,7 +263,9 @@
     border-radius: 13px;
     background-color: rgba(241, 241, 241, 1);
     width: fit-content;
-    min-width: 6rem;
+    flex: 1 1 auto;
+    min-width: 0;
+    box-sizing: border-box;
     min-height: 3.9rem;
     max-width: 100%;
     word-break: break-word;
