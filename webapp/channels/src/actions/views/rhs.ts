@@ -44,8 +44,8 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import type {ActionFunc, ActionFuncAsync, ThunkActionFunc} from 'types/store';
 import type {RhsState} from 'types/store/rhs';
 
-function normalizeSearchOperators(terms: string, locale: string): string {
-    if (!terms || !locale.startsWith('ar')) {
+function normalizeSearchOperators(terms: string): string {
+    if (!terms) {
         return terms;
     }
 
@@ -224,8 +224,7 @@ function updateSearchResultsType(searchType: string) {
 
 export function performSearch(terms: string, teamId: string, isMentionSearch?: boolean): ThunkActionFunc<unknown> {
     return (dispatch, getState) => {
-        const locale = getCurrentLocale(getState());
-        let searchTerms = normalizeSearchOperators(terms, locale);
+        let searchTerms = normalizeSearchOperators(terms);
         const extensionsFilters = getFilesSearchExtFilter(getState());
 
         const extensions = extensionsFilters?.map((ext) => `ext:${ext}`).join(' ');

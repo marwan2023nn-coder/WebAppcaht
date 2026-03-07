@@ -21,8 +21,8 @@ import {getCurrentLocale} from 'selectors/i18n';
 
 import {SearchFileExtensionProvider} from './extension_suggestions_provider';
 
-function normalizeSearchOperatorsForProviders(terms: string, locale: string): string {
-    if (!terms || !locale.startsWith('ar')) {
+function normalizeSearchOperatorsForProviders(terms: string): string {
+    if (!terms) {
         return terms;
     }
 
@@ -69,7 +69,7 @@ export const useSearchSuggestions = (searchType: string, searchTerms: string, se
         }
 
         const partialSearchTerms = searchTerms.slice(0, caretPosition);
-        const normalizedPartialSearchTerms = normalizeSearchOperatorsForProviders(partialSearchTerms, locale);
+        const normalizedPartialSearchTerms = normalizeSearchOperatorsForProviders(partialSearchTerms);
         if (searchTerms.length > caretPosition && searchTerms[caretPosition] !== ' ') {
             return;
         }
