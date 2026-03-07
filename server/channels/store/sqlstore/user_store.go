@@ -2543,7 +2543,7 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 
 	sortColumn := filter.SortColumn
 	if sortColumn == "FirstName" {
-		sortColumn = "Users.FirstName"
+		sortColumn = "COALESCE(NULLIF(Users.FirstName, ''), Users.Username)"
 	} else if sortColumn == "LastName" {
 		sortColumn = "Users.LastName"
 	} else if sortColumn == "Username" {

@@ -23,6 +23,8 @@ import {getCurrentTeamId} from 'workspace-redux/selectors/entities/teams';
 import {getCurrentTimezone} from 'workspace-redux/selectors/entities/timezone';
 import {getCurrentUserMentionKeys} from 'workspace-redux/selectors/entities/users';
 
+import {getCurrentLocale} from 'selectors/i18n';
+
 import {
     getSearchType,
     getSearchTerms,

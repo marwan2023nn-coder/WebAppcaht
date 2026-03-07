@@ -50,7 +50,7 @@ export function getSortColumnForOptions(id?: SortingState[0]['id']): Pick<UserRe
         sortColumn = UserReportSortColumns.lastName;
     } else {
         // Default sorting to first User details column
-        sortColumn = UserReportSortColumns.username;
+        sortColumn = UserReportSortColumns.firstName;
     }
 
     return {
@@ -89,7 +89,7 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
     case ColumnNames.lastName:
         return row.last_name;
     default:
-        return row.username;
+        return row.first_name || row.username;
     }
 }
 
