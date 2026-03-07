@@ -6,7 +6,7 @@ package model
 const (
 	PluginIdPlaybooks     = "workspace"
 	PluginIdFocalboard    = "focalboard"
-	PluginIdApps          = "com.mattermost.apps"
+	PluginIdApps          = "com.workspace.apps"
 	PluginIdCalls         = "com.workspace.calls"
 	PluginIdNPS           = "com.mattermost.nps"
 	PluginIdChannelExport = "com.mattermost.plugin-channel-export"
