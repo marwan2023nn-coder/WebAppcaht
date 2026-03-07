@@ -89,9 +89,10 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
         const priority = (row.first_name && row.first_name.trim().length > 0) ? '0' : '1';
         return priority + (row.first_name || row.username).toLowerCase();
     case ColumnNames.lastName:
-        return (row.last_name || '').toLowerCase();
+        return row.last_name.toLowerCase();
     default:
-        return (row.first_name || row.username).toLowerCase();
+        const defaultPriority = (row.first_name && row.first_name.trim().length > 0) ? '0' : '1';
+        return defaultPriority + (row.first_name || row.username).toLowerCase();
     }
 }
 

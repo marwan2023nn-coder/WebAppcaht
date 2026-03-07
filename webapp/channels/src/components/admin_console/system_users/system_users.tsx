@@ -194,10 +194,11 @@ function SystemUsers(props: Props) {
     }
 
     function handleSortingChange(updateFn: (currentSortingState: SortingState) => SortingState) {
-        const currentSortingState = [{id: props.tablePropertySortColumn || ColumnNames.username, desc: props.tablePropertySortIsDescending}];
+        const activeSortColumn = props.tablePropertySortColumn || ColumnNames.username;
+        const currentSortingState = [{id: activeSortColumn, desc: props.tablePropertySortIsDescending}];
         const [updatedSortingState] = updateFn(currentSortingState);
 
-        if (props.tablePropertySortColumn !== updatedSortingState.id) {
+        if (activeSortColumn !== updatedSortingState.id) {
             // If we are clicking on a new column, we want to sort in ascending order
             updatedSortingState.desc = false;
         }

@@ -2544,8 +2544,8 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 	sortColumn := filter.SortColumn
 	outerSortColumn := filter.SortColumn
 	if sortColumn == "FirstName" {
-		sortColumn = "CASE WHEN Users.FirstName IS NOT NULL AND Users.FirstName != '' THEN '0' || LOWER(Users.FirstName) ELSE '1' || LOWER(Users.Username) END"
-		outerSortColumn = "CASE WHEN FirstName IS NOT NULL AND FirstName != '' THEN '0' || LOWER(FirstName) ELSE '1' || LOWER(Username) END"
+		sortColumn = "CASE WHEN Users.FirstName IS NOT NULL AND Users.FirstName != '' THEN CONCAT('0', LOWER(Users.FirstName)) ELSE CONCAT('1', LOWER(Users.Username)) END"
+		outerSortColumn = "CASE WHEN FirstName IS NOT NULL AND FirstName != '' THEN CONCAT('0', LOWER(FirstName)) ELSE CONCAT('1', LOWER(Username)) END"
 	} else if sortColumn == "LastName" {
 		sortColumn = "LOWER(Users.LastName)"
 		outerSortColumn = "LOWER(LastName)"
