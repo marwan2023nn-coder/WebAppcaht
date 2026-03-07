@@ -2542,20 +2542,28 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 	}
 
 	sortColumn := filter.SortColumn
+	outerSortColumn := filter.SortColumn
 	if sortColumn == "FirstName" {
-		sortColumn = "COALESCE(NULLIF(Users.FirstName, ''), Users.Username)"
+		sortColumn = "CASE WHEN Users.FirstName IS NOT NULL AND Users.FirstName != '' THEN '0' || LOWER(Users.FirstName) ELSE '1' || LOWER(Users.Username) END"
+		outerSortColumn = "CASE WHEN FirstName IS NOT NULL AND FirstName != '' THEN '0' || LOWER(FirstName) ELSE '1' || LOWER(Username) END"
 	} else if sortColumn == "LastName" {
-		sortColumn = "Users.LastName"
+		sortColumn = "LOWER(Users.LastName)"
+		outerSortColumn = "LOWER(LastName)"
 	} else if sortColumn == "Username" {
-		sortColumn = "Users.Username"
+		sortColumn = "LOWER(Users.Username)"
+		outerSortColumn = "LOWER(Username)"
 	} else if sortColumn == "Email" {
-		sortColumn = "Users.Email"
+		sortColumn = "LOWER(Users.Email)"
+		outerSortColumn = "LOWER(Email)"
 	} else if sortColumn == "CreateAt" {
 		sortColumn = "Users.CreateAt"
+		outerSortColumn = "CreateAt"
 	} else if sortColumn == "Nickname" {
-		sortColumn = "Users.Nickname"
+		sortColumn = "LOWER(Users.Nickname)"
+		outerSortColumn = "LOWER(Nickname)"
 	} else if sortColumn == "Roles" {
-		sortColumn = "Users.Roles"
+		sortColumn = "LOWER(Users.Roles)"
+		outerSortColumn = "LOWER(Roles)"
 	}
 
 	query := us.getQueryBuilder().
@@ -2629,7 +2637,7 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 		parentQuery = us.getQueryBuilder().
 			Select(getUsersColumnsWithName("data", "LastStatusAt", "LastPostDate", "DaysActive", "TotalPosts")...).
 			FromSelect(query, "data").
-			OrderBy(sortColumn+" "+reverseSortDirection, "Id")
+			OrderBy(outerSortColumn+" "+reverseSortDirection, "Id")
 	}
 
 	userResults := []*model.UserReportQuery{}

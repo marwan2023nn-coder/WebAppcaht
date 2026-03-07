@@ -81,15 +81,17 @@ export function getSortDirectionForOptions(desc?: SortingState[0]['desc']): Pick
 export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: AdminConsoleUserManagementTableProperties['sortColumn']): string {
     switch (sortColumn) {
     case ColumnNames.email:
-        return row.email;
+        return row.email.toLowerCase();
     case ColumnNames.createAt:
         return String(row.create_at);
     case ColumnNames.firstName:
-        return row.first_name;
+    case ColumnNames.username:
+        const priority = (row.first_name && row.first_name.trim().length > 0) ? '0' : '1';
+        return priority + (row.first_name || row.username).toLowerCase();
     case ColumnNames.lastName:
-        return row.last_name;
+        return (row.last_name || '').toLowerCase();
     default:
-        return row.first_name || row.username;
+        return (row.first_name || row.username).toLowerCase();
     }
 }
 
