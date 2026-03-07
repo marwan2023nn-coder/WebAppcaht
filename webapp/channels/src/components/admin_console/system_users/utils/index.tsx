@@ -44,6 +44,10 @@ export function getSortColumnForOptions(id?: SortingState[0]['id']): Pick<UserRe
         sortColumn = UserReportSortColumns.email;
     } else if (id === ColumnNames.createAt) {
         sortColumn = UserReportSortColumns.createAt;
+    } else if (id === ColumnNames.firstName) {
+        sortColumn = UserReportSortColumns.firstName;
+    } else if (id === ColumnNames.lastName) {
+        sortColumn = UserReportSortColumns.lastName;
     } else {
         // Default sorting to first User details column
         sortColumn = UserReportSortColumns.username;
@@ -80,6 +84,10 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
         return row.email;
     case ColumnNames.createAt:
         return String(row.create_at);
+    case ColumnNames.firstName:
+        return row.first_name;
+    case ColumnNames.lastName:
+        return row.last_name;
     default:
         return row.username;
     }
