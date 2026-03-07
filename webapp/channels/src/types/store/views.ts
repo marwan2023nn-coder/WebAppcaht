@@ -35,6 +35,7 @@ export type AdminConsoleUserManagementTableProperties = {
     filterStatus: string;
     filterRole: string;
     showOnlineOnly: boolean;
+    sortOrder: 'asc' | 'desc' | '';
     dateRange?: ReportDuration;
 };
 

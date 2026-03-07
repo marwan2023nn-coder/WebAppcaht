@@ -73,6 +73,7 @@ export const adminConsoleUserManagementTablePropertiesInitialState: AdminConsole
     filterStatus: '',
     filterRole: '',
     showOnlineOnly: false,
+    sortOrder: '',
 };
 
 export function adminConsoleUserManagementTableProperties(state = adminConsoleUserManagementTablePropertiesInitialState, action: MMAction) {

@@ -34,7 +34,7 @@ export default class SearchChannelProvider extends Provider {
     }
 
     handlePretextChanged(pretext: string, resultsCallback: ResultsCallback<Channel>, teamId: string) {
-        const captured = (/\b(?:in|channel):\s*(\S*)$/i).exec(pretext.toLowerCase());
+        const captured = (/\b(?:in|channel|في):\s*(\S*)$/i).exec(pretext.toLowerCase());
         if (!captured) {
             return false;
         }

@@ -196,8 +196,11 @@ export function setRhsSize(rhsSize?: SidebarSize) {
 
 export function updateSearchTermsForShortcut(): ThunkActionFunc<unknown> {
     return (dispatch, getState) => {
-        const currentChannelName = getCurrentChannelNameForSearchShortcut(getState());
-        return dispatch(updateSearchTerms(`in:${currentChannelName} `));
+        const state = getState();
+        const locale = getCurrentLocale(state);
+        const currentChannelName = getCurrentChannelNameForSearchShortcut(state);
+        const operator = locale?.startsWith('ar') ? 'في:' : 'in:';
+        return dispatch(updateSearchTerms(`${operator}${currentChannelName} `));
     };
 }
 

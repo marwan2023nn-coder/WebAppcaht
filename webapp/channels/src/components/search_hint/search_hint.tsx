@@ -137,26 +137,29 @@ const SearchHint = (props: Props): JSX.Element => {
                 onMouseDown={props.onMouseDown}
                 onTouchEnd={props.onMouseDown}
             >
-                {props.options.map((option, optionIndex) => (
-                    <li
-                        className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
-                        key={option.searchTerm}
-                        onMouseDown={() => props.onOptionSelected(option.searchTerm)}
-                        onTouchEnd={() => props.onOptionSelected(option.searchTerm)}
-                        onMouseOver={() => handleOnOptionHover(optionIndex)}
-                    >
-                        <div className='search-hint__suggestion-list__flex-wrap'>
-                            <span className='search-hint__suggestion-list__label'>
-                                {option.displayMessage ? intl.formatMessage(option.displayMessage) : (option.additionalDisplay ? option.additionalDisplay : option.searchTerm)}
-                            </span>
-                        </div>
+                {props.options.map((option, optionIndex) => {
+                    const term = option.displayMessage ? intl.formatMessage(option.displayMessage) : (option.additionalDisplay ? option.additionalDisplay : option.searchTerm);
+                    return (
+                        <li
+                            className={classNames('search-hint__suggestions-list__option', {highlighted: optionIndex === props.highlightedIndex})}
+                            key={option.searchTerm}
+                            onMouseDown={() => props.onOptionSelected(term)}
+                            onTouchEnd={() => props.onOptionSelected(term)}
+                            onMouseOver={() => handleOnOptionHover(optionIndex)}
+                        >
+                            <div className='search-hint__suggestion-list__flex-wrap'>
+                                <span className='search-hint__suggestion-list__label'>
+                                    {term}
+                                </span>
+                            </div>
                         <div className='search-hint__suggestion-list__value'>
                             <FormattedMessage
                                 id={option.message.id}
                                 defaultMessage={option.message.defaultMessage}
                             />
                         </div>
-                    </li>))}
+                        </li>);
+                })}
             </ul>
         </>
     );
