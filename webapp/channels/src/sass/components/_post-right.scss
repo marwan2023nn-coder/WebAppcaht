@@ -67,6 +67,8 @@
     }
 
     .post {
+        min-width: 0;
+
         &.post--root,
         &.other--root {
             padding-top: 16px;
@@ -100,11 +102,13 @@
 
         .post__content {
             padding: 0 10px 0 0;
+            min-width: 0;
         }
 
         .post__body {
             width: 100%;
             padding-inline-start: 0;
+            min-width: 0;
         }
 
         &.post--compact {
