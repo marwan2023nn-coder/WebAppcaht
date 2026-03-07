@@ -951,12 +951,14 @@ const Login = () => {
 
                     <div className='login-body-custom-branding-image'>
                         <div className='login-body-custom-branding-text'>
-                            <img
-                                className={classNames('login-body-custom-branding-image-logo')}
-                                alt='brand image'
-                                src={Client4.getBrandImageUrl('0')}
-                                onError={handleBrandImageError}
-                            />
+                            {!brandImageError && (
+                                <img
+                                    className={classNames('login-body-custom-branding-image-logo')}
+                                    alt='brand image'
+                                    src={Client4.getBrandImageUrl('0')}
+                                    onError={handleBrandImageError}
+                                />
+                            )}
                             <p >{siteName || formatMessage({id: t('login.sofa_platform'), defaultMessage: 'Sofa Workspace Platform'})}</p>
                             <p className='custom-text'>{CustomBrandText || formatMessage({id: t('login.sofa_workspace'), defaultMessage: 'Sofa Workspace'})}</p>
                         </div>

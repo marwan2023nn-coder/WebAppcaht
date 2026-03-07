@@ -167,12 +167,14 @@ const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps)
                 )}>
                     <div className='login-body-custom-branding-image'>
                         <div className='login-body-custom-branding-text'>
-                            <img
-                                className={classNames('login-body-custom-branding-image-logo')}
-                                alt='brand image'
-                                src={Client4.getBrandImageUrl('0')}
-                                onError={handleBrandImageError}
-                            />
+                            {!brandImageError && (
+                                <img
+                                    className={classNames('login-body-custom-branding-image-logo')}
+                                    alt='brand image'
+                                    src={Client4.getBrandImageUrl('0')}
+                                    onError={handleBrandImageError}
+                                />
+                            )}
                             <p>{siteName || 'مـنصة عمـل ســـوفـا'}</p>
                             <p className='custom-text'>{CustomBrandText || 'Sofa Workspace'}</p>
                         </div>

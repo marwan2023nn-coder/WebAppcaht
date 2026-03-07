@@ -130,12 +130,14 @@ export default class MFAController extends React.PureComponent<Props & RouteComp
                     >
                         <div className='login-body-custom-branding-image'>
                             <div className='login-body-custom-branding-text'>
-                                <img
-                                    className={classNames('login-body-custom-branding-image-logo')}
-                                    alt='brand image'
-                                    src={Client4.getBrandImageUrl('0')}
-                                    onError={this.handleBrandImageError}
-                                />
+                                {!this.state.brandImageError && (
+                                    <img
+                                        className={classNames('login-body-custom-branding-image-logo')}
+                                        alt='brand image'
+                                        src={Client4.getBrandImageUrl('0')}
+                                        onError={this.handleBrandImageError}
+                                    />
+                                )}
                                 <p>{this.props.siteName || 'مـنصة عمـل ســـوفـا'}</p>
                                 <p className='custom-text'>{this.props.customBrandText || 'Sofa Workspace'}</p>
                             </div>
