@@ -5,7 +5,7 @@
 .post--left1:has(.post-image__column):not(:has(.DataSpillageReport.mode_short)) {
     width: 100%;
     min-width: 204px;
-    max-width: 350px;
+    max-width: 100%;
 }
 .post--right1:has(.audio-player1),
 .post--left1:has(.audio-player1) {
@@ -349,7 +349,7 @@
     overflow: hidden;
     width: 100%;
     min-width: 0;
-    max-width: 320px;
+    max-width: 100%;
     height: 6.4rem;
     align-items: center;
     border: 1px solid rgba(functions.v(center-channel-color-rgb), 0.16);
