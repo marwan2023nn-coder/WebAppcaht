@@ -162,6 +162,7 @@ h6.markdown__heading {
     position: relative;
     overflow-x: auto;
     overflow-y: hidden;
+    max-width: 100%;
 
     code {
         position: relative;
@@ -316,7 +317,8 @@ h6.markdown__heading {
     margin: 5px 0 10px;
     background: var(--center-channel-bg);
     width: 100%;
-    table-layout: fixed;
+    table-layout: auto;
+    min-width: 100%;
     th,
     td {
         padding: 6px 13px;

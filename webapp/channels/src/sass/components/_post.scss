@@ -23,11 +23,11 @@
 
 .post--right1:has(.table-responsive),
 .post--left1:has(.table-responsive) {
-    width: auto;
+    width: 100%;
 }
 .post--right1:has(code),
 .post--left1:has(code) {
-    width: auto;
+    width: 100%;
 }
 .post--right1:has(.post-collapse),
 .post--left1:has(.post-collapse) {
