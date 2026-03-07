@@ -493,6 +493,11 @@ func (a *App) HasProfileEditPermission(rctx request.CTX, userId string) bool {
 		return true
 	}
 
+	// Users can always edit their own profile
+	if rctx.Session().UserId == userId {
+		return true
+	}
+
 	// Check if session user has system_user_manager role
 	roles := rctx.Session().GetUserRoles()
 	hasSystemUserManager := false
