@@ -86,13 +86,11 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
         return String(row.create_at);
     case ColumnNames.firstName:
     case ColumnNames.username:
-        const priority = (row.first_name && row.first_name.trim().length > 0) ? '0' : '1';
-        return priority + (row.first_name || row.username).toLowerCase();
+        return (row.first_name || row.username).toLowerCase();
     case ColumnNames.lastName:
         return row.last_name.toLowerCase();
     default:
-        const defaultPriority = (row.first_name && row.first_name.trim().length > 0) ? '0' : '1';
-        return defaultPriority + (row.first_name || row.username).toLowerCase();
+        return (row.first_name || row.username).toLowerCase();
     }
 }
 
