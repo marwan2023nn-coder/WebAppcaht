@@ -303,6 +303,30 @@ function SystemUsers(props: Props) {
                 enableSorting: true,
             },
             {
+                id: ColumnNames.firstName,
+                accessorKey: 'first_name',
+                header: formatMessage({
+                    id: 'admin.system_users.list.firstName',
+                    defaultMessage: 'First Name',
+                }),
+                cell: (info: CellContext<UserReport, string>) => info.getValue() || '',
+                enableHiding: true,
+                enablePinning: false,
+                enableSorting: true,
+            },
+            {
+                id: ColumnNames.lastName,
+                accessorKey: 'last_name',
+                header: formatMessage({
+                    id: 'admin.system_users.list.lastName',
+                    defaultMessage: 'Last Name',
+                }),
+                cell: (info: CellContext<UserReport, string>) => info.getValue() || '',
+                enableHiding: true,
+                enablePinning: false,
+                enableSorting: true,
+            },
+            {
                 id: ColumnNames.email,
                 accessorKey: 'email',
                 header: formatMessage({

@@ -2541,6 +2541,23 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 		sortDirection = "DESC"
 	}
 
+	sortColumn := filter.SortColumn
+	if sortColumn == "FirstName" {
+		sortColumn = "Users.FirstName"
+	} else if sortColumn == "LastName" {
+		sortColumn = "Users.LastName"
+	} else if sortColumn == "Username" {
+		sortColumn = "Users.Username"
+	} else if sortColumn == "Email" {
+		sortColumn = "Users.Email"
+	} else if sortColumn == "CreateAt" {
+		sortColumn = "Users.CreateAt"
+	} else if sortColumn == "Nickname" {
+		sortColumn = "Users.Nickname"
+	} else if sortColumn == "Roles" {
+		sortColumn = "Users.Roles"
+	}
+
 	query := us.getQueryBuilder().
 		Select(selectColumns...).
 		From("Users").
@@ -2555,9 +2572,9 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 			sortDirection = "DESC"
 
 			query = query.Where(sq.Or{
-				sq.Lt{filter.SortColumn: filter.FromColumnValue},
+				sq.Lt{sortColumn: filter.FromColumnValue},
 				sq.And{
-					sq.Eq{filter.SortColumn: filter.FromColumnValue},
+					sq.Eq{sortColumn: filter.FromColumnValue},
 					sq.Lt{"Users.Id": filter.FromId},
 				},
 			})
@@ -2565,16 +2582,16 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 			sortDirection = "ASC"
 
 			query = query.Where(sq.Or{
-				sq.Gt{filter.SortColumn: filter.FromColumnValue},
+				sq.Gt{sortColumn: filter.FromColumnValue},
 				sq.And{
-					sq.Eq{filter.SortColumn: filter.FromColumnValue},
+					sq.Eq{sortColumn: filter.FromColumnValue},
 					sq.Gt{"Users.Id": filter.FromId},
 				},
 			})
 		}
 	}
 
-	query = query.OrderBy(filter.SortColumn+" "+sortDirection, "Users.Id")
+	query = query.OrderBy(sortColumn+" "+sortDirection, "Users.Id")
 
 	if filter.PageSize > 0 {
 		query = query.Limit(uint64(filter.PageSize))
@@ -2612,7 +2629,7 @@ func (us SqlUserStore) GetUserReport(filter *model.UserReportOptions) ([]*model.
 		parentQuery = us.getQueryBuilder().
 			Select(getUsersColumnsWithName("data", "LastStatusAt", "LastPostDate", "DaysActive", "TotalPosts")...).
 			FromSelect(query, "data").
-			OrderBy(filter.SortColumn+" "+reverseSortDirection, "Id")
+			OrderBy(sortColumn+" "+reverseSortDirection, "Id")
 	}
 
 	userResults := []*model.UserReportQuery{}

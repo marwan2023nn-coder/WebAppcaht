@@ -109,7 +109,25 @@ func (p *SearchParams) GetExcludedDateMillis() (int64, int64) {
 	return GetStartOfDayMillis(date, p.TimeZoneOffset), GetEndOfDayMillis(date, p.TimeZoneOffset)
 }
 
-var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext"}
+var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext", "من", "في", "قبل", "بعد", "بتاريخ", "امتداد"}
+
+func getCanonicalFlag(flagName string) string {
+	switch strings.ToLower(flagName) {
+	case "من":
+		return "from"
+	case "في":
+		return "in"
+	case "قبل":
+		return "before"
+	case "بعد":
+		return "after"
+	case "بتاريخ":
+		return "on"
+	case "امتداد":
+		return "ext"
+	}
+	return strings.ToLower(flagName)
+}
 
 type flag struct {
 	name    string
@@ -181,16 +199,17 @@ func parseSearchFlags(input []string) ([]searchWord, []flag) {
 			for _, searchFlag := range searchFlags {
 				// check for case insensitive equality
 				if strings.EqualFold(flagName, searchFlag) {
+					canonicalName := getCanonicalFlag(searchFlag)
 					if value != "" {
 						flags = append(flags, flag{
-							searchFlag,
+							canonicalName,
 							value,
 							exclude,
 						})
 						isFlag = true
 					} else if i < len(input)-1 {
 						flags = append(flags, flag{
-							searchFlag,
+							canonicalName,
 							input[i+1],
 							exclude,
 						})

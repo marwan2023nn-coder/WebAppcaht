@@ -4,6 +4,8 @@
 export enum ColumnNames {
     username = 'usernameColumn',
     displayName = 'displayNameColumn',
+    firstName = 'firstNameColumn',
+    lastName = 'lastNameColumn',
     email = 'emailColumn',
     createAt = 'createAtColumn',
     lastLoginAt = 'lastLoginColumn',
