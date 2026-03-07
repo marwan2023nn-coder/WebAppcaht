@@ -150,9 +150,11 @@
     border-radius: 13px;
     background-color: rgb(var(--button-bg-rgb));
     width: fit-content;
-   min-width: 6rem;
+    min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 71rem;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
    font-family: 'Effra_Trial_Rg';
@@ -240,7 +242,9 @@
     width: fit-content;
     min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 71rem;
+    max-width: 100%;
+    word-break: break-word;
+    overflow-wrap: anywhere;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
     color: #000000e8;
