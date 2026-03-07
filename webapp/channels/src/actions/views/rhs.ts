@@ -23,6 +23,8 @@ import {getCurrentTeamId} from 'workspace-redux/selectors/entities/teams';
 import {getCurrentTimezone} from 'workspace-redux/selectors/entities/timezone';
 import {getCurrentUserMentionKeys} from 'workspace-redux/selectors/entities/users';
 
+import {getCurrentLocale} from 'selectors/i18n';
+
 import {
     getSearchType,
     getSearchTerms,
@@ -42,8 +44,8 @@ import {getBrowserUtcOffset, getUtcOffsetForTimeZone} from 'utils/timezone';
 import type {ActionFunc, ActionFuncAsync, ThunkActionFunc} from 'types/store';
 import type {RhsState} from 'types/store/rhs';
 
-function normalizeSearchOperators(terms: string): string {
-    if (!terms) {
+function normalizeSearchOperators(terms: string, locale: string): string {
+    if (!terms || !locale.startsWith('ar')) {
         return terms;
     }
 
@@ -222,7 +224,8 @@ function updateSearchResultsType(searchType: string) {
 
 export function performSearch(terms: string, teamId: string, isMentionSearch?: boolean): ThunkActionFunc<unknown> {
     return (dispatch, getState) => {
-        let searchTerms = normalizeSearchOperators(terms);
+        const locale = getCurrentLocale(getState());
+        let searchTerms = normalizeSearchOperators(terms, locale);
         const extensionsFilters = getFilesSearchExtFilter(getState());
 
         const extensions = extensionsFilters?.map((ext) => `ext:${ext}`).join(' ');

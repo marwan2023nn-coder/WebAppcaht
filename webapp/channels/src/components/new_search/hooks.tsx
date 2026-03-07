@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {useState, useRef, useEffect, useMemo, useCallback} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 import type {Channel} from '@workspace/types/channels';
 import type {ServerError} from '@workspace/types/errors';
@@ -17,10 +17,12 @@ import SearchUserProvider from 'components/suggestion/search_user_provider';
 import type {ProviderResults, SuggestionResults} from 'components/suggestion/suggestion_results';
 import {emptyResults, flattenTerms, normalizeResultsFromProvider, trimResults} from 'components/suggestion/suggestion_results';
 
+import {getCurrentLocale} from 'selectors/i18n';
+
 import {SearchFileExtensionProvider} from './extension_suggestions_provider';
 
-function normalizeSearchOperatorsForProviders(terms: string): string {
-    if (!terms) {
+function normalizeSearchOperatorsForProviders(terms: string, locale: string): string {
+    if (!terms || !locale.startsWith('ar')) {
         return terms;
     }
 
@@ -33,8 +35,8 @@ function normalizeSearchOperatorsForProviders(terms: string): string {
         .replace(/(^|\s)امتداد:/gi, '$1ext:');
 }
 
-function denormalizeMatchedPretext(matchedPretext: string): string {
-    if (!matchedPretext) {
+function denormalizeMatchedPretext(matchedPretext: string, locale: string): string {
+    if (!matchedPretext || !locale.startsWith('ar')) {
         return matchedPretext;
     }
 
@@ -49,6 +51,7 @@ function denormalizeMatchedPretext(matchedPretext: string): string {
 
 export const useSearchSuggestions = (searchType: string, searchTerms: string, searchTeam: string, caretPosition: number, getCaretPosition: () => number): SuggestionResults => {
     const dispatch = useDispatch();
+    const locale = useSelector(getCurrentLocale);
 
     const [results, setResults] = useState<SuggestionResults>(emptyResults());
 
@@ -66,7 +69,7 @@ export const useSearchSuggestions = (searchType: string, searchTerms: string, se
         }
 
         const partialSearchTerms = searchTerms.slice(0, caretPosition);
-        const normalizedPartialSearchTerms = normalizeSearchOperatorsForProviders(partialSearchTerms);
+        const normalizedPartialSearchTerms = normalizeSearchOperatorsForProviders(partialSearchTerms, locale);
         if (searchTerms.length > caretPosition && searchTerms[caretPosition] !== ' ') {
             return;
         }
@@ -86,7 +89,7 @@ export const useSearchSuggestions = (searchType: string, searchTerms: string, se
 
                 const denormalizedRes = {
                     ...res,
-                    matchedPretext: denormalizeMatchedPretext(res.matchedPretext),
+                    matchedPretext: denormalizeMatchedPretext(res.matchedPretext, locale),
                 };
 
                 let trimmedResults = normalizeResultsFromProvider(denormalizedRes);
