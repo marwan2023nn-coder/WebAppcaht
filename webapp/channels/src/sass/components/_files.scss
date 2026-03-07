@@ -3,9 +3,9 @@
 @use "utils/variables";
 .post--right1:has(.post-image__column):not(:has(.DataSpillageReport.mode_short)),
 .post--left1:has(.post-image__column):not(:has(.DataSpillageReport.mode_short)) {
-    width:350px;
+    width: 100%;
     min-width: 204px;
-    max-width: 100%;
+    max-width: 350px;
 }
 .post--right1:has(.audio-player1),
 .post--left1:has(.audio-player1) {
@@ -347,9 +347,9 @@
     position: relative;
     display: flex;
     overflow: hidden;
-    width: 320px;
-    min-width: 204px;
-    max-width: 100%;
+    width: 100%;
+    min-width: 0;
+    max-width: 320px;
     height: 6.4rem;
     align-items: center;
     border: 1px solid rgba(functions.v(center-channel-color-rgb), 0.16);
