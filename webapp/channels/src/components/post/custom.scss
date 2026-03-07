@@ -33,7 +33,6 @@
     display: inline-flex;
     align-items: center;
     gap: 6px;
-    max-width: 100%;
 }
 
 .whatsapp-post-options-trigger {
@@ -151,9 +150,9 @@
     border-radius: 13px;
     background-color: rgb(var(--button-bg-rgb));
     width: fit-content;
-    min-width: 6rem;
+   min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 100%;
+    max-width: 71rem;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
    font-family: 'Effra_Trial_Rg';
@@ -170,8 +169,6 @@
     .post-message__text {
         text-align: start;
         color: white;
-        word-break: break-word;
-        overflow-wrap: anywhere;
 
         a {
             color: white;
@@ -243,7 +240,7 @@
     width: fit-content;
     min-width: 6rem;
     min-height: 3.9rem;
-    max-width: 100%;
+    max-width: 71rem;
     padding: 0px 1rem 0px 1rem;
     padding-top: 0.8rem;
     color: #000000e8;
@@ -258,8 +255,6 @@
     .post-message__text {
         text-align: start;
         color: #000000e8;
-        word-break: break-word;
-        overflow-wrap: anywhere;
     }
 
     .post__time {
