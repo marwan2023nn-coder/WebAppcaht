@@ -1045,7 +1045,7 @@ var transitionallyPrepackagedPlugins = []string{
 	"jitsi",
 	"com.mattermost.plugin-todo",
 	"com.mattermost.welcomebot",
-	"com.mattermost.apps",
+	model.PluginIdApps,
 }
 
 // pluginIsTransitionallyPrepackaged identifies plugin ids that are currently prepackaged but

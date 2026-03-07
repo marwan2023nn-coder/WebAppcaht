@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-export const appsPluginId = 'com.mattermost.apps';
+export const appsPluginId = 'com.workspace.apps';
 export const callsPluginId = 'com.workspace.calls';
 export const playbooksPluginId = 'playbooks';
 
