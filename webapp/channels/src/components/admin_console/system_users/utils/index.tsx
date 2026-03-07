@@ -17,8 +17,8 @@ import {ColumnNames, RoleFilters, StatusFilter, TeamFilters} from '../constants'
 import type {TableOptions} from '../system_users';
 import type {OptionType as TeamFilterOptionType} from '../system_users_filters_popover/system_users_filter_team';
 
-export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptions): UserReportOptions {
-    return {
+export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptions & { sortOrder?: 'asc' | 'desc' | '' }): UserReportOptions {
+    const options: UserReportOptions = {
         page_size: tableOptions?.pageSize || PAGE_SIZES[0],
         from_column_value: tableOptions?.fromColumnValue,
         from_id: tableOptions?.fromId,
@@ -32,6 +32,13 @@ export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptio
         show_online_only: tableOptions?.showOnlineOnly,
         date_range: tableOptions?.dateRange,
     };
+
+    if (tableOptions?.sortOrder && tableOptions.sortOrder !== '') {
+        options.sort_column = UserReportSortColumns.firstName;
+        options.sort_direction = tableOptions.sortOrder as ReportSortDirection;
+    }
+
+    return options;
 }
 
 /**

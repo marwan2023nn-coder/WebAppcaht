@@ -80,7 +80,7 @@ export default class SearchUserProvider extends Provider {
             return false;
         }
 
-        const captured = (/\bfrom:\s*(\S*)$/i).exec(pretext.toLowerCase());
+        const captured = (/\b(?:from|من):\s*(\S*)$/i).exec(pretext.toLowerCase());
 
         this.doAutocomplete(captured, teamId, resultsCallback);
 

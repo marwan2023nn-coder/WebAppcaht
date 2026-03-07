@@ -53,6 +53,7 @@ export type TableOptions = {
     filterRole?: AdminConsoleUserManagementTableProperties['filterRole'];
     filterStatus?: AdminConsoleUserManagementTableProperties['filterStatus'];
     showOnlineOnly?: AdminConsoleUserManagementTableProperties['showOnlineOnly'];
+    sortOrder: AdminConsoleUserManagementTableProperties['sortOrder'];
     dateRange?: ReportDuration;
 }
 
@@ -76,7 +77,7 @@ function SystemUsers(props: Props) {
 
     // Effect to get the total user count
     useEffect(() => {
-        const getUserCount = async (tableOptions?: TableOptions) => {
+        const getUserCount = async (tableOptions?: TableOptions & { sortOrder: 'asc' | 'desc' | '' }) => {
             const {data} = await props.getUserCountForReporting(convertTableOptionsToUserReportOptions(tableOptions));
             setUserCount(data);
         };
@@ -93,6 +94,7 @@ function SystemUsers(props: Props) {
             filterRole: props.tablePropertyFilterRole,
             filterStatus: props.tablePropertyFilterStatus,
             showOnlineOnly: props.tablePropertyShowOnlineOnly,
+            sortOrder: props.tablePropertySortOrder,
         });
     }, [
         props.tablePropertyPageSize,
@@ -106,11 +108,12 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterRole,
         props.tablePropertyFilterStatus,
         props.tablePropertyShowOnlineOnly,
+        props.tablePropertySortOrder,
     ]);
 
     // Effect to get the user reports
     useEffect(() => {
-        async function fetchUserReportsWithOptions(tableOptions?: TableOptions) {
+        async function fetchUserReportsWithOptions(tableOptions?: TableOptions & { sortOrder: 'asc' | 'desc' | '' }) {
             setLoadingState(LoadingStates.Loading);
 
             const {data} = await props.getUserReports(convertTableOptionsToUserReportOptions(tableOptions));
@@ -140,6 +143,7 @@ function SystemUsers(props: Props) {
             filterStatus: props.tablePropertyFilterStatus,
             showOnlineOnly: props.tablePropertyShowOnlineOnly,
             dateRange: props.tablePropertyDateRange,
+            sortOrder: props.tablePropertySortOrder,
         });
     }, [
         props.tablePropertyPageSize,
@@ -154,6 +158,7 @@ function SystemUsers(props: Props) {
         props.tablePropertyFilterStatus,
         props.tablePropertyShowOnlineOnly,
         props.tablePropertyDateRange,
+        props.tablePropertySortOrder,
     ]);
 
     // Handlers for table actions
@@ -503,6 +508,7 @@ function SystemUsers(props: Props) {
                             filterTeamLabel={props.tablePropertyFilterTeamLabel}
                             filterRole={props.tablePropertyFilterRole}
                             filterStatus={props.tablePropertyFilterStatus}
+                            sortOrder={props.tablePropertySortOrder}
                         />
                         <SystemUsersColumnTogglerMenu
                             allColumns={table.getAllLeafColumns()}

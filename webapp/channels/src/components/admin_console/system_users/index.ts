@@ -44,6 +44,7 @@ function mapStateToProps(state: GlobalState) {
     const tablePropertyFilterRole = tableProperties?.filterRole ?? RoleFilters.Any;
     const tablePropertyFilterStatus = tableProperties?.filterStatus ?? StatusFilter.Any;
     const tablePropertyShowOnlineOnly = tableProperties?.showOnlineOnly ?? adminConsoleUserManagementTablePropertiesInitialState.showOnlineOnly;
+    const tablePropertySortOrder = tableProperties?.sortOrder ?? adminConsoleUserManagementTablePropertiesInitialState.sortOrder;
     const tablePropertyDateRange = tableProperties?.dateRange ?? ReportDuration.AllTime;
 
     return {
@@ -66,6 +67,7 @@ function mapStateToProps(state: GlobalState) {
         tablePropertyFilterRole,
         tablePropertyFilterStatus,
         tablePropertyShowOnlineOnly,
+        tablePropertySortOrder,
         tablePropertyDateRange,
     };
 }

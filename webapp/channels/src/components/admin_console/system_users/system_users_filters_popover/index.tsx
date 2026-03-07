@@ -15,17 +15,19 @@ import type {AdminConsoleUserManagementTableProperties} from 'types/store/views'
 import {SystemUsersFiltersStatus} from './styled_users_filters_status';
 import {SystemUsersFilterRole} from './system_users_filter_role';
 import {SystemUsersFilterTeam} from './system_users_filter_team';
+import {SystemUsersFilterSort} from './system_users_filter_sort';
 
 import './system_users_filter_popover.scss';
 import {RoleFilters, StatusFilter, TeamFilters} from '../constants';
 
-type FiltersState = Partial<Pick<AdminConsoleUserManagementTableProperties, 'filterTeam' | 'filterTeamLabel' | 'filterRole' | 'filterStatus'>>;
+type FiltersState = Partial<Pick<AdminConsoleUserManagementTableProperties, 'filterTeam' | 'filterTeamLabel' | 'filterRole' | 'filterStatus' | 'sortOrder'>>;
 
 interface Props {
     filterTeam: AdminConsoleUserManagementTableProperties['filterTeam'];
     filterTeamLabel: AdminConsoleUserManagementTableProperties['filterTeamLabel'];
     filterRole: AdminConsoleUserManagementTableProperties['filterRole'];
     filterStatus: AdminConsoleUserManagementTableProperties['filterStatus'];
+    sortOrder: AdminConsoleUserManagementTableProperties['sortOrder'];
 }
 
 export function SystemUsersFilterPopover(props: Props) {
@@ -101,6 +103,10 @@ export function SystemUsersFilterPopover(props: Props) {
         setFilterState({...filterState, filterStatus});
     }
 
+    function handleSortOrderChange(sortOrder: AdminConsoleUserManagementTableProperties['sortOrder']) {
+        setFilterState({...filterState, sortOrder});
+    }
+
     function handleApplyFilters() {
         dispatch(setAdminConsoleUsersManagementTableProperties(filterState));
         setPopoverOpen(false);
@@ -109,7 +115,8 @@ export function SystemUsersFilterPopover(props: Props) {
     const filterStatusApplied = props.filterStatus.length > 0 ? 1 : 0;
     const filterRoleApplied = props.filterRole.length > 0 ? 1 : 0;
     const filterTeamApplied = props.filterTeam.length > 0 ? 1 : 0;
-    const filtersCount = filterStatusApplied + filterRoleApplied + filterTeamApplied;
+    const sortApplied = props.sortOrder !== '' ? 1 : 0;
+    const filtersCount = filterStatusApplied + filterRoleApplied + filterTeamApplied + sortApplied;
 
     return (
         <div className='systemUsersFilterContainer'>
@@ -150,6 +157,10 @@ export function SystemUsersFilterPopover(props: Props) {
                             <SystemUsersFiltersStatus
                                 initialValue={props.filterStatus}
                                 onChange={handleStatusFilterChange}
+                            />
+                            <SystemUsersFilterSort
+                                initialValue={props.sortOrder}
+                                onChange={handleSortOrderChange}
                             />
                         </div>
                         <div className='footer'>
