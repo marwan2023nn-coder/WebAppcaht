@@ -868,15 +868,15 @@ func (s SqlChannelStore) GetPinnedPosts(channelId string) (*model.PostList, erro
 	pl := model.NewPostList()
 
 	query := s.getQueryBuilder().
-		Select(postSliceColumns()...).
+		Select(postSliceColumnsWithName("p")...).
 		Column("(SELECT count(Posts.Id) FROM Posts WHERE Posts.RootId = (CASE WHEN p.RootId = '' THEN p.Id ELSE p.RootId END) AND Posts.DeleteAt = 0) as ReplyCount").
 		From("Posts p").
 		Where(sq.Eq{
-			"IsPinned":  true,
-			"ChannelId": channelId,
-			"DeleteAt":  0,
+			"p.IsPinned":  true,
+			"p.ChannelId": channelId,
+			"p.DeleteAt":  0,
 		}).
-		OrderBy("CreateAt ASC")
+		OrderBy("p.CreateAt ASC")
 
 	posts := []*model.Post{}
 	if err := s.GetReplica().SelectBuilder(&posts, query); err != nil {
