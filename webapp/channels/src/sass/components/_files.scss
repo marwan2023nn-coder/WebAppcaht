@@ -3,7 +3,7 @@
 @use "utils/variables";
 .post--right1:has(.post-image__column):not(:has(.DataSpillageReport.mode_short)),
 .post--left1:has(.post-image__column):not(:has(.DataSpillageReport.mode_short)) {
-    width: 100%;
+    width:350px;
     min-width: 204px;
     max-width: 100%;
 }
@@ -243,7 +243,7 @@
             }
 
             .image-permalink {
-                max-width: 100%;
+                max-width: 320px;
                 max-height: 180px;
             }
 
@@ -251,8 +251,6 @@
                 position: relative;
                 z-index: 2;
                 overflow: hidden;
-                max-width: 100%;
-                height: auto;
                 max-height: $max-image-height;
                 align-self: center;
                 border-radius: 4px;
@@ -349,8 +347,8 @@
     position: relative;
     display: flex;
     overflow: hidden;
-    width: 100%;
-    min-width: 0;
+    width: 320px;
+    min-width: 204px;
     max-width: 100%;
     height: 6.4rem;
     align-items: center;
@@ -666,10 +664,8 @@
     background: variables.$white;
 
     .file-details {
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        min-height: 270px;
+        width: 320px;
+        height: 270px;
         padding: 14px;
         text-align: start;
         vertical-align: top;
@@ -687,10 +683,8 @@
     }
 
     .file-details__preview {
-        width: 100%;
-        max-width: 320px;
-        height: auto;
-        min-height: 270px;
+        width: 320px;
+        height: 270px;
         border-inline-end: 1px solid variables.$light-gray;
         vertical-align: center;
 
