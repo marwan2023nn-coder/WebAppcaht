@@ -308,8 +308,18 @@ export const getMySortedTeamIds: (state: GlobalState, locale: string) => Array<T
     },
 );
 
+export function getTeamsForUser(state: GlobalState, userId: string): Team[] {
+    const allTeams = getTeams(state);
+    const membersInTeam = getMembersInTeams(state);
+    return Object.values(allTeams).filter((team) => membersInTeam[team.id]?.[userId] && team.delete_at === 0);
+}
+
 export function getMyTeamsCount(state: GlobalState) {
     return getMyTeams(state).length;
+}
+
+export function getTeamsCountForUser(state: GlobalState, userId: string): number {
+    return getTeamsForUser(state, userId).length;
 }
 
 // returns the badge number to show (excluding the current team)
