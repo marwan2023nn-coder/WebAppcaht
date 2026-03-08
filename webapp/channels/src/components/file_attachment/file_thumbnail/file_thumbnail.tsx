@@ -1,11 +1,12 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, {memo} from 'react';
+import React, {memo, useContext} from 'react';
 
 import type {FileInfo} from '@workspace/types/files';
 
 import {getFileThumbnailUrl, getFileUrl} from 'workspace-redux/utils/file_utils';
+import PostContext from 'components/post_view/post_context';
 
 import type {FilePreviewInfo} from 'components/file_preview/file_preview';
 
@@ -23,15 +24,13 @@ type Props = {
     enableSVGs: boolean;
     fileInfo: FileInfo | FilePreviewInfo | FilePreviewInfoLimited;
     disablePreview?: boolean;
-    overrideGenerateFileThumbnailUrl?: (fileId: string) => string;
-    overrideGenerateFileUrl?: (fileId: string) => string;
 };
 
 const FileThumbnail = ({
     fileInfo,
-    enableSVGs,
     disablePreview,
 }: Props) => {
+    const {overrideGenerateFileThumbnailUrl, overrideGenerateFileUrl} = useContext(PostContext);
     const {id, extension, has_preview_image: hasPreviewImage, width = 0, height = 0} = (fileInfo as FileInfo);
     const mimeType = (fileInfo as FileInfo).mime_type || (fileInfo as FilePreviewInfo | FilePreviewInfoLimited).type;
 

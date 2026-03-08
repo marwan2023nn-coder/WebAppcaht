@@ -17,6 +17,7 @@ import CodePreview, {hasSupportedLanguage} from 'components/code_preview';
 import FileInfoPreview from 'components/file_info_preview';
 import LoadingImagePreview from 'components/loading_image_preview';
 import type {Props as PDFPreviewComponentProps} from 'components/pdf_preview';
+import PostContext from 'components/post_view/post_context';
 
 import Constants, {FileTypes, ZoomSettings} from 'utils/constants';
 import * as Keyboard from 'utils/keyboard';
@@ -40,10 +41,6 @@ const KeyCodes = Constants.KeyCodes;
 export type Props = {
     canDownloadFiles: boolean;
     enablePublicLink: boolean;
-    overrideGenerateFileDownloadUrl?: (fileId: string) => string;
-    overrideGenerateFileThumbnailUrl?: (fileId: string) => string;
-    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
-    overrideGenerateFileUrl?: (fileId: string) => string;
 
     /**
      * List of FileInfo to view
@@ -90,6 +87,9 @@ type State = {
 }
 
 export default class FilePreviewModal extends React.PureComponent<Props, State> {
+    static contextType = PostContext;
+    declare context: React.ContextType<typeof PostContext>;
+
     static defaultProps = {
         fileInfos: [],
         startIndex: 0,
@@ -210,10 +210,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             let previewUrl = '';
             if (isFileInfo(fileInfo)) {
                 if (fileInfo.has_preview_image) {
-                    previewUrl = this.props.overrideGenerateFilePreviewUrl ? this.props.overrideGenerateFilePreviewUrl(fileInfo.id) : getFilePreviewUrl(fileInfo.id);
+                    previewUrl = this.context.overrideGenerateFilePreviewUrl ? this.context.overrideGenerateFilePreviewUrl(fileInfo.id) : getFilePreviewUrl(fileInfo.id);
                 } else {
                     // some images (eg animated gifs) just show the file itself and not a preview
-                    previewUrl = this.props.overrideGenerateFileUrl ? this.props.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
+                    previewUrl = this.context.overrideGenerateFileUrl ? this.context.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
                 }
             } else if (isLinkInfo(fileInfo)) {
                 // For LinkInfo, use the link directly
@@ -330,8 +330,8 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         if (isFileInfo(fileInfo)) {
             showPublicLink = true;
             fileName = fileInfo.name;
-            fileUrl = this.props.overrideGenerateFileUrl ? this.props.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
-            fileDownloadUrl = this.props.overrideGenerateFileDownloadUrl ? this.props.overrideGenerateFileDownloadUrl(fileInfo.id) : getFileDownloadUrl(fileInfo.id);
+            fileUrl = this.context.overrideGenerateFileUrl ? this.context.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
+            fileDownloadUrl = this.context.overrideGenerateFileDownloadUrl ? this.context.overrideGenerateFileDownloadUrl(fileInfo.id) : getFileDownloadUrl(fileInfo.id);
             isExternalFile = false;
         } else {
             showPublicLink = false;
@@ -361,8 +361,6 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
                         <ImagePreview
                             fileInfo={fileInfo as FileInfo}
                             canDownloadFiles={this.props.canDownloadFiles}
-                            overrideGenerateFilePreviewUrl={this.props.overrideGenerateFilePreviewUrl}
-                            overrideGenerateFileDownloadUrl={this.props.overrideGenerateFileDownloadUrl}
                         />
                     );
                 } else if (fileType === FileTypes.VIDEO || fileType === FileTypes.AUDIO) {

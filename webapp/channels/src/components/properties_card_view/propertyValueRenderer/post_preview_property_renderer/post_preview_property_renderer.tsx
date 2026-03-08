@@ -10,6 +10,7 @@ import type {PropertyValue} from '@workspace/types/properties';
 import {usePropertyCardViewChannelLoader} from 'components/common/hooks/usePropertyCardViewChannelLoader';
 import {usePropertyCardViewPostLoader} from 'components/common/hooks/usePropertyCardViewPostLoader';
 import {usePropertyCardViewTeamLoader} from 'components/common/hooks/usePropertyCardViewTeamLoader';
+import PostContext from 'components/post_view/post_context';
 import PostMessagePreview from 'components/post_view/post_message_preview';
 import type {PostPreviewFieldMetadata} from 'components/properties_card_view/properties_card_view';
 
@@ -50,22 +51,28 @@ export default function PostPreviewPropertyRenderer({value, metadata}: Props) {
         channel: channel?.display_name || '',
     });
 
+    const contextValue = useMemo(() => ({
+        handlePopupOpened: noop,
+        overrideGenerateFileDownloadUrl: metadata?.generateFileDownloadUrl,
+        overrideGenerateFileThumbnailUrl: metadata?.generateFileThumbnailUrl,
+        overrideGenerateFilePreviewUrl: metadata?.generateFilePreviewUrl,
+        overrideGenerateFileUrl: metadata?.generateFileUrl,
+    }), [metadata]);
+
     return (
         <div
             className='PostPreviewPropertyRenderer'
             data-testid='post-preview-property'
         >
-            <PostMessagePreview
-                metadata={previewMetaData}
-                handleFileDropdownOpened={noop}
-                previewFooterMessage={postPreviewFooterMessage}
-                usePostAsSource={true}
-                overrideGenerateFileDownloadUrl={metadata?.generateFileDownloadUrl}
-                overrideGenerateFileThumbnailUrl={metadata?.generateFileThumbnailUrl}
-                overrideGenerateFilePreviewUrl={metadata?.generateFilePreviewUrl}
-                overrideGenerateFileUrl={metadata?.generateFileUrl}
-                disableActions={true}
-            />
+            <PostContext.Provider value={contextValue}>
+                <PostMessagePreview
+                    metadata={previewMetaData}
+                    handleFileDropdownOpened={noop}
+                    previewFooterMessage={postPreviewFooterMessage}
+                    usePostAsSource={true}
+                    disableActions={true}
+                />
+            </PostContext.Provider>
         </div>
     );
 }
