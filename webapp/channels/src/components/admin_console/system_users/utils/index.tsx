@@ -34,7 +34,7 @@ export function convertTableOptionsToUserReportOptions(tableOptions?: TableOptio
     };
 
     if (tableOptions?.sortOrder) {
-        options.sort_column = UserReportSortColumns.firstName;
+        options.sort_column = UserReportSortColumns.username;
         options.sort_direction = tableOptions.sortOrder as ReportSortDirection;
     }
 
@@ -55,9 +55,11 @@ export function getSortColumnForOptions(id?: SortingState[0]['id']): Pick<UserRe
         sortColumn = UserReportSortColumns.firstName;
     } else if (id === ColumnNames.lastName) {
         sortColumn = UserReportSortColumns.lastName;
+    } else if (id === ColumnNames.username) {
+        sortColumn = UserReportSortColumns.username;
     } else {
         // Default sorting to first User details column
-        sortColumn = UserReportSortColumns.firstName;
+        sortColumn = UserReportSortColumns.username;
     }
 
     return {
@@ -92,12 +94,13 @@ export function getSortableColumnValueBySortColumn(row: UserReport, sortColumn: 
     case ColumnNames.createAt:
         return String(row.create_at);
     case ColumnNames.firstName:
-    case ColumnNames.username:
         return (row.first_name || row.username).toLowerCase();
+    case ColumnNames.username:
+        return row.username.toLowerCase();
     case ColumnNames.lastName:
         return row.last_name.toLowerCase();
     default:
-        return (row.first_name || row.username).toLowerCase();
+        return row.username.toLowerCase();
     }
 }
 
