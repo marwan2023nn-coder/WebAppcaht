@@ -96,32 +96,32 @@ export function savePreferences(userId: string, preferences: PreferenceType[]): 
     };
 }
 
-export function saveTheme(teamId: string, theme: Theme): ActionFuncAsync {
+export function saveTheme(teamId: string, theme: Theme, userId?: string): ActionFuncAsync {
     return async (dispatch, getState) => {
         const state = getState();
-        const currentUserId = getCurrentUserId(state);
+        const effectiveUserId = userId || getCurrentUserId(state);
         const preference: PreferenceType = {
-            user_id: currentUserId,
+            user_id: effectiveUserId,
             category: Preferences.CATEGORY_THEME,
             name: teamId || '',
             value: JSON.stringify(theme),
         };
 
-        await dispatch(savePreferences(currentUserId, [preference]));
+        await dispatch(savePreferences(effectiveUserId, [preference]));
         return {data: true};
     };
 }
 
-export function deleteTeamSpecificThemes(): ActionFuncAsync {
+export function deleteTeamSpecificThemes(userId?: string): ActionFuncAsync {
     return async (dispatch, getState) => {
         const state = getState();
 
-        const themePreferences: PreferenceType[] = getThemePreferences(state);
-        const currentUserId = getCurrentUserId(state);
+        const themePreferences: PreferenceType[] = getThemePreferences(state, userId);
+        const effectiveUserId = userId || getCurrentUserId(state);
 
         const toDelete = themePreferences.filter((pref) => pref.name !== '');
         if (toDelete.length > 0) {
-            await dispatch(deletePreferences(currentUserId, toDelete));
+            await dispatch(deletePreferences(effectiveUserId, toDelete));
         }
 
         return {data: true};

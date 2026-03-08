@@ -1064,7 +1064,7 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
         }
 
         let themeSection;
-        if (this.props.enableThemeSelection && !this.props.adminMode) {
+        if (this.props.enableThemeSelection) {
             themeSection = (
                 <div>
                     <ThemeSetting
@@ -1073,6 +1073,9 @@ export default class UserSettingsDisplay extends React.PureComponent<Props, Stat
                         updateSection={this.updateSection}
                         setRequireConfirm={this.props.setRequireConfirm}
                         allowCustomThemes={this.props.allowCustomThemes}
+                        user={this.props.user}
+                        adminMode={this.props.adminMode}
+                        userPreferences={this.props.userPreferences}
                     />
                     <div className='divider-dark'/>
                 </div>

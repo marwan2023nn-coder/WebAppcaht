@@ -5,6 +5,9 @@ import React from 'react';
 import type {RefObject} from 'react';
 import {FormattedMessage} from 'react-intl';
 
+import type {PreferencesType} from '@workspace/types/preferences';
+import type {UserProfile} from '@workspace/types/users';
+
 import type {Theme} from 'workspace-redux/selectors/entities/preferences';
 
 import ExternalLink from 'components/external_link';
@@ -20,7 +23,13 @@ import type {ModalData} from 'types/actions';
 import CustomThemeChooser from './custom_theme_chooser/custom_theme_chooser';
 import PremadeThemeChooser from './premade_theme_chooser';
 
-type Props = {
+export type OwnProps = {
+    user?: UserProfile;
+    adminMode?: boolean;
+    userPreferences?: PreferencesType;
+};
+
+type Props = OwnProps & {
     currentTeamId: string;
     theme: Theme;
     selected: boolean;
@@ -31,8 +40,8 @@ type Props = {
     showAllTeamsCheckbox: boolean;
     applyToAllTeams: boolean;
     actions: {
-        saveTheme: (teamId: string, theme: Theme) => void;
-        deleteTeamSpecificThemes: () => void;
+        saveTheme: (teamId: string, theme: Theme, userId?: string) => void;
+        deleteTeamSpecificThemes: (userId?: string) => void;
         openModal: <P>(modalData: ModalData<P>) => void;
     };
 };
@@ -99,13 +108,14 @@ export default class ThemeSetting extends React.PureComponent<Props, State> {
 
     submitTheme = async (): Promise<void> => {
         const teamId = this.state.applyToAllTeams ? '' : this.props.currentTeamId;
+        const userId = this.props.adminMode && this.props.user ? this.props.user.id : undefined;
 
         this.setState({isSaving: true});
 
-        await this.props.actions.saveTheme(teamId, this.state.theme);
+        await this.props.actions.saveTheme(teamId, this.state.theme, userId);
 
         if (this.state.applyToAllTeams) {
-            await this.props.actions.deleteTeamSpecificThemes();
+            await this.props.actions.deleteTeamSpecificThemes(userId);
         }
 
         this.props.setRequireConfirm?.(false);

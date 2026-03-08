@@ -54,13 +54,17 @@ export function getInt(state: GlobalState, category: string, name: string, defau
     return parseInt(value, 10);
 }
 
-export function makeGetCategory(selectorName: string, category: string): (state: GlobalState) => PreferenceType[] {
+export function makeGetCategory(selectorName: string, category: string): (state: GlobalState, userId?: string) => PreferenceType[] {
     return createIdsSelector(
         selectorName,
-        getMyPreferences,
+        (state: GlobalState, userId?: string) => (userId ? getUserPreferences(state, userId) : getMyPreferences(state)),
         (preferences) => {
             const prefix = category + '--';
             const prefsInCategory: PreferenceType[] = [];
+
+            if (!preferences) {
+                return prefsInCategory;
+            }
 
             for (const key in preferences) {
                 if (key.startsWith(prefix)) {
@@ -183,6 +187,31 @@ const getDefaultTheme = createSelector('getDefaultTheme', getConfig, (config): T
     // If no config.DefaultTheme or value doesn't refer to a valid theme name...
     return Preferences.THEMES.denim;
 });
+
+export function getThemeForUser(state: GlobalState, userId: string, preferences?: PreferencesType): Theme {
+    const defaultTheme = getDefaultTheme(state);
+    const currentTeamId = state.entities.teams.currentTeamId;
+
+    const userPreferences = preferences || getUserPreferences(state, userId);
+
+    if (!userPreferences) {
+        return setThemeDefaults(defaultTheme);
+    }
+
+    let themePreference;
+    if (currentTeamId) {
+        themePreference = userPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, currentTeamId)];
+    }
+
+    if (!themePreference) {
+        themePreference = userPreferences[getPreferenceKey(Preferences.CATEGORY_THEME, '')];
+    }
+
+    const themeValue: Theme | string = themePreference?.value ?? defaultTheme;
+    const theme: Theme = typeof themeValue === 'string' ? JSON.parse(themeValue) : themeValue;
+
+    return setThemeDefaults(theme);
+}
 
 export const getTheme: (state: GlobalState) => Theme = createShallowSelector(
     'getTheme',
