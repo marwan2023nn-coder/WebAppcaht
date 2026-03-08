@@ -36,6 +36,7 @@ declare module 'components/dynamic_virtualized_list' {
 
         id?: string;
         className?: string;
+        atBottomMargin?: number;
         correctScrollToBottom?: boolean;
         innerListStyle?: CSSProperties;
         loaderId?: string;

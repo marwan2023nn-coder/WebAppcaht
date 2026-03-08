@@ -240,8 +240,23 @@ export default class PostList extends React.PureComponent<Props, State> {
         }
         const prevPostsCount = (prevProps.postListIds || []).length;
         const presentPostsCount = (this.props.postListIds || []).length;
+        const postsAddedAtBottom = presentPostsCount !== prevPostsCount && (this.props.postListIds || [])[0] !== (prevProps.postListIds || [])[0];
 
         this.newMessageLineIndex = getNewMessagesIndex(this.props.postListIds || []);
+
+        // If the user is at/near bottom and newer posts appear, fetch them immediately
+        // so the list can continue auto-following the conversation.
+        if (
+            prevProps.atLatestPost &&
+            !this.props.atLatestPost &&
+            this.state.atBottom
+        ) {
+            this.props.actions.canLoadMorePosts(PostRequestTypes.AFTER_ID);
+        }
+
+        if (postsAddedAtBottom && this.state.atBottom) {
+            this.scrollToBottom();
+        }
 
         if (snapshot) {
             const postlistScrollHeight = this.postListRef.current.scrollHeight;
@@ -733,7 +748,8 @@ export default class PostList extends React.PureComponent<Props, State> {
                                             innerListStyle={postListStyle}
                                             initRangeToRender={this.initRangeToRender}
                                             loaderId={PostListRowListIds.OLDER_MESSAGES_LOADER}
-                                            correctScrollToBottom={this.props.atLatestPost}
+                                            correctScrollToBottom={this.props.atLatestPost || Boolean(this.state.atBottom)}
+                                            atBottomMargin={BUFFER_TO_BE_CONSIDERED_BOTTOM}
                                             onItemsRendered={this.onItemsRendered}
                                             scrollToFailed={this.scrollToFailed}
                                         >

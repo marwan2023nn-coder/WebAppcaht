@@ -9,8 +9,6 @@ import {createElement, PureComponent} from 'react';
 
 import ListItem from './list_item';
 
-const atBottomMargin = 10;
-
 export class DynamicVirtualizedList extends PureComponent {
     _listMetaData = {
         itemOffsetMap: {},
@@ -29,6 +27,7 @@ export class DynamicVirtualizedList extends PureComponent {
     _correctedInstances = 0;
 
     static defaultProps = {
+        atBottomMargin: 10,
         innerTagName: 'div',
         itemData: undefined,
         outerTagName: 'div',
@@ -333,6 +332,7 @@ export class DynamicVirtualizedList extends PureComponent {
     };
 
     _heightChange = (prevHeight, prevOffset) => {
+        const {atBottomMargin} = this.props;
         const wasAtBottom =
             prevOffset + prevHeight >=
             this._listMetaData.totalMeasuredSize - atBottomMargin;
@@ -343,6 +343,7 @@ export class DynamicVirtualizedList extends PureComponent {
     };
 
     _widthChange = (prevHeight, prevOffset) => {
+        const {atBottomMargin} = this.props;
         const wasAtBottom =
             prevOffset + prevHeight >=
             this._listMetaData.totalMeasuredSize - atBottomMargin;
@@ -481,6 +482,7 @@ export class DynamicVirtualizedList extends PureComponent {
         }
 
         const element = this._outerRef;
+        const {atBottomMargin} = this.props;
         const wasAtBottom =
             this.props.height + element.scrollTop >=
             this._listMetaData.totalMeasuredSize - atBottomMargin;
@@ -545,6 +547,7 @@ export class DynamicVirtualizedList extends PureComponent {
             delete this._listMetaData.itemSizeMap[itemId];
             delete this._listMetaData.itemOffsetMap[itemId];
             const element = this._outerRef;
+            const {atBottomMargin} = this.props;
 
             const atBottom =
                 element.offsetHeight + element.scrollTop >=
