@@ -24,6 +24,9 @@ export type PostPreviewFieldMetadata = {
     getChannel?: (channelId: string) => Promise<Channel>;
     getTeam?: (teamId: string) => Promise<Team>;
     generateFileDownloadUrl?: (fileId: string) => string;
+    generateFileThumbnailUrl?: (fileId: string) => string;
+    generateFilePreviewUrl?: (fileId: string) => string;
+    generateFileUrl?: (fileId: string) => string;
 };
 
 export type UserPropertyMetadata = {

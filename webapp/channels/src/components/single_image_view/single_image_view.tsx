@@ -31,6 +31,8 @@ export interface Props extends PropsFromRedux {
     isEmbedVisible?: boolean;
     isInPermalink?: boolean;
     disableActions?: boolean;
+    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
+    overrideGenerateFileUrl?: (fileId: string) => string;
 }
 
 type State = {
@@ -95,6 +97,8 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                 postId: this.props.postId,
                 startIndex: 0,
                 enableChannelNavigation: true,
+                overrideGenerateFilePreviewUrl: this.props.overrideGenerateFilePreviewUrl,
+                overrideGenerateFileUrl: this.props.overrideGenerateFileUrl,
             },
         });
     };
@@ -121,8 +125,8 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
         }
 
         const {has_preview_image: hasPreviewImage, id} = fileInfo;
-        const fileURL = getFileUrl(id);
-        const previewURL = hasPreviewImage ? getFilePreviewUrl(id) : fileURL;
+        const fileURL = this.props.overrideGenerateFileUrl ? this.props.overrideGenerateFileUrl(id) : getFileUrl(id);
+        const previewURL = hasPreviewImage ? (this.props.overrideGenerateFilePreviewUrl ? this.props.overrideGenerateFilePreviewUrl(id) : getFilePreviewUrl(id)) : fileURL;
 
         const previewHeight = fileInfo.height;
         const previewWidth = fileInfo.width;
