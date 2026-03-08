@@ -3,7 +3,7 @@
 
 import React from 'react';
 
-interface PostContextValue {
+export interface PostContextValue {
     handlePopupOpened: ((opened: boolean) => void) | null;
     overrideGenerateFileUrl?: (fileId: string) => string;
     overrideGenerateFileThumbnailUrl?: (fileId: string) => string;

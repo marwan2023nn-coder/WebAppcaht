@@ -16,6 +16,9 @@
 
 .sidebar--right {
     width: var(--overrideRhsWidth, 400px);
+    height: 100%;
+    padding: 0;
+    transform: translateX(100%);
 
     &:not(.expanded):not(.resize-disabled) {
         min-width: 400px;
@@ -44,10 +47,6 @@
             max-width: 500px;
         }
     }
-
-    height: 100%;
-    padding: 0;
-    transform: translateX(100%);
 
     .sidebar-right__table {
         display: table;
