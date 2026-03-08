@@ -407,7 +407,8 @@ func NewServer(options ...Option) (*Server, error) {
 	mlog.Info("Loaded config", mlog.String("source", s.platform.DescribeConfig()))
 
 	license := s.License()
-	allowAdvancedLogging := license != nil && *license.Features.AdvancedLogging
+	// Ensure license and features are non-nil before dereferencing to prevent panic (DoS)
+	allowAdvancedLogging := license != nil && license.Features != nil && model.SafeDereference(license.Features.AdvancedLogging)
 
 	if s.Audit == nil {
 		s.Audit = &audit.Audit{}
