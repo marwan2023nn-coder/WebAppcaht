@@ -6,6 +6,9 @@ body {
     height: 100%;
 }
 .console__body {
+  .modal, .settings-modal, .nav-pills__tab {
+    color: #000 !important;
+  }
   .modal {
     .modal-content {
       background: #fff !important;
@@ -136,7 +139,7 @@ body {
     svg{ fill: var(--sys-center-channel-color) !important;}
      background-color: var(--sys-center-channel-bg) !important;
   }
-  .modal, .modal-header, .modal-title, .settings-modal, .nav-pills__tab,.sectionNoticeTitle {
+  .modal-header, .modal-title, .settings-modal, .nav-pills__tab, .sectionNoticeTitle {
     color: #000 !important;
     .sectionNoticeContainer.hint p{
          color: #000 !important;
