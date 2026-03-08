@@ -538,7 +538,7 @@ func (s *SqlPostStore) getFlaggedPosts(userId, channelId, teamId string, offset 
 		Select(postSliceColumnsWithName("Posts")...).
 		From("Posts").
 		Where(sq.And{
-			sq.Expr("Id IN (?)", preferenceSubQuery),
+			sq.Eq{"Id": preferenceSubQuery},
 			sq.Eq{"Posts.DeleteAt": 0},
 		})
 
@@ -556,8 +556,8 @@ func (s *SqlPostStore) getFlaggedPosts(userId, channelId, teamId string, offset 
 		Column(sq.Alias(replyCountSubQuery, "ReplyCount")).
 		FromSelect(innerSelect, "A").
 		Join("Channels AS B ON B.Id = A.ChannelId").
-		Where(sq.Expr("ChannelId IN (?)", memberSubQuery)).
-		OrderBy("CreateAt DESC").
+		Where(sq.Eq{"A.ChannelId": memberSubQuery}).
+		OrderBy("A.CreateAt DESC").
 		Limit(uint64(limit)).
 		Offset(uint64(offset))
 
