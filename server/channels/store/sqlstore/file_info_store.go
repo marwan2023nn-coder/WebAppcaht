@@ -7,7 +7,6 @@ import (
 	"database/sql"
 	"fmt"
 	"regexp"
-	"strconv"
 	"strings"
 
 	sq "github.com/mattermost/squirrel"
@@ -357,11 +356,11 @@ func (fs SqlFileInfoStore) GetForPosts(postIds []string, readFromMaster, include
 	query := fs.getQueryBuilder().
 		Select(fs.queryFields...).
 		From("FileInfo").
-		Where(sq.Eq{"PostId": postIds}).
-		OrderBy("CreateAt")
+		Where(sq.Eq{"FileInfo.PostId": postIds}).
+		OrderBy("FileInfo.CreateAt")
 
 	if !includeDeleted {
-		query = query.Where("DeleteAt = 0")
+		query = query.Where(sq.Eq{"FileInfo.DeleteAt": 0})
 	}
 
 	queryString, args, err := query.ToSql()
@@ -381,9 +380,9 @@ func (fs SqlFileInfoStore) GetForUser(userId string) ([]*model.FileInfo, error) 
 	query := fs.getQueryBuilder().
 		Select(fs.queryFields...).
 		From("FileInfo").
-		Where(sq.Eq{"CreatorId": userId}).
-		Where(sq.Eq{"DeleteAt": 0}).
-		OrderBy("CreateAt")
+		Where(sq.Eq{"FileInfo.CreatorId": userId}).
+		Where(sq.Eq{"FileInfo.DeleteAt": 0}).
+		OrderBy("FileInfo.CreateAt")
 
 	queryString, args, err := query.ToSql()
 	if err != nil {
@@ -628,31 +627,31 @@ func (fs SqlFileInfoStore) Search(rctx request.CTX, paramsList []*model.SearchPa
 		// handle after: before: on: filters
 		if params.OnDate != "" {
 			onDateStart, onDateEnd := params.GetOnDateMillis()
-			query = query.Where(sq.Expr("FileInfo.CreateAt BETWEEN ? AND ?", strconv.FormatInt(onDateStart, 10), strconv.FormatInt(onDateEnd, 10)))
+			query = query.Where(sq.Expr("FileInfo.CreateAt BETWEEN ? AND ?", onDateStart, onDateEnd))
 		} else {
 			if params.ExcludedDate != "" {
 				excludedDateStart, excludedDateEnd := params.GetExcludedDateMillis()
-				query = query.Where(sq.Expr("FileInfo.CreateAt NOT BETWEEN ? AND ?", strconv.FormatInt(excludedDateStart, 10), strconv.FormatInt(excludedDateEnd, 10)))
+				query = query.Where(sq.Expr("FileInfo.CreateAt NOT BETWEEN ? AND ?", excludedDateStart, excludedDateEnd))
 			}
 
 			if params.AfterDate != "" {
 				afterDate := params.GetAfterDateMillis()
-				query = query.Where(sq.GtOrEq{"FileInfo.CreateAt": strconv.FormatInt(afterDate, 10)})
+				query = query.Where(sq.GtOrEq{"FileInfo.CreateAt": afterDate})
 			}
 
 			if params.BeforeDate != "" {
 				beforeDate := params.GetBeforeDateMillis()
-				query = query.Where(sq.LtOrEq{"FileInfo.CreateAt": strconv.FormatInt(beforeDate, 10)})
+				query = query.Where(sq.LtOrEq{"FileInfo.CreateAt": beforeDate})
 			}
 
 			if params.ExcludedAfterDate != "" {
 				afterDate := params.GetExcludedAfterDateMillis()
-				query = query.Where(sq.Lt{"FileInfo.CreateAt": strconv.FormatInt(afterDate, 10)})
+				query = query.Where(sq.Lt{"FileInfo.CreateAt": afterDate})
 			}
 
 			if params.ExcludedBeforeDate != "" {
 				beforeDate := params.GetExcludedBeforeDateMillis()
-				query = query.Where(sq.Gt{"FileInfo.CreateAt": strconv.FormatInt(beforeDate, 10)})
+				query = query.Where(sq.Gt{"FileInfo.CreateAt": beforeDate})
 			}
 		}
 
@@ -827,7 +826,7 @@ func (fs *SqlFileInfoStore) GetUptoNSizeFileTime(n int64) (int64, error) {
 	}
 
 	sizeSubQuery := sq.
-		Select("SUM(fi.Size) OVER(ORDER BY CreateAt DESC, fi.Id) RunningTotal", "fi.CreateAt").
+		Select("SUM(fi.Size) OVER(ORDER BY fi.CreateAt DESC, fi.Id) RunningTotal", "fi.CreateAt").
 		From("FileInfo fi").
 		Where(sq.Eq{"fi.DeleteAt": 0})
 

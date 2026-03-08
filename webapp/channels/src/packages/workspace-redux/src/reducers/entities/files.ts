@@ -27,11 +27,17 @@ export function files(state: Record<string, FileInfo> = {}, action: MMReduxActio
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
+        if (!post) {
+            return state;
+        }
 
         return storeAllFilesForPost(storeFilesForPost, state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts: Post[] = Object.values(action.data.posts);
 
         return posts.reduce((nextState, post) => {
@@ -175,11 +181,17 @@ export function fileIdsByPostId(state: Record<string, string[]> = {}, action: MM
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
         const post = action.data;
+        if (!post) {
+            return state;
+        }
 
         return storeAllFilesForPost(storeFilesIdsForPost, state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts: Post[] = Object.values(action.data.posts);
 
         return posts.reduce((nextState, post) => {

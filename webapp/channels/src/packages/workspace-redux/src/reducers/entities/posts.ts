@@ -103,7 +103,7 @@ export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {
         const post = action.data;
-        if (!post.id || !post.root_id || !post.reply_count) {
+        if (!post || !post.id || !post.root_id || !post.reply_count) {
             // Ignoring pending posts and root posts
             return state;
         }
@@ -114,6 +114,9 @@ export function nextPostsReplies(state: {[x in Post['id']]: number} = {}, action
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts = Object.values(action.data.posts) as Post[];
 
         if (posts.length === 0) {
@@ -161,10 +164,16 @@ export function handlePosts(state: IDMappedObjects<Post> = {}, action: MMReduxAc
     switch (action.type) {
     case PostTypes.RECEIVED_POST:
     case PostTypes.RECEIVED_NEW_POST: {
+        if (!action.data) {
+            return state;
+        }
         return handlePostReceived({...state}, action.data);
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts = Object.values(action.data.posts) as Post[];
 
         if (posts.length === 0) {
@@ -1081,6 +1090,9 @@ export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action:
     case PostTypes.RECEIVED_POSTS_BEFORE:
     case PostTypes.RECEIVED_POSTS_IN_CHANNEL:
     case PostTypes.RECEIVED_POSTS_SINCE: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const newPosts: Post[] = Object.values(action.data.posts);
 
         if (newPosts.length === 0) {
@@ -1118,6 +1130,9 @@ export function postsInThread(state: RelationOneToMany<Post, Post> = {}, action:
     }
 
     case PostTypes.RECEIVED_POSTS_IN_THREAD: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const newPosts: Post[] = Object.values(action.data.posts);
 
         if (newPosts.length === 0) {
@@ -1279,12 +1294,18 @@ export function reactions(state: RelationOneToOne<Post, Record<string, Reaction>
 
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
+        if (!action.data) {
+            return state;
+        }
         const post = action.data;
 
         return storeReactionsForPost(state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts: Post[] = Object.values(action.data.posts);
 
         return posts.reduce(storeReactionsForPost, state);
@@ -1350,12 +1371,18 @@ export function acknowledgements(state: RelationOneToOne<Post, Record<UserProfil
     }
 
     case PostTypes.RECEIVED_POST: {
+        if (!action.data) {
+            return state;
+        }
         const post = action.data;
 
         return storeAcknowledgementsForPost(state, post);
     }
 
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts: Post[] = Object.values(action.data.posts);
 
         return posts.reduce(storeAcknowledgementsForPost, state);
@@ -1427,11 +1454,17 @@ export function openGraph(state: RelationOneToOne<Post, Record<string, OpenGraph
     switch (action.type) {
     case PostTypes.RECEIVED_NEW_POST:
     case PostTypes.RECEIVED_POST: {
+        if (!action.data) {
+            return state;
+        }
         const post = action.data;
 
         return storeOpenGraphForPost(state, post);
     }
     case PostTypes.RECEIVED_POSTS: {
+        if (!action.data || !action.data.posts) {
+            return state;
+        }
         const posts: Post[] = Object.values(action.data.posts);
 
         return posts.reduce(storeOpenGraphForPost, state);
