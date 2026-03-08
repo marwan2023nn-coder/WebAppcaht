@@ -559,9 +559,11 @@ func getFile(c *Context, w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
-		if c.Err != nil {
-			return
+		if !c.IsSystemAdmin() {
+			requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+			if c.Err != nil {
+				return
+			}
 		}
 
 		isContentReviewer = true
@@ -659,9 +661,11 @@ func getFileThumbnail(c *Context, w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
-		if c.Err != nil {
-			return
+		if !c.IsSystemAdmin() {
+			requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+			if c.Err != nil {
+				return
+			}
 		}
 
 		isContentReviewer = true
@@ -812,9 +816,11 @@ func getFilePreview(c *Context, w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
-		if c.Err != nil {
-			return
+		if !c.IsSystemAdmin() {
+			requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+			if c.Err != nil {
+				return
+			}
 		}
 
 		isContentReviewer = true
@@ -905,9 +911,11 @@ func getFileInfo(c *Context, w http.ResponseWriter, r *http.Request) {
 			return
 		}
 
-		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
-		if c.Err != nil {
-			return
+		if !c.IsSystemAdmin() {
+			requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+			if c.Err != nil {
+				return
+			}
 		}
 
 		isContentReviewer = true

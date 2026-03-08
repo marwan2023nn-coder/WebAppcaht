@@ -13,10 +13,13 @@ import {Preferences} from 'workspace-redux/constants';
 function results(state: string[] = [], action: MMReduxAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_POSTS: {
-        if (action.isGettingMore) {
-            return [...new Set(state.concat(action.data.order))];
+        if (!action.data) {
+            return state;
         }
-        return action.data.order;
+        if (action.isGettingMore) {
+            return [...new Set(state.concat(action.data.order || []))];
+        }
+        return action.data.order || [];
     }
     case PostTypes.POST_REMOVED: {
         const postId = action.data ? action.data.id : null;
@@ -40,10 +43,13 @@ function results(state: string[] = [], action: MMReduxAction) {
 function fileResults(state: string[] = [], action: MMReduxAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_FILES: {
-        if (action.isGettingMore) {
-            return [...new Set(state.concat(action.data.order))];
+        if (!action.data) {
+            return state;
         }
-        return action.data.order;
+        if (action.isGettingMore) {
+            return [...new Set(state.concat(action.data.order || []))];
+        }
+        return action.data.order || [];
     }
     case SearchTypes.REMOVE_SEARCH_FILES:
     case UserTypes.LOGOUT_SUCCESS:
@@ -57,8 +63,11 @@ function fileResults(state: string[] = [], action: MMReduxAction) {
 function matches(state: Record<string, string[]> = {}, action: MMReduxAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_POSTS:
+        if (!action.data) {
+            return state;
+        }
         if (action.isGettingMore) {
-            return Object.assign({}, state, action.data.matches);
+            return Object.assign({}, state, action.data.matches || {});
         }
         return action.data.matches || {};
     case PostTypes.POST_REMOVED: {
@@ -82,7 +91,7 @@ function matches(state: Record<string, string[]> = {}, action: MMReduxAction) {
 function flagged(state: string[] = [], action: MMReduxAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_FLAGGED_POSTS: {
-        return action.data.order;
+        return action.data?.order || [];
     }
     case PostTypes.POST_REMOVED: {
         const postId = action.data ? action.data.id : null;
@@ -163,10 +172,13 @@ function removePinnedPost(state: Record<string, string[]>, post: Post) {
 function pinned(state: Record<string, string[]> = {}, action: MMReduxAction) {
     switch (action.type) {
     case SearchTypes.RECEIVED_SEARCH_PINNED_POSTS: {
+        if (!action.data) {
+            return state;
+        }
         const {channelId, pinned: posts} = action.data;
         return {
             ...state,
-            [channelId]: posts.order.reverse(),
+            [channelId]: (posts?.order || []).slice().reverse(),
         };
     }
     case PostTypes.POST_DELETED:
