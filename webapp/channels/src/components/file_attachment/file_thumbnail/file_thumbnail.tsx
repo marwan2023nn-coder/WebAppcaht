@@ -23,6 +23,8 @@ type Props = {
     enableSVGs: boolean;
     fileInfo: FileInfo | FilePreviewInfo | FilePreviewInfoLimited;
     disablePreview?: boolean;
+    overrideGenerateFileThumbnailUrl?: (fileId: string) => string;
+    overrideGenerateFileUrl?: (fileId: string) => string;
 };
 
 const FileThumbnail = ({
@@ -50,9 +52,9 @@ const FileThumbnail = ({
                 className += ' normal';
             }
 
-            let thumbnailUrl = getFileThumbnailUrl(id);
+            let thumbnailUrl = overrideGenerateFileThumbnailUrl ? overrideGenerateFileThumbnailUrl(id) : getFileThumbnailUrl(id);
             if (extension && isGIFImage(extension) && !hasPreviewImage) {
-                thumbnailUrl = getFileUrl(id);
+                thumbnailUrl = overrideGenerateFileUrl ? overrideGenerateFileUrl(id) : getFileUrl(id);
             }
 
             return (

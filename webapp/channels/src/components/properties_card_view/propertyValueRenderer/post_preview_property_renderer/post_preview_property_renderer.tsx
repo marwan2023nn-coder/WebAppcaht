@@ -61,6 +61,9 @@ export default function PostPreviewPropertyRenderer({value, metadata}: Props) {
                 previewFooterMessage={postPreviewFooterMessage}
                 usePostAsSource={true}
                 overrideGenerateFileDownloadUrl={metadata?.generateFileDownloadUrl}
+                overrideGenerateFileThumbnailUrl={metadata?.generateFileThumbnailUrl}
+                overrideGenerateFilePreviewUrl={metadata?.generateFilePreviewUrl}
+                overrideGenerateFileUrl={metadata?.generateFileUrl}
                 disableActions={true}
             />
         </div>

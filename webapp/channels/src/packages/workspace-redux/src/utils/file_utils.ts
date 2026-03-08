@@ -55,8 +55,17 @@ export function getFileType(file: FileInfo): string {
     }) || 'other';
 }
 
-export function getFileUrl(fileId: string): string {
-    return Client4.getFileRoute(fileId);
+export function getFileUrl(fileId: string, asContentReviewer?: boolean, flaggedPostId?: string): string {
+    const queryParamsArgs: Record<string, any> = {};
+    if (asContentReviewer) {
+        queryParamsArgs.as_content_reviewer = true;
+    }
+    if (flaggedPostId) {
+        queryParamsArgs.flagged_post_id = flaggedPostId;
+    }
+
+    const queryParams = buildQueryString(queryParamsArgs);
+    return `${Client4.getFileRoute(fileId)}${queryParams}`;
 }
 
 export function getFileDownloadUrl(fileId: string, asContentReviewer?: boolean, flaggedPostId?: string): string {
@@ -75,12 +84,30 @@ export function getFileDownloadUrl(fileId: string, asContentReviewer?: boolean, 
     return `${Client4.getFileRoute(fileId)}${queryParams}`;
 }
 
-export function getFileThumbnailUrl(fileId: string): string {
-    return `${Client4.getFileRoute(fileId)}/thumbnail`;
+export function getFileThumbnailUrl(fileId: string, asContentReviewer?: boolean, flaggedPostId?: string): string {
+    const queryParamsArgs: Record<string, any> = {};
+    if (asContentReviewer) {
+        queryParamsArgs.as_content_reviewer = true;
+    }
+    if (flaggedPostId) {
+        queryParamsArgs.flagged_post_id = flaggedPostId;
+    }
+
+    const queryParams = buildQueryString(queryParamsArgs);
+    return `${Client4.getFileRoute(fileId)}/thumbnail${queryParams}`;
 }
 
-export function getFilePreviewUrl(fileId: string): string {
-    return `${Client4.getFileRoute(fileId)}/preview`;
+export function getFilePreviewUrl(fileId: string, asContentReviewer?: boolean, flaggedPostId?: string): string {
+    const queryParamsArgs: Record<string, any> = {};
+    if (asContentReviewer) {
+        queryParamsArgs.as_content_reviewer = true;
+    }
+    if (flaggedPostId) {
+        queryParamsArgs.flagged_post_id = flaggedPostId;
+    }
+
+    const queryParams = buildQueryString(queryParamsArgs);
+    return `${Client4.getFileRoute(fileId)}/preview${queryParams}`;
 }
 
 export function getFileMiniPreviewUrl(fileInfo?: FileInfo): string | undefined {

@@ -620,27 +620,70 @@ func getFileThumbnail(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	forceDownload, _ := strconv.ParseBool(r.URL.Query().Get("download"))
-	info, err := c.App.GetFileInfo(c.AppContext, c.Params.FileId)
-	if err != nil {
-		c.Err = err
-		setInaccessibleFileHeader(w, err)
+
+	fileInfos, storeErr := c.App.Srv().Store().FileInfo().GetByIds([]string{c.Params.FileId}, true, true)
+	if storeErr != nil {
+		c.Err = model.NewAppError("getFileThumbnail", "api.file.get_file_info.app_error", nil, "", http.StatusInternalServerError)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	} else if len(fileInfos) == 0 {
+		c.Err = model.NewAppError("getFileThumbnail", "api.file.get_file_info.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
 		return
 	}
+
+	info := fileInfos[0]
 
 	channel, err := c.App.GetChannel(c.AppContext, info.ChannelId)
 	if err != nil {
 		c.Err = err
 		return
 	}
+
+	isContentReviewer := false
+	asContentReviewer, _ := strconv.ParseBool(r.URL.Query().Get(model.AsContentReviewerParam))
+	if asContentReviewer {
+		requireContentFlaggingEnabled(c)
+		if c.Err != nil {
+			return
+		}
+
+		flaggedPostId := r.URL.Query().Get("flagged_post_id")
+		requireFlaggedPost(c, flaggedPostId)
+		if c.Err != nil {
+			return
+		}
+
+		if flaggedPostId != info.PostId {
+			c.Err = model.NewAppError("getFileThumbnail", "api.file.get_file.invalid_flagged_post.app_error", nil, "file_id="+info.Id+", flagged_post_id="+flaggedPostId, http.StatusBadRequest)
+			return
+		}
+
+		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+		if c.Err != nil {
+			return
+		}
+
+		isContentReviewer = true
+	}
+
+	if info.DeleteAt != 0 && !isContentReviewer {
+		c.Err = model.NewAppError("getFileThumbnail", "app.file_info.get.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	}
+
 	perm, isMember := c.App.SessionHasPermissionToReadChannel(c.AppContext, *c.AppContext.Session(), channel)
-	if info.CreatorId == model.BookmarkFileOwner {
-		if !perm {
+	if !isContentReviewer {
+		if info.CreatorId == model.BookmarkFileOwner {
+			if !perm {
+				c.SetPermissionError(model.PermissionReadChannelContent)
+				return
+			}
+		} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
 			c.SetPermissionError(model.PermissionReadChannelContent)
 			return
 		}
-	} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
-		c.SetPermissionError(model.PermissionReadChannelContent)
-		return
 	}
 
 	if info.ThumbnailPath == "" {
@@ -731,27 +774,70 @@ func getFilePreview(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	forceDownload, _ := strconv.ParseBool(r.URL.Query().Get("download"))
-	info, err := c.App.GetFileInfo(c.AppContext, c.Params.FileId)
-	if err != nil {
-		c.Err = err
-		setInaccessibleFileHeader(w, err)
+
+	fileInfos, storeErr := c.App.Srv().Store().FileInfo().GetByIds([]string{c.Params.FileId}, true, true)
+	if storeErr != nil {
+		c.Err = model.NewAppError("getFilePreview", "api.file.get_file_info.app_error", nil, "", http.StatusInternalServerError)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	} else if len(fileInfos) == 0 {
+		c.Err = model.NewAppError("getFilePreview", "api.file.get_file_info.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
 		return
 	}
+
+	info := fileInfos[0]
 
 	channel, err := c.App.GetChannel(c.AppContext, info.ChannelId)
 	if err != nil {
 		c.Err = err
 		return
 	}
+
+	isContentReviewer := false
+	asContentReviewer, _ := strconv.ParseBool(r.URL.Query().Get(model.AsContentReviewerParam))
+	if asContentReviewer {
+		requireContentFlaggingEnabled(c)
+		if c.Err != nil {
+			return
+		}
+
+		flaggedPostId := r.URL.Query().Get("flagged_post_id")
+		requireFlaggedPost(c, flaggedPostId)
+		if c.Err != nil {
+			return
+		}
+
+		if flaggedPostId != info.PostId {
+			c.Err = model.NewAppError("getFilePreview", "api.file.get_file.invalid_flagged_post.app_error", nil, "file_id="+info.Id+", flagged_post_id="+flaggedPostId, http.StatusBadRequest)
+			return
+		}
+
+		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+		if c.Err != nil {
+			return
+		}
+
+		isContentReviewer = true
+	}
+
+	if info.DeleteAt != 0 && !isContentReviewer {
+		c.Err = model.NewAppError("getFilePreview", "app.file_info.get.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	}
+
 	perm, isMember := c.App.SessionHasPermissionToReadChannel(c.AppContext, *c.AppContext.Session(), channel)
-	if info.CreatorId == model.BookmarkFileOwner {
-		if !perm {
+	if !isContentReviewer {
+		if info.CreatorId == model.BookmarkFileOwner {
+			if !perm {
+				c.SetPermissionError(model.PermissionReadChannelContent)
+				return
+			}
+		} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
 			c.SetPermissionError(model.PermissionReadChannelContent)
 			return
 		}
-	} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
-		c.SetPermissionError(model.PermissionReadChannelContent)
-		return
 	}
 
 	if info.PreviewPath == "" {
@@ -783,27 +869,69 @@ func getFileInfo(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	info, err := c.App.GetFileInfo(c.AppContext, c.Params.FileId)
-	if err != nil {
-		c.Err = err
-		setInaccessibleFileHeader(w, err)
+	fileInfos, storeErr := c.App.Srv().Store().FileInfo().GetByIds([]string{c.Params.FileId}, true, true)
+	if storeErr != nil {
+		c.Err = model.NewAppError("getFileInfo", "api.file.get_file_info.app_error", nil, "", http.StatusInternalServerError)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	} else if len(fileInfos) == 0 {
+		c.Err = model.NewAppError("getFileInfo", "api.file.get_file_info.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
 		return
 	}
+
+	info := fileInfos[0]
 
 	channel, err := c.App.GetChannel(c.AppContext, info.ChannelId)
 	if err != nil {
 		c.Err = err
 		return
 	}
+
+	isContentReviewer := false
+	asContentReviewer, _ := strconv.ParseBool(r.URL.Query().Get(model.AsContentReviewerParam))
+	if asContentReviewer {
+		requireContentFlaggingEnabled(c)
+		if c.Err != nil {
+			return
+		}
+
+		flaggedPostId := r.URL.Query().Get("flagged_post_id")
+		requireFlaggedPost(c, flaggedPostId)
+		if c.Err != nil {
+			return
+		}
+
+		if flaggedPostId != info.PostId {
+			c.Err = model.NewAppError("getFileInfo", "api.file.get_file.invalid_flagged_post.app_error", nil, "file_id="+info.Id+", flagged_post_id="+flaggedPostId, http.StatusBadRequest)
+			return
+		}
+
+		requireTeamContentReviewer(c, c.AppContext.Session().UserId, channel.TeamId)
+		if c.Err != nil {
+			return
+		}
+
+		isContentReviewer = true
+	}
+
+	if info.DeleteAt != 0 && !isContentReviewer {
+		c.Err = model.NewAppError("getFileInfo", "app.file_info.get.app_error", nil, "", http.StatusNotFound)
+		setInaccessibleFileHeader(w, c.Err)
+		return
+	}
+
 	perm, isMember := c.App.SessionHasPermissionToReadChannel(c.AppContext, *c.AppContext.Session(), channel)
-	if info.CreatorId == model.BookmarkFileOwner {
-		if !perm {
+	if !isContentReviewer {
+		if info.CreatorId == model.BookmarkFileOwner {
+			if !perm {
+				c.SetPermissionError(model.PermissionReadChannelContent)
+				return
+			}
+		} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
 			c.SetPermissionError(model.PermissionReadChannelContent)
 			return
 		}
-	} else if info.CreatorId != c.AppContext.Session().UserId && !perm {
-		c.SetPermissionError(model.PermissionReadChannelContent)
-		return
 	}
 
 	w.Header().Set("Cache-Control", "max-age=2592000, private")

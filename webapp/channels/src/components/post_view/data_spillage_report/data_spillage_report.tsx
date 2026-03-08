@@ -11,7 +11,7 @@ import type {Post} from '@workspace/types/posts';
 import type {NameMappedPropertyFields, PropertyValue} from '@workspace/types/properties';
 
 import {Client4} from 'workspace-redux/client';
-import {getFileDownloadUrl} from 'workspace-redux/utils/file_utils';
+import {getFileDownloadUrl, getFilePreviewUrl, getFileThumbnailUrl, getFileUrl} from 'workspace-redux/utils/file_utils';
 
 import AtMention from 'components/at_mention';
 import {useContentFlaggingFields, usePostContentFlaggingValues} from 'components/common/hooks/useContentFlaggingFields';
@@ -146,6 +146,9 @@ export function DataSpillageReport({post, isRHS}: Props) {
                 getChannel: getChannel(reportedPostId),
                 getTeam: getTeam(reportedPostId),
                 generateFileDownloadUrl: generateFileDownloadUrl(reportedPostId),
+                generateFileThumbnailUrl: generateFileThumbnailUrl(reportedPostId),
+                generateFilePreviewUrl: generateFilePreviewUrl(reportedPostId),
+                generateFileUrl: generateFileUrl(reportedPostId),
             },
             reporting_comment: {
                 placeholder: formatMessage({id: 'data_spillage_report_post.reporting_comment.placeholder', defaultMessage: 'No comment'}),
@@ -249,4 +252,16 @@ function getTeam(flaggedPostId: string) {
 
 function generateFileDownloadUrl(flaggedPostId: string) {
     return (fileId: string) => getFileDownloadUrl(fileId, true, flaggedPostId);
+}
+
+function generateFileThumbnailUrl(flaggedPostId: string) {
+    return (fileId: string) => getFileThumbnailUrl(fileId, true, flaggedPostId);
+}
+
+function generateFilePreviewUrl(flaggedPostId: string) {
+    return (fileId: string) => getFilePreviewUrl(fileId, true, flaggedPostId);
+}
+
+function generateFileUrl(flaggedPostId: string) {
+    return (fileId: string) => getFileUrl(fileId, true, flaggedPostId);
 }

@@ -15,9 +15,11 @@ import './image_preview.scss';
 interface Props {
     fileInfo: FileInfo;
     canDownloadFiles: boolean;
+    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
+    overrideGenerateFileDownloadUrl?: (fileId: string) => string;
 }
 
-export default function ImagePreview({ fileInfo, canDownloadFiles }: Props) {
+export default function ImagePreview({ fileInfo, canDownloadFiles, overrideGenerateFilePreviewUrl, overrideGenerateFileDownloadUrl }: Props) {
     const isExternalFile = !fileInfo.id;
 
     let fileUrl;
@@ -26,8 +28,8 @@ export default function ImagePreview({ fileInfo, canDownloadFiles }: Props) {
         fileUrl = fileInfo.link;
         previewUrl = fileInfo.link;
     } else {
-        fileUrl = getFileDownloadUrl(fileInfo.id);
-        previewUrl = fileInfo.has_preview_image ? getFilePreviewUrl(fileInfo.id) : fileUrl;
+        fileUrl = overrideGenerateFileDownloadUrl ? overrideGenerateFileDownloadUrl(fileInfo.id) : getFileDownloadUrl(fileInfo.id);
+        previewUrl = fileInfo.has_preview_image ? (overrideGenerateFilePreviewUrl ? overrideGenerateFilePreviewUrl(fileInfo.id) : getFilePreviewUrl(fileInfo.id)) : fileUrl;
     }
 
     if (!canDownloadFiles) {
