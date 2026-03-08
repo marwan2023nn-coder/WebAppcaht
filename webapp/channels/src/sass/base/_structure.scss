@@ -5,6 +5,72 @@ html,
 body {
     height: 100%;
 }
+.console__body {
+  .modal {
+    .modal-content {
+      background: #fff !important;
+      color: #000 !important;
+
+      .modal-header {
+        background: #fff !important;
+        border-bottom: 1px solid #eee !important;
+
+        .modal-title, .close, .modal-subheading {
+          color: #000 !important;
+        }
+
+        .close {
+          opacity: 1;
+        }
+      }
+
+      .modal-body {
+        background: #fff !important;
+        color: #000 !important;
+
+        // Target direct text or non-semantic containers
+        &, p, label, .modal-subheading, .GenericModal__body {
+          color: #000 !important;
+        }
+
+        // Avoid breaking colored text/alerts
+        span:not(.icon):not([class*="error"]):not([class*="success"]):not([class*="warning"]):not(.btn span) {
+          color: #000 !important;
+        }
+
+        .form-control {
+          color: #000 !important;
+          background: #fff !important;
+          border: 1px solid #ccc !important;
+
+          &:focus {
+            border-color: var(--button-bg) !important;
+          }
+        }
+      }
+
+      .modal-footer {
+        background: #fff !important;
+        border-top: 1px solid #eee !important;
+
+        // Keep primary button text white, turn others black
+        .btn:not(.btn-primary) {
+          color: #000 !important;
+          background: #eee !important;
+          border: 1px solid #ccc !important;
+
+          &:hover {
+            background: #ddd !important;
+          }
+        }
+
+        .btn-primary {
+          color: #fff !important;
+        }
+      }
+    }
+  }
+}
 .font--open_sans.enable-animations.console__body.announcement-bar--fixed {
   .user-profile-popover-title,
   .user-profile-popover-bottom-row,
@@ -71,9 +137,9 @@ body {
      background-color: var(--sys-center-channel-bg) !important;
   }
   .modal, .modal-header, .modal-title, .settings-modal, .nav-pills__tab,.sectionNoticeTitle {
-    color: var(--sys-center-channel-color) !important;
+    color: #000 !important;
     .sectionNoticeContainer.hint p{
-         color: var(--sys-center-channel-color) !important;
+         color: #000 !important;
     }
   }
 }
