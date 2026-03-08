@@ -5,6 +5,10 @@ import React from 'react';
 
 interface PostContextValue {
     handlePopupOpened: ((opened: boolean) => void) | null;
+    overrideGenerateFileUrl?: (fileId: string) => string;
+    overrideGenerateFileThumbnailUrl?: (fileId: string) => string;
+    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
+    overrideGenerateFileDownloadUrl?: (fileId: string) => string;
 }
 const PostContext = React.createContext<PostContextValue>({
 

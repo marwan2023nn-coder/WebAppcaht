@@ -708,7 +708,6 @@ func getFileThumbnail(c *Context, w http.ResponseWriter, r *http.Request) {
 		model.AddEventParameterToAuditRec(auditRec, "non_channel_member_access", true)
 	}
 }
-
 func getFileLink(c *Context, w http.ResponseWriter, r *http.Request) {
 	c.RequireFileId()
 	if c.Err != nil {
@@ -862,7 +861,6 @@ func getFilePreview(c *Context, w http.ResponseWriter, r *http.Request) {
 		model.AddEventParameterToAuditRec(auditRec, "non_channel_member_access", true)
 	}
 }
-
 func getFileInfo(c *Context, w http.ResponseWriter, r *http.Request) {
 	c.RequireFileId()
 	if c.Err != nil {

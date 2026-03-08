@@ -1,12 +1,13 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 
 import type { FileInfo } from '@workspace/types/files';
 
 import { getFilePreviewUrl, getFileDownloadUrl } from 'workspace-redux/utils/file_utils';
 
+import PostContext from 'components/post_view/post_context';
 import { FileTypes } from 'utils/constants';
 import { getFileType } from 'utils/utils';
 
@@ -15,11 +16,10 @@ import './image_preview.scss';
 interface Props {
     fileInfo: FileInfo;
     canDownloadFiles: boolean;
-    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
-    overrideGenerateFileDownloadUrl?: (fileId: string) => string;
 }
 
-export default function ImagePreview({ fileInfo, canDownloadFiles, overrideGenerateFilePreviewUrl, overrideGenerateFileDownloadUrl }: Props) {
+export default function ImagePreview({ fileInfo, canDownloadFiles }: Props) {
+    const { overrideGenerateFilePreviewUrl, overrideGenerateFileDownloadUrl } = useContext(PostContext);
     const isExternalFile = !fileInfo.id;
 
     let fileUrl;

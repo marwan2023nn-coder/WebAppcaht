@@ -24,9 +24,6 @@ export default function FileAttachmentList(props: Props) {
         fileCount,
         locale,
         isInPermalink,
-        overrideGenerateFileThumbnailUrl,
-        overrideGenerateFilePreviewUrl,
-        overrideGenerateFileUrl,
     } = props;
 
     const sortedFileInfos = useMemo(() => sortFileInfos(fileInfos ? [...fileInfos] : [], locale), [fileInfos, locale]);
@@ -44,10 +41,6 @@ export default function FileAttachmentList(props: Props) {
                 fileInfos: sortedFileInfos,
                 startIndex: indexClicked,
                 enableChannelNavigation,
-                overrideGenerateFileDownloadUrl: props.overrideGenerateFileDownloadUrl,
-                overrideGenerateFileThumbnailUrl: props.overrideGenerateFileThumbnailUrl,
-                overrideGenerateFilePreviewUrl: props.overrideGenerateFilePreviewUrl,
-                overrideGenerateFileUrl: props.overrideGenerateFileUrl,
             },
         });
     };
@@ -68,8 +61,6 @@ export default function FileAttachmentList(props: Props) {
                     compactDisplay={compactDisplay}
                     isInPermalink={isInPermalink}
                     disableActions={props.disableActions}
-                    overrideGenerateFilePreviewUrl={overrideGenerateFilePreviewUrl}
-                    overrideGenerateFileUrl={overrideGenerateFileUrl}
                 />
             );
         }
@@ -96,10 +87,6 @@ export default function FileAttachmentList(props: Props) {
                     disableActions={props.disableActions}
                     disableThumbnail={isDeleted}
                     disablePreview={isDeleted}
-                    overrideGenerateFileDownloadUrl={props.overrideGenerateFileDownloadUrl}
-                    overrideGenerateFileThumbnailUrl={overrideGenerateFileThumbnailUrl}
-                    overrideGenerateFilePreviewUrl={overrideGenerateFilePreviewUrl}
-                    overrideGenerateFileUrl={overrideGenerateFileUrl}
                 />,
             );
         }

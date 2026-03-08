@@ -2,13 +2,14 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React from 'react';
+import React, {useContext, useState, useEffect, useCallback, useMemo} from 'react';
 import type {KeyboardEvent, MouseEvent} from 'react';
 
 import type {FileInfo} from '@workspace/types/files';
 
 import {getFilePreviewUrl, getFileUrl} from 'workspace-redux/utils/file_utils';
 
+import PostContext from 'components/post_view/post_context';
 import FilePreviewModal from 'components/file_preview_modal';
 import SizeAwareImage from 'components/size_aware_image';
 
@@ -31,204 +32,135 @@ export interface Props extends PropsFromRedux {
     isEmbedVisible?: boolean;
     isInPermalink?: boolean;
     disableActions?: boolean;
-    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
-    overrideGenerateFileUrl?: (fileId: string) => string;
 }
 
-type State = {
-    loaded: boolean;
-    dimensions: {
-        width: number;
-        height: number;
-    };
-}
+export default function SingleImageView(props: Props) {
+    const {fileInfo, compactDisplay, isInPermalink, isEmbedVisible, postId, actions, enablePublicLink, disableActions} = props;
+    const {overrideGenerateFileUrl, overrideGenerateFilePreviewUrl} = useContext(PostContext);
 
-export default class SingleImageView extends React.PureComponent<Props, State> {
-    private mounted = false;
-    static defaultProps = {
-        compactDisplay: false,
-    };
+    const [loaded, setLoaded] = useState(false);
+    const [dimensions, setDimensions] = useState({
+        width: fileInfo?.width || 0,
+        height: fileInfo?.height || 0,
+    });
 
-    constructor(props: Props) {
-        super(props);
-        this.state = {
-            loaded: false,
-            dimensions: {
-                width: props.fileInfo?.width || 0,
-                height: props.fileInfo?.height || 0,
-            },
-        };
-    }
+    useEffect(() => {
+        setDimensions({
+            width: fileInfo?.width || 0,
+            height: fileInfo?.height || 0,
+        });
+    }, [fileInfo?.width, fileInfo?.height]);
 
-    componentDidMount() {
-        this.mounted = true;
-    }
+    const imageLoaded = useCallback(() => {
+        setLoaded(true);
+    }, []);
 
-    static getDerivedStateFromProps(props: Props, state: State) {
-        if ((props.fileInfo?.width !== state.dimensions.width) || props.fileInfo.height !== state.dimensions.height) {
-            return {
-                dimensions: {
-                    width: props.fileInfo?.width,
-                    height: props.fileInfo?.height,
-                },
-            };
-        }
-        return null;
-    }
-
-    componentWillUnmount() {
-        this.mounted = false;
-    }
-
-    imageLoaded = () => {
-        if (this.mounted) {
-            this.setState({loaded: true});
-        }
-    };
-
-    handleImageClick = (e: (KeyboardEvent<HTMLImageElement> | MouseEvent<HTMLDivElement | HTMLImageElement>)) => {
+    const handleImageClick = useCallback((e: (KeyboardEvent<HTMLImageElement> | MouseEvent<HTMLDivElement | HTMLImageElement>)) => {
         e.preventDefault();
 
-        this.props.actions.openModal({
+        actions.openModal({
             modalId: ModalIdentifiers.FILE_PREVIEW_MODAL,
             dialogType: FilePreviewModal,
             dialogProps: {
-                fileInfos: [this.props.fileInfo],
-                postId: this.props.postId,
+                fileInfos: [fileInfo],
+                postId,
                 startIndex: 0,
                 enableChannelNavigation: true,
-                overrideGenerateFilePreviewUrl: this.props.overrideGenerateFilePreviewUrl,
-                overrideGenerateFileUrl: this.props.overrideGenerateFileUrl,
             },
         });
-    };
+    }, [actions, fileInfo, postId]);
 
-    toggleEmbedVisibility = (e: React.MouseEvent) => {
-        // stopping propagation to avoid accidentally closing edit history
-        // section when clicking on image collapse/expand button.
+    const toggleEmbedVisibility = useCallback((e: React.MouseEvent) => {
         e.stopPropagation();
-        this.props.actions.toggleEmbedVisibility(this.props.postId);
-    };
+        actions.toggleEmbedVisibility(postId);
+    }, [actions, postId]);
 
-    getFilePublicLink = () => {
-        return this.props.actions.getFilePublicLink(this.props.fileInfo.id);
-    };
+    const getFilePublicLink = useCallback(() => {
+        return actions.getFilePublicLink(fileInfo.id);
+    }, [actions, fileInfo.id]);
 
-    render() {
-        const {fileInfo, compactDisplay, isInPermalink} = this.props;
-        const {
-            loaded,
-        } = this.state;
+    if (fileInfo === undefined) {
+        return <></>;
+    }
 
-        if (fileInfo === undefined) {
-            return <></>;
+    const {has_preview_image: hasPreviewImage, id} = fileInfo;
+    const fileURL = overrideGenerateFileUrl ? overrideGenerateFileUrl(id) : getFileUrl(id);
+    const previewURL = hasPreviewImage ? (overrideGenerateFilePreviewUrl ? overrideGenerateFilePreviewUrl(id) : getFilePreviewUrl(id)) : fileURL;
+
+    const previewHeight = fileInfo.height;
+    const previewWidth = fileInfo.width;
+
+    const hasDisproportionateHeight = previewHeight / previewWidth > DISPROPORTIONATE_HEIGHT_RATIO;
+    let minPreviewClass = '';
+    if (
+        (previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
+        previewHeight < PREVIEW_IMAGE_MIN_DIMENSION) && !hasDisproportionateHeight
+    ) {
+        minPreviewClass = 'min-preview ';
+
+        if (previewHeight > previewWidth) {
+            minPreviewClass += 'min-preview--portrait ';
         }
+    }
 
-        const {has_preview_image: hasPreviewImage, id} = fileInfo;
-        const fileURL = this.props.overrideGenerateFileUrl ? this.props.overrideGenerateFileUrl(id) : getFileUrl(id);
-        const previewURL = hasPreviewImage ? (this.props.overrideGenerateFilePreviewUrl ? this.props.overrideGenerateFilePreviewUrl(id) : getFilePreviewUrl(id)) : fileURL;
+    if (compactDisplay) {
+        minPreviewClass += ' compact-display';
+    }
 
-        const previewHeight = fileInfo.height;
-        const previewWidth = fileInfo.width;
-
-        const hasDisproportionateHeight = previewHeight / previewWidth > DISPROPORTIONATE_HEIGHT_RATIO;
-        let minPreviewClass = '';
-        if (
-            (previewWidth < PREVIEW_IMAGE_MIN_DIMENSION ||
-            previewHeight < PREVIEW_IMAGE_MIN_DIMENSION) && !hasDisproportionateHeight
-        ) {
-            minPreviewClass = 'min-preview ';
-
-            if (previewHeight > previewWidth) {
-                minPreviewClass += 'min-preview--portrait ';
-            }
-        }
-
-        // Add compact display class to image class if in compact mode
-        if (compactDisplay) {
-            minPreviewClass += ' compact-display';
-        }
-
-        const toggle = (
-            <button
-                key='toggle'
-                className='style--none single-image-view__toggle'
-                data-expanded={this.props.isEmbedVisible}
-                aria-label='Toggle Embed Visibility'
-                onClick={this.toggleEmbedVisibility}
-            >
-                <span
-                    className={classNames('icon', {
-                        'icon-menu-down': this.props.isEmbedVisible,
-                        'icon-menu-right': !this.props.isEmbedVisible,
-                    })}
-                />
-            </button>
-        );
-
-        const fileHeader = (
-            <div
-                className={classNames('image-header', {
-                    'image-header--expanded': this.props.isEmbedVisible,
+    const toggle = (
+        <button
+            key='toggle'
+            className='style--none single-image-view__toggle'
+            data-expanded={isEmbedVisible}
+            aria-label='Toggle Embed Visibility'
+            onClick={toggleEmbedVisibility}
+        >
+            <span
+                className={classNames('icon', {
+                    'icon-menu-down': isEmbedVisible,
+                    'icon-menu-right': !isEmbedVisible,
                 })}
-            >
-                {toggle}
-                {!this.props.isEmbedVisible && (
-                    <div
-                        data-testid='image-name'
-                        className={classNames('image-name', {
-                            'compact-display': compactDisplay,
-                        })}
-                    >
-                        <div
-                            id='image-name-text'
-                            onClick={this.handleImageClick}
-                        >
-                            {fileInfo.name}
-                        </div>
-                    </div>
-                )}
-            </div>
-        );
+            />
+        </button>
+    );
 
-        let fadeInClass = '';
-        let permalinkClass = '';
-
-        const fileType = getFileType(fileInfo.extension);
-        let styleIfSvgWithDimensions = {};
-        let imageContainerStyle = {};
-        let svgClass = '';
-        if (fileType === FileTypes.SVG) {
-            svgClass = 'svg';
-            if (this.state.dimensions.height) {
-                styleIfSvgWithDimensions = {
-                    width: '100%',
-                };
-            } else {
-                imageContainerStyle = {
-                    height: 350,
-                    maxWidth: '100%',
-                };
-            }
-        }
-
-        if (loaded) {
-            fadeInClass = 'image-fade-in';
-        }
-
-        if (isInPermalink) {
-            permalinkClass = 'image-permalink';
-        }
-
-        return (
-            <div
-                className={classNames('file-view--single', permalinkClass)}
-            >
+    const fileHeader = (
+        <div
+            className={classNames('image-header', {
+                'image-header--expanded': isEmbedVisible,
+            })}
+        >
+            {toggle}
+            {!isEmbedVisible && (
                 <div
-                    className='file__image'
+                    data-testid='image-name'
+                    className={classNames('image-name', {
+                        'compact-display': compactDisplay,
+                    })}
                 >
-                    {fileHeader}
-                    {this.props.isEmbedVisible &&
+                    <div
+                        id='image-name-text'
+                        onClick={handleImageClick}
+                    >
+                        {fileInfo.name}
+                    </div>
+                </div>
+            )}
+        </div>
+    );
+
+    const fileType = getFileType(fileInfo.extension);
+    const styleIfSvgWithDimensions = useMemo(() => (fileType === FileTypes.SVG && dimensions.height ? {width: '100%'} : {}), [fileType, dimensions.height]);
+    const imageContainerStyle = useMemo(() => (fileType === FileTypes.SVG && !dimensions.height ? {height: 350, maxWidth: '100%'} : {}), [fileType, dimensions.height]);
+    const svgClass = fileType === FileTypes.SVG ? 'svg' : '';
+    const fadeInClass = loaded ? 'image-fade-in' : '';
+    const permalinkClass = isInPermalink ? 'image-permalink' : '';
+
+    return (
+        <div className={classNames('file-view--single', permalinkClass)}>
+            <div className='file__image'>
+                {fileHeader}
+                {isEmbedVisible && (
                     <div
                         className={classNames('image-container', permalinkClass)}
                         style={imageContainerStyle}
@@ -239,25 +171,24 @@ export default class SingleImageView extends React.PureComponent<Props, State> {
                         >
                             <div className={classNames(permalinkClass)}>
                                 <SizeAwareImage
-                                    onClick={this.handleImageClick}
+                                    onClick={handleImageClick}
                                     className={classNames(minPreviewClass, permalinkClass)}
                                     src={previewURL}
-                                    dimensions={this.state.dimensions}
-                                    fileInfo={this.props.fileInfo}
+                                    dimensions={dimensions}
+                                    fileInfo={fileInfo}
                                     fileURL={fileURL}
-                                    onImageLoaded={this.imageLoaded}
-                                    showLoader={this.props.isEmbedVisible}
+                                    onImageLoaded={imageLoaded}
+                                    showLoader={isEmbedVisible}
                                     handleSmallImageContainer={true}
-                                    enablePublicLink={this.props.enablePublicLink}
-                                    getFilePublicLink={this.getFilePublicLink}
-                                    hideUtilities={this.props.disableActions}
+                                    enablePublicLink={enablePublicLink}
+                                    getFilePublicLink={getFilePublicLink}
+                                    hideUtilities={disableActions}
                                 />
                             </div>
                         </div>
                     </div>
-                    }
-                </div>
+                )}
             </div>
-        );
-    }
+        </div>
+    );
 }

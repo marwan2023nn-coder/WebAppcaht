@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
-import React, {useRef, useState, useEffect} from 'react';
+import React, {useRef, useState, useEffect, useContext} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 
 import {ArchiveOutlineIcon} from '@workspace/compass-icons/components';
@@ -11,6 +11,7 @@ import type {FileInfo} from '@workspace/types/files';
 import {getFileThumbnailUrl, getFileUrl} from 'workspace-redux/utils/file_utils';
 
 import {usePluginVisibilityInSharedChannel} from 'components/common/hooks/usePluginVisibilityInSharedChannel';
+import PostContext from 'components/post_view/post_context';
 import GetPublicModal from 'components/get_public_link_modal';
 import Menu from 'components/widgets/menu/menu';
 import MenuWrapper from 'components/widgets/menu/menu_wrapper';
@@ -58,16 +59,13 @@ type Props = PropsFromRedux & {
     handleFileDropdownOpened?: (open: boolean) => void;
     disableThumbnail?: boolean;
     disableActions?: boolean;
-    overrideGenerateFileDownloadUrl?: (fileId: string) => string;
-    overrideGenerateFileThumbnailUrl?: (fileId: string) => string;
-    overrideGenerateFilePreviewUrl?: (fileId: string) => string;
-    overrideGenerateFileUrl?: (fileId: string) => string;
 };
 
 export default function FileAttachment(props: Props) {
     const mounted = useRef(true);
 
     const {formatMessage} = useIntl();
+    const {overrideGenerateFileThumbnailUrl, overrideGenerateFileUrl, overrideGenerateFileDownloadUrl} = useContext(PostContext);
 
     const [loaded, setLoaded] = useState(getFileType(props.fileInfo.extension) !== FileTypes.IMAGE);
     const [loadFilesCalled, setLoadFilesCalled] = useState(false);
@@ -96,11 +94,11 @@ export default function FileAttachment(props: Props) {
 
         if (!props.disableThumbnail) {
             if (fileType === FileTypes.IMAGE) {
-                const thumbnailUrl = props.overrideGenerateFileThumbnailUrl ? props.overrideGenerateFileThumbnailUrl(fileInfo.id) : getFileThumbnailUrl(fileInfo.id);
+                const thumbnailUrl = overrideGenerateFileThumbnailUrl ? overrideGenerateFileThumbnailUrl(fileInfo.id) : getFileThumbnailUrl(fileInfo.id);
 
                 loadImage(thumbnailUrl, handleImageLoaded);
             } else if (fileInfo.extension === FileTypes.SVG && props.enableSVGs) {
-                const fileUrl = props.overrideGenerateFileUrl ? props.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
+                const fileUrl = overrideGenerateFileUrl ? overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
                 loadImage(fileUrl, handleImageLoaded);
             }
         }
@@ -294,8 +292,6 @@ export default function FileAttachment(props: Props) {
                     <FileThumbnail
                         fileInfo={fileInfo}
                         disablePreview={props.disablePreview}
-                        overrideGenerateFileThumbnailUrl={props.overrideGenerateFileThumbnailUrl}
-                        overrideGenerateFileUrl={props.overrideGenerateFileUrl}
                     />
                 ) : (
                     <FileThumbnail
@@ -358,7 +354,7 @@ export default function FileAttachment(props: Props) {
                 canDownload={props.canDownloadFiles}
                 handleImageClick={onAttachmentClick}
                 iconClass={'post-image__download'}
-                overrideGenerateFileDownloadUrl={props.overrideGenerateFileDownloadUrl}
+                overrideGenerateFileDownloadUrl={overrideGenerateFileDownloadUrl}
             >
                 <i className='icon icon-download-outline'/>
             </FilenameOverlay>
@@ -396,7 +392,7 @@ export default function FileAttachment(props: Props) {
     const mimeType = mimeTypes[fileExtension] || 'audio/mpeg';
     const fileType = getFileType(props.fileInfo.extension);
     if (fileType === FileTypes.AUDIO && !props.fileInfo.archived) {
-        const audioUrl = props.overrideGenerateFileUrl ? props.overrideGenerateFileUrl(props.fileInfo.id) : getFileUrl(props.fileInfo.id);
+        const audioUrl = overrideGenerateFileUrl ? overrideGenerateFileUrl(props.fileInfo.id) : getFileUrl(props.fileInfo.id);
         return (
             <div className='post-image__column'>
                 <AudioPlayer
