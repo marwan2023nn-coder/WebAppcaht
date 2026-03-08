@@ -88,7 +88,10 @@ type State = {
 
 export default class FilePreviewModal extends React.PureComponent<Props, State> {
     static contextType = PostContext;
-    declare context: React.ContextType<typeof PostContext>;
+
+    private get postContext(): React.ContextType<typeof PostContext> {
+        return this.context as React.ContextType<typeof PostContext>;
+    }
 
     static defaultProps = {
         fileInfos: [],
@@ -210,10 +213,10 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
             let previewUrl = '';
             if (isFileInfo(fileInfo)) {
                 if (fileInfo.has_preview_image) {
-                    previewUrl = this.context.overrideGenerateFilePreviewUrl ? this.context.overrideGenerateFilePreviewUrl(fileInfo.id) : getFilePreviewUrl(fileInfo.id);
+                    previewUrl = this.postContext.overrideGenerateFilePreviewUrl ? this.postContext.overrideGenerateFilePreviewUrl(fileInfo.id) : getFilePreviewUrl(fileInfo.id);
                 } else {
                     // some images (eg animated gifs) just show the file itself and not a preview
-                    previewUrl = this.context.overrideGenerateFileUrl ? this.context.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
+                    previewUrl = this.postContext.overrideGenerateFileUrl ? this.postContext.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
                 }
             } else if (isLinkInfo(fileInfo)) {
                 // For LinkInfo, use the link directly
@@ -330,8 +333,8 @@ export default class FilePreviewModal extends React.PureComponent<Props, State> 
         if (isFileInfo(fileInfo)) {
             showPublicLink = true;
             fileName = fileInfo.name;
-            fileUrl = this.context.overrideGenerateFileUrl ? this.context.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
-            fileDownloadUrl = this.context.overrideGenerateFileDownloadUrl ? this.context.overrideGenerateFileDownloadUrl(fileInfo.id) : getFileDownloadUrl(fileInfo.id);
+            fileUrl = this.postContext.overrideGenerateFileUrl ? this.postContext.overrideGenerateFileUrl(fileInfo.id) : getFileUrl(fileInfo.id);
+            fileDownloadUrl = this.postContext.overrideGenerateFileDownloadUrl ? this.postContext.overrideGenerateFileDownloadUrl(fileInfo.id) : getFileDownloadUrl(fileInfo.id);
             isExternalFile = false;
         } else {
             showPublicLink = false;
