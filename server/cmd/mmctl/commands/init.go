@@ -192,7 +192,6 @@ func NewAPIv4Client(instanceURL string, allowInsecureSHA1, allowInsecureTLS bool
 			TLSClientConfig: tlsConfig,
 			Proxy:           http.ProxyFromEnvironment,
 		},
-		Timeout: 30 * time.Second,
 	}
 
 	return client
@@ -200,6 +199,9 @@ func NewAPIv4Client(instanceURL string, allowInsecureSHA1, allowInsecureTLS bool
 
 func InitClientWithUsernameAndPassword(ctx context.Context, username, password, instanceURL string, allowInsecureSHA1, allowInsecureTLS bool) (*model.Client4, string, error) {
 	client := NewAPIv4Client(instanceURL, allowInsecureSHA1, allowInsecureTLS)
+
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
 
 	_, resp, err := client.Login(ctx, username, password)
 	if err != nil {
@@ -210,6 +212,10 @@ func InitClientWithUsernameAndPassword(ctx context.Context, username, password, 
 
 func InitClientWithMFA(ctx context.Context, username, password, mfaToken, instanceURL string, allowInsecureSHA1, allowInsecureTLS bool) (*model.Client4, string, error) {
 	client := NewAPIv4Client(instanceURL, allowInsecureSHA1, allowInsecureTLS)
+
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
+
 	_, resp, err := client.LoginWithMFA(ctx, username, password, mfaToken)
 	if err != nil {
 		return nil, "", checkInsecureTLSError(err, allowInsecureTLS)
@@ -222,6 +228,9 @@ func InitClientWithCredentials(ctx context.Context, credentials *Credentials, al
 
 	client.AuthType = model.HeaderBearer
 	client.AuthToken = credentials.AuthToken
+
+	ctx, cancel := context.WithTimeout(ctx, 30*time.Second)
+	defer cancel()
 
 	_, resp, err := client.GetMe(ctx, "")
 	if err != nil {

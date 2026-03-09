@@ -24,6 +24,6 @@
 **Prevention:** Mandatory use of `DOMPurify.sanitize()` when using `dangerouslySetInnerHTML` for any content processed by the markdown `format()` utility, especially for strings like error messages that might contain unsanitized input.
 
 ## 2026-03-09 - [CLI Network Timeout Security]
-**Vulnerability:** Lack of HTTP timeouts in mmctl commands causing potential DoS via hang requests.
-**Learning:** Direct use of http.Get bypasses centralized client configuration.
-**Prevention:** Always use authorized API client wrappers.
+**Vulnerability:** Lack of HTTP timeouts in mmctl commands causing potential DoS via hang requests, and direct use of `http.Get` bypassing security client configurations.
+**Learning:** Direct use of `http.Get` is forbidden as it bypasses centralized client configuration and lacks mandatory timeouts.
+**Prevention:** Always use authorized API client wrappers and require an explicit request timeout (or request-scoped context deadline) for outbound calls.
