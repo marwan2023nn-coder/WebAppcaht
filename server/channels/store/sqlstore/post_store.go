@@ -76,8 +76,6 @@ func postSliceColumnsWithTypes() []struct {
 		{"FileIds", reflect.Slice},
 		{"HasReactions", reflect.Bool},
 		{"RemoteId", reflect.String},
-		{"HasLink", reflect.Bool},
-		{"HasEmail", reflect.Bool},
 	}
 }
 
@@ -101,8 +99,6 @@ func postToSlice(post *model.Post) []any {
 		model.ArrayToJSON(post.FileIds),
 		post.HasReactions,
 		post.RemoteId,
-		post.HasLink,
-		post.HasEmail,
 	}
 }
 
@@ -418,9 +414,7 @@ func (s *SqlPostStore) Update(rctx request.CTX, newPost *model.Post, oldPost *mo
 			Filenames=:Filenames,
 			FileIds=:FileIds,
 			HasReactions=:HasReactions,
-			RemoteId=:RemoteId,
-			HasLink=:HasLink,
-			HasEmail=:HasEmail
+			RemoteId=:RemoteId
 		WHERE
 			Id=:Id
 		`, newPost); err != nil {
@@ -486,9 +480,7 @@ func (s *SqlPostStore) OverwriteMultiple(rctx request.CTX, posts []*model.Post) 
 					Filenames=:Filenames,
 					FileIds=:FileIds,
 					HasReactions=:HasReactions,
-					RemoteId=:RemoteId,
-					HasLink=:HasLink,
-					HasEmail=:HasEmail
+					RemoteId=:RemoteId
 				WHERE
 					Id=:Id
 			`, post); err2 != nil {
@@ -2070,22 +2062,6 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		return nil, errors.Wrap(err, "failed to build search post filter clause")
 	}
 	baseQuery = s.buildCreateDateFilterClause(params, baseQuery, "q2")
-
-	if params.HasLink {
-		baseQuery = baseQuery.Where(sq.Eq{"q2.HasLink": true})
-	}
-
-	if params.ExcludedHasLink {
-		baseQuery = baseQuery.Where(sq.Eq{"q2.HasLink": false})
-	}
-
-	if params.HasEmail {
-		baseQuery = baseQuery.Where(sq.Eq{"q2.HasEmail": true})
-	}
-
-	if params.ExcludedHasEmail {
-		baseQuery = baseQuery.Where(sq.Eq{"q2.HasEmail": false})
-	}
 
 	termMap := map[string]bool{}
 	terms := params.Terms

@@ -2265,16 +2265,6 @@ export const searchHintOptions = [{
 },
 {searchTerm: '-', message: defineMessage({id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'})},
 {searchTerm: '""', message: defineMessage({id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'})},
-{
-    searchTerm: 'has:link',
-    message: defineMessage({id: 'search_list_option.has_link', defaultMessage: 'Messages with links'}),
-    displayMessage: defineMessage({id: 'search_list_option.has_link_term', defaultMessage: 'has:link'}),
-},
-{
-    searchTerm: 'has:email',
-    message: defineMessage({id: 'search_list_option.has_email', defaultMessage: 'Messages with emails'}),
-    displayMessage: defineMessage({id: 'search_list_option.has_email_term', defaultMessage: 'has:email'}),
-},
 ];
 
 export const searchFilesHintOptions = [{
@@ -2309,16 +2299,6 @@ export const searchFilesHintOptions = [{
 },
 {searchTerm: '-', message: defineMessage({id: 'search_files_list_option.exclude', defaultMessage: 'Exclude search terms'})},
 {searchTerm: '""', message: defineMessage({id: 'search_files_list_option.phrases', defaultMessage: 'Files with phrases'})},
-{
-    searchTerm: 'has:link',
-    message: defineMessage({id: 'search_files_list_option.has_link', defaultMessage: 'Files with links'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.has_link_term', defaultMessage: 'has:link'}),
-},
-{
-    searchTerm: 'has:email',
-    message: defineMessage({id: 'search_files_list_option.has_email', defaultMessage: 'Files with emails'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.has_email_term', defaultMessage: 'has:email'}),
-},
 ];
 
 
