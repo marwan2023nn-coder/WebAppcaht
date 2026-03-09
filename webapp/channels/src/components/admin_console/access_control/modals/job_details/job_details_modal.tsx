@@ -79,7 +79,13 @@ export default function JobDetailsModal({job, onExited}: Props): JSX.Element {
     // Parse sync results initially
     useEffect(() => {
         if (job?.data?.sync_results) {
-            const parsedResults = JSON.parse(job.data.sync_results);
+            let parsedResults: SyncResults = {};
+            try {
+                parsedResults = JSON.parse(job.data.sync_results);
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to parse sync results', e);
+            }
             setSyncResults(parsedResults);
 
             // Collect all channel IDs and user IDs for lookup
