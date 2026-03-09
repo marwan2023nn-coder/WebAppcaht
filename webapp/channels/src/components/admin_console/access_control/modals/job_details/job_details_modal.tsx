@@ -79,7 +79,19 @@ export default function JobDetailsModal({job, onExited}: Props): JSX.Element {
     // Parse sync results initially
     useEffect(() => {
         if (job?.data?.sync_results) {
-            const parsedResults = JSON.parse(job.data.sync_results);
+            let parsedResults: SyncResults = {};
+            try {
+                const parsed = JSON.parse(job.data.sync_results);
+                if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                    parsedResults = parsed;
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.warn('Sync results parsed but not a valid object', parsed);
+                }
+            } catch (e) {
+                // eslint-disable-next-line no-console
+                console.error('Failed to parse sync results', e);
+            }
             setSyncResults(parsedResults);
 
             // Collect all channel IDs and user IDs for lookup
@@ -216,7 +228,7 @@ export default function JobDetailsModal({job, onExited}: Props): JSX.Element {
                         />
                     </div>
                     <CodeBlock
-                        code={JSON.stringify(job.data, null, 2)}
+                        code={job.data ? JSON.stringify(job.data, null, 2) : ''}
                         language='json'
                     />
                 </div>

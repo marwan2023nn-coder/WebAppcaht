@@ -8,7 +8,9 @@ import (
 	"strings"
 
 	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
 // CreateRecap creates a new recap job for the specified channels
@@ -277,10 +279,25 @@ func (a *App) fetchPostsForRecap(rctx request.CTX, channelID string, lastViewedA
 		}
 	}
 
-	// Enrich with usernames
+	// Enrich with usernames using bulk fetch to avoid N+1 query bottleneck
+	userIDs := make([]string, 0, len(posts))
 	for _, post := range posts {
-		user, _ := a.GetUser(post.UserId)
-		if user != nil {
+		userIDs = append(userIDs, post.UserId)
+	}
+
+	users, appErr := a.GetUsersByIds(rctx, userIDs, &store.UserGetByIdsOpts{})
+	if appErr != nil {
+		rctx.Logger().Warn("Failed to bulk fetch users for recap enrichment", mlog.Err(appErr))
+		// Continue anyway, summary will use UserID as fallback
+	}
+
+	userMap := make(map[string]*model.User, len(users))
+	for _, user := range users {
+		userMap[user.Id] = user
+	}
+
+	for _, post := range posts {
+		if user, ok := userMap[post.UserId]; ok {
 			if post.Props == nil {
 				post.Props = make(model.StringInterface)
 			}
