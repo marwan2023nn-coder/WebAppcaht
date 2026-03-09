@@ -311,3 +311,5 @@ channels/db/migrations/postgres/000156_add_messagesource_to_posts.down.sql
 channels/db/migrations/postgres/000156_add_messagesource_to_posts.up.sql
 channels/db/migrations/postgres/000157_add_access_control_policy_indexes.down.sql
 channels/db/migrations/postgres/000157_add_access_control_policy_indexes.up.sql
+channels/db/migrations/postgres/000158_add_has_link_has_email_to_posts.down.sql
+channels/db/migrations/postgres/000158_add_has_link_has_email_to_posts.up.sql

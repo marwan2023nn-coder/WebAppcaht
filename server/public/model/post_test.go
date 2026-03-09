@@ -996,6 +996,31 @@ func TestPostPriority(t *testing.T) {
 	require.True(t, p.IsUrgent())
 }
 
+func TestPostPreCommit_HasLinkAndEmail(t *testing.T) {
+	testCases := []struct {
+		Message  string
+		HasLink  bool
+		HasEmail bool
+	}{
+		{"No link or email", false, false},
+		{"Check this http://example.com", true, false},
+		{"Check this https://example.com/path?q=1", true, false},
+		{"Contact me at test@example.com", false, true},
+		{"Link http://example.com and email test@example.com", true, true},
+		{"Arabic link http://مثال.إختبار", true, false},
+		{"Arabic email اختبار@مثال.إختبار", false, true}, // Regex might be basic but should catch @
+	}
+
+	for _, tc := range testCases {
+		t.Run(tc.Message, func(t *testing.T) {
+			p := &Post{Message: tc.Message}
+			p.PreCommit()
+			assert.Equal(t, tc.HasLink, p.HasLink)
+			assert.Equal(t, tc.HasEmail, p.HasEmail)
+		})
+	}
+}
+
 func TestPost_PropsIsValid(t *testing.T) {
 	tests := map[string]struct {
 		props   StringInterface
