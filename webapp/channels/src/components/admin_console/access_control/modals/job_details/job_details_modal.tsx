@@ -81,7 +81,13 @@ export default function JobDetailsModal({job, onExited}: Props): JSX.Element {
         if (job?.data?.sync_results) {
             let parsedResults: SyncResults = {};
             try {
-                parsedResults = JSON.parse(job.data.sync_results);
+                const parsed = JSON.parse(job.data.sync_results);
+                if (parsed && typeof parsed === 'object' && !Array.isArray(parsed)) {
+                    parsedResults = parsed;
+                } else {
+                    // eslint-disable-next-line no-console
+                    console.warn('Sync results parsed but not a valid object', parsed);
+                }
             } catch (e) {
                 // eslint-disable-next-line no-console
                 console.error('Failed to parse sync results', e);
