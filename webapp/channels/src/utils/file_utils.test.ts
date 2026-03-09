@@ -62,7 +62,38 @@ describe('FileUtils.canUploadFiles', () => {
             expect(canUploadFiles(config)).toBe(false);
         });
     });
+});
 
+describe('FileUtils.canDownloadFiles', () => {
+    (UserAgent as any).isMobileApp = jest.fn().mockImplementation(() => false); // eslint-disable-line no-import-assign
+
+    it('is true when not on mobile regardless of mobile setting', () => {
+        const config = {
+            EnableMobileFileDownload: 'false',
+        };
+        expect(canDownloadFiles(config)).toBe(true);
+    });
+
+    it('is true when on mobile with mobile file download enabled', () => {
+        (UserAgent as any).isMobileApp.mockImplementation(() => true);
+
+        const config = {
+            EnableMobileFileDownload: 'true',
+        };
+        expect(canDownloadFiles(config)).toBe(true);
+    });
+
+    it('is false when on mobile with mobile file download disabled', () => {
+        (UserAgent as any).isMobileApp.mockImplementation(() => true);
+
+        const config = {
+            EnableMobileFileDownload: 'false',
+        };
+        expect(canDownloadFiles(config)).toBe(false);
+    });
+});
+
+describe('FileUtils.getFileTypeFromMime', () => {
     describe('get filetypes based on mime interpreted from browsers', () => {
         it('mime type for videos', () => {
             expect(getFileTypeFromMime('video/mp4')).toBe('video');
