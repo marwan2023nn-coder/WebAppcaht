@@ -54,11 +54,11 @@ Example format: "Team decided to migrate to microservices architecture [PERMALIN
 Your response must be compacted valid JSON only, with no additional text, formatting, nor code blocks.`, channelName, siteURL, teamName, conversationText, strings.Join(postIDs, ", "), siteURL, teamName, siteURL, teamName)
 
 	// Create bridge client
-	actingUserID := userID
+	sessionUserID := ""
 	if session := rctx.Session(); session != nil {
-		actingUserID = session.UserId
+		sessionUserID = session.UserId
 	}
-	client := a.GetBridgeClient(actingUserID)
+	client := a.GetBridgeClient(sessionUserID)
 
 	completionRequest := agentclient.CompletionRequest{
 		Posts: []agentclient.Post{
@@ -79,12 +79,8 @@ Your response must be compacted valid JSON only, with no additional text, format
 		return nil, model.NewAppError("SummarizePosts", "app.ai.summarize.agent_call_failed", nil, err.Error(), http.StatusInternalServerError)
 	}
 
-	// Clean completion text to extract JSON (handling potential markdown formatting or preamble)
-	cleanedCompletion := extractJSONFromAIResponse(completion)
-
 	var summary model.AIRecapSummaryResponse
-	if err := json.Unmarshal([]byte(cleanedCompletion), &summary); err != nil {
-		rctx.Logger().Error("Failed to parse AI summary response", mlog.String("raw_response", completion), mlog.Err(err))
+	if err := json.Unmarshal([]byte(completion), &summary); err != nil {
 		return nil, model.NewAppError("SummarizePosts", "app.ai.summarize.parse_failed", nil, err.Error(), http.StatusInternalServerError)
 	}
 
@@ -104,7 +100,6 @@ Your response must be compacted valid JSON only, with no additional text, format
 
 	return &summary, nil
 }
-
 
 func buildConversationTextWithIDs(posts []*model.Post) (string, []string) {
 	var sb strings.Builder
