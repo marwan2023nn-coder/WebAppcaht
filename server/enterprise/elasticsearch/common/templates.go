@@ -31,12 +31,6 @@ func GetPostTemplate(cfg *model.Config) *putindextemplate.Request {
 				Normalizer: model.NewPointer("mm_hashtag"),
 				Store:      model.NewPointer(true),
 			},
-			"has_link": types.BooleanProperty{
-				Type: "boolean",
-			},
-			"has_email": types.BooleanProperty{
-				Type: "boolean",
-			},
 		},
 	}
 

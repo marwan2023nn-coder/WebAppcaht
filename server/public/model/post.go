@@ -136,8 +136,6 @@ type Post struct {
 	PendingPostId string          `json:"pending_post_id"`
 	HasReactions  bool            `json:"has_reactions,omitempty"`
 	RemoteId      *string         `json:"remote_id,omitempty"`
-	HasLink       bool            `json:"has_link,omitempty"`
-	HasEmail      bool            `json:"has_email,omitempty"`
 
 	// Transient data populated before sending a post to the client
 	ReplyCount   int64         `json:"reply_count"`
@@ -169,8 +167,6 @@ func (o *Post) Auditable() map[string]any {
 		"file_ids":        o.FileIds,
 		"pending_post_id": o.PendingPostId,
 		"remote_id":       o.RemoteId,
-		"has_link":        o.HasLink,
-		"has_email":       o.HasEmail,
 		"reply_count":     o.ReplyCount,
 		"last_reply_at":   o.LastReplyAt,
 		"is_following":    o.IsFollowing,
@@ -355,8 +351,6 @@ func (o *Post) ShallowCopy(dst *Post) error {
 	dst.FileIds = o.FileIds
 	dst.PendingPostId = o.PendingPostId
 	dst.HasReactions = o.HasReactions
-	dst.HasLink = o.HasLink
-	dst.HasEmail = o.HasEmail
 	dst.ReplyCount = o.ReplyCount
 	dst.Participants = o.Participants
 	dst.LastReplyAt = o.LastReplyAt
@@ -630,11 +624,6 @@ func (o *Post) PreSave() {
 	o.PreCommit()
 }
 
-var (
-	linkRegex  = regexp.MustCompile(`https?://[^\s/$.?#].[^\s]*`)
-	emailRegex = regexp.MustCompile(`[^\s@]+@[^\s@]+\.[^\s@]+`)
-)
-
 func (o *Post) PreCommit() {
 	if o.GetProps() == nil {
 		o.SetProps(make(map[string]any))
@@ -647,9 +636,6 @@ func (o *Post) PreCommit() {
 	if o.FileIds == nil {
 		o.FileIds = []string{}
 	}
-
-	o.HasLink = linkRegex.MatchString(o.Message)
-	o.HasEmail = emailRegex.MatchString(o.Message)
 
 	o.GenerateActionIds()
 
