@@ -113,19 +113,17 @@ func (a *App) GetUsersForAgents(rctx request.CTX, userID string) ([]*model.User,
 		return []*model.User{}, nil
 	}
 
-	users := make([]*model.User, 0, len(agents))
+	// Collect agent usernames for bulk fetch
+	usernames := make([]string, 0, len(agents))
 	for _, agent := range agents {
-		// Agents have a username field that corresponds to the bot user's username
-		user, err := a.Srv().Store().User().GetByUsername(agent.Username)
-		if err != nil {
-			rctx.Logger().Warn("Failed to get user for agent",
-				mlog.Err(err),
-				mlog.String("agent_id", agent.ID),
-				mlog.String("username", agent.Username),
-			)
-			continue
-		}
-		users = append(users, user)
+		usernames = append(usernames, agent.Username)
+	}
+
+	// Bulk fetch user profiles by username to avoid N+1 query bottleneck
+	users, err := a.Srv().Store().User().GetProfilesByUsernames(usernames, nil)
+	if err != nil {
+		rctx.Logger().Error("Failed to bulk fetch agent users by username", mlog.Err(err))
+		return nil, model.NewAppError("GetUsersForAgents", "app.agents.get_users.app_error", nil, err.Error(), http.StatusInternalServerError)
 	}
 
 	return users, nil

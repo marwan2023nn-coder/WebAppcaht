@@ -3166,7 +3166,11 @@ func (a *App) RewriteMessage(
 	systemPrompt := buildRewriteSystemPrompt(userLocale)
 
 	// Prepare completion request in the format expected by the client
-	client := a.GetBridgeClient(rctx.Session().UserId)
+	userID := ""
+	if session := rctx.Session(); session != nil {
+		userID = session.UserId
+	}
+	client := a.GetBridgeClient(userID)
 	completionRequest := agentclient.CompletionRequest{
 		Posts: []agentclient.Post{
 			{Role: "system", Message: systemPrompt},
@@ -3179,8 +3183,12 @@ func (a *App) RewriteMessage(
 		return nil, model.NewAppError("RewriteMessage", "app.post.rewrite.agent_call_failed", nil, err.Error(), 500)
 	}
 
+	// Clean completion text to extract JSON (handling potential markdown formatting or preamble)
+	cleanedCompletion := extractJSONFromAIResponse(completion)
+
 	var response model.RewriteResponse
-	if err := json.Unmarshal([]byte(completion), &response); err != nil {
+	if err := json.Unmarshal([]byte(cleanedCompletion), &response); err != nil {
+		rctx.Logger().Error("Failed to parse AI rewrite response", mlog.String("raw_response", completion), mlog.Err(err))
 		return nil, model.NewAppError("RewriteMessage", "app.post.rewrite.parse_response_failed", nil, err.Error(), 500)
 	}
 
@@ -3341,6 +3349,19 @@ func getRewritePromptForAction(action model.RewriteAction, message string, custo
 	}
 
 	return actionPrompt
+}
+
+// extractJSONFromAIResponse attempts to find the first '{' and last '}' and returns the substring.
+// This helps handle cases where the AI includes a preamble or wraps JSON in code blocks.
+func extractJSONFromAIResponse(response string) string {
+	start := strings.Index(response, "{")
+	end := strings.LastIndex(response, "}")
+
+	if start == -1 || end == -1 || end <= start {
+		return response // Fallback to original
+	}
+
+	return response[start : end+1]
 }
 
 func buildRewriteSystemPrompt(userLocale string) string {

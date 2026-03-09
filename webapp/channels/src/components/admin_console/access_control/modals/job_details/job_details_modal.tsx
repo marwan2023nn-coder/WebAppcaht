@@ -222,7 +222,7 @@ export default function JobDetailsModal({job, onExited}: Props): JSX.Element {
                         />
                     </div>
                     <CodeBlock
-                        code={JSON.stringify(job.data, null, 2)}
+                        code={job.data ? JSON.stringify(job.data, null, 2) : ''}
                         language='json'
                     />
                 </div>
