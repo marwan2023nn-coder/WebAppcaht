@@ -22,3 +22,8 @@
 **Vulnerability:** Potential XSS when rendering `upgradeError` messages using `dangerouslySetInnerHTML` without sanitization.
 **Learning:** The application's default markdown renderer is configured with `sanitize: false`, assuming callers will handle sanitization. High-privilege components like Admin Console banners rendered dynamic error strings (potentially from external or system-level sources) directly into the DOM.
 **Prevention:** Mandatory use of `DOMPurify.sanitize()` when using `dangerouslySetInnerHTML` for any content processed by the markdown `format()` utility, especially for strings like error messages that might contain unsanitized input.
+
+## 2026-03-09 - [CLI Network Timeout Security]
+**Vulnerability:** Lack of HTTP timeouts in mmctl commands causing potential DoS via hang requests.
+**Learning:** Direct use of http.Get bypasses centralized client configuration.
+**Prevention:** Always use authorized API client wrappers.

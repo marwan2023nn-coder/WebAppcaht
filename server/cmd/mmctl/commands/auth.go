@@ -7,7 +7,6 @@ import (
 	"bufio"
 	"context"
 	"fmt"
-	"net/http"
 	"net/url"
 	"os"
 	"slices"
@@ -172,7 +171,8 @@ func loginCmdF(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("could not parse the instance url: %w", err)
 	}
 
-	res, err := http.Get(instanceURL)
+	client := NewAPIv4Client(instanceURL, allowInsecureSHA1, allowInsecureTLS)
+	res, err := client.HTTPClient.Get(instanceURL)
 	if err != nil {
 		return fmt.Errorf("could not get instance status: %w", err)
 	}

@@ -192,6 +192,7 @@ func NewAPIv4Client(instanceURL string, allowInsecureSHA1, allowInsecureTLS bool
 			TLSClientConfig: tlsConfig,
 			Proxy:           http.ProxyFromEnvironment,
 		},
+		Timeout: 30 * time.Second,
 	}
 
 	return client
