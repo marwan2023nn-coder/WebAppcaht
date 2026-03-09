@@ -7,6 +7,7 @@ import (
 	"errors"
 	"net/http"
 	"os"
+	"path/filepath"
 
 	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
@@ -15,7 +16,7 @@ import (
 )
 
 func (a *App) GetComplianceReports(page, perPage int) (model.Compliances, *model.AppError) {
-	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || !*license.Features.Compliance {
+	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || license.Features == nil || !model.SafeDereference(license.Features.Compliance) {
 		return model.Compliances{}, nil
 	}
 
@@ -28,7 +29,7 @@ func (a *App) GetComplianceReports(page, perPage int) (model.Compliances, *model
 }
 
 func (a *App) SaveComplianceReport(rctx request.CTX, job *model.Compliance) (*model.Compliance, *model.AppError) {
-	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || !*license.Features.Compliance || a.Compliance() == nil {
+	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || license.Features == nil || !model.SafeDereference(license.Features.Compliance) || a.Compliance() == nil {
 		// If unlicensed, we still allow saving the record but don't execute the job.
 		// This prevents 501 errors while providing a consistent state.
 		job.Type = model.ComplianceTypeAdhoc
@@ -66,7 +67,7 @@ func (a *App) SaveComplianceReport(rctx request.CTX, job *model.Compliance) (*mo
 }
 
 func (a *App) GetComplianceReport(reportId string) (*model.Compliance, *model.AppError) {
-	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || !*license.Features.Compliance || a.Compliance() == nil {
+	if license := a.Srv().License(); !*a.Config().ComplianceSettings.Enable || license == nil || license.Features == nil || !model.SafeDereference(license.Features.Compliance) || a.Compliance() == nil {
 		return nil, model.NewAppError("GetComplianceReport", "app.compliance.get.finding.app_error", nil, "", http.StatusNotFound)
 	}
 
@@ -85,7 +86,9 @@ func (a *App) GetComplianceReport(reportId string) (*model.Compliance, *model.Ap
 }
 
 func (a *App) GetComplianceFile(job *model.Compliance) ([]byte, *model.AppError) {
-	f, err := os.ReadFile(*a.Config().ComplianceSettings.Directory + "compliance/" + job.JobName() + ".zip")
+	filename := filepath.Base(job.JobName()) + ".zip"
+	path := filepath.Join(*a.Config().ComplianceSettings.Directory, "compliance", filename)
+	f, err := os.ReadFile(path)
 	if err != nil {
 		return nil, model.NewAppError("readFile", "api.file.read_file.reading_local.app_error", nil, "", http.StatusNotImplemented).Wrap(err)
 	}
