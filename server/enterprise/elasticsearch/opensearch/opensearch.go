@@ -373,6 +373,30 @@ func (os *OpensearchInterfaceImpl) SearchPosts(channels model.ChannelList, searc
 				})
 			}
 
+			if params.HasLink {
+				filters = append(filters, types.Query{
+					Term: map[string]types.TermQuery{"has_link": {Value: true}},
+				})
+			}
+
+			if params.ExcludedHasLink {
+				filters = append(filters, types.Query{
+					Term: map[string]types.TermQuery{"has_link": {Value: false}},
+				})
+			}
+
+			if params.HasEmail {
+				filters = append(filters, types.Query{
+					Term: map[string]types.TermQuery{"has_email": {Value: true}},
+				})
+			}
+
+			if params.ExcludedHasEmail {
+				filters = append(filters, types.Query{
+					Term: map[string]types.TermQuery{"has_email": {Value: false}},
+				})
+			}
+
 			if params.OnDate != "" {
 				before, after := params.GetOnDateMillis()
 				filters = append(filters, types.Query{

@@ -1,0 +1,5 @@
+ALTER TABLE Posts DROP COLUMN IF EXISTS HasLink;
+ALTER TABLE Posts DROP COLUMN IF EXISTS HasEmail;
+
+DROP INDEX IF EXISTS idx_posts_has_link;
+DROP INDEX IF EXISTS idx_posts_has_email;

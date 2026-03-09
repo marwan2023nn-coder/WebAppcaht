@@ -29,6 +29,10 @@ type SearchParams struct {
 	ExcludedExtensions     []string `json:"excluded_extensions,omitempty"`
 	OnDate                 string   `json:"on_date,omitempty"`
 	ExcludedDate           string   `json:"excluded_date,omitempty"`
+	HasLink                bool     `json:"has_link,omitempty"`
+	ExcludedHasLink        bool     `json:"excluded_has_link,omitempty"`
+	HasEmail               bool     `json:"has_email,omitempty"`
+	ExcludedHasEmail       bool     `json:"excluded_has_email,omitempty"`
 	OrTerms                bool     `json:"or_terms,omitempty"`
 	IncludeDeletedChannels bool     `json:"include_deleted_channels,omitempty"`
 	TimeZoneOffset         int      `json:"timezone_offset,omitempty"`
@@ -109,7 +113,7 @@ func (p *SearchParams) GetExcludedDateMillis() (int64, int64) {
 	return GetStartOfDayMillis(date, p.TimeZoneOffset), GetEndOfDayMillis(date, p.TimeZoneOffset)
 }
 
-var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext", "من", "في", "قبل", "بعد", "بتاريخ", "امتداد"}
+var searchFlags = [...]string{"from", "channel", "in", "before", "after", "on", "ext", "has", "من", "في", "قبل", "بعد", "بتاريخ", "امتداد", "يحتوي"}
 
 func getCanonicalFlag(flagName string) string {
 	switch strings.ToLower(flagName) {
@@ -125,6 +129,8 @@ func getCanonicalFlag(flagName string) string {
 		return "on"
 	case "امتداد":
 		return "ext"
+	case "يحتوي":
+		return "has"
 	}
 	return strings.ToLower(flagName)
 }
@@ -289,6 +295,10 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 	excludedDate := ""
 	excludedExtensions := []string{}
 	extensions := []string{}
+	hasLink := false
+	excludedHasLink := false
+	hasEmail := false
+	excludedHasEmail := false
 
 	for _, flag := range flags {
 		if flag.name == "in" || flag.name == "channel" {
@@ -327,6 +337,20 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 			} else {
 				extensions = append(extensions, flag.value)
 			}
+		} else if flag.name == "has" {
+			if strings.EqualFold(flag.value, "link") || strings.EqualFold(flag.value, "رابط") {
+				if flag.exclude {
+					excludedHasLink = true
+				} else {
+					hasLink = true
+				}
+			} else if strings.EqualFold(flag.value, "email") || strings.EqualFold(flag.value, "بريد") {
+				if flag.exclude {
+					excludedHasEmail = true
+				} else {
+					hasEmail = true
+				}
+			}
 		}
 	}
 
@@ -349,6 +373,10 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 			ExcludedExtensions: excludedExtensions,
 			OnDate:             onDate,
 			ExcludedDate:       excludedDate,
+			HasLink:            hasLink,
+			ExcludedHasLink:    excludedHasLink,
+			HasEmail:           hasEmail,
+			ExcludedHasEmail:   excludedHasEmail,
 			TimeZoneOffset:     timeZoneOffset,
 		})
 	}
@@ -370,6 +398,10 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 			ExcludedExtensions: excludedExtensions,
 			OnDate:             onDate,
 			ExcludedDate:       excludedDate,
+			HasLink:            hasLink,
+			ExcludedHasLink:    excludedHasLink,
+			HasEmail:           hasEmail,
+			ExcludedHasEmail:   excludedHasEmail,
 			TimeZoneOffset:     timeZoneOffset,
 		})
 	}
@@ -382,7 +414,9 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 			len(extensions) != 0 || len(excludedExtensions) != 0 ||
 			afterDate != "" || excludedAfterDate != "" ||
 			beforeDate != "" || excludedBeforeDate != "" ||
-			onDate != "" || excludedDate != "") {
+			onDate != "" || excludedDate != "" ||
+			hasLink || excludedHasLink ||
+			hasEmail || excludedHasEmail) {
 		paramsList = append(paramsList, &SearchParams{
 			Terms:              "",
 			ExcludedTerms:      "",
@@ -399,6 +433,10 @@ func ParseSearchParams(text string, timeZoneOffset int) []*SearchParams {
 			ExcludedExtensions: excludedExtensions,
 			OnDate:             onDate,
 			ExcludedDate:       excludedDate,
+			HasLink:            hasLink,
+			ExcludedHasLink:    excludedHasLink,
+			HasEmail:           hasEmail,
+			ExcludedHasEmail:   excludedHasEmail,
 			TimeZoneOffset:     timeZoneOffset,
 		})
 	}

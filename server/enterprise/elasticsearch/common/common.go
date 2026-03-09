@@ -61,6 +61,8 @@ type ESPost struct {
 	Hashtags    []string `json:"hashtags"`
 	Attachments string   `json:"attachments"`
 	URLs        []string `json:"urls"`
+	HasLink     bool     `json:"has_link"`
+	HasEmail    bool     `json:"has_email"`
 }
 
 type ESFile struct {
@@ -142,6 +144,9 @@ func ESPostFromPostForIndexing(post *model.PostForIndexing) *ESPost {
 	}
 
 	searchPost.Attachments = strings.Join(searchAttachments, " ")
+
+	searchPost.HasLink = post.HasLink
+	searchPost.HasEmail = post.HasEmail
 
 	urls := extractURLsFromMessage(post.Message)
 	if len(urls) > 0 {
