@@ -264,7 +264,7 @@ func (es *Service) sendBatchedEmailNotification(userID string, notifications []*
 	embeddedFiles := make(map[string]io.Reader)
 
 	emailNotificationContentsType := model.EmailNotificationContentsFull
-	if license := es.license(); license != nil && *license.Features.EmailNotificationContents {
+	if license := es.license(); license != nil && license.Features != nil && model.SafeDereference(license.Features.EmailNotificationContents) {
 		emailNotificationContentsType = *es.config().EmailSettings.EmailNotificationContentsType
 	}
 
