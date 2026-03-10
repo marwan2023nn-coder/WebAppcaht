@@ -2067,12 +2067,6 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 	terms := params.Terms
 	excludedTerms := params.ExcludedTerms
 
-	// Protocols like https:// should match as a single token in tsquery
-	// We replace them with a placeholder to avoid being split by specialSearchChars
-	protocolPlaceholder := "___PROTOCOL___"
-	terms = strings.ReplaceAll(terms, "://", protocolPlaceholder)
-	excludedTerms = strings.ReplaceAll(excludedTerms, "://", protocolPlaceholder)
-
 	searchType := "Message"
 	searchColumn := "q2.Message"
 	if params.IsHashtag {
@@ -2089,10 +2083,6 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		}
 		excludedTerms = strings.Replace(excludedTerms, c, " ", -1)
 	}
-
-	// Restore protocols after splitting by specialSearchChars
-	terms = strings.ReplaceAll(terms, protocolPlaceholder, "://")
-	excludedTerms = strings.ReplaceAll(excludedTerms, protocolPlaceholder, "://")
 
 	if terms == "" && excludedTerms == "" {
 		// we've already confirmed that we have a channel or user to search for
@@ -2115,50 +2105,14 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 				return strings.Replace(match, " ", "<->", -1)
 			})
 
+			// Replace spaces outside of quoted substrings with '&' or '|'
 			replacer := "&"
 			if excludedInput || params.OrTerms {
 				replacer = "|"
 			}
+			input = strings.Replace(input, " ", replacer, -1)
 
-			words := strings.Fields(input)
-			for i, word := range words {
-				if strings.HasPrefix(word, "\"") && strings.HasSuffix(word, "\"") {
-					continue
-				}
-
-				hasWildcard := strings.HasSuffix(word, ":*")
-				term := word
-				if hasWildcard {
-					term = word[:len(word)-2]
-				}
-
-				// If the term contains special characters that would break to_tsquery
-				// (like / or :), we wrap it in double quotes to treat it as a literal.
-				if strings.ContainsAny(term, "/:.") || strings.HasPrefix(term, "#") {
-					if hasWildcard {
-						// For wildcards on URL-like terms or hashtags, we split by common separators
-						// and join with the current operator, adding the wildcard to the last part.
-						// This allows searching for 'https://google*' while avoiding tsquery syntax errors.
-						term = strings.ReplaceAll(term, "/", " ")
-						term = strings.ReplaceAll(term, ":", " ")
-						term = strings.ReplaceAll(term, ".", " ")
-						term = strings.ReplaceAll(term, "#", " ")
-						subWords := strings.Fields(term)
-						if len(subWords) > 0 {
-							subWords[len(subWords)-1] += ":*"
-							words[i] = "(" + strings.Join(subWords, replacer) + ")"
-						}
-					} else {
-						words[i] = "\"" + strings.ReplaceAll(term, "\"", "") + "\""
-					}
-				} else if hasWildcard {
-					words[i] = term + ":*"
-				} else {
-					words[i] = term
-				}
-			}
-
-			return strings.Join(words, replacer)
+			return input
 		}
 
 		tsQueryClause := replaceSpaces(terms, false)
