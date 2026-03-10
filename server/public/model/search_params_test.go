@@ -1708,6 +1708,40 @@ func TestParseSearchParams(t *testing.T) {
 				},
 			},
 		},
+		{
+			Name:  "input is a protocol, should result in one term without stripping ://",
+			Input: "https://",
+			Output: []*SearchParams{
+				{
+					Terms:              "https://",
+					ExcludedTerms:      "",
+					IsHashtag:          false,
+					InChannels:         []string{},
+					ExcludedChannels:   []string{},
+					FromUsers:          []string{},
+					ExcludedUsers:      []string{},
+					Extensions:         []string{},
+					ExcludedExtensions: []string{},
+				},
+			},
+		},
+		{
+			Name:  "input is a URL, should result in one term without stripping symbols",
+			Input: "https://google.com",
+			Output: []*SearchParams{
+				{
+					Terms:              "https://google.com",
+					ExcludedTerms:      "",
+					IsHashtag:          false,
+					InChannels:         []string{},
+					ExcludedChannels:   []string{},
+					FromUsers:          []string{},
+					ExcludedUsers:      []string{},
+					Extensions:         []string{},
+					ExcludedExtensions: []string{},
+				},
+			},
+		},
 	} {
 		t.Run(testCase.Name, func(t *testing.T) {
 			require.Equal(t, testCase.Output, ParseSearchParams(testCase.Input, 0))
