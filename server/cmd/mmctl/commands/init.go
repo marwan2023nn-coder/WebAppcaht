@@ -29,6 +29,7 @@ import (
 const (
 	shellCompletionMaxItems = 50 // Maximum number of items that will be loaded and shown in shell completion.
 	shellCompleteTimeout    = 5 * time.Second
+	connectTimeout          = 30 * time.Second
 )
 
 var (
@@ -187,11 +188,14 @@ func NewAPIv4Client(instanceURL string, allowInsecureSHA1, allowInsecureTLS bool
 		tlsConfig.VerifyPeerCertificate = VerifyCertificates
 	}
 
+	// use authorized API client to ensure timeout and security flags are respected
 	client.HTTPClient = &http.Client{
 		Transport: &http.Transport{
 			TLSClientConfig: tlsConfig,
 			Proxy:           http.ProxyFromEnvironment,
 		},
+		// set an explicit timeout to prevent hanging connections and mitigate DoS
+		Timeout: connectTimeout,
 	}
 
 	return client
