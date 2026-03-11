@@ -3185,3 +3185,95 @@ func TestGetLinkMetadataFromCache(t *testing.T) {
 		assertCached(t, nilURL, nil, nil, nil)
 	})
 }
+
+func TestPreparePostListForClient_BulkPermalinks(t *testing.T) {
+	th := Setup(t).InitBasic(t)
+
+	th.App.UpdateConfig(func(cfg *model.Config) {
+		*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+		*cfg.ServiceSettings.EnablePermalinkPreviews = true
+	})
+
+	// Create referenced posts
+	refPost1, _, err := th.App.CreatePost(th.Context, &model.Post{
+		UserId:    th.BasicUser.Id,
+		ChannelId: th.BasicChannel.Id,
+		Message:   "referenced message 1",
+	}, th.BasicChannel, model.CreatePostFlags{SetOnline: true})
+	require.Nil(t, err)
+
+	refPost2, _, err := th.App.CreatePost(th.Context, &model.Post{
+		UserId:    th.BasicUser.Id,
+		ChannelId: th.BasicChannel.Id,
+		Message:   "referenced message 2",
+	}, th.BasicChannel, model.CreatePostFlags{SetOnline: true})
+	require.Nil(t, err)
+
+	// Create a new channel for some variety
+	channel3, err := th.App.CreateChannel(th.Context, &model.Channel{
+		TeamId:      th.BasicTeam.Id,
+		Type:        model.ChannelTypeOpen,
+		DisplayName: "Channel 3",
+		Name:        "channel-3",
+	}, true)
+	require.Nil(t, err)
+
+	refPost3, _, err := th.App.CreatePost(th.Context, &model.Post{
+		UserId:    th.BasicUser.Id,
+		ChannelId: channel3.Id,
+		Message:   "referenced message 3",
+	}, channel3, model.CreatePostFlags{SetOnline: true})
+	require.Nil(t, err)
+
+	link1 := fmt.Sprintf("%s/%s/pl/%s", *th.App.Config().ServiceSettings.SiteURL, th.BasicTeam.Name, refPost1.Id)
+	link2 := fmt.Sprintf("%s/%s/pl/%s", *th.App.Config().ServiceSettings.SiteURL, th.BasicTeam.Name, refPost2.Id)
+	link3 := fmt.Sprintf("%s/%s/pl/%s", *th.App.Config().ServiceSettings.SiteURL, th.BasicTeam.Name, refPost3.Id)
+
+	postList := model.NewPostList()
+	p1 := &model.Post{Id: model.NewId(), ChannelId: th.BasicChannel.Id, Message: link1, CreateAt: model.GetMillis()}
+	p2 := &model.Post{Id: model.NewId(), ChannelId: th.BasicChannel.Id, Message: link2, CreateAt: model.GetMillis()}
+	p3 := &model.Post{Id: model.NewId(), ChannelId: th.BasicChannel.Id, Message: link3, CreateAt: model.GetMillis()}
+
+	postList.AddPost(p1)
+	postList.AddPost(p2)
+	postList.AddPost(p3)
+	postList.AddOrder(p1.Id)
+	postList.AddOrder(p2.Id)
+	postList.AddOrder(p3.Id)
+
+	// Clear cache to ensure we test the bulk priming logic
+	errPurge := platform.PurgeLinkCache()
+	require.NoError(t, errPurge)
+
+	clientPostList := th.App.PreparePostListForClient(th.Context, postList)
+
+	require.Len(t, clientPostList.Posts, 3)
+
+	t.Run("post 1 has permalink 1", func(t *testing.T) {
+		post := clientPostList.Posts[p1.Id]
+		require.NotEmpty(t, post.Metadata.Embeds)
+		assert.Equal(t, model.PostEmbedPermalink, post.Metadata.Embeds[0].Type)
+		preview := post.Metadata.Embeds[0].Data.(*model.PreviewPost)
+		assert.Equal(t, refPost1.Id, preview.PostID)
+		assert.Equal(t, "referenced message 1", preview.Post.Message)
+	})
+
+	t.Run("post 2 has permalink 2", func(t *testing.T) {
+		post := clientPostList.Posts[p2.Id]
+		require.NotEmpty(t, post.Metadata.Embeds)
+		assert.Equal(t, model.PostEmbedPermalink, post.Metadata.Embeds[0].Type)
+		preview := post.Metadata.Embeds[0].Data.(*model.PreviewPost)
+		assert.Equal(t, refPost2.Id, preview.PostID)
+		assert.Equal(t, "referenced message 2", preview.Post.Message)
+	})
+
+	t.Run("post 3 has permalink 3", func(t *testing.T) {
+		post := clientPostList.Posts[p3.Id]
+		require.NotEmpty(t, post.Metadata.Embeds)
+		assert.Equal(t, model.PostEmbedPermalink, post.Metadata.Embeds[0].Type)
+		preview := post.Metadata.Embeds[0].Data.(*model.PreviewPost)
+		assert.Equal(t, refPost3.Id, preview.PostID)
+		assert.Equal(t, "referenced message 3", preview.Post.Message)
+		assert.Equal(t, channel3.DisplayName, preview.ChannelDisplayName)
+	})
+}

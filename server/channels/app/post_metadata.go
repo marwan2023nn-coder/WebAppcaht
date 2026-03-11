@@ -1070,6 +1070,7 @@ func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
 	}
 
 	entriesToFetch := make(map[int64]entry)
+	permalinksToFetch := make(map[string]int64) // url -> flooredAt
 
 	for _, post := range posts {
 		if post.DeleteAt > 0 {
@@ -1087,7 +1088,12 @@ func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
 			}
 
 			resolvedURL := resolveMetadataURL(requestURL, siteURL)
-			if resolvedURL == "" || strings.HasPrefix(strings.ToLower(resolvedURL), "data:image/") || looksLikeAPermalink(resolvedURL, siteURL) {
+			if resolvedURL == "" || strings.HasPrefix(strings.ToLower(resolvedURL), "data:image/") {
+				continue
+			}
+
+			isPermalink := looksLikeAPermalink(resolvedURL, siteURL)
+			if isPermalink && !*a.Config().ServiceSettings.EnablePermalinkPreviews {
 				continue
 			}
 
@@ -1096,7 +1102,101 @@ func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
 
 			var dummy linkMetadataCache
 			if err := platform.LinkCache().Get(cacheKey, &dummy); err != nil {
-				entriesToFetch[hash] = entry{url: resolvedURL, flooredAt: flooredAt}
+				if isPermalink {
+					permalinksToFetch[resolvedURL] = flooredAt
+				} else {
+					entriesToFetch[hash] = entry{url: resolvedURL, flooredAt: flooredAt}
+				}
+			}
+		}
+	}
+
+	if len(permalinksToFetch) > 0 {
+		referencedPostIDs := make([]string, 0, len(permalinksToFetch))
+		permalinkURLsByPostID := make(map[string][]string)
+		for requestURL := range permalinksToFetch {
+			postID := requestURL[len(requestURL)-26:]
+			referencedPostIDs = append(referencedPostIDs, postID)
+			permalinkURLsByPostID[postID] = append(permalinkURLsByPostID[postID], requestURL)
+		}
+
+		referencedPosts, _, appErr := a.GetPostsByIds(referencedPostIDs)
+		if appErr != nil {
+			rctx.Logger().Warn("Failed to bulk fetch referenced posts for permalinks", mlog.Err(appErr))
+		} else {
+			channelIDs := make([]string, 0, len(referencedPosts))
+			for _, post := range referencedPosts {
+				channelIDs = append(channelIDs, post.ChannelId)
+			}
+
+			channels, appErr := a.GetChannels(rctx, model.RemoveDuplicateStrings(channelIDs))
+			if appErr != nil {
+				rctx.Logger().Warn("Failed to bulk fetch channels for permalinks", mlog.Err(appErr))
+			} else {
+				channelsMap := make(map[string]*model.Channel)
+				teamIDs := make([]string, 0)
+				for _, ch := range channels {
+					channelsMap[ch.Id] = ch
+					if ch.TeamId != "" {
+						teamIDs = append(teamIDs, ch.TeamId)
+					}
+				}
+
+				var teams []*model.Team
+				if len(teamIDs) > 0 {
+					teams, appErr = a.GetTeams(model.RemoveDuplicateStrings(teamIDs))
+					if appErr != nil {
+						rctx.Logger().Warn("Failed to bulk fetch teams for permalinks", mlog.Err(appErr))
+					}
+				}
+
+				teamsMap := make(map[string]*model.Team)
+				for _, t := range teams {
+					teamsMap[t.Id] = t
+				}
+
+				for _, post := range referencedPosts {
+					if post.Type == model.PostTypeBurnOnRead {
+						continue
+					}
+
+					ch := channelsMap[post.ChannelId]
+					if ch == nil {
+						continue
+					}
+
+					var team *model.Team
+					if ch.TeamId != "" {
+						team = teamsMap[ch.TeamId]
+					}
+					if team == nil {
+						team = &model.Team{}
+					}
+
+					var permalink *model.Permalink
+					if a.containsPermalink(rctx, post) {
+						permalink = &model.Permalink{PreviewPost: model.NewPreviewPost(post, team, ch)}
+					} else {
+						referencedPostWithMetadata := a.PreparePostForClientWithEmbedsAndImages(rctx, post, &model.PreparePostForClientOpts{})
+						permalink = &model.Permalink{PreviewPost: model.NewPreviewPost(referencedPostWithMetadata, team, ch)}
+					}
+
+					for _, requestURL := range permalinkURLsByPostID[post.Id] {
+						cacheLinkMetadata(rctx, requestURL, permalinksToFetch[requestURL], nil, nil, permalink)
+					}
+				}
+			}
+		}
+
+		// Ensure that any IDs that were not found are cached as nil, but only if the bulk fetch was successful.
+		// If appErr is not nil, it was a transient error and we should NOT cache nil.
+		if appErr == nil {
+			for url, flooredAt := range permalinksToFetch {
+				var dummy linkMetadataCache
+				hash := model.GenerateLinkMetadataHash(url, flooredAt)
+				if err := platform.LinkCache().Get(strconv.FormatInt(hash, 16), &dummy); err != nil {
+					cacheLinkMetadata(rctx, url, flooredAt, nil, nil, nil)
+				}
 			}
 		}
 	}
