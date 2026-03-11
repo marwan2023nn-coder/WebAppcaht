@@ -41,7 +41,7 @@ func NewPluginAPI(a *App, rctx request.CTX, manifest *model.Manifest) *PluginAPI
 
 func (api *PluginAPI) checkLDAPLicense() error {
 	license := api.GetLicense()
-	if license == nil || !*license.Features.LDAPGroups {
+	if license == nil || license.Features == nil || !model.SafeDereference(license.Features.LDAPGroups) {
 		return fmt.Errorf("license does not support LDAP groups")
 	}
 	return nil

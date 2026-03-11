@@ -325,7 +325,7 @@ func (a *App) CheckUserMfa(rctx request.CTX, user *model.User, token string) *mo
 }
 
 func (a *App) MFARequired(rctx request.CTX) *model.AppError {
-	if license := a.Channels().License(); license == nil || !*license.Features.MFA || !*a.Config().ServiceSettings.EnableMultifactorAuthentication || !*a.Config().ServiceSettings.EnforceMultifactorAuthentication {
+	if license := a.Channels().License(); license == nil || license.Features == nil || !model.SafeDereference(license.Features.MFA) || !*a.Config().ServiceSettings.EnableMultifactorAuthentication || !*a.Config().ServiceSettings.EnforceMultifactorAuthentication {
 		return nil
 	}
 
@@ -400,7 +400,7 @@ func checkUserNotBot(user *model.User) *model.AppError {
 
 func (a *App) authenticateUser(rctx request.CTX, user *model.User, password, mfaToken string) (*model.User, *model.AppError) {
 	license := a.Srv().License()
-	ldapAvailable := *a.Config().LdapSettings.Enable && a.Ldap() != nil && license != nil && *license.Features.LDAP
+	ldapAvailable := *a.Config().LdapSettings.Enable && a.Ldap() != nil && license != nil && license.Features != nil && model.SafeDereference(license.Features.LDAP)
 
 	if user.AuthService == model.UserAuthServiceLdap {
 		if !ldapAvailable {
