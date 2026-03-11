@@ -292,7 +292,7 @@ func getLicenseLoadMetric(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	license := c.App.Srv().License()
 	if license != nil && license.Features != nil {
-		licenseUsers = *license.Features.Users
+		licenseUsers = model.SafeDereference(license.Features.Users)
 	}
 
 	if licenseUsers > 0 {

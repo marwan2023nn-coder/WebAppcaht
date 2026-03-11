@@ -395,7 +395,11 @@ func (l *License) IsSanctionedTrial() bool {
 }
 
 func (l *License) HasEnterpriseMarketplacePlugins() bool {
-	return *l.Features.EnterprisePlugins ||
+	if l == nil || l.Features == nil {
+		return false
+	}
+
+	return SafeDereference(l.Features.EnterprisePlugins) ||
 		l.SkuShortName == LicenseShortSkuE20 ||
 		MinimumProfessionalLicense(l)
 }
@@ -410,7 +414,7 @@ func (l *License) HasRemoteClusterService() bool {
 		return true
 	}
 
-	return (l.Features != nil && l.Features.RemoteClusterService != nil && *l.Features.RemoteClusterService) ||
+	return (l.Features != nil && SafeDereference(l.Features.RemoteClusterService)) ||
 		MinimumProfessionalLicense(l)
 }
 
@@ -419,7 +423,7 @@ func (l *License) HasSharedChannels() bool {
 		return false
 	}
 
-	return (l.Features != nil && l.Features.SharedChannels != nil && *l.Features.SharedChannels) ||
+	return (l.Features != nil && SafeDereference(l.Features.SharedChannels)) ||
 		MinimumProfessionalLicense(l)
 }
 

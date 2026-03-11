@@ -26,8 +26,8 @@ func (a *App) GetServerLimits() (*model.ServerLimits, *model.AppError) {
 	} else if license != nil {
 		sku := license.SkuName
 		usersFeat := 0
-		if license.Features != nil && license.Features.Users != nil {
-			usersFeat = *license.Features.Users
+		if license.Features != nil {
+			usersFeat = model.SafeDereference(license.Features.Users)
 		}
 
 		a.Log().Debug("GetServerLimits: license found",
