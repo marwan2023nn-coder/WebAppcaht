@@ -172,11 +172,16 @@ func loginCmdF(cmd *cobra.Command, args []string) error {
 		return fmt.Errorf("could not parse the instance url: %w", err)
 	}
 
-	res, err := http.Get(instanceURL)
+	client := NewAPIv4Client(instanceURL, allowInsecureSHA1, allowInsecureTLS)
+	// We set a 30-second timeout for the initial status check to prevent the command
+	// from hanging indefinitely and to ensure consistent behavior across environments.
+	client.HTTPClient.Timeout = connectTimeout
+	res, err := client.HTTPClient.Get(instanceURL)
 	if err != nil {
 		return fmt.Errorf("could not get instance status: %w", err)
 	}
-	if res.StatusCode != 200 {
+	defer res.Body.Close()
+	if res.StatusCode != http.StatusOK {
 		return fmt.Errorf("instance status code is not 200: %d", res.StatusCode)
 	}
 

@@ -29,6 +29,7 @@ import (
 const (
 	shellCompletionMaxItems = 50 // Maximum number of items that will be loaded and shown in shell completion.
 	shellCompleteTimeout    = 5 * time.Second
+	connectTimeout          = 30 * time.Second
 )
 
 var (
