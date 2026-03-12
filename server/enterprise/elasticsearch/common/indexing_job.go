@@ -180,7 +180,7 @@ func (worker *IndexerWorker) JobChannel() chan<- model.Job {
 }
 
 func (worker *IndexerWorker) IsEnabled(cfg *model.Config) bool {
-	if license := worker.license(); license == nil || !*license.Features.Elasticsearch {
+	if license := worker.license(); license == nil || license.Features == nil || !model.SafeDereference(license.Features.Elasticsearch) {
 		return false
 	}
 

@@ -107,7 +107,7 @@ func (worker *OpensearchAggregatorWorker) Run() {
 }
 
 func (worker *OpensearchAggregatorWorker) IsEnabled(cfg *model.Config) bool {
-	if license := worker.license(); license == nil || !*license.Features.Elasticsearch {
+	if license := worker.license(); license == nil || license.Features == nil || !model.SafeDereference(license.Features.Elasticsearch) {
 		return false
 	}
 
