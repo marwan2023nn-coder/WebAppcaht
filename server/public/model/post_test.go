@@ -893,29 +893,22 @@ func TestPostPatchDisableMentionHighlights(t *testing.T) {
 }
 
 func TestPostAttachments(t *testing.T) {
-	p := &Post{
-		Props: map[string]any{
-			PostPropsAttachments: []byte(`[{
-				"actions" : {null}
-			}]
-			`),
-		},
-	}
+	p := &Post{}
 
 	t.Run("empty actions", func(t *testing.T) {
-		p.Props[PostPropsAttachments] = []any{
+		p.AddProp(PostPropsAttachments, []any{
 			map[string]any{"actions": []any{}},
-		}
+		})
 		attachments := p.Attachments()
 		require.Empty(t, attachments[0].Actions)
 	})
 
 	t.Run("a couple of actions", func(t *testing.T) {
-		p.Props[PostPropsAttachments] = []any{
+		p.AddProp(PostPropsAttachments, []any{
 			map[string]any{"actions": []any{
 				map[string]any{"id": "test1"}, map[string]any{"id": "test2"}},
 			},
-		}
+		})
 
 		attachments := p.Attachments()
 		require.Len(t, attachments[0].Actions, 2)
@@ -924,11 +917,11 @@ func TestPostAttachments(t *testing.T) {
 	})
 
 	t.Run("should ignore null actions", func(t *testing.T) {
-		p.Props[PostPropsAttachments] = []any{
+		p.AddProp(PostPropsAttachments, []any{
 			map[string]any{"actions": []any{
 				map[string]any{"id": "test1"}, nil, map[string]any{"id": "test2"}, nil, nil},
 			},
-		}
+		})
 
 		attachments := p.Attachments()
 		require.Len(t, attachments[0].Actions, 2)
@@ -937,14 +930,14 @@ func TestPostAttachments(t *testing.T) {
 	})
 
 	t.Run("nil fields", func(t *testing.T) {
-		p.Props[PostPropsAttachments] = []any{
+		p.AddProp(PostPropsAttachments, []any{
 			map[string]any{"fields": []any{
 				map[string]any{"value": ":emoji1:"},
 				nil,
 				map[string]any{"value": ":emoji2:"},
 			},
 			},
-		}
+		})
 
 		attachments := p.Attachments()
 		require.Len(t, attachments[0].Fields, 2)

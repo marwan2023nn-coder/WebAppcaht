@@ -143,6 +143,8 @@ type Post struct {
 	Participants []*User       `json:"participants"`
 	IsFollowing  *bool         `json:"is_following,omitempty"` // for root posts in collapsed thread mode indicates if the current user is following this thread
 	Metadata     *PostMetadata `json:"metadata,omitempty"`
+
+	attachmentsCache []*SlackAttachment
 }
 
 func (o *Post) Auditable() map[string]any {
@@ -359,6 +361,7 @@ func (o *Post) ShallowCopy(dst *Post) error {
 		dst.IsFollowing = NewPointer(*o.IsFollowing)
 	}
 	dst.RemoteId = o.RemoteId
+	dst.attachmentsCache = o.attachmentsCache
 	return nil
 }
 
@@ -641,6 +644,8 @@ func (o *Post) PreCommit() {
 
 	// There's a rare bug where the client sends up duplicate FileIds so protect against that
 	o.FileIds = RemoveDuplicateStrings(o.FileIds)
+
+	o.Attachments()
 }
 
 func (o *Post) MakeNonNil() {
@@ -652,6 +657,9 @@ func (o *Post) MakeNonNil() {
 func (o *Post) DelProp(key string) {
 	o.propsMu.Lock()
 	defer o.propsMu.Unlock()
+	if key == PostPropsAttachments {
+		o.attachmentsCache = nil
+	}
 	propsCopy := make(map[string]any, len(o.Props)-1)
 	maps.Copy(propsCopy, o.Props)
 	delete(propsCopy, key)
@@ -661,6 +669,17 @@ func (o *Post) DelProp(key string) {
 func (o *Post) AddProp(key string, value any) {
 	o.propsMu.Lock()
 	defer o.propsMu.Unlock()
+	if key == PostPropsAttachments {
+		if attachments, ok := value.([]*SlackAttachment); ok {
+			if len(attachments) == 0 {
+				o.attachmentsCache = nil
+			} else {
+				o.attachmentsCache = attachments
+			}
+		} else {
+			o.attachmentsCache = nil
+		}
+	}
 	propsCopy := make(map[string]any, len(o.Props)+1)
 	maps.Copy(propsCopy, o.Props)
 	propsCopy[key] = value
@@ -677,6 +696,7 @@ func (o *Post) SetProps(props StringInterface) {
 	o.propsMu.Lock()
 	defer o.propsMu.Unlock()
 	o.Props = props
+	o.attachmentsCache = nil
 }
 
 func (o *Post) GetProp(key string) any {
@@ -919,11 +939,32 @@ func findAtChannelMention(message string) (mention string, found bool) {
 }
 
 func (o *Post) Attachments() []*SlackAttachment {
-	if attachments, ok := o.GetProp(PostPropsAttachments).([]*SlackAttachment); ok {
+	o.propsMu.RLock()
+	if o.attachmentsCache != nil {
+		defer o.propsMu.RUnlock()
+		return o.attachmentsCache
+	}
+	o.propsMu.RUnlock()
+
+	prop := o.GetProp(PostPropsAttachments)
+	if prop == nil {
+		return nil
+	}
+
+	if attachments, ok := prop.([]*SlackAttachment); ok {
+		o.propsMu.Lock()
+		if len(attachments) == 0 {
+			o.attachmentsCache = nil
+		} else {
+			o.attachmentsCache = attachments
+		}
+		o.propsMu.Unlock()
 		return attachments
 	}
+
 	var ret []*SlackAttachment
-	if attachments, ok := o.GetProp(PostPropsAttachments).([]any); ok {
+	if attachments, ok := prop.([]any); ok {
+		ret = make([]*SlackAttachment, 0, len(attachments))
 		for _, attachment := range attachments {
 			if enc, err := json.Marshal(attachment); err == nil {
 				var decoded SlackAttachment
@@ -952,6 +993,15 @@ func (o *Post) Attachments() []*SlackAttachment {
 			}
 		}
 	}
+
+	o.propsMu.Lock()
+	if len(ret) == 0 {
+		o.attachmentsCache = nil
+	} else {
+		o.attachmentsCache = ret
+	}
+	o.propsMu.Unlock()
+
 	return ret
 }
 
