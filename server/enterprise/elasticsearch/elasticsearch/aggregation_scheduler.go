@@ -21,7 +21,7 @@ type ElasticSearchAggregatorScheduler struct {
 }
 
 func (s *ElasticSearchAggregatorScheduler) Enabled(cfg *model.Config) bool {
-	if license := s.server.License(); license == nil || !*license.Features.Elasticsearch {
+	if license := s.server.License(); license == nil || license.Features == nil || !model.SafeDereference(license.Features.Elasticsearch) {
 		return false
 	}
 
