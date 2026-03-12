@@ -120,6 +120,7 @@ func staticFilesHandler(handler http.Handler) http.Handler {
 		w.Header().Set("Permissions-Policy", "")
 		w.Header().Set("X-Content-Type-Options", "nosniff")
 		w.Header().Set("Referrer-Policy", "no-referrer")
+		w.Header().Set("X-XSS-Protection", "0")
 
 		if strings.HasSuffix(r.URL.Path, "/") {
 			http.NotFound(w, r)
