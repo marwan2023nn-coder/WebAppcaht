@@ -1,0 +1,45 @@
+// Jest Snapshot v1, https://jestjs.io/docs/snapshot-testing
+
+exports[`components/CopyButton should match snapshot 1`] = `
+<WithTooltip
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Copy code"
+      id="copy.code.message"
+    />
+  }
+>
+  <span
+    aria-label="Copy code"
+    className="post-code__clipboard"
+    onClick={[Function]}
+    role="button"
+  >
+    <i
+      className="icon icon-content-copy"
+    />
+  </span>
+</WithTooltip>
+`;
+
+exports[`components/CopyButton should match snapshot for text 1`] = `
+<WithTooltip
+  title={
+    <Memo(MemoizedFormattedMessage)
+      defaultMessage="Copy text"
+      id="copy.text.message"
+    />
+  }
+>
+  <span
+    aria-label="Copy text"
+    className="post-code__clipboard"
+    onClick={[Function]}
+    role="button"
+  >
+    <i
+      className="icon icon-content-copy"
+    />
+  </span>
+</WithTooltip>
+`;
