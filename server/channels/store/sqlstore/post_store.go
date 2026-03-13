@@ -2046,14 +2046,13 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		return list, nil
 	}
 
-	baseQuery := s.getQueryBuilder().Select(
-		postSliceColumnsWithName("q2")...,
-	).Column(
-		"(SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN q2.RootId = '' THEN q2.Id ELSE q2.RootId END) AND Posts.DeleteAt = 0) as ReplyCount",
-	).From("Posts q2").
+	columns := postSliceColumnsWithName("q2")
+	columns = append(columns, "(SELECT COUNT(*) FROM Posts WHERE Posts.RootId = (CASE WHEN q2.RootId = '' THEN q2.Id ELSE q2.RootId END) AND Posts.DeleteAt = 0) as ReplyCount")
+
+	baseQuery := s.getQueryBuilder().Select(columns...).
+		From("Posts q2").
 		Where("q2.DeleteAt = 0").
 		Where("q2.Type NOT LIKE ?", model.PostSystemMessagePrefix+"%").
-		OrderByClause("q2.CreateAt DESC").
 		Limit(100)
 
 	var err error
@@ -2084,46 +2083,90 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 		excludedTerms = strings.Replace(excludedTerms, c, " ", -1)
 	}
 
-	if terms == "" && excludedTerms == "" {
-		// we've already confirmed that we have a channel or user to search for
+	if terms != "" || excludedTerms != "" {
+		if s.DriverName() == model.DatabaseDriverPostgres {
+			// PostgreSQL partial search using ILIKE and pg_trgm
+			var likeClauses []string
+			var args []any
+
+			// Helper to extract terms while respecting quotes
+			extractTerms := func(input string) []string {
+				var res []string
+				quoted := quotedStringsRegex.FindAllString(input, -1)
+				for _, q := range quoted {
+					res = append(res, strings.Trim(q, "\""))
+				}
+				remaining := quotedStringsRegex.ReplaceAllString(input, " ")
+				res = append(res, strings.Fields(remaining)...)
+				return res
+			}
+
+			// Handle regular terms
+			termList := extractTerms(terms)
+			if len(termList) > 0 {
+				var termClauses []string
+				for _, term := range termList {
+					term = sanitizeSearchTerm(term, "\\")
+					termClauses = append(termClauses, fmt.Sprintf("%s ILIKE ?", searchColumn))
+					args = append(args, "%"+term+"%")
+				}
+
+				op := " AND "
+				if params.OrTerms {
+					op = " OR "
+				}
+				likeClauses = append(likeClauses, "("+strings.Join(termClauses, op)+")")
+			}
+
+			// Handle excluded terms
+			excludedTermList := extractTerms(excludedTerms)
+			for _, term := range excludedTermList {
+				term = sanitizeSearchTerm(term, "\\")
+				likeClauses = append(likeClauses, fmt.Sprintf("%s NOT ILIKE ?", searchColumn))
+				args = append(args, "%"+term+"%")
+			}
+
+			if len(likeClauses) > 0 {
+				baseQuery = baseQuery.Where(strings.Join(likeClauses, " AND "), args...)
+			}
+
+			// Rank by similarity if terms are provided
+			if terms != "" {
+				// We use a custom column for similarity and then order by it.
+				// This allows us to use bound parameters for the search terms.
+				baseQuery = baseQuery.Column(sq.Alias(sq.Expr(fmt.Sprintf("similarity(%s, ?)", searchColumn), terms), "similarity_score"))
+				baseQuery = baseQuery.OrderBy("similarity_score DESC", "q2.CreateAt DESC")
+			} else {
+				baseQuery = baseQuery.OrderBy("q2.CreateAt DESC")
+			}
+		} else {
+			// Fallback for other drivers using standard LIKE.
+			// Standard SQL LIKE supports partial matching and is driver-agnostic.
+			var termClauses []string
+			var args []any
+			termList := strings.Fields(terms)
+			for _, term := range termList {
+				term = sanitizeSearchTerm(strings.Trim(term, "\""), "\\")
+				termClauses = append(termClauses, fmt.Sprintf("%s LIKE ?", searchColumn))
+				args = append(args, "%"+term+"%")
+			}
+			if len(termClauses) > 0 {
+				op := " AND "
+				if params.OrTerms {
+					op = " OR "
+				}
+				baseQuery = baseQuery.Where("("+strings.Join(termClauses, op)+")", args...)
+			}
+
+			excludedTermList := strings.Fields(excludedTerms)
+			for _, term := range excludedTermList {
+				term = sanitizeSearchTerm(strings.Trim(term, "\""), "\\")
+				baseQuery = baseQuery.Where(fmt.Sprintf("%s NOT LIKE ?", searchColumn), "%"+term+"%")
+			}
+			baseQuery = baseQuery.OrderBy("q2.CreateAt DESC")
+		}
 	} else {
-		// Parse text for wildcards
-		terms = wildCardRegex.ReplaceAllLiteralString(terms, ":* ")
-		excludedTerms = wildCardRegex.ReplaceAllLiteralString(excludedTerms, ":* ")
-
-		// Replace spaces with to_tsquery symbols
-		replaceSpaces := func(input string, excludedInput bool) string {
-			if input == "" {
-				return input
-			}
-
-			// Remove extra spaces
-			input = strings.Join(strings.Fields(input), " ")
-
-			// Replace spaces within quoted strings with '<->'
-			input = quotedStringsRegex.ReplaceAllStringFunc(input, func(match string) string {
-				return strings.Replace(match, " ", "<->", -1)
-			})
-
-			// Replace spaces outside of quoted substrings with '&' or '|'
-			replacer := "&"
-			if excludedInput || params.OrTerms {
-				replacer = "|"
-			}
-			input = strings.Replace(input, " ", replacer, -1)
-
-			return input
-		}
-
-		tsQueryClause := replaceSpaces(terms, false)
-		excludedClause := replaceSpaces(excludedTerms, true)
-		if excludedClause != "" {
-			tsQueryClause += " &!(" + excludedClause + ")"
-		}
-
-		textSearchCfg := s.pgDefaultTextSearchConfig
-		searchClause := fmt.Sprintf("to_tsvector('%[1]s', %[2]s) @@  to_tsquery('%[1]s', ?)", textSearchCfg, searchColumn)
-		baseQuery = baseQuery.Where(searchClause, tsQueryClause)
+		baseQuery = baseQuery.OrderBy("q2.CreateAt DESC")
 	}
 
 	inQuery := s.getSubQueryBuilder().Select("Channels.Id").
@@ -2151,10 +2194,25 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 
 	var posts []*model.Post
 
-	if err := s.GetSearchReplicaX().SelectBuilder(&posts, baseQuery); err != nil {
-		mlog.Warn("Query error searching posts.", mlog.String("error", trimInput(err.Error())))
-		// Don't return the error to the caller as it is of no use to the user. Instead return an empty set of search results.
+	if s.DriverName() == model.DatabaseDriverPostgres && terms != "" {
+		var result []struct {
+			model.Post
+			SimilarityScore float64 `db:"similarity_score"`
+		}
+		if err := s.GetSearchReplicaX().SelectBuilder(&result, baseQuery); err != nil {
+			mlog.Warn("Query error searching posts.", mlog.String("error", trimInput(err.Error())))
+		} else {
+			for _, r := range result {
+				posts = append(posts, &r.Post)
+			}
+		}
 	} else {
+		if err := s.GetSearchReplicaX().SelectBuilder(&posts, baseQuery); err != nil {
+			mlog.Warn("Query error searching posts.", mlog.String("error", trimInput(err.Error())))
+		}
+	}
+
+	if len(posts) > 0 {
 		for _, p := range posts {
 			// exclude burn on read posts from search results
 			if p.Type == model.PostTypeBurnOnRead {
