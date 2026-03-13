@@ -1,0 +1,15 @@
+{
+    "id": "com.custom.quicksearch",
+    "name": "Quick Search Plugin",
+    "description": "Adds Quick Search (Ctrl+K) functionality to Mattermost Team Edition.",
+    "version": "0.1.0",
+    "min_server_version": "5.12.0",
+    "webapp": {
+        "bundle_path": "webapp/dist/main.js"
+    },
+    "settings_schema": {
+        "header": "",
+        "footer": "",
+        "settings": []
+    }
+}
