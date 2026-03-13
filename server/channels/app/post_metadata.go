@@ -1155,6 +1155,30 @@ func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
 					teamsMap[t.Id] = t
 				}
 
+				// To avoid the N+1 query problem when a list of posts contains multiple permalinks,
+				// we bulk-prepare the referenced posts. PreparePostListForClient is used here
+				// because it efficiently loads reactions, files, custom emojis, priority, and
+				// acknowledgements in bulk. Recursion is avoided by only adding posts that
+				// do not contain further permalinks to the bulk preparation list.
+				postsToPrepare := model.NewPostList()
+				postsNeedingPreparation := make(map[string]bool)
+
+				for _, post := range referencedPosts {
+					if post.Type == model.PostTypeBurnOnRead {
+						continue
+					}
+					if !a.containsPermalink(rctx, post) {
+						postsToPrepare.AddPost(post)
+						postsToPrepare.AddOrder(post.Id)
+						postsNeedingPreparation[post.Id] = true
+					}
+				}
+
+				var preparedPostList *model.PostList
+				if len(postsToPrepare.Posts) > 0 {
+					preparedPostList = a.PreparePostListForClient(rctx, postsToPrepare)
+				}
+
 				for _, post := range referencedPosts {
 					if post.Type == model.PostTypeBurnOnRead {
 						continue
@@ -1174,12 +1198,11 @@ func (a *App) primeLinkMetadataCache(rctx request.CTX, posts []*model.Post) {
 					}
 
 					var permalink *model.Permalink
-					if a.containsPermalink(rctx, post) {
-						permalink = &model.Permalink{PreviewPost: model.NewPreviewPost(post, team, ch)}
-					} else {
-						referencedPostWithMetadata := a.PreparePostForClientWithEmbedsAndImages(rctx, post, &model.PreparePostForClientOpts{})
-						permalink = &model.Permalink{PreviewPost: model.NewPreviewPost(referencedPostWithMetadata, team, ch)}
+					preparedPost := post
+					if postsNeedingPreparation[post.Id] && preparedPostList != nil && preparedPostList.Posts[post.Id] != nil {
+						preparedPost = preparedPostList.Posts[post.Id]
 					}
+					permalink = &model.Permalink{PreviewPost: model.NewPreviewPost(preparedPost, team, ch)}
 
 					for _, requestURL := range permalinkURLsByPostID[post.Id] {
 						cacheLinkMetadata(rctx, requestURL, permalinksToFetch[requestURL], nil, nil, permalink)
