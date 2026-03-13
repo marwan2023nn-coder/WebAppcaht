@@ -38,6 +38,7 @@ import {applyTheme, isTextDroppableEvent} from 'utils/utils';
 
 import LuxonController from './luxon_controller';
 import PerformanceReporterController from './performance_reporter_controller';
+import QuickSearchModal from 'components/quick_search';
 import RootProvider from './root_provider';
 import RootRedirect from './root_redirect';
 
@@ -430,6 +431,7 @@ export default class Root extends React.PureComponent<Props, State> {
                         <GlobalHeader/>
                         <CloudEffects/>
                         <TeamSidebar/>
+                        <QuickSearchModal/>
                         <div className='main-wrapper'>
                             <Switch>
                                 {this.props.products?.filter((product) => Boolean(product.publicComponent)).map((product) => (
