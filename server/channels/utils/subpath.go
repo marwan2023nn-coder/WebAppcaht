@@ -104,7 +104,7 @@ func updateRootFile(oldRootHTML string, rootHTMLPath string, alreadyRewritten bo
 	}
 
 	newRootHTML = reCSP.ReplaceAllString(newRootHTML, fmt.Sprintf(
-		`<meta http-equiv="Content-Security-Policy" content="${1}script-src 'self'%s${3}">`,
+		`<meta http-equiv="Content-Security-Policy" content="${1}script-src 'self'${2}%s${3}">`,
 		GetSubpathScriptHash(subpath),
 	))
 
