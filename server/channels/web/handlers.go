@@ -239,7 +239,7 @@ func (h Handler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 		// Set content security policy. This is also specified in the root.html of the webapp in a meta tag.
 		w.Header().Set("Content-Security-Policy", fmt.Sprintf(
-			"frame-ancestors 'self' %s; script-src 'self' js.stripe.com/v3%s%s; connect-src 'self' ws: wss: https: blob: data: chrome-extension: moz-extension: safari-extension: edge-extension: extension:; worker-src 'self' blob: chrome-extension: moz-extension: safari-extension: edge-extension: extension:",
+			"frame-ancestors 'self' %s; script-src 'self'%s%s; connect-src 'self' ws: wss: https: blob: data: chrome-extension: moz-extension: safari-extension:",
 			*c.App.Config().ServiceSettings.FrameAncestors,
 			h.cspShaDirective,
 			devCSP,
