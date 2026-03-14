@@ -55,6 +55,14 @@ func (us SqlUserStore) InvalidateProfileCacheForUser(userId string) {}
 // Note that the order of these columns must match the order in
 // [SqlUserStore.Get] and [SqlUserStore.GetAllProfilesInChannel].
 func getUsersColumnsWithName(name string, extraColumns ...string) []string {
+	// Security: table aliases are whitelisted to prevent SQL injection through unvalidated schema references.
+	switch name {
+	case "Users", "data":
+		// whitelisted
+	default:
+		panic("invalid table alias: " + name)
+	}
+
 	columns := []string{
 		"Id",
 		"CreateAt",

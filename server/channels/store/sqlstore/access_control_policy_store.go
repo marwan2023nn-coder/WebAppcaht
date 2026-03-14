@@ -99,7 +99,13 @@ func fromModel(policy *model.AccessControlPolicy) (*storeAccessControlPolicy, er
 func accessControlPolicySliceColumns(prefix ...string) []string {
 	var p string
 	if len(prefix) == 1 {
-		p = prefix[0] + "."
+		// Security: table aliases are whitelisted to prevent SQL injection through unvalidated schema references.
+		switch prefix[0] {
+		case "p":
+			p = prefix[0] + "."
+		default:
+			panic("invalid table alias: " + prefix[0])
+		}
 	} else if len(prefix) > 1 {
 		panic("cannot accept multiple prefixes")
 	}
@@ -120,7 +126,11 @@ func accessControlPolicySliceColumns(prefix ...string) []string {
 func accessControlPolicyHistorySliceColumns(prefix ...string) []string {
 	var p string
 	if len(prefix) == 1 {
-		p = prefix[0] + "."
+		// Security: table aliases are whitelisted to prevent SQL injection through unvalidated schema references.
+		switch prefix[0] {
+		default:
+			panic("invalid table alias: " + prefix[0])
+		}
 	} else if len(prefix) > 1 {
 		panic("cannot accept multiple prefixes")
 	}

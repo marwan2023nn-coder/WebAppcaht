@@ -22,3 +22,8 @@
 **Vulnerability:** Potential XSS when rendering `upgradeError` messages using `dangerouslySetInnerHTML` without sanitization.
 **Learning:** The application's default markdown renderer is configured with `sanitize: false`, assuming callers will handle sanitization. High-privilege components like Admin Console banners rendered dynamic error strings (potentially from external or system-level sources) directly into the DOM.
 **Prevention:** Mandatory use of `DOMPurify.sanitize()` when using `dangerouslySetInnerHTML` for any content processed by the markdown `format()` utility, especially for strings like error messages that might contain unsanitized input.
+
+## 2025-05-19 - SQL Injection via Unvalidated Schema Identifiers in Store Helpers
+**Vulnerability:** Potential SQL injection and architectural violation where internal column-fetching helpers (e.g., `channelSliceColumns`) accepted arbitrary string prefixes that were directly interpolated into SQL queries using `fmt.Sprintf`.
+**Learning:** Generic store helpers that generate column lists often need table aliases for joins. Without strict validation of these identifiers, malicious or erroneous input could manipulate the query structure. String interpolation of SQL fragments is a high-risk pattern even for internal helpers.
+**Prevention:** Implement strict whitelisting for all table aliases and schema identifiers within store helper functions. Use a fail-fast approach (e.g., `panic`) for unexpected identifiers to catch developer errors early. Replace all occurrences of `fmt.Sprintf` for SQL construction with safe concatenation of whitelisted variables or Squirrel expressions.
