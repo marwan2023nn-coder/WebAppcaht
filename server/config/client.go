@@ -170,10 +170,10 @@ func GenerateClientConfig(c *model.Config, telemetryID string, license *model.Li
 	props["WranglerMoveThreadFromDirectMessageChannelEnable"] = strconv.FormatBool(*c.WranglerSettings.MoveThreadFromDirectMessageChannelEnable)
 	props["WranglerMoveThreadFromGroupMessageChannelEnable"] = strconv.FormatBool(*c.WranglerSettings.MoveThreadFromGroupMessageChannelEnable)
 
-	if license != nil {
+	if license != nil && license.Features != nil {
 		props["ExperimentalEnableAuthenticationTransfer"] = strconv.FormatBool(*c.ServiceSettings.ExperimentalEnableAuthenticationTransfer)
 
-		if *license.Features.LDAP {
+		if model.SafeDereference(license.Features.LDAP) {
 			props["LdapNicknameAttributeSet"] = strconv.FormatBool(*c.LdapSettings.NicknameAttribute != "")
 			props["LdapFirstNameAttributeSet"] = strconv.FormatBool(*c.LdapSettings.FirstNameAttribute != "")
 			props["LdapLastNameAttributeSet"] = strconv.FormatBool(*c.LdapSettings.LastNameAttribute != "")
@@ -181,30 +181,27 @@ func GenerateClientConfig(c *model.Config, telemetryID string, license *model.Li
 			props["LdapPositionAttributeSet"] = strconv.FormatBool(*c.LdapSettings.PositionAttribute != "")
 		}
 
-		if *license.Features.Compliance {
+		if model.SafeDereference(license.Features.Compliance) {
 			props["EnableCompliance"] = strconv.FormatBool(*c.ComplianceSettings.Enable)
 			props["EnableMobileFileDownload"] = strconv.FormatBool(*c.FileSettings.EnableMobileDownload)
 			props["EnableMobileFileUpload"] = strconv.FormatBool(*c.FileSettings.EnableMobileUpload)
 		}
 
-		if *license.Features.SAML {
+		if model.SafeDereference(license.Features.SAML) {
 			props["SamlFirstNameAttributeSet"] = strconv.FormatBool(*c.SamlSettings.FirstNameAttribute != "")
 			props["SamlLastNameAttributeSet"] = strconv.FormatBool(*c.SamlSettings.LastNameAttribute != "")
 			props["SamlNicknameAttributeSet"] = strconv.FormatBool(*c.SamlSettings.NicknameAttribute != "")
 			props["SamlPositionAttributeSet"] = strconv.FormatBool(*c.SamlSettings.PositionAttribute != "")
 		}
 
-		if *license.Features.Cluster {
+		if model.SafeDereference(license.Features.Cluster) {
 			props["EnableCluster"] = strconv.FormatBool(*c.ClusterSettings.Enable)
-		}
-
-		if *license.Features.Cluster {
 			props["EnableMetrics"] = strconv.FormatBool(*c.MetricsSettings.Enable)
 			props["EnableClientMetrics"] = strconv.FormatBool(*c.MetricsSettings.Enable && *c.MetricsSettings.EnableClientMetrics)
 			props["EnableNotificationMetrics"] = strconv.FormatBool(c.FeatureFlags.NotificationMonitoring && *c.MetricsSettings.EnableNotificationMetrics)
 		}
 
-		if *license.Features.Announcement {
+		if model.SafeDereference(license.Features.Announcement) {
 			props["EnableBanner"] = strconv.FormatBool(*c.AnnouncementSettings.EnableBanner)
 			props["BannerText"] = *c.AnnouncementSettings.BannerText
 			props["BannerColor"] = *c.AnnouncementSettings.BannerColor
@@ -212,14 +209,14 @@ func GenerateClientConfig(c *model.Config, telemetryID string, license *model.Li
 			props["AllowBannerDismissal"] = strconv.FormatBool(*c.AnnouncementSettings.AllowBannerDismissal)
 		}
 
-		if *license.Features.ThemeManagement {
+		if model.SafeDereference(license.Features.ThemeManagement) {
 			props["EnableThemeSelection"] = strconv.FormatBool(*c.ThemeSettings.EnableThemeSelection)
 			props["DefaultTheme"] = *c.ThemeSettings.DefaultTheme
 			props["AllowCustomThemes"] = strconv.FormatBool(*c.ThemeSettings.AllowCustomThemes)
 			props["AllowedThemes"] = strings.Join(c.ThemeSettings.AllowedThemes, ",")
 		}
 
-		if *license.Features.DataRetention {
+		if model.SafeDereference(license.Features.DataRetention) {
 			props["DataRetentionEnableMessageDeletion"] = strconv.FormatBool(*c.DataRetentionSettings.EnableMessageDeletion)
 			props["DataRetentionMessageRetentionHours"] = strconv.FormatInt(int64(c.DataRetentionSettings.GetMessageRetentionHours()), 10)
 			props["DataRetentionEnableFileDeletion"] = strconv.FormatBool(*c.DataRetentionSettings.EnableFileDeletion)
@@ -368,8 +365,8 @@ func GenerateLimitedClientConfig(c *model.Config, telemetryID string, license *m
 	props["GuestAccountsEnforceMultifactorAuthentication"] = strconv.FormatBool(*c.GuestAccountsSettings.EnforceMultifactorAuthentication)
 	props["EnableGuestMagicLink"] = strconv.FormatBool(*c.GuestAccountsSettings.EnableGuestMagicLink)
 
-	if license != nil {
-		if *license.Features.LDAP {
+	if license != nil && license.Features != nil {
+		if model.SafeDereference(license.Features.LDAP) {
 			props["EnableLdap"] = strconv.FormatBool(*c.LdapSettings.Enable)
 			props["LdapLoginFieldName"] = *c.LdapSettings.LoginFieldName
 			props["LdapLoginButtonColor"] = *c.LdapSettings.LoginButtonColor
@@ -377,7 +374,7 @@ func GenerateLimitedClientConfig(c *model.Config, telemetryID string, license *m
 			props["LdapLoginButtonTextColor"] = *c.LdapSettings.LoginButtonTextColor
 		}
 
-		if *license.Features.SAML {
+		if model.SafeDereference(license.Features.SAML) {
 			props["EnableSaml"] = strconv.FormatBool(*c.SamlSettings.Enable)
 			props["SamlLoginButtonText"] = *c.SamlSettings.LoginButtonText
 			props["SamlLoginButtonColor"] = *c.SamlSettings.LoginButtonColor
@@ -385,30 +382,30 @@ func GenerateLimitedClientConfig(c *model.Config, telemetryID string, license *m
 			props["SamlLoginButtonTextColor"] = *c.SamlSettings.LoginButtonTextColor
 		}
 
-		if *license.Features.CustomTermsOfService {
+		if model.SafeDereference(license.Features.CustomTermsOfService) {
 			props["EnableCustomTermsOfService"] = strconv.FormatBool(*c.SupportSettings.CustomTermsOfServiceEnabled)
 			props["CustomTermsOfServiceReAcceptancePeriod"] = strconv.FormatInt(int64(*c.SupportSettings.CustomTermsOfServiceReAcceptancePeriod), 10)
 		}
 
-		if *license.Features.MFA {
+		if model.SafeDereference(license.Features.MFA) {
 			props["EnforceMultifactorAuthentication"] = strconv.FormatBool(*c.ServiceSettings.EnforceMultifactorAuthentication)
 		}
 
 		if license.IsCloud() {
 			// MM-48727: enable SSO options for free cloud - not in self hosted
-			*license.Features.GoogleOAuth = true
-			*license.Features.Office365OAuth = true
+			license.Features.GoogleOAuth = model.NewPointer(true)
+			license.Features.Office365OAuth = model.NewPointer(true)
 		}
 
-		if *license.Features.GoogleOAuth {
+		if model.SafeDereference(license.Features.GoogleOAuth) {
 			props["EnableSignUpWithGoogle"] = strconv.FormatBool(*c.GoogleSettings.Enable)
 		}
 
-		if *license.Features.Office365OAuth {
+		if model.SafeDereference(license.Features.Office365OAuth) {
 			props["EnableSignUpWithOffice365"] = strconv.FormatBool(*c.Office365Settings.Enable)
 		}
 
-		if *license.Features.OpenId {
+		if model.SafeDereference(license.Features.OpenId) {
 			props["EnableSignUpWithOpenId"] = strconv.FormatBool(*c.OpenIdSettings.Enable)
 			props["OpenIdButtonColor"] = *c.OpenIdSettings.ButtonColor
 			props["OpenIdButtonText"] = *c.OpenIdSettings.ButtonText

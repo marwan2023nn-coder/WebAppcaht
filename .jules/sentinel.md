@@ -22,3 +22,8 @@
 **Vulnerability:** Potential XSS when rendering `upgradeError` messages using `dangerouslySetInnerHTML` without sanitization.
 **Learning:** The application's default markdown renderer is configured with `sanitize: false`, assuming callers will handle sanitization. High-privilege components like Admin Console banners rendered dynamic error strings (potentially from external or system-level sources) directly into the DOM.
 **Prevention:** Mandatory use of `DOMPurify.sanitize()` when using `dangerouslySetInnerHTML` for any content processed by the markdown `format()` utility, especially for strings like error messages that might contain unsanitized input.
+
+## 2025-05-19 - Robust License Feature Checks in Client Config
+**Vulnerability:** Nil pointer dereference in `GenerateClientConfig` and `GenerateLimitedClientConfig` when `license.Features` is nil, leading to server panics (DoS).
+**Learning:** Even when the top-level `license` is checked, the `Features` pointer or individual feature flags can still be nil. Wrapping these checks with `SafeDereference` and ensuring `Features != nil` is crucial for stability.
+**Prevention:** Standardize on checking `license != nil && license.Features != nil` and using `model.SafeDereference` for all feature flag lookups in the configuration layer.
