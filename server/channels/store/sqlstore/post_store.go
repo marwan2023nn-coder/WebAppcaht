@@ -112,6 +112,14 @@ func postSliceColumns() []string {
 }
 
 func postSliceColumnsWithName(name string) []string {
+	// Security: table aliases are whitelisted to prevent SQL injection through unvalidated schema references.
+	switch name {
+	case "A", "Posts", "cte", "p", "p1", "q2":
+		// whitelisted
+	default:
+		panic("invalid table alias: " + name)
+	}
+
 	colInfos := postSliceColumnsWithTypes()
 	cols := make([]string, len(colInfos))
 	for i, colInfo := range colInfos {

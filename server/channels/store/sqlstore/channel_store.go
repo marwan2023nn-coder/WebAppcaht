@@ -111,10 +111,14 @@ func channelMemberSliceColumns() []string {
 // Optionally, you can add a prefix (accepts only 1 value) to the fields.
 func channelSliceColumns(isSelect bool, prefix ...string) []string {
 	var p string
-	if len(prefix) == 1 {
-		p = prefix[0] + "."
-	} else if len(prefix) > 1 {
-		p = prefix[0] + "."
+	if len(prefix) >= 1 {
+		// table aliases whitelist to prevent SQL injection through unvalidated schema references.
+		switch prefix[0] {
+		case "ch", "Channels", "c", "C":
+			p = prefix[0] + "."
+		default:
+			panic("invalid table alias: " + prefix[0])
+		}
 	}
 
 	columns := []string{
@@ -147,8 +151,9 @@ func channelSliceColumns(isSelect bool, prefix ...string) []string {
 			p = "Channels."
 		}
 
-		columns = append(columns, fmt.Sprintf("EXISTS (SELECT 1 FROM AccessControlPolicies acp WHERE acp.ID = %sId) AS PolicyEnforced", p))
-		columns = append(columns, fmt.Sprintf("COALESCE((SELECT acp.Active FROM AccessControlPolicies acp WHERE acp.ID = %sId AND acp.Active = TRUE LIMIT 1), false) AS PolicyIsActive", p))
+		// Security: using string concatenation with whitelisted prefix instead of fmt.Sprintf
+		columns = append(columns, "EXISTS (SELECT 1 FROM AccessControlPolicies acp WHERE acp.ID = "+p+"Id) AS PolicyEnforced")
+		columns = append(columns, "COALESCE((SELECT acp.Active FROM AccessControlPolicies acp WHERE acp.ID = "+p+"Id AND acp.Active = TRUE LIMIT 1), false) AS PolicyIsActive")
 	}
 
 	return columns
