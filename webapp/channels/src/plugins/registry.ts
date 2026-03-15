@@ -69,6 +69,12 @@ const defaultShouldRender = () => true;
 
 type DPluginComponentProp = {component: React.ComponentType<unknown>};
 function dispatchPluginComponentAction(name: keyof PluginsState['components'], pluginId: string, component: React.ComponentType<any>, id = generateId()) {
+    if (!isValidElementType(component)) {
+        // eslint-disable-next-line no-console
+        console.error(`Plugin ${pluginId} tried to register an invalid component for ${name}`);
+        return undefined;
+    }
+
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
         name,
@@ -83,6 +89,12 @@ function dispatchPluginComponentAction(name: keyof PluginsState['components'], p
 }
 
 function dispatchPluginComponentWithData<T extends keyof PluginsState['components']>(name: T, data: PluginsState['components'][T][number]) {
+    if ('component' in data && data.component && !isValidElementType(data.component)) {
+        // eslint-disable-next-line no-console
+        console.error(`Plugin ${data.pluginId} tried to register an invalid component for ${name}`);
+        return;
+    }
+
     store.dispatch({
         type: ActionTypes.RECEIVED_PLUGIN_COMPONENT,
         name,
@@ -367,6 +379,12 @@ export default class PluginRegistry {
     registerPostTypeComponent = reArg(['type', 'component'], ({type, component}) => {
         const id = generateId();
 
+        if (!isValidElementType(component)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid component for post type ${type}`);
+            return undefined;
+        }
+
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_COMPONENT,
             data: {
@@ -388,6 +406,12 @@ export default class PluginRegistry {
      */
     registerPostCardTypeComponent = reArg(['type', 'component'], ({type, component}) => {
         const id = generateId();
+
+        if (!isValidElementType(component)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid component for post card type ${type}`);
+            return undefined;
+        }
 
         store.dispatch({
             type: ActionTypes.RECEIVED_PLUGIN_POST_CARD_COMPONENT,
@@ -1004,6 +1028,11 @@ export default class PluginRegistry {
         component: AdminConsolePluginComponent['component'];
         options?: {showTitle: boolean};
     }) => {
+        if (!isValidElementType(component)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid component for admin console setting ${key}`);
+            return;
+        }
         store.dispatch(registerAdminConsoleCustomSetting(this.id, key, component, {showTitle}));
     });
 
@@ -1023,6 +1052,11 @@ export default class PluginRegistry {
         key: string;
         component: AdminConsolePluginCustomSection['component'];
     }) => {
+        if (!isValidElementType(component)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid component for admin console section ${key}`);
+            return;
+        }
         store.dispatch(registerAdminConsoleCustomSection(this.id, key, component));
     });
 
@@ -1156,6 +1190,30 @@ export default class PluginRegistry {
         publicComponent,
     }: Omit<ProductComponent, 'id' | 'pluginId'>) => {
         const id = generateId();
+
+        if (!isValidElementType(mainComponent)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid mainComponent for product ${baseURL}`);
+            return undefined;
+        }
+
+        if (headerCentreComponent && !isValidElementType(headerCentreComponent)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid headerCentreComponent for product ${baseURL}`);
+            return undefined;
+        }
+
+        if (headerRightComponent && !isValidElementType(headerRightComponent)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid headerRightComponent for product ${baseURL}`);
+            return undefined;
+        }
+
+        if (publicComponent && !isValidElementType(publicComponent)) {
+            // eslint-disable-next-line no-console
+            console.error(`Plugin ${this.id} tried to register an invalid publicComponent for product ${baseURL}`);
+            return undefined;
+        }
 
         dispatchPluginComponentWithData('Product', {
             id,

@@ -109,14 +109,11 @@ function removePluginComponents(state: PluginsState['components'], action: AnyAc
     let modified = false;
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
-        const componentList = nextState[componentType] || [];
-        for (let j = componentList.length - 1; j >= 0; j--) {
-            if (componentList[j].pluginId === action.data.id) {
-                const nextArray = [...nextState[componentType]];
-                nextArray.splice(j, 1);
-                nextState[componentType] = nextArray as any;
-                modified = true;
-            }
+        const componentList = state[componentType] || [];
+        const nextArray = componentList.filter((c) => c.pluginId !== action.data.id);
+        if (nextArray.length !== componentList.length) {
+            nextState[componentType] = nextArray as any;
+            modified = true;
         }
     }
 
@@ -128,20 +125,24 @@ function removePluginComponents(state: PluginsState['components'], action: AnyAc
 }
 
 function removePluginComponent(state: PluginsState['components'], action: AnyAction) {
-    let newState = state;
+    const nextState = {...state};
     const types = Object.keys(state) as Array<keyof PluginsState['components']>;
+    let modified = false;
     for (let i = 0; i < types.length; i++) {
         const componentType = types[i];
         const componentList = state[componentType] || [];
-        for (let j = 0; j < componentList.length; j++) {
-            if (componentList[j].id === action.id) {
-                const nextArray = [...componentList];
-                nextArray.splice(j, 1);
-                newState = {...newState, [componentType]: nextArray};
-            }
+        const nextArray = componentList.filter((c) => c.id !== action.id);
+        if (nextArray.length !== componentList.length) {
+            nextState[componentType] = nextArray as any;
+            modified = true;
         }
     }
-    return newState;
+
+    if (modified) {
+        return nextState;
+    }
+
+    return state;
 }
 
 function plugins(state: IDMappedObjects<ClientPluginManifest> = {}, action: MMAction) {
