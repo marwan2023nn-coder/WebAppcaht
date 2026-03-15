@@ -279,7 +279,7 @@ func (s SqlPreferenceStore) CleanupFlagsBatch(limit int64) (int64, error) {
 	return rowsAffected, nil
 }
 
-// Delete preference for limit_visible_dms_gms where their value is greater than "40" or less than "1"
+// Delete preference for limit_visible_dms_gms where their value is greater than "40" (and not "10000") or less than "0"
 func (s SqlPreferenceStore) DeleteInvalidVisibleDmsGms() (int64, error) {
 	// We need to pad the value field with zeros when doing comparison's because the value is stored as a string.
 	// Having them the same length allows Postgres to compare them correctly.
@@ -287,8 +287,11 @@ func (s SqlPreferenceStore) DeleteInvalidVisibleDmsGms() (int64, error) {
 		sq.Eq{"Category": model.PreferenceCategorySidebarSettings},
 		sq.Eq{"Name": model.PreferenceLimitVisibleDmsGms},
 		sq.Or{
-			sq.Gt{"SUBSTRING(CONCAT('000000000000000', Value), LENGTH(Value) + 1, 15)": "000000000000040"},
-			sq.Lt{"SUBSTRING(CONCAT('000000000000000', Value), LENGTH(Value) + 1, 15)": "000000000000001"},
+			sq.And{
+				sq.Gt{"SUBSTRING(CONCAT('000000000000000', Value), LENGTH(Value) + 1, 15)": "000000000000040"},
+				sq.NotEq{"Value": "10000"},
+			},
+			sq.Lt{"SUBSTRING(CONCAT('000000000000000', Value), LENGTH(Value) + 1, 15)": "000000000000000"},
 		},
 	}
 	subQuery := s.getQueryBuilder().
