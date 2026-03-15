@@ -423,7 +423,7 @@ export function isAddMemberProps(v: unknown): v is AddMemberProps {
     return true;
 }
 
-export function renderSystemMessage(post: Post, currentTeamName: string, channel: Channel, hideGuestTags: boolean, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean, timezone?: string): ReactNode {
+export function renderSystemMessage(post: Post, currentTeamName: string, channel: Channel | undefined, hideGuestTags: boolean, isUserCanManageMembers?: boolean, isMilitaryTime?: boolean, timezone?: string): ReactNode {
     const isEphemeral = isPostEphemeral(post);
     if (isEphemeral && post.props?.type === Posts.POST_TYPES.REMINDER) {
         return renderReminderACKMessage(post, currentTeamName, Boolean(isMilitaryTime), timezone);
@@ -509,9 +509,13 @@ function renderReminderACKMessage(post: Post, currentTeamName: string, isMilitar
     );
 }
 
-export function renderReminderSystemBotMessage(post: Post, currentTeam: Team): ReactNode {
+export function renderReminderSystemBotMessage(post: Post, currentTeam?: Team): ReactNode {
     const username = post.props.username ? renderUsername(post.props.username) : '';
-    const teamUrl = `${getSiteURL()}/${post.props.team_name || currentTeam.name}`;
+    let teamName = post.props.team_name || currentTeam?.name;
+    if (!teamName) {
+        teamName = '..';
+    }
+    const teamUrl = `${getSiteURL()}/${teamName}`;
     const link = `${teamUrl}/pl/${post.props.post_id}`;
     const permaLink = renderFormattedText(`[${link}](${link})`);
     return (

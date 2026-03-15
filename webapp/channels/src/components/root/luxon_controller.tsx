@@ -15,7 +15,15 @@ export default function LuxonController() {
 
     useEffect(() => {
         Settings.defaultLocale = locale;
-        moment.locale(locale);
+        if (locale !== 'en') {
+            import(`moment/locale/${locale}`).then(() => {
+                moment.locale(locale);
+            }).catch(() => {
+                moment.locale(locale);
+            });
+        } else {
+            moment.locale(locale);
+        }
     }, [locale]);
 
     const tz = useSelector(getCurrentTimezone);

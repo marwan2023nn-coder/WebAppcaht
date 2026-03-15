@@ -190,7 +190,7 @@ const DateTimeInputContainer: React.FC<Props> = ({
     const currentTime = getCurrentMomentForTimezone(timezone).toDate();
 
     const formatDate = (date: Moment): string => {
-        return relativeDate ? relativeFormatDate(date, formatMessage) : DateTime.fromJSDate(date.toDate()).toLocaleString();
+        return relativeDate ? relativeFormatDate(date, formatMessage) : DateTime.fromJSDate(date.toDate()).setLocale(locale).toLocaleString();
     };
 
     const calendarIcon = (

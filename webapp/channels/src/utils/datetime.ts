@@ -5,6 +5,9 @@ import {DateTime} from 'luxon';
 import moment, {type Moment} from 'moment-timezone';
 import type {useIntl} from 'react-intl';
 
+import {getCurrentLocale} from 'selectors/i18n';
+import store from 'stores/redux_store';
+
 const shouldTruncate = new Map<Intl.RelativeTimeFormatUnit, boolean>([
     ['year', true],
     ['quarter', true],
@@ -102,9 +105,11 @@ export function relativeFormatDate(date: Moment, formatMessage: ReturnType<typeo
         return formatMessage({id: 'date_separator.tomorrow', defaultMessage: 'Tomorrow'});
     }
 
+    const locale = getCurrentLocale(store.getState());
+
     if (format) {
-        return DateTime.fromJSDate(date.toDate()).toFormat(format);
+        return DateTime.fromJSDate(date.toDate()).setLocale(locale).toFormat(format);
     }
 
-    return DateTime.fromJSDate(date.toDate()).toLocaleString();
+    return DateTime.fromJSDate(date.toDate()).setLocale(locale).toLocaleString();
 }
