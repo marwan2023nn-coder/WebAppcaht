@@ -22,18 +22,17 @@
     "gen-lang-imports": "node scripts/gen_lang_imports.mjs"
   },
   "dependencies": {
-
     "@fortawesome/fontawesome-svg-core": "7.1.0",
     "@fortawesome/free-solid-svg-icons": "7.1.0",
     "@fortawesome/react-fontawesome": "3.0.0",
-    "@workspace/compass-icons": "0.1.52",
     "@types/styled-components": "5.1.36",
+    "@workspace/compass-icons": "0.1.52",
     "ajv": "6.12.6",
     "ajv-keywords": "3.5.2",
     "lucide-react": "0.561.0",
     "react-icons": "5.5.0",
-    "styled-components": "5.3.11",
     "react-intl": "7.1.14",
+    "styled-components": "5.3.11",
     "typescript": "5.6.3"
   },
   "devDependencies": {
