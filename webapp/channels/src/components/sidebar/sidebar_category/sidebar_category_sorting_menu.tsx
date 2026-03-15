@@ -122,7 +122,7 @@ const SidebarCategorySortingMenu = ({
     }
 
     let showMessagesCountSelectedValue = <span>{selectedDmNumber}</span>;
-    if (selectedDmNumber === 10000) {
+    if (selectedDmNumber === Constants.HIGHEST_DM_SHOW_COUNT) {
         showMessagesCountSelectedValue = (
             <FormattedMessage
                 id='channel_notifications.levels.all'
@@ -149,15 +149,27 @@ const SidebarCategorySortingMenu = ({
             )}
             menuId={`showMessagesCount-${category.id}-menu`}
         >
-            {Constants.DM_AND_GM_SHOW_COUNTS.map((dmGmShowCount) => (
-                <Menu.Item
-                    id={`showDmCount-${category.id}-${dmGmShowCount}`}
-                    key={`showDmCount-${category.id}-${dmGmShowCount}`}
-                    labels={<span>{dmGmShowCount}</span>}
-                    onClick={() => handlelimitVisibleDMsGMs(dmGmShowCount)}
-                    trailingElements={selectedDmNumber === dmGmShowCount ? <CheckIcon size={16}/> : null}
-                />
-            ))}
+            {Constants.DM_AND_GM_SHOW_COUNTS.map((dmGmShowCount) => {
+                let label: React.ReactNode = <span>{dmGmShowCount}</span>;
+                if (dmGmShowCount === Constants.HIGHEST_DM_SHOW_COUNT) {
+                    label = (
+                        <FormattedMessage
+                            id='channel_notifications.levels.all'
+                            defaultMessage='All'
+                        />
+                    );
+                }
+
+                return (
+                    <Menu.Item
+                        id={`showDmCount-${category.id}-${dmGmShowCount}`}
+                        key={`showDmCount-${category.id}-${dmGmShowCount}`}
+                        labels={label}
+                        onClick={() => handlelimitVisibleDMsGMs(dmGmShowCount)}
+                        trailingElements={selectedDmNumber === dmGmShowCount ? <CheckIcon size={16}/> : null}
+                    />
+                );
+            })}
         </Menu.SubMenu>
 
     );

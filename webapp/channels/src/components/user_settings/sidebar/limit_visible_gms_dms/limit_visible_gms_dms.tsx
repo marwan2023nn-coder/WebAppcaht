@@ -3,7 +3,8 @@
 
 import React from 'react';
 import type {RefObject} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, injectIntl} from 'react-intl';
+import type {IntlShape} from 'react-intl';
 import ReactSelect from 'react-select';
 import type {OnChangeValue, StylesConfig} from 'react-select';
 
@@ -11,6 +12,8 @@ import type {PreferencesType, PreferenceType} from '@workspace/types/preferences
 
 import {Preferences} from 'workspace-redux/constants';
 import type {ActionResult} from 'workspace-redux/types/actions';
+
+import Constants from 'utils/constants';
 
 import SettingItemMax from 'components/setting_item_max';
 import SettingItemMin from 'components/setting_item_min';
@@ -33,6 +36,7 @@ type Props = OwnProps & {
     savePreferences: (userId: string, preferences: PreferenceType[]) => Promise<ActionResult>;
     dmGmLimit: number;
     updateSection: (section: string) => void;
+    intl: IntlShape;
 }
 
 type State = {
@@ -41,14 +45,21 @@ type State = {
     isSaving: boolean;
 }
 
-const limits: Limit[] = [
+const getLimits = (intl: IntlShape): Limit[] => [
     {value: 10, label: '10'},
     {value: 15, label: '15'},
     {value: 20, label: '20'},
     {value: 40, label: '40'},
+    {
+        value: Constants.HIGHEST_DM_SHOW_COUNT,
+        label: intl.formatMessage({
+            id: 'channel_notifications.levels.all',
+            defaultMessage: 'All',
+        }),
+    },
 ];
 
-export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State> {
+class LimitVisibleGMsDMs extends React.PureComponent<Props, State> {
     minRef: RefObject<SettingItemMinComponent>;
 
     constructor(props: Props) {
@@ -64,6 +75,7 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
     }
 
     static getDerivedStateFromProps(props: Props, state: State) {
+        const limits = getLimits(props.intl);
         if (props.active !== state.active) {
             if (props.active && !state.active) {
                 return {
@@ -157,7 +169,7 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
                             className='react-select'
                             classNamePrefix='react-select'
                             id='limitVisibleGMsDMs'
-                            options={limits}
+                            options={getLimits(this.props.intl)}
                             isClearable={false}
                             onChange={this.handleChange}
                             value={this.state.limit}
@@ -180,6 +192,8 @@ export default class LimitVisibleGMsDMs extends React.PureComponent<Props, State
         );
     }
 }
+
+export default injectIntl(LimitVisibleGMsDMs);
 
 const reactStyles = {
     menuPortal: (provided) => ({

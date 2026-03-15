@@ -153,7 +153,7 @@ func (o *Preference) IsValid() *AppError {
 
 	if o.Category == PreferenceCategorySidebarSettings && o.Name == PreferenceLimitVisibleDmsGms {
 		visibleDmsGmsValue, convErr := strconv.Atoi(o.Value)
-		if convErr != nil || visibleDmsGmsValue < 1 || visibleDmsGmsValue > PreferenceMaxLimitVisibleDmsGmsValue {
+		if convErr != nil || (visibleDmsGmsValue < 0) || (visibleDmsGmsValue > PreferenceMaxLimitVisibleDmsGmsValue && visibleDmsGmsValue != 10000) {
 			return NewAppError("Preference.IsValid", "model.preference.is_valid.limit_visible_dms_gms.app_error", nil, "value="+o.Value, http.StatusBadRequest)
 		}
 	}
