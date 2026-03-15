@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import {Settings} from 'luxon';
+import moment from 'moment-timezone';
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -14,6 +15,7 @@ export default function LuxonController() {
 
     useEffect(() => {
         Settings.defaultLocale = locale;
+        moment.locale(locale);
     }, [locale]);
 
     const tz = useSelector(getCurrentTimezone);
