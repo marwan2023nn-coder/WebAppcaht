@@ -242,7 +242,9 @@ export function makeFilterAutoclosedDMs(): (state: GlobalState, channels: Channe
 
             // The limit of DMs user specifies to be rendered in the sidebar
             const remaining = Math.max(limitPref, unreadCount);
-            visibleChannels = visibleChannels.slice(0, remaining);
+            if (limitPref !== Constants.HIGHEST_DM_SHOW_COUNT) {
+                visibleChannels = visibleChannels.slice(0, remaining);
+            }
 
             const visibleChannelsSet = new Set(visibleChannels);
             const filteredChannels = channels.filter((channel) => visibleChannelsSet.has(channel));
