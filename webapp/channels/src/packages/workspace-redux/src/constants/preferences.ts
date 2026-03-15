@@ -45,6 +45,7 @@ const Preferences = {
     CATEGORY_SIDEBAR_SETTINGS: 'sidebar_settings',
     CHANNEL_SIDEBAR_ORGANIZATION: 'channel_sidebar_organization',
     LIMIT_VISIBLE_DMS_GMS: 'limit_visible_dms_gms',
+    HIGHEST_DM_SHOW_COUNT: 0,
     SHOW_UNREAD_SECTION: 'show_unread_section',
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     ADVANCED_FILTER_JOIN_LEAVE: 'join_leave',

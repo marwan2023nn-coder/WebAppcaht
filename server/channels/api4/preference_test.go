@@ -1011,9 +1011,39 @@ func TestUpdateLimitVisibleDMsGMs(t *testing.T) {
 		require.NoError(t, err)
 
 		require.Equal(t, "40", pref.Value, "Value was not updated")
+
+		_, err = client.UpdatePreferences(context.Background(), user.Id, model.Preferences{
+			{
+				UserId:   user.Id,
+				Category: model.PreferenceCategorySidebarSettings,
+				Name:     model.PreferenceLimitVisibleDmsGms,
+				Value:    "0",
+			},
+		})
+		require.NoError(t, err)
+
+		pref, _, err = client.GetPreferenceByCategoryAndName(context.Background(), user.Id, model.PreferenceCategorySidebarSettings, model.PreferenceLimitVisibleDmsGms)
+		require.NoError(t, err)
+
+		require.Equal(t, "0", pref.Value, "Value was not updated")
+
+		_, err = client.UpdatePreferences(context.Background(), user.Id, model.Preferences{
+			{
+				UserId:   user.Id,
+				Category: model.PreferenceCategorySidebarSettings,
+				Name:     model.PreferenceLimitVisibleDmsGms,
+				Value:    "10000",
+			},
+		})
+		require.NoError(t, err)
+
+		pref, _, err = client.GetPreferenceByCategoryAndName(context.Background(), user.Id, model.PreferenceCategorySidebarSettings, model.PreferenceLimitVisibleDmsGms)
+		require.NoError(t, err)
+
+		require.Equal(t, "10000", pref.Value, "Value was not updated")
 	})
 
-	t.Run("Update limit_visible_dms_gms to a value greater PreferenceMaxLimitVisibleDmsGmsValue", func(t *testing.T) {
+	t.Run("Update limit_visible_dms_gms to a value greater PreferenceMaxLimitVisibleDmsGmsValue and not 10000", func(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 		client := th.Client
 
@@ -1025,7 +1055,7 @@ func TestUpdateLimitVisibleDMsGMs(t *testing.T) {
 				UserId:   user.Id,
 				Category: model.PreferenceCategorySidebarSettings,
 				Name:     model.PreferenceLimitVisibleDmsGms,
-				Value:    "10000",
+				Value:    "41",
 			},
 		})
 		require.Error(t, err)
