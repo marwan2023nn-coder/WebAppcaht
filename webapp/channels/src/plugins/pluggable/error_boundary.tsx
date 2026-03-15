@@ -21,6 +21,10 @@ const WrapperDiv = styled.div`
     height: 100%;
     justify-content: center;
     width: 100%;
+    text-align: center;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow: hidden;
 
     #root > & {
         // prevent root layout error; fit into announcement area
@@ -30,6 +34,7 @@ const WrapperDiv = styled.div`
         flex-direction: row;
         gap: 10px;
         height: 40px;
+        padding: 0 10px;
     }
 `;
 
@@ -42,6 +47,11 @@ export default class PluggableErrorBoundary extends React.PureComponent<Props, S
         return {
             hasError: true,
         };
+    }
+
+    componentDidCatch(error: Error, errorInfo: React.ErrorInfo) {
+        // eslint-disable-next-line no-console
+        console.error(`Error in plugin ${this.props.pluginId}:`, error, errorInfo);
     }
 
     clearErrorState = (e: React.MouseEvent) => {
