@@ -313,7 +313,7 @@ function generateCSP() {
         csp += ' \'unsafe-eval\'';
     }
 
-    csp += '; connect-src \'self\' ws: wss: https: blob: data: chrome-extension: moz-extension: safari-extension:';
+    csp += '; connect-src \'self\' ws: wss: blob: data: chrome-extension: moz-extension: safari-extension:';
 
     return csp;
 }

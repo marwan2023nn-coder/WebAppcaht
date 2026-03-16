@@ -96,7 +96,7 @@ func UpdateAssetsSubpathInDir(subpath, directory string) error {
 }
 
 func updateRootFile(oldRootHTML string, rootHTMLPath string, alreadyRewritten bool, pathToReplace, newPath, subpath string) error {
-	newRootHTML := oldRootHTML
+	newRootHTML := strings.Replace(oldRootHTML, "connect-src 'self' ws: wss: https:", "connect-src 'self' ws: wss:", -1)
 
 	reCSP := regexp.MustCompile(`<meta http-equiv="Content-Security-Policy" content="(.*?)script-src 'self'([^;]*)(.*?)">`)
 	if results := reCSP.FindAllString(newRootHTML, -1); len(results) == 0 {
