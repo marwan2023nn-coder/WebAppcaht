@@ -2565,7 +2565,7 @@ func (a *App) SetPostReminder(rctx request.CTX, postID, userID string, targetTim
 		return model.NewAppError("SetPostReminder", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)
 	}
 
-	parsedTime := time.Unix(targetTime, 0).UTC().Format(time.RFC822)
+	parsedTime := time.Unix(targetTime, 0).UTC().Format("2006-01-02 15:04 UTC")
 	siteURL := *a.Config().ServiceSettings.SiteURL
 
 	var permalink string
@@ -2647,6 +2647,12 @@ func (a *App) CheckPostReminders(rctx request.CTX) {
 		// the bot's team membership.
 		botCtx := request.EmptyContext(a.Log()).WithSession(&model.Session{UserId: systemBot.UserId})
 
+		recipient, appErr := a.GetUser(userID)
+		if appErr != nil {
+			rctx.Logger().Error("Failed to get recipient user", mlog.Err(appErr), mlog.String("user_id", userID))
+			continue
+		}
+
 		ch, appErr := a.GetOrCreateDirectChannel(botCtx, userID, systemBot.UserId)
 		if appErr != nil {
 			rctx.Logger().Error("Failed to get direct channel", mlog.Err(appErr), mlog.String("user_id", userID))
@@ -2660,7 +2666,7 @@ func (a *App) CheckPostReminders(rctx request.CTX) {
 				continue
 			}
 
-			T := i18n.GetUserTranslations(metadata.UserLocale)
+			T := i18n.GetUserTranslations(recipient.Locale)
 			dm := &model.Post{
 				ChannelId: ch.Id,
 				Message: T("app.post_reminder_dm", model.StringInterface{
@@ -2675,6 +2681,7 @@ func (a *App) CheckPostReminders(rctx request.CTX) {
 					"team_name": metadata.TeamName,
 					"post_id":   postID,
 					"username":  metadata.Username,
+					"type":      model.PostTypeReminder,
 				},
 			}
 
