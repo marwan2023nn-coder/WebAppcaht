@@ -53,6 +53,11 @@ export default function audioReducer(state: AudioState = initialState, action: A
                 ...state,
                 currentTime: action.payload?.currentTime || state.currentTime,
             };
+        case AudioTypes.UPDATE_PLAYBACK_RATE:
+            return {
+                ...state,
+                playbackRate: action.payload?.playbackRate || state.playbackRate,
+            };
         case AudioTypes.SET_BACKGROUND_AUDIO: // ✅ تشغيل الصوت في الخلفية
             return {
                 ...state,
