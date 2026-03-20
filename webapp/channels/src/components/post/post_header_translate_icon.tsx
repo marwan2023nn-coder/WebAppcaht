@@ -1,12 +1,12 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import React, {useCallback} from 'react';
 import {useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
-import {TranslateIcon} from '@mattermost/compass-icons/components';
-import type {PostTranslation, PostType} from '@mattermost/types/posts';
+import {TranslateIcon} from '@workspace/compass-icons/components';
+import type {PostTranslation, PostType} from '@workspace/types/posts';
 
 import {openModal} from 'actions/views/modals';
 

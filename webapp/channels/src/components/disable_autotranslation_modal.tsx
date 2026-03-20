@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useMemo, useState} from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
-import type {Channel} from '@mattermost/types/channels';
+import type {Channel} from '@workspace/types/channels';
 
 import {setMyChannelAutotranslation} from 'workspace-redux/actions/channels';
 

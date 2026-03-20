@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import React, {useEffect, useState} from 'react';
@@ -6,7 +6,7 @@ import {useIntl} from 'react-intl';
 import {useDispatch, useSelector} from 'react-redux';
 import {Redirect} from 'react-router-dom';
 
-import {PlusIcon} from '@mattermost/compass-icons/components';
+import {PlusIcon} from '@workspace/compass-icons/components';
 
 import {getAgents} from 'workspace-redux/actions/agents';
 import {getRecaps} from 'workspace-redux/actions/recaps';

@@ -1,8 +1,8 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {Agent, LLMService} from '@mattermost/types/agents';
-import type {GlobalState} from '@mattermost/types/store';
+import type {Agent, LLMService} from '@workspace/types/agents';
+import type {GlobalState} from '@workspace/types/store';
 
 export function getAgents(state: GlobalState): Agent[] {
     return state.entities.agents?.agents;
