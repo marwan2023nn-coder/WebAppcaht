@@ -2,6 +2,7 @@
 // See LICENSE.txt for license information.
 
 import marked from 'marked';
+import DOMPurify from 'dompurify';
 
 import {createSelector} from 'workspace-redux/selectors/create_selector';
 import {getAutolinkedUrlSchemes, getConfig} from 'workspace-redux/selectors/entities/general';
@@ -28,7 +29,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
 
     const markdownOptions = {
         renderer,
-        sanitize: true,
+        sanitize: false,
         gfm: true,
         tables: true,
         mangle: false,
@@ -36,7 +37,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         urlFilter,
     };
 
-    return marked(text, markdownOptions).trim();
+    return DOMPurify.sanitize(marked(text, markdownOptions)).trim();
 }
 
 const getAutolinkedUrlSchemeFilter = createSelector(

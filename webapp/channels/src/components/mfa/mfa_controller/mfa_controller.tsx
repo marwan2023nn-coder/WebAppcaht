@@ -11,6 +11,8 @@ import {Client4} from 'workspace-redux/client';
 
 import {emitUserLoggedOutEvent} from 'actions/global_actions';
 
+import {t} from 'utils/i18n';
+
 import BackButton from 'components/common/back_button';
 import LogoutIcon from 'components/widgets/icons/fa_logout_icon';
 
@@ -138,7 +140,14 @@ export default class MFAController extends React.PureComponent<Props & RouteComp
                                         onError={this.handleBrandImageError}
                                     />
                                 )}
-                                <p>{this.props.siteName || 'مـنصة عمـل ســـوفـا'}</p>
+                                <p>
+                                    {this.props.siteName || (
+                                        <FormattedMessage
+                                            id={t('login.sofa_platform')}
+                                            defaultMessage='Sofa Workspace Platform'
+                                        />
+                                    )}
+                                </p>
                                 <p className='custom-text'>{this.props.customBrandText || 'Sofa Workspace'}</p>
                             </div>
 

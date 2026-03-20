@@ -10,6 +10,7 @@ import ShieldWithCheckmarkSVG from 'components/common/svg_images_components/shie
 import SaveButton from 'components/save_button';
 import { Client4 } from 'workspace-redux/client';
 import {getConfig} from 'workspace-redux/selectors/entities/general';
+import {t} from 'utils/i18n';
 import './login_mfa.scss';
 import './login.scss';
 import img from './imagelogin/Pattern.png'
@@ -175,7 +176,7 @@ const LoginMfa = ({loginId, password, title, subtitle, onSubmit}: LoginMfaProps)
                                     onError={handleBrandImageError}
                                 />
                             )}
-                            <p>{siteName || 'مـنصة عمـل ســـوفـا'}</p>
+                            <p>{siteName || formatMessage({id: t('login.sofa_platform'), defaultMessage: 'Sofa Workspace Platform'})}</p>
                             <p className='custom-text'>{CustomBrandText || 'Sofa Workspace'}</p>
                         </div>
 
