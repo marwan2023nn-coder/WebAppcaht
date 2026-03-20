@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useEffect, useRef} from 'react';
+import {useEffect} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import {checkCWSAvailability} from 'workspace-redux/actions/general';
-import {getCWSAvailability} from 'workspace-redux/selectors/entities/general';
+import {checkCWSAvailability} from 'mattermost-redux/actions/general';
+import {getCWSAvailability} from 'mattermost-redux/selectors/entities/general';
 
 export enum CSWAvailabilityCheckTypes {
     Available = 'available',
@@ -17,17 +17,10 @@ export enum CSWAvailabilityCheckTypes {
 export default function useCWSAvailabilityCheck(): CSWAvailabilityCheckTypes {
     const dispatch = useDispatch();
     const cwsAvailability = useSelector(getCWSAvailability);
-    const hasRequested = useRef(false);
 
     useEffect(() => {
-        if (cwsAvailability !== 'pending') {
-            hasRequested.current = false;
-            return;
-        }
-
-        // React 18 StrictMode runs effects twice in development. Guard to avoid duplicate requests.
-        if (!hasRequested.current) {
-            hasRequested.current = true;
+        // Only check if we haven't checked yet (pending state)
+        if (cwsAvailability === 'pending') {
             dispatch(checkCWSAvailability());
         }
     }, [dispatch, cwsAvailability]);

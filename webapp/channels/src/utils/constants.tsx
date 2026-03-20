@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable max-lines */
@@ -7,14 +7,14 @@ import solarizedDarkCSS from 'highlight.js/styles/base16/solarized-dark.css';
 import solarizedLightCSS from 'highlight.js/styles/base16/solarized-light.css';
 import githubCSS from 'highlight.js/styles/github.css';
 import monokaiCSS from 'highlight.js/styles/monokai.css';
-import { defineMessage, defineMessages } from 'react-intl';
+import {defineMessage, defineMessages} from 'react-intl';
 
-import { CustomStatusDuration } from '@workspace/types/users';
+import {CustomStatusDuration} from '@mattermost/types/users';
 
-import { Preferences as ReduxPreferences } from 'workspace-redux/constants';
-import Permissions from 'workspace-redux/constants/permissions';
-import keyMirror from 'workspace-redux/utils/key_mirror';
-import * as PostListUtils from 'workspace-redux/utils/post_list';
+import {Preferences as ReduxPreferences} from 'mattermost-redux/constants';
+import Permissions from 'mattermost-redux/constants/permissions';
+import keyMirror from 'mattermost-redux/utils/key_mirror';
+import * as PostListUtils from 'mattermost-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';
@@ -51,53 +51,7 @@ export const SettingsTypes = {
     TYPE_ROLES: 'roles' as const,
     TYPE_EXPANDABLE_SETTING: 'expandable_setting' as const,
 };
-export const TELEMETRY_LABELS = {
-    UNSAVE: 'unsave',
-    SAVE: 'save',
-    COPY_LINK: 'copy_link',
-    COPY_TEXT: 'copy_text',
-    DELETE: 'delete',
-    EDIT: 'edit',
-    FOLLOW: 'follow',
-    UNFOLLOW: 'unfollow',
-    PIN: 'pin',
-    UNPIN: 'unpin',
-    REPLY: 'reply',
-    UNREAD: 'unread',
-    FORWARD: 'forward',
-    MOVE_THREAD: 'move_thread',
-};
-export const TELEMETRY_CATEGORIES = {
-    CLOUD_PURCHASING: 'cloud_purchasing',
-    CLOUD_PRICING: 'cloud_pricing',
-    SELF_HOSTED_PURCHASING: 'self_hosted_purchasing',
-    SELF_HOSTED_EXPANSION: 'self_hosted_expansion',
-    CLOUD_ADMIN: 'cloud_admin',
-    CLOUD_DELINQUENCY: 'cloud_delinquency',
-    SELF_HOSTED_ADMIN: 'self_hosted_admin',
-    POST_INFO_MORE: 'post_info_more_menu',
-    POST_INFO: 'post_info',
-    SELF_HOSTED_START_TRIAL_AUTO_MODAL: 'self_hosted_start_trial_auto_modal',
-    SELF_HOSTED_START_TRIAL_MODAL: 'self_hosted_start_trial_modal',
-    CLOUD_START_TRIAL_BUTTON: 'cloud_start_trial_button',
-    CLOUD_THREE_DAYS_LEFT_MODAL: 'cloud_three_days_left_modal',
-    SELF_HOSTED_START_TRIAL_TASK_LIST: 'self_hosted_start_trial_task_list',
-    SELF_HOSTED_LICENSE_EXPIRED: 'self_hosted_license_expired',
-    WORKSPACE_OPTIMIZATION_DASHBOARD: 'workspace_optimization_dashboard',
-    REQUEST_BUSINESS_EMAIL: 'request_business_email',
-    TRUE_UP_REVIEW: 'true_up_review',
-};
-export const AudioTypes = {
-    SET_AUDIO: 'SET_AUDIO',
-    PLAY_AUDIO: 'PLAY_AUDIO',
-    PAUSE_AUDIO: 'PAUSE_AUDIO',
-    UPDATE_TIME: 'UPDATE_TIME',
-    UPDATE_DURATION: 'UPDATE_DURATION',
-    UPDATE_PLAYBACK_RATE: 'UPDATE_PLAYBACK_RATE',
-    RESET_AUDIO: 'RESET_AUDIO',
-    SET_BACKGROUND_AUDIO: 'SET_BACKGROUND_AUDIO',
-    UPDATE_AUDIO_TIME: 'UPDATE_AUDIO_TIME',
-};
+
 export const InviteTypes = {
     INVITE_MEMBER: 'member',
     INVITE_GUEST: 'guest',
@@ -117,11 +71,7 @@ export const Preferences = {
     CATEGORY_ADVANCED_SETTINGS: 'advanced_settings',
     TUTORIAL_STEP: 'tutorial_step',
     TUTORIAL_STEP_AUTO_TOUR_STATUS: 'tutorial_step_auto_tour_status',
-    CRT_TUTORIAL_TRIGGERED: 'crt_tutorial_triggered',
-    CRT_TUTORIAL_AUTO_TOUR_STATUS: 'crt_tutorial_auto_tour_status',
-    CRT_TUTORIAL_STEP: 'crt_tutorial_step',
     EXPLORE_OTHER_TOOLS_TUTORIAL_STEP: 'explore_other_tools_step',
-    CRT_THREAD_PANE_STEP: 'crt_thread_pane_step',
     CHANNEL_DISPLAY_MODE: 'channel_display_mode',
     CHANNEL_DISPLAY_MODE_CENTERED: 'centered',
     CHANNEL_DISPLAY_MODE_FULL_SCREEN: 'full',
@@ -201,9 +151,8 @@ export const Preferences = {
     TO_CLOUD_YEARLY_PLAN_NUDGE: 'to_cloud_yearly_plan_nudge',
     TO_PAID_PLAN_NUDGE: 'to_paid_plan_nudge',
     CLOUD_ANNUAL_RENEWAL_BANNER: 'cloud_annual_renewal_banner',
-    CATEGORY_BURN_ON_READ: 'burn_on_read',
-    BURN_ON_READ_SKIP_CONFIRMATION: 'skip_delete_confirmation',
 };
+
 // For one off things that have a special, attention-grabbing UI until you interact with them
 export const Touched = {
     ADD_CHANNELS_CTA: 'add_channels_cta',
@@ -226,13 +175,13 @@ export const TrialPeriodDays = {
 };
 
 export const suitePluginIds = {
-    playbooks: 'workspace',
+    playbooks: 'playbooks',
     focalboard: 'focalboard',
 
-    apps: 'com.workspace.apps',
-    calls: 'com.workspace.calls',
-    nps: 'com.workspace.nps',
-    channelExport: 'com.workspace.plugin-channel-export',
+    apps: 'com.mattermost.apps',
+    calls: 'com.mattermost.calls',
+    nps: 'com.mattermost.nps',
+    channelExport: 'com.mattermost.plugin-channel-export',
 };
 
 export const ActionTypes = keyMirror({
@@ -270,9 +219,6 @@ export const ActionTypes = keyMirror({
     TOGGLE_IMPORT_THEME_MODAL: null,
     TOGGLE_DELETE_POST_MODAL: null,
     TOGGLE_EDITING_POST: null,
-    SET_POST_MULTISELECT_MODE: null,
-    TOGGLE_MULTISELECT_POST: null,
-    CLEAR_MULTISELECT_POSTS: null,
 
     EMITTED_SHORTCUT_REACT_TO_LAST_POST: null,
 
@@ -304,7 +250,6 @@ export const ActionTypes = keyMirror({
 
     INCREMENT_EMOJI_PICKER_PAGE: null,
     SET_RECENT_SKIN: null,
-    ADD_CHANNEL_CTA_DROPDOWN_TOGGLE: null,
 
     SHOW_ONBOARDING_TASK_COMPLETION: null,
     SHOW_ONBOARDING_COMPLETE_PROFILE_TOUR: null,
@@ -406,7 +351,6 @@ export const ModalIdentifiers = {
     ADD_USER_TO_ROLE: 'add_user_to_role',
     ADD_USER_TO_TEAM: 'add_user_to_team',
     CREATE_DM_CHANNEL: 'create_dm_channel',
-    MESSAGE_MULTIPLE_USERS_DM: 'message_multiple_users_dm',
     EDIT_CHANNEL_HEADER: 'edit_channel_header',
     EDIT_CHANNEL_PURPOSE: 'edit_channel_purpose',
     NOTIFICATIONS: 'notifications',
@@ -419,6 +363,8 @@ export const ModalIdentifiers = {
     USER_SETTINGS: 'user_settings',
     QUICK_SWITCH: 'quick_switch',
     REMOVED_FROM_CHANNEL: 'removed_from_channel',
+    SHOW_TRANSLATION: 'show_translation',
+    DISABLE_AUTOTRANSLATION_CONFIRM: 'disable_autotranslation_confirm',
     EMAIL_INVITE: 'email_invite',
     INTERACTIVE_DIALOG: 'interactive_dialog',
     APPS_MODAL: 'apps_modal',
@@ -534,7 +480,6 @@ export const ModalIdentifiers = {
     USER_PROPERTY_FIELD_DELETE: 'user_property_field_delete',
     ATTRIBUTE_MODAL_LDAP: 'attribute_modal_ldap',
     ATTRIBUTE_MODAL_SAML: 'attribute_modal_saml',
-    DELETE_USER_MODAL: 'delete_user_modal',
     FLAG_POST: 'flag_post',
     REMOVE_FLAGGED_POST: 'remove_flagged_post',
     CREATE_RECAP_MODAL: 'create_recap_modal',
@@ -588,19 +533,19 @@ export const SelfHostedProducts = {
     ENTERPRISE: 'enterprise',
 };
 
-export const WorkspaceFeatures = {
-    GUEST_ACCOUNTS: 'workspace.feature.guest_accounts',
-    CUSTOM_USER_GROUPS: 'workspace.feature.custom_user_groups',
-    CREATE_MULTIPLE_TEAMS: 'workspace.feature.create_multiple_teams',
-    START_CALL: 'workspace.feature.start_call',
-    PLAYBOOKS_RETRO: 'workspace.feature.playbooks_retro',
-    UNLIMITED_MESSAGES: 'workspace.feature.unlimited_messages',
-    UNLIMITED_FILE_STORAGE: 'workspace.feature.unlimited_file_storage',
-    ALL_PROFESSIONAL_FEATURES: 'workspace.feature.all_professional',
-    ALL_ENTERPRISE_FEATURES: 'workspace.feature.all_enterprise',
-    UPGRADE_DOWNGRADED_WORKSPACE: 'workspace.feature.upgrade_downgraded_workspace',
-    PLUGIN_FEATURE: 'workspace.feature.plugin',
-    HIGHLIGHT_WITHOUT_NOTIFICATION: 'workspace.feature.highlight_without_notification',
+export const MattermostFeatures = {
+    GUEST_ACCOUNTS: 'mattermost.feature.guest_accounts',
+    CUSTOM_USER_GROUPS: 'mattermost.feature.custom_user_groups',
+    CREATE_MULTIPLE_TEAMS: 'mattermost.feature.create_multiple_teams',
+    START_CALL: 'mattermost.feature.start_call',
+    PLAYBOOKS_RETRO: 'mattermost.feature.playbooks_retro',
+    UNLIMITED_MESSAGES: 'mattermost.feature.unlimited_messages',
+    UNLIMITED_FILE_STORAGE: 'mattermost.feature.unlimited_file_storage',
+    ALL_PROFESSIONAL_FEATURES: 'mattermost.feature.all_professional',
+    ALL_ENTERPRISE_FEATURES: 'mattermost.feature.all_enterprise',
+    UPGRADE_DOWNGRADED_WORKSPACE: 'mattermost.feature.upgrade_downgraded_workspace',
+    PLUGIN_FEATURE: 'mattermost.feature.plugin',
+    HIGHLIGHT_WITHOUT_NOTIFICATION: 'mattermost.feature.highlight_without_notification',
 };
 
 export enum LicenseSkus {
@@ -615,15 +560,15 @@ export enum LicenseSkus {
 
 export function getLicenseTier(licenseSku: string): number {
     switch (licenseSku) {
-        case LicenseSkus.Professional:
-            return 10;
-        case LicenseSkus.Enterprise:
-            return 20;
-        case LicenseSkus.Entry:
-        case LicenseSkus.EnterpriseAdvanced:
-            return 30;
-        default:
-            return 0;
+    case LicenseSkus.Professional:
+        return 10;
+    case LicenseSkus.Enterprise:
+        return 20;
+    case LicenseSkus.Entry:
+    case LicenseSkus.EnterpriseAdvanced:
+        return 30;
+    default:
+        return 0;
     }
 }
 
@@ -669,77 +614,13 @@ export const AppEvents = {
     FOCUS_EDIT_TEXTBOX: 'focus_edit_textbox',
 };
 
+/**
+ * @deprecated Use WebSocketEvents from @mattermost/client instead.
+ */
 export const SocketEvents = {
-    POSTED: 'posted',
-    POST_EDITED: 'post_edited',
-    POST_DELETED: 'post_deleted',
-    POST_UPDATED: 'post_updated',
-    POST_UNREAD: 'post_unread',
-    BURN_ON_READ_POST_REVEALED: 'post_revealed',
-    BURN_ON_READ_POST_BURNED: 'post_burned',
-    BURN_ON_READ_ALL_REVEALED: 'burn_on_read_all_revealed',
-    CHANNEL_CONVERTED: 'channel_converted',
-    CHANNEL_CREATED: 'channel_created',
-    CHANNEL_DELETED: 'channel_deleted',
-    CHANNEL_UNARCHIVED: 'channel_restored',
-    CHANNEL_UPDATED: 'channel_updated',
-    CHANNEL_BOOKMARK_CREATED: 'channel_bookmark_created',
-    CHANNEL_BOOKMARK_DELETED: 'channel_bookmark_deleted',
-    CHANNEL_BOOKMARK_UPDATED: 'channel_bookmark_updated',
-    CHANNEL_BOOKMARK_SORTED: 'channel_bookmark_sorted',
-    MULTIPLE_CHANNELS_VIEWED: 'multiple_channels_viewed',
-    CHANNEL_MEMBER_UPDATED: 'channel_member_updated',
-    CHANNEL_SCHEME_UPDATED: 'channel_scheme_updated',
-    DIRECT_ADDED: 'direct_added',
-    GROUP_ADDED: 'group_added',
-    NEW_USER: 'new_user',
-    ADDED_TO_TEAM: 'added_to_team',
-    JOIN_TEAM: 'join_team',
-    LEAVE_TEAM: 'leave_team',
-    UPDATE_TEAM: 'update_team',
-    DELETE_TEAM: 'delete_team',
-    UPDATE_TEAM_SCHEME: 'update_team_scheme',
-    USER_ADDED: 'user_added',
-    USER_REMOVED: 'user_removed',
-    USER_UPDATED: 'user_updated',
-    USER_ROLE_UPDATED: 'user_role_updated',
-    MEMBERROLE_UPDATED: 'memberrole_updated',
-    ROLE_ADDED: 'role_added',
-    ROLE_REMOVED: 'role_removed',
-    ROLE_UPDATED: 'role_updated',
-    TYPING: 'typing',
-    PREFERENCE_CHANGED: 'preference_changed',
-    PREFERENCES_CHANGED: 'preferences_changed',
-    PREFERENCES_DELETED: 'preferences_deleted',
-    EPHEMERAL_MESSAGE: 'ephemeral_message',
-    STATUS_CHANGED: 'status_change',
-    HELLO: 'hello',
-    REACTION_ADDED: 'reaction_added',
-    REACTION_REMOVED: 'reaction_removed',
-    EMOJI_ADDED: 'emoji_added',
-    PLUGIN_ENABLED: 'plugin_enabled',
-    PLUGIN_DISABLED: 'plugin_disabled',
-    LICENSE_CHANGED: 'license_changed',
-    CONFIG_CHANGED: 'config_changed',
-    PLUGIN_STATUSES_CHANGED: 'plugin_statuses_changed',
-    OPEN_DIALOG: 'open_dialog',
-    RECEIVED_GROUP: 'received_group',
-    GROUP_MEMBER_ADD: 'group_member_add',
-    GROUP_MEMBER_DELETED: 'group_member_deleted',
-    RECEIVED_GROUP_ASSOCIATED_TO_TEAM: 'received_group_associated_to_team',
-    RECEIVED_GROUP_NOT_ASSOCIATED_TO_TEAM: 'received_group_not_associated_to_team',
-    RECEIVED_GROUP_ASSOCIATED_TO_CHANNEL: 'received_group_associated_to_channel',
-    RECEIVED_GROUP_NOT_ASSOCIATED_TO_CHANNEL: 'received_group_not_associated_to_channel',
-    SIDEBAR_CATEGORY_CREATED: 'sidebar_category_created',
-    SIDEBAR_CATEGORY_UPDATED: 'sidebar_category_updated',
-    SIDEBAR_CATEGORY_DELETED: 'sidebar_category_deleted',
-    SIDEBAR_CATEGORY_ORDER_UPDATED: 'sidebar_category_order_updated',
-    USER_ACTIVATION_STATUS_CHANGED: 'user_activation_status_change',
-    CLOUD_PAYMENT_STATUS_UPDATED: 'cloud_payment_status_updated',
-    CLOUD_SUBSCRIPTION_CHANGED: 'cloud_subscription_changed',
-    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.workspace.apps_refresh_bindings',
-    APPS_FRAMEWORK_PLUGIN_ENABLED: 'custom_com.workspace.apps_plugin_enabled',
-    APPS_FRAMEWORK_PLUGIN_DISABLED: 'custom_com.workspace.apps_plugin_disabled',
+    APPS_FRAMEWORK_REFRESH_BINDINGS: 'custom_com.mattermost.apps_refresh_bindings',
+    APPS_FRAMEWORK_PLUGIN_ENABLED: 'custom_com.mattermost.apps_plugin_enabled',
+    APPS_FRAMEWORK_PLUGIN_DISABLED: 'custom_com.mattermost.apps_plugin_disabled',
     FIRST_ADMIN_VISIT_MARKETPLACE_STATUS_RECEIVED: 'first_admin_visit_marketplace_status_received',
     THREAD_UPDATED: 'thread_updated',
     THREAD_FOLLOW_CHANGED: 'thread_follow_changed',
@@ -779,26 +660,7 @@ export const AdminTutorialSteps = ['START_TRIAL'];
 
 export const TopLevelProducts = {
     BOARDS: 'Boards',
-    PLAYBOOKS: 'workspace',
-};
-export const CrtTutorialSteps = {
-    START: 0,
-    STARTED: 1,
-    WELCOME_POPOVER: 0,
-    LIST_POPOVER: 1,
-    UNREAD_POPOVER: 2,
-    FINISHED: 999,
-};
-
-export const CrtTutorialTriggerSteps = {
-    START: 0,
-    STARTED: 1,
-    FINISHED: 999,
-};
-
-export const CrtThreadPaneSteps = {
-    THREADS_PANE_POPOVER: 0,
-    FINISHED: 999,
+    PLAYBOOKS: 'Playbooks',
 };
 
 export enum ItemStatus {
@@ -885,6 +747,7 @@ export const PostTypes = {
     CUSTOM_CALLS: 'custom_calls',
     CUSTOM_CALLS_RECORDING: 'custom_calls_recording',
     CUSTOM_DATA_SPILLAGE_REPORT: 'custom_spillage_report',
+    AUTO_TRANSLATION_CHANGE: 'system_autotranslation',
     BURN_ON_READ: 'burn_on_read',
 };
 
@@ -910,8 +773,6 @@ export const StatTypes = keyMirror({
     MONTHLY_ACTIVE_USERS: null,
     TOTAL_FILE_COUNT: null,
     TOTAL_FILE_SIZE: null,
-    TOTAL_ATTACHED_FILE_COUNT: null,
-    TOTAL_DOWNLOADED_FILE_COUNT: null,
 });
 
 export const SearchTypes = keyMirror({
@@ -951,7 +812,7 @@ export const StoragePrefixes = {
 };
 
 export const LandingPreferenceTypes = {
-    WORKSPACEAPP: 'WORKSPACEapp',
+    MATTERMOSTAPP: 'mattermostapp',
     BROWSER: 'browser',
 };
 
@@ -1039,7 +900,7 @@ defineMessages({
     },
     socketError: {
         id: 'channel_loader.socketError',
-        defaultMessage: 'Please check connection, Workspace unreachable. If issue persists, ask administrator to [check WebSocket port](!https://docs.workspace .com/install/troubleshooting.html#please-check-connection-workspace -unreachable-if-issue-persists-ask-administrator-to-check-websocket-port).',
+        defaultMessage: 'Please check connection, Mattermost unreachable. If issue persists, ask administrator to [check WebSocket port](!https://docs.mattermost.com/install/troubleshooting.html#please-check-connection-mattermost-unreachable-if-issue-persists-ask-administrator-to-check-websocket-port).',
     },
     trialLicenseExpiring: {
         id: 'announcement_bar.error.trial_license_expiring',
@@ -1064,13 +925,8 @@ export const FileTypes = {
     PDF: 'pdf',
     PATCH: 'patch',
     SVG: 'svg',
-    ISO: 'iso',
-    RAR: 'rar',
-    ZIP: 'zip',
-    BAT: 'bat',
-    XML: 'xml',
     OTHER: 'other',
-    LICENSE_EXTENSION: '.sofa-license',
+    LICENSE_EXTENSION: '.mattermost-license',
 };
 
 export const NotificationLevels = {
@@ -1158,96 +1014,96 @@ export const DraggingStateTypes = {
 };
 
 export const AboutLinks = {
-    TERMS_OF_SERVICE: 'https://workspace .com/pl/terms-of-use/',
-    PRIVACY_POLICY: 'https://workspace .com/pl/privacy-policy/',
+    TERMS_OF_SERVICE: 'https://mattermost.com/pl/terms-of-use/',
+    PRIVACY_POLICY: 'https://mattermost.com/pl/privacy-policy/',
 };
 
 export const CloudLinks = {
-    BILLING_DOCS: 'https://docs.workspace .com/pl/cloud-billing',
-    PRICING: 'https://workspace .com/pl/pricing/',
-    PRORATED_PAYMENT: 'https://workspace .com/pl/workspace -cloud-prorate-documentation',
-    DEPLOYMENT_OPTIONS: 'https://workspace .com/deploy/',
-    DOWNLOAD_UPDATE: 'https://workspace .com/deploy/',
-    CLOUD_SIGNUP_PAGE: 'https://workspace .com/sign-up/',
-    SELF_HOSTED_SIGNUP: 'https://customers.workspace .com/signup',
-    DELINQUENCY_DOCS: 'https://docs.workspace .com/about/cloud-subscriptions.html#failed-or-late-payments',
-    SELF_HOSTED_PRICING: 'https://workspace .com/pl/pricing/#self-hosted',
+    BILLING_DOCS: 'https://docs.mattermost.com/pl/cloud-billing',
+    PRICING: 'https://mattermost.com/pl/pricing/',
+    PRORATED_PAYMENT: 'https://mattermost.com/pl/mattermost-cloud-prorate-documentation',
+    DEPLOYMENT_OPTIONS: 'https://mattermost.com/deploy/',
+    DOWNLOAD_UPDATE: 'https://mattermost.com/deploy/',
+    CLOUD_SIGNUP_PAGE: 'https://mattermost.com/sign-up/',
+    SELF_HOSTED_SIGNUP: 'https://customers.mattermost.com/signup',
+    DELINQUENCY_DOCS: 'https://docs.mattermost.com/about/cloud-subscriptions.html#failed-or-late-payments',
+    SELF_HOSTED_PRICING: 'https://mattermost.com/pl/pricing/#self-hosted',
 };
 
 export const HostedCustomerLinks = {
-    BILLING_DOCS: 'https://workspace .com/pl/how-self-hosted-billing-works',
-    SELF_HOSTED_BILLING: 'https://workspace .com/pl/self-hosted-billing',
-    TERMS_AND_CONDITIONS: 'https://workspace .com/enterprise-edition-terms/',
-    SECURITY_UPDATES: 'https://workspace .com/security-updates/',
-    DOWNLOAD: 'https://workspace .com/download',
-    NEWSLETTER_UNSUBSCRIBE_LINK: 'https://forms.workspace .com/UnsubscribePage.html',
+    BILLING_DOCS: 'https://mattermost.com/pl/how-self-hosted-billing-works',
+    SELF_HOSTED_BILLING: 'https://mattermost.com/pl/self-hosted-billing',
+    TERMS_AND_CONDITIONS: 'https://mattermost.com/enterprise-edition-terms/',
+    SECURITY_UPDATES: 'https://mattermost.com/security-updates/',
+    DOWNLOAD: 'https://mattermost.com/download',
+    NEWSLETTER_UNSUBSCRIBE_LINK: 'https://forms.mattermost.com/UnsubscribePage.html',
     PRIVACY: AboutLinks.PRIVACY_POLICY,
 };
 
 export const DocLinks = {
-    ABOUT_TEAMS: 'https://docs.workspace .com/welcome/about-teams.html#team-url',
-    ADVANCED_LOGGING: 'https://workspace .com/pl/advanced-logging',
-    CONFIGURE_DOCUMENT_CONTENT_SEARCH: 'https://workspace .com/pl/configure-document-content-search',
-    CONFIGURE_AD_LDAP_QUERY_TIMEOUT: 'https://workspace .com/pl/configure-ad-ldap-query-timeout',
-    CONFIGURE_OVERRIDE_SAML_BIND_DATA_WITH_LDAP: 'https://workspace .com/pl/configure-override-saml-bind-data-with-ldap',
-    COMPILANCE_EXPORT: 'https://workspace .com/pl/compliance-export',
-    COMPILANCE_MONITORING: 'https://workspace .com/pl/compliance-monitoring',
-    DATA_RETENTION_POLICY: 'https://workspace .com/pl/data-retention-policy',
-    DEFAULT_LDAP_GROUP_SYNC: 'https://workspace .com/pl/default-ldap-group-sync',
-    DESKTOP_MANAGED_RESOURCES: 'https://workspace .com/pl/desktop-managed-resources',
-    ELASTICSEARCH: 'https://workspace .com/pl/setup-elasticsearch',
-    ENABLE_HARDENED_MODE: 'https://workspace .com/pl/enable-hardened-mode',
-    FORMAT_MESSAGES: 'https://workspace .com/pl/format-messages',
-    FILE_STORAGE: 'https://workspace .com/pl/configure-file-storage',
-    GUEST_ACCOUNTS: 'https://docs.workspace .com/onboard/guest-accounts.html',
-    HIGH_AVAILABILITY_CLUSTER: 'https://workspace .com/pl/high-availability-cluster',
-    IN_PRODUCT_NOTICES: 'https://workspace .com/pl/in-product-notices',
-    MULTI_FACTOR_AUTH: 'https://workspace .com/pl/multi-factor-authentication',
-    ONBOARD_ADVANCED_PERMISSIONS: 'https://workspace .com/pl/advanced-permissions',
-    ONBOARD_LDAP: 'https://workspace .com/pl/setup-ldap',
+    ABOUT_TEAMS: 'https://docs.mattermost.com/welcome/about-teams.html#team-url',
+    ADVANCED_LOGGING: 'https://mattermost.com/pl/advanced-logging',
+    CONFIGURE_DOCUMENT_CONTENT_SEARCH: 'https://mattermost.com/pl/configure-document-content-search',
+    CONFIGURE_AD_LDAP_QUERY_TIMEOUT: 'https://mattermost.com/pl/configure-ad-ldap-query-timeout',
+    CONFIGURE_OVERRIDE_SAML_BIND_DATA_WITH_LDAP: 'https://mattermost.com/pl/configure-override-saml-bind-data-with-ldap',
+    COMPILANCE_EXPORT: 'https://mattermost.com/pl/compliance-export',
+    COMPILANCE_MONITORING: 'https://mattermost.com/pl/compliance-monitoring',
+    DATA_RETENTION_POLICY: 'https://mattermost.com/pl/data-retention-policy',
+    DEFAULT_LDAP_GROUP_SYNC: 'https://mattermost.com/pl/default-ldap-group-sync',
+    DESKTOP_MANAGED_RESOURCES: 'https://mattermost.com/pl/desktop-managed-resources',
+    ELASTICSEARCH: 'https://mattermost.com/pl/setup-elasticsearch',
+    ENABLE_HARDENED_MODE: 'https://mattermost.com/pl/enable-hardened-mode',
+    FORMAT_MESSAGES: 'https://mattermost.com/pl/format-messages',
+    FILE_STORAGE: 'https://mattermost.com/pl/configure-file-storage',
+    GUEST_ACCOUNTS: 'https://docs.mattermost.com/onboard/guest-accounts.html',
+    HIGH_AVAILABILITY_CLUSTER: 'https://mattermost.com/pl/high-availability-cluster',
+    IN_PRODUCT_NOTICES: 'https://mattermost.com/pl/in-product-notices',
+    MULTI_FACTOR_AUTH: 'https://mattermost.com/pl/multi-factor-authentication',
+    ONBOARD_ADVANCED_PERMISSIONS: 'https://mattermost.com/pl/advanced-permissions',
+    ONBOARD_LDAP: 'https://mattermost.com/pl/setup-ldap',
     SELF_HOSTED_BILLING: HostedCustomerLinks.SELF_HOSTED_BILLING,
-    SESSION_LENGTHS: 'https://workspace .com/pl/configure-session-lengths',
-    SETUP_IMAGE_PROXY: 'https://workspace .com/pl/setup-image-proxy',
-    SETUP_LDAP: 'https://workspace .com/pl/setup-ldap',
-    SETUP_PERFORMANCE_MONITORING: 'https://workspace .com/pl/setup-performance-monitoring',
-    SETUP_PUSH_NOTIFICATIONS: 'https://workspace .com/pl/setup-push-notifications',
-    SETUP_SAML: 'https://docs.workspace .com/pl/setup-saml',
-    SHARE_LINKS_TO_MESSAGES: 'https://workspace .com/pl/share-links-to-messages',
-    SITE_URL: 'https://workspace .com/pl/configure-site-url',
-    SSL_CERTIFICATE: 'https://workspace .com/pl/setup-ssl-client-certificate',
-    TRUE_UP_REVIEW: 'https://workspace .com/pl/true-up-documentation',
-    TRUSTED_CONNECTION: 'https://workspace .com/pl/default-allow-untrusted-internal-connections',
-    UPGRADE_SERVER: 'https://workspace .com/pl/upgrade-workspace ',
+    SESSION_LENGTHS: 'https://mattermost.com/pl/configure-session-lengths',
+    SETUP_IMAGE_PROXY: 'https://mattermost.com/pl/setup-image-proxy',
+    SETUP_LDAP: 'https://mattermost.com/pl/setup-ldap',
+    SETUP_PERFORMANCE_MONITORING: 'https://mattermost.com/pl/setup-performance-monitoring',
+    SETUP_PUSH_NOTIFICATIONS: 'https://mattermost.com/pl/setup-push-notifications',
+    SETUP_SAML: 'https://docs.mattermost.com/pl/setup-saml',
+    SHARE_LINKS_TO_MESSAGES: 'https://mattermost.com/pl/share-links-to-messages',
+    SITE_URL: 'https://mattermost.com/pl/configure-site-url',
+    SSL_CERTIFICATE: 'https://mattermost.com/pl/setup-ssl-client-certificate',
+    TRUE_UP_REVIEW: 'https://mattermost.com/pl/true-up-documentation',
+    TRUSTED_CONNECTION: 'https://mattermost.com/pl/default-allow-untrusted-internal-connections',
+    UPGRADE_SERVER: 'https://mattermost.com/pl/upgrade-mattermost',
 };
 
 export const DeveloperLinks = {
-    CUSTOM_SLASH_COMMANDS: 'https://workspace .com/pl/custom-slash-commands',
-    ENABLE_OAUTH2: 'https://workspace .com/pl/enable-oauth',
-    INCOMING_WEBHOOKS: 'https://workspace .com/pl/incoming-webhooks',
-    OUTGOING_WEBHOOKS: 'https://workspace .com/pl/outgoing-webhooks',
-    INTERACTIVE_MESSAGES: 'https://workspace .com/pl/interactive-messages',
-    INTERACTIVE_DIALOGS: 'https://workspace .com/pl/interactive-dialogs',
-    PERSONAL_ACCESS_TOKENS: 'https://workspace .com/pl/personal-access-tokens',
-    PLUGIN_SIGNING: 'https://workspace .com/pl/sign-plugins',
-    PLUGINS: 'https://workspace .com/pl/plugins',
-    SETUP_CUSTOM_SLASH_COMMANDS: 'https://workspace .com/pl/setup-custom-slash-commands',
-    SETUP_INCOMING_WEBHOOKS: 'https://workspace .com/pl/setup-incoming-webhooks',
-    SETUP_OAUTH2: 'https://workspace .com/pl/setup-oauth-2.0',
-    SETUP_OUTGOING_WEBHOOKS: 'https://workspace .com/pl/setup-outgoing-webhooks',
+    CUSTOM_SLASH_COMMANDS: 'https://mattermost.com/pl/custom-slash-commands',
+    ENABLE_OAUTH2: 'https://mattermost.com/pl/enable-oauth',
+    INCOMING_WEBHOOKS: 'https://mattermost.com/pl/incoming-webhooks',
+    OUTGOING_WEBHOOKS: 'https://mattermost.com/pl/outgoing-webhooks',
+    INTERACTIVE_MESSAGES: 'https://mattermost.com/pl/interactive-messages',
+    INTERACTIVE_DIALOGS: 'https://mattermost.com/pl/interactive-dialogs',
+    PERSONAL_ACCESS_TOKENS: 'https://mattermost.com/pl/personal-access-tokens',
+    PLUGIN_SIGNING: 'https://mattermost.com/pl/sign-plugins',
+    PLUGINS: 'https://mattermost.com/pl/plugins',
+    SETUP_CUSTOM_SLASH_COMMANDS: 'https://mattermost.com/pl/setup-custom-slash-commands',
+    SETUP_INCOMING_WEBHOOKS: 'https://mattermost.com/pl/setup-incoming-webhooks',
+    SETUP_OAUTH2: 'https://mattermost.com/pl/setup-oauth-2.0',
+    SETUP_OUTGOING_WEBHOOKS: 'https://mattermost.com/pl/setup-outgoing-webhooks',
 };
 
 export const LicenseLinks = {
-    CONTACT_SALES: 'https://workspace .com/contact-sales/',
-    ENTRY_LIMITS_INFO: 'https://workspace .com/pl/workspace -entry-limits',
-    TRIAL_INFO_LINK: 'https://workspace .com/trial',
-    EMBARGOED_COUNTRIES: 'https://workspace .com/pl/limitations-for-embargoed-countries',
-    SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://workspace .com/pl/software-and-services-license-agreement',
+    CONTACT_SALES: 'https://mattermost.com/contact-sales/',
+    ENTRY_LIMITS_INFO: 'https://mattermost.com/pl/mattermost-entry-limits',
+    TRIAL_INFO_LINK: 'https://mattermost.com/trial',
+    EMBARGOED_COUNTRIES: 'https://mattermost.com/pl/limitations-for-embargoed-countries',
+    SOFTWARE_SERVICES_LICENSE_AGREEMENT: 'https://mattermost.com/pl/software-and-services-license-agreement',
     SOFTWARE_SERVICES_LICENSE_AGREEMENT_TEXT: 'Software Services and License Agreement',
-    UNSUPPORTED: 'https://workspace .com/pricing/',
-    UNSUPPORTED_UPGRADE_LINK: 'https://docs.workspace .com/administration-guide/upgrade/enterprise-install-upgrade.html#upgrading-to-enterprise-edition-from-workspace -team-edition',
+    UNSUPPORTED: 'https://mattermost.com/pricing/',
+    UNSUPPORTED_UPGRADE_LINK: 'https://docs.mattermost.com/administration-guide/upgrade/enterprise-install-upgrade.html#upgrading-to-enterprise-edition-from-mattermost-team-edition',
 };
 
-export const WORKSPACELink = 'https://workspace .com/';
+export const MattermostLink = 'https://mattermost.com/';
 
 export const BillingSchemes = {
     FLAT_FEE: 'flat_fee',
@@ -1280,6 +1136,8 @@ export const PermissionsScope = {
     [Permissions.CREATE_GROUP_CHANNEL]: 'system_scope',
     [Permissions.MANAGE_PUBLIC_CHANNEL_PROPERTIES]: 'channel_scope',
     [Permissions.MANAGE_PRIVATE_CHANNEL_PROPERTIES]: 'channel_scope',
+    [Permissions.MANAGE_PUBLIC_CHANNEL_AUTO_TRANSLATION]: 'channel_scope',
+    [Permissions.MANAGE_PRIVATE_CHANNEL_AUTO_TRANSLATION]: 'channel_scope',
     [Permissions.LIST_PUBLIC_TEAMS]: 'system_scope',
     [Permissions.JOIN_PUBLIC_TEAMS]: 'system_scope',
     [Permissions.LIST_PRIVATE_TEAMS]: 'system_scope',
@@ -1445,6 +1303,8 @@ export const DefaultRolePermissions = {
         Permissions.ORDER_BOOKMARK_PRIVATE_CHANNEL,
         Permissions.MANAGE_PUBLIC_CHANNEL_BANNER,
         Permissions.MANAGE_PRIVATE_CHANNEL_BANNER,
+        Permissions.MANAGE_PUBLIC_CHANNEL_AUTO_TRANSLATION,
+        Permissions.MANAGE_PRIVATE_CHANNEL_AUTO_TRANSLATION,
         Permissions.MANAGE_CHANNEL_ACCESS_RULES,
     ],
     team_admin: [
@@ -1568,9 +1428,6 @@ export const Constants = {
     UserStatuses,
     TutorialSteps,
     AdminTutorialSteps,
-    CrtTutorialSteps,
-    CrtTutorialTriggerSteps,
-    CrtThreadPaneSteps,
     PostTypes,
     ErrorPageTypes,
     AnnouncementBarTypes,
@@ -1578,13 +1435,6 @@ export const Constants = {
     FileTypes,
     Locations,
     PostListRowListIds,
-    RecommendedNextStepsLegacy,
-    Threads,
-    CloudBanners,
-    ConfigurationBanners,
-    AdvancedTextEditor,
-    AdvancedTextEditorTextboxIds,
-    ItemStatus,
     MAX_POST_VISIBILITY: 1000000,
     REMOTE_USERS_HOUR_LIMIT_END_OF_THE_DAY: 22,
     REMOTE_USERS_HOUR_LIMIT_BEGINNING_OF_THE_DAY: 6,
@@ -1611,10 +1461,10 @@ export const Constants = {
         POST: 5,
     },
 
-    // This is the same limit set https://github.com/workspace/workspace-server/blob/master/model/config.go#L105
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/model/config.go#L105
     MAXIMUM_LOGIN_ATTEMPTS_DEFAULT: 10,
 
-    // This is the same limit set https://github.com/workspace/workspace-server/blob/master/api4/team.go#L23
+    // This is the same limit set https://github.com/mattermost/mattermost-server/blob/master/api4/team.go#L23
     MAX_ADD_MEMBERS_BATCH: 256,
 
     SPECIAL_MENTIONS: ['all', 'channel', 'here'],
@@ -1630,7 +1480,7 @@ export const Constants = {
     DEFAULT_CHARACTER_LIMIT: 4000,
     IMAGE_TYPE_GIF: 'gif',
     TEXT_TYPES: ['txt', 'rtf', 'vtt'],
-    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif', 'psd', 'webp'],
+    IMAGE_TYPES: ['jpg', 'gif', 'bmp', 'png', 'jpeg', 'tiff', 'tif', 'webp'],
     AUDIO_TYPES: ['mp3', 'wav', 'wma', 'm4a', 'flac', 'aac', 'ogg', 'm4r'],
     VIDEO_TYPES: ['mp4', 'avi', 'webm', 'mkv', 'wmv', 'mpg', 'mov', 'flv'],
     PRESENTATION_TYPES: ['ppt', 'pptx'],
@@ -1738,7 +1588,7 @@ export const Constants = {
         'error',
         'help',
         'plugins',
-        'workspace',
+        'playbooks',
         'boards',
     ],
     RESERVED_USERNAMES: [
@@ -1754,8 +1604,8 @@ export const Constants = {
     MAX_USERS_IN_GM: 8,
     MIN_USERS_IN_GM: 3,
     MAX_CHANNEL_POPOVER_COUNT: 100,
-    DM_AND_GM_SHOW_COUNTS: [10, 15, 20, 40, 0],
-    HIGHEST_DM_SHOW_COUNT: 0,
+    DM_AND_GM_SHOW_COUNTS: [10, 15, 20, 40],
+    HIGHEST_DM_SHOW_COUNT: 10000,
     DM_CHANNEL: 'D',
     GM_CHANNEL: 'G',
     OPEN_CHANNEL: 'O',
@@ -2024,70 +1874,70 @@ export const Constants = {
     } as Record<string, [string, number]>),
     CODE_PREVIEW_MAX_FILE_SIZE: 500000, // 500 KB
     HighlightedLanguages: {
-        '1c': { name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl'] },
-        actionscript: { name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3'] },
-        applescript: { name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt'], aliases: ['osascript'] },
-        bash: { name: 'Bash', extensions: ['sh'], aliases: ['sh', 'zsh'] },
-        clojure: { name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj'] },
-        coffeescript: { name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script'] },
-        cpp: { name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c'] },
-        csharp: { name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'cs', 'csharp'] },
-        css: { name: 'CSS', extensions: ['css'] },
-        d: { name: 'D', extensions: ['d', 'di'], aliases: ['dlang'] },
-        dart: { name: 'Dart', extensions: ['dart'] },
-        delphi: { name: 'Delphi', extensions: ['delphi', 'dpr', 'dfm', 'pas', 'pascal', 'freepascal', 'lazarus', 'lpr', 'lfm'], aliases: ['pas', 'pascal'] },
-        diff: { name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff'] },
-        django: { name: 'Django', extensions: ['django', 'jinja'], aliases: ['jinja'] },
-        dockerfile: { name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker'] },
-        elixir: { name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs'] },
-        erlang: { name: 'Erlang', extensions: ['erl'], aliases: ['erl'] },
-        fortran: { name: 'Fortran', extensions: ['f90', 'f95'], aliases: ['f90', 'f95'] },
-        fsharp: { name: 'F#', extensions: ['fsharp', 'fs'], aliases: ['fs'] },
-        gcode: { name: 'G-Code', extensions: ['gcode', 'nc'] },
-        go: { name: 'Go', extensions: ['go'], aliases: ['golang'] },
-        groovy: { name: 'Groovy', extensions: ['groovy'] },
-        handlebars: { name: 'Handlebars', extensions: ['handlebars', 'hbs', 'html.hbs', 'html.handlebars'], aliases: ['hbs', 'mustache'] },
-        haskell: { name: 'Haskell', extensions: ['hs'], aliases: ['hs'] },
-        haxe: { name: 'Haxe', extensions: ['hx'], aliases: ['hx'] },
-        java: { name: 'Java', extensions: ['java', 'jsp'] },
-        javascript: { name: 'JavaScript', extensions: ['js', 'jsx'], aliases: ['js'] },
-        json: { name: 'JSON', extensions: ['json'] },
-        julia: { name: 'Julia', extensions: ['jl'], aliases: ['jl'] },
-        kotlin: { name: 'Kotlin', extensions: ['kt', 'ktm', 'kts'], aliases: ['kt'] },
-        latex: { name: 'LaTeX', extensions: ['tex'], aliases: ['tex'] },
-        less: { name: 'Less', extensions: ['less'] },
-        lisp: { name: 'Lisp', extensions: ['lisp'] },
-        lua: { name: 'Lua', extensions: ['lua'] },
-        makefile: { name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake', 'mk'] },
-        markdown: { name: 'Markdown', extensions: ['md', 'mkdown', 'mkd'], aliases: ['md', 'mkd'] },
-        matlab: { name: 'Matlab', extensions: ['matlab', 'm'], aliases: ['m'] },
-        objectivec: { name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc'] },
-        ocaml: { name: 'OCaml', extensions: ['ml'], aliases: ['ml'] },
-        perl: { name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl'] },
-        pgsql: { name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql'] },
-        php: { name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5', 'php6'] },
-        powershell: { name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh'] },
-        puppet: { name: 'Puppet', extensions: ['pp'], aliases: ['pp'] },
-        python: { name: 'Python', extensions: ['py', 'gyp'], aliases: ['py'] },
-        r: { name: 'R', extensions: ['r'], aliases: ['r', 's'] },
-        ruby: { name: 'Ruby', extensions: ['ruby', 'rb', 'gemspec', 'podspec', 'thor', 'irb'], aliases: ['rb'] },
-        rust: { name: 'Rust', extensions: ['rs'], aliases: ['rs'] },
-        scala: { name: 'Scala', extensions: ['scala'] },
-        scheme: { name: 'Scheme', extensions: ['scm', 'sld'], aliases: ['scm'] },
-        scss: { name: 'SCSS', extensions: ['scss'] },
-        smalltalk: { name: 'Smalltalk', extensions: ['st'], aliases: ['st', 'squeak'] },
-        sql: { name: 'SQL', extensions: ['sql'] },
-        stylus: { name: 'Stylus', extensions: ['styl'], aliases: ['styl'] },
-        swift: { name: 'Swift', extensions: ['swift'] },
-        text: { name: 'Text', extensions: ['txt', 'log'], aliases: ['txt'] },
-        typescript: { name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx'] },
-        vbnet: { name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic'] },
-        vbscript: { name: 'VBScript', extensions: ['vbs'], aliases: ['vbs'] },
-        verilog: { name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh'] },
-        vhdl: { name: 'VHDL', extensions: ['vhd', 'vhdl'], aliases: ['vhd'] },
-        vtt: { name: 'WebVTT', extensions: ['vtt'], aliases: ['vtt', 'webvtt'] },
-        xml: { name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist'] },
-        yaml: { name: 'YAML', extensions: ['yaml'], aliases: ['yml'] },
+        '1c': {name: '1C:Enterprise', extensions: ['bsl', 'os'], aliases: ['bsl']},
+        actionscript: {name: 'ActionScript', extensions: ['as'], aliases: ['as', 'as3']},
+        applescript: {name: 'AppleScript', extensions: ['applescript', 'osascript', 'scpt'], aliases: ['osascript']},
+        bash: {name: 'Bash', extensions: ['sh'], aliases: ['sh', 'zsh']},
+        clojure: {name: 'Clojure', extensions: ['clj', 'boot', 'cl2', 'cljc', 'cljs', 'cljs.hl', 'cljscm', 'cljx', 'hic'], aliases: ['clj']},
+        coffeescript: {name: 'CoffeeScript', extensions: ['coffee', '_coffee', 'cake', 'cjsx', 'cson', 'iced'], aliases: ['coffee', 'coffee-script']},
+        cpp: {name: 'C/C++', extensions: ['cpp', 'c', 'cc', 'h', 'c++', 'h++', 'hpp'], aliases: ['c++', 'c']},
+        csharp: {name: 'C#', extensions: ['cs', 'csharp'], aliases: ['c#', 'cs', 'csharp']},
+        css: {name: 'CSS', extensions: ['css']},
+        d: {name: 'D', extensions: ['d', 'di'], aliases: ['dlang']},
+        dart: {name: 'Dart', extensions: ['dart']},
+        delphi: {name: 'Delphi', extensions: ['delphi', 'dpr', 'dfm', 'pas', 'pascal', 'freepascal', 'lazarus', 'lpr', 'lfm'], aliases: ['pas', 'pascal']},
+        diff: {name: 'Diff', extensions: ['diff', 'patch'], aliases: ['patch', 'udiff']},
+        django: {name: 'Django', extensions: ['django', 'jinja'], aliases: ['jinja']},
+        dockerfile: {name: 'Dockerfile', extensions: ['dockerfile', 'docker'], aliases: ['docker']},
+        elixir: {name: 'Elixir', extensions: ['ex', 'exs'], aliases: ['ex', 'exs']},
+        erlang: {name: 'Erlang', extensions: ['erl'], aliases: ['erl']},
+        fortran: {name: 'Fortran', extensions: ['f90', 'f95'], aliases: ['f90', 'f95']},
+        fsharp: {name: 'F#', extensions: ['fsharp', 'fs'], aliases: ['fs']},
+        gcode: {name: 'G-Code', extensions: ['gcode', 'nc']},
+        go: {name: 'Go', extensions: ['go'], aliases: ['golang']},
+        groovy: {name: 'Groovy', extensions: ['groovy']},
+        handlebars: {name: 'Handlebars', extensions: ['handlebars', 'hbs', 'html.hbs', 'html.handlebars'], aliases: ['hbs', 'mustache']},
+        haskell: {name: 'Haskell', extensions: ['hs'], aliases: ['hs']},
+        haxe: {name: 'Haxe', extensions: ['hx'], aliases: ['hx']},
+        java: {name: 'Java', extensions: ['java', 'jsp']},
+        javascript: {name: 'JavaScript', extensions: ['js', 'jsx'], aliases: ['js']},
+        json: {name: 'JSON', extensions: ['json']},
+        julia: {name: 'Julia', extensions: ['jl'], aliases: ['jl']},
+        kotlin: {name: 'Kotlin', extensions: ['kt', 'ktm', 'kts'], aliases: ['kt']},
+        latex: {name: 'LaTeX', extensions: ['tex'], aliases: ['tex']},
+        less: {name: 'Less', extensions: ['less']},
+        lisp: {name: 'Lisp', extensions: ['lisp']},
+        lua: {name: 'Lua', extensions: ['lua']},
+        makefile: {name: 'Makefile', extensions: ['mk', 'mak'], aliases: ['make', 'mf', 'gnumake', 'bsdmake', 'mk']},
+        markdown: {name: 'Markdown', extensions: ['md', 'mkdown', 'mkd'], aliases: ['md', 'mkd']},
+        matlab: {name: 'Matlab', extensions: ['matlab', 'm'], aliases: ['m']},
+        objectivec: {name: 'Objective C', extensions: ['mm', 'objc', 'obj-c'], aliases: ['objective_c', 'objc']},
+        ocaml: {name: 'OCaml', extensions: ['ml'], aliases: ['ml']},
+        perl: {name: 'Perl', extensions: ['perl', 'pl'], aliases: ['pl']},
+        pgsql: {name: 'PostgreSQL', extensions: ['pgsql', 'postgres', 'postgresql'], aliases: ['postgres', 'postgresql']},
+        php: {name: 'PHP', extensions: ['php', 'php3', 'php4', 'php5', 'php6'], aliases: ['php3', 'php4', 'php5', 'php6']},
+        powershell: {name: 'PowerShell', extensions: ['ps', 'ps1'], aliases: ['posh']},
+        puppet: {name: 'Puppet', extensions: ['pp'], aliases: ['pp']},
+        python: {name: 'Python', extensions: ['py', 'gyp'], aliases: ['py']},
+        r: {name: 'R', extensions: ['r'], aliases: ['r', 's']},
+        ruby: {name: 'Ruby', extensions: ['ruby', 'rb', 'gemspec', 'podspec', 'thor', 'irb'], aliases: ['rb']},
+        rust: {name: 'Rust', extensions: ['rs'], aliases: ['rs']},
+        scala: {name: 'Scala', extensions: ['scala']},
+        scheme: {name: 'Scheme', extensions: ['scm', 'sld'], aliases: ['scm']},
+        scss: {name: 'SCSS', extensions: ['scss']},
+        smalltalk: {name: 'Smalltalk', extensions: ['st'], aliases: ['st', 'squeak']},
+        sql: {name: 'SQL', extensions: ['sql']},
+        stylus: {name: 'Stylus', extensions: ['styl'], aliases: ['styl']},
+        swift: {name: 'Swift', extensions: ['swift']},
+        text: {name: 'Text', extensions: ['txt', 'log'], aliases: ['txt']},
+        typescript: {name: 'TypeScript', extensions: ['ts', 'tsx'], aliases: ['ts', 'tsx']},
+        vbnet: {name: 'VB.Net', extensions: ['vbnet', 'vb', 'bas'], aliases: ['vb', 'visualbasic']},
+        vbscript: {name: 'VBScript', extensions: ['vbs'], aliases: ['vbs']},
+        verilog: {name: 'Verilog', extensions: ['v', 'veo', 'sv', 'svh']},
+        vhdl: {name: 'VHDL', extensions: ['vhd', 'vhdl'], aliases: ['vhd']},
+        vtt: {name: 'WebVTT', extensions: ['vtt'], aliases: ['vtt', 'webvtt']},
+        xml: {name: 'HTML, XML', extensions: ['xml', 'html', 'xhtml', 'rss', 'atom', 'xsl', 'plist']},
+        yaml: {name: 'YAML', extensions: ['yaml'], aliases: ['yml']},
     },
     PostsViewJumpTypes: {
         BOTTOM: 1,
@@ -2129,7 +1979,7 @@ export const Constants = {
     MAX_FIRSTNAME_LENGTH: 64,
     MAX_LASTNAME_LENGTH: 64,
     MAX_EMAIL_LENGTH: 128,
-    MIN_USERNAME_LENGTH: 1,
+    MIN_USERNAME_LENGTH: 3,
     MAX_USERNAME_LENGTH: 22,
     MAX_NICKNAME_LENGTH: 64,
     MIN_PASSWORD_LENGTH: 5,
@@ -2144,13 +1994,13 @@ export const Constants = {
     EMOJI_PATH: '/static/emoji',
     RECENT_EMOJI_KEY: 'recentEmojis',
     DEFAULT_WEBHOOK_LOGO: logoWebhook,
-    MHPNS_LEGACY_US: 'https://push.workspace .com',
-    MHPNS_LEGACY_DE: 'https://hpns-de.workspace .com',
-    MHPNS_GLOBAL: 'https://global.push.workspace .com',
-    MHPNS_US: 'https://us.push.workspace .com',
-    MHPNS_DE: 'https://eu.push.workspace .com',
-    MHPNS_JP: 'https://ap.push.workspace .com',
-    MTPNS: 'https://push-test.workspace .com',
+    MHPNS_LEGACY_US: 'https://push.mattermost.com',
+    MHPNS_LEGACY_DE: 'https://hpns-de.mattermost.com',
+    MHPNS_GLOBAL: 'https://global.push.mattermost.com',
+    MHPNS_US: 'https://us.push.mattermost.com',
+    MHPNS_DE: 'https://eu.push.mattermost.com',
+    MHPNS_JP: 'https://ap.push.mattermost.com',
+    MTPNS: 'https://push-test.mattermost.com',
     MAX_PREV_MSGS: 100,
     POST_COLLAPSE_TIMEOUT: 1000 * 60 * 5, // five minutes
     SAVE_DRAFT_TIMEOUT: 500,
@@ -2238,69 +2088,24 @@ export const WindowSizes = {
 
 export const AcceptedProfileImageTypes = ['image/jpeg', 'image/png', 'image/bmp'];
 
-export const searchHintOptions = [{
-    searchTerm: 'From:',
-    message: defineMessage({id: 'search_list_option.from', defaultMessage: 'Messages from a user'}),
-    displayMessage: defineMessage({id: 'search_list_option.from_term', defaultMessage: 'From:'}),
-},
-{
-    searchTerm: 'In:',
-    message: defineMessage({id: 'search_list_option.in', defaultMessage: 'Messages in a channel'}),
-    displayMessage: defineMessage({id: 'search_list_option.in_term', defaultMessage: 'In:'}),
-},
-{
-    searchTerm: 'On:',
-    message: defineMessage({id: 'search_list_option.on', defaultMessage: 'Messages on a date'}),
-    displayMessage: defineMessage({id: 'search_list_option.on_term', defaultMessage: 'On:'}),
-},
-{
-    searchTerm: 'Before:',
-    message: defineMessage({id: 'search_list_option.before', defaultMessage: 'Messages before a date'}),
-    displayMessage: defineMessage({id: 'search_list_option.before_term', defaultMessage: 'Before:'}),
-},
-{
-    searchTerm: 'After:',
-    message: defineMessage({id: 'search_list_option.after', defaultMessage: 'Messages after a date'}),
-    displayMessage: defineMessage({id: 'search_list_option.after_term', defaultMessage: 'After:'}),
-},
-{searchTerm: '-', message: defineMessage({id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'})},
-{searchTerm: '""', message: defineMessage({id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'})},
+export const searchHintOptions = [{searchTerm: 'From:', message: defineMessage({id: 'search_list_option.from', defaultMessage: 'Messages from a user'})},
+    {searchTerm: 'In:', message: defineMessage({id: 'search_list_option.in', defaultMessage: 'Messages in a channel'})},
+    {searchTerm: 'On:', message: defineMessage({id: 'search_list_option.on', defaultMessage: 'Messages on a date'})},
+    {searchTerm: 'Before:', message: defineMessage({id: 'search_list_option.before', defaultMessage: 'Messages before a date'})},
+    {searchTerm: 'After:', message: defineMessage({id: 'search_list_option.after', defaultMessage: 'Messages after a date'})},
+    {searchTerm: '-', message: defineMessage({id: 'search_list_option.exclude', defaultMessage: 'Exclude search terms'}), additionalDisplay: '—'},
+    {searchTerm: '""', message: defineMessage({id: 'search_list_option.phrases', defaultMessage: 'Messages with phrases'})},
 ];
 
-export const searchFilesHintOptions = [{
-    searchTerm: 'From:',
-    message: defineMessage({id: 'search_files_list_option.from', defaultMessage: 'Files from a user'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.from_term', defaultMessage: 'From:'}),
-},
-{
-    searchTerm: 'In:',
-    message: defineMessage({id: 'search_files_list_option.in', defaultMessage: 'Files in a channel'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.in_term', defaultMessage: 'In:'}),
-},
-{
-    searchTerm: 'On:',
-    message: defineMessage({id: 'search_files_list_option.on', defaultMessage: 'Files on a date'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.on_term', defaultMessage: 'On:'}),
-},
-{
-    searchTerm: 'Before:',
-    message: defineMessage({id: 'search_files_list_option.before', defaultMessage: 'Files before a date'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.before_term', defaultMessage: 'Before:'}),
-},
-{
-    searchTerm: 'After:',
-    message: defineMessage({id: 'search_files_list_option.after', defaultMessage: 'Files after a date'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.after_term', defaultMessage: 'After:'}),
-},
-{
-    searchTerm: 'Ext:',
-    message: defineMessage({id: 'search_files_list_option.ext', defaultMessage: 'Files with a extension'}),
-    displayMessage: defineMessage({id: 'search_files_list_option.ext_term', defaultMessage: 'Ext:'}),
-},
-{searchTerm: '-', message: defineMessage({id: 'search_files_list_option.exclude', defaultMessage: 'Exclude search terms'})},
-{searchTerm: '""', message: defineMessage({id: 'search_files_list_option.phrases', defaultMessage: 'Files with phrases'})},
+export const searchFilesHintOptions = [{searchTerm: 'From:', message: defineMessage({id: 'search_files_list_option.from', defaultMessage: 'Files from a user'})},
+    {searchTerm: 'In:', message: defineMessage({id: 'search_files_list_option.in', defaultMessage: 'Files in a channel'})},
+    {searchTerm: 'On:', message: defineMessage({id: 'search_files_list_option.on', defaultMessage: 'Files on a date'})},
+    {searchTerm: 'Before:', message: defineMessage({id: 'search_files_list_option.before', defaultMessage: 'Files before a date'})},
+    {searchTerm: 'After:', message: defineMessage({id: 'search_files_list_option.after', defaultMessage: 'Files after a date'})},
+    {searchTerm: 'Ext:', message: defineMessage({id: 'search_files_list_option.ext', defaultMessage: 'Files with an extension'})},
+    {searchTerm: '-', message: defineMessage({id: 'search_files_list_option.exclude', defaultMessage: 'Exclude search terms'}), additionalDisplay: '—'},
+    {searchTerm: '""', message: defineMessage({id: 'search_files_list_option.phrases', defaultMessage: 'Files with phrases'})},
 ];
-
 
 const {
     DONT_CLEAR,
