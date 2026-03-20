@@ -11,10 +11,10 @@ import {defineMessage, defineMessages} from 'react-intl';
 
 import {CustomStatusDuration} from '@mattermost/types/users';
 
-import {Preferences as ReduxPreferences} from 'mattermost-redux/constants';
-import Permissions from 'mattermost-redux/constants/permissions';
-import keyMirror from 'mattermost-redux/utils/key_mirror';
-import * as PostListUtils from 'mattermost-redux/utils/post_list';
+import {Preferences as ReduxPreferences} from 'workspace-redux/constants';
+import Permissions from 'workspace-redux/constants/permissions';
+import keyMirror from 'workspace-redux/utils/key_mirror';
+import * as PostListUtils from 'workspace-redux/utils/post_list';
 
 import audioIcon from 'images/icons/audio.svg';
 import codeIcon from 'images/icons/code.svg';

@@ -8,9 +8,9 @@ import {Redirect} from 'react-router-dom';
 
 import {PlusIcon} from '@mattermost/compass-icons/components';
 
-import {getAgents} from 'mattermost-redux/actions/agents';
-import {getRecaps} from 'mattermost-redux/actions/recaps';
-import {getUnreadRecaps, getReadRecaps} from 'mattermost-redux/selectors/entities/recaps';
+import {getAgents} from 'workspace-redux/actions/agents';
+import {getRecaps} from 'workspace-redux/actions/recaps';
+import {getUnreadRecaps, getReadRecaps} from 'workspace-redux/selectors/entities/recaps';
 
 import {openModal} from 'actions/views/modals';
 

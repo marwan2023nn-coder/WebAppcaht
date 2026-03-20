@@ -8,8 +8,8 @@ import {useDispatch, useSelector} from 'react-redux';
 import {TranslateIcon} from '@mattermost/compass-icons/components';
 import type {Channel} from '@mattermost/types/channels';
 
-import {setMyChannelAutotranslation} from 'mattermost-redux/actions/channels';
-import {isMyChannelAutotranslated, isUserLanguageSupportedForAutotranslation} from 'mattermost-redux/selectors/entities/channels';
+import {setMyChannelAutotranslation} from 'workspace-redux/actions/channels';
+import {isMyChannelAutotranslated, isUserLanguageSupportedForAutotranslation} from 'workspace-redux/selectors/entities/channels';
 
 import {openModal} from 'actions/views/modals';
 

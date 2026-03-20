@@ -7,7 +7,7 @@ import {useSelector} from 'react-redux';
 
 import {GenericModal} from '@mattermost/components';
 
-import {getPost} from 'mattermost-redux/selectors/entities/posts';
+import {getPost} from 'workspace-redux/selectors/entities/posts';
 
 import Post from 'components/post';
 import Tag from 'components/widgets/tag/tag';

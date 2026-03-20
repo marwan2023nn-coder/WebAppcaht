@@ -7,7 +7,7 @@ import {useDispatch} from 'react-redux';
 
 import type {Channel} from '@mattermost/types/channels';
 
-import {setMyChannelAutotranslation} from 'mattermost-redux/actions/channels';
+import {setMyChannelAutotranslation} from 'workspace-redux/actions/channels';
 
 import {sendEphemeralPost} from 'actions/global_actions';
 import {closeModal} from 'actions/views/modals';
