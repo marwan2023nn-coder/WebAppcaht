@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import type {ContentFlaggingEvent, NotificationTarget} from './content_flagging';
@@ -238,11 +238,6 @@ export type ClientConfig = {
     EnableAttributeBasedAccessControl: string;
     EnableChannelScopeAccessControl: string;
     EnableUserManagedAttributes: string;
-
-    // Auto Translation Settings
-    AutoTranslationLanguages: string;
-    EnableAutoTranslation: string;
-    RestrictDMAndGMAutotranslation: string;
 };
 
 export type License = {
@@ -337,7 +332,6 @@ export type ServiceSettings = {
     GoogleDeveloperKey: string;
     EnableOAuthServiceProvider: boolean;
     EnableDynamicClientRegistration: boolean;
-    DCRRedirectURIAllowlist: string[];
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableOutgoingOAuthConnections: boolean;
@@ -760,18 +754,16 @@ export type LocalizationSettings = {
 
 export type AutoTranslationSettings = {
     Enable: boolean;
-    TargetLanguages: string[];
-    Workers: number;
-    Provider: '' | 'libretranslate' | 'agents';
+    Provider: '' | 'libretranslate';
     LibreTranslate: {
         URL: string;
         APIKey: string;
     };
-    Agents?: {
-        LLMServiceID: string;
+    TimeoutsMs: {
+        NewPost: number;
+        Fetch: number;
+        Notification: number;
     };
-    TimeoutMs: number;
-    RestrictDMAndGM: boolean;
 };
 
 export type SamlSettings = {
@@ -1114,6 +1106,13 @@ export type EnvironmentConfigSettings<T> = {
 export type EnvironmentConfig = {
     [P in keyof AdminConfig]: EnvironmentConfigSettings<AdminConfig[P]>;
 }
+
+export type WarnMetricStatus = {
+    id: string;
+    limit: number;
+    acked: boolean;
+    store_status: string;
+};
 
 export enum CollapsedThreads {
     DISABLED = 'disabled',

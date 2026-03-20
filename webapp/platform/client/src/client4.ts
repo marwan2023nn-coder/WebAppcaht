@@ -1,17 +1,17 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable max-lines */
 
-import type {AccessControlPolicy, CELExpressionError, AccessControlTestResult, AccessControlPoliciesResult, AccessControlPolicyChannelsResult, AccessControlVisualAST, AccessControlAttributes, AccessControlPolicyActiveUpdate} from '@mattermost/types/access_control';
-import type {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilterQuery} from '@mattermost/types/admin';
-import type {Agent, LLMService} from '@mattermost/types/agents';
-import type {AppBinding, AppCallRequest, AppCallResponse} from '@mattermost/types/apps';
-import type {Audit} from '@mattermost/types/audits';
-import type {UserAutocomplete, AutocompleteSuggestion} from '@mattermost/types/autocomplete';
-import type {Bot, BotPatch} from '@mattermost/types/bots';
-import type {ChannelBookmark, ChannelBookmarkCreate, ChannelBookmarkPatch, UpdateChannelBookmarkResponse} from '@mattermost/types/channel_bookmarks';
-import type {ChannelCategory, OrderedChannelCategories} from '@mattermost/types/channel_categories';
+import type {AccessControlPolicy, CELExpressionError, AccessControlTestResult, AccessControlPoliciesResult, AccessControlPolicyChannelsResult, AccessControlVisualAST, AccessControlAttributes, AccessControlPolicyActiveUpdate} from '@workspace/types/access_control';
+import type {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilterQuery} from '@workspace/types/admin';
+import type {Agent, LLMService} from '@workspace/types/agents';
+import type {AppBinding, AppCallRequest, AppCallResponse} from '@workspace/types/apps';
+import type {Audit} from '@workspace/types/audits';
+import type {UserAutocomplete, AutocompleteSuggestion} from '@workspace/types/autocomplete';
+import type {Bot, BotPatch} from '@workspace/types/bots';
+import type {ChannelBookmark, ChannelBookmarkCreate, ChannelBookmarkPatch} from '@workspace/types/channel_bookmarks';
+import type {ChannelCategory, OrderedChannelCategories} from '@workspace/types/channel_categories';
 import type {
     Channel,
     ChannelMemberCountsByGroup,
@@ -25,9 +25,9 @@ import type {
     ChannelWithTeamData,
     ChannelSearchOpts,
     ServerChannel,
-} from '@mattermost/types/channels';
-import type {Options, StatusOK, ClientResponse, FetchPaginatedThreadOptions, OptsSignalExt} from '@mattermost/types/client4';
-import {LogLevel} from '@mattermost/types/client4';
+} from '@workspace/types/channels';
+import type {Options, StatusOK, ClientResponse, FetchPaginatedThreadOptions, OptsSignalExt} from '@workspace/types/client4';
+import {LogLevel} from '@workspace/types/client4';
 import type {
     Address,
     Product,
@@ -38,10 +38,11 @@ import type {
     NotifyAdminRequest,
     Subscription,
     ValidBusinessEmail,
+    NewsletterRequestBody,
     Installation,
     PreviewModalContentData,
-} from '@mattermost/types/cloud';
-import type {Compliance} from '@mattermost/types/compliance';
+} from '@workspace/types/cloud';
+import type {Compliance} from '@workspace/types/compliance';
 import type {
     ClientConfig,
     ClientLicense,
@@ -54,19 +55,19 @@ import type {
     AllowedIPRange,
     FetchIPResponse,
     LdapSettings, ContentFlaggingSettings,
-} from '@mattermost/types/config';
-import type {ContentFlaggingConfig} from '@mattermost/types/content_flagging';
+} from '@workspace/types/config';
+import type {ContentFlaggingConfig} from '@workspace/types/content_flagging';
 import type {
     DataRetentionCustomPolicies,
     CreateDataRetentionCustomPolicy,
     PatchDataRetentionCustomPolicy,
     GetDataRetentionCustomPoliciesRequest,
-} from '@mattermost/types/data_retention';
-import type {Draft} from '@mattermost/types/drafts';
-import type {CustomEmoji} from '@mattermost/types/emojis';
-import type {ServerError} from '@mattermost/types/errors';
-import type {FileInfo, FileUploadResponse, FileSearchResults} from '@mattermost/types/files';
-import type {SystemSetting} from '@mattermost/types/general';
+} from '@workspace/types/data_retention';
+import type {Draft} from '@workspace/types/drafts';
+import type {CustomEmoji} from '@workspace/types/emojis';
+import type {ServerError} from '@workspace/types/errors';
+import type {FileInfo, FileUploadResponse, FileSearchResults} from '@workspace/types/files';
+import type {SystemSetting} from '@workspace/types/general';
 import type {
     Group,
     GroupPatch,
@@ -82,8 +83,8 @@ import type {
     GetGroupsForUserParams,
     GroupStats,
     GroupMember,
-} from '@mattermost/types/groups';
-import type {PostActionResponse} from '@mattermost/types/integration_actions';
+} from '@workspace/types/groups';
+import type {PostActionResponse} from '@workspace/types/integration_actions';
 import type {
     Command,
     CommandArgs,
@@ -95,40 +96,40 @@ import type {
     OutgoingOAuthConnection,
     OutgoingWebhook,
     SubmitDialogResponse,
-} from '@mattermost/types/integrations';
-import type {Job, JobType, JobTypeBase} from '@mattermost/types/jobs';
-import type {ServerLimits} from '@mattermost/types/limits';
+} from '@workspace/types/integrations';
+import type {Job, JobType, JobTypeBase} from '@workspace/types/jobs';
+import type {ServerLimits} from '@workspace/types/limits';
 import type {
     MarketplaceApp,
     MarketplacePlugin,
-} from '@mattermost/types/marketplace';
-import type {MfaSecret} from '@mattermost/types/mfa';
+} from '@workspace/types/marketplace';
+import type {MfaSecret} from '@workspace/types/mfa';
 import type {
     ClientPluginManifest,
     PluginManifest,
     PluginsResponse,
     PluginStatus,
-} from '@mattermost/types/plugins';
-import type {Post, PostList, PostSearchResults, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics, PostInfo} from '@mattermost/types/posts';
-import type {PreferenceType} from '@mattermost/types/preferences';
-import type {ProductNotices} from '@mattermost/types/product_notices';
+} from '@workspace/types/plugins';
+import type {Post, PostList, PostSearchResults, PostsUsageResponse, TeamsUsageResponse, PaginatedPostList, FilesUsageResponse, PostAcknowledgement, PostAnalytics, PostInfo} from '@workspace/types/posts';
+import type {PreferenceType} from '@workspace/types/preferences';
+import type {ProductNotices} from '@workspace/types/product_notices';
 import type {
     NameMappedPropertyFields,
     UserPropertyField,
     UserPropertyFieldPatch,
     PropertyValue,
-} from '@mattermost/types/properties';
-import type {Reaction} from '@mattermost/types/reactions';
-import type {Recap, CreateRecapRequest} from '@mattermost/types/recaps';
-import type {RemoteCluster, RemoteClusterAcceptInvite, RemoteClusterPatch, RemoteClusterWithPassword} from '@mattermost/types/remote_clusters';
-import type {UserReport, UserReportFilter, UserReportOptions} from '@mattermost/types/reports';
-import type {Role} from '@mattermost/types/roles';
-import type {SamlCertificateStatus, SamlMetadataResponse} from '@mattermost/types/saml';
-import type {ScheduledPost} from '@mattermost/types/schedule_post';
-import type {Scheme} from '@mattermost/types/schemes';
-import type {Session} from '@mattermost/types/sessions';
-import type {CompleteOnboardingRequest} from '@mattermost/types/setup';
-import type {RemoteClusterInfo, SharedChannelRemote} from '@mattermost/types/shared_channels';
+} from '@workspace/types/properties';
+import type {Reaction} from '@workspace/types/reactions';
+import type {Recap, CreateRecapRequest} from '@workspace/types/recaps';
+import type {RemoteCluster, RemoteClusterAcceptInvite, RemoteClusterPatch, RemoteClusterWithPassword} from '@workspace/types/remote_clusters';
+import type {UserReport, UserReportFilter, UserReportOptions} from '@workspace/types/reports';
+import type {Role} from '@workspace/types/roles';
+import type {SamlCertificateStatus, SamlMetadataResponse} from '@workspace/types/saml';
+import type {ScheduledPost} from '@workspace/types/schedule_post';
+import type {Scheme} from '@workspace/types/schemes';
+import type {Session} from '@workspace/types/sessions';
+import type {CompleteOnboardingRequest} from '@workspace/types/setup';
+import type {RemoteClusterInfo, SharedChannelRemote} from '@workspace/types/shared_channels';
 import type {
     GetTeamMembersOpts,
     Team,
@@ -141,9 +142,9 @@ import type {
     TeamSearchOpts,
     PagedTeamSearchOpts,
     NotPagedTeamSearchOpts,
-} from '@mattermost/types/teams';
-import type {TermsOfService} from '@mattermost/types/terms_of_service';
-import type {UserThreadList, UserThread, UserThreadWithPost} from '@mattermost/types/threads';
+} from '@workspace/types/teams';
+import type {TermsOfService} from '@workspace/types/terms_of_service';
+import type {UserThreadList, UserThread, UserThreadWithPost} from '@workspace/types/threads';
 import type {
     AuthChangeResponse,
     UserAccessToken,
@@ -152,8 +153,8 @@ import type {
     UserStatus,
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
-} from '@mattermost/types/users';
-import type {DeepPartial, PartialExcept, RelationOneToOne} from '@mattermost/types/utilities';
+} from '@workspace/types/users';
+import type {DeepPartial, PartialExcept, RelationOneToOne} from '@workspace/types/utilities';
 
 import {cleanUrlForLogging} from './errors';
 import {buildQueryString} from './helpers';
@@ -188,7 +189,7 @@ export default class Client4 {
     urlVersion = '/api/v4';
     userAgent: string | null = null;
     enableLogging = false;
-    defaultHeaders: {[x: string]: string} = {};
+    defaultHeaders: { [x: string]: string } = {};
     userId = '';
     diagnosticId = '';
     includeCookies = true;
@@ -275,7 +276,7 @@ export default class Client4 {
     }
 
     getAppsProxyRoute() {
-        return `${this.url}/plugins/com.mattermost.apps`;
+        return `${this.url}/plugins/com.workspace.apps`;
     }
 
     getUsersRoute() {
@@ -572,7 +573,7 @@ export default class Client4 {
     getOptions(options: Options) {
         const newOptions: Options = {...options};
 
-        const headers: {[x: string]: string} = {
+        const headers: { [x: string]: string } = {
             [HEADER_REQUESTED_WITH]: 'XMLHttpRequest',
             ...this.defaultHeaders,
         };
@@ -669,6 +670,13 @@ export default class Client4 {
         );
     };
 
+    deleteUser = (userId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getUserRoute(userId)}`,
+            {method: 'delete'},
+        );
+    };
+
     updateUserRoles = (userId: string, roles: string) => {
         return this.doFetch<StatusOK>(
             `${this.getUserRoute(userId)}/roles`,
@@ -730,6 +738,13 @@ export default class Client4 {
         return this.doFetch<StatusOK>(
             `${this.getUserRoute(userId)}/active`,
             {method: 'put', body: JSON.stringify({active})},
+        );
+    };
+
+    deactivateInactiveUsers = (days: number) => {
+        return this.doFetch<{ count: number }>(
+            `${this.getUsersRoute()}/deactivate/inactive`,
+            {method: 'post', body: JSON.stringify({days})},
         );
     };
 
@@ -858,7 +873,7 @@ export default class Client4 {
             login_id: loginId,
         };
 
-        return this.doFetch<{auth_service: 'magic_link' | ''; is_deactivated: boolean }>(
+        return this.doFetch<{ auth_service: 'magic_link' | ''; is_deactivated: boolean }>(
             `${this.getUsersRoute()}/login/type`,
             {method: 'post', body: JSON.stringify(body)},
         );
@@ -926,7 +941,7 @@ export default class Client4 {
         );
     };
 
-    getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: {active?: boolean} = {}) => {
+    getProfilesInChannel = (channelId: string, page = 0, perPage = PER_PAGE_DEFAULT, sort = '', options: { active?: boolean } = {}) => {
         const queryStringObj = {in_channel: channelId, page, per_page: perPage, sort};
 
         return this.doFetch<UserProfile[]>(
@@ -1005,7 +1020,7 @@ export default class Client4 {
     };
 
     canUserDirectMessage = (userId: string, otherUserId: string) => {
-        return this.doFetch<{can_dm: boolean}>(
+        return this.doFetch<{ can_dm: boolean }>(
             `${this.getSharedChannelsRoute()}/users/${userId}/can_dm/${otherUserId}`,
             {method: 'get'},
         );
@@ -1101,7 +1116,7 @@ export default class Client4 {
      * @deprecated
      */
     checkUserMfa = (loginId: string) => {
-        return this.doFetch<{mfa_required: boolean}>(
+        return this.doFetch<{ mfa_required: boolean }>(
             `${this.getUsersRoute()}/mfa`,
             {method: 'post', body: JSON.stringify({login_id: loginId})},
         );
@@ -1349,7 +1364,7 @@ export default class Client4 {
     };
 
     checkIfTeamExists = (teamName: string) => {
-        return this.doFetch<{exists: boolean}>(
+        return this.doFetch<{ exists: boolean }>(
             `${this.getTeamNameRoute(teamName)}/exists`,
             {method: 'get'},
         );
@@ -1754,13 +1769,6 @@ export default class Client4 {
         );
     };
 
-    setMyChannelAutotranslation = (channelId: string, enabled: boolean) => {
-        return this.doFetch<StatusOK>(
-            `${this.getChannelMemberRoute(channelId, 'me')}/autotranslation`,
-            {method: 'put', body: JSON.stringify({autotranslation_disabled: !enabled})},
-        );
-    };
-
     updateChannelNotifyProps = (props: any) => {
         return this.doFetch<StatusOK>(
             `${this.getChannelMemberRoute(props.channel_id, props.user_id)}/notify_props`,
@@ -1987,7 +1995,7 @@ export default class Client4 {
         );
     };
 
-    searchAllChannels(term: string, opts: {page: number; per_page: number} & ChannelSearchOpts & OptsSignalExt): Promise<ChannelsWithTotalCount>;
+    searchAllChannels(term: string, opts: { page: number; per_page: number } & ChannelSearchOpts & OptsSignalExt): Promise<ChannelsWithTotalCount>;
     searchAllChannels(term: string, opts: Omit<ChannelSearchOpts, 'page' | 'per_page'> & OptsSignalExt | undefined): Promise<ChannelWithTeamData[]>;
     searchAllChannels(term: string, opts: ChannelSearchOpts & OptsSignalExt = {}) {
         const body = {
@@ -1997,7 +2005,7 @@ export default class Client4 {
         const includeDeleted = Boolean(opts.include_deleted);
         const nonAdminSearch = Boolean(opts.nonAdminSearch);
         const excludeRemote = Boolean(opts.exclude_remote);
-        let queryParams: {include_deleted?: boolean; system_console?: boolean; exclude_remote?: boolean} = {include_deleted: includeDeleted, exclude_remote: excludeRemote};
+        let queryParams: { include_deleted?: boolean; system_console?: boolean; exclude_remote?: boolean } = {include_deleted: includeDeleted, exclude_remote: excludeRemote};
         if (nonAdminSearch) {
             queryParams = {system_console: false};
             delete body.nonAdminSearch;
@@ -2047,7 +2055,7 @@ export default class Client4 {
     };
 
     updateChannelBookmark = (channelId: string, channelBookmarkId: string, patch: ChannelBookmarkPatch, connectionId: string) => {
-        return this.doFetch<UpdateChannelBookmarkResponse>(
+        return this.doFetch<{ updated: ChannelBookmark; deleted: ChannelBookmark }>(
             `${this.getChannelBookmarkRoute(channelId, channelBookmarkId)}`,
             {method: 'PATCH', body: JSON.stringify(patch), headers: {'Connection-Id': connectionId}},
         );
@@ -2120,7 +2128,7 @@ export default class Client4 {
 
     // Remote Clusters Routes
 
-    getRemoteClusters = (options: {excludePlugins: boolean}) => {
+    getRemoteClusters = (options: { excludePlugins: boolean }) => {
         return this.doFetch<RemoteCluster[]>(
             `${this.getRemoteClustersRoute()}${buildQueryString({exclude_plugins: options.excludePlugins})}`,
             {method: 'GET'},
@@ -2135,7 +2143,7 @@ export default class Client4 {
     };
 
     createRemoteCluster = (remoteCluster: PartialExcept<RemoteClusterWithPassword, 'name' | 'display_name'>) => {
-        return this.doFetch<{invite: string; password: string; remote_cluster: RemoteCluster}>(
+        return this.doFetch<{ invite: string; password: string; remote_cluster: RemoteCluster }>(
             `${this.getRemoteClustersRoute()}`,
             {method: 'POST', body: JSON.stringify(remoteCluster)},
         );
@@ -3094,7 +3102,7 @@ export default class Client4 {
     };
 
     lookupInteractiveDialog = (data: DialogSubmission) => {
-        return this.doFetch<{items: Array<{text: string; value: string}>}>(
+        return this.doFetch<{ items: Array<{ text: string; value: string }> }>(
             `${this.getBaseRoute()}/actions/dialogs/lookup`,
             {method: 'post', body: JSON.stringify(data)},
         );
@@ -3227,7 +3235,7 @@ export default class Client4 {
     };
 
     getDataRetentionCustomPolicyChannels = (id: string, page = 0, perPage = PER_PAGE_DEFAULT) => {
-        return this.doFetch<{channels: Channel[]; total_count: number}>(
+        return this.doFetch<{ channels: Channel[]; total_count: number }>(
             `${this.getDataRetentionRoute()}/policies/${id}/channels${buildQueryString({page, per_page: perPage})}`,
             {method: 'get'},
         );
@@ -3405,20 +3413,6 @@ export default class Client4 {
     getAgents = () => {
         return this.doFetch<Agent[]>(
             `${this.getAgentsRoute()}`,
-            {method: 'get'},
-        );
-    };
-
-    getAgentsStatus = () => {
-        return this.doFetch<{available: boolean; reason?: string}>(
-            `${this.getAgentsRoute()}/status`,
-            {method: 'get'},
-        );
-    };
-
-    getLLMServices = () => {
-        return this.doFetch<LLMService[]>(
-            `${this.getBaseRoute()}/llmservices`,
             {method: 'get'},
         );
     };
@@ -4248,10 +4242,10 @@ export default class Client4 {
         );
     };
 
-    cwsAvailabilityCheck = () => {
-        return this.doFetch<{status: string}>(
-            `${this.getCloudRoute()}/check-cws-connection`,
-            {method: 'get'},
+    subscribeToNewsletter = (newletterRequestBody: NewsletterRequestBody) => {
+        return this.doFetch<StatusOK>(
+            `${this.getHostedCustomerRoute()}/subscribe-newsletter`,
+            {method: 'post', body: JSON.stringify(newletterRequestBody)},
         );
     };
 
@@ -4431,29 +4425,16 @@ export default class Client4 {
     };
 
     getCallsChannelState = (channelId: string) => {
-        return this.doFetch<{enabled: boolean; id: string}>(
-            `${this.url}/plugins/${'com.mattermost.calls'}/${channelId}`,
+        return this.doFetch<{ enabled: boolean; id: string }>(
+            `${this.url}/plugins/${'com.workspace.calls'}/${channelId}`,
             {method: 'get'},
         );
     };
 
-    getAIRewrittenMessage = (agentId: string, message: string, action?: string, customPrompt?: string, rootId?: string) => {
-        const body: {agent_id: string; message: string; action?: string; custom_prompt?: string; root_id?: string} = {
-            agent_id: agentId,
-            message,
-        };
-        if (action) {
-            body.action = action;
-        }
-        if (customPrompt) {
-            body.custom_prompt = customPrompt;
-        }
-        if (rootId) {
-            body.root_id = rootId;
-        }
-        return this.doFetch<{rewritten_text: string; changes_made: string[]}>(
+    getAIRewrittenMessage = (agentId: string, message: string, action?: string, customPrompt?: string) => {
+        return this.doFetch<{ rewritten_text: string; changes_made: string[] }>(
             `${this.getPostsRoute()}/rewrite`,
-            {method: 'post', body: JSON.stringify(body)},
+            {method: 'post', body: JSON.stringify({agent_id: agentId, message, action, custom_prompt: customPrompt})},
         ).then((response) => response.rewritten_text);
     };
 
@@ -4520,7 +4501,6 @@ export default class Client4 {
             message: msg,
             server_error_id: data.id,
             status_code: data.status_code,
-            detailed_error: data.detailed_error,
             url,
         });
     };
@@ -4615,7 +4595,7 @@ export default class Client4 {
 
     // get user's current team's scheduled posts
     getScheduledPosts = (teamId: string, includeDirectChannels: boolean) => {
-        return this.doFetchWithResponse<{[key: string]: ScheduledPost[]}>(
+        return this.doFetchWithResponse<{ [key: string]: ScheduledPost[] }>(
             `${this.getPostsRoute()}/scheduled/team/${teamId}?includeDirectChannels=${includeDirectChannels}`,
             {method: 'get'},
         );
@@ -4702,6 +4682,13 @@ export default class Client4 {
         );
     };
 
+    updateAccessControlPolicyActive = (policyId: string, active: boolean) => {
+        return this.doFetch<StatusOK>(
+            `${this.getBaseRoute()}/access_control_policies/${policyId}/activate?active=${active}`,
+            {method: 'get'},
+        );
+    };
+
     assignChannelsToAccessControlPolicy = (policyId: string, channelIds: string[]) => {
         return this.doFetch<StatusOK>(
             `${this.getBaseRoute()}/access_control_policies/${policyId}/assign`,
@@ -4716,7 +4703,7 @@ export default class Client4 {
         );
     };
 
-    createAccessControlSyncJob = (jobData: {[key: string]: string}) => {
+    createAccessControlSyncJob = (jobData: { [key: string]: string }) => {
         const job = {
             type: 'access_control_sync' as JobType,
             data: jobData,
@@ -4737,7 +4724,7 @@ export default class Client4 {
     };
 
     checkAccessControlExpression = (expression: string, channelId?: string) => {
-        const requestBody: {expression: string; channelId?: string} = {expression};
+        const requestBody: { expression: string; channelId?: string } = {expression};
         if (channelId) {
             requestBody.channelId = channelId;
         }
@@ -4749,7 +4736,7 @@ export default class Client4 {
     };
 
     testAccessControlExpression = (expression: string, term: string, after: string, limit: number, channelId?: string) => {
-        const requestBody: {expression: string; term: string; after: string; limit: number; channelId?: string} = {
+        const requestBody: { expression: string; term: string; after: string; limit: number; channelId?: string } = {
             expression, term, after, limit,
         };
         if (channelId) {
@@ -4763,7 +4750,7 @@ export default class Client4 {
     };
 
     expressionToVisualFormat = (expression: string, channelId?: string) => {
-        const requestBody: {expression: string; channelId?: string} = {expression};
+        const requestBody: { expression: string; channelId?: string } = {expression};
         if (channelId) {
             requestBody.channelId = channelId;
         }
@@ -4775,12 +4762,12 @@ export default class Client4 {
     };
 
     validateExpressionAgainstRequester = (expression: string, channelId?: string) => {
-        const requestBody: {expression: string; channelId?: string} = {expression};
+        const requestBody: { expression: string; channelId?: string } = {expression};
         if (channelId !== undefined) {
             requestBody.channelId = channelId;
         }
 
-        return this.doFetch<{requester_matches: boolean}>(
+        return this.doFetch<{ requester_matches: boolean }>(
             `${this.getBaseRoute()}/access_control_policies/cel/validate_requester`,
             {method: 'post', body: JSON.stringify(requestBody)},
         );
@@ -4801,7 +4788,7 @@ export default class Client4 {
     };
 
     getTeamContentFlaggingStatus = (teamId: string) => {
-        return this.doFetch<{enabled: boolean}>(
+        return this.doFetch<{ enabled: boolean }>(
             `${this.getContentFlaggingRoute()}/team/${teamId}/status`,
             {method: 'get'},
         );
@@ -4917,7 +4904,6 @@ export class ClientError extends Error implements ServerError {
     url?: string;
     server_error_id?: string;
     status_code?: number;
-    detailed_error?: string;
 
     constructor(baseUrl: string, data: ServerError, cause?: any) {
         super(data.message + ': ' + cleanUrlForLogging(baseUrl, data.url || ''), {cause});
@@ -4926,10 +4912,20 @@ export class ClientError extends Error implements ServerError {
         this.url = data.url;
         this.server_error_id = data.server_error_id;
         this.status_code = data.status_code;
-        this.detailed_error = data.detailed_error;
 
         // Ensure message is treated as a property of this class when object spreading. Without this,
         // copying the object by using `{...error}` would not include the message.
         Object.defineProperty(this, 'message', {enumerable: true});
     }
+
+    getLLMServicesRoute() {
+        return `${this.getAgentsRoute()}/llm_services`;
+    }
+
+    getLLMServices = () => {
+        return this.doFetch(
+            `${this.getLLMServicesRoute()}`,
+            {method: 'get'},
+        );
+    };
 }
