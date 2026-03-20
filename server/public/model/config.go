@@ -4838,7 +4838,7 @@ func (s *AutoTranslationSettings) isValid() *AppError {
 	}
 
 	// Validate workers if set (must be between 1 and 32)
-	if s.Workers != nil && (*s.Workers < 1 || *s.Workers > 32) {
+	if s.Workers != nil && (*s.Workers < 1 || *s.Workers > 64) {
 		return NewAppError("Config.IsValid", "model.config.is_valid.autotranslation.workers.app_error", nil, "", http.StatusBadRequest)
 	}
 
