@@ -197,10 +197,12 @@ func init() {
 	}
 
 	SystemUserManagerDefaultPermissions = []string{
+		PermissionSysconsoleReadUserManagementUsers.Id,
 		PermissionSysconsoleReadUserManagementGroups.Id,
 		PermissionSysconsoleReadUserManagementTeams.Id,
 		PermissionSysconsoleReadUserManagementChannels.Id,
 		PermissionSysconsoleReadUserManagementPermissions.Id,
+		PermissionSysconsoleWriteUserManagementUsers.Id,
 		PermissionSysconsoleWriteUserManagementGroups.Id,
 		PermissionSysconsoleWriteUserManagementTeams.Id,
 		PermissionSysconsoleWriteUserManagementChannels.Id,
@@ -348,6 +350,7 @@ func init() {
 		PermissionSysconsoleReadProductsBoards.Id,
 		PermissionSysconsoleWriteProductsBoards.Id,
 		PermissionManageOutgoingOAuthConnections.Id,
+		PermissionManageOAuth.Id,
 	}
 
 	SystemCustomGroupAdminDefaultPermissions = []string{
@@ -1232,19 +1235,10 @@ func MakeDefaultRoles() map[string]*Role {
 }
 
 func AddAncillaryPermissions(permissions []string) []string {
-	visited := make(map[string]bool)
-	for i := 0; i < len(permissions); i++ {
-		permission := permissions[i]
-		if visited[permission] {
-			continue
-		}
-		visited[permission] = true
-
+	for _, permission := range permissions {
 		if ancillaryPermissions, ok := SysconsoleAncillaryPermissions[permission]; ok {
 			for _, ancillaryPermission := range ancillaryPermissions {
-				if !visited[ancillaryPermission.Id] {
-					permissions = append(permissions, ancillaryPermission.Id)
-				}
+				permissions = append(permissions, ancillaryPermission.Id)
 			}
 		}
 	}
