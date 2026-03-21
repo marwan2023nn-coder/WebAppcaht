@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import DOMPurify from 'dompurify';
 import marked from 'marked';
 
 import {createSelector} from 'workspace-redux/selectors/create_selector';
@@ -29,7 +28,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
 
     const markdownOptions = {
         renderer,
-        sanitize: false,
+        sanitize: true,
         gfm: true,
         tables: true,
         mangle: false,
@@ -37,7 +36,7 @@ export function formatWithRenderer(text: string, renderer: marked.Renderer) {
         urlFilter,
     };
 
-    return DOMPurify.sanitize(marked(text, markdownOptions)).trim();
+    return marked(text, markdownOptions).trim();
 }
 
 const getAutolinkedUrlSchemeFilter = createSelector(
