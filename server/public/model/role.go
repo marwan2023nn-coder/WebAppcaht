@@ -347,6 +347,7 @@ func init() {
 		PermissionSysconsoleReadProductsBoards.Id,
 		PermissionSysconsoleWriteProductsBoards.Id,
 		PermissionManageOutgoingOAuthConnections.Id,
+		PermissionManageOAuth.Id,
 	}
 
 	SystemCustomGroupAdminDefaultPermissions = []string{
