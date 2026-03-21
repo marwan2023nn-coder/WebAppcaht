@@ -5,8 +5,6 @@ services:
     container_name: 'workspace-redis'
     image: redis:7-alpine
     restart: ${RESTART_POLICY}
-    ports:
-      - 6379:6379
 
   workspace-postgres:
     container_name: 'workspace-postgres'
@@ -28,8 +26,6 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
-    ports:
-      - 5432:5432  
 
   workspace:
     image: git.sofa.io:4567/sofachat/web/worksapce-11.1.1:${VERSION}
