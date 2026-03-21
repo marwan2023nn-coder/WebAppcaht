@@ -915,3 +915,28 @@ func SafeInt(i *int) int {
 	}
 	return *i
 }
+
+func ValidateDCRRedirectURIs(uris []string, allowlist string) *AppError {
+	if allowlist == "" {
+		return nil
+	}
+
+	patterns := strings.Split(allowlist, ",")
+	for _, uri := range uris {
+		match := false
+		for _, pattern := range patterns {
+			pattern = strings.TrimSpace(pattern)
+			if pattern == "" {
+				continue
+			}
+			if matched, _ := filepath.Match(pattern, uri); matched {
+				match = true
+				break
+			}
+		}
+		if !match {
+			return NewAppError("ValidateDCRRedirectURIs", "model.dcr.is_valid.redirect_uri_not_allowlisted.app_error", nil, "uri="+uri, http.StatusBadRequest)
+		}
+	}
+	return nil
+}
