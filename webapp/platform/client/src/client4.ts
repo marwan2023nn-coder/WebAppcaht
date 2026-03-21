@@ -4879,6 +4879,17 @@ export default class Client4 {
             {method: 'get'},
         );
     };
+
+    getLLMServicesRoute() {
+        return `${this.getAgentsRoute()}/llm_services`;
+    }
+
+    getLLMServices = () => {
+        return this.doFetch<LLMService[]>(
+            `${this.getLLMServicesRoute()}`,
+            {method: 'get'},
+        );
+    };
 }
 
 export function parseAndMergeNestedHeaders(originalHeaders: any) {
@@ -4917,15 +4928,4 @@ export class ClientError extends Error implements ServerError {
         // copying the object by using `{...error}` would not include the message.
         Object.defineProperty(this, 'message', {enumerable: true});
     }
-
-    getLLMServicesRoute() {
-        return `${this.getAgentsRoute()}/llm_services`;
-    }
-
-    getLLMServices = () => {
-        return this.doFetch(
-            `${this.getLLMServicesRoute()}`,
-            {method: 'get'},
-        );
-    };
 }
