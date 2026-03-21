@@ -4,7 +4,7 @@
   "author": "Christopher Jeffrey",
   "version": "0.3.6",
   "main": "./lib/marked.js",
-  "bin": "./marked.js",
+  "bin": "./bin/marked",
   "man": "./man/marked.1",
   "preferGlobal": true,
   "repository": "git://github.com/chjj/marked.git",

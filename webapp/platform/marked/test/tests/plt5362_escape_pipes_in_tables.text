@@ -1,0 +1,19 @@
+We don't actually support escaping pipes by default: \|
+
+| \|Heading1 |\|Heading\|| Heading \||
+| --------- | --------- | --------- |
+| Ce\|ll    | Cell \|   | Ce \| ll  |
+| Ce\| ll   | \|Cell    | Ce\|\|ll  |
+|\|CellCel\|| Celllll \||\| Cell    |
+
+Headi\|ng1|\|Heading\|| Heading \|
+--------- | --------- | ---------
+Ce\|ll    | Cell \|   | Ce \| ll
+Ce\| ll   | \|Cell    | Ce\|\|ll
+\|CellCe\|| Celllll \||\| Cell
+
+| \| |\||
+|---|---|
+|\| |\| |
+| \|| \||
+|\||\||

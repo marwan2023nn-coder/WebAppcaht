@@ -1,0 +1,171 @@
+# Link Testing
+
+Links in Mattermosts should render as specified below.
+
+#### These strings should auto-link:
+
+http://example.com
+
+https://example.com
+
+taco+what://example.com
+
+taco.what://example.com
+
+HTTP://example.com
+
+www.example.com
+
+www.example.com/index
+
+www.example.com/index.html
+
+www.example.com/index/sub
+
+www.example.com/index?params=1
+
+www.example.com/index?params=1&other=2
+
+www.example.com/index?params=1;other=2
+
+http://example.com:8065
+
+http://www.example.com/_/page
+
+www.example.com/_/page
+
+https://en.wikipedia.org/wiki/🐬
+
+https://en.wikipedia.org/wiki/Rendering_(computer_graphics)
+
+http://127.0.0.1
+
+http://192.168.1.1:4040
+
+http://[::1]:80
+
+http://[::1]:8065
+
+https://[::1]:80
+
+http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]
+
+http://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]:8065
+
+https://[2001:0:5ef5:79fb:303a:62d5:3312:ff42]
+
+Emails aren't supported by marked: test@example.com
+
+http://example.com/more_(than)_one_(parens)
+
+http://example.com/(something)?after=parens
+
+http://foo.com/unicode_(✪)_in_parens
+
+http://✪df.ws/1234
+
+*https://example.com*
+
+_https://example.com_
+
+**https://example.com**
+
+__https://example.com__
+
+***https://example.com***
+
+___https://example.com___
+
+<https://example.com>
+
+<https://en.wikipedia.org/wiki/Rendering_(computer_graphics)>
+
+www1.example.com
+
+[This whole #sentence should be a link](https://example.com)
+
+https://groups.google.com/forum/#!msg
+
+#### These strings should not auto-link:
+
+www.
+
+http:
+
+www.asdf
+
+http://
+
+example.com
+
+readme.md
+
+@example.com
+
+./make-compiled-client.sh
+
+test.:test
+
+`https://example.com`
+
+#### Only the links within these sentences should auto-link:
+
+(http://example.com)
+
+(see http://example.com)
+
+(http://example.com watch this)
+
+Emails aren't supported by marked: (test@example.com)
+
+This is a sentence with a http://example.com in it.
+
+This is a sentence with a [link](http://example.com) in it.
+
+This is a sentence with a http://example.com/_/underscore in it.
+
+This is a sentence with a link (http://example.com) in it.
+
+This is a sentence with a (https://en.wikipedia.org/wiki/Rendering_(computer_graphics)) in it.
+
+This is a sentence with a http://192.168.1.1:4040 in it.
+
+This is a sentence with a https://[::1]:80 in it.
+
+This is a link to http://example.com.
+
+This is a link containing http://example.com/something?with,commas,in,url, but not at end
+
+This is a question about a link http://example.com?
+
+#### These links should have tooltips when you hover over them
+
+[link](example.com "catch phrase!")
+
+[link](example.com "title with "quotes"")
+
+[link with spaces](example.com/ spaces in the url "and a title")
+
+[*Emphasis link*](https://example.com)
+
+[_Emphasis link_](https://example.com)
+
+*[Emphasis link](https://example.com)*
+
+_[Emphasis link](https://example.com)_
+
+**[*Strong emphasis link*](https://example.com)**
+
+__[*Strong emphasis link*](https://example.com)__
+
+**[_Strong emphasis link_](https://example.com)**
+
+__[_Strong emphasis link_](https://example.com)__
+
+*[**Strong emphasis link**](https://example.com)*
+
+*[__Strong emphasis link__](https://example.com)*
+
+_[**Strong emphasis link**](https://example.com)_
+
+_[__Strong emphasis link__](https://example.com)_

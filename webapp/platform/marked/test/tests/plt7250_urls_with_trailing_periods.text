@@ -1,0 +1,11 @@
+Periods are followed by other word characters, so they should be part of the URL
+
+http://example.com/aaaaa.b
+
+http://example.com/aaaaa.....bbbb
+
+Periods are not followed by other word characters, so they should not be part of the URL
+
+http://example.com/aaaaa.
+
+http://example.com/aaaaa.....

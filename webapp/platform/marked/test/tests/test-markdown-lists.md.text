@@ -1,0 +1,100 @@
+### Single-Item Ordered List
+
+7. Single Item
+
+### Multi-Item Ordered List
+
+1. One
+1. Two
+1. Three
+
+### Nested Ordered List
+
+1. Alpha
+	1. Bravo
+1. Charlie
+1. Delta
+	1. Echo
+	1. Foxtrot
+
+
+### Single-Item Unordered List
+
+* Single Item
+
+### Multi-Item Unordered List
+
+* One
+- Two
++ Three
+
+### Nested Unordered List
+
++ Alpha
+	* Bravo
+- Charlie
+* Delta
+	+ Echo
+	- Foxtrot
+
+
+### Mixed List Starting Ordered
+
+1. One
++ Two
+- Three
+
+### Mixed List Starting Unordered
+
++ Monday
+1. Tuesday
+* Wednesday
+
+### Nested Mixed List
+
+- Alpha
+    1. Bravo
+        * Charlie
+        + Delta
+- Echo
+* Foxtrot
+    + Golf
+        1. Hotel
+    - India
+        1. Juliet
+        2. Kilo
+    * Lima
+1. Mike
+    1. November
+        4. Oscar
+            5. Papa
+
+
+### New Line After a List
+
+1. One
+2. Two
+This text should be on a new line.
+
+
+### Task Lists
+
+- [ ] One
+  - [ ] Subpoint one
+  - Normal Bullet
+- [ ] Two
+- [x] Completed item
+
+### Numbered Task Lists
+
+1. [ ] One
+2. [ ] Two
+3. [x] Completed item
+
+
+### Multiple Lists
+
+List A:
+1. One
+List B:
+2. Two

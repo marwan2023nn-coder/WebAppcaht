@@ -1,0 +1,19 @@
+[def]: this isn't a link
+
+[def2]: http://example.com/but/this/is
+
+[def3]: /and/this/is/too
+
+[def4]: #as-is-this
+
+[test]: test
+
+[def use][def]
+
+[def2 use] [def2]
+
+[def3 use][def3]
+
+[def4 use] [def4]
+
+[test use] [test]
