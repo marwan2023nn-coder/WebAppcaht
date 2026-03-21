@@ -1,6 +1,13 @@
 ---
 services:
 
+  workspace-redis:
+    container_name: 'workspace-redis'
+    image: redis:7-alpine
+    restart: ${RESTART_POLICY}
+    ports:
+      - 6379:6379
+
   workspace-postgres:
     container_name: 'workspace-postgres'
     image: postgres:${POSTGRES_IMAGE_TAG}
@@ -33,6 +40,8 @@ services:
     depends_on:
       workspace-postgres:
         condition: service_healthy 
+      workspace-redis:
+        condition: service_started
     # image: mattermost/mattermost-enterprise-edition:10.2.0
     # restart: ${RESTART_POLICY}l
     ports:
@@ -65,6 +74,13 @@ services:
       - MM_SERVICESETTINGS_SITEURL
       # - MM_SERVICESETTINGS_WEBSOCKETURL
   
+      # Cluster and Redis
+      - MM_CLUSTERSETTINGS_ENABLE=true
+      - MM_CLUSTERSETTINGS_CLUSTERNAME=production
+      - MM_REDISSETTINGS_ADDRESS=workspace-redis:6379
+      - MM_CACHESETTINGS_CACHETYPE=redis
+      - MM_CACHESETTINGS_REDISADDRESS=workspace-redis:6379
+
       - MM_FILESETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_CLIENTDIRECTORY
