@@ -137,7 +137,14 @@ func (a *App) AuthenticateUserForGuestMagicLink(rctx request.CTX, tokenString st
 
 	token, err = a.Srv().Store().Token().ConsumeOnce(token.Type, tokenString)
 	if err != nil {
-		return nil, model.NewAppError("AuthenticateUserForGuestMagicLink", "api.user.guest_magic_link.invalid_token.app_error", nil, "", http.StatusBadRequest).Wrap(err)
+		var status int
+		switch err.(type) {
+		case *store.ErrNotFound:
+			status = http.StatusBadRequest
+		default:
+			status = http.StatusInternalServerError
+		}
+		return nil, model.NewAppError("AuthenticateUserForGuestMagicLink", "api.user.guest_magic_link.invalid_token.app_error", nil, "", status).Wrap(err)
 	}
 
 	if token.IsExpired() {

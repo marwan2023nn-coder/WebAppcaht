@@ -101,14 +101,18 @@ func MakeWorker(jobServer *jobs.JobServer, app AppIface) *jobs.SimpleWorker {
 		}
 		// find JSONL import file.
 		var jsonZipFile *zip.File
+		jsonZipFileCount := 0
 		for _, f := range importZipReader.File {
 			if imports.IsRootJsonlFile(f.Name) {
 				jsonZipFile = f
-				break
+				jsonZipFileCount++
 			}
 		}
-		if jsonZipFile == nil {
+		if jsonZipFileCount == 0 {
 			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.missing_jsonl", nil, "jsonFile was nil", http.StatusBadRequest)
+		}
+		if jsonZipFileCount > 1 {
+			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "multiple root jsonl files found", http.StatusBadRequest)
 		}
 
 		// avoid "zip slip"
