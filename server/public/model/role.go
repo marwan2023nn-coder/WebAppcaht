@@ -16,6 +16,8 @@ var SystemManagerDefaultPermissions []string
 var SystemUserManagerDefaultPermissions []string
 var SystemReadOnlyAdminDefaultPermissions []string
 var SystemCustomGroupAdminDefaultPermissions []string
+var SharedChannelManagerDefaultPermissions []string
+var SecureConnectionManagerDefaultPermissions []string
 
 var BuiltInSchemeManagedRoleIDs []string
 
@@ -26,6 +28,8 @@ func init() {
 		SystemUserManagerRoleId,
 		SystemReadOnlyAdminRoleId,
 		SystemManagerRoleId,
+		SharedChannelManagerRoleId,
+		SecureConnectionManagerRoleId,
 	}
 
 	BuiltInSchemeManagedRoleIDs = append([]string{
@@ -193,12 +197,10 @@ func init() {
 	}
 
 	SystemUserManagerDefaultPermissions = []string{
-		PermissionSysconsoleReadUserManagementUsers.Id,
 		PermissionSysconsoleReadUserManagementGroups.Id,
 		PermissionSysconsoleReadUserManagementTeams.Id,
 		PermissionSysconsoleReadUserManagementChannels.Id,
 		PermissionSysconsoleReadUserManagementPermissions.Id,
-		PermissionSysconsoleWriteUserManagementUsers.Id,
 		PermissionSysconsoleWriteUserManagementGroups.Id,
 		PermissionSysconsoleWriteUserManagementTeams.Id,
 		PermissionSysconsoleWriteUserManagementChannels.Id,
@@ -272,7 +274,6 @@ func init() {
 		PermissionSysconsoleReadReportingSiteStatistics.Id,
 		PermissionSysconsoleReadReportingTeamStatistics.Id,
 		PermissionSysconsoleReadReportingServerLogs.Id,
-		PermissionSysconsoleReadUserManagementUsers.Id,
 		PermissionSysconsoleReadUserManagementGroups.Id,
 		PermissionSysconsoleReadUserManagementTeams.Id,
 		PermissionSysconsoleReadUserManagementChannels.Id,
@@ -347,7 +348,6 @@ func init() {
 		PermissionSysconsoleReadProductsBoards.Id,
 		PermissionSysconsoleWriteProductsBoards.Id,
 		PermissionManageOutgoingOAuthConnections.Id,
-		PermissionManageOAuth.Id,
 	}
 
 	SystemCustomGroupAdminDefaultPermissions = []string{
@@ -356,6 +356,14 @@ func init() {
 		PermissionDeleteCustomGroup.Id,
 		PermissionRestoreCustomGroup.Id,
 		PermissionManageCustomGroupMembers.Id,
+	}
+
+	SharedChannelManagerDefaultPermissions = []string{
+		PermissionManageSharedChannels.Id,
+	}
+
+	SecureConnectionManagerDefaultPermissions = []string{
+		PermissionManageSecureConnections.Id,
 	}
 
 	// Add the ancillary permissions to each system role
@@ -369,16 +377,18 @@ type RoleType string
 type RoleScope string
 
 const (
-	SystemGuestRoleId            = "system_guest"
-	SystemUserRoleId             = "system_user"
-	SystemAdminRoleId            = "system_admin"
-	SystemPostAllRoleId          = "system_post_all"
-	SystemPostAllPublicRoleId    = "system_post_all_public"
-	SystemUserAccessTokenRoleId  = "system_user_access_token"
-	SystemUserManagerRoleId      = "system_user_manager"
-	SystemReadOnlyAdminRoleId    = "system_read_only_admin"
-	SystemManagerRoleId          = "system_manager"
-	SystemCustomGroupAdminRoleId = "system_custom_group_admin"
+	SystemGuestRoleId             = "system_guest"
+	SystemUserRoleId              = "system_user"
+	SystemAdminRoleId             = "system_admin"
+	SystemPostAllRoleId           = "system_post_all"
+	SystemPostAllPublicRoleId     = "system_post_all_public"
+	SystemUserAccessTokenRoleId   = "system_user_access_token"
+	SystemUserManagerRoleId       = "system_user_manager"
+	SystemReadOnlyAdminRoleId     = "system_read_only_admin"
+	SystemManagerRoleId           = "system_manager"
+	SystemCustomGroupAdminRoleId  = "system_custom_group_admin"
+	SharedChannelManagerRoleId    = "shared_channel_manager"
+	SecureConnectionManagerRoleId = "secure_connection_manager"
 
 	TeamGuestRoleId         = "team_guest"
 	TeamUserRoleId          = "team_user"
@@ -422,6 +432,7 @@ type Role struct {
 	Permissions   []string `json:"permissions"`
 	SchemeManaged bool     `json:"scheme_managed"`
 	BuiltIn       bool     `json:"built_in"`
+	SchemeId      *string  `json:"scheme_id"`
 }
 
 func (r *Role) Auditable() map[string]any {
@@ -436,6 +447,7 @@ func (r *Role) Auditable() map[string]any {
 		"permissions":    r.Permissions,
 		"scheme_managed": r.SchemeManaged,
 		"built_in":       r.BuiltIn,
+		"scheme_id":      r.SchemeId,
 	}
 }
 
@@ -456,6 +468,7 @@ func (r *Role) MarshalYAML() (any, error) {
 		Permissions   []string `yaml:"permissions"`
 		SchemeManaged bool     `yaml:"scheme_managed"`
 		BuiltIn       bool     `yaml:"built_in"`
+		SchemeId      *string  `yaml:"scheme_id"`
 	}{
 		Id:            r.Id,
 		Name:          r.Name,
@@ -467,6 +480,7 @@ func (r *Role) MarshalYAML() (any, error) {
 		Permissions:   r.Permissions,
 		SchemeManaged: r.SchemeManaged,
 		BuiltIn:       r.BuiltIn,
+		SchemeId:      r.SchemeId,
 	}, nil
 }
 
@@ -482,6 +496,7 @@ func (r *Role) UnmarshalYAML(unmarshal func(any) error) error {
 		Permissions   []string `yaml:"permissions"`
 		SchemeManaged bool     `yaml:"scheme_managed"`
 		BuiltIn       bool     `yaml:"built_in"`
+		SchemeId      *string  `yaml:"scheme_id"`
 	}{}
 
 	err := unmarshal(&out)
@@ -513,6 +528,7 @@ func (r *Role) UnmarshalYAML(unmarshal func(any) error) error {
 		Permissions:   out.Permissions,
 		SchemeManaged: out.SchemeManaged,
 		BuiltIn:       out.BuiltIn,
+		SchemeId:      out.SchemeId,
 	}
 	return nil
 }
@@ -1173,6 +1189,24 @@ func MakeDefaultRoles() map[string]*Role {
 		DisplayName:   "authentication.roles.system_custom_group_admin.name",
 		Description:   "authentication.roles.system_custom_group_admin.description",
 		Permissions:   SystemCustomGroupAdminDefaultPermissions,
+		SchemeManaged: false,
+		BuiltIn:       true,
+	}
+
+	roles[SharedChannelManagerRoleId] = &Role{
+		Name:          SharedChannelManagerRoleId,
+		DisplayName:   "authentication.roles.shared_channel_manager.name",
+		Description:   "authentication.roles.shared_channel_manager.description",
+		Permissions:   SharedChannelManagerDefaultPermissions,
+		SchemeManaged: false,
+		BuiltIn:       true,
+	}
+
+	roles[SecureConnectionManagerRoleId] = &Role{
+		Name:          SecureConnectionManagerRoleId,
+		DisplayName:   "authentication.roles.secure_connection_manager.name",
+		Description:   "authentication.roles.secure_connection_manager.description",
+		Permissions:   SecureConnectionManagerDefaultPermissions,
 		SchemeManaged: false,
 		BuiltIn:       true,
 	}
