@@ -135,10 +135,16 @@ func (a *App) AuthenticateUserForGuestMagicLink(rctx request.CTX, tokenString st
 		return nil, model.NewAppError("AuthenticateUserForGuestMagicLink", "api.user.guest_magic_link.invalid_token_type.app_error", nil, "", http.StatusBadRequest)
 	}
 
-	// We have the token we were looking for, so remove it from the database ASAP
-	err = a.Srv().Store().Token().Delete(tokenString)
+	token, err = a.Srv().Store().Token().ConsumeOnce(token.Type, tokenString)
 	if err != nil {
-		rctx.Logger().Warn("Error while deleting token", mlog.Err(err))
+		var status int
+		switch err.(type) {
+		case *store.ErrNotFound:
+			status = http.StatusBadRequest
+		default:
+			status = http.StatusInternalServerError
+		}
+		return nil, model.NewAppError("AuthenticateUserForGuestMagicLink", "api.user.guest_magic_link.invalid_token.app_error", nil, "", status).Wrap(err)
 	}
 
 	if token.IsExpired() {

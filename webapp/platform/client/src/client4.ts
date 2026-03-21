@@ -5,7 +5,7 @@
 
 import type {AccessControlPolicy, CELExpressionError, AccessControlTestResult, AccessControlPoliciesResult, AccessControlPolicyChannelsResult, AccessControlVisualAST, AccessControlAttributes, AccessControlPolicyActiveUpdate} from '@workspace/types/access_control';
 import type {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilterQuery} from '@workspace/types/admin';
-import type {Agent} from '@workspace/types/agents';
+import type {Agent, LLMService} from '@workspace/types/agents';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@workspace/types/apps';
 import type {Audit} from '@workspace/types/audits';
 import type {UserAutocomplete, AutocompleteSuggestion} from '@workspace/types/autocomplete';
@@ -4917,4 +4917,15 @@ export class ClientError extends Error implements ServerError {
         // copying the object by using `{...error}` would not include the message.
         Object.defineProperty(this, 'message', {enumerable: true});
     }
+
+    getLLMServicesRoute() {
+        return `${this.getAgentsRoute()}/llm_services`;
+    }
+
+    getLLMServices = () => {
+        return this.doFetch(
+            `${this.getLLMServicesRoute()}`,
+            {method: 'get'},
+        );
+    };
 }
