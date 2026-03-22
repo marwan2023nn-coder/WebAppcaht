@@ -6,9 +6,9 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/pluginapi/cluster"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi/cluster"
 )
 
 const (

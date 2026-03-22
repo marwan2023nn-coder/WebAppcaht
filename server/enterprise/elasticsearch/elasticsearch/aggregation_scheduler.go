@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package elasticsearch
@@ -7,12 +7,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs"
-	ejobs "github.com/mattermost/mattermost/server/v8/einterfaces/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs"
+	ejobs "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/jobs"
 )
 
 type ElasticSearchAggregatorScheduler struct {

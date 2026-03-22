@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Update the hard-coded production client asset paths to take into account Mattermost running on a subpath. This command needs access to the Mattermost assets directory to be able to rewrite the paths.
+Update the hard-coded production client asset paths to take into account Sofa running on a subpath. This command needs access to the Sofa assets directory to be able to rewrite the paths.
 
 ::
 
@@ -21,20 +21,20 @@ Examples
 ::
 
     # you can rewrite the assets to use a subpath
-    mmctl config subpath --assets-dir /opt/mattermost/client --path /mattermost
+    mmctl config subpath --assets-dir /opt/sofa/client --path /sofa
 
     # the subpath can have multiple steps
-    mmctl config subpath --assets-dir /opt/mattermost/client --path /my/custom/subpath
+    mmctl config subpath --assets-dir /opt/sofa/client --path /my/custom/subpath
 
     # or you can fallback to the root path passing /
-    mmctl config subpath --assets-dir /opt/mattermost/client --path /
+    mmctl config subpath --assets-dir /opt/sofa/client --path /
 
 Options
 ~~~~~~~
 
 ::
 
-  -a, --assets-dir string   directory of the Mattermost assets in the local filesystem
+  -a, --assets-dir string   directory of the Sofa assets in the local filesystem
   -h, --help                help for subpath
   -p, --path string         path to update the assets with
 

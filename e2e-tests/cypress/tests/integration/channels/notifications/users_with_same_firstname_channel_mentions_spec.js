@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -102,7 +102,7 @@ describe('Notifications', () => {
         const randomId = getRandomId();
 
         return {
-            email: `${username}${randomId}@sample.mattermost.com`,
+            email: `${username}${randomId}@sample.sofa.com`,
             username,
             password: 'passwd',
             first_name: `First${randomId}`,

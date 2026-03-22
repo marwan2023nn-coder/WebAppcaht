@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package filestore
@@ -17,13 +17,13 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 	"github.com/xtgo/uuid"
 
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 func randomString() string {
@@ -107,7 +107,7 @@ func runBackendTest(t *testing.T, encrypt bool) {
 			DriverName:                         driverS3,
 			AmazonS3AccessKeyId:                "minioaccesskey",
 			AmazonS3SecretAccessKey:            "miniosecretkey",
-			AmazonS3Bucket:                     "mattermost-test",
+			AmazonS3Bucket:                     "sofa-test",
 			AmazonS3Region:                     "",
 			AmazonS3Endpoint:                   s3Endpoint,
 			AmazonS3PathPrefix:                 "",
@@ -664,7 +664,7 @@ func BenchmarkFileStore(b *testing.B) {
 		DriverName:                         driverS3,
 		AmazonS3AccessKeyId:                "minioaccesskey",
 		AmazonS3SecretAccessKey:            "miniosecretkey",
-		AmazonS3Bucket:                     "mattermost-test",
+		AmazonS3Bucket:                     "sofa-test",
 		AmazonS3Region:                     "",
 		AmazonS3Endpoint:                   s3Endpoint,
 		AmazonS3PathPrefix:                 "",
@@ -811,7 +811,7 @@ func BenchmarkS3WriteFile(b *testing.B) {
 		DriverName:                         driverS3,
 		AmazonS3AccessKeyId:                "minioaccesskey",
 		AmazonS3SecretAccessKey:            "miniosecretkey",
-		AmazonS3Bucket:                     "mattermost-test",
+		AmazonS3Bucket:                     "sofa-test",
 		AmazonS3Region:                     "",
 		AmazonS3Endpoint:                   "localhost:9000",
 		AmazonS3PathPrefix:                 "",
@@ -940,7 +940,7 @@ func TestNewExportFileBackendSettingsFromConfig(t *testing.T) {
 			Directory:                          "",
 			AmazonS3AccessKeyId:                "minioaccesskey",
 			AmazonS3SecretAccessKey:            "miniosecretkey",
-			AmazonS3Bucket:                     "mattermost-test",
+			AmazonS3Bucket:                     "sofa-test",
 			AmazonS3PathPrefix:                 "prefix",
 			AmazonS3Region:                     "region",
 			AmazonS3Endpoint:                   "s3.example.com",
@@ -958,7 +958,7 @@ func TestNewExportFileBackendSettingsFromConfig(t *testing.T) {
 			ExportDriverName:                         model.NewPointer(driverS3),
 			ExportAmazonS3AccessKeyId:                model.NewPointer("minioaccesskey"),
 			ExportAmazonS3SecretAccessKey:            model.NewPointer("miniosecretkey"),
-			ExportAmazonS3Bucket:                     model.NewPointer("mattermost-test"),
+			ExportAmazonS3Bucket:                     model.NewPointer("sofa-test"),
 			ExportAmazonS3Region:                     model.NewPointer("region"),
 			ExportAmazonS3Endpoint:                   model.NewPointer("s3.example.com"),
 			ExportAmazonS3PathPrefix:                 model.NewPointer("prefix"),
@@ -984,7 +984,7 @@ func TestNewExportFileBackendSettingsFromConfig(t *testing.T) {
 			Directory:                          "",
 			AmazonS3AccessKeyId:                "minioaccesskey",
 			AmazonS3SecretAccessKey:            "miniosecretkey",
-			AmazonS3Bucket:                     "mattermost-test",
+			AmazonS3Bucket:                     "sofa-test",
 			AmazonS3PathPrefix:                 "prefix",
 			AmazonS3Region:                     "region",
 			AmazonS3Endpoint:                   "s3.example.com",
@@ -1003,7 +1003,7 @@ func TestNewExportFileBackendSettingsFromConfig(t *testing.T) {
 			ExportDriverName:                         model.NewPointer(driverS3),
 			ExportAmazonS3AccessKeyId:                model.NewPointer("minioaccesskey"),
 			ExportAmazonS3SecretAccessKey:            model.NewPointer("miniosecretkey"),
-			ExportAmazonS3Bucket:                     model.NewPointer("mattermost-test"),
+			ExportAmazonS3Bucket:                     model.NewPointer("sofa-test"),
 			ExportAmazonS3Region:                     model.NewPointer("region"),
 			ExportAmazonS3Endpoint:                   model.NewPointer("s3.example.com"),
 			ExportAmazonS3PathPrefix:                 model.NewPointer("prefix"),

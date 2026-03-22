@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -10,15 +10,15 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
 )
 
 var JobserverCmd = &cobra.Command{
 	Use:   "jobserver",
-	Short: "Start the Mattermost job server",
+	Short: "Start the Sofa job server",
 	RunE:  jobserverCmdF,
 }
 
@@ -46,8 +46,8 @@ func jobserverCmdF(command *cobra.Command, args []string) error {
 	rctx := request.EmptyContext(a.Log())
 
 	// Run jobs
-	rctx.Logger().Info("Starting Mattermost job server")
-	defer rctx.Logger().Info("Stopped Mattermost job server")
+	rctx.Logger().Info("Starting Sofa job server")
+	defer rctx.Logger().Info("Stopped Sofa job server")
 
 	if !noJobs {
 		a.Srv().Jobs.StartWorkers()
@@ -68,7 +68,7 @@ func jobserverCmdF(command *cobra.Command, args []string) error {
 	<-signalChan
 
 	// Cleanup anything that isn't handled by a defer statement
-	rctx.Logger().Info("Stopping Mattermost job server")
+	rctx.Logger().Info("Stopping Sofa job server")
 
 	return nil
 }

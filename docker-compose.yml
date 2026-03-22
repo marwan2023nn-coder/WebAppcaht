@@ -33,7 +33,7 @@ services:
     depends_on:
       workspace-postgres:
         condition: service_healthy 
-    # image: mattermost/mattermost-enterprise-edition:10.2.0
+    # image: sofa/sofa-enterprise-edition:10.2.0
     # restart: ${RESTART_POLICY}l
     ports:
       - ${CHAT_PORT}:8065
@@ -54,7 +54,7 @@ services:
       # timezone inside container
       - TZ
 
-      # necessary Mattermost options/variables (see env.example)
+      # necessary Sofa options/variables (see env.example)
       - MM_SQLSETTINGS_DRIVERNAME
       - MM_SQLSETTINGS_DATASOURCE
 

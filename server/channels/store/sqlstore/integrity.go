@@ -1,13 +1,13 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
 
 import (
-	sq "github.com/mattermost/squirrel"
+	sq "github.com/sofa/squirrel"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 type relationalCheckConfig struct {

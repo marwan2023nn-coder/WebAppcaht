@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@mattermost/client';
+import {Client4} from '@sofa/client';
 
 import clientRequest from '../plugins/client_request';
 

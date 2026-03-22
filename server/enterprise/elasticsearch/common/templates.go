@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package common
@@ -8,7 +8,7 @@ import (
 
 	"github.com/elastic/go-elasticsearch/v8/typedapi/indices/putindextemplate"
 	"github.com/elastic/go-elasticsearch/v8/typedapi/types"
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func GetPostTemplate(cfg *model.Config) *putindextemplate.Request {

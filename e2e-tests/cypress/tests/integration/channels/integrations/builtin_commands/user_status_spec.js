@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -53,7 +53,7 @@ describe('Integrations', () => {
             cy.findByText(offline.message);
 
             // * Verify system message profile is visible and without status
-            cy.findByLabelText('Mattermost Logo').should('be.visible');
+            cy.findByLabelText('Sofa Logo').should('be.visible');
             cy.get('.post__img').find('.status').should('not.exist');
         });
     });

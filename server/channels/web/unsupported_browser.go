@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package web
@@ -8,12 +8,12 @@ import (
 
 	"github.com/avct/uasurfer"
 
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/templates"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/templates"
 )
 
-// MattermostApp describes downloads for the Mattermost App
-type MattermostApp struct {
+// SofaApp describes downloads for the Sofa App
+type SofaApp struct {
 	LogoSrc                string
 	Title                  string
 	SupportedVersionString string
@@ -66,11 +66,11 @@ func renderUnsupportedBrowser(rctx request.CTX, r *http.Request) templates.Data 
 		data.Props["NoLongerSupportString"] = rctx.T("web.error.unsupported_browser.no_longer_support")
 	}
 
-	// Mattermost app version
+	// Sofa app version
 	if isWindows {
-		data.Props["App"] = renderMattermostAppWindows(rctx)
+		data.Props["App"] = renderSofaAppWindows(rctx)
 	} else if isMacOSX {
-		data.Props["App"] = renderMattermostAppMac(rctx)
+		data.Props["App"] = renderSofaAppMac(rctx)
 	}
 
 	// Browsers to download
@@ -90,27 +90,27 @@ func renderUnsupportedBrowser(rctx request.CTX, r *http.Request) templates.Data 
 	return data
 }
 
-func renderMattermostAppMac(rctx request.CTX) MattermostApp {
-	return MattermostApp{
+func renderSofaAppMac(rctx request.CTX) SofaApp {
+	return SofaApp{
 		"/static/images/browser-icons/mac.png",
 		rctx.T("web.error.unsupported_browser.download_the_app"),
 		rctx.T("web.error.unsupported_browser.min_os_version.mac"),
 		rctx.T("web.error.unsupported_browser.download"),
-		"https://mattermost.com/pl/download-apps",
+		"https://sofa.com/pl/download-apps",
 		rctx.T("web.error.unsupported_browser.install_guide.mac"),
-		"https://docs.mattermost.com/install/desktop.html#mac-os-x-10-9",
+		"https://docs.sofa.com/install/desktop.html#mac-os-x-10-9",
 	}
 }
 
-func renderMattermostAppWindows(rctx request.CTX) MattermostApp {
-	return MattermostApp{
+func renderSofaAppWindows(rctx request.CTX) SofaApp {
+	return SofaApp{
 		"/static/images/browser-icons/windows.svg",
 		rctx.T("web.error.unsupported_browser.download_the_app"),
 		rctx.T("web.error.unsupported_browser.min_os_version.windows"),
 		rctx.T("web.error.unsupported_browser.download"),
-		"https://mattermost.com/pl/download-apps",
+		"https://sofa.com/pl/download-apps",
 		rctx.T("web.error.unsupported_browser.install_guide.windows"),
-		"https://docs.mattermost.com/install/desktop.html#windows-10-windows-8-1-windows-7",
+		"https://docs.sofa.com/install/desktop.html#windows-10-windows-8-1-windows-7",
 	}
 }
 

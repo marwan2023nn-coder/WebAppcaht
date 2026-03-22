@@ -8,7 +8,7 @@ ${MME2E_DC_SERVER} exec -T -u "$MME2E_UID" -- playwright bash <<EOF
 cd e2e-tests/playwright
 rm -rf logs results storage_state
 mkdir -p logs results
-touch logs/mattermost.log
+touch logs/sofa.log
 EOF
 
 mme2e_log "Prepare Playwright: install dependencies"
@@ -51,4 +51,4 @@ jq -f /dev/stdin ../playwright/results/reporter/results.json >../playwright/resu
 EOF
 
 # Collect server logs
-${MME2E_DC_SERVER} logs --no-log-prefix -- server >../playwright/logs/mattermost.log 2>&1
+${MME2E_DC_SERVER} logs --no-log-prefix -- server >../playwright/logs/sofa.log 2>&1

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -15,14 +15,14 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app/imports"
-	"github.com/mattermost/mattermost/server/v8/channels/app/teams"
-	"github.com/mattermost/mattermost/server/v8/channels/app/users"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imports"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/teams"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/users"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
 )
 
 // -- Bulk Import Functions --
@@ -1539,7 +1539,7 @@ func compareFilesContent(fileA, fileB io.Reader, bufSize int64) (bool, error) {
 		// (BenchmarkCompareFilesContent) and it showed to provide
 		// a good compromise between processing speed and allocated memory,
 		// especially in the common case of the readers being part of an S3 stored ZIP file.
-		// See https://github.com/mattermost/mattermost/pull/26629 for full context.
+		// See https://github.com/marwan2023nn-coder/sofa/pull/26629 for full context.
 		bufSize = 1024 * 1024 * 2 // 2MB
 	}
 

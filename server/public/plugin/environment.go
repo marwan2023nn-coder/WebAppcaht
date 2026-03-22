@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugin
@@ -14,9 +14,9 @@ import (
 	plugin "github.com/hashicorp/go-plugin"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils"
 )
 
 var ErrNotFound = errors.New("Item not found")
@@ -46,7 +46,7 @@ type PrepackagedPlugin struct {
 
 // Environment represents the execution environment of active plugins.
 //
-// It is meant for use by the Mattermost server to manipulate, interact with and report on the set
+// It is meant for use by the Sofa server to manipulate, interact with and report on the set
 // of active plugins.
 type Environment struct {
 	registeredPlugins                sync.Map
@@ -274,7 +274,7 @@ func checkMinServerVersion(pluginInfo *model.BundleInfo) error {
 		return fmt.Errorf("%v: %v", err.Error(), pluginInfo.Manifest.Id)
 	}
 	if !fulfilled {
-		return fmt.Errorf("plugin requires Mattermost %v: %v", pluginInfo.Manifest.MinServerVersion, pluginInfo.Manifest.Id)
+		return fmt.Errorf("plugin requires Sofa %v: %v", pluginInfo.Manifest.MinServerVersion, pluginInfo.Manifest.Id)
 	}
 
 	return nil

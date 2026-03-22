@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package email
@@ -11,10 +11,10 @@ import (
 	"path/filepath"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
 )
 
 type FieldRow struct {
@@ -84,7 +84,7 @@ func ProcessMessageAttachments(post *model.Post, siteURL string) []*EmailMessage
 		for i := range messageAttachment.Fields {
 			// Create a new instance to avoid altering the original pointer reference
 			// We update field value to parse markdown.
-			// If we do that on the original pointer, the rendered text in mattermost
+			// If we do that on the original pointer, the rendered text in sofa
 			// becomes invalid as its no longer a markdown string, but rather an HTML string.
 			field := &model.SlackAttachmentField{
 				Title: messageAttachment.Fields[i].Title,

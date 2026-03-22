@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /// <reference types="cypress" />
@@ -8,7 +8,7 @@
 // See https://jsdoc.app/index.html for reference.
 // Basic requirements for documentation are the following:
 // - Meaningful description
-// - Specific link to https://api.mattermost.com
+// - Specific link to https://api.sofa.com
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
@@ -20,7 +20,7 @@ declare namespace Cypress {
 
         /**
          * Get cluster status
-         * See https://api.mattermost.com/#tag/cluster/operation/GetClusterStatus
+         * See https://api.sofa.com/#tag/cluster/operation/GetClusterStatus
          * @returns {ClusterInfo[]} out.clusterInfo: `ClusterInfo[]` object
          *
          * @example

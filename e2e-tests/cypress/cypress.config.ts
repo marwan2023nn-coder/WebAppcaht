@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {defineConfig} from 'cypress';
@@ -24,17 +24,17 @@ export default defineConfig({
     videosFolder: 'tests/videos',
     viewportWidth: 1300,
     env: {
-        adminEmail: 'sysadmin@sample.mattermost.com',
+        adminEmail: 'sysadmin@sample.sofa.com',
         adminUsername: 'sysadmin',
         adminPassword: 'Sys@dmin-sample1',
         allowedUntrustedInternalConnections: 'localhost',
         cwsURL: 'http://localhost:8076',
         cwsAPIURL: 'http://localhost:8076',
         dbClient: 'postgres',
-        dbConnection: 'postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable&connect_timeout=10',
+        dbConnection: 'postgres://mmuser:mostest@localhost/sofa_test?sslmode=disable&connect_timeout=10',
         elasticsearchConnectionURL: 'http://localhost:9200',
         firstTest: false,
-        keycloakAppName: 'mattermost',
+        keycloakAppName: 'sofa',
         keycloakBaseUrl: 'http://localhost:8484',
         keycloakUsername: 'mmuser',
         keycloakPassword: 'mostest',
@@ -42,11 +42,11 @@ export default defineConfig({
         ldapPort: 389,
         minioAccessKey: 'minioaccesskey',
         minioSecretKey: 'miniosecretkey',
-        minioS3Bucket: 'mattermost-test',
+        minioS3Bucket: 'sofa-test',
         minioS3Endpoint: 'localhost:9000',
         minioS3SSL: false,
         numberOfTrialUsers: 100,
-        pushNotificationServer: 'https://push-test.mattermost.com',
+        pushNotificationServer: 'https://push-test.sofa.com',
         resetBeforeTest: false,
         runLDAPSync: true,
         secondServerURL: 'http://localhost/s/p',

@@ -1,13 +1,13 @@
 package pluginapi_test
 
 import (
-	"github.com/mattermost/mattermost/server/public/pluginapi"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
 
-	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 )
 
 type Plugin struct {
-	plugin.MattermostPlugin
+	plugin.SofaPlugin
 	client *pluginapi.Client
 }
 

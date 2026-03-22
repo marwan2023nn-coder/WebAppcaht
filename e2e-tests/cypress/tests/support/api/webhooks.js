@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // *****************************************************************************
 // Webhooks
-// https://api.mattermost.com/#tag/webhooks
+// https://api.sofa.com/#tag/webhooks
 // *****************************************************************************
 
 Cypress.Commands.add('apiGetIncomingWebhook', (hookId) => {

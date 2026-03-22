@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -23,12 +23,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/plugin/utils"
-	"github.com/mattermost/mattermost/server/v8"
-	"github.com/mattermost/mattermost/server/v8/channels/testlib"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
 )
 
 func TestPlugin(t *testing.T) {
@@ -708,9 +708,9 @@ func TestGetInstalledMarketplacePlugins(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
-				DownloadURL: "https://example.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.4/com.mattermost.nps-1.0.4.tar.gz",
+				DownloadURL: "https://example.com/sofa/sofa-plugin-nps/releases/download/v1.0.4/com.sofa.nps-1.0.4.tar.gz",
 				Labels: []model.MarketplaceLabel{
 					{
 						Name:        "someName",
@@ -718,9 +718,9 @@ func TestGetInstalledMarketplacePlugins(t *testing.T) {
 					},
 				},
 				Manifest: &model.Manifest{
-					Id:               "com.mattermost.nps",
+					Id:               "com.sofa.nps",
 					Name:             "User Satisfaction Surveys",
-					Description:      "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost.",
+					Description:      "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Sofa.",
 					Version:          "1.0.4",
 					MinServerVersion: "5.14.0",
 				},
@@ -851,13 +851,13 @@ func TestSearchGetMarketplacePlugins(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "example.com/sofa/sofa-plugin-nps",
 				IconData:    "Cjxzdmcgdmlld0JveD0nMCAwIDEwNSA5MycgeG1sbnM9J2h0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnJz4KPHBhdGggZD0nTTY2LDBoMzl2OTN6TTM4LDBoLTM4djkzek01MiwzNWwyNSw1OGgtMTZsLTgtMThoLTE4eicgZmlsbD0nI0VEMUMyNCcvPgo8L3N2Zz4K",
-				DownloadURL: "example.com/mattermost/mattermost-plugin-nps/releases/download/v1.0.4/com.mattermost.nps-1.0.4.tar.gz",
+				DownloadURL: "example.com/sofa/sofa-plugin-nps/releases/download/v1.0.4/com.sofa.nps-1.0.4.tar.gz",
 				Manifest: &model.Manifest{
-					Id:               "com.mattermost.nps",
+					Id:               "com.sofa.nps",
 					Name:             "User Satisfaction Surveys",
-					Description:      "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Mattermost.",
+					Description:      "This plugin sends quarterly user satisfaction surveys to gather feedback and help improve Sofa.",
 					Version:          "1.0.4",
 					MinServerVersion: "5.14.0",
 				},
@@ -978,7 +978,7 @@ func TestGetLocalPluginInMarketplace(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: "www.github.com/example",
 				Manifest: &model.Manifest{
@@ -1140,7 +1140,7 @@ func TestGetRemotePluginInMarketplace(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: "www.github.com/example",
 				Manifest: &model.Manifest{
@@ -1196,7 +1196,7 @@ func TestGetPrepackagedPluginInMarketplace(t *testing.T) {
 	marketplacePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: "www.github.com/example",
 				Manifest: &model.Manifest{
@@ -1352,7 +1352,7 @@ func TestInstallMarketplacePlugin(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: pluginServer.URL,
 				Manifest: &model.Manifest{
@@ -1367,7 +1367,7 @@ func TestInstallMarketplacePlugin(t *testing.T) {
 		},
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: pluginServer.URL,
 				Manifest: &model.Manifest{
@@ -1690,7 +1690,7 @@ func TestInstallMarketplacePluginPrepackagedDisabled(t *testing.T) {
 	samplePlugins := []*model.MarketplacePlugin{
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: pluginServer.URL,
 				Manifest: &model.Manifest{
@@ -1705,7 +1705,7 @@ func TestInstallMarketplacePluginPrepackagedDisabled(t *testing.T) {
 		},
 		{
 			BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-				HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
+				HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
 				IconData:    "https://example.com/icon.svg",
 				DownloadURL: pluginServer.URL,
 				Manifest: &model.Manifest{
@@ -1986,7 +1986,7 @@ func TestPluginWebSocketSession(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t)
 
-	pluginID := "com.mattermost.websocket_session_test"
+	pluginID := "com.sofa.websocket_session_test"
 
 	// Compile plugin
 	fullPath := filepath.Join(server.GetPackagePath(), "channels", "app", "plugin_api_tests", "manual.test_websocket_session", "main.go")
@@ -2038,7 +2038,7 @@ func TestPluginWebSocketRemoteAddress(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t).InitBasic(t)
 
-	pluginID := "com.mattermost.websocket_remote_address_test"
+	pluginID := "com.sofa.websocket_remote_address_test"
 
 	// Compile plugin
 	fullPath := filepath.Join(server.GetPackagePath(), "channels", "app", "plugin_api_tests", "manual.test_websocket_remote_address", "main.go")

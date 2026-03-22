@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package web
@@ -18,10 +18,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
 )
 
 func TestOAuthComplete_AccessDenied(t *testing.T) {
@@ -417,7 +417,7 @@ func TestMobileLoginWithOAuth(t *testing.T) {
 		*cfg.GitLabSettings.Enable = true
 	})
 
-	provider := &MattermostTestProvider{}
+	provider := &SofaTestProvider{}
 	einterfaces.RegisterOAuthProvider(model.ServiceGitlab, provider)
 
 	t.Run("Should redirect to the SSO login page when valid URL Scheme is passed as redirect_to parameter", func(t *testing.T) {
@@ -514,7 +514,7 @@ func TestOAuthComplete(t *testing.T) {
 	assert.Error(t, err)
 	closeBody(r)
 
-	// We are going to use mattermost as the provider emulating gitlab
+	// We are going to use sofa as the provider emulating gitlab
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.ServiceSettings.EnableOAuthServiceProvider = true })
 
 	defaultRolePermissions := th.SaveDefaultRolePermissions(t)
@@ -545,7 +545,7 @@ func TestOAuthComplete(t *testing.T) {
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GitLabSettings.TokenEndpoint = apiClient.URL + "/oauth/access_token" })
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GitLabSettings.UserAPIEndpoint = apiClient.APIURL + "/users/me" })
 
-	provider := &MattermostTestProvider{}
+	provider := &SofaTestProvider{}
 
 	authRequest := &model.AuthorizeRequest{
 		ResponseType: model.AuthCodeResponseType,
@@ -636,7 +636,7 @@ func TestOAuthComplete_ErrorMessages(t *testing.T) {
 
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GitLabSettings.Enable = true })
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.ServiceSettings.EnableOAuthServiceProvider = true })
-	provider := &MattermostTestProvider{}
+	provider := &SofaTestProvider{}
 	einterfaces.RegisterOAuthProvider(model.ServiceGitlab, provider)
 
 	responseWriter := httptest.NewRecorder()
@@ -698,10 +698,10 @@ func closeBody(r *http.Response) {
 	}
 }
 
-type MattermostTestProvider struct {
+type SofaTestProvider struct {
 }
 
-func (m *MattermostTestProvider) GetUserFromJSON(_ request.CTX, data io.Reader, tokenUser *model.User) (*model.User, error) {
+func (m *SofaTestProvider) GetUserFromJSON(_ request.CTX, data io.Reader, tokenUser *model.User) (*model.User, error) {
 	var user model.User
 	if err := json.NewDecoder(data).Decode(&user); err != nil {
 		return nil, err
@@ -710,15 +710,15 @@ func (m *MattermostTestProvider) GetUserFromJSON(_ request.CTX, data io.Reader, 
 	return &user, nil
 }
 
-func (m *MattermostTestProvider) GetSSOSettings(_ request.CTX, config *model.Config, service string) (*model.SSOSettings, error) {
+func (m *SofaTestProvider) GetSSOSettings(_ request.CTX, config *model.Config, service string) (*model.SSOSettings, error) {
 	return &config.GitLabSettings, nil
 }
 
-func (m *MattermostTestProvider) GetUserFromIdToken(_ request.CTX, token string) (*model.User, error) {
+func (m *SofaTestProvider) GetUserFromIdToken(_ request.CTX, token string) (*model.User, error) {
 	return nil, nil
 }
 
-func (m *MattermostTestProvider) IsSameUser(_ request.CTX, dbUser, oauthUser *model.User) bool {
+func (m *SofaTestProvider) IsSameUser(_ request.CTX, dbUser, oauthUser *model.User) bool {
 	return dbUser.AuthData == oauthUser.AuthData
 }
 

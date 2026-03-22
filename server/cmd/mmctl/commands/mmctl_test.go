@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,12 +9,12 @@ import (
 	"time"
 
 	"github.com/golang/mock/gomock"
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/api4"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/mocks"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 	"github.com/stretchr/testify/require"
 	"github.com/stretchr/testify/suite"
 )

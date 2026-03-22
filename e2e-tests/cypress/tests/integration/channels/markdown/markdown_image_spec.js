@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -38,14 +38,14 @@ describe('Markdown', () => {
         // Note we check width and height to verify that img element is actually loaded
         cy.getLastPostId().then((postId) => {
             cy.get(`#postMessageText_${postId}`).find('div.markdown-inline-img__container').
-                should('contain', 'Mattermost/platform build status:  ');
+                should('contain', 'Sofa/platform build status:  ');
 
             cy.get(`#postMessageText_${postId}`).find('img').
                 should('have.class', 'markdown-inline-img').
                 and('have.class', 'markdown-inline-img--hover').
                 and('have.class', 'markdown-inline-img--no-border').
                 and('have.attr', 'alt', 'Build Status').
-                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fdocs.mattermost.com%2F_images%2Ficon-76x76.png`).
+                and('have.attr', 'src', `${baseUrl}/api/v4/image?url=https%3A%2F%2Fdocs.sofa.com%2F_images%2Ficon-76x76.png`).
                 and((inlineImg) => {
                     expect(inlineImg.height()).to.be.closeTo(76, 76);
                 }).
@@ -122,7 +122,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image', () => {
         // # Update channel header
-        cy.updateChannelHeader('![MM Logo](https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/small-image.png)').wait(TIMEOUTS.TWO_SEC);
+        cy.updateChannelHeader('![MM Logo](https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('span.markdown__paragraph-inline').as('imageDiv');
@@ -145,7 +145,7 @@ describe('Markdown', () => {
 
     it('channel header is markdown image that is also a link', () => {
         // # Update channel header
-        cy.updateChannelHeader('[![Build Status](https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/small-image.png)](https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/small-image.png)').wait(TIMEOUTS.TWO_SEC);
+        cy.updateChannelHeader('[![Build Status](https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/small-image.png)](https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/small-image.png)').wait(TIMEOUTS.TWO_SEC);
 
         // * Verify image in header
         cy.get('#channelHeaderDescription').find('span.markdown__paragraph-inline').as('imageDiv');

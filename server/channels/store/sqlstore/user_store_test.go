@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -6,8 +6,8 @@ package sqlstore
 import (
 	"testing"
 
-	"github.com/mattermost/mattermost/server/v8/channels/store/searchtest"
-	"github.com/mattermost/mattermost/server/v8/channels/store/storetest"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/searchtest"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest"
 )
 
 func TestUserStore(t *testing.T) {

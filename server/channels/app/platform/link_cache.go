@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -6,7 +6,7 @@ package platform
 import (
 	"time"
 
-	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/cache"
 )
 
 const LinkCacheSize = 10000

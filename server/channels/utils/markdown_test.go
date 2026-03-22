@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package utils
@@ -122,7 +122,7 @@ func TestStripMarkdown(t *testing.T) {
 		},
 		{
 			name: "heading: multiline with header and links",
-			args: "###### H6 header\n[link 1](https://mattermost.com) - [link 2](https://mattermost.com)",
+			args: "###### H6 header\n[link 1](https://sofa.com) - [link 2](https://sofa.com)",
 			want: "H6 header link 1 - link 2",
 		},
 		{

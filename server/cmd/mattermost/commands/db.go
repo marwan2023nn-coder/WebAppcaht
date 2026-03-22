@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -13,13 +13,13 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
-	"github.com/mattermost/mattermost/server/v8/config"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/filestore"
-	"github.com/mattermost/morph"
-	"github.com/mattermost/morph/models"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/sqlstore"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/filestore"
+	"github.com/sofa/morph"
+	"github.com/sofa/morph/models"
 )
 
 var DbCmd = &cobra.Command{
@@ -34,13 +34,13 @@ var InitDbCmd = &cobra.Command{
 
 This command should be run using a database configuration DSN.`,
 	Example: `  # you can use the config flag to pass the DSN
-  $ mattermost db init --config postgres://localhost/mattermost
+  $ sofa db init --config postgres://localhost/sofa
 
   # or you can use the MM_CONFIG environment variable
-  $ MM_CONFIG=postgres://localhost/mattermost mattermost db init
+  $ MM_CONFIG=postgres://localhost/sofa sofa db init
 
   # and you can set a custom defaults file to be loaded into the database
-  $ MM_CUSTOM_DEFAULTS_PATH=custom.json MM_CONFIG=postgres://localhost/mattermost mattermost db init`,
+  $ MM_CUSTOM_DEFAULTS_PATH=custom.json MM_CONFIG=postgres://localhost/sofa sofa db init`,
 	Args: cobra.NoArgs,
 	RunE: initDbCmdF,
 }
@@ -48,7 +48,7 @@ This command should be run using a database configuration DSN.`,
 var ResetCmd = &cobra.Command{
 	Use:   "reset",
 	Short: "Reset the database to initial state",
-	Long:  "Completely erases the database causing the loss of all data. This will reset Mattermost to its initial state.",
+	Long:  "Completely erases the database causing the loss of all data. This will reset Sofa to its initial state.",
 	RunE:  resetCmdF,
 }
 

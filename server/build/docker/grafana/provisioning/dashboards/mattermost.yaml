@@ -1,9 +1,9 @@
 apiVersion: 1
 
 providers:
-  - name: 'mattermost'
+  - name: 'sofa'
     orgId: 1
-    folder: 'mattermost'
+    folder: 'sofa'
     type: file
     disableDeletion: true
     updateIntervalSeconds: 300

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -7,9 +7,9 @@ import (
 	"errors"
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	storemocks "github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	storemocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 )
@@ -594,7 +594,7 @@ func TestGetServerLimitsWithPostHistory(t *testing.T) {
 		mockStore.On("System").Return(&mockSystemStore)
 
 		// Create Entry license with post history limit
-		license := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
+		license := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
 		license.Limits = &model.LicenseLimits{
 			PostHistory: 1000,
 		}
@@ -624,7 +624,7 @@ func TestGetServerLimitsWithPostHistory(t *testing.T) {
 		mockStore.On("System").Return(&mockSystemStore)
 
 		// Create Entry license with post history limit
-		license := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
+		license := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
 		license.Limits = &model.LicenseLimits{
 			PostHistory: 1000,
 		}
@@ -650,7 +650,7 @@ func TestGetServerLimitsWithPostHistory(t *testing.T) {
 		mockStore.On("System").Return(&mockSystemStore)
 
 		// Create Entry license with post history limit
-		license := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
+		license := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
 		license.Limits = &model.LicenseLimits{
 			PostHistory: 1000,
 		}
@@ -717,7 +717,7 @@ func TestGetPostHistoryLimit(t *testing.T) {
 	t.Run("Entry license with PostHistory returns exact value", func(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
-		license := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
+		license := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
 
 		license.Limits = &model.LicenseLimits{
 			PostHistory: 2000,

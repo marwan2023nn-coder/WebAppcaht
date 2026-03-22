@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify keyboard navigation through interactive elements in Display settings
@@ -356,10 +356,10 @@ test(
           - log
           - text: /.+/
           - combobox /.+/
-          - text: Select which language Mattermost displays in the user interface.
+          - text: Select which language Sofa displays in the user interface.
           - paragraph
           - text: /.+/
-          - link "Mattermost Translation Server"
+          - link "Sofa Translation Server"
           - text: /.+/
           - separator
           - alert

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,14 +9,14 @@
 
 // Group: @channels @enterprise @ldap
 
-import {UserProfile} from '@mattermost/types/users';
+import {UserProfile} from '@sofa/types/users';
 
 import ldapUsers from '../../../../fixtures/ldap_users.json';
 import {getRandomId} from '../../../../utils';
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
+// for setup with AWS: Follow the instructions mentioned in the sofa/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
     const user1 = ldapUsers['test-1'];
     const guest1 = ldapUsers['board-1'];

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -24,18 +24,18 @@ import (
 	"github.com/minio/minio-go/v7/pkg/credentials"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
-	"github.com/mattermost/mattermost/server/v8/channels/testlib"
-	"github.com/mattermost/mattermost/server/v8/channels/web"
-	"github.com/mattermost/mattermost/server/v8/channels/wsapi"
-	"github.com/mattermost/mattermost/server/v8/config"
-	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/web"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/wsapi"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine"
 )
 
 type TestHelper struct {
@@ -98,7 +98,7 @@ func setupTestHelper(tb testing.TB, dbStore store.Store, sqlSettings *model.SqlS
 	*memoryConfig.PluginSettings.ClientDirectory = filepath.Join(tempWorkspace, "webapp")
 	*memoryConfig.FileSettings.Directory = filepath.Join(tempWorkspace, "data")
 	*memoryConfig.ServiceSettings.EnableLocalMode = true
-	*memoryConfig.ServiceSettings.LocalModeSocketLocation = filepath.Join(tempWorkspace, "mattermost_local.sock")
+	*memoryConfig.ServiceSettings.LocalModeSocketLocation = filepath.Join(tempWorkspace, "sofa_local.sock")
 	*memoryConfig.LogSettings.EnableSentry = false // disable error reporting during tests
 
 	// Check for environment variable override for console log level (useful for debugging tests)

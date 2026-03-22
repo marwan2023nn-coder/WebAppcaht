@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package markdown
@@ -800,7 +800,7 @@ func TestTrimTrailingCharactersFromLink(t *testing.T) {
 }
 
 func TestAutolinking(t *testing.T) {
-	// These tests are adapted from https://github.com/mattermost/commonmark.js/test/mattermost.txt.
+	// These tests are adapted from https://github.com/sofa/commonmark.js/test/sofa.txt.
 	// It is missing tests for:
 	// 1. Links surrounded by emphasis (emphasis not implemented on the server)
 	// 2. IPv6 addresses (not implemented on the server or by GitHub)

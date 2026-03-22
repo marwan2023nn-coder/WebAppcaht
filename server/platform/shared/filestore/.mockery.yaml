@@ -1,6 +1,6 @@
 with-expecter: false
 packages:
-  github.com/mattermost/mattermost/server/v8/platform/shared/filestore:
+  github.com/sofa/sofa/server/v8/platform/shared/filestore:
     config:
       all: true
       dir: "platform/shared/filestore/mocks"

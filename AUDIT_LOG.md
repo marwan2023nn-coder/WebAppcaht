@@ -6,7 +6,7 @@ This file tracks the comprehensive, line-by-line audit of the project codebase, 
 1. **Automated Analysis:** Using grep and static analysis patterns to identify common issues (SQL injection, XSS, insecure crypto, N+1 queries, etc.).
 2. **Manual Review:** Deep-dive analysis of critical modules (`server/channels/api4`, `server/channels/app`, `server/channels/store`, `webapp/channels/src`).
 3. **Batch Fixes:** Critical issues are addressed in batches grouped by module.
-4. **Clean Code:** Adhering to Go/TypeScript best practices and Mattermost style guides.
+4. **Clean Code:** Adhering to Go/TypeScript best practices and Sofa style guides.
 
 ## Audit Summary
 - **Started:** 2026-03-01 20:34:08 UTC
@@ -147,7 +147,7 @@ query = query.Where("Data->'imports' @> ?", sq.Expr("JSONB_BUILD_ARRAY(?::text)"
 ### [BUILD-FAIL-01] Build Failure during Locale Change
 - **Context:** Changing default locale from 'en' to 'ar'.
 - **Severity:** Medium
-- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/sofa` was successfully built, but it failed to start without a running PostgreSQL instance.
 - **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
 
 ---
@@ -3893,7 +3893,7 @@ s.bulkUpdateThreadsAfterReplyDeletion(transaction, rootIds, ...) // Single batch
 | webapp/channels/src/components/widgets/icons/checkbox_partial_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/archive_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/status_online_icon.tsx | Clean | None | None | Low |
-| webapp/channels/src/components/widgets/icons/mattermost_logo.tsx | Clean | None | None | Low |
+| webapp/channels/src/components/widgets/icons/sofa_logo.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/attachment_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/leave_team_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/check_mark_icon.tsx | Clean | None | None | Low |
@@ -5341,19 +5341,19 @@ s.bulkUpdateThreadsAfterReplyDeletion(transaction, rootIds, ...) // Single batch
 | server/cmd/mmctl/commands/enterprise.go | Clean | None | None | Low |
 | server/cmd/mmctl/commands/importer/utils.go | Clean | None | None | Low |
 | server/cmd/mmctl/commands/importer/validate.go | Clean | None | None | Low |
-| server/cmd/mattermost/main.go | Clean | None | None | Low |
-| server/cmd/mattermost/commands/utils.go | Suspicious | Unchecked Error | Review needed | Medium |
-| server/cmd/mattermost/commands/output.go | Clean | None | None | Low |
-| server/cmd/mattermost/commands/test.go | Clean | None | None | Low |
-| server/cmd/mattermost/commands/db.go | Suspicious | Unchecked Error | Review needed | Medium |
-| server/cmd/mattermost/commands/init.go | Suspicious | Panic Usage | Review needed | Medium |
-| server/cmd/mattermost/commands/jobserver.go | Suspicious | Unchecked Error | Review needed | Medium |
-| server/cmd/mattermost/commands/cmdtestlib.go | Suspicious | Panic Usage | Review needed | Medium |
-| server/cmd/mattermost/commands/export.go | Clean | None | None | Low |
-| server/cmd/mattermost/commands/root.go | Clean | None | None | Low |
-| server/cmd/mattermost/commands/import.go | Suspicious | N+1 Potential | Review needed | Medium |
-| server/cmd/mattermost/commands/server.go | Suspicious | Panic Usage | Review needed | Medium |
-| server/cmd/mattermost/commands/version.go | Clean | None | None | Low |
+| server/cmd/sofa/main.go | Clean | None | None | Low |
+| server/cmd/sofa/commands/utils.go | Suspicious | Unchecked Error | Review needed | Medium |
+| server/cmd/sofa/commands/output.go | Clean | None | None | Low |
+| server/cmd/sofa/commands/test.go | Clean | None | None | Low |
+| server/cmd/sofa/commands/db.go | Suspicious | Unchecked Error | Review needed | Medium |
+| server/cmd/sofa/commands/init.go | Suspicious | Panic Usage | Review needed | Medium |
+| server/cmd/sofa/commands/jobserver.go | Suspicious | Unchecked Error | Review needed | Medium |
+| server/cmd/sofa/commands/cmdtestlib.go | Suspicious | Panic Usage | Review needed | Medium |
+| server/cmd/sofa/commands/export.go | Clean | None | None | Low |
+| server/cmd/sofa/commands/root.go | Clean | None | None | Low |
+| server/cmd/sofa/commands/import.go | Suspicious | N+1 Potential | Review needed | Medium |
+| server/cmd/sofa/commands/server.go | Suspicious | Panic Usage | Review needed | Medium |
+| server/cmd/sofa/commands/version.go | Clean | None | None | Low |
 | server/build/docker-compose-generator/main.go | Suspicious | Panic Usage | Review needed | Medium |
 | server/scripts/config_generator/main.go | Suspicious | Panic Usage | Review needed | Medium |
 | server/fips/fips_default.go | Clean | None | None | Low |
@@ -8746,7 +8746,7 @@ s.bulkUpdateThreadsAfterReplyDeletion(transaction, rootIds, ...) // Single batch
 | webapp/channels/src/components/widgets/icons/checkbox_partial_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/archive_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/status_online_icon.tsx | Clean | None | None | Low |
-| webapp/channels/src/components/widgets/icons/mattermost_logo.tsx | Clean | None | None | Low |
+| webapp/channels/src/components/widgets/icons/sofa_logo.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/attachment_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/leave_team_icon.tsx | Clean | None | None | Low |
 | webapp/channels/src/components/widgets/icons/check_mark_icon.tsx | Clean | None | None | Low |
@@ -9904,7 +9904,7 @@ require.True(t, HasExpectedUserIsValidError(appErr, "email", user.Id, user.Email
 ### [BUILD-FAIL-01] Build Failure during Locale Change
 - **Context:** Changing default locale from 'en' to 'ar'.
 - **Severity:** Medium
-- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/mattermost` was successfully built, but it failed to start without a running PostgreSQL instance.
+- **Description:** The initial build attempt failed due to database connection issues in the sandbox environment. The server binary `bin/sofa` was successfully built, but it failed to start without a running PostgreSQL instance.
 - **Fix:** Ensured that all default configuration values in `server/public/model/config.go` (like `TargetLanguages`) are aligned with the new default locale 'ar' to prevent mismatches during startup.
 
 ---

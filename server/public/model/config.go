@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -20,11 +20,11 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mattermost/ldap"
+	"github.com/sofa/ldap"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils"
 )
 
 const (
@@ -42,7 +42,7 @@ const (
 
 	MinioAccessKey = "minioaccesskey"
 	MinioSecretKey = "miniosecretkey"
-	MinioBucket    = "mattermost-test"
+	MinioBucket    = "sofa-test"
 
 	PasswordMaximumLength = 72
 	PasswordMinimumLength = 5
@@ -55,8 +55,8 @@ const (
 
 	GenericNoChannelNotification = "generic_no_channel"
 	GenericNotification          = "generic"
-	GenericNotificationServer    = "https://push-test.mattermost.com"
-	MmSupportAdvisorAddress      = "support-advisor@mattermost.com"
+	GenericNotificationServer    = "https://push-test.sofa.com"
+	MmSupportAdvisorAddress      = "support-advisor@sofa.com"
 	FullNotification             = "full"
 	IdLoadedNotification         = "id_loaded"
 
@@ -123,13 +123,13 @@ const (
 	ServiceSettingsDefaultMaxURLLength           = 2048
 	ServiceSettingsMaxUniqueReactionsPerPost     = 500
 
-	TeamSettingsDefaultSiteName              = "Mattermost"
+	TeamSettingsDefaultSiteName              = "Sofa"
 	TeamSettingsDefaultMaxUsersPerTeam       = 50
 	TeamSettingsDefaultCustomBrandText       = ""
 	TeamSettingsDefaultCustomDescriptionText = ""
 	TeamSettingsDefaultUserStatusAwayTimeout = 300
 
-	SqlSettingsDefaultDataSource = "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable&connect_timeout=10&binary_parameters=yes"
+	SqlSettingsDefaultDataSource = "postgres://mmuser:mostest@localhost/sofa_test?sslmode=disable&connect_timeout=10&binary_parameters=yes"
 
 	FileSettingsDefaultDirectory                   = "./data/"
 	FileSettingsDefaultS3UploadPartSizeBytes       = 5 * 1024 * 1024   // 5MB
@@ -143,11 +143,11 @@ const (
 
 	EmailSettingsDefaultFeedbackOrganization = ""
 
-	SupportSettingsDefaultTermsOfServiceLink = "https://mattermost.com/pl/terms-of-use/"
-	SupportSettingsDefaultPrivacyPolicyLink  = "https://mattermost.com/pl/privacy-policy/"
-	SupportSettingsDefaultAboutLink          = "https://mattermost.com/pl/about-mattermost"
-	SupportSettingsDefaultHelpLink           = "https://mattermost.com/pl/help/"
-	SupportSettingsDefaultReportAProblemLink = "https://mattermost.com/pl/report-a-bug"
+	SupportSettingsDefaultTermsOfServiceLink = "https://sofa.com/pl/terms-of-use/"
+	SupportSettingsDefaultPrivacyPolicyLink  = "https://sofa.com/pl/privacy-policy/"
+	SupportSettingsDefaultAboutLink          = "https://sofa.com/pl/about-sofa"
+	SupportSettingsDefaultHelpLink           = "https://sofa.com/pl/help/"
+	SupportSettingsDefaultReportAProblemLink = "https://sofa.com/pl/report-a-bug"
 	SupportSettingsDefaultSupportEmail       = ""
 	SupportSettingsDefaultReAcceptancePeriod = 365
 
@@ -190,9 +190,9 @@ const (
 	SamlSettingsCanonicalAlgorithmC14n11  = "Canonical1.1"
 	SamlSettingsDefaultCanonicalAlgorithm = SamlSettingsCanonicalAlgorithmC14n
 
-	NativeappSettingsDefaultAppDownloadLink        = "https://mattermost.com/pl/download-apps"
-	NativeappSettingsDefaultAndroidAppDownloadLink = "https://mattermost.com/pl/android-app/"
-	NativeappSettingsDefaultIosAppDownloadLink     = "https://mattermost.com/pl/ios-app/"
+	NativeappSettingsDefaultAppDownloadLink        = "https://sofa.com/pl/download-apps"
+	NativeappSettingsDefaultAndroidAppDownloadLink = "https://sofa.com/pl/android-app/"
+	NativeappSettingsDefaultIosAppDownloadLink     = "https://sofa.com/pl/ios-app/"
 
 	ExperimentalSettingsDefaultLinkMetadataTimeoutMilliseconds                       = 5000
 	ExperimentalSettingsDefaultUsersStatusAndProfileFetchingPollIntervalMilliseconds = 3000
@@ -201,7 +201,7 @@ const (
 
 	AnnouncementSettingsDefaultBannerColor                  = "#f2a93b"
 	AnnouncementSettingsDefaultBannerTextColor              = "#333333"
-	AnnouncementSettingsDefaultNoticesJsonURL               = "https://notices.mattermost.com/"
+	AnnouncementSettingsDefaultNoticesJsonURL               = "https://notices.sofa.com/"
 	AnnouncementSettingsDefaultNoticesFetchFrequencySeconds = 3600
 
 	TeamSettingsDefaultTeamText = "default"
@@ -239,8 +239,8 @@ const (
 	PluginSettingsDefaultDirectory         = "./plugins"
 	PluginSettingsDefaultClientDirectory   = "./client/plugins"
 	PluginSettingsDefaultEnableMarketplace = true
-	PluginSettingsDefaultMarketplaceURL    = "https://api.integrations.mattermost.com"
-	PluginSettingsOldMarketplaceURL        = "https://marketplace.integrations.mattermost.com"
+	PluginSettingsDefaultMarketplaceURL    = "https://api.integrations.sofa.com"
+	PluginSettingsOldMarketplaceURL        = "https://marketplace.integrations.sofa.com"
 
 	ComplianceExportDirectoryFormat                = "compliance-export-2006-01-02-15h04m"
 	ComplianceExportPath                           = "export"
@@ -269,14 +269,14 @@ const (
 	Office365SettingsDefaultTokenEndpoint   = "https://login.microsoftonline.com/common/oauth2/v2.0/token"
 	Office365SettingsDefaultUserAPIEndpoint = "https://graph.microsoft.com/v1.0/me"
 
-	CloudSettingsDefaultCwsURL        = "https://customers.mattermost.com"
-	CloudSettingsDefaultCwsAPIURL     = "https://portal.internal.prod.cloud.mattermost.com"
-	CloudSettingsDefaultCwsURLTest    = "https://portal.test.cloud.mattermost.com"
-	CloudSettingsDefaultCwsAPIURLTest = "https://api.internal.test.cloud.mattermost.com"
+	CloudSettingsDefaultCwsURL        = "https://customers.sofa.com"
+	CloudSettingsDefaultCwsAPIURL     = "https://portal.internal.prod.cloud.sofa.com"
+	CloudSettingsDefaultCwsURLTest    = "https://portal.test.cloud.sofa.com"
+	CloudSettingsDefaultCwsAPIURLTest = "https://api.internal.test.cloud.sofa.com"
 
 	OpenidSettingsDefaultScope = "profile openid email"
 
-	LocalModeSocketPath = "/var/tmp/mattermost_local.socket"
+	LocalModeSocketPath = "/var/tmp/sofa_local.socket"
 
 	ConnectedWorkspacesSettingsDefaultMaxPostsPerSync     = 50 // a bit more than 4 typical screenfulls of posts
 	ConnectedWorkspacesSettingsDefaultMemberSyncBatchSize = 20 // optimal batch size for syncing channel members
@@ -457,7 +457,7 @@ type ServiceSettings struct {
 	DeleteAccountLink                                 *string `access:"site_users_and_teams,write_restrictable,cloud_restrictable"`
 }
 
-var MattermostGiphySdkKey string
+var SofaGiphySdkKey string
 
 func (s *ServiceSettings) SetDefaults(isUpdate bool) {
 	if s.EnableEmailInvitations == nil {

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package filestore
@@ -20,7 +20,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	s3 "github.com/minio/minio-go/v7"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
@@ -341,7 +341,7 @@ func TestListDirectory(t *testing.T) {
 		DriverName:                         driverS3,
 		AmazonS3AccessKeyId:                "minioaccesskey",
 		AmazonS3SecretAccessKey:            "miniosecretkey",
-		AmazonS3Bucket:                     "mattermost-test-1",
+		AmazonS3Bucket:                     "sofa-test-1",
 		AmazonS3Region:                     "",
 		AmazonS3Endpoint:                   s3Endpoint,
 		AmazonS3PathPrefix:                 "",

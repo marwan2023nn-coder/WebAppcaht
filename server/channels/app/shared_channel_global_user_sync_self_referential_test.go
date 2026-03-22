@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -19,13 +19,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/platform/services/remotecluster"
-	"github.com/mattermost/mattermost/server/v8/platform/services/sharedchannel"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/remotecluster"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/sharedchannel"
 )
 
 // TestSharedChannelGlobalUserSyncSelfReferential is a comprehensive test suite for MM-62751
-// that tests global user synchronization between connected Mattermost instances.
+// that tests global user synchronization between connected Sofa instances.
 // It uses a self-referential approach where a server syncs with itself, providing real HTTP communication
 // without mocks or invalid URLs. We test calling SyncAllUsersForRemoteCluster directly.
 func TestSharedChannelGlobalUserSyncSelfReferential(t *testing.T) {

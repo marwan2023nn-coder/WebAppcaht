@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,9 +9,9 @@ import (
 	"time"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 
 	"github.com/spf13/cobra"
 )
@@ -56,7 +56,7 @@ func init() {
 	listJobsCmd.Flags().String("status", "", "Filter by job status")
 	listJobsCmd.Flags().String("type", "", "Filter by job type")
 
-	updateJobCmd.Flags().Bool("force", false, "Setting a job status is restricted to certain statuses. You can overwrite these restrictions by using --force. This might cause unexpected behaviour on your Mattermost Server. Use this option with caution.")
+	updateJobCmd.Flags().Bool("force", false, "Setting a job status is restricted to certain statuses. You can overwrite these restrictions by using --force. This might cause unexpected behaviour on your Sofa Server. Use this option with caution.")
 
 	JobCmd.AddCommand(
 		listJobsCmd,

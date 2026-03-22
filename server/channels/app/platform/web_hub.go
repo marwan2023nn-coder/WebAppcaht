@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -14,10 +14,10 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 const (
@@ -81,7 +81,7 @@ var hubSemaphoreCount = runtime.NumCPU() * 4
 // user connections.
 type Hub struct {
 	// connectionCount should be kept first.
-	// See https://github.com/mattermost/mattermost-server/pull/7281
+	// See https://github.com/marwan2023nn-coder/sofa-server/pull/7281
 	connectionCount int64
 	platform        *PlatformService
 	connectionIndex int
@@ -126,7 +126,7 @@ func newWebHub(ps *PlatformService) *Hub {
 func (ps *PlatformService) hubStart(broadcastHooks map[string]BroadcastHook) {
 	// After running some tests, we found using the same number of hubs
 	// as CPUs to be the ideal in terms of performance.
-	// https://github.com/mattermost/mattermost/pull/25798#issuecomment-1889386454
+	// https://github.com/marwan2023nn-coder/sofa/pull/25798#issuecomment-1889386454
 	numberOfHubs := runtime.NumCPU()
 	ps.logger.Info("Starting websocket hubs", mlog.Int("number_of_hubs", numberOfHubs))
 
@@ -165,7 +165,7 @@ func (ps *PlatformService) GetHubForUserId(userID string) *Hub {
 
 	// TODO: check if caching the userID -> hub mapping
 	// is worth the memory tradeoff.
-	// https://mattermost.atlassian.net/browse/MM-26629.
+	// https://sofa.atlassian.net/browse/MM-26629.
 	var hash maphash.Hash
 	hash.SetSeed(ps.hashSeed)
 	_, err := hash.Write([]byte(userID))

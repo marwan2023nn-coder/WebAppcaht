@@ -1,6 +1,6 @@
 //go:generate go run layer_generators/main.go
 
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package store
@@ -10,9 +10,9 @@ import (
 	"database/sql"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
 )
 
 type StoreResult[T any] struct {
@@ -1021,10 +1021,10 @@ type LinkMetadataStore interface {
 
 type NotifyAdminStore interface {
 	Save(data *model.NotifyAdminData) (*model.NotifyAdminData, error)
-	GetDataByUserIdAndFeature(userID string, feature model.MattermostFeature) ([]*model.NotifyAdminData, error)
+	GetDataByUserIdAndFeature(userID string, feature model.SofaFeature) ([]*model.NotifyAdminData, error)
 	Get(trial bool) ([]*model.NotifyAdminData, error)
 	DeleteBefore(trial bool, now int64) error
-	Update(userID string, requiredPlan string, requiredFeature model.MattermostFeature, now int64) error
+	Update(userID string, requiredPlan string, requiredFeature model.SofaFeature, now int64) error
 }
 
 type SharedChannelStore interface {

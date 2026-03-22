@@ -8,8 +8,8 @@ node_modules
 jobserver
 npm-debug.log
 webapp/yarn-error.log
-mattermost.mattermost-license
-config/mattermost.mattermost-license
+sofa.sofa-license
+config/sofa.sofa-license
 config/config.json
 config/*.crt
 
@@ -57,7 +57,7 @@ go.work.sum
 
 #license files
 *.license
-*.mattermost-license
+*.sofa-license
 
 # Build Targets
 .prebuild
@@ -114,7 +114,7 @@ Session.vim
 *.code-workspace
 
 # Gogland project files
-mattermost-server.iml
+sofa-server.iml
 
 # Build files
 *bundle.js

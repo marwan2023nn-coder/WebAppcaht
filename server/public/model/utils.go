@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -27,8 +27,8 @@ import (
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 const (
@@ -110,7 +110,7 @@ func (sa StringArray) Value() (driver.Value, error) {
 	if err != nil {
 		return nil, err
 	}
-	// non utf8 characters are not supported https://mattermost.atlassian.net/browse/MM-41066
+	// non utf8 characters are not supported https://sofa.atlassian.net/browse/MM-41066
 	return string(j), err
 }
 
@@ -211,7 +211,7 @@ func (si StringInterface) Value() (driver.Value, error) {
 		return nil, ErrMaxPropSizeExceeded
 	}
 
-	// non utf8 characters are not supported https://mattermost.atlassian.net/browse/MM-41066
+	// non utf8 characters are not supported https://sofa.atlassian.net/browse/MM-41066
 	return string(j), err
 }
 
@@ -630,7 +630,7 @@ func IsValidEmail(input string) bool {
 		// accept plain addresses like "billy@example.com"
 
 		// Log a warning for admins in case pre-existing users with emails like <billy@example.com>, which used
-		// to be valid before https://github.com/mattermost/mattermost/pull/29661, know how to deal with this
+		// to be valid before https://github.com/marwan2023nn-coder/sofa/pull/29661, know how to deal with this
 		// error. We don't need to check for the case addr.Name != "", since that has always been rejected
 		if addr.Name == "" {
 			mlog.Warn("email seems to be enclosed in angle brackets, which is not valid; if this relates to an existing user, use the following mmctl command to modify their email: `mmctl user email \"<affecteduser@domain.com>\" affecteduser@domain.com`", mlog.String("email", input))

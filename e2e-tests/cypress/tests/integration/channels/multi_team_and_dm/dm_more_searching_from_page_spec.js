@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -57,6 +57,6 @@ describe('Multi Team and DM', () => {
         cy.findAllByText(prefix).should('not.exist');
 
         // * Assert that the search term returns the correct user and is visible
-        cy.findByText(`${searchTerm}@sample.mattermost.com`).should('be.visible');
+        cy.findByText(`${searchTerm}@sample.sofa.com`).should('be.visible');
     });
 });

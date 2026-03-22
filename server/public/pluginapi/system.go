@@ -11,8 +11,8 @@ import (
 	"github.com/goccy/go-yaml"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 )
 
 // SystemService exposes methods to query system properties.
@@ -70,7 +70,7 @@ func (s *SystemService) GetPluginAssetURL(pluginID, asset string) (string, error
 	return u.String(), nil
 }
 
-// GetLicense returns the current license used by the Mattermost server. Returns nil if the
+// GetLicense returns the current license used by the Sofa server. Returns nil if the
 // the server does not have a license.
 //
 // Minimum server version: 5.10
@@ -78,21 +78,21 @@ func (s *SystemService) GetLicense() *model.License {
 	return s.api.GetLicense()
 }
 
-// GetServerVersion return the current Mattermost server version
+// GetServerVersion return the current Sofa server version
 //
 // Minimum server version: 5.4
 func (s *SystemService) GetServerVersion() string {
 	return s.api.GetServerVersion()
 }
 
-// IsEnterpriseReady returns true if the Mattermost server is configured as Enterprise Ready.
+// IsEnterpriseReady returns true if the Sofa server is configured as Enterprise Ready.
 //
 // Minimum server version: 6.1
 func (s *SystemService) IsEnterpriseReady() bool {
 	return s.api.IsEnterpriseReady()
 }
 
-// GetSystemInstallDate returns the time that Mattermost was first installed and ran.
+// GetSystemInstallDate returns the time that Sofa was first installed and ran.
 //
 // Minimum server version: 5.10
 func (s *SystemService) GetSystemInstallDate() (time.Time, error) {

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -122,11 +122,11 @@ describe('Integrations', () => {
             cy.get(`#postMessageText_${postId}`).
                 should('have.text', `Could not find the channel ${invalidChannel}. Please use the channel handle to identify channels.`).
 
-                // * Channel handle links to: https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel
+                // * Channel handle links to: https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel
                 contains('a', 'channel handle').then((link) => {
                     const href = link.prop('href');
                     cy.request(href).its('allRequestResponses').then((response) => {
-                        cy.wrap(response[0]['Request URL']).should('equal', 'https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel');
+                        cy.wrap(response[0]['Request URL']).should('equal', 'https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel');
                     });
                 });
         });

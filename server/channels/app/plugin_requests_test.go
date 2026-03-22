@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -17,11 +17,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/testlib"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
 )
 
 func TestServePluginPublicRequest(t *testing.T) {
@@ -152,7 +152,7 @@ func TestServePluginPublicRequest(t *testing.T) {
 	})
 }
 
-// TestUnauthRequestsMFAWarningFix tests the fix for https://mattermost.atlassian.net/browse/MM-63805.
+// TestUnauthRequestsMFAWarningFix tests the fix for https://sofa.atlassian.net/browse/MM-63805.
 func TestUnauthRequestsMFAWarningFix(t *testing.T) {
 	th := Setup(t)
 
@@ -179,7 +179,7 @@ func TestUnauthRequestsMFAWarningFix(t *testing.T) {
 		// Verify URL path was properly stripped
 		require.Equal(t, "/bar", r.URL.Path)
 		// Verify no user ID header (indicating the request is unauthenticated)
-		require.Empty(t, r.Header.Get("Mattermost-User-Id"))
+		require.Empty(t, r.Header.Get("Sofa-User-Id"))
 	}
 
 	// Call servePluginRequest directly
@@ -231,7 +231,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Empty(t, r.Header.Get("Mattermost-User-Id"))
+			assert.Empty(t, r.Header.Get("Sofa-User-Id"))
 			assert.Empty(t, ctx.SessionId)
 			assert.NotEmpty(t, ctx.RequestId)
 		}
@@ -249,7 +249,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 		}
 
@@ -272,7 +272,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 		}
 
@@ -298,7 +298,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 		}
 
@@ -314,7 +314,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 			// Verify access_token is removed from query parameters
 			assert.Empty(t, r.URL.Query().Get("access_token"))
@@ -333,7 +333,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Empty(t, r.Header.Get("Mattermost-User-Id"))
+			assert.Empty(t, r.Header.Get("Sofa-User-Id"))
 			assert.Empty(t, ctx.SessionId)
 		}
 
@@ -363,7 +363,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Empty(t, r.Header.Get("Mattermost-User-Id"))
+			assert.Empty(t, r.Header.Get("Sofa-User-Id"))
 			assert.Empty(t, ctx.SessionId)
 		}
 
@@ -375,8 +375,8 @@ func TestServePluginRequest(t *testing.T) {
 		req := httptest.NewRequest(http.MethodGet, "/plugins/testplugin/endpoint", nil)
 		req = mux.SetURLVars(req, map[string]string{"plugin_id": "testplugin"})
 		req.Header.Set(model.HeaderAuth, model.HeaderBearer+" "+session.Token)
-		req.Header.Set("Mattermost-Plugin-ID", "evil-plugin")
-		req.Header.Set("Mattermost-User-Id", "evil-user")
+		req.Header.Set("Sofa-Plugin-ID", "evil-plugin")
+		req.Header.Set("Sofa-User-Id", "evil-user")
 		req.AddCookie(&http.Cookie{Name: "other_cookie", Value: "keep_me"})
 		req.AddCookie(&http.Cookie{Name: "another_cookie", Value: "keep_me_too"})
 		req.Header.Set("Referer", "https://evil.com")
@@ -386,10 +386,10 @@ func TestServePluginRequest(t *testing.T) {
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
 
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 
-			assert.Empty(t, r.Header.Get("Mattermost-Plugin-ID"))
+			assert.Empty(t, r.Header.Get("Sofa-Plugin-ID"))
 			assert.Empty(t, r.Header.Get(model.HeaderAuth))
 			assert.Empty(t, r.Header.Get("Referer"))
 
@@ -441,7 +441,7 @@ func TestServePluginRequest(t *testing.T) {
 			assert.NotEmpty(t, ctx.IPAddress)
 			assert.Equal(t, "en-US,en;q=0.9", ctx.AcceptLanguage)
 			assert.Equal(t, "TestAgent/1.0", ctx.UserAgent)
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 		}
 
@@ -484,7 +484,7 @@ func TestServePluginRequest(t *testing.T) {
 		handlerCalled := false
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
-			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Mattermost-User-Id"))
+			assert.Equal(t, th.BasicUser.Id, r.Header.Get("Sofa-User-Id"))
 			assert.Equal(t, session.Id, ctx.SessionId)
 		}
 
@@ -506,7 +506,7 @@ func TestServePluginRequest(t *testing.T) {
 		mockHandler := func(ctx *plugin.Context, w http.ResponseWriter, r *http.Request) {
 			handlerCalled = true
 			// Should not have user ID header due to CSRF failure
-			assert.Empty(t, r.Header.Get("Mattermost-User-Id"))
+			assert.Empty(t, r.Header.Get("Sofa-User-Id"))
 			assert.Empty(t, ctx.SessionId)
 		}
 

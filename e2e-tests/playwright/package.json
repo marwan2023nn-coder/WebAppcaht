@@ -1,5 +1,5 @@
 {
-  "name": "mattermost-playwright",
+  "name": "sofa-playwright",
   "workspaces": [
     "lib"
   ],
@@ -28,9 +28,9 @@
     "clean": "rm -rf dist node_modules package-lock.json *.tsbuildinfo logs results storage_state test-results && npm run clean --workspaces"
   },
   "dependencies": {
-    "@mattermost/client": "file:../../webapp/platform/client",
-    "@mattermost/playwright-lib": "*",
-    "@mattermost/types": "file:../../webapp/platform/types"
+    "@sofa/client": "file:../../webapp/platform/client",
+    "@sofa/playwright-lib": "*",
+    "@sofa/types": "file:../../webapp/platform/types"
   },
   "devDependencies": {
     "@playwright/test": "1.57.0",

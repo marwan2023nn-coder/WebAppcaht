@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package main
@@ -6,15 +6,15 @@ package main
 import (
 	"os"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mattermost/commands"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/sofa/commands"
 	// Import and register app layer slash commands
-	_ "github.com/mattermost/mattermost/server/v8/channels/app/slashcommands"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/slashcommands"
 	// Plugins
-	_ "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/gitlab"
-	_ "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/openid"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oauthproviders/gitlab"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oauthproviders/openid"
 
 	// Enterprise Imports
-	_ "github.com/mattermost/mattermost/server/v8/enterprise"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/enterprise"
 )
 
 func main() {

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -13,14 +13,14 @@
 // Group: @channels @enterprise @not_cloud @cloud @hosted_customer
 
 // To run this locally, the necessary test setup is:
-// * Ensure on latest mattermost-webapp, mattermost-server, enterprise
+// * Ensure on latest sofa-webapp, sofa-server, enterprise
 // * Ensure MM_SERVICESETTINGS_ENABLEDEVELOPER=false in server shell
-// * Ensure CloudSettings.CWSURL is set to https://portal.test.cloud.mattermost.com
-// * Ensure CloudSettings.CWSAPIURL is set to https://portal.internal.test.cloud.mattermost.com
-// * Change mattermost-server utils/license.go to test public key
-//     * e.g. see (https://github.com/mattermost/mattermost-server/pull/16778/files)
+// * Ensure CloudSettings.CWSURL is set to https://portal.test.cloud.sofa.com
+// * Ensure CloudSettings.CWSAPIURL is set to https://portal.internal.test.cloud.sofa.com
+// * Change sofa-server utils/license.go to test public key
+//     * e.g. see (https://github.com/sofa/sofa-server/pull/16778/files)
 
-import {UserProfile} from '@mattermost/types/users';
+import {UserProfile} from '@sofa/types/users';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
@@ -225,7 +225,7 @@ describe('Self hosted Purchase', () => {
         // * Verify information on the new purchased license
 
         cy.contains('Edition and License');
-        cy.contains('Mattermost Professional');
+        cy.contains('Sofa Professional');
 
         // need to wait for all data to load in, so you don't get flaky
         // asserts over still not filled in items
@@ -242,7 +242,7 @@ describe('Self hosted Purchase', () => {
                     assertLine(lines, 'USERS', (userCount + additionalSeatsToPurchase).toString());
                     assertLine(lines, 'ACTIVE USERS', userCount.toString());
                 });
-                assertLine(lines, 'EDITION', 'Mattermost Professional');
+                assertLine(lines, 'EDITION', 'Sofa Professional');
                 assertLine(lines, 'ISSUED', today);
 
                 assertLine(lines, 'NAME', adminUser.first_name + ' ' + adminUser.last_name);

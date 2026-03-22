@@ -1,8 +1,8 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@mattermost/client';
-import {UserProfile, UserTimezone} from '@mattermost/types/users';
+import {Client4} from '@sofa/client';
+import {UserProfile, UserTimezone} from '@sofa/types/users';
 import {DateTime} from 'luxon';
 
 import {getRandomId} from '@/util';
@@ -44,7 +44,7 @@ export async function createRandomUser(prefix = 'user') {
     const randomId = await getRandomId();
 
     const user = {
-        email: `${prefix}${randomId}@sample.mattermost.com`,
+        email: `${prefix}${randomId}@sample.sofa.com`,
         username: `${prefix}${randomId}`,
         password: 'passwd',
         first_name: `First${randomId}`,

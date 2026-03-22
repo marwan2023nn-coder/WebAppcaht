@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 //nolint:govet // The setup code leads to a lot of variable shadowing.
@@ -353,7 +353,7 @@ func TestCreateDefaultMemberships(t *testing.T) {
 
 	t.Run("Team with restricted domains skips over members that do not match the allowed domains", func(t *testing.T) {
 		restrictedUser := th.CreateUser(t)
-		restrictedUser.Email = "restricted@mattermost.org"
+		restrictedUser.Email = "restricted@sofa.org"
 		_, err = th.App.UpdateUser(th.Context, restrictedUser, false)
 		require.Nil(t, err)
 		_, err = th.App.UpsertGroupMember(scienceGroup.Id, restrictedUser.Id)
@@ -362,8 +362,8 @@ func TestCreateDefaultMemberships(t *testing.T) {
 		restrictedTeam, err := th.App.CreateTeam(th.Context, &model.Team{
 			DisplayName:    "Restricted",
 			Name:           "restricted" + model.NewId(),
-			Email:          "restricted@mattermost.org",
-			AllowedDomains: "mattermost.org",
+			Email:          "restricted@sofa.org",
+			AllowedDomains: "sofa.org",
 			Type:           model.TeamOpen,
 		})
 		require.Nil(t, err)

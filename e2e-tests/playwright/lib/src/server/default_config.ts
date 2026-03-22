@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import merge from 'deepmerge';
@@ -13,7 +13,7 @@ import {
     PluginSettings,
     ServiceSettings,
     TeamSettings,
-} from '@mattermost/types/config';
+} from '@sofa/types/config';
 
 import { testConfig } from '@/test_config';
 
@@ -63,7 +63,7 @@ const onPremServerConfig = (): Partial<TestAdminConfig> => {
                 'com.workspace.calls': {
                     Enable: false,
                 },
-                'com.mattermost.nps': {
+                'com.sofa.nps': {
                     Enable: false,
                 },
                 playbooks: {
@@ -194,7 +194,7 @@ const defaultServerConfig: AdminConfig = {
         BurnOnReadSchedulerFrequencySeconds: 600,
         EnableAPIChannelDeletion: false,
         EnableLocalMode: false,
-        LocalModeSocketLocation: '/var/tmp/mattermost_local.socket',
+        LocalModeSocketLocation: '/var/tmp/sofa_local.socket',
         EnableAWSMetering: false,
         AWSMeteringTimeoutSeconds: 30,
         SplitKey: '',
@@ -215,7 +215,7 @@ const defaultServerConfig: AdminConfig = {
         DeleteAccountLink: '',
     },
     TeamSettings: {
-        SiteName: 'Mattermost',
+        SiteName: 'Sofa',
         MaxUsersPerTeam: 50,
         EnableJoinLeaveMessageByDefault: true,
         EnableUserCreation: true,
@@ -247,7 +247,7 @@ const defaultServerConfig: AdminConfig = {
     SqlSettings: {
         DriverName: 'postgres',
         DataSource:
-            'postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable\u0026connect_timeout=10\u0026binary_parameters=yes',
+            'postgres://mmuser:mostest@localhost/sofa_test?sslmode=disable\u0026connect_timeout=10\u0026binary_parameters=yes',
         DataSourceReplicas: [],
         DataSourceSearchReplicas: [],
         MaxIdleConns: 50,
@@ -360,7 +360,7 @@ const defaultServerConfig: AdminConfig = {
         SMTPServerTimeout: 10,
         ConnectionSecurity: '',
         SendPushNotifications: true,
-        PushNotificationServer: 'https://push-test.mattermost.com',
+        PushNotificationServer: 'https://push-test.sofa.com',
         PushNotificationServerType: 'custom',
         PushNotificationServerLocation: 'global',
         PushNotificationContents: 'full',
@@ -389,11 +389,11 @@ const defaultServerConfig: AdminConfig = {
         ShowFullName: true,
     },
     SupportSettings: {
-        TermsOfServiceLink: 'https://mattermost.com/pl/terms-of-use/',
-        PrivacyPolicyLink: 'https://mattermost.com/pl/privacy-policy/',
-        AboutLink: 'https://mattermost.com/pl/about-mattermost',
-        HelpLink: 'https://mattermost.com/pl/help/',
-        ReportAProblemLink: 'https://mattermost.com/pl/report-a-bug',
+        TermsOfServiceLink: 'https://sofa.com/pl/terms-of-use/',
+        PrivacyPolicyLink: 'https://sofa.com/pl/privacy-policy/',
+        AboutLink: 'https://sofa.com/pl/about-sofa',
+        HelpLink: 'https://sofa.com/pl/help/',
+        ReportAProblemLink: 'https://sofa.com/pl/report-a-bug',
         ReportAProblemType: 'default',
         ReportAProblemMail: '',
         AllowDownloadLogs: true,
@@ -411,7 +411,7 @@ const defaultServerConfig: AdminConfig = {
         AllowBannerDismissal: true,
         AdminNoticesEnabled: true,
         UserNoticesEnabled: true,
-        NoticesURL: 'https://notices.mattermost.com/',
+        NoticesURL: 'https://notices.sofa.com/',
         NoticesFetchFrequency: 3600,
         NoticesSkipCache: false,
     },
@@ -557,9 +557,9 @@ const defaultServerConfig: AdminConfig = {
     },
     NativeAppSettings: {
         AppCustomURLSchemes: ['mmauth://', 'mmauthbeta://'],
-        AppDownloadLink: 'https://mattermost.com/pl/download-apps',
-        AndroidAppDownloadLink: 'https://mattermost.com/pl/android-app/',
-        IosAppDownloadLink: 'https://mattermost.com/pl/ios-app/',
+        AppDownloadLink: 'https://sofa.com/pl/download-apps',
+        AndroidAppDownloadLink: 'https://sofa.com/pl/android-app/',
+        IosAppDownloadLink: 'https://sofa.com/pl/ios-app/',
         MobileExternalBrowser: false,
         MobileEnableBiometrics: false,
         MobilePreventScreenCapture: false,
@@ -701,7 +701,7 @@ const defaultServerConfig: AdminConfig = {
             'com.workspace.calls': {
                 Enable: true,
             },
-            'com.mattermost.nps': {
+            'com.sofa.nps': {
                 Enable: true,
             },
             'workspace-ai': {
@@ -715,7 +715,7 @@ const defaultServerConfig: AdminConfig = {
         EnableRemoteMarketplace: true,
         AutomaticPrepackagedPlugins: true,
         RequirePluginSignature: false,
-        MarketplaceURL: 'https://api.integrations.mattermost.com',
+        MarketplaceURL: 'https://api.integrations.sofa.com',
         SignaturePublicKeyFiles: [],
         ChimeraOAuthProxyURL: '',
     },
@@ -738,8 +738,8 @@ const defaultServerConfig: AdminConfig = {
         RemoteImageProxyOptions: '',
     },
     CloudSettings: {
-        CWSURL: 'https://customers.mattermost.com',
-        CWSAPIURL: 'https://portal.internal.prod.cloud.mattermost.com',
+        CWSURL: 'https://customers.sofa.com',
+        CWSAPIURL: 'https://portal.internal.prod.cloud.sofa.com',
         CWSMock: false,
         Disable: false,
         PreviewModalBucketURL: '',
@@ -773,7 +773,7 @@ const defaultServerConfig: AdminConfig = {
         AttributeBasedAccessControl: true,
         ContentFlagging: true,
         InteractiveDialogAppsForm: true,
-        EnableMattermostEntry: true,
+        EnableSofaEntry: true,
         MobileSSOCodeExchange: true,
         AutoTranslation: false,
         BurnOnRead: true,

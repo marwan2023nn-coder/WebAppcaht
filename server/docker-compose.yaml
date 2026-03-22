@@ -1,20 +1,20 @@
 services:
   postgres:
-    container_name: mattermost-postgres
+    container_name: sofa-postgres
     ports:
       - "5432:5432"
     extends:
         file: build/docker-compose.common.yml
         service: postgres
   minio:
-    container_name: mattermost-minio
+    container_name: sofa-minio
     ports:
       - "9000:9000"
     extends:
         file: build/docker-compose.common.yml
         service: minio
   inbucket:
-    container_name: mattermost-inbucket
+    container_name: sofa-inbucket
     ports:
       - "9001:9001"
       - "10025:10025"
@@ -23,7 +23,7 @@ services:
         file: build/docker-compose.common.yml
         service: inbucket
   openldap:
-    container_name: mattermost-openldap
+    container_name: sofa-openldap
     ports:
       - "389:389"
       - "636:636"
@@ -31,7 +31,7 @@ services:
         file: build/docker-compose.common.yml
         service: openldap
   elasticsearch:
-    container_name: mattermost-elasticsearch
+    container_name: sofa-elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"
@@ -39,56 +39,56 @@ services:
         file: build/docker-compose.common.yml
         service: elasticsearch
   opensearch:
-    container_name: mattermost-opensearch
+    container_name: sofa-opensearch
     ports:
       - "9201:9201"
     extends:
         file: build/docker-compose.common.yml
         service: opensearch
   redis:
-    container_name: mattermost-redis
+    container_name: sofa-redis
     ports:
       - "6379:6379"
     extends:
         file: build/docker-compose.common.yml
         service: redis
   dejavu:
-    container_name: mattermost-dejavu
+    container_name: sofa-dejavu
     ports:
       - "1358:1358"
     extends:
         file: build/docker-compose.common.yml
         service: dejavu
   keycloak:
-    container_name: mattermost-saml
+    container_name: sofa-saml
     ports:
       - "8484:8080"
     extends:
         file: build/docker-compose.common.yml
         service: keycloak
   prometheus:
-    container_name: mattermost-prometheus
+    container_name: sofa-prometheus
     ports:
       - "9090:9090"
     extends:
         file: build/docker-compose.common.yml
         service: prometheus
   grafana:
-    container_name: mattermost-grafana
+    container_name: sofa-grafana
     ports:
       - "3000:3000"
     extends:
         file: build/docker-compose.common.yml
         service: grafana
   loki:
-    container_name: mattermost-loki
+    container_name: sofa-loki
     ports:
       - "3100:3100"
     extends:
         file: build/docker-compose.common.yml
         service: loki
   promtail:
-    container_name: mattermost-promtail
+    container_name: sofa-promtail
     ports:
       - "3180:3180"
     extends:
@@ -96,7 +96,7 @@ services:
         service: promtail
 
   start_dependencies:
-    image: mattermost/mattermost-wait-for-dep:latest
+    image: sofa/sofa-wait-for-dep:latest
     networks:
       - mm-test
     depends_on:
@@ -116,10 +116,10 @@ services:
     build:
       context: .
       dockerfile: ./build/Dockerfile.buildenv
-    working_dir: '/home/mattermost-server/server'
+    working_dir: '/home/sofa-server/server'
     environment:
       - "MM_SQLSETTINGS_DRIVERNAME=postgres"
-      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/mattermost_test?sslmode=disable\u0026connect_timeout=10"
+      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/sofa_test?sslmode=disable\u0026connect_timeout=10"
       - "MM_NO_DOCKER=true"
       - "RUN_SERVER_IN_BACKGROUND=false"
       - "MM_CLUSTERSETTINGS_ENABLE=true"
@@ -130,7 +130,7 @@ services:
     depends_on:
       - start_dependencies
     volumes:
-      - './../:/home/mattermost-server'
+      - './../:/home/sofa-server'
       - './../../enterprise:/home/enterprise'
     restart: on-failure
     healthcheck:
@@ -153,10 +153,10 @@ services:
     build:
       context: .
       dockerfile: ./build/Dockerfile.buildenv
-    working_dir: '/home/mattermost-server/server'
+    working_dir: '/home/sofa-server/server'
     environment:
       - "MM_SQLSETTINGS_DRIVERNAME=postgres"
-      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/mattermost_test?sslmode=disable\u0026connect_timeout=10"
+      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/sofa_test?sslmode=disable\u0026connect_timeout=10"
       - "MM_NO_DOCKER=true"
       - "RUN_SERVER_IN_BACKGROUND=false"
       - "MM_CLUSTERSETTINGS_ENABLE=true"
@@ -167,7 +167,7 @@ services:
     depends_on:
       - leader
     volumes:
-      - './../:/home/mattermost-server:Z'
+      - './../:/home/sofa-server:Z'
       - './../../enterprise:/home/enterprise:Z'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://follower:8065/api/v4/system/ping"]
@@ -190,10 +190,10 @@ services:
     build:
       context: .
       dockerfile: ./build/Dockerfile.buildenv
-    working_dir: '/home/mattermost-server/server'
+    working_dir: '/home/sofa-server/server'
     environment:
       - "MM_SQLSETTINGS_DRIVERNAME=postgres"
-      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/mattermost_test?sslmode=disable\u0026connect_timeout=10"
+      - "MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@postgres/sofa_test?sslmode=disable\u0026connect_timeout=10"
       - "MM_NO_DOCKER=true"
       - "RUN_SERVER_IN_BACKGROUND=false"
       - "MM_CLUSTERSETTINGS_ENABLE=true"
@@ -204,7 +204,7 @@ services:
     depends_on:
       - leader
     volumes:
-      - './../:/home/mattermost-server:Z'
+      - './../:/home/sofa-server:Z'
       - './../../enterprise:/home/enterprise:Z'
     healthcheck:
       test: ["CMD", "curl", "-f", "http://follower2:8065/api/v4/system/ping"]

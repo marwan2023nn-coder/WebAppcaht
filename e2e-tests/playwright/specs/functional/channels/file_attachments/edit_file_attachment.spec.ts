@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {Page} from '@playwright/test';
 
-import {test} from '@mattermost/playwright-lib';
+import {test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify that users can edit a post and modify its content
@@ -89,7 +89,7 @@ test('MM-T5654_2 should be able to add attachments while editing a threaded post
     await channelsPage.postDotMenu.editMenuItem.click();
     await channelsPage.sidebarRight.postEdit.toBeVisible();
     await channelsPage.sidebarRight.postEdit.writeMessage('Edited reply message with files');
-    await channelsPage.sidebarRight.postEdit.addFiles(['sample_text_file.txt', 'mattermost.png']);
+    await channelsPage.sidebarRight.postEdit.addFiles(['sample_text_file.txt', 'sofa.png']);
     await pw.wait(pw.duration.half_sec);
     await channelsPage.sidebarRight.postEdit.sendMessage();
     await pw.wait(pw.duration.half_sec);
@@ -97,7 +97,7 @@ test('MM-T5654_2 should be able to add attachments while editing a threaded post
     await updatedReplyPost.toBeVisible();
     await updatedReplyPost.toContainText('Edited reply message with files');
     await updatedReplyPost.toContainText('sample_text_file.txt');
-    await updatedReplyPost.toContainText('mattermost.png');
+    await updatedReplyPost.toContainText('sofa.png');
 
     // now we'll remove the files
     await updatedReplyPost.hover();
@@ -109,7 +109,7 @@ test('MM-T5654_2 should be able to add attachments while editing a threaded post
     await channelsPage.sidebarRight.postEdit.toBeVisible();
     await channelsPage.sidebarRight.postEdit.removeFile('sample_text_file.txt');
     await pw.wait(pw.duration.half_sec);
-    await channelsPage.sidebarRight.postEdit.removeFile('mattermost.png');
+    await channelsPage.sidebarRight.postEdit.removeFile('sofa.png');
     await pw.wait(pw.duration.half_sec);
     await channelsPage.sidebarRight.postEdit.sendMessage();
 
@@ -117,7 +117,7 @@ test('MM-T5654_2 should be able to add attachments while editing a threaded post
     await updatedReplyPost.toBeVisible();
     await updatedReplyPost.toContainText('Edited reply message with files');
     await updatedReplyPost.toNotContainText('sample_text_file.txt');
-    await updatedReplyPost.toNotContainText('mattermost.png');
+    await updatedReplyPost.toNotContainText('sofa.png');
 });
 
 test('MM-T5654_3 should be able to edit post message originally containing files', async ({pw}) => {
@@ -182,14 +182,14 @@ test('MM-T5654_4 should be able to add files when editing a post', async ({pw}) 
     await channelsPage.postDotMenu.toBeVisible();
     await channelsPage.postDotMenu.editMenuItem.click();
     await channelsPage.centerView.postEdit.toBeVisible();
-    await channelsPage.centerView.postEdit.addFiles(['mattermost.png', 'archive.zip']);
+    await channelsPage.centerView.postEdit.addFiles(['sofa.png', 'archive.zip']);
     await channelsPage.centerView.postEdit.sendMessage();
 
     const secondUpdatedPost = await channelsPage.getLastPost();
     await secondUpdatedPost.toBeVisible();
     await secondUpdatedPost.toContainText('Edited message');
     await secondUpdatedPost.toContainText('sample_text_file.txt');
-    await secondUpdatedPost.toContainText('mattermost.png');
+    await secondUpdatedPost.toContainText('sofa.png');
     await secondUpdatedPost.toContainText('archive.zip');
 });
 
@@ -201,13 +201,13 @@ test('MM-5654_5 should be able to remove attachments while editing a post', asyn
 
     await channelsPage.goto();
     await channelsPage.toBeVisible();
-    await channelsPage.postMessage(originalMessage, ['sample_text_file.txt', 'mattermost.png', 'archive.zip']);
+    await channelsPage.postMessage(originalMessage, ['sample_text_file.txt', 'sofa.png', 'archive.zip']);
 
     const post = await channelsPage.getLastPost();
     await post.toBeVisible();
     await post.toContainText(originalMessage);
     await post.toContainText('sample_text_file.txt');
-    await post.toContainText('mattermost.png');
+    await post.toContainText('sofa.png');
     await post.toContainText('archive.zip');
 
     await post.hover();
@@ -224,7 +224,7 @@ test('MM-5654_5 should be able to remove attachments while editing a post', asyn
     const updatedPost = await channelsPage.getLastPost();
     await updatedPost.toBeVisible();
     await updatedPost.toContainText(originalMessage);
-    await updatedPost.toContainText('mattermost.png');
+    await updatedPost.toContainText('sofa.png');
     await updatedPost.toContainText('archive.zip');
     await updatedPost.toNotContainText('sample_text_file.txt');
 });
@@ -271,13 +271,13 @@ test('MM-T5655_2 should be able to remove all files when editing a post', async 
 
     await channelsPage.goto();
     await channelsPage.toBeVisible();
-    await channelsPage.postMessage(originalMessage, ['sample_text_file.txt', 'mattermost.png', 'archive.zip']);
+    await channelsPage.postMessage(originalMessage, ['sample_text_file.txt', 'sofa.png', 'archive.zip']);
 
     const post = await channelsPage.getLastPost();
     await post.toBeVisible();
     await post.toContainText(originalMessage);
     await post.toContainText('sample_text_file.txt');
-    await post.toContainText('mattermost.png');
+    await post.toContainText('sofa.png');
     await post.toContainText('archive.zip');
 
     await post.hover();
@@ -289,7 +289,7 @@ test('MM-T5655_2 should be able to remove all files when editing a post', async 
     await channelsPage.postDotMenu.editMenuItem.click();
     await channelsPage.centerView.postEdit.toBeVisible();
     await channelsPage.centerView.postEdit.removeFile('sample_text_file.txt');
-    await channelsPage.centerView.postEdit.removeFile('mattermost.png');
+    await channelsPage.centerView.postEdit.removeFile('sofa.png');
     await channelsPage.centerView.postEdit.removeFile('archive.zip');
     await channelsPage.centerView.postEdit.sendMessage();
 
@@ -297,7 +297,7 @@ test('MM-T5655_2 should be able to remove all files when editing a post', async 
     await updatedPost.toBeVisible();
     await updatedPost.toContainText(originalMessage);
     await updatedPost.toNotContainText('archive.zip');
-    await updatedPost.toNotContainText('mattermost.png');
+    await updatedPost.toNotContainText('sofa.png');
     await updatedPost.toNotContainText('sample_text_file.txt');
 });
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,10 +9,10 @@ import (
 	"io"
 	"os"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/spf13/cobra"
 )
 
@@ -42,7 +42,7 @@ var ExportDownloadCmd = &cobra.Command{
 
 var ExportGeneratePresignedURLCmd = &cobra.Command{
 	Use:   "generate-presigned-url [exportname]",
-	Short: "Generate a presigned url for an export file. This is helpful when an export is big and might have trouble downloading from the Mattermost server.",
+	Short: "Generate a presigned url for an export file. This is helpful when an export is big and might have trouble downloading from the Sofa server.",
 	Args:  cobra.ExactArgs(1),
 	RunE:  withClient(exportGeneratePresignedURLCmdF),
 }

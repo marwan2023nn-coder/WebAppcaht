@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugin
@@ -28,7 +28,7 @@ func WithTestContext(ctx context.Context) func(*plugin.ServeConfig) error {
 }
 
 // WithTestReattachConfigCh configures the channel to receive the ReattachConfig used to reattach
-// an externally launched plugin instance with the Mattermost server.
+// an externally launched plugin instance with the Sofa server.
 func WithTestReattachConfigCh(reattachConfigCh chan<- *plugin.ReattachConfig) func(*plugin.ServeConfig) error {
 	return func(config *plugin.ServeConfig) error {
 		if config.Test == nil {
@@ -54,7 +54,7 @@ func WithTestCloseCh(closeCh chan<- struct{}) func(*plugin.ServeConfig) error {
 	}
 }
 
-// Starts the serving of a Mattermost plugin over net/rpc. gRPC is not supported.
+// Starts the serving of a Sofa plugin over net/rpc. gRPC is not supported.
 //
 // Call this when your plugin is ready to start. Options allow configuring plugins for testing
 // scenarios.
@@ -64,7 +64,7 @@ func ClientMain(pluginImplementation any, opts ...func(config *plugin.ServeConfi
 		SetDriver(driver Driver)
 	})
 	if !ok {
-		panic("Plugin implementation given must embed plugin.MattermostPlugin")
+		panic("Plugin implementation given must embed plugin.SofaPlugin")
 	}
 	impl.SetAPI(nil)
 	impl.SetDriver(nil)
@@ -88,7 +88,7 @@ func ClientMain(pluginImplementation any, opts ...func(config *plugin.ServeConfi
 	plugin.Serve(serveConfig)
 }
 
-type MattermostPlugin struct {
+type SofaPlugin struct {
 	// API exposes the plugin api, and becomes available just prior to the OnActive hook.
 	API    API
 	Driver Driver
@@ -96,11 +96,11 @@ type MattermostPlugin struct {
 
 // SetAPI persists the given API interface to the plugin. It is invoked just prior to the
 // OnActivate hook, exposing the API for use by the plugin.
-func (p *MattermostPlugin) SetAPI(api API) {
+func (p *SofaPlugin) SetAPI(api API) {
 	p.API = api
 }
 
 // SetDriver sets the RPC client implementation to talk with the server.
-func (p *MattermostPlugin) SetDriver(driver Driver) {
+func (p *SofaPlugin) SetDriver(driver Driver) {
 	p.Driver = driver
 }

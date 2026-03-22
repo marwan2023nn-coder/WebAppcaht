@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -14,14 +14,14 @@ import (
 
 	"github.com/pkg/errors"
 
-	sq "github.com/mattermost/squirrel"
+	sq "github.com/sofa/squirrel"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
 )
 
 // Regex to get quoted strings
@@ -2477,8 +2477,8 @@ func (s *SqlPostStore) GetPostsBatchForIndexing(startTime int64, startPostID str
 	//     (CreateAt, Id) > (?, ?)
 	// The wrong choice for any of the two databases makes the query go from
 	// milliseconds to dozens of seconds.
-	// More information in: https://github.com/mattermost/mattermost/pull/26517
-	// and https://community.mattermost.com/core/pl/ui5dz96shinetb8nq83myggbma
+	// More information in: https://github.com/marwan2023nn-coder/sofa/pull/26517
+	// and https://community.sofa.com/core/pl/ui5dz96shinetb8nq83myggbma
 
 	postColumnsPosts := strings.Join(postSliceColumnsWithName("Posts"), ", ")
 	query := `SELECT

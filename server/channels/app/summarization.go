@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -10,10 +10,10 @@ import (
 	"strings"
 	"time"
 
-	agentclient "github.com/mattermost/mattermost-plugin-ai/public/bridgeclient"
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
+	agentclient "github.com/marwan2023nn-coder/sofa-plugin-ai/public/bridgeclient"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
 )
 
 // SummarizePosts generates an AI summary of posts with highlights and action items
@@ -28,7 +28,7 @@ func (a *App) SummarizePosts(rctx request.CTX, userID string, posts []*model.Pos
 	// Build conversation context from posts and collect post IDs
 	conversationText, postIDs := buildConversationTextWithIDs(posts)
 
-	systemPrompt := "You are an expert at analyzing team conversations and extracting key information. Your task is to summarize a conversation from a Mattermost channel, identifying the most important highlights and any actionable items. Return ONLY valid JSON with 'highlights' and 'action_items' keys, each containing an array of strings. If there are no highlights or action items, return empty arrays. Do not make up information - only include items explicitly mentioned in the conversation."
+	systemPrompt := "You are an expert at analyzing team conversations and extracting key information. Your task is to summarize a conversation from a Sofa channel, identifying the most important highlights and any actionable items. Return ONLY valid JSON with 'highlights' and 'action_items' keys, each containing an array of strings. If there are no highlights or action items, return empty arrays. Do not make up information - only include items explicitly mentioned in the conversation."
 
 	userPrompt := fmt.Sprintf(`Analyze the following conversation from the "%s" channel and provide a summary.
 

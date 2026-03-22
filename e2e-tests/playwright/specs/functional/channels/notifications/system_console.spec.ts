@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {AdminConfig} from '@mattermost/types/config';
+import {AdminConfig} from '@sofa/types/config';
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify that the Push Notification Contents setting is properly displayed and can be changed to all available options
@@ -15,7 +15,7 @@ test('Push Notification Contents setting displays correctly and saves all option
     await adminClient.patchConfig({
         EmailSettings: {
             PushNotificationContents: 'full',
-            FeedbackName: 'Mattermost Test Team',
+            FeedbackName: 'Sofa Test Team',
             FeedbackEmail: 'feedback@mattertest.com',
         },
         SupportSettings: {

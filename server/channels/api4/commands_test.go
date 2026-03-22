@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -11,9 +11,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	_ "github.com/mattermost/mattermost/server/v8/channels/app/slashcommands"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/slashcommands"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func TestEchoCommand(t *testing.T) {
@@ -186,7 +186,7 @@ func TestLoadTestHelpCommands(t *testing.T) {
 
 	rs, _, err := client.ExecuteCommand(context.Background(), channel.Id, "/test help")
 	require.NoError(t, err)
-	require.True(t, strings.Contains(rs.Text, "Mattermost testing commands to help"), rs.Text)
+	require.True(t, strings.Contains(rs.Text, "Sofa testing commands to help"), rs.Text)
 }
 
 func TestLoadTestSetupCommands(t *testing.T) {

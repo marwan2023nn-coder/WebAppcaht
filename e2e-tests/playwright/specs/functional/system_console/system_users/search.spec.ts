@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {test} from '@mattermost/playwright-lib';
+import {test} from '@sofa/playwright-lib';
 
 test('MM-T5521-1 Should be able to search users with their first names', async ({pw}) => {
     const {adminUser, adminClient} = await pw.initSetup();

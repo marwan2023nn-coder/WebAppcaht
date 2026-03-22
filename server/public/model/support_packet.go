@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -116,7 +116,7 @@ type SupportPacketPermissionInfo struct {
 	Schemes []*Scheme `yaml:"schemes"`
 }
 
-// SupportPacketConfig contains the Mattermost configuration. In contrast to [Config], it also contains the list of Feature Flags.
+// SupportPacketConfig contains the Sofa configuration. In contrast to [Config], it also contains the list of Feature Flags.
 // It is included in the Support Packet.
 type SupportPacketConfig struct {
 	*Config

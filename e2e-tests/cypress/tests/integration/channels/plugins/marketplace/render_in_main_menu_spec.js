@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -32,7 +32,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: false,
                 EnableMarketplace: true,
-                MarketplaceURL: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.sofa.com',
             },
         });
         cy.visit(pluginManagementPage);
@@ -53,7 +53,7 @@ describe('Plugin Marketplace', () => {
             PluginSettings: {
                 Enable: true,
                 EnableMarketplace: false,
-                MarketplaceURL: 'https://api.integrations.mattermost.com',
+                MarketplaceURL: 'https://api.integrations.sofa.com',
             },
         });
         cy.visit(pluginManagementPage);

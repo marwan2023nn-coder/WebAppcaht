@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package storetest
@@ -16,10 +16,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
 )
 
 func TestPostStore(t *testing.T, rctx request.CTX, ss store.Store, s SqlStore) {
@@ -5459,7 +5459,7 @@ func getPostIds(posts []*model.Post, morePosts ...*model.Post) []string {
 }
 
 func testGetNthRecentPostTime(t *testing.T, rctx request.CTX, ss store.Store) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-64438")
+	t.Skip("https://sofa.atlassian.net/browse/MM-64438")
 
 	_, err := ss.Post().GetNthRecentPostTime(0)
 	assert.Error(t, err)

@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify that pressing Shift+Up in the textbox in center channel opens the thread for the last post in RHS
@@ -13,7 +13,7 @@ test(
     async ({pw}, testInfo) => {
         const ROOT_MESSAGE = 'The root message for testing Shift+Up keyboard shortcut';
         const NUMBER_OF_REPLIES = 10;
-        const ATTACHMENT_FILES = ['mattermost.png', 'sample_text_file.txt', 'archive.zip'];
+        const ATTACHMENT_FILES = ['sofa.png', 'sample_text_file.txt', 'archive.zip'];
 
         test.skip(testInfo.project.name === 'ipad', 'Skipping test on iPad');
 

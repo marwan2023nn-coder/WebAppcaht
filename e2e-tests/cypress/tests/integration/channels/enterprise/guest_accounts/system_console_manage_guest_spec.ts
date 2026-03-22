@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -84,7 +84,7 @@ describe('Guest Account - Verify Manage Guest Users', () => {
         cy.findByText('Update email').click();
 
         // * Update email of Guest User
-        const email = `temp-${getRandomId()}@mattermost.com`;
+        const email = `temp-${getRandomId()}@sofa.com`;
         cy.get('#resetEmailModal').should('be.visible').within(() => {
             cy.get('input[type="email"]').type(email);
             cy.get('button.btn-primary.confirm').click();

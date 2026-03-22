@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -26,58 +26,58 @@ import (
 	"github.com/rs/cors"
 	"golang.org/x/crypto/acme/autocert"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/httpservice"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/public/shared/timezones"
-	"github.com/mattermost/mattermost/server/v8/channels/app/email"
-	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
-	"github.com/mattermost/mattermost/server/v8/channels/app/properties"
-	"github.com/mattermost/mattermost/server/v8/channels/app/teams"
-	"github.com/mattermost/mattermost/server/v8/channels/app/users"
-	"github.com/mattermost/mattermost/server/v8/channels/audit"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/active_users"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/cleanup_desktop_tokens"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/delete_dms_preferences_migration"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/delete_empty_drafts_migration"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/delete_expired_posts"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/delete_orphan_drafts_migration"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/expirynotify"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/export_delete"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/export_process"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/export_users_to_csv"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/extract_content"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/hosted_purchase_screening"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/import_delete"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/import_process"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/last_accessible_file"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/last_accessible_post"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/migrations"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/mobile_session_metadata"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/notify_admin"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/plugins"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/post_persistent_notifications"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/product_notices"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/recap"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/refresh_materialized_views"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/resend_invitation_email"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/s3_path_migration"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	"github.com/mattermost/mattermost/server/v8/config"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
-	"github.com/mattermost/mattermost/server/v8/platform/services/awsmeter"
-	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
-	"github.com/mattermost/mattermost/server/v8/platform/services/remotecluster"
-	"github.com/mattermost/mattermost/server/v8/platform/services/sharedchannel"
-	"github.com/mattermost/mattermost/server/v8/platform/services/telemetry"
-	"github.com/mattermost/mattermost/server/v8/platform/services/upgrader"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/filestore"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/templates"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/timezones"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/email"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/platform"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/properties"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/teams"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/users"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/audit"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/active_users"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/cleanup_desktop_tokens"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/delete_dms_preferences_migration"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/delete_empty_drafts_migration"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/delete_expired_posts"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/delete_orphan_drafts_migration"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/expirynotify"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/export_delete"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/export_process"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/export_users_to_csv"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/extract_content"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/hosted_purchase_screening"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/import_delete"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/import_process"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/last_accessible_file"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/last_accessible_post"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/migrations"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/mobile_session_metadata"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/notify_admin"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/plugins"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/post_persistent_notifications"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/product_notices"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/recap"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/refresh_materialized_views"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/resend_invitation_email"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/s3_path_migration"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/awsmeter"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/cache"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/remotecluster"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/sharedchannel"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/telemetry"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/upgrader"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/filestore"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/templates"
 )
 
 const (
@@ -310,7 +310,7 @@ func NewServer(options ...Option) (*Server, error) {
 	s.outgoingWebhookClient = s.httpService.MakeClient(false)
 
 	if err2 := utils.TranslationsPreInit(); err2 != nil {
-		return nil, errors.Wrapf(err2, "unable to load Mattermost translation files")
+		return nil, errors.Wrapf(err2, "unable to load Sofa translation files")
 	}
 	model.AppErrorInit(i18n.T)
 
@@ -330,7 +330,7 @@ func NewServer(options ...Option) (*Server, error) {
 	s.createPushNotificationsHub(request.EmptyContext(s.Log()))
 
 	if err2 := i18n.InitTranslations(*s.platform.Config().LocalizationSettings.DefaultServerLocale, *s.platform.Config().LocalizationSettings.DefaultClientLocale); err2 != nil {
-		return nil, errors.Wrapf(err2, "unable to load Mattermost translation files")
+		return nil, errors.Wrapf(err2, "unable to load Sofa translation files")
 	}
 
 	templatesDir, ok := templates.GetTemplateDirectory()
@@ -393,7 +393,7 @@ func NewServer(options ...Option) (*Server, error) {
 	if _, err = url.ParseRequestURI(*s.platform.Config().ServiceSettings.SiteURL); err != nil {
 		// Don't spam the logs when in CI or local testing mode
 		if !(os.Getenv("IS_CI") == "true" || os.Getenv("IS_LOCAL_TESTING") == "true") {
-			mlog.Error("SiteURL must be set. Some features will operate incorrectly if the SiteURL is not set. See documentation for details: https://mattermost.com/pl/configure-site-url")
+			mlog.Error("SiteURL must be set. Some features will operate incorrectly if the SiteURL is not set. See documentation for details: https://sofa.com/pl/configure-site-url")
 		}
 	}
 
@@ -1125,7 +1125,7 @@ func (a *App) OriginChecker() func(*http.Request) bool {
 				allowed += " " + siteURL.String()
 
 				// If ConnectionSecurity is none, we allow both http and https schemes for the SiteURL domain.
-				// This is to support environments where Nginx handles TLS termination and proxies to Mattermost via plain HTTP/WS.
+				// This is to support environments where Nginx handles TLS termination and proxies to Sofa via plain HTTP/WS.
 				if model.SafeDereference(a.Config().ServiceSettings.ConnectionSecurity) == model.ConnSecurityNone {
 					if siteURL.Scheme == "https" {
 						siteURL.Scheme = "http"
@@ -1346,7 +1346,7 @@ func (s *Server) sendLicenseUpForRenewalEmail(users map[string]*model.User, lice
 
 		ctaTitle := ""
 		ctaText := T("api.templates.license_up_for_renewal_contact_sales")
-		ctaLink := "https://mattermost.com/contact-sales/"
+		ctaLink := "https://sofa.com/contact-sales/"
 
 		if err := s.EmailService.SendLicenseUpForRenewalEmail(user.Email, name, user.Locale, *s.platform.Config().ServiceSettings.SiteURL, ctaTitle, ctaLink, ctaText, daysToExpiration); err != nil {
 			mlog.Error("Error sending license up for renewal email to", mlog.String("user_email", user.Email), mlog.Err(err))
@@ -1393,7 +1393,7 @@ func (s *Server) doReportUserCountForCloudSubscriptionJob() {
 func (s *Server) doLicenseExpirationCheck() {
 	s.LoadLicense()
 
-	// This takes care of a rare edge case reported here https://mattermost.atlassian.net/browse/MM-40962
+	// This takes care of a rare edge case reported here https://sofa.atlassian.net/browse/MM-40962
 	// To reproduce that case locally, attach a license to a server that was started with enterprise enabled
 	// Then restart using BUILD_ENTERPRISE=false make restart-server to enter Team Edition
 	if model.BuildEnterpriseReady != "true" {
@@ -1408,13 +1408,13 @@ func (s *Server) doLicenseExpirationCheck() {
 		return
 	}
 
-	if license.IsCloud() || license.IsMattermostEntry() {
+	if license.IsCloud() || license.IsSofaEntry() {
 		return
 	}
 
 	users, err := s.Store().User().GetSystemAdminProfiles()
 	if err != nil {
-		mlog.Error("Failed to get system admins for license expired message from Mattermost.")
+		mlog.Error("Failed to get system admins for license expired message from Sofa.")
 		return
 	}
 
@@ -1440,7 +1440,7 @@ func (s *Server) doLicenseExpirationCheck() {
 
 		T := i18n.GetUserTranslations(user.Locale)
 		ctaText := T("api.templates.license_up_for_renewal_contact_sales")
-		ctaLink := "https://mattermost.com/contact-sales/"
+		ctaLink := "https://sofa.com/contact-sales/"
 
 		mlog.Debug("Sending license expired email.", mlog.String("user_email", user.Email))
 		s.Go(func() {
@@ -1693,7 +1693,7 @@ func (s *Server) initJobs() {
 	s.platform.Jobs = s.Jobs
 }
 
-// ServerId returns the unique identifier for an installation of Mattermost servers.
+// ServerId returns the unique identifier for an installation of Sofa servers.
 //
 // It is also known as the "telemetry id" or the "diagnostic id". Once generated
 // on first start, the value is persisted to the database and should remain static

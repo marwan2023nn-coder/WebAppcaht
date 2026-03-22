@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 package commands
@@ -16,6 +16,6 @@ func Run(args []string) error {
 
 var RootCmd = &cobra.Command{
 	Use:   "mmgotool",
-	Short: "Mattermost dev utils cli",
-	Long:  `Mattermost cli to help in the development process`,
+	Short: "Sofa dev utils cli",
+	Long:  `Sofa cli to help in the development process`,
 }

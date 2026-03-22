@@ -1,6 +1,6 @@
 ## Remote Cluster Service
 
-Package `remotecluster` implements Mattermost's "Secured Connections" feature, which enables communication between different Mattermost clusters. Specifically, this package provides:
+Package `remotecluster` implements Sofa's "Secured Connections" feature, which enables communication between different Sofa clusters. Specifically, this package provides:
 
  ### Service Management:
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,11 +9,11 @@ import (
 	"net/http"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/spf13/cobra"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 )
 
 func (s *MmctlE2ETestSuite) TestUserActivateCmd() {
@@ -782,7 +782,7 @@ func (s *MmctlE2ETestSuite) TestDeleteUsersCmd() {
 
 		var expectedErr *multierror.Error
 		expectedErr = multierror.Append(expectedErr, fmt.Errorf("unable to delete user %s error: %w", newUser.Username,
-			fmt.Errorf("Permanent user deletion feature is not enabled. ServiceSettings.EnableAPIUserDeletion must be set to true to use this command. See https://mattermost.com/pl/environment-configuration-settings for more information.")))
+			fmt.Errorf("Permanent user deletion feature is not enabled. ServiceSettings.EnableAPIUserDeletion must be set to true to use this command. See https://sofa.com/pl/environment-configuration-settings for more information.")))
 
 		err := deleteUsersCmdF(s.th.SystemAdminClient, cmd, []string{newUser.Email})
 		s.Require().NotNil(err)

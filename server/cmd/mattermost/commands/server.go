@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -15,18 +15,18 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/api4"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	"github.com/mattermost/mattermost/server/v8/channels/web"
-	"github.com/mattermost/mattermost/server/v8/channels/wsapi"
-	"github.com/mattermost/mattermost/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/web"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/wsapi"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
 )
 
 var serverCmd = &cobra.Command{
 	Use:          "server",
-	Short:        "Run the Mattermost server",
+	Short:        "Run the Sofa server",
 	RunE:         serverCmdF,
 	SilenceUsage: true,
 }
@@ -40,7 +40,7 @@ func serverCmdF(command *cobra.Command, args []string) error {
 	interruptChan := make(chan os.Signal, 1)
 
 	if err := utils.TranslationsPreInit(); err != nil {
-		return errors.Wrap(err, "unable to load Mattermost translation files")
+		return errors.Wrap(err, "unable to load Sofa translation files")
 	}
 
 	customDefaults, err := loadCustomDefaults()

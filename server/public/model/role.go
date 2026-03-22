@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/utils/timeutils"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils/timeutils"
 )
 
 // SysconsoleAncillaryPermissions maps the non-sysconsole permissions required by each sysconsole view.
@@ -54,7 +54,7 @@ func init() {
 		RunMemberRoleId,
 	}, NewSystemRoleIDs...)
 
-	// When updating the values here, the values in mattermost-redux must also be updated.
+	// When updating the values here, the values in sofa-redux must also be updated.
 	SysconsoleAncillaryPermissions = map[string][]*Permission{
 		PermissionSysconsoleReadAboutEditionAndLicense.Id: {
 			PermissionReadLicenseInformation,

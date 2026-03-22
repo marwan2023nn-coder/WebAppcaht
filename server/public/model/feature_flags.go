@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -74,7 +74,7 @@ type FeatureFlags struct {
 	// Enable AppsForm for Interactive Dialogs instead of legacy dialog implementation
 	InteractiveDialogAppsForm bool
 
-	EnableMattermostEntry bool
+	EnableSofaEntry bool
 
 	// Enable mobile SSO SAML code-exchange flow (no tokens in deep links)
 	MobileSSOCodeExchange bool
@@ -121,7 +121,7 @@ func (f *FeatureFlags) SetDefaults() {
 	f.AttributeBasedAccessControl = true
 	f.ContentFlagging = true
 	f.InteractiveDialogAppsForm = true
-	f.EnableMattermostEntry = true
+	f.EnableSofaEntry = true
 
 	f.MobileSSOCodeExchange = true
 

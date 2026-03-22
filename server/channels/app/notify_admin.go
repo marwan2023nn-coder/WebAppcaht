@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -11,11 +11,11 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 const lastTrialNotificationTimeStamp = "LAST_TRIAL_NOTIFICATION_TIMESTAMP"
@@ -131,7 +131,7 @@ func (a *App) SendNotifyAdminPosts(rctx request.CTX, workspaceName string, curre
 	return nil
 }
 
-func (a *App) upgradePlanAdminNotifyPost(rctx request.CTX, workspaceName string, userBasedData map[string][]*model.NotifyAdminData, featureBasedData map[model.MattermostFeature][]*model.NotifyAdminData, systemBot *model.Bot, admin *model.User, trial bool) {
+func (a *App) upgradePlanAdminNotifyPost(rctx request.CTX, workspaceName string, userBasedData map[string][]*model.NotifyAdminData, featureBasedData map[model.SofaFeature][]*model.NotifyAdminData, systemBot *model.Bot, admin *model.User, trial bool) {
 	props := make(model.StringInterface)
 	T := i18n.GetUserTranslations(admin.Locale)
 
@@ -171,7 +171,7 @@ func (a *App) upgradePlanAdminNotifyPost(rctx request.CTX, workspaceName string,
 	}
 }
 
-func (a *App) UserAlreadyNotifiedOnRequiredFeature(user string, feature model.MattermostFeature) bool {
+func (a *App) UserAlreadyNotifiedOnRequiredFeature(user string, feature model.SofaFeature) bool {
 	data, err := a.Srv().Store().NotifyAdmin().GetDataByUserIdAndFeature(user, feature)
 	if err != nil {
 		return false
@@ -255,8 +255,8 @@ func (a *App) groupNotifyAdminByUser(data []*model.NotifyAdminData) map[string][
 	return userBasedPaidFeatureData
 }
 
-func (a *App) groupNotifyAdminByPaidFeature(data []*model.NotifyAdminData) map[model.MattermostFeature][]*model.NotifyAdminData {
-	myMap := make(map[model.MattermostFeature][]*model.NotifyAdminData)
+func (a *App) groupNotifyAdminByPaidFeature(data []*model.NotifyAdminData) map[model.SofaFeature][]*model.NotifyAdminData {
+	myMap := make(map[model.SofaFeature][]*model.NotifyAdminData)
 	for _, d := range data {
 		if strings.HasPrefix(string(d.RequiredFeature), string(model.PluginFeature)) {
 			continue

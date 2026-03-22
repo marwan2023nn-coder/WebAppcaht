@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -14,9 +14,9 @@ import (
 	"github.com/spf13/cobra"
 	"github.com/spf13/viper"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 )
 
 func Run(args []string) error {
@@ -73,7 +73,7 @@ func Run(args []string) error {
 }
 
 func printPanic(x any) {
-	u, err := url.Parse("https://github.com/mattermost/mattermost/issues/new")
+	u, err := url.Parse("https://github.com/marwan2023nn-coder/sofa/issues/new")
 	if err != nil {
 		panic(err)
 	}
@@ -92,7 +92,7 @@ func printPanic(x any) {
 var RootCmd = &cobra.Command{
 	Use:               "mmctl",
 	Short:             "Remote client for the Open Source, self-hosted Slack-alternative",
-	Long:              `Mattermost offers workplace messaging across web, PC and phones with archiving, search and integration with your existing systems. Documentation available at https://docs.mattermost.com`,
+	Long:              `Sofa offers workplace messaging across web, PC and phones with archiving, search and integration with your existing systems. Documentation available at https://docs.sofa.com`,
 	DisableAutoGenTag: true,
 	PersistentPreRun: func(cmd *cobra.Command, args []string) {
 		for i, arg := range args {
@@ -115,7 +115,7 @@ var RootCmd = &cobra.Command{
 
 		perPage, err := cmd.Flags().GetInt("per-page")
 		if err == nil && perPage > MaxPageSize {
-			printer.PrintError(fmt.Sprintf("Per page value is greater than the maximum allowed. Mattermost might only return %d items.", MaxPageSize))
+			printer.PrintError(fmt.Sprintf("Per page value is greater than the maximum allowed. Sofa might only return %d items.", MaxPageSize))
 		}
 	},
 	SilenceUsage:  true,

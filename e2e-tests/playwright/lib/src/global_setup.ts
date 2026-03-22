@@ -1,10 +1,10 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@mattermost/client';
-import {PluginManifest} from '@mattermost/types/plugins';
-import {PreferenceType} from '@mattermost/types/preferences';
-import {UserProfile} from '@mattermost/types/users';
+import {Client4} from '@sofa/client';
+import {PluginManifest} from '@sofa/types/plugins';
+import {PreferenceType} from '@sofa/types/preferences';
+import {UserProfile} from '@sofa/types/users';
 
 import {createNewTeam, getAdminClient, getDefaultAdminUser, makeClient} from './server';
 import {testConfig} from './test_config';

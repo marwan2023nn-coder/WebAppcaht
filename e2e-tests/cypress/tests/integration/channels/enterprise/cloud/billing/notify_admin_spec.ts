@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -100,7 +100,7 @@ function createUsersProcess(team: { id: string }, channel: { id: string }, times
 
 function userGroupsNotification() {
     cy.get('#product_switch_menu').click().then((() => {
-        cy.get('#mattermost_feature_custom_user_groups-restricted-indicator').click();
+        cy.get('#sofa_feature_custom_user_groups-restricted-indicator').click();
     }));
 
     cy.get('#FeatureRestrictedModal').should('exist');
@@ -116,7 +116,7 @@ function creatNewTeamNotification() {
 
     // # Click on the lock button on Create a team menu item
     cy.get('#sidebarTeamMenu').within(() => {
-        cy.get('#mattermost_feature_create_multiple_teams-restricted-indicator').click();
+        cy.get('#sofa_feature_create_multiple_teams-restricted-indicator').click();
     });
 
     cy.get('#FeatureRestrictedModal').should('exist');
@@ -181,19 +181,19 @@ function triggerNotifications(url, trial = false, _failOnStatusCode = true) {
 
 function mapFeatureIdToId(id: string) {
     switch (id) {
-    case 'mattermost.feature.custom_user_groups':
+    case 'sofa.feature.custom_user_groups':
         return 'Custom User groups';
-    case 'mattermost.feature.create_multiple_teams':
+    case 'sofa.feature.create_multiple_teams':
         return 'Create Multiple Teams';
-    case 'mattermost.feature.unlimited_messages':
+    case 'sofa.feature.unlimited_messages':
         return 'Unlimited Messages';
-    case 'mattermost.feature.unlimited_file_storage':
+    case 'sofa.feature.unlimited_file_storage':
         return 'Unlimited File Storage';
-    case 'mattermost.feature.all_professional':
+    case 'sofa.feature.all_professional':
         return 'All Professional features';
-    case 'mattermost.feature.all_enterprise':
+    case 'sofa.feature.all_enterprise':
         return 'All Enterprise features';
-    case 'mattermost.feature.highlight_without_notification':
+    case 'sofa.feature.highlight_without_notification':
         return 'Keywords Highlight Without Notification';
     default:
         return '';
@@ -315,8 +315,8 @@ function testTrialNotifications(subscription, limits) {
     });
 
     cy.then(() => {
-        assertNotification('mattermost.feature.all_professional', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name, true);
-        assertNotification('mattermost.feature.all_enterprise', 'Enterprise plan', TOTAL, ALL_ENTERPRISE_FEATURES_REQUESTS, myTeam.name, true);
+        assertNotification('sofa.feature.all_professional', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name, true);
+        assertNotification('sofa.feature.all_enterprise', 'Enterprise plan', TOTAL, ALL_ENTERPRISE_FEATURES_REQUESTS, myTeam.name, true);
         assertTrialMessageButton();
     });
 
@@ -358,7 +358,7 @@ function testFilesNotifications(subscription: Subscription, limits: Limits) {
     });
 
     cy.then(() => {
-        assertNotification('mattermost.feature.unlimited_file_storage', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name);
+        assertNotification('sofa.feature.unlimited_file_storage', 'Professional plan', TOTAL, ALL_PROFESSIONAL_FEATURES_REQUESTS, myTeam.name);
         assertUpgradeMessageButton();
     });
     deletePost();
@@ -429,9 +429,9 @@ function testUpgradeNotifications(subscription, limits) {
     });
 
     cy.then(() => {
-        assertNotification('mattermost.feature.custom_user_groups', 'Enterprise plan', 10, CUSTOM_USER_GROUPS, myTeam.name);
-        assertNotification('mattermost.feature.create_multiple_teams', 'Professional plan', 10, CREATE_MULTIPLE_TEAMS_USERS, myTeam.name);
-        assertNotification('mattermost.feature.unlimited_messages', 'Professional plan', 10, UNLIMITED_MESSAGES_USERS, myTeam.name);
+        assertNotification('sofa.feature.custom_user_groups', 'Enterprise plan', 10, CUSTOM_USER_GROUPS, myTeam.name);
+        assertNotification('sofa.feature.create_multiple_teams', 'Professional plan', 10, CREATE_MULTIPLE_TEAMS_USERS, myTeam.name);
+        assertNotification('sofa.feature.unlimited_messages', 'Professional plan', 10, UNLIMITED_MESSAGES_USERS, myTeam.name);
         assertUpgradeMessageButton();
     });
     deletePost();

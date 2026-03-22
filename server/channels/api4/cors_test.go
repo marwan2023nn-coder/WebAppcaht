@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -11,8 +11,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
 )
 
 const (
@@ -60,7 +60,7 @@ func TestCORSRequestHandling(t *testing.T) {
 			"",
 			false,
 			func(req *http.Request) {
-				req.Header.Set("Origin", "http://pre-release.mattermost.com")
+				req.Header.Set("Origin", "http://pre-release.sofa.com")
 			},
 			"*",
 			"",
@@ -77,46 +77,46 @@ func TestCORSRequestHandling(t *testing.T) {
 			"",
 		},
 		"CORSEnabledMatching": {
-			"http://mattermost.com",
+			"http://sofa.com",
 			"",
 			false,
 			func(req *http.Request) {
-				req.Header.Set("Origin", "http://mattermost.com")
+				req.Header.Set("Origin", "http://sofa.com")
 			},
-			"http://mattermost.com",
+			"http://sofa.com",
 			"",
 			"",
 		},
 		"CORSEnabledMultiple": {
-			"http://spinmint.com http://mattermost.com",
+			"http://spinmint.com http://sofa.com",
 			"",
 			false,
 			func(req *http.Request) {
-				req.Header.Set("Origin", "http://mattermost.com")
+				req.Header.Set("Origin", "http://sofa.com")
 			},
-			"http://mattermost.com",
+			"http://sofa.com",
 			"",
 			"",
 		},
 		"CORSEnabledWithCredentials": {
-			"http://mattermost.com",
+			"http://sofa.com",
 			"",
 			true,
 			func(req *http.Request) {
-				req.Header.Set("Origin", "http://mattermost.com")
+				req.Header.Set("Origin", "http://sofa.com")
 			},
-			"http://mattermost.com",
+			"http://sofa.com",
 			"",
 			"true",
 		},
 		"CORSEnabledWithHeaders": {
-			"http://mattermost.com",
+			"http://sofa.com",
 			"x-my-special-header x-blueberry",
 			true,
 			func(req *http.Request) {
-				req.Header.Set("Origin", "http://mattermost.com")
+				req.Header.Set("Origin", "http://sofa.com")
 			},
-			"http://mattermost.com",
+			"http://sofa.com",
 			"X-My-Special-Header, X-Blueberry",
 			"true",
 		},

@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package einterfaces
 
 import (
-	"github.com/mattermost/mattermost/server/public/model"
-	ejobs "github.com/mattermost/mattermost/server/v8/einterfaces/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	ejobs "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/jobs"
 )
 
 type PushProxyInterface interface {

@@ -3,7 +3,7 @@ package cluster
 import (
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 )
 
 func ExampleSchedule() {

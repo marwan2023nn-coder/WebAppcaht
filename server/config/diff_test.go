@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -6,7 +6,7 @@ package config
 import (
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 
 	"github.com/stretchr/testify/require"
 )
@@ -486,7 +486,7 @@ func TestDiffSanitized(t *testing.T) {
 			func() *model.Config {
 				cfg := defaultConfigGen()
 				cfg.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.newplugin": {
+					"com.sofa.newplugin": {
 						"key": true,
 					},
 				}
@@ -800,7 +800,7 @@ func TestDiff(t *testing.T) {
 			defaultConfigGen(),
 			func() *model.Config {
 				cfg := defaultConfigGen()
-				cfg.PluginSettings.PluginStates["com.mattermost.newplugin"] = &model.PluginState{
+				cfg.PluginSettings.PluginStates["com.sofa.newplugin"] = &model.PluginState{
 					Enable: true,
 				}
 				return cfg
@@ -810,10 +810,10 @@ func TestDiff(t *testing.T) {
 					Path:    "PluginSettings.PluginStates",
 					BaseVal: defaultConfigGen().PluginSettings.PluginStates,
 					ActualVal: map[string]*model.PluginState{
-						"com.mattermost.nps": {
-							Enable: defaultConfigGen().PluginSettings.PluginStates["com.mattermost.nps"].Enable,
+						"com.sofa.nps": {
+							Enable: defaultConfigGen().PluginSettings.PluginStates["com.sofa.nps"].Enable,
 						},
-						"com.mattermost.newplugin": {
+						"com.sofa.newplugin": {
 							Enable: true,
 						},
 						"com.workspace.calls": {
@@ -835,7 +835,7 @@ func TestDiff(t *testing.T) {
 			defaultConfigGen(),
 			func() *model.Config {
 				cfg := defaultConfigGen()
-				delete(cfg.PluginSettings.PluginStates, "com.mattermost.nps")
+				delete(cfg.PluginSettings.PluginStates, "com.sofa.nps")
 				return cfg
 			}(),
 			ConfigDiffs{
@@ -881,7 +881,7 @@ func TestDiff(t *testing.T) {
 			func() *model.Config {
 				cfg := defaultConfigGen()
 				cfg.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.newplugin": {
+					"com.sofa.newplugin": {
 						"key": true,
 					},
 				}
@@ -890,7 +890,7 @@ func TestDiff(t *testing.T) {
 			func() *model.Config {
 				cfg := defaultConfigGen()
 				cfg.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.newplugin": {
+					"com.sofa.newplugin": {
 						"key": "string",
 					},
 				}
@@ -901,14 +901,14 @@ func TestDiff(t *testing.T) {
 					Path: "PluginSettings.Plugins",
 					BaseVal: func() any {
 						return map[string]map[string]any{
-							"com.mattermost.newplugin": {
+							"com.sofa.newplugin": {
 								"key": true,
 							},
 						}
 					}(),
 					ActualVal: func() any {
 						return map[string]map[string]any{
-							"com.mattermost.newplugin": {
+							"com.sofa.newplugin": {
 								"key": "string",
 							},
 						}

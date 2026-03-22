@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -77,7 +77,7 @@ describe('Notifications', () => {
 
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // * Browser tab should displays (1) * channel - [team name] Mattermost
+        // * Browser tab should displays (1) * channel - [team name] Sofa
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // * Team sidebar: Small dot left of team B icon in team sidebar
@@ -95,7 +95,7 @@ describe('Notifications', () => {
         cy.apiLogin(user1);
         cy.visit(testTeam1TownSquareUrl);
 
-        // * Browser tab should displays (1) * channel - [team name] Mattermost (for verify count increase)
+        // * Browser tab should displays (1) * channel - [team name] Sofa (for verify count increase)
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // # Have another user view team B
@@ -128,7 +128,7 @@ describe('Notifications', () => {
         cy.visit(testTeam1TownSquareUrl);
 
         // * Title should be increased
-        // * Browser tab should displays (1) * channel - [team name] Mattermost
+        // * Browser tab should displays (1) * channel - [team name] Sofa
         cy.title().should('include', `(2) Town Square - ${team1.display_name} ${siteName}`);
 
         // * Team sidebar: Small dot left of team B icon in team sidebar

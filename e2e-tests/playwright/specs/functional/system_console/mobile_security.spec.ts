@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 test('should be able to enable mobile security settings when licensed', async ({pw}) => {
     const {adminUser, adminClient} = await pw.initSetup();
@@ -183,7 +183,7 @@ test('should show mobile security upsell when not licensed', async ({pw}) => {
     await systemConsolePage.featureDiscovery.toBeVisible();
 
     // * Verify title is correct
-    await systemConsolePage.featureDiscovery.toHaveTitle('Enhance mobile app security with Mattermost Enterprise');
+    await systemConsolePage.featureDiscovery.toHaveTitle('Enhance mobile app security with Sofa Enterprise');
 });
 
 test('should show and enable Intune MAM when Enterprise Advanced licensed and Office365 configured', async ({pw}) => {

@@ -1,4 +1,4 @@
-# Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
+# Copyright (c) 2016-present Sofa, Inc. All Rights Reserved.
 # See License.txt for license information.
 FROM postgres:14
 
@@ -11,28 +11,28 @@ ARG MATTERMOST_VERSION
 
 ENV POSTGRES_USER=mmuser
 ENV POSTGRES_PASSWORD=mostest
-ENV POSTGRES_DB=mattermost_test
+ENV POSTGRES_DB=sofa_test
 
 #
-# Configure Mattermost
+# Configure Sofa
 #
 WORKDIR /mm
 
 # Copy over files
-ADD https://releases.mattermost.com/${MATTERMOST_VERSION}/mattermost-team-${MATTERMOST_VERSION}-linux-amd64.tar.gz .
-RUN tar -zxvf mattermost-team-${MATTERMOST_VERSION}-linux-amd64.tar.gz
-ADD config_docker.json ./mattermost/config/config_docker.json
+ADD https://releases.sofa.com/${MATTERMOST_VERSION}/sofa-team-${MATTERMOST_VERSION}-linux-amd64.tar.gz .
+RUN tar -zxvf sofa-team-${MATTERMOST_VERSION}-linux-amd64.tar.gz
+ADD config_docker.json ./sofa/config/config_docker.json
 ADD docker-entry.sh .
 
 RUN chmod +x ./docker-entry.sh
 ENTRYPOINT ./docker-entry.sh
 
-# Mattermost environment variables
-ENV PATH="/mm/mattermost/bin:${PATH}"
+# Sofa environment variables
+ENV PATH="/mm/sofa/bin:${PATH}"
 
 # Create default storage directory
-RUN mkdir ./mattermost-data
-VOLUME /mm/mattermost-data
+RUN mkdir ./sofa-data
+VOLUME /mm/sofa-data
 
 # Ports
 EXPOSE 8065

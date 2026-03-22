@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func modifiedDefault(modify func(*model.Config)) *model.Config {
@@ -40,10 +40,10 @@ func TestRemoveEnvOverrides(t *testing.T) {
 					},
 				}
 				in.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"key1": "value1",
 					},
-					"com_mattermost_plugin-2": {
+					"com_sofa_plugin-2": {
 						"key2": "value2",
 					},
 				}
@@ -56,10 +56,10 @@ func TestRemoveEnvOverrides(t *testing.T) {
 					}
 				}`,
 				"MM_PLUGINSETTINGS_PLUGINS": `{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"key1": "other-value"
 					},
-					"com_mattermost_plugin-2": {
+					"com_sofa_plugin-2": {
 						"key2": "other-value"
 					}
 				}`,
@@ -72,10 +72,10 @@ func TestRemoveEnvOverrides(t *testing.T) {
 					},
 				}
 				in.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"key1": "other-value",
 					},
-					"com_mattermost_plugin-2": {
+					"com_sofa_plugin-2": {
 						"key2": "other-value",
 					},
 				}
@@ -147,12 +147,12 @@ func TestRemoveEnvOverrides(t *testing.T) {
 			}),
 			env: map[string]string{
 				"MM_PLUGINSETTINGS_PLUGINSTATES": `{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"enable": true
 					}
 				}`,
 				"MM_PLUGINSETTINGS_PLUGINS": `{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"key": {
 							"key":  "(?P<key>KEY)-(?P<id>\\d{1,6})(?P<comma>[,;]*)",
 							"value": "[$key-$id](https://example.com/?$project-$id)$comma"
@@ -162,12 +162,12 @@ func TestRemoveEnvOverrides(t *testing.T) {
 			},
 			expectedConfig: modifiedDefault(func(in *model.Config) {
 				in.PluginSettings.PluginStates = map[string]*model.PluginState{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						Enable: true,
 					},
 				}
 				in.PluginSettings.Plugins = map[string]map[string]any{
-					"com.mattermost.plugin-1": {
+					"com.sofa.plugin-1": {
 						"key": map[string]any{
 							"key":   "(?P<key>KEY)-(?P<id>\\d{1,6})(?P<comma>[,;]*)",
 							"value": "[$key-$id](https://example.com/?$project-$id)$comma",

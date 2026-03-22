@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -8,8 +8,8 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/fips"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/fips"
 )
 
 // GenerateClientConfig renders the given configuration for a client.
@@ -428,7 +428,7 @@ func GenerateLimitedClientConfig(c *model.Config, telemetryID string, license *m
 
 			if intuneEnabled {
 				// Use IntuneSettings for scope
-				props["IntuneScope"] = fmt.Sprintf("api://%s/login.mattermost", *c.IntuneSettings.ClientId)
+				props["IntuneScope"] = fmt.Sprintf("api://%s/login.sofa", *c.IntuneSettings.ClientId)
 
 				// Expose AuthService if set
 				if c.IntuneSettings.AuthService != nil && *c.IntuneSettings.AuthService != "" {
@@ -451,7 +451,7 @@ func getGiphySdkKey(ss model.ServiceSettings) string {
 			return *ss.GiphySdkKey
 		}
 
-		return model.MattermostGiphySdkKey
+		return model.SofaGiphySdkKey
 	} else if model.GetServiceEnvironment() == model.ServiceEnvironmentDev || model.GetServiceEnvironment() == model.ServiceEnvironmentTest {
 		return model.ServiceSettingsDefaultGiphySdkKeyTest
 	}

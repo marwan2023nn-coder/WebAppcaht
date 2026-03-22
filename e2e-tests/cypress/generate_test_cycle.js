@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable no-console */
@@ -38,7 +38,7 @@
  * Environment:
  *   AUTOMATION_DASHBOARD_URL   : Dashboard URL
  *   AUTOMATION_DASHBOARD_TOKEN : Dashboard token
- *   REPO                       : Project repository, ex. mattermost-webapp
+ *   REPO                       : Project repository, ex. sofa-webapp
  *   BRANCH                     : Branch identifier from CI
  *   BUILD_ID                   : Build identifier from CI
  *   BROWSER                    : Chrome by default. Set to run test on other browser such as chrome, edge, electron and firefox.

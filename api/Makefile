@@ -2,7 +2,7 @@ ROOT := $(dir $(abspath $(lastword $(MAKEFILE_LIST))))
 
 .PHONY: build build-v4 clean playbooks
 
-V4_YAML = $(ROOT)/v4/html/static/mattermost-openapi-v4.yaml
+V4_YAML = $(ROOT)/v4/html/static/sofa-openapi-v4.yaml
 
 V4_SRC = $(ROOT)/v4/source
 PLAYBOOKS_SRC = $(ROOT)/playbooks
@@ -10,7 +10,7 @@ PLAYBOOKS_SRC = $(ROOT)/playbooks
 build: build-v4
 
 build-v4: node_modules playbooks
-	@echo Building mattermost openapi yaml for v4
+	@echo Building sofa openapi yaml for v4
 
 	@if [ -r $(PLAYBOOKS_SRC)/merged-tags.yaml ]; then cat $(PLAYBOOKS_SRC)/merged-tags.yaml > $(V4_YAML); else cat $(V4_SRC)/introduction.yaml > $(V4_YAML); fi
 	@cat $(V4_SRC)/users.yaml >> $(V4_YAML)

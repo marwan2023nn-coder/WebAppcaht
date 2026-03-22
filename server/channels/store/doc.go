@@ -1,8 +1,8 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /*
-Package store provides the data persistence layer for Mattermost channels.
+Package store provides the data persistence layer for Sofa channels.
 
 The store package implements a layered architecture that abstracts database operations
 and provides a clean interface for data access. It follows the repository pattern with advanced features

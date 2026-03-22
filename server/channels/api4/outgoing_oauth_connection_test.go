@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 package api4
 
@@ -12,10 +12,10 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
-	"github.com/mattermost/mattermost/server/v8/channels/web"
-	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/web"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
 	"github.com/stretchr/testify/require"
 )
 
@@ -44,7 +44,7 @@ func outgoingOauthConnectionsCleanup(t *testing.T, th *TestHelper) {
 
 // Helper tests
 func TestCheckOutgoingOAuthConnectionReadPermissions(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	t.Run("no permissions", func(t *testing.T) {
 		th := Setup(t).InitBasic(t)
@@ -125,7 +125,7 @@ func TestCheckOutgoingOAuthConnectionReadPermissions(t *testing.T) {
 }
 
 func TestCheckOutgoingOAuthConnectionWritePermissions(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	t.Run("no permissions", func(t *testing.T) {
 		th := Setup(t).InitBasic(t)
@@ -167,7 +167,7 @@ func TestCheckOutgoingOAuthConnectionWritePermissions(t *testing.T) {
 // Client tests
 
 func TestClientOutgoingOAuthConnectionGet(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	t.Run("No license returns 501", func(t *testing.T) {
 		os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTION", "true")
@@ -239,7 +239,7 @@ func TestClientOutgoingOAuthConnectionGet(t *testing.T) {
 }
 
 func TestClientListOutgoingOAuthConnection(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -442,7 +442,7 @@ func TestClientListOutgoingOAuthConnection(t *testing.T) {
 }
 
 func TestClientGetOutgoingOAuthConnection(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -518,7 +518,7 @@ func TestClientGetOutgoingOAuthConnection(t *testing.T) {
 }
 
 func TestClientCreateOutgoingOAuthConnection(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -595,7 +595,7 @@ func TestClientCreateOutgoingOAuthConnection(t *testing.T) {
 }
 
 func TestClientUpdateOutgoingOAuthConnection(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -678,7 +678,7 @@ func TestClientUpdateOutgoingOAuthConnection(t *testing.T) {
 }
 
 func TestClientDeleteOutgoingOAuthConnection(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -755,7 +755,7 @@ func TestClientDeleteOutgoingOAuthConnection(t *testing.T) {
 // Handler tests
 
 func TestEnsureOutgoingOAuthConnectionInterface(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	t.Run("no feature flag, no interface, no license", func(t *testing.T) {
 		th := Setup(t).InitBasic(t)
@@ -846,7 +846,7 @@ func TestEnsureOutgoingOAuthConnectionInterface(t *testing.T) {
 }
 
 func TestHandlerOutgoingOAuthConnectionListGet(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -973,7 +973,7 @@ func TestHandlerOutgoingOAuthConnectionListGet(t *testing.T) {
 }
 
 func TestHandlerOutgoingOAuthConnectionListReadOnly(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -1071,7 +1071,7 @@ func TestHandlerOutgoingOAuthConnectionListReadOnly(t *testing.T) {
 }
 
 func TestHandlerOutgoingOAuthConnectionUpdate(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -1285,7 +1285,7 @@ func TestHandlerOutgoingOAuthConnectionUpdate(t *testing.T) {
 }
 
 func TestHandlerOutgoingOAuthConnectionHandlerCreate(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")
@@ -1435,7 +1435,7 @@ func TestHandlerOutgoingOAuthConnectionHandlerCreate(t *testing.T) {
 }
 
 func TestHandlerOutgoingOAuthConnectionHandlerValidate(t *testing.T) {
-	t.Skip("https://mattermost.atlassian.net/browse/MM-61690")
+	t.Skip("https://sofa.atlassian.net/browse/MM-61690")
 
 	os.Setenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS", "true")
 	defer os.Unsetenv("MM_FEATUREFLAGS_OUTGOINGOAUTHCONNECTIONS")

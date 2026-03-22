@@ -4,8 +4,8 @@ import (
 	"bytes"
 	"io"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 )
 
 // EmojiService exposes methods to manipulate emojis.

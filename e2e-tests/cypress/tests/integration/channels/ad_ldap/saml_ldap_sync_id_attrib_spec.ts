@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,7 +9,7 @@
 
 // - Requires openldap and keycloak running
 // - Requires keycloak certificate at fixtures folder
-//  -> copy ./mattermost-server/build/docker/keycloak/keycloak.crt to ./mattermost-webapp/e2e/cypress/tests/fixtures/keycloak.crt
+//  -> copy ./sofa-server/build/docker/keycloak/keycloak.crt to ./sofa-webapp/e2e/cypress/tests/fixtures/keycloak.crt
 // - Requires Cypress' chromeWebSecurity to be false
 
 // Group: @channels @enterprise @ldap @saml @keycloak

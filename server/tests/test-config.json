@@ -64,7 +64,7 @@
         "ExperimentalEnableHardenedMode": false
     },
     "TeamSettings": {
-        "SiteName": "Mattermost",
+        "SiteName": "Sofa",
         "MaxUsersPerTeam": 50,
         "EnableUserCreation": true,
         "EnableOpenServer": false,
@@ -90,7 +90,7 @@
     },
     "SqlSettings": {
         "DriverName": "postgres",
-        "DataSource": "postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable\u0026connect_timeout=10",
+        "DataSource": "postgres://mmuser:mostest@localhost:5432/sofa_test?sslmode=disable\u0026connect_timeout=10",
         "DataSourceReplicas": [],
         "DataSourceSearchReplicas": [],
         "Trace": false,
@@ -182,14 +182,14 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "TermsOfServiceLink": "https://mattermost.com/pl/terms-of-use/",
-        "PrivacyPolicyLink": "https://mattermost.com/pl/privacy-policy/",
-        "AboutLink": "https://mattermost.com/default-about/",
-        "HelpLink": "https://mattermost.com/pl/help/",
-        "ReportAProblemLink": "https://mattermost.com/pl/report-a-bug",
+        "TermsOfServiceLink": "https://sofa.com/pl/terms-of-use/",
+        "PrivacyPolicyLink": "https://sofa.com/pl/privacy-policy/",
+        "AboutLink": "https://sofa.com/default-about/",
+        "HelpLink": "https://sofa.com/pl/help/",
+        "ReportAProblemLink": "https://sofa.com/pl/report-a-bug",
         "ReportAProblemType": "link",
         "ForgotPasswordLink": "",
-        "SupportEmail": "feedback@mattermost.com"
+        "SupportEmail": "feedback@sofa.com"
     },
     "AnnouncementSettings": {
         "EnableBanner": false,
@@ -296,9 +296,9 @@
         "LoginButtonTextColor": ""
     },
     "NativeAppSettings": {
-        "AppDownloadLink": "https://mattermost.com/download/",
-        "AndroidAppDownloadLink": "https://mattermost.com/pl/android-app/",
-        "IosAppDownloadLink": "https://mattermost.com/pl/ios-app/"
+        "AppDownloadLink": "https://sofa.com/download/",
+        "AndroidAppDownloadLink": "https://sofa.com/pl/android-app/",
+        "IosAppDownloadLink": "https://sofa.com/pl/ios-app/"
     },
     "ClusterSettings": {
         "Enable": false,

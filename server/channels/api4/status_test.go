@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -9,7 +9,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -54,7 +54,7 @@ func TestGetUserStatus(t *testing.T) {
 	})
 
 	t.Run("dnd status timed restore after time interval", func(t *testing.T) {
-		t.Skip("https://mattermost.atlassian.net/browse/MM-63533")
+		t.Skip("https://sofa.atlassian.net/browse/MM-63533")
 		task := model.CreateRecurringTaskFromNextIntervalTime("Unset DND Statuses From Test", th.App.UpdateDNDStatusOfUsers, 1*time.Second)
 		defer task.Cancel()
 		th.App.SetStatusOnline(th.BasicUser.Id, true)

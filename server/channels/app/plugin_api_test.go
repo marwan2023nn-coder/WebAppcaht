@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -26,13 +26,13 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/plugin/utils"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8"
-	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
 )
 
 func getDefaultPluginSettingsSchema() string {
@@ -137,25 +137,25 @@ func TestPublicFilesPathConfiguration(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t)
 
-	pluginID := "com.mattermost.sample"
+	pluginID := "com.sofa.sample"
 
 	pluginDir := setupPluginAPITest(t,
 		`
 		package main
 
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func main() {
 			plugin.ClientMain(&MyPlugin{})
 		}
 	`,
-		`{"id": "com.mattermost.sample", "server": {"executable": "backend.exe"}, "settings_schema": {"settings": []}}`, pluginID, th.App, th.Context)
+		`{"id": "com.sofa.sample", "server": {"executable": "backend.exe"}, "settings_schema": {"settings": []}}`, pluginID, th.App, th.Context)
 
 	publicFilesFolderInTest := filepath.Join(pluginDir, pluginID, "public")
 	publicFilesPath, err := th.App.GetPluginsEnvironment().PublicFilesPath(pluginID)
@@ -992,11 +992,11 @@ func TestPluginAPIGetPlugins(t *testing.T) {
     package main
 
     import (
-      "github.com/mattermost/mattermost/server/public/plugin"
+      "github.com/marwan2023nn-coder/sofa/server/public/plugin"
     )
 
     type MyPlugin struct {
-      plugin.MattermostPlugin
+      plugin.SofaPlugin
     }
 
     func main() {
@@ -1145,7 +1145,7 @@ func TestInstallPlugin(t *testing.T) {
 
 			"github.com/pkg/errors"
 
-			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 		)
 
 		type configuration struct {
@@ -1153,7 +1153,7 @@ func TestInstallPlugin(t *testing.T) {
 		}
 
 		type Plugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 
 			configuration configuration
 		}
@@ -1677,13 +1677,13 @@ func TestInterpluginPluginHTTP(t *testing.T) {
 		package main
 
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 			"bytes"
 			"net/http"
 		)
 
 		type MyPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1693,7 +1693,7 @@ func TestInterpluginPluginHTTP(t *testing.T) {
 					return
 				}
 
-				if r.Header.Get("Mattermost-Plugin-ID") != "testplugininterclient" {
+				if r.Header.Get("Sofa-Plugin-ID") != "testplugininterclient" {
 					return
 				}
 
@@ -1718,15 +1718,15 @@ func TestInterpluginPluginHTTP(t *testing.T) {
 		package main
 
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
-			"github.com/mattermost/mattermost/server/public/model"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/model"
 			"bytes"
 			"net/http"
 			"io"
 		)
 
 		type MyPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -1736,7 +1736,7 @@ func TestInterpluginPluginHTTP(t *testing.T) {
 			if err != nil {
 				return nil, err.Error()
 			}
-			req.Header.Add("Mattermost-User-Id", "userid")
+			req.Header.Add("Sofa-User-Id", "userid")
 			resp := p.API.PluginHTTP(req)
 			if resp == nil {
 				return nil, "Nil resp"
@@ -1807,13 +1807,13 @@ func TestInterpluginPluginHTTPWithBodyAfterWriteHeader(t *testing.T) {
 		package main
 
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 			"bytes"
 			"net/http"
 		)
 
 		type MyPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1822,7 +1822,7 @@ func TestInterpluginPluginHTTPWithBodyAfterWriteHeader(t *testing.T) {
 					return
 				}
 
-				if r.Header.Get("Mattermost-Plugin-ID") != "testpluginbodyafter" {
+				if r.Header.Get("Sofa-Plugin-ID") != "testpluginbodyafter" {
 					return
 				}
 
@@ -1842,15 +1842,15 @@ func TestInterpluginPluginHTTPWithBodyAfterWriteHeader(t *testing.T) {
 		package main
 
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
-			"github.com/mattermost/mattermost/server/public/model"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/model"
 			"bytes"
 			"net/http"
 			"io"
 		)
 
 		type MyPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -1860,7 +1860,7 @@ func TestInterpluginPluginHTTPWithBodyAfterWriteHeader(t *testing.T) {
 			if err != nil {
 				return nil, err.Error()
 			}
-			req.Header.Add("Mattermost-User-Id", "userid")
+			req.Header.Add("Sofa-User-Id", "userid")
 			resp := p.API.PluginHTTP(req)
 			if resp == nil {
 				return nil, "Nil resp"
@@ -1919,13 +1919,13 @@ func TestInterpluginPluginHTTPStreaming(t *testing.T) {
 			package main
 
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 				"bytes"
 				"net/http"
 			)
 
 			type MyPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1956,15 +1956,15 @@ func TestInterpluginPluginHTTPStreaming(t *testing.T) {
 			package main
 
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
-				"github.com/mattermost/mattermost/server/public/model"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/model"
 				"net/http"
 				"io"
 				"fmt"
 			)
 
 			type MyPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -2039,13 +2039,13 @@ func TestInterpluginPluginHTTPStreaming(t *testing.T) {
 			package main
 
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 				"net/http"
 				"time"
 			)
 
 			type MyPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -2084,8 +2084,8 @@ func TestInterpluginPluginHTTPStreaming(t *testing.T) {
 			package main
 
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
-				"github.com/mattermost/mattermost/server/public/model"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/model"
 				"net/http"
 				"io"
 				"fmt"
@@ -2094,7 +2094,7 @@ func TestInterpluginPluginHTTPStreaming(t *testing.T) {
 			)
 
 			type MyPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -2204,12 +2204,12 @@ func TestAPIMetrics(t *testing.T) {
 	package main
 
 	import (
-		"github.com/mattermost/mattermost/server/public/model"
-		"github.com/mattermost/mattermost/server/public/plugin"
+		"github.com/marwan2023nn-coder/sofa/server/public/model"
+		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.MattermostPlugin
+		plugin.SofaPlugin
 	}
 
 	func (p *MyPlugin) UserHasBeenCreated(c *plugin.Context, user *model.User) {
@@ -2364,16 +2364,16 @@ func TestPluginMFAEnforcement(t *testing.T) {
 
 	import (
 		"net/http"
-		"github.com/mattermost/mattermost/server/public/plugin"
+		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.MattermostPlugin
+		plugin.SofaPlugin
 	}
 
 	func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
-		// Simply return the value of Mattermost-User-Id header
-		userID := r.Header.Get("Mattermost-User-Id")
+		// Simply return the value of Sofa-User-Id header
+		userID := r.Header.Get("Sofa-User-Id")
 		w.Write([]byte(userID))
 	}
 
@@ -2676,12 +2676,12 @@ func TestPluginUploadsAPI(t *testing.T) {
 		  "fmt"
 			"bytes"
 
-      "github.com/mattermost/mattermost/server/public/model"
-      "github.com/mattermost/mattermost/server/public/plugin"
+      "github.com/marwan2023nn-coder/sofa/server/public/model"
+      "github.com/marwan2023nn-coder/sofa/server/public/plugin"
     )
 
     type TestPlugin struct {
-      plugin.MattermostPlugin
+      plugin.SofaPlugin
     }
 
 	  func (p *TestPlugin) OnActivate() error {
@@ -3042,8 +3042,8 @@ func TestPluginGetChannelsForTeamForUser(t *testing.T) {
 	pluginCode := `
 	package main
 	import (
-		"github.com/mattermost/mattermost/server/public/model"
-		"github.com/mattermost/mattermost/server/public/plugin"
+		"github.com/marwan2023nn-coder/sofa/server/public/model"
+		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 		"github.com/pkg/errors"
 	)
 
@@ -3057,7 +3057,7 @@ func TestPluginGetChannelsForTeamForUser(t *testing.T) {
 	)
 
 	type TestPlugin struct {
-		plugin.MattermostPlugin
+		plugin.SofaPlugin
 	}
 
 	func checkForChannels(channels []*model.Channel, expectedLength int, channel1Expected, channel2Expected, dmChannelExpected bool) string {
@@ -3145,8 +3145,8 @@ func TestPluginPatchChannelMembersNotifications(t *testing.T) {
 		pluginCode := `
 			package main
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
-				"github.com/mattermost/mattermost/server/public/model"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/model"
 			)
 
 			const (
@@ -3156,7 +3156,7 @@ func TestPluginPatchChannelMembersNotifications(t *testing.T) {
 			)
 
 			type TestPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *TestPlugin) OnActivate() error {
@@ -3213,8 +3213,8 @@ func TestPluginPatchChannelMembersNotifications(t *testing.T) {
 		pluginCode := `
 			package main
 			import (
-				"github.com/mattermost/mattermost/server/public/plugin"
-				"github.com/mattermost/mattermost/server/public/model"
+				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/marwan2023nn-coder/sofa/server/public/model"
 			)
 
 			const (
@@ -3223,7 +3223,7 @@ func TestPluginPatchChannelMembersNotifications(t *testing.T) {
 			)
 
 			type TestPlugin struct {
-				plugin.MattermostPlugin
+				plugin.SofaPlugin
 			}
 
 			func (p *TestPlugin) OnActivate() error {
@@ -3260,11 +3260,11 @@ func TestPluginServeHTTPCompatibility(t *testing.T) {
 
 	import (
 		"net/http"
-		"github.com/mattermost/mattermost/server/public/plugin"
+		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.MattermostPlugin
+		plugin.SofaPlugin
 	}
 
 	func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {

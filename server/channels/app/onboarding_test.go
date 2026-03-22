@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -8,7 +8,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	mm_model "github.com/mattermost/mattermost/server/public/model"
+	mm_model "github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func TestOnboardingSavesOrganizationName(t *testing.T) {
@@ -16,7 +16,7 @@ func TestOnboardingSavesOrganizationName(t *testing.T) {
 	th := Setup(t)
 
 	appErr := th.App.CompleteOnboarding(th.Context, &mm_model.CompleteOnboardingRequest{
-		Organization: "Mattermost In Tests",
+		Organization: "Sofa In Tests",
 	})
 	require.Nil(t, appErr)
 	defer func() {
@@ -26,5 +26,5 @@ func TestOnboardingSavesOrganizationName(t *testing.T) {
 
 	sys, storeErr := th.App.Srv().Store().System().GetByName(mm_model.SystemOrganizationName)
 	require.NoError(t, storeErr)
-	require.Equal(t, "Mattermost In Tests", sys.Value)
+	require.Equal(t, "Sofa In Tests", sys.Value)
 }

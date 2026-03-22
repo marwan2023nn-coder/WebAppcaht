@@ -1,18 +1,18 @@
-# E2E testing for the Mattermost web client
+# E2E testing for the Sofa web client
 
-This directory contains the E2E testing code for the Mattermost web client.
+This directory contains the E2E testing code for the Sofa web client.
 
 ### How to run locally
 
 ##### For test case development
 
-Please refer to the [dedicated developer documentation](https://developers.mattermost.com/contribute/more-info/webapp/e2e-testing/) for instructions.
+Please refer to the [dedicated developer documentation](https://developers.sofa.com/contribute/more-info/webapp/e2e-testing/) for instructions.
 
 ##### For pipeline debugging
 
 The E2E testing pipeline's scripts depend on the following tools being installed on your system: `docker`, `docker-compose`, `make`, `git`, `jq`, `node`, and some common utilities (`coreutils`, `findutils`, `bash`, `awk`, `sed`, `grep`)
 
-Instructions, tl;dr: create a local branch with your E2E test changes, then open a PR to the `mattermost-server` repo targeting the `master` branch (so that CI will produce the image that docker-compose needs), then run `make` in this directory.
+Instructions, tl;dr: create a local branch with your E2E test changes, then open a PR to the `sofa-server` repo targeting the `master` branch (so that CI will produce the image that docker-compose needs), then run `make` in this directory.
 
 Instructions, detailed:
 1. (optional, undefined variables are set to sane defaults) Create the `.ci/env` file, and populate it with the variables you need out of the following list:
@@ -25,7 +25,7 @@ Instructions, detailed:
     - Playwright full tests require only the following: `postgres inbucket`.
   * The following variables, will be passed over to the server container: `MM_LICENSE` (no enterprise features will be available if this is unset; required when `SERVER=cloud`), and the exploded `MM_ENV` (a comma-separated list of env var specifications)
   * The following variables, which will be passed over to the cypress container: `BRANCH`, `BUILD_ID`, `CI_BASE_URL`, `BROWSER`, `AUTOMATION_DASHBOARD_URL` and `AUTOMATION_DASHBOARD_TOKEN`
-  * The `SERVER_IMAGE` variable can also be set if you want to select a custom mattermost-server image. If not specified, the value of the `SERVER_IMAGE_DEFAULT` variable defined in file `.ci/.e2erc` is used.
+  * The `SERVER_IMAGE` variable can also be set if you want to select a custom sofa-server image. If not specified, the value of the `SERVER_IMAGE_DEFAULT` variable defined in file `.ci/.e2erc` is used.
   * The `TEST_FILTER` variable can also be set, to customize which tests you want Cypress/Playwright to run. If not specified, only the smoke tests will run
     - Its format depends on which tool is used: for Cypress, please check the `e2e-tests/cypress/run_tests.js` file for details. For Playwright, it can simply be populated with arguments you want to give to the `playwright test` command.
   * More variables may be required to configure reporting and cloud interactions. Check the content of the `.ci/report.*.sh` and `.ci/server.cloud_*.sh` scripts for reference.
@@ -57,7 +57,7 @@ Notes:
   * If you need to introduce variables that you want to control from `.ci/env`: you need to update the scripts under the `.ci/` dir and configure them to write the new variables' values over to the appropriate `.env.*` file. In particular, avoid defining variables that depend on other variables within the docker-compose override files: this is to ensure uniformity in their availability and simplifies the question of what container has access to which variable considerably.
   * Exceptions are of course accepted wherever it makes sense (e.g. if you need to group variables based on some common functionality)
 - The `report` Make target is meant for internal usage. Usage and variables are documented in the respective scripts.
-- `make start-server` won't cleanup containers that don't change across runs. This means that you can use it to emulate a Mattermost server upgrade while retaining your database data by simply changing the `SERVER_IMAGE` variable on your machine, and then re-running `make start-server`. But this also means that if you want to run a clean local environment, you may have to manually run `make stop` to cleanup any running containers and their volumes, which include e.g. the database.
+- `make start-server` won't cleanup containers that don't change across runs. This means that you can use it to emulate a Sofa server upgrade while retaining your database data by simply changing the `SERVER_IMAGE` variable on your machine, and then re-running `make start-server`. But this also means that if you want to run a clean local environment, you may have to manually run `make stop` to cleanup any running containers and their volumes, which include e.g. the database.
 
 ##### For code changes:
 * `make fmt-ci` to format and check yaml files and shell scripts.
@@ -68,7 +68,7 @@ For Cypress:
 1. Enter the `cypress/` subdirectory
 2. Identify which test files you want to run, and how many times each. For instance: suppose you want to run `create_a_team_spec.js` and `demoted_user_spec.js` (which you can locate with the `find` command, under `cypress/tests/`), each run 3 times
 3. Run the chosen testcases the desired amount of times: `node run_tests.js --include-file=create_a_team_spec.js,demoted_user_spec.js --invert --stress-test-count=3`
-  * Your system needs to be setup for Cypress usage, to be able to run this command. Refer to the [E2E testing developer documentation](https://developers.mattermost.com/contribute/more-info/webapp/e2e-testing/) for this.
+  * Your system needs to be setup for Cypress usage, to be able to run this command. Refer to the [E2E testing developer documentation](https://developers.sofa.com/contribute/more-info/webapp/e2e-testing/) for this.
 4. The `cypress/results/testPasses.json` file will count, for each of the testfiles, how many times it was run, and how many times each of the testcases contained in it passed. If the attempts and passes numbers do not match, that specific testcase may be flaky.
 
 For Playwright: WIP

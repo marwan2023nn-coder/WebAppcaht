@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 const (
@@ -25,7 +25,7 @@ const (
 	SessionPropIsBot                      = "is_bot"
 	SessionPropIsBotValue                 = "true"
 	SessionPropOAuthAppID                 = "oauth_app_id"
-	SessionPropMattermostAppID            = "mattermost_app_id"
+	SessionPropSofaAppID            = "sofa_app_id"
 	SessionPropLastRemovedDeviceId        = "last_removed_device_id"
 	SessionPropDeviceNotificationDisabled = "device_notification_disabled"
 	SessionPropMobileVersion              = "mobile_version"

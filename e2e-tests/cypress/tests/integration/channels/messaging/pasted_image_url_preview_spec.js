@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -21,7 +21,7 @@ describe('Image URL Preview', () => {
 
     it('MM-T1 - Image URL in markdown format opens correctly in preview modal', () => {
         // # Post a message with text and an image URL in markdown format
-        const imageUrl = 'https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
+        const imageUrl = 'https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
         cy.postMessage('This is a test message with an image.![test image](' + imageUrl + ') This text should appear after the image.');
 
         // * Confirm the image is rendered in the post
@@ -45,7 +45,7 @@ describe('Image URL Preview', () => {
 
     it('MM-T2 - Image URL without file extension in markdown format opens correctly in preview modal', () => {
         // # Post a message with text and an image URL without file extension in markdown format
-        const imageUrl = 'https://hub.mattermost.com/files/sdrkars9kfdrxmyj4gcz6xk9de/public?h=dM-SC6JuRu0DarFyFPEMG_-io9gi7VY2qNV4Z59TmsM';
+        const imageUrl = 'https://hub.sofa.com/files/sdrkars9kfdrxmyj4gcz6xk9de/public?h=dM-SC6JuRu0DarFyFPEMG_-io9gi7VY2qNV4Z59TmsM';
         cy.postMessage('This is a test message with an image without extension.![test image](' + imageUrl + ') This text should appear after the image.');
 
         // * Confirm the image is rendered in the post
@@ -69,7 +69,7 @@ describe('Image URL Preview', () => {
 
     it('MM-T3 - Proxied image URL in markdown format opens correctly in preview modal', () => {
         // # Post a message with text and a proxied image URL in markdown format
-        const originalImageUrl = 'https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
+        const originalImageUrl = 'https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
         const proxiedImageUrl = Cypress.config('baseUrl') + '/api/v4/image?url=' + encodeURIComponent(originalImageUrl);
         cy.postMessage('This is a test message with a proxied image URL.![test image](' + proxiedImageUrl + ') This text should appear after the image.');
 

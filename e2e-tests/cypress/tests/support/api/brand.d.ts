@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /// <reference types="cypress" />
@@ -8,7 +8,7 @@
 // See https://jsdoc.app/index.html for reference.
 // Basic requirements for documentation are the following:
 // - Meaningful description
-// - Specific link to https://api.mattermost.com
+// - Specific link to https://api.sofa.com
 // - Each parameter with `@params`
 // - Return value with `@returns`
 // - Example usage with `@example`
@@ -20,7 +20,7 @@ declare namespace Cypress {
 
         /**
          * Delete the custom brand image.
-         * See https://api.mattermost.com/#tag/brand/paths/~1brand~1image/delete
+         * See https://api.sofa.com/#tag/brand/paths/~1brand~1image/delete
          * @returns {Response} response: Cypress-chainable response which should have either a successful HTTP status of 200 OK
          * or a 404 Not Found in case that the image didn't exists to continue or pass.
          *

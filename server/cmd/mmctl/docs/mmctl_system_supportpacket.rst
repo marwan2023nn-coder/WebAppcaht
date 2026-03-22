@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Generate and download a Support Packet of the server to share it with Mattermost Support
+Generate and download a Support Packet of the server to share it with Sofa Support
 
 ::
 

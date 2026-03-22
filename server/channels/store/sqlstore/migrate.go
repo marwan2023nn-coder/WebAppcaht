@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -13,13 +13,13 @@ import (
 	"strconv"
 	"sync"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/db"
-	"github.com/mattermost/morph"
-	ps "github.com/mattermost/morph/drivers/postgres"
-	"github.com/mattermost/morph/models"
-	mbindata "github.com/mattermost/morph/sources/embedded"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/db"
+	"github.com/sofa/morph"
+	ps "github.com/sofa/morph/drivers/postgres"
+	"github.com/sofa/morph/models"
+	mbindata "github.com/sofa/morph/sources/embedded"
 )
 
 type Migrator struct {

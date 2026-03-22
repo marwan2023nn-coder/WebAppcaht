@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package email
 
 import (
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
 )
 
 func (es *Service) mailServiceConfig(replyToAddress string) *mail.SMTPConfig {

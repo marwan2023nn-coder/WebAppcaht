@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-List all enabled and disabled plugins installed on your Mattermost server.
+List all enabled and disabled plugins installed on your Sofa server.
 
 ::
 

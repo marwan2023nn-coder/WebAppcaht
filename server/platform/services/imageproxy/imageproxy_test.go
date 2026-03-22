@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package imageproxy
@@ -7,19 +7,19 @@ import (
 	"net/url"
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
 func TestGetProxiedImageURL(t *testing.T) {
-	siteURL := "https://mattermost.example.com"
+	siteURL := "https://sofa.example.com"
 	parsedURL, err := url.Parse(siteURL)
 	require.NoError(t, err)
 
-	imageURL := "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png"
-	proxiedURL := "https://mattermost.example.com/api/v4/image?url=https%3A%2F%2Fmattermost.com%2Fwp-content%2Fuploads%2F2022%2F02%2FlogoHorizontal.png"
+	imageURL := "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png"
+	proxiedURL := "https://sofa.example.com/api/v4/image?url=https%3A%2F%2Fsofa.com%2Fwp-content%2Fuploads%2F2022%2F02%2FlogoHorizontal.png"
 
 	proxy := ImageProxy{siteURL: parsedURL}
 
@@ -36,7 +36,7 @@ func TestGetProxiedImageURL(t *testing.T) {
 		{
 			Name:     "should not proxy a relative image",
 			Input:    "/static/logo.png",
-			Expected: "https://mattermost.example.com/static/logo.png",
+			Expected: "https://sofa.example.com/static/logo.png",
 		},
 		{
 			Name:     "should bypass opaque URLs",
@@ -44,9 +44,9 @@ func TestGetProxiedImageURL(t *testing.T) {
 			Expected: siteURL,
 		},
 		{
-			Name:     "should not proxy an image on the Mattermost server",
-			Input:    "https://mattermost.example.com/static/logo.png",
-			Expected: "https://mattermost.example.com/static/logo.png",
+			Name:     "should not proxy an image on the Sofa server",
+			Input:    "https://sofa.example.com/static/logo.png",
+			Expected: "https://sofa.example.com/static/logo.png",
 		},
 		{
 			Name:     "should not proxy an image that has already been proxied",
@@ -55,18 +55,18 @@ func TestGetProxiedImageURL(t *testing.T) {
 		},
 		{
 			Name:     "should not bypass protocol relative URLs",
-			Input:    "//mattermost.com/static/logo.png",
-			Expected: "https://mattermost.example.com/api/v4/image?url=https%3A%2F%2Fmattermost.com%2Fstatic%2Flogo.png",
+			Input:    "//sofa.com/static/logo.png",
+			Expected: "https://sofa.example.com/api/v4/image?url=https%3A%2F%2Fsofa.com%2Fstatic%2Flogo.png",
 		},
 		{
 			Name:     "should not bypass if the host prefix is same",
-			Input:    "https://mattermost.example.com.anothersite.com/static/logo.png",
-			Expected: "https://mattermost.example.com/api/v4/image?url=https%3A%2F%2Fmattermost.example.com.anothersite.com%2Fstatic%2Flogo.png",
+			Input:    "https://sofa.example.com.anothersite.com/static/logo.png",
+			Expected: "https://sofa.example.com/api/v4/image?url=https%3A%2F%2Fsofa.example.com.anothersite.com%2Fstatic%2Flogo.png",
 		},
 		{
 			Name:     "should not bypass for user auth URLs",
-			Input:    "https://mattermost.example.com@anothersite.com/static/logo.png",
-			Expected: "https://mattermost.example.com/api/v4/image?url=https%3A%2F%2Fmattermost.example.com%40anothersite.com%2Fstatic%2Flogo.png",
+			Input:    "https://sofa.example.com@anothersite.com/static/logo.png",
+			Expected: "https://sofa.example.com/api/v4/image?url=https%3A%2F%2Fsofa.example.com%40anothersite.com%2Fstatic%2Flogo.png",
 		},
 		{
 			Name:     "should not proxy embedded image",
@@ -81,10 +81,10 @@ func TestGetProxiedImageURL(t *testing.T) {
 }
 
 func TestGetUnproxiedImageURL(t *testing.T) {
-	siteURL := "https://mattermost.example.com"
+	siteURL := "https://sofa.example.com"
 
-	imageURL := "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png"
-	proxiedURL := "https://mattermost.example.com/api/v4/image?url=https%3A%2F%2Fmattermost.com%2Fwp-content%2Fuploads%2F2022%2F02%2FlogoHorizontal.png"
+	imageURL := "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png"
+	proxiedURL := "https://sofa.example.com/api/v4/image?url=https%3A%2F%2Fsofa.com%2Fwp-content%2Fuploads%2F2022%2F02%2FlogoHorizontal.png"
 
 	for _, test := range []struct {
 		Name     string
@@ -102,9 +102,9 @@ func TestGetUnproxiedImageURL(t *testing.T) {
 			Expected: "/static/logo.png",
 		},
 		{
-			Name:     "should not remove proxy from an image on the Mattermost server",
-			Input:    "https://mattermost.example.com/static/logo.png",
-			Expected: "https://mattermost.example.com/static/logo.png",
+			Name:     "should not remove proxy from an image on the Sofa server",
+			Input:    "https://sofa.example.com/static/logo.png",
+			Expected: "https://sofa.example.com/static/logo.png",
 		},
 		{
 			Name:     "should not remove proxy from a non-proxied image",
@@ -122,28 +122,28 @@ func TestOnConfigChange(t *testing.T) {
 	t.Run("should switch between backends", func(t *testing.T) {
 		proxy := makeTestAtmosCamoProxy()
 
-		require.Equal(t, "https://mattermost.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
 
 		newConfig := proxy.ConfigService.Config().Clone()
 		newConfig.ImageProxySettings.ImageProxyType = model.NewPointer(model.ImageProxyTypeLocal)
 
 		proxy.ConfigService.(*testutils.StaticConfigService).UpdateConfig(newConfig)
 
-		require.Equal(t, "https://mattermost.example.com", proxy.backend.(*LocalBackend).baseURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.backend.(*LocalBackend).baseURL.String())
 
 		newConfig = proxy.ConfigService.Config().Clone()
 		newConfig.ImageProxySettings.ImageProxyType = model.NewPointer(model.ImageProxyTypeAtmosCamo)
 
 		proxy.ConfigService.(*testutils.StaticConfigService).UpdateConfig(newConfig)
 
-		require.Equal(t, "https://mattermost.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
 	})
 
 	t.Run("for local proxy, should update site URL when that changes", func(t *testing.T) {
 		proxy := makeTestLocalProxy()
 
-		require.Equal(t, "https://mattermost.example.com", proxy.siteURL.String())
-		require.Equal(t, "https://mattermost.example.com", proxy.backend.(*LocalBackend).baseURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.siteURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.backend.(*LocalBackend).baseURL.String())
 
 		newConfig := proxy.ConfigService.Config().Clone()
 		newConfig.ServiceSettings.SiteURL = model.NewPointer("https://new.example.com")
@@ -157,8 +157,8 @@ func TestOnConfigChange(t *testing.T) {
 	t.Run("for atmos/camo proxy, should update site URL when that changes", func(t *testing.T) {
 		proxy := makeTestAtmosCamoProxy()
 
-		require.Equal(t, "https://mattermost.example.com", proxy.siteURL.String())
-		require.Equal(t, "https://mattermost.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.siteURL.String())
+		require.Equal(t, "https://sofa.example.com", proxy.backend.(*AtmosCamoBackend).siteURL.String())
 
 		newConfig := proxy.ConfigService.Config().Clone()
 		newConfig.ServiceSettings.SiteURL = model.NewPointer("https://new.example.com")

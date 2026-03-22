@@ -9,10 +9,10 @@ clients:
   - url: http://loki:3100/loki/api/v1/push
 
 scrape_configs:
-  - job_name: mattermost
+  - job_name: sofa
     pipeline_stages:
       - match:
-          selector: '{job="mattermost"}'
+          selector: '{job="sofa"}'
           stages:
             - json:
                 expressions:
@@ -27,8 +27,8 @@ scrape_configs:
     - targets:
         - localhost
       labels:
-        job: mattermost
-        app: mattermost
+        job: sofa
+        app: sofa
         __path__: /logs/*.log
   # https://ruanbekker.medium.com/logging-with-docker-promtail-and-grafana-loki-d920fd790ca8
   - job_name: docker

@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	model "github.com/mattermost/mattermost/server/public/model"
+	model "github.com/marwan2023nn-coder/sofa/server/public/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -63,7 +63,7 @@ func (_m *NotifyAdminStore) Get(trial bool) ([]*model.NotifyAdminData, error) {
 }
 
 // GetDataByUserIdAndFeature provides a mock function with given fields: userID, feature
-func (_m *NotifyAdminStore) GetDataByUserIdAndFeature(userID string, feature model.MattermostFeature) ([]*model.NotifyAdminData, error) {
+func (_m *NotifyAdminStore) GetDataByUserIdAndFeature(userID string, feature model.SofaFeature) ([]*model.NotifyAdminData, error) {
 	ret := _m.Called(userID, feature)
 
 	if len(ret) == 0 {
@@ -72,10 +72,10 @@ func (_m *NotifyAdminStore) GetDataByUserIdAndFeature(userID string, feature mod
 
 	var r0 []*model.NotifyAdminData
 	var r1 error
-	if rf, ok := ret.Get(0).(func(string, model.MattermostFeature) ([]*model.NotifyAdminData, error)); ok {
+	if rf, ok := ret.Get(0).(func(string, model.SofaFeature) ([]*model.NotifyAdminData, error)); ok {
 		return rf(userID, feature)
 	}
-	if rf, ok := ret.Get(0).(func(string, model.MattermostFeature) []*model.NotifyAdminData); ok {
+	if rf, ok := ret.Get(0).(func(string, model.SofaFeature) []*model.NotifyAdminData); ok {
 		r0 = rf(userID, feature)
 	} else {
 		if ret.Get(0) != nil {
@@ -83,7 +83,7 @@ func (_m *NotifyAdminStore) GetDataByUserIdAndFeature(userID string, feature mod
 		}
 	}
 
-	if rf, ok := ret.Get(1).(func(string, model.MattermostFeature) error); ok {
+	if rf, ok := ret.Get(1).(func(string, model.SofaFeature) error); ok {
 		r1 = rf(userID, feature)
 	} else {
 		r1 = ret.Error(1)
@@ -123,7 +123,7 @@ func (_m *NotifyAdminStore) Save(data *model.NotifyAdminData) (*model.NotifyAdmi
 }
 
 // Update provides a mock function with given fields: userID, requiredPlan, requiredFeature, now
-func (_m *NotifyAdminStore) Update(userID string, requiredPlan string, requiredFeature model.MattermostFeature, now int64) error {
+func (_m *NotifyAdminStore) Update(userID string, requiredPlan string, requiredFeature model.SofaFeature, now int64) error {
 	ret := _m.Called(userID, requiredPlan, requiredFeature, now)
 
 	if len(ret) == 0 {
@@ -131,7 +131,7 @@ func (_m *NotifyAdminStore) Update(userID string, requiredPlan string, requiredF
 	}
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(string, string, model.MattermostFeature, int64) error); ok {
+	if rf, ok := ret.Get(0).(func(string, string, model.SofaFeature, int64) error); ok {
 		r0 = rf(userID, requiredPlan, requiredFeature, now)
 	} else {
 		r0 = ret.Error(0)

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package testlib
@@ -12,11 +12,11 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/utils"
-	"github.com/mattermost/mattermost/server/v8"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/filestore"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/filestore"
 )
 
 const (
@@ -29,7 +29,7 @@ const (
 	actionSymlink
 )
 
-const root = "___mattermost-server"
+const root = "___sofa-server"
 
 type testResourceDetails struct {
 	src     string
@@ -77,7 +77,7 @@ func getTestResourcesToSetup() []testResourceDetails {
 	var found bool
 
 	var testResourcesToSetup = []testResourceDetails{
-		{root, "mattermost-server", resourceTypeFolder, actionSymlink},
+		{root, "sofa-server", resourceTypeFolder, actionSymlink},
 		{"go.mod", "go.mod", resourceTypeFile, actionSymlink},
 		{"i18n", "i18n", resourceTypeFolder, actionSymlink},
 		{"templates", "templates", resourceTypeFolder, actionSymlink},

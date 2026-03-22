@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -18,8 +18,8 @@ import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {backToTeam, saveSetting} from './helper';
 
 describe('SupportSettings', () => {
-    const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
-    const privacyLink = 'https://github.com/mattermost/platform/blob/master/README.md';
+    const tosLink = 'https://github.com/sofa/platform/blob/master/README.md';
+    const privacyLink = 'https://github.com/sofa/platform/blob/master/README.md';
 
     let siteName;
 

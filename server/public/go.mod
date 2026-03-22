@@ -1,4 +1,4 @@
-module github.com/mattermost/mattermost/server/public
+module github.com/marwan2023nn-coder/sofa/server/public
 
 go 1.24.11
 
@@ -14,11 +14,11 @@ require (
 	github.com/hashicorp/go-multierror v1.1.1
 	github.com/hashicorp/go-plugin v1.7.0
 	github.com/lib/pq v1.10.9
-	github.com/mattermost/go-i18n v1.11.1-0.20211013152124-5c415071e404
-	github.com/mattermost/gosaml2 v0.10.0
-	github.com/mattermost/ldap v0.0.0-20231116144001-0f480c025956
-	github.com/mattermost/logr/v2 v2.0.22
-	github.com/mattermost/mattermost/server/v8 v8.0.0-20251014075701-833e0125320d
+	github.com/sofa/go-i18n v1.11.1-0.20211013152124-5c415071e404
+	github.com/sofa/gosaml2 v0.10.0
+	github.com/sofa/ldap v0.0.0-20231116144001-0f480c025956
+	github.com/sofa/logr/v2 v2.0.22
+	github.com/marwan2023nn-coder/sofa/server/v8 v8.0.0-20251014075701-833e0125320d
 	github.com/nicksnyder/go-i18n/v2 v2.6.0
 	github.com/pborman/uuid v1.2.1
 	github.com/pkg/errors v0.9.1
@@ -45,7 +45,7 @@ require (
 	github.com/hashicorp/yamux v0.1.2 // indirect
 	github.com/jonboulle/clockwork v0.5.0 // indirect
 	github.com/kr/pretty v0.3.1 // indirect
-	github.com/mattermost/xml-roundtrip-validator v0.1.0 // indirect
+	github.com/sofa/xml-roundtrip-validator v0.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/oklog/run v1.2.0 // indirect

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package email
@@ -8,31 +8,31 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
 )
 
 func TestCondenseSiteURL(t *testing.T) {
 	mainHelper.Parallel(t)
 
 	require.Equal(t, "", condenseSiteURL(""))
-	require.Equal(t, "mattermost.com", condenseSiteURL("mattermost.com"))
-	require.Equal(t, "mattermost.com", condenseSiteURL("mattermost.com/"))
-	require.Equal(t, "chat.mattermost.com", condenseSiteURL("chat.mattermost.com"))
-	require.Equal(t, "chat.mattermost.com", condenseSiteURL("chat.mattermost.com/"))
-	require.Equal(t, "mattermost.com/subpath", condenseSiteURL("mattermost.com/subpath"))
-	require.Equal(t, "mattermost.com/subpath", condenseSiteURL("mattermost.com/subpath/"))
-	require.Equal(t, "chat.mattermost.com/subpath", condenseSiteURL("chat.mattermost.com/subpath"))
-	require.Equal(t, "chat.mattermost.com/subpath", condenseSiteURL("chat.mattermost.com/subpath/"))
+	require.Equal(t, "sofa.com", condenseSiteURL("sofa.com"))
+	require.Equal(t, "sofa.com", condenseSiteURL("sofa.com/"))
+	require.Equal(t, "chat.sofa.com", condenseSiteURL("chat.sofa.com"))
+	require.Equal(t, "chat.sofa.com", condenseSiteURL("chat.sofa.com/"))
+	require.Equal(t, "sofa.com/subpath", condenseSiteURL("sofa.com/subpath"))
+	require.Equal(t, "sofa.com/subpath", condenseSiteURL("sofa.com/subpath/"))
+	require.Equal(t, "chat.sofa.com/subpath", condenseSiteURL("chat.sofa.com/subpath"))
+	require.Equal(t, "chat.sofa.com/subpath", condenseSiteURL("chat.sofa.com/subpath/"))
 
-	require.Equal(t, "mattermost.com:8080", condenseSiteURL("http://mattermost.com:8080"))
-	require.Equal(t, "mattermost.com:8080", condenseSiteURL("http://mattermost.com:8080/"))
-	require.Equal(t, "chat.mattermost.com:8080", condenseSiteURL("http://chat.mattermost.com:8080"))
-	require.Equal(t, "chat.mattermost.com:8080", condenseSiteURL("http://chat.mattermost.com:8080/"))
-	require.Equal(t, "mattermost.com:8080/subpath", condenseSiteURL("http://mattermost.com:8080/subpath"))
-	require.Equal(t, "mattermost.com:8080/subpath", condenseSiteURL("http://mattermost.com:8080/subpath/"))
-	require.Equal(t, "chat.mattermost.com:8080/subpath", condenseSiteURL("http://chat.mattermost.com:8080/subpath"))
-	require.Equal(t, "chat.mattermost.com:8080/subpath", condenseSiteURL("http://chat.mattermost.com:8080/subpath/"))
+	require.Equal(t, "sofa.com:8080", condenseSiteURL("http://sofa.com:8080"))
+	require.Equal(t, "sofa.com:8080", condenseSiteURL("http://sofa.com:8080/"))
+	require.Equal(t, "chat.sofa.com:8080", condenseSiteURL("http://chat.sofa.com:8080"))
+	require.Equal(t, "chat.sofa.com:8080", condenseSiteURL("http://chat.sofa.com:8080/"))
+	require.Equal(t, "sofa.com:8080/subpath", condenseSiteURL("http://sofa.com:8080/subpath"))
+	require.Equal(t, "sofa.com:8080/subpath", condenseSiteURL("http://sofa.com:8080/subpath/"))
+	require.Equal(t, "chat.sofa.com:8080/subpath", condenseSiteURL("http://chat.sofa.com:8080/subpath"))
+	require.Equal(t, "chat.sofa.com:8080/subpath", condenseSiteURL("http://chat.sofa.com:8080/subpath/"))
 }
 
 func TestSendInviteEmails(t *testing.T) {

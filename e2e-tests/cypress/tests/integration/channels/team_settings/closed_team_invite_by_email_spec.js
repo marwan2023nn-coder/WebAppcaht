@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -23,7 +23,7 @@ describe('Team Settings', () => {
     const sysadmin = getAdminAccount();
     const randomId = getRandomId();
     const username = `user${randomId}`;
-    const email = `user${randomId}@sample.mattermost.com`;
+    const email = `user${randomId}@sample.sofa.com`;
     const password = 'passwd';
 
     let testTeam;
@@ -68,7 +68,7 @@ describe('Team Settings', () => {
             });
 
             // * Verify that the '#allowedDomains' input field is empty
-            cy.get('#allowedDomains').should('have.text', 'corp.mattermost.com, mattermost.com');
+            cy.get('#allowedDomains').should('have.text', 'corp.sofa.com, sofa.com');
 
             // # Close the modal
             cy.get('#teamSettingsModalLabel').find('button').should('be.visible').click();

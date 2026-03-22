@@ -10,8 +10,8 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/pluginapi"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
 )
 
 type Name string
@@ -53,7 +53,7 @@ func NewFlow(name Name, api *pluginapi.Client, pluginID, botUserID string) (*Flo
 	}
 
 	if config.ServiceSettings.SiteURL == nil {
-		return nil, errors.New("please configure the Mattermost Server's SiteURL, then restart the plugin.")
+		return nil, errors.New("please configure the Sofa Server's SiteURL, then restart the plugin.")
 	}
 
 	return &Flow{

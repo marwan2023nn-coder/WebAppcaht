@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // The plugintest package provides mocks that can be used to test plugins.
@@ -7,5 +7,5 @@
 // https://godoc.org/github.com/stretchr/testify/mock
 //
 // If you need to import the mock package, you can import it with
-// "github.com/mattermost/mattermost/server/public/plugin/plugintest/mock".
+// "github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock".
 package plugintest

@@ -1,8 +1,8 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {expect} from '@playwright/test';
-import {TeamType} from '@mattermost/types/teams';
+import {TeamType} from '@sofa/types/teams';
 
 import {makeClient} from './client';
 import {getOnPremServerConfig} from './default_config';
@@ -49,7 +49,7 @@ export async function initSetup({
         const {client: userClient} = await makeClient(user);
 
         if (withDefaultProfileImage) {
-            const file = getFileFromCommonAsset('mattermost-icon_128x128.png');
+            const file = getFileFromCommonAsset('sofa-icon_128x128.png');
             await userClient.uploadProfileImage(user.id, file);
         }
 

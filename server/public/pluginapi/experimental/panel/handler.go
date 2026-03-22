@@ -7,9 +7,9 @@ import (
 	"github.com/gorilla/mux"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/common"
-	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/panel/settings"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi/experimental/common"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi/experimental/panel/settings"
 )
 
 type handler struct {
@@ -26,8 +26,8 @@ func Init(r *mux.Router, panel Panel) {
 }
 
 func (sh *handler) handleAction(w http.ResponseWriter, r *http.Request) {
-	mattermostUserID := r.Header.Get("Mattermost-User-ID")
-	if mattermostUserID == "" {
+	sofaUserID := r.Header.Get("Sofa-User-ID")
+	if sofaUserID == "" {
 		common.SlackAttachmentError(w, errors.New("Not authorized"))
 		return
 	}
@@ -54,14 +54,14 @@ func (sh *handler) handleAction(w http.ResponseWriter, r *http.Request) {
 	}
 
 	idString := id.(string)
-	err := sh.panel.Set(mattermostUserID, idString, value)
+	err := sh.panel.Set(sofaUserID, idString, value)
 	if err != nil {
 		common.SlackAttachmentError(w, errors.Wrap(err, "cannot save setting"))
 		return
 	}
 
 	response := model.PostActionIntegrationResponse{}
-	post, err := sh.panel.ToPost(mattermostUserID)
+	post, err := sh.panel.ToPost(sofaUserID)
 	if err == nil {
 		response.Update = post
 	}

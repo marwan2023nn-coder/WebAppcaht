@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package filestore
@@ -12,7 +12,7 @@ import (
 
 // customTransport is used to point the request to a different server.
 // This is helpful in situations where a different service is handling AWS S3 requests
-// from multiple Mattermost applications, and the Mattermost service itself does not
+// from multiple Sofa applications, and the Sofa service itself does not
 // have any S3 credentials.
 type customTransport struct {
 	host   string

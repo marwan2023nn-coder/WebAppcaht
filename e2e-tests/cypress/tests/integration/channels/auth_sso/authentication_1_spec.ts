@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -14,7 +14,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 import {getRandomId} from '../../../utils';
 
 describe('Authentication', () => {
-    const restrictCreationToDomains = 'mattermost.com, test.com';
+    const restrictCreationToDomains = 'sofa.com, test.com';
     let testUser;
     let testUserAlreadyInTeam;
     let testTeam;
@@ -55,7 +55,7 @@ describe('Authentication', () => {
         // # Go to sign up with email page
         cy.visit('/signup_user_complete');
 
-        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`test-${getRandomId()}@mattermost.com`);
+        cy.get('#input_email', {timeout: TIMEOUTS.ONE_MIN}).type(`test-${getRandomId()}@sofa.com`);
 
         cy.get('#input_password-input').type('Test123456!');
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package markdown
@@ -111,7 +111,7 @@ func TestParseEmoji(t *testing.T) {
 }
 
 func TestParseEmojiFull(t *testing.T) {
-	// These tests are based on https://github.com/mattermost/commonmark.js/blob/master/test/mattermost.txt
+	// These tests are based on https://github.com/sofa/commonmark.js/blob/master/test/sofa.txt
 
 	for name, tc := range map[string]struct {
 		Markdown     string

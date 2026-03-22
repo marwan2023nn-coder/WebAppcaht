@@ -1,15 +1,15 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel, ChannelMembership, ChannelType} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
+import {Channel, ChannelMembership, ChannelType} from '@sofa/types/channels';
+import {UserProfile} from '@sofa/types/users';
 import {ChainableT} from 'tests/types';
 
 import {getRandomId} from '../../utils';
 
 // *****************************************************************************
 // Channels
-// https://api.mattermost.com/#tag/channels
+// https://api.sofa.com/#tag/channels
 // *****************************************************************************
 
 export function createChannelPatch(teamId: string, name: string, displayName: string, type: ChannelType = 'O', purpose = '', header = '', unique = true): Partial<Channel> {
@@ -27,7 +27,7 @@ export function createChannelPatch(teamId: string, name: string, displayName: st
 
 /**
  * Create a new channel.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels/post
+ * See https://api.sofa.com/#tag/channels/paths/~1channels/post
  * @param {String} teamId - Unique handler for a team, will be present in the team URL
  * @param {String} name - Unique handler for a channel, will be present in the team URL
  * @param {String} displayName - Non-unique UI name for the channel
@@ -65,7 +65,7 @@ Cypress.Commands.add('apiCreateChannel', apiCreateChannel);
 
 /**
  * Create a new direct message channel between two users.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1direct/post
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1direct/post
  * @param {string[]} userIds - The two user ids to be in the direct message
  * @returns {Channel} `out.channel` as `Channel`
  *
@@ -90,7 +90,7 @@ Cypress.Commands.add('apiCreateDirectChannel', apiCreateDirectChannel);
 
 /**
  * Create a new group message channel to group of users via API. If the logged in user's id is not included in the list, it will be appended to the end.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1group/post
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1group/post
  * @param {string[]} userIds - User ids to be in the group message channel
  * @returns {Channel} `out.channel` as `Channel`
  *
@@ -116,7 +116,7 @@ Cypress.Commands.add('apiCreateGroupChannel', apiCreateGroupChannel);
 /**
  * Update a channel.
  * The fields that can be updated are listed as parameters. Omitted fields will be treated as blanks.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/put
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}/put
  * @param {string} channelId - The channel ID to be updated
  * @param {Channel} channel - Channel object to be updated
  * @param {string} channel.name - The unique handle for the channel, will be present in the channel URL
@@ -149,7 +149,7 @@ Cypress.Commands.add('apiUpdateChannel', apiUpdateChannel);
  * Partially update a channel by providing only the fields you want to update.
  * Omitted fields will not be updated.
  * The fields that can be updated are defined in the request body, all other provided fields will be ignored.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1patch/put
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}~1patch/put
  * @param {string} channelId - The channel ID to be patched
  * @param {Channel} channel - Channel object to be patched
  * @param {string} channel.name - The unique handle for the channel, will be present in the channel URL
@@ -177,7 +177,7 @@ Cypress.Commands.add('apiPatchChannel', apiPatchChannel);
 
 /**
  * Updates channel's privacy allowing changing a channel from Public to Private and back.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1privacy/put
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}~1privacy/put
  * @param {string} channelId - The channel ID to be patched
  * @param {string} privacy - The privacy the channel should be set too. P = Private, O = Open
  * @returns {Channel} `out.channel` as `Channel`
@@ -201,7 +201,7 @@ Cypress.Commands.add('apiPatchChannelPrivacy', apiPatchChannelPrivacy);
 
 /**
  * Get channel from the provided channel id string.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/get
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}/get
  * @param {string} channelId - Channel ID
  * @returns {Channel} `out.channel` as `Channel`
  *
@@ -224,7 +224,7 @@ Cypress.Commands.add('apiGetChannel', apiGetChannel);
 
 /**
  * Gets a channel from the provided team name and channel name strings.
- * See https://api.mattermost.com/#tag/channels/paths/~1teams~1name~1{team_name}~1channels~1name~1{channel_name}/get
+ * See https://api.sofa.com/#tag/channels/paths/~1teams~1name~1{team_name}~1channels~1name~1{channel_name}/get
  * @param {string} teamName - Team name
  * @param {string} channelName - Channel name
  * @returns {Channel} `out.channel` as `Channel`
@@ -248,7 +248,7 @@ Cypress.Commands.add('apiGetChannelByName', apiGetChannelByName);
 
 /**
  * Get a list of all channels.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels/get
+ * See https://api.sofa.com/#tag/channels/paths/~1channels/get
  * @returns {Channel[]} `out.channels` as `Channel[]`
  *
  * @example
@@ -270,7 +270,7 @@ Cypress.Commands.add('apiGetAllChannels', apiGetAllChannels);
 
 /**
  * Get channels for user.
- * See https://api.mattermost.com/#tag/channels/paths/~1users~1{user_id}~1teams~1{team_id}~1channels/get
+ * See https://api.sofa.com/#tag/channels/paths/~1users~1{user_id}~1teams~1{team_id}~1channels/get
  * @returns {Channel[]} `out.channels` as `Channel[]`
  *
  * @example
@@ -294,7 +294,7 @@ Cypress.Commands.add('apiGetChannelsForUser', apiGetChannelsForUser);
  * Soft deletes a channel, by marking the channel as deleted in the database.
  * Soft deleted channels will not be accessible in the user interface.
  * Direct and group message channels cannot be deleted.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}/delete
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}/delete
  * @param {string} channelId - The channel ID to be deleted
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
  *
@@ -316,7 +316,7 @@ Cypress.Commands.add('apiDeleteChannel', apiDeleteChannel);
 
 /**
  * Add a user to a channel by creating a channel member object.
- * See https://api.mattermost.com/#tag/channels/paths/~1channels~1{channel_id}~1members/post
+ * See https://api.sofa.com/#tag/channels/paths/~1channels~1{channel_id}~1members/post
  * @param {string} channelId - Channel ID
  * @param {string} userId - User ID to add to the channel
  * @returns {ChannelMembership} `out.member` as `ChannelMembership`

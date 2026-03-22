@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Enable plugins for use on your Mattermost server.
+Enable plugins for use on your Sofa server.
 
 ::
 

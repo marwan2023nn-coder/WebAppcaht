@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import xor from 'lodash.xor';
 
 // *****************************************************************************
 // Preferences
-// https://api.mattermost.com/#tag/roles
+// https://api.sofa.com/#tag/roles
 // *****************************************************************************
 
 export const defaultRolesPermissions = {

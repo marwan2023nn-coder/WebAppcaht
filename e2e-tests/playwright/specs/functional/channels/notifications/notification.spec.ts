@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify that channel-wide mentions with uppercase letters trigger notifications and are properly highlighted.

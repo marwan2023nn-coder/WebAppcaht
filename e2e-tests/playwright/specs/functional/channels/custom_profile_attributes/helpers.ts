@@ -1,17 +1,17 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {Page} from '@playwright/test';
-import {Client4} from '@mattermost/client';
-import {UserPropertyField, UserPropertyFieldPatch, FieldType} from '@mattermost/types/properties';
+import {Client4} from '@sofa/client';
+import {UserPropertyField, UserPropertyFieldPatch, FieldType} from '@sofa/types/properties';
 
-import {expect, ChannelsPage} from '@mattermost/playwright-lib';
+import {expect, ChannelsPage} from '@sofa/playwright-lib';
 
 // Common test data constants
 export const TEST_PHONE = '555-123-4567';
 export const TEST_UPDATED_PHONE = '555-987-6543';
 export const TEST_URL = 'https://example.com';
-export const TEST_UPDATED_URL = 'https://mattermost.com';
+export const TEST_UPDATED_URL = 'https://sofa.com';
 export const TEST_INVALID_URL = 'ftp://invalid-url';
 export const TEST_VALID_URL = 'https://example2.com';
 export const TEST_DEPARTMENT = 'Engineering';
@@ -310,7 +310,7 @@ export async function setupCustomProfileAttributeFields(
         const field: UserPropertyFieldPatch = {
             name: attr.name,
             type: (attr.type as FieldType) || 'text',
-            // @ts-expect-error @mattermost/types needs to be updated
+            // @ts-expect-error @sofa/types needs to be updated
             attrs: {
                 sort_order: index,
             },
@@ -318,13 +318,13 @@ export async function setupCustomProfileAttributeFields(
 
         // Add options for select and multiselect fields
         if ((attr.type === 'select' || attr.type === 'multiselect') && attr.options) {
-            // @ts-expect-error @mattermost/types needs to be updated
+            // @ts-expect-error @sofa/types needs to be updated
             field.attrs.options = attr.options;
         }
 
         // Add any additional attributes if provided
         if (attr.attrs) {
-            // @ts-expect-error @mattermost/types needs to be updated
+            // @ts-expect-error @sofa/types needs to be updated
             field.attrs = {
                 ...field.attrs,
                 ...attr.attrs,

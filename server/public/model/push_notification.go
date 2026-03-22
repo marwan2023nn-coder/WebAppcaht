@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -28,13 +28,13 @@ const (
 
 	// Push notification server URLs
 	// Legacy URLs are DNS aliases that automatically route to the regional endpoints
-	MHPNSLegacyUS = "https://push.mattermost.com"
-	MHPNSLegacyDE = "https://hpns-de.mattermost.com"
+	MHPNSLegacyUS = "https://push.sofa.com"
+	MHPNSLegacyDE = "https://hpns-de.sofa.com"
 	// Current regional URLs
-	MHPNSGlobal = "https://global.push.mattermost.com"
-	MHPNSUS     = "https://us.push.mattermost.com"
-	MHPNSEU     = "https://eu.push.mattermost.com"
-	MHPNSAP     = "https://ap.push.mattermost.com"
+	MHPNSGlobal = "https://global.push.sofa.com"
+	MHPNSUS     = "https://us.push.sofa.com"
+	MHPNSEU     = "https://eu.push.sofa.com"
+	MHPNSAP     = "https://ap.push.sofa.com"
 	MHPNS       = MHPNSUS // Legacy constant for backwards compatibility
 
 	PushSendPrepare = "Prepared to send"

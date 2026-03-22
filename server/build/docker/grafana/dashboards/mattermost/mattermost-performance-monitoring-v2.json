@@ -36,7 +36,7 @@
       }
     ]
   },
-  "description": "A dashboard to monitor complete Mattermost application performance",
+  "description": "A dashboard to monitor complete Sofa application performance",
   "editable": true,
   "fiscalYearStartMonth": 0,
   "gnetId": 15582,
@@ -158,7 +158,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(mattermost_websocket_broadcast_buffer_size)",
+          "expr": "sum(sofa_websocket_broadcast_buffer_size)",
           "legendFormat": "Buffer size",
           "range": true,
           "refId": "A"
@@ -255,7 +255,7 @@
           },
           "editorMode": "code",
           "exemplar": true,
-          "expr": "sum(rate(mattermost_websocket_broadcasts_total[5m])) by (name)",
+          "expr": "sum(rate(sofa_websocket_broadcasts_total[5m])) by (name)",
           "interval": "",
           "legendFormat": "{{name}}",
           "range": true,
@@ -352,7 +352,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(increase(mattermost_websocket_reconnects_total[10m])) by (instance)",
+          "expr": "sum(increase(sofa_websocket_reconnects_total[10m])) by (instance)",
           "legendFormat": "{{instance}}",
           "range": true,
           "refId": "A"
@@ -448,7 +448,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(rate(mattermost_websocket_event_total[5m])) by (type)",
+          "expr": "sum(rate(sofa_websocket_event_total[5m])) by (type)",
           "legendFormat": "{{type}}",
           "range": true,
           "refId": "A"
@@ -569,7 +569,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "rate(mattermost_http_requests_total{instance=~\"$server\"}[1m])",
+          "expr": "rate(sofa_http_requests_total{instance=~\"$server\"}[1m])",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -579,7 +579,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(mattermost_http_requests_total{instance=~\"$server\"}[1m]))",
+          "expr": "sum(rate(sofa_http_requests_total{instance=~\"$server\"}[1m]))",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -674,7 +674,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\"}[5m])) by (instance)",
+          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\"}[5m])) by (instance)",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -684,7 +684,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\"}[5m]))",
+          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\"}[5m]))",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -780,7 +780,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.99, sum(rate(mattermost_api_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
+          "expr": "histogram_quantile(0.99, sum(rate(sofa_api_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -790,7 +790,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.50, sum(rate(mattermost_api_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
+          "expr": "histogram_quantile(0.50, sum(rate(sofa_api_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -886,7 +886,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.99, sum(rate(mattermost_db_store_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
+          "expr": "histogram_quantile(0.99, sum(rate(sofa_db_store_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -896,7 +896,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.50, sum(rate(mattermost_db_store_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
+          "expr": "histogram_quantile(0.50, sum(rate(sofa_db_store_time_bucket{instance=~\"$server\"}[1m])) by (instance,le))",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -991,7 +991,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(increase(mattermost_db_store_time_count{instance=~\"$server\",method=~\"$top_db_count\"}[5m])) by (method)",
+          "expr": "sum(increase(sofa_db_store_time_count{instance=~\"$server\",method=~\"$top_db_count\"}[5m])) by (method)",
           "interval": "",
           "legendFormat": "{{method}}",
           "refId": "A"
@@ -1086,7 +1086,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(increase(mattermost_api_time_count{instance=~\"$server\",handler=~\"$top_api_count\"}[5m])) by (handler)",
+          "expr": "sum(increase(sofa_api_time_count{instance=~\"$server\",handler=~\"$top_api_count\"}[5m])) by (handler)",
           "interval": "",
           "legendFormat": "{{handler}}",
           "refId": "A"
@@ -1185,7 +1185,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(increase(mattermost_db_store_time_sum{instance=~\"$server\",method=~\"$top_db_latency\"}[5m])) by (method) / sum(increase(mattermost_db_store_time_count{instance=~\"$server\",method=~\"$top_db_latency\"}[5m])) by (method)",
+          "expr": "sum(increase(sofa_db_store_time_sum{instance=~\"$server\",method=~\"$top_db_latency\"}[5m])) by (method) / sum(increase(sofa_db_store_time_count{instance=~\"$server\",method=~\"$top_db_latency\"}[5m])) by (method)",
           "interval": "",
           "legendFormat": "{{method}}",
           "refId": "A"
@@ -1284,7 +1284,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(increase(mattermost_api_time_sum{instance=~\"$server\",handler=~\"$top_api_latency\"}[5m])) by (handler) / sum(increase(mattermost_api_time_count{instance=~\"$server\",handler=~\"$top_api_latency\"}[5m])) by (handler)",
+          "expr": "sum(increase(sofa_api_time_sum{instance=~\"$server\",handler=~\"$top_api_latency\"}[5m])) by (handler) / sum(increase(sofa_api_time_count{instance=~\"$server\",handler=~\"$top_api_latency\"}[5m])) by (handler)",
           "interval": "",
           "legendFormat": "{{handler}}",
           "refId": "A"
@@ -1380,7 +1380,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile (\n  0.99,\n  sum by (le, instance)(\n    rate(mattermost_api_time_bucket{instance=~\"$server\",handler=\"getPostsForChannelAroundLastUnread\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.99,\n  sum by (le, instance)(\n    rate(sofa_api_time_bucket{instance=~\"$server\",handler=\"getPostsForChannelAroundLastUnread\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -1390,7 +1390,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile (\n  0.50,\n  sum by (le, instance)(\n    rate(mattermost_api_time_bucket{instance=~\"$server\",handler=\"getPostsForChannelAroundLastUnread\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.50,\n  sum by (le, instance)(\n    rate(sofa_api_time_bucket{instance=~\"$server\",handler=\"getPostsForChannelAroundLastUnread\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -1486,7 +1486,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile (\n  0.99,\n  sum by (le, instance)(\n    rate(mattermost_api_time_bucket{instance=~\"$server\",handler=\"createPost\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.99,\n  sum by (le, instance)(\n    rate(sofa_api_time_bucket{instance=~\"$server\",handler=\"createPost\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -1496,7 +1496,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile (\n  0.50,\n  sum by (le, instance)(\n    rate(mattermost_api_time_bucket{instance=~\"$server\",handler=\"createPost\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.50,\n  sum by (le, instance)(\n    rate(sofa_api_time_bucket{instance=~\"$server\",handler=\"createPost\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -1594,7 +1594,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "mattermost_http_websockets_total{instance=~\"$server\"}",
+          "expr": "sofa_http_websockets_total{instance=~\"$server\"}",
           "interval": "",
           "legendFormat": "{{instance}} - {{ origin_client}}",
           "range": true,
@@ -1605,7 +1605,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(mattermost_http_websockets_total{instance=~\"$server\"})",
+          "expr": "sum(sofa_http_websockets_total{instance=~\"$server\"})",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -1616,7 +1616,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "sum(mattermost_http_websockets_total{instance=~\"$server\"}) by (origin_client)",
+          "expr": "sum(sofa_http_websockets_total{instance=~\"$server\"}) by (origin_client)",
           "hide": false,
           "interval": "",
           "legendFormat": "Total - {{ origin_client }}",
@@ -1713,7 +1713,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(mattermost_db_master_connections_total)",
+          "expr": "sum(sofa_db_master_connections_total)",
           "interval": "",
           "legendFormat": "master",
           "refId": "A"
@@ -1723,7 +1723,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(mattermost_db_read_replica_connections_total)",
+          "expr": "sum(sofa_db_read_replica_connections_total)",
           "interval": "",
           "legendFormat": "replica",
           "refId": "B"
@@ -2109,7 +2109,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "mattermost_db_replica_lag_time{instance=~\"$server\"}",
+          "expr": "sofa_db_replica_lag_time{instance=~\"$server\"}",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -2231,7 +2231,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "mattermost_cluster_cluster_health_score{instance=~\"$server\"}",
+          "expr": "sofa_cluster_cluster_health_score{instance=~\"$server\"}",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -2327,7 +2327,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.99, sum(rate(mattermost_cluster_cluster_request_duration_seconds_bucket{instance=~\"$server\"}[5m])) by (le,instance))",
+          "expr": "histogram_quantile(0.99, sum(rate(sofa_cluster_cluster_request_duration_seconds_bucket{instance=~\"$server\"}[5m])) by (le,instance))",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -2337,7 +2337,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "histogram_quantile(0.50, sum(rate(mattermost_cluster_cluster_request_duration_seconds_bucket{instance=~\"$server\"}[5m])) by (le,instance))",
+          "expr": "histogram_quantile(0.50, sum(rate(sofa_cluster_cluster_request_duration_seconds_bucket{instance=~\"$server\"}[5m])) by (le,instance))",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -2432,7 +2432,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(mattermost_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[5m])) by (instance)",
+          "expr": "sum(rate(sofa_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[5m])) by (instance)",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -2442,7 +2442,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(rate(mattermost_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[5m]))",
+          "expr": "sum(rate(sofa_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[5m]))",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -2563,7 +2563,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "mattermost_jobs_active{instance=~\"$server\"}",
+          "expr": "sofa_jobs_active{instance=~\"$server\"}",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -2573,7 +2573,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "sum(mattermost_jobs_active{instance=~\"$server\"})",
+          "expr": "sum(sofa_jobs_active{instance=~\"$server\"})",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -2694,7 +2694,7 @@
             "type": "prometheus",
             "uid": "Prometheus"
           },
-          "expr": "irate(mattermost_process_cpu_seconds_total{instance=~\"$server\"}[5m])* 100",
+          "expr": "irate(sofa_process_cpu_seconds_total{instance=~\"$server\"}[5m])* 100",
           "interval": "",
           "legendFormat": "{{instance}}",
           "refId": "A"
@@ -2942,14 +2942,14 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "query_result(topk(10, sum(increase(mattermost_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
+        "definition": "query_result(topk(10, sum(increase(sofa_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "top_db_count",
         "options": [],
         "query": {
-          "query": "query_result(topk(10, sum(increase(mattermost_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
+          "query": "query_result(topk(10, sum(increase(sofa_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
           "refId": "Prometheus-top_db_count-Variable-Query"
         },
         "refresh": 2,
@@ -2968,14 +2968,14 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "query_result(topk(10, sum(increase(mattermost_db_store_time_sum{instance=~\"$server\"}[${__range_s}s])) by (method) / sum(increase(mattermost_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
+        "definition": "query_result(topk(10, sum(increase(sofa_db_store_time_sum{instance=~\"$server\"}[${__range_s}s])) by (method) / sum(increase(sofa_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "top_db_latency",
         "options": [],
         "query": {
-          "query": "query_result(topk(10, sum(increase(mattermost_db_store_time_sum{instance=~\"$server\"}[${__range_s}s])) by (method) / sum(increase(mattermost_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
+          "query": "query_result(topk(10, sum(increase(sofa_db_store_time_sum{instance=~\"$server\"}[${__range_s}s])) by (method) / sum(increase(sofa_db_store_time_count{instance=~\"$server\"}[${__range_s}s])) by (method)))",
           "refId": "Prometheus-top_db_latency-Variable-Query"
         },
         "refresh": 2,
@@ -2994,14 +2994,14 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "query_result(topk(10, sum(increase(mattermost_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
+        "definition": "query_result(topk(10, sum(increase(sofa_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "top_api_count",
         "options": [],
         "query": {
-          "query": "query_result(topk(10, sum(increase(mattermost_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
+          "query": "query_result(topk(10, sum(increase(sofa_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
           "refId": "Prometheus-top_api_count-Variable-Query"
         },
         "refresh": 2,
@@ -3020,14 +3020,14 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "query_result(topk(10, sum(increase(mattermost_api_time_sum{instance=~\"$server\"}[${__range_s}s])) by (handler) / sum(increase(mattermost_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
+        "definition": "query_result(topk(10, sum(increase(sofa_api_time_sum{instance=~\"$server\"}[${__range_s}s])) by (handler) / sum(increase(sofa_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
         "hide": 0,
         "includeAll": true,
         "multi": true,
         "name": "top_api_latency",
         "options": [],
         "query": {
-          "query": "query_result(topk(10, sum(increase(mattermost_api_time_sum{instance=~\"$server\"}[${__range_s}s])) by (handler) / sum(increase(mattermost_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
+          "query": "query_result(topk(10, sum(increase(sofa_api_time_sum{instance=~\"$server\"}[${__range_s}s])) by (handler) / sum(increase(sofa_api_time_count{instance=~\"$server\"}[${__range_s}s])) by (handler)))",
           "refId": "Prometheus-top_api_latency-Variable-Query"
         },
         "refresh": 2,
@@ -3048,7 +3048,7 @@
   },
   "timepicker": {},
   "timezone": "",
-  "title": "Mattermost Performance Monitoring v2",
+  "title": "Sofa Performance Monitoring v2",
   "uid": "im7xNX17kdd",
   "version": 2,
   "weekStart": ""

@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {test, expect} from '@mattermost/playwright-lib';
+import {test, expect} from '@sofa/playwright-lib';
 
 test('should install and enable demo plugin from URL', async ({pw}) => {
     // Create and navigate to channels page
@@ -23,20 +23,20 @@ test('should install and enable demo plugin from URL', async ({pw}) => {
     // Install and enable
     await pw.installAndEnablePlugin(
         adminClient,
-        'https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.10.3/mattermost-plugin-demo-v0.10.3.tar.gz',
-        'com.mattermost.demo-plugin',
+        'https://github.com/sofa/sofa-plugin-demo/releases/download/v0.10.3/sofa-plugin-demo-v0.10.3.tar.gz',
+        'com.sofa.demo-plugin',
     );
 
     // Verify it's active (API validation, no UI)
     await expect
         .poll(async () => {
-            return await pw.isPluginActive(adminClient, 'com.mattermost.demo-plugin');
+            return await pw.isPluginActive(adminClient, 'com.sofa.demo-plugin');
         })
         .toBe(true);
 
     // Optional: Get plugin details
     const plugins = await adminClient.getPlugins();
-    const demoPlugin = plugins.active.find((p) => p.id === 'com.mattermost.demo-plugin');
+    const demoPlugin = plugins.active.find((p) => p.id === 'com.sofa.demo-plugin');
     expect(demoPlugin).toBeDefined();
 
     // Dismiss overlay again if it reappeared after plugin activation

@@ -5,7 +5,7 @@
 package mocks
 
 import (
-	model "github.com/mattermost/mattermost/server/public/model"
+	model "github.com/marwan2023nn-coder/sofa/server/public/model"
 	mock "github.com/stretchr/testify/mock"
 )
 
@@ -72,12 +72,12 @@ func (_m *LicenseInterface) GetPrevTrial() (*model.License, error) {
 	return r0, r1
 }
 
-// NewMattermostEntryLicense provides a mock function with given fields: serverId
-func (_m *LicenseInterface) NewMattermostEntryLicense(serverId string) *model.License {
+// NewSofaEntryLicense provides a mock function with given fields: serverId
+func (_m *LicenseInterface) NewSofaEntryLicense(serverId string) *model.License {
 	ret := _m.Called(serverId)
 
 	if len(ret) == 0 {
-		panic("no return value specified for NewMattermostEntryLicense")
+		panic("no return value specified for NewSofaEntryLicense")
 	}
 
 	var r0 *model.License

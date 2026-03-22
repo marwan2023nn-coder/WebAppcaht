@@ -4,7 +4,7 @@
         - OAuth
       summary: Register OAuth app
       description: >
-        Register an OAuth 2.0 client application with Mattermost as the service
+        Register an OAuth 2.0 client application with Sofa as the service
         provider.
 
         ##### Permissions
@@ -67,7 +67,7 @@
         - OAuth
       summary: Get OAuth apps
       description: >
-        Get a page of OAuth 2.0 client applications registered with Mattermost.
+        Get a page of OAuth 2.0 client applications registered with Sofa.
 
         ##### Permissions
 
@@ -109,7 +109,7 @@
         - OAuth
       summary: Get an OAuth app
       description: >
-        Get an OAuth 2.0 client application registered with Mattermost.
+        Get an OAuth 2.0 client application registered with Sofa.
 
         ##### Permissions
 
@@ -254,7 +254,7 @@
       summary: Regenerate OAuth app secret
       description: >
         Regenerate the client secret for an OAuth 2.0 client application
-        registered with Mattermost.
+        registered with Sofa.
 
         ##### Permissions
 
@@ -291,7 +291,7 @@
       summary: Get info on an OAuth app
       description: >
         Get public information about an OAuth 2.0 client application registered
-        with Mattermost. The application's client secret will be blanked out.
+        with Sofa. The application's client secret will be blanked out.
 
         ##### Permissions
 

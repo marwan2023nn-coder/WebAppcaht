@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -241,7 +241,7 @@ describe('Interactive Dialog - Apps Form', () => {
 
         // # Enter valid email
         // * Verify that error is not shown for valid email.
-        const validEmail = 'test@mattermost.com';
+        const validEmail = 'test@sofa.com';
         cy.get('#someemail').scrollIntoView().clear().type(validEmail);
 
         cy.get('#appsModalSubmit').click();

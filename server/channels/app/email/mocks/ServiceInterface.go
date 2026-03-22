@@ -7,15 +7,15 @@ package mocks
 import (
 	io "io"
 
-	i18n "github.com/mattermost/mattermost/server/public/shared/i18n"
+	i18n "github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
 
 	mock "github.com/stretchr/testify/mock"
 
-	model "github.com/mattermost/mattermost/server/public/model"
+	model "github.com/marwan2023nn-coder/sofa/server/public/model"
 
-	store "github.com/mattermost/mattermost/server/v8/channels/store"
+	store "github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 
-	templates "github.com/mattermost/mattermost/server/v8/platform/shared/templates"
+	templates "github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/templates"
 
 	throttled "github.com/throttled/throttled"
 )

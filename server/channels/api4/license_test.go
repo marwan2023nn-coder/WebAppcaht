@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -11,11 +11,11 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
-	mocks2 "github.com/mattermost/mattermost/server/v8/channels/utils/mocks"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
-	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	mocks2 "github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
 
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
@@ -241,11 +241,11 @@ func TestRequestTrialLicenseWithExtraFields(t *testing.T) {
 	th.App.UpdateConfig(func(cfg *model.Config) { *cfg.ServiceSettings.SiteURL = "http://localhost:8065/" })
 	nUsers := 1
 	validTrialRequest := &model.TrialLicenseRequest{
-		Email:          "test@mattermost.com",
+		Email:          "test@sofa.com",
 		Users:          nUsers,
 		TermsAccepted:  true,
 		CompanyCountry: "US",
-		CompanyName:    "mattermost",
+		CompanyName:    "sofa",
 		CompanySize:    "1-10",
 		ContactName:    "Matter Most",
 	}

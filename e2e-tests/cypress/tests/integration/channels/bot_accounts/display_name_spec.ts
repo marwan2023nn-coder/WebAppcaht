@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,9 +9,9 @@
 
 // Group: @channels @bot_accounts
 
-import {Bot} from '@mattermost/types/bots';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
+import {Bot} from '@sofa/types/bots';
+import {Channel} from '@sofa/types/channels';
+import {UserProfile} from '@sofa/types/users';
 
 describe('Bot display name', () => {
     let offTopicChannel: Channel;

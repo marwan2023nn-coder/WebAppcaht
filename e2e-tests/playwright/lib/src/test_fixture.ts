@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {Browser, Page, test as base} from '@playwright/test';
@@ -214,13 +214,13 @@ export class AxeBuilderExtended {
             const disabledRules: string[] = [];
 
             if (options.disableColorContrast) {
-                // Disabled in pages due to impact to overall theme of Mattermost.
+                // Disabled in pages due to impact to overall theme of Sofa.
                 // Option: make use of custom theme to improve color contrast.
                 disabledRules.push('color-contrast');
             }
 
             if (options.disableLinkInTextBlock) {
-                // Disabled in pages due to impact to overall theme of Mattermost.
+                // Disabled in pages due to impact to overall theme of Sofa.
                 // Option: make use of custom theme to improve color contrast.
                 disabledRules.push('link-in-text-block');
             }

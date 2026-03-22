@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
 // See License for license information.
 
 package flow
@@ -11,12 +11,12 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/common"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi/experimental/common"
 )
 
 func (f *Flow) handleButtonHTTP(w http.ResponseWriter, r *http.Request) {
-	userID := r.Header.Get("Mattermost-User-ID")
+	userID := r.Header.Get("Sofa-User-ID")
 	if userID == "" {
 		common.SlackAttachmentError(w, errors.New("Not authorized"))
 		return
@@ -48,7 +48,7 @@ func (f *Flow) handleButtonHTTP(w http.ResponseWriter, r *http.Request) {
 }
 
 func (f *Flow) handleDialogHTTP(w http.ResponseWriter, r *http.Request) {
-	userID := r.Header.Get("Mattermost-User-ID")
+	userID := r.Header.Get("Sofa-User-ID")
 	if userID == "" {
 		common.DialogError(w, errors.New("not authorized"))
 		return

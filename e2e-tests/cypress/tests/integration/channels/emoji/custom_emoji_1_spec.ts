@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -80,7 +80,7 @@ describe('Custom emojis', () => {
         cy.get('#name').type(customEmoji);
 
         // # Select emoji image
-        cy.get('input#select-emoji').attachFile('mattermost-icon.png');
+        cy.get('input#select-emoji').attachFile('sofa-icon.png');
 
         // # Click on Cancel
         cy.get('.backstage-form__footer').findByText('Cancel').click().wait(TIMEOUTS.FIVE_SEC);

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -18,18 +18,18 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app/email"
-	"github.com/mattermost/mattermost/server/v8/channels/app/imaging"
-	"github.com/mattermost/mattermost/server/v8/channels/app/password/hashers"
-	"github.com/mattermost/mattermost/server/v8/channels/app/users"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mfa"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/email"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imaging"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/password/hashers"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/users"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mfa"
 )
 
 const (
@@ -3180,7 +3180,7 @@ func (a *App) UserIsFirstAdmin(rctx request.CTX, user *model.User) bool {
 
 	systemAdminUsers, errServer := a.Srv().Store().User().GetSystemAdminProfiles()
 	if errServer != nil {
-		rctx.Logger().Warn("Failed to get system admins to check for first admin from Mattermost.")
+		rctx.Logger().Warn("Failed to get system admins to check for first admin from Sofa.")
 		return false
 	}
 

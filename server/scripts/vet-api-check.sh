@@ -6,8 +6,8 @@ IFS=$'\n\t'
 # To stem the introduction of new, undocumented APIs while we find time to document the old ones,
 # filter out all the "known issues" to support the automated CI check.
 
-API_YAML=$ROOT../api/v4/html/static/mattermost-openapi-v4.yaml
-OUTPUT=$($GO vet -vettool=$GOBIN/mattermost-govet -openApiSync -openApiSync.spec=$API_YAML ./... 2>&1 || true)
+API_YAML=$ROOT../api/v4/html/static/sofa-openapi-v4.yaml
+OUTPUT=$($GO vet -vettool=$GOBIN/sofa-govet -openApiSync -openApiSync.spec=$API_YAML ./... 2>&1 || true)
 
 echo "All output, some ignored"
 echo "========================"
@@ -15,7 +15,7 @@ echo "$OUTPUT"
 
 OUTPUT_EXCLUDING_IGNORED=$(echo "$OUTPUT" | grep -Fv \
     -e 'go: downloading' \
-    -e 'github.com/mattermost/mattermost/server/v8/channels/api4' \
+    -e 'github.com/sofa/sofa/server/v8/channels/api4' \
     -e 'Cannot find /api/v4/channels/members/{user_id}/mark_read method: POST in OpenAPI 3 spec.' \
     -e 'Cannot find /api/v4/channels/members/{user_id}/mark_read method: POST in OpenAPI 3 spec.' \
     -e 'Cannot find /api/v4/channels/stats/member_count method: POST in OpenAPI 3 spec.' \

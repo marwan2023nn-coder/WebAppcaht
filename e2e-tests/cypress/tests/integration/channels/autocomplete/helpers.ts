@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
@@ -237,7 +237,7 @@ function withPrefix(name: string, prefix: string) {
 }
 
 function createEmail(name: string, prefix: string) {
-    return `${prefix}${name}@sample.mattermost.com`;
+    return `${prefix}${name}@sample.sofa.com`;
 }
 
 export {

@@ -1,12 +1,12 @@
 package main
 
 import (
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/sofa/sofa/server/public/model"
+	"github.com/sofa/sofa/server/public/plugin"
 )
 
 type MyPlugin struct {
-    plugin.MattermostPlugin
+    plugin.SofaPlugin
 }
 
 func (p *MyPlugin) EmailNotificationWillBeSent(emailNotification *model.EmailNotification) (*model.EmailNotificationContent, string) {

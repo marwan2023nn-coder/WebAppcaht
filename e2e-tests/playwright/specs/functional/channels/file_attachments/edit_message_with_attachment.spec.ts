@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 /**
  * @objective Verify that users can edit a message that has an attachment,
@@ -17,7 +17,7 @@ test('MM-T2268 Edit Message with Attachment', async ({pw}) => {
     await channelsPage.toBeVisible();
 
     // # Post a message with an attachment
-    await channelsPage.postMessage('Test', ['mattermost.png']);
+    await channelsPage.postMessage('Test', ['sofa.png']);
 
     // # Get the last post and verify content
     const post = await channelsPage.getLastPost();

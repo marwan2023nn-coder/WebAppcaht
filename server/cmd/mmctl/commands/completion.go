@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -7,8 +7,8 @@ import (
 	"context"
 	"strings"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
 	"github.com/spf13/cobra"
 )
 
@@ -32,7 +32,7 @@ func validateArgsWithClient(fn validateArgsFn) func(cmd *cobra.Command, args []s
 	}
 }
 
-type fetcher[T any] func(ctx context.Context, c client.Client, page int, perPage int) ([]T, *model.Response, error) // fetcher calls the Mattermost API to fetch a list of entities T.
+type fetcher[T any] func(ctx context.Context, c client.Client, page int, perPage int) ([]T, *model.Response, error) // fetcher calls the Sofa API to fetch a list of entities T.
 type matcher[T any] func(t T) []string                                                                              // matcher returns list of field that are T uses for shell completion.
 
 func fetchAndComplete[T any](f fetcher[T], m matcher[T]) validateArgsFn {

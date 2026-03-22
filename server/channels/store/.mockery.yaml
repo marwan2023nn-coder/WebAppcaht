@@ -1,6 +1,6 @@
 with-expecter: false
 packages:
-  github.com/mattermost/mattermost/server/v8/channels/store:
+  github.com/sofa/sofa/server/v8/channels/store:
     config:
       include-regex: ".*Store"
       dir: "channels/store/storetest/mocks"

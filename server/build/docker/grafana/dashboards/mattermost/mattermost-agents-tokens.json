@@ -1074,7 +1074,7 @@
         "llm",
         "ai",
         "tokens",
-        "mattermost",
+        "sofa",
         "agents"
     ],
     "templating": {
@@ -1143,7 +1143,7 @@
     },
     "timepicker": {},
     "timezone": "",
-    "title": "Mattermost AI Agents - LLM Token Usage",
+    "title": "Sofa AI Agents - LLM Token Usage",
     "uid": "workspace-ai-tokens",
     "version": 1,
     "weekStart": ""

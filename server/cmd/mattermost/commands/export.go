@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,9 +9,9 @@ import (
 	"path/filepath"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
 
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
@@ -19,14 +19,14 @@ import (
 
 var ExportCmd = &cobra.Command{
 	Use:   "export",
-	Short: "Export data from Mattermost",
-	Long:  "Export data from Mattermost in a format suitable for import into a third-party application or another Mattermost instance",
+	Short: "Export data from Sofa",
+	Long:  "Export data from Sofa in a format suitable for import into a third-party application or another Sofa instance",
 }
 
 var ScheduleExportCmd = &cobra.Command{
 	Use:     "schedule",
-	Short:   "Schedule an export data job in Mattermost",
-	Long:    "Schedule an export data job in Mattermost (this will run asynchronously via a background worker)",
+	Short:   "Schedule an export data job in Sofa",
+	Long:    "Schedule an export data job in Sofa (this will run asynchronously via a background worker)",
 	Example: "export schedule --format=actiance --exportFrom=12345 --timeoutSeconds=12345",
 	RunE:    scheduleExportCmdF,
 }
@@ -34,7 +34,7 @@ var ScheduleExportCmd = &cobra.Command{
 var BulkExportCmd = &cobra.Command{
 	Use:     "bulk [file]",
 	Short:   "Export bulk data.",
-	Long:    "Export data to a file compatible with the Mattermost Bulk Import format.",
+	Long:    "Export data to a file compatible with the Sofa Bulk Import format.",
 	Example: "export bulk bulk_data.json",
 	RunE:    bulkExportCmdF,
 	Args:    cobra.ExactArgs(1),

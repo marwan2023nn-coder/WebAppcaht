@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -30,7 +30,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T329 Image link preview', () => {
-        const link = 'https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
+        const link = 'https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/image-small-height.png';
         const baseUrl = Cypress.config('baseUrl');
         const encodedIconUrl = encodeURIComponent(link);
 

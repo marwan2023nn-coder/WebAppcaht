@@ -1,1 +1,1 @@
-https://mattermost.com/pl/privacy-policy/
+https://sofa.com/pl/privacy-policy/

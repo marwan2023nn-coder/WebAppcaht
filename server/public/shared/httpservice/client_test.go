@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package httpservice
@@ -101,7 +101,7 @@ func TestHTTPClientWithProxy(t *testing.T) {
 
 	c := NewHTTPClient(NewTransport(true, nil, nil))
 	purl, _ := url.Parse(proxy.URL)
-	c.Transport.(*MattermostTransport).Transport.(*http.Transport).Proxy = http.ProxyURL(purl)
+	c.Transport.(*SofaTransport).Transport.(*http.Transport).Proxy = http.ProxyURL(purl)
 
 	resp, err := c.Get("http://acme.com")
 	require.NoError(t, err)

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -18,8 +18,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/testlib"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
 )
 
 func TestCreateIncomingWebhookForChannel(t *testing.T) {
@@ -572,8 +572,8 @@ func TestCreateWebhookPostLinks(t *testing.T) {
 			expectedOutput: "`if(status_int < QUERY_UNKNOWN || status_int >= QUERY_STATUS_MAX)`",
 		},
 		"angle bracket link": {
-			input:          "<https://mattermost.com|Mattermost>",
-			expectedOutput: "[Mattermost](https://mattermost.com)",
+			input:          "<https://sofa.com|Sofa>",
+			expectedOutput: "[Sofa](https://sofa.com)",
 		},
 	} {
 		t.Run(name, func(t *testing.T) {

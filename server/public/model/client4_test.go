@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model_test
@@ -15,12 +15,12 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-// https://github.com/mattermost/mattermost-plugin-starter-template/issues/115
+// https://github.com/marwan2023nn-coder/sofa-plugin-starter-template/issues/115
 func TestClient4TrimTrailingSlash(t *testing.T) {
 	slashes := []int{0, 1, 5}
 	baseURL := "https://foo.com:1234"
@@ -33,7 +33,7 @@ func TestClient4TrimTrailingSlash(t *testing.T) {
 	}
 }
 
-// https://github.com/mattermost/mattermost/server/v8/channels/issues/8205
+// https://github.com/marwan2023nn-coder/sofa/server/v8/channels/issues/8205
 func TestClient4CreatePost(t *testing.T) {
 	post := &model.Post{
 		Props: map[string]any{

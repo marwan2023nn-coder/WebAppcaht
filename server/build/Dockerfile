@@ -6,9 +6,9 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Build Arguments
 ARG PUID=2000
 ARG PGID=2000
-# MM_PACKAGE build arguments controls which version of mattermost to install, defaults to latest stable enterprise
-# e.g. https://releases.mattermost.com/9.7.1/mattermost-9.7.1-linux-amd64.tar.gz
-ARG MM_PACKAGE="https://latest.mattermost.com/mattermost-enterprise-linux"
+# MM_PACKAGE build arguments controls which version of sofa to install, defaults to latest stable enterprise
+# e.g. https://releases.sofa.com/9.7.1/sofa-9.7.1-linux-amd64.tar.gz
+ARG MM_PACKAGE="https://latest.sofa.com/sofa-enterprise-linux"
 
 # Install needed packages and indirect dependencies
 RUN apt-get update \
@@ -24,22 +24,22 @@ RUN apt-get update \
   tzdata \
   && rm -rf /var/lib/apt/lists/*
 
-# Set mattermost group/user and download Mattermost
-RUN mkdir -p /mattermost/data /mattermost/plugins /mattermost/client/plugins \
-  && groupadd --gid ${PGID} mattermost \
-  && useradd --uid ${PUID} --gid ${PGID} --comment "" --home-dir /mattermost mattermost \
+# Set sofa group/user and download Sofa
+RUN mkdir -p /sofa/data /sofa/plugins /sofa/client/plugins \
+  && groupadd --gid ${PGID} sofa \
+  && useradd --uid ${PUID} --gid ${PGID} --comment "" --home-dir /sofa sofa \
   && curl -L $MM_PACKAGE | tar -xvz \
-  && chown -R mattermost:mattermost /mattermost /mattermost/data /mattermost/plugins /mattermost/client/plugins
+  && chown -R sofa:sofa /sofa /sofa/data /sofa/plugins /sofa/client/plugins
 
 # Create PostgreSQL client SSL directory structure for ssl_mode=require
-RUN mkdir -p /mattermost/.postgresql \
-  && chmod 700 /mattermost/.postgresql
+RUN mkdir -p /sofa/.postgresql \
+  && chmod 700 /sofa/.postgresql
 
 # Final stage using distroless for minimal attack surface
 FROM gcr.io/distroless/base-debian12
 
 # Some ENV variables
-ENV PATH="/mattermost/bin:${PATH}"
+ENV PATH="/sofa/bin:${PATH}"
 ENV MM_SERVICESETTINGS_ENABLELOCALMODE="true"
 ENV MM_INSTALL_TYPE="docker"
 
@@ -65,24 +65,24 @@ COPY --from=builder /usr/lib/libwv.so* /usr/lib/
 COPY --from=builder /usr/lib/libtidy.so* /usr/lib/
 COPY --from=builder /usr/lib/libfontconfig.so* /usr/lib/
 
-# Copy mattermost from builder stage
-COPY --from=builder --chown=2000:2000 /mattermost /mattermost
+# Copy sofa from builder stage
+COPY --from=builder --chown=2000:2000 /sofa /sofa
 
-# Copy passwd including mattermost user
+# Copy passwd including sofa user
 COPY  passwd /etc/passwd
 
 # We should refrain from running as privileged user
-USER mattermost
+USER sofa
 
 # Healthcheck to make sure container is ready - using mmctl instead of curl for distroless compatibility
 HEALTHCHECK --interval=30s --timeout=10s \
-  CMD ["/mattermost/bin/mmctl", "system", "status", "--local"]
+  CMD ["/sofa/bin/mmctl", "system", "status", "--local"]
 
 # Configure entrypoint and command with proper permissions
-WORKDIR /mattermost
-CMD ["/mattermost/bin/mattermost"]
+WORKDIR /sofa
+CMD ["/sofa/bin/sofa"]
 
 EXPOSE 8065 8067 8074 8075
 
 # Declare volumes for mount point directories
-VOLUME ["/mattermost/data", "/mattermost/logs", "/mattermost/config", "/mattermost/plugins", "/mattermost/client/plugins"]
+VOLUME ["/sofa/data", "/sofa/logs", "/sofa/config", "/sofa/plugins", "/sofa/client/plugins"]

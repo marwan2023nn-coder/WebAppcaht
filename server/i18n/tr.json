@@ -85,7 +85,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Mattermost e-posta ayarları doğru görünüyor!"
+    "translation": "Sofa e-posta ayarları doğru görünüyor!"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Mattermost - E-posta ayarları sınanıyor"
+    "translation": "Sofa - E-posta ayarları sınanıyor"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Mattermost takımınıza bir e-posta daveti gönderir"
+    "translation": "Sofa takımınıza bir e-posta daveti gönderir"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -616,7 +616,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Mattermost yardım iletisini görüntüle"
+    "translation": "Sofa yardım iletisini görüntüle"
   },
   {
     "id": "api.command_help.name",
@@ -628,7 +628,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) kullanın."
+    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) kullanın."
   },
   {
     "id": "api.command_invite.desc",
@@ -664,7 +664,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltmasını](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) kullanın."
+    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltmasını](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) kullanın."
   },
   {
     "id": "api.command_invite.success",
@@ -723,7 +723,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Mattermost oturumunu kapatır"
+    "translation": "Sofa oturumunu kapatır"
   },
   {
     "id": "api.command_logout.name",
@@ -775,7 +775,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) kullanın."
+    "translation": "{{.Channel}} kanalı bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) kullanın."
   },
   {
     "id": "api.command_mute.hint",
@@ -787,7 +787,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Belirtilen kanal bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) kullanın."
+    "translation": "Belirtilen kanal bulunamadı. Lütfen kanalları belirtmek için [kanal kısaltması](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) kullanın."
   },
   {
     "id": "api.command_mute.success_mute",
@@ -1500,7 +1500,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "{{.DisplayName}} Slack kanalı zaten etkin bir Mattermost kanalı olarak var. İki kanal birleştirilecek.\n"
+    "translation": "{{.DisplayName}} Slack kanalı zaten etkin bir Sofa kanalı olarak var. İki kanal birleştirilecek.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1512,11 +1512,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "E-posta adresi {{.Email}} olan Slack kullanıcısı aynı e-posta adresini kullanan {{.Username}} Mattermost kullanıcısı ile birleştirildi.\n"
+    "translation": "E-posta adresi {{.Email}} olan Slack kullanıcısı aynı e-posta adresini kullanan {{.Username}} Sofa kullanıcısı ile birleştirildi.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "E-posta adresi {{.Email}} olan Slack kullanıcısı aynı e-posta adresini kullanan {{.Username}} Mattermost kullanıcısı birleştirildi ancak kullanıcı ilgili takıma eklenemedi.\n"
+    "translation": "E-posta adresi {{.Email}} olan Slack kullanıcısı aynı e-posta adresini kullanan {{.Username}} Sofa kullanıcısı birleştirildi ancak kullanıcı ilgili takıma eklenemedi.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -1528,7 +1528,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Mattermost Slack içe aktarma günlüğü\n"
+    "translation": "Sofa Slack içe aktarma günlüğü\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
@@ -1836,7 +1836,7 @@
   },
   {
     "id": "api.templates.post_body.button",
-    "translation": "Mattermost içinde yanıtla"
+    "translation": "Sofa içinde yanıtla"
   },
   {
     "id": "api.templates.reset_body.button",
@@ -1896,7 +1896,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "Bu e-posta adresi ile açılmış bir Mattermost hesabı var."
+    "translation": "Bu e-posta adresi ile açılmış bir Sofa hesabı var."
   },
   {
     "id": "api.templates.verify_body.title",
@@ -1916,7 +1916,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "Bu e-posta adresi ile açılmış bir Mattermost hesabı var."
+    "translation": "Bu e-posta adresi ile açılmış bir Sofa hesabı var."
   },
   {
     "id": "api.templates.welcome_body.title",
@@ -3060,7 +3060,7 @@
   },
   {
     "id": "ent.elasticsearch.test_config.license.error",
-    "translation": "Mattermost lisansınızda dizin kullanan arama özelliği bulunmuyor."
+    "translation": "Sofa lisansınızda dizin kullanan arama özelliği bulunmuyor."
   },
   {
     "id": "ent.elasticsearch.test_config.reenter_password",
@@ -3104,7 +3104,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "AD/LDAP hesabınızın bu Mattermost sunucusunu kullanma izni yok. Lütfen sistem yöneticinizden AD/LDAP kullanıcı süzgecini denetlemesini isteyin."
+    "translation": "AD/LDAP hesabınızın bu Sofa sunucusunu kullanma izni yok. Lütfen sistem yöneticinizden AD/LDAP kullanıcı süzgecini denetlemesini isteyin."
   },
   {
     "id": "ent.ldap.do_login.user_not_registered.app_error",
@@ -3124,7 +3124,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "AD/LDAP üzerinde kullanıcılar aranamadı. Mattermost sunucunuzun AD/LDAP sunucunuza bağlanabildiğinden emin olun."
+    "translation": "AD/LDAP üzerinde kullanıcılar aranamadı. Sofa sunucunuzun AD/LDAP sunucunuza bağlanabildiğinden emin olun."
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3168,7 +3168,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Bu kullanıcı adı başka bir Mattermost kullanıcısı tarafından kullanılıyor."
+    "translation": "Bu kullanıcı adı başka bir Sofa kullanıcısı tarafından kullanılıyor."
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3251,8 +3251,8 @@
     "translation": "Kanallar alınamadı."
   },
   {
-    "id": "mattermost.bulletin.subject",
-    "translation": "Mattermost güvenlik duyurusu"
+    "id": "sofa.bulletin.subject",
+    "translation": "Sofa güvenlik duyurusu"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4392,7 +4392,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "GitLab hizmet koşulları güncellendi. Lütfen {{.URL}} adresine giderek yeni hizmet koşullarını onayladıktan sonra Mattermost oturumunu yeniden açmayı deneyin."
+    "translation": "GitLab hizmet koşulları güncellendi. Lütfen {{.URL}} adresine giderek yeni hizmet koşullarını onayladıktan sonra Sofa oturumunu yeniden açmayı deneyin."
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4756,7 +4756,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Boyut sınırı aşıldı. En büyük dosya boyutu ayarını artırmayı deneyin. Ayrıntılı bilgi almak için https://docs.mattermost.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded adresine bakabilirsiniz."
+    "translation": "Boyut sınırı aşıldı. En büyük dosya boyutu ayarını artırmayı deneyin. Ayrıntılı bilgi almak için https://docs.sofa.com/deployment/sso-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded adresine bakabilirsiniz."
   },
   {
     "id": "ent.ldap.validate_admin_filter.app_error",
@@ -4840,7 +4840,7 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Deneme lisansı alınamadı. Lütfen yeniden deneyin ya da support@mattermost.com adresine yazın."
+    "translation": "Deneme lisansı alınamadı. Lütfen yeniden deneyin ya da support@sofa.com adresine yazın."
   },
   {
     "id": "api.admin.delete_brand_image.storage.not_found",
@@ -4860,7 +4860,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Lütfen beni etkileşimde bulunmamı istediğiniz takım ve kanallara ekleyin. Bu işlemi tarayıcı ya da Mattermost bilgisayar uygulaması üzerinden yapabilirsiniz."
+    "translation": "Lütfen beni etkileşimde bulunmamı istediğiniz takım ve kanallara ekleyin. Bu işlemi tarayıcı ya da Sofa bilgisayar uygulaması üzerinden yapabilirsiniz."
   },
   {
     "id": "api.channel.channel_member_counts_by_group.license.error",
@@ -4992,7 +4992,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda kullanımdan kaldırılmış şu bot hesaplarını yönetiyor.\n\n{{.BotNames}}{{else}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda kullanımdan kaldırılmış şu {{.NumBots}} bot hesaplarını yönetiyor:\n\n{{.BotNames}}{{end}}Bu bot hesaplarının sahipliğini almak için, hesapları **Bütünleştirmeler > Bot Hesapları** bölümünden kullanıma alın ve bot hesapları için yeni kodlar oluşturun.\n\nAyrıntılı bilgi almak için [belgelere bakabilirsiniz](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} kullanımdan kaldırılmış Bunlar şu anda hala etkin olan şu bot hesaplarını yönetiyor.\n\n{{.BotNames}}\n{{else}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda hala kullanımda olan şu {{.NumBots}} bot hesaplarını yönetiyor:\n\n{{.BotNames}}{{end}}Bu bot hesaplarının sahipliğini almak için, hesapları **Bütünleştirmeler > Bot Hesapları** bölümünden yeniden kullanıma almanız ve bot hesapları için yeni kodlar oluşturmanız önemle önerilir.\n\nAyrıntılı bilgi almak için [belgelere bakabilirsiniz](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nKullanıcıların kullanımdan kaldırılmasından sonra bot hesaplarının da otomatik olarak kullanımdan kaldırılmasını istiyorsanız, **Sistem panosu > Bütünleştirmeler > Bot hesapları** bölümünden “Kullanıcı hesabı kullanımdan kaldırıldığında bot hesapları da kullanımdan kaldırılsın” seçeneğini açın.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda kullanımdan kaldırılmış şu bot hesaplarını yönetiyor.\n\n{{.BotNames}}{{else}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda kullanımdan kaldırılmış şu {{.NumBots}} bot hesaplarını yönetiyor:\n\n{{.BotNames}}{{end}}Bu bot hesaplarının sahipliğini almak için, hesapları **Bütünleştirmeler > Bot Hesapları** bölümünden kullanıma alın ve bot hesapları için yeni kodlar oluşturun.\n\nAyrıntılı bilgi almak için [belgelere bakabilirsiniz](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} kullanımdan kaldırılmış Bunlar şu anda hala etkin olan şu bot hesaplarını yönetiyor.\n\n{{.BotNames}}\n{{else}}{{.UserName}} kullanımdan kaldırılmış. Bunlar şu anda hala kullanımda olan şu {{.NumBots}} bot hesaplarını yönetiyor:\n\n{{.BotNames}}{{end}}Bu bot hesaplarının sahipliğini almak için, hesapları **Bütünleştirmeler > Bot Hesapları** bölümünden yeniden kullanıma almanız ve bot hesapları için yeni kodlar oluşturmanız önemle önerilir.\n\nAyrıntılı bilgi almak için [belgelere bakabilirsiniz](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nKullanıcıların kullanımdan kaldırılmasından sonra bot hesaplarının da otomatik olarak kullanımdan kaldırılmasını istiyorsanız, **Sistem panosu > Bütünleştirmeler > Bot hesapları** bölümünden “Kullanıcı hesabı kullanımdan kaldırıldığında bot hesapları da kullanımdan kaldırılsın” seçeneğini açın.{{end}}"
   },
   {
     "id": "app.channel.get_more_channels.get.app_error",
@@ -5132,11 +5132,11 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Mattermost uygulamasını indirin ya da daha iyi bir deneyim elde etmek için desteklenen bir tarayıcı kullanın."
+    "translation": "Sofa uygulamasını indirin ya da daha iyi bir deneyim elde etmek için desteklenen bir tarayıcı kullanın."
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Bu tarayıcı artık Mattermost tarafından desteklenmiyor"
+    "translation": "Bu tarayıcı artık Sofa tarafından desteklenmiyor"
   },
   {
     "id": "api.push_notifications.session.expired",
@@ -5292,7 +5292,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Mattermost Enterprise lisansı kullanımdan kaldırıldı."
+    "translation": "Sofa Enterprise lisansı kullanımdan kaldırıldı."
   },
   {
     "id": "api.team.add_members.error",
@@ -5528,7 +5528,7 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Kullandığınız tarayıcının bu sürümü artık Mattermost tarafından desteklenmiyor"
+    "translation": "Kullandığınız tarayıcının bu sürümü artık Sofa tarafından desteklenmiyor"
   },
   {
     "id": "web.error.unsupported_browser.open_system_browser.edge",
@@ -5616,7 +5616,7 @@
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "Lisans isteğinde bulunmak için Mattermost yazılım değerlendirme sözleşmesi ve kişisel verilerin gizliliği ilkesi içeriklerini kabul etmelisiniz."
+    "translation": "Lisans isteğinde bulunmak için Sofa yazılım değerlendirme sözleşmesi ve kişisel verilerin gizliliği ilkesi içeriklerini kabul etmelisiniz."
   },
   {
     "id": "app.channel.create_initial_sidebar_categories.internal_error",
@@ -6620,43 +6620,43 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi. İndirilen dosyanın sayısal imzası doğrulanamadı."
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi. İndirilen dosyanın sayısal imzası doğrulanamadı."
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi."
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi."
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi. Bu özellik yalnızca x86-64 mimarisine sahip Linux sistemleri üzerinde kullanılabilir."
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi. Bu özellik yalnızca x86-64 mimarisine sahip Linux sistemleri üzerinde kullanılabilir."
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi. {{.MattermostUsername}} Mattermost sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Mattermost uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Mattermost üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemi tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi. {{.SofaUsername}} Sofa sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Sofa uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Sofa üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemi tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi. {{.MattermostUsername}} Mattermost sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Mattermost uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Mattermost üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemini tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi. {{.SofaUsername}} Sofa sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Sofa uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Sofa üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemini tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi. {{.MattermostUsername}} Mattermost sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Mattermost uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Mattermost üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemini tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi. {{.SofaUsername}} Sofa sistem kullanıcısının gerekli program dosyalarına yazma izni yok. Bir sistem yöneticisi Sofa uygulamasının kurulu olduğu sunucu üzerinde aşağıdaki komutları yürüterek dosya izinlerini güncelleyebilir:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nDosya izinleri değiştirildikten sonra Sofa üst tarifesine geçmeyi yeniden deneyin. Geçiş işlemini tamamlanıp sunucuyu yeniden başlatıldıktan sonra aşağıdaki komutun yürütülerek program dosyası izinlerini özgün duruma döndürülmesi gerektiğini unutmayın:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
-    "translation": "Mattermost Enterprise üst tarifesine geçilemedi."
+    "translation": "Sofa Enterprise üst tarifesine geçilemedi."
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "Zaten bir Mattermost Enterprise üst tarifesine geçme işlemi yapılıyor."
+    "translation": "Zaten bir Sofa Enterprise üst tarifesine geçme işlemi yapılıyor."
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "Zaten Mattermost Enterprise üst tarifesini kullandığınız için tarife geçişi yapamazsınız."
+    "translation": "Zaten Sofa Enterprise üst tarifesini kullandığınız için tarife geçişi yapamazsınız."
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "Zaten Mattermost Enterprise üst tarifesine geçmişsiniz. Lütfen geçiş işlemini tamamlamak için sunucuyu yeniden başlatın."
+    "translation": "Zaten Sofa Enterprise üst tarifesine geçmişsiniz. Lütfen geçiş işlemini tamamlamak için sunucuyu yeniden başlatın."
   },
   {
     "id": "api.system.update_notices.validating_failed",
@@ -7272,7 +7272,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2022 Mattermost, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
+    "translation": "© 2022 Sofa, Inc. 530 Lytton Avenue, Second floor, Palo Alto, CA, 94301"
   },
   {
     "id": "api.post.search_files.invalid_body.app_error",
@@ -7340,7 +7340,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Mattermost nedir?"
+    "translation": "Sofa nedir?"
   },
   {
     "id": "api.templates.invite_body_footer.learn_more",
@@ -7348,11 +7348,11 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Mattermost güvenli takım işbirliği sağlayan esnek ve açık kaynaklı bir iletişim platformudur."
+    "translation": "Sofa güvenli takım işbirliği sağlayan esnek ve açık kaynaklı bir iletişim platformudur."
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Mattermost üzerinde takımınızla iş birliği yapmaya başlayın"
+    "translation": "Sofa üzerinde takımınızla iş birliği yapmaya başlayın"
   },
   {
     "id": "api.templates.cloud_welcome_email.title",
@@ -7396,11 +7396,11 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Mattermost uygulamasını indir"
+    "translation": "Sofa uygulamasını indir"
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Mattermost uygulamasını aç"
+    "translation": "Sofa uygulamasını aç"
   },
   {
     "id": "api.templates.cloud_welcome_email.app_market_place",
@@ -7460,7 +7460,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Mattermost kopyaları arasında iletişim kurmak için uzak güvenli bağlantıları davet edin."
+    "translation": "Sofa kopyaları arasında iletişim kurmak için uzak güvenli bağlantıları davet edin."
   },
   {
     "id": "api.command_remote.decode_invitation.error",
@@ -7480,7 +7480,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "Bir dış Mattermost kopyasından gelen bir daveti kabul et"
+    "translation": "Bir dış Sofa kopyasından gelen bir daveti kabul et"
   },
   {
     "id": "api.command_remote.accept_invitation",
@@ -7492,7 +7492,7 @@
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "Bir dış Mattermost kopyasını geçerli paylaşılmış kanala davet eder"
+    "translation": "Bir dış Sofa kopyasını geçerli paylaşılmış kanala davet eder"
   },
   {
     "id": "api.command_share.invitation_sent",
@@ -7516,7 +7516,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "Geçerli kanalı bir dış Mattermost kopyası ile paylaşır."
+    "translation": "Geçerli kanalı bir dış Sofa kopyası ile paylaşır."
   },
   {
     "id": "api.command_share.could_not_uninvite.error",
@@ -7584,7 +7584,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "Aşağıdaki şifreli (AES256 + Base64) veri yığınını parola ile dış Mattermost yöneticisine gönderin. `{{.Command}}` bölü komutunu kullanarak daveti kabul edebilir.\n\n```\n{{.Invitation}}\n```\n\n**Güvenli bağlantının sizin Mattermost kopyanıza ** {{.SiteURL}} adresi ile erişilebildiğinden emin olun"
+    "translation": "Aşağıdaki şifreli (AES256 + Base64) veri yığınını parola ile dış Sofa yöneticisine gönderin. `{{.Command}}` bölü komutunu kullanarak daveti kabul edebilir.\n\n```\n{{.Invitation}}\n```\n\n**Güvenli bağlantının sizin Sofa kopyanıza ** {{.SiteURL}} adresi ile erişilebildiğinden emin olun"
   },
   {
     "id": "api.command_remote.remote_add_remove.help",
@@ -7860,7 +7860,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "Mattermost oturumu aç"
+    "translation": "Sofa oturumu aç"
   },
   {
     "id": "app.notification.footer.info",
@@ -7915,7 +7915,7 @@
   },
   {
     "id": "api.email_batching.send_batched_email_notification.button",
-    "translation": "Mattermost uygulamasını aç"
+    "translation": "Sofa uygulamasını aç"
   },
   {
     "id": "api.oauth.click_redirect",
@@ -7971,7 +7971,7 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "Çalışma alanınız daha önce bir deneme lisansı kullandığı için yeni deneme lisansı için başvurulamadı. Deneme sürenizi uzatmak istiyorsanız [satış ekibimizle](https://mattermost.com/contact-us/) görüşebilirsiniz."
+    "translation": "Çalışma alanınız daha önce bir deneme lisansı kullandığı için yeni deneme lisansı için başvurulamadı. Deneme sürenizi uzatmak istiyorsanız [satış ekibimizle](https://sofa.com/contact-us/) görüşebilirsiniz."
   },
   {
     "id": "api.license.request-trial.can-start-trial.error",
@@ -7983,11 +7983,11 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "Mattermost aboneliğinizin yenilenmesi gerekiyor"
+    "translation": "Sofa aboneliğinizin yenilenmesi gerekiyor"
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "{{.UserName}}, aboneliğiniz {{.Days}} gün içinde sona erecek. Mattermost tarafından sunulan esnek ve güvenli takım çalışmasını deneyimlediğinizi umuyoruz. Takımınızın bu özellikleri kullanmayı sürdürebilmesi için aboneliğinizi yenileyin."
+    "translation": "{{.UserName}}, aboneliğiniz {{.Days}} gün içinde sona erecek. Sofa tarafından sunulan esnek ve güvenli takım çalışmasını deneyimlediğinizi umuyoruz. Takımınızın bu özellikleri kullanmayı sürdürebilmesi için aboneliğinizi yenileyin."
   },
   {
     "id": "api.templates.license_up_for_renewal_subject",
@@ -8214,8 +8214,8 @@
     "translation": "Önceden hazırlanmış uygulama eki sürümü işlenemedi."
   },
   {
-    "id": "model.oauth.is_valid.mattermost_app_id.app_error",
-    "translation": "MattermostAppID en fazla 32 karakter uzunluğunda olabilir."
+    "id": "model.oauth.is_valid.sofa_app_id.app_error",
+    "translation": "SofaAppID en fazla 32 karakter uzunluğunda olabilir."
   },
   {
     "id": "app.channel.get_file_count.app_error",
@@ -8275,7 +8275,7 @@
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "Ambargo uygulanan ülkelerdeki sınırlamalar nedeniyle isteği işleyemedik. [Belgelerimizden ayrıntılı bilgi alın](https://mattermost.com/pl/limitations-for-embargoed-countries) ya da ihracat sınırlamalarıyla ilgili sorularınız için legal@mattermost.com adresine yazın."
+    "translation": "Ambargo uygulanan ülkelerdeki sınırlamalar nedeniyle isteği işleyemedik. [Belgelerimizden ayrıntılı bilgi alın](https://sofa.com/pl/limitations-for-embargoed-countries) ya da ihracat sınırlamalarıyla ilgili sorularınız için legal@sofa.com adresine yazın."
   },
   {
     "id": "api.elasticsearch.test_elasticsearch_settings_nil.app_error",
@@ -8283,7 +8283,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "Bir Cloud kopyasına mmctl ile yükleme desteklenmiyor. Lütfen şu makaleye bakın: https://docs.mattermost.com/manage/cloud-data-export.html."
+    "translation": "Bir Cloud kopyasına mmctl ile yükleme desteklenmiyor. Lütfen şu makaleye bakın: https://docs.sofa.com/manage/cloud-data-export.html."
   },
   {
     "id": "app.teams.analytics_teams_count.app_error",
@@ -8343,7 +8343,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Mattermost, sağladığı araçlar ile takımların güvenli iletişim, işbirliği ve birlikte çalışmasını sağlayan açık kaynaklı bir platformdur.\nMattermost üç temel araç sunar:\n\n**Kanallar** - Takımınızla toplu olarak ve üyeleriyle birebir iletişim kurabilirsiniz.\n**[Senaryolar](/playbooks)** - Yinelenen işlemlere özel yapılandırmalar oluşturarak öngörülebilir sonuçlar alabilirsiniz.\n\n[İlgili belgeler ve rehberler]({{.HelpLink}})"
+    "translation": "Sofa, sağladığı araçlar ile takımların güvenli iletişim, işbirliği ve birlikte çalışmasını sağlayan açık kaynaklı bir platformdur.\nSofa üç temel araç sunar:\n\n**Kanallar** - Takımınızla toplu olarak ve üyeleriyle birebir iletişim kurabilirsiniz.\n**[Senaryolar](/playbooks)** - Yinelenen işlemlere özel yapılandırmalar oluşturarak öngörülebilir sonuçlar alabilirsiniz.\n\n[İlgili belgeler ve rehberler]({{.HelpLink}})"
   },
   {
     "id": "api.command_marketplace.unsupported.app_error",
@@ -8579,7 +8579,7 @@
   },
   {
     "id": "api.server.cws.needs_enterprise_edition",
-    "translation": "Bu hizmet yalnızca Mattermost Enterprise sürümüyle kullanılabilir"
+    "translation": "Bu hizmet yalnızca Sofa Enterprise sürümüyle kullanılabilir"
   },
   {
     "id": "app.oauth.remove_auth_data_by_client_id.app_error",
@@ -9023,7 +9023,7 @@
   },
   {
     "id": "api.config.update.elasticsearch.autocomplete_cannot_be_enabled_error",
-    "translation": "Kanal dizini şeması güncel olmadığı için kanal otomatik tamamlama özelliği açılamadı. Kanal dizininizi yeniden oluşturmanız önerilir. Ayrıntılı bilgi almak için Mattermost değişiklik günlüğüne bakın"
+    "translation": "Kanal dizini şeması güncel olmadığı için kanal otomatik tamamlama özelliği açılamadı. Kanal dizininizi yeniden oluşturmanız önerilir. Ayrıntılı bilgi almak için Sofa değişiklik günlüğüne bakın"
   },
   {
     "id": "api.context.outgoing_oauth_connection.create_connection.input_error",
@@ -9455,7 +9455,7 @@
   },
   {
     "id": "api.server.cws.disabled",
-    "translation": "Mattermost müşteri portalı ile etkileşim kurma özelliği sistem yöneticisi tarafından kapatılmış."
+    "translation": "Sofa müşteri portalı ile etkileşim kurma özelliği sistem yöneticisi tarafından kapatılmış."
   },
   {
     "id": "api.templates.ip_filters_changed.title",
@@ -11045,15 +11045,15 @@
   },
   {
     "id": "api.user.delete_channel.not_enabled.for_admin.app_error",
-    "translation": "Kalıcı kanal silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPIChannelDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://mattermost.com/pl/environment-configuration-settings adresine bakın."
+    "translation": "Kalıcı kanal silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPIChannelDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://sofa.com/pl/environment-configuration-settings adresine bakın."
   },
   {
     "id": "api.user.delete_team.not_enabled.for_admin.app_error",
-    "translation": "Kalıcı takım silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPITeamDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://mattermost.com/pl/environment-configuration-settings adresine bakın."
+    "translation": "Kalıcı takım silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPITeamDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://sofa.com/pl/environment-configuration-settings adresine bakın."
   },
   {
     "id": "api.user.delete_user.not_enabled.for_admin.app_error",
-    "translation": "Kalıcı kullanıcı silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPIUserDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://mattermost.com/pl/environment-configuration-settings adresine bakın."
+    "translation": "Kalıcı kullanıcı silme özelliği açılmamış. Bu komutu kullanabilmek için ServiceSettings.EnableAPIUserDeletion seçeneği true olarak ayarlanmalıdır. Ayrıntılı bilgi almak için https://sofa.com/pl/environment-configuration-settings adresine bakın."
   },
   {
     "id": "app.agents.get_agents.app_error",

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -16,12 +16,12 @@ import {TERMS_OF_SERVICE_LINK} from '../../../../utils/constants';
 import {backToTeam, saveSetting} from './helper';
 
 describe('SupportSettings', () => {
-    const tosLink = 'https://github.com/mattermost/platform/blob/master/README.md';
-    const privacyLink = 'https://github.com/mattermost/platform/blob/master/README.md';
-    const aboutLink = 'https://mattermost.com/default-about/';
-    const helpLink = 'https://github.com/mattermost/platform/blob/master/doc/help/README.md';
-    const problemLink = 'https://forum.mattermost.com/c/trouble-shoot';
-    const askCommunityLink = 'https://mattermost.com/pl/default-ask-mattermost-community';
+    const tosLink = 'https://github.com/sofa/platform/blob/master/README.md';
+    const privacyLink = 'https://github.com/sofa/platform/blob/master/README.md';
+    const aboutLink = 'https://sofa.com/default-about/';
+    const helpLink = 'https://github.com/sofa/platform/blob/master/doc/help/README.md';
+    const problemLink = 'https://forum.sofa.com/c/trouble-shoot';
+    const askCommunityLink = 'https://sofa.com/pl/default-ask-sofa-community';
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
@@ -151,7 +151,7 @@ describe('SupportSettings', () => {
         cy.findByTestId('SupportSettings.EnableAskCommunityLinktrue').should('be.checked');
 
         // * Verify the help text
-        cy.findByTestId('SupportSettings.EnableAskCommunityLinkhelp-text').should('contain', 'When true, "Ask the community" link appears on the Mattermost user interface and Help Menu, which allows users to join the Mattermost Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.');
+        cy.findByTestId('SupportSettings.EnableAskCommunityLinkhelp-text').should('contain', 'When true, "Ask the community" link appears on the Sofa user interface and Help Menu, which allows users to join the Sofa Community to ask questions and help others troubleshoot issues. When false, the link is hidden from users.');
 
         // # Back to team view
         backToTeam();

@@ -1068,7 +1068,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
+    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
   },
   {
     "id": "api.command_invite.channel_constrained_user_denied",
@@ -1108,7 +1108,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
+    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
   },
   {
     "id": "api.command_invite.success",
@@ -1247,7 +1247,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
+    "translation": "لم يتم العثور على القناة {{.Channel}}. الرجاء استخدام [مقبض القناة](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
   },
   {
     "id": "api.command_mute.hint",
@@ -1259,7 +1259,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "لم يتم العثور على القناة المحددة. الرجاء استخدام [مقبض القناة](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
+    "translation": "لم يتم العثور على القناة المحددة. الرجاء استخدام [مقبض القناة](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) لتحديد القنوات."
   },
   {
     "id": "api.command_mute.not_member.error",
@@ -2138,7 +2138,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "التحميل عبر mmctl إلى مثيل Cloud غير مدعوم. يرجى التحقق من الوثائق هنا: https://docs.mattermost.com/manage/cloud-data-export.html."
+    "translation": "التحميل عبر mmctl إلى مثيل Cloud غير مدعوم. يرجى التحقق من الوثائق هنا: https://docs.sofa.com/manage/cloud-data-export.html."
   },
   {
     "id": "api.file.file_exists.app_error",
@@ -2458,15 +2458,15 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "فشل في تطبيق ترخيص تجريبي جديد لأن مساحة العمل الخاصة بك قد طبقت ترخيصاً تجريبياً بالفعل. إذا كنت ترغب في تمديد فترة التجربة، يرجى بالاتصال بـ [فريق المبيعات لدينا](https://mattermost.com/contact-us/)."
+    "translation": "فشل في تطبيق ترخيص تجريبي جديد لأن مساحة العمل الخاصة بك قد طبقت ترخيصاً تجريبياً بالفعل. إذا كنت ترغب في تمديد فترة التجربة، يرجى بالاتصال بـ [فريق المبيعات لدينا](https://sofa.com/contact-us/)."
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "تعذر الحصول على ترخيص تجريبي، يرجى المحاولة مرة أخرى أو الاتصال بـ support@mattermost.com."
+    "translation": "تعذر الحصول على ترخيص تجريبي، يرجى المحاولة مرة أخرى أو الاتصال بـ support@sofa.com."
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "لم نتمكن من معالجة الطلب بسبب القيود المفروضة على الدول الخاضعة للحظر. [تعرف على المزيد في وثائقنا](https://mattermost.com/pl/limitations-for-embargoed-countries)، أو تواصل مع legal@mattermost.com للأسئلة المتعلقة بقيود التصدير."
+    "translation": "لم نتمكن من معالجة الطلب بسبب القيود المفروضة على الدول الخاضعة للحظر. [تعرف على المزيد في وثائقنا](https://sofa.com/pl/limitations-for-embargoed-countries)، أو تواصل مع legal@sofa.com للأسئلة المتعلقة بقيود التصدير."
   },
   {
     "id": "api.license.upgrade_needed.app_error",
@@ -3784,7 +3784,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "ما هو Mattermost؟"
+    "translation": "ما هو Sofa؟"
   },
   {
     "id": "api.templates.invite_body_guest.subTitle",
@@ -4076,15 +4076,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.MattermostUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.SofaUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.MattermostUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.SofaUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.MattermostUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "لم يتمكن workspace من الترقية إلى Enterprise Edition. مستخدم نظام workspace {{.SofaUsername}} ليس لديه حق الوصول للكتابة إلى الملف الثنائي الضروري. يمكن لمسؤول النظام تحديث أذونات الملف عن طريق تنفيذ الأمر التالي على الخادم حيث تم تثبيت workspace:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\n```\n\nبعد تغيير أذونات الملف، حاول ترقية workspace مرة أخرى. عندما تقوم بالترقية وإعادة التشغيل، تذكر استعادة أذونات الملف الثنائي الأصلية:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
@@ -4300,7 +4300,7 @@
   },
   {
     "id": "api.user.delete_channel.not_enabled.for_admin.app_error",
-    "translation": "ميزة حذف القناة الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPIChannelDeletion إلى true لاستخدام هذا الأمر. انظر https://mattermost.com/pl/environment-configuration-settings لمزيد من المعلومات"
+    "translation": "ميزة حذف القناة الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPIChannelDeletion إلى true لاستخدام هذا الأمر. انظر https://sofa.com/pl/environment-configuration-settings لمزيد من المعلومات"
   },
   {
     "id": "api.user.delete_team.not_enabled.app_error",
@@ -4308,7 +4308,7 @@
   },
   {
     "id": "api.user.delete_team.not_enabled.for_admin.app_error",
-    "translation": "ميزة حذف الفريق الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPITeamDeletion إلى true لاستخدام هذا الأمر. انظر https://mattermost.com/pl/environment-configuration-settings لمزيد من المعلومات."
+    "translation": "ميزة حذف الفريق الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPITeamDeletion إلى true لاستخدام هذا الأمر. انظر https://sofa.com/pl/environment-configuration-settings لمزيد من المعلومات."
   },
   {
     "id": "api.user.delete_user.not_enabled.app_error",
@@ -4316,7 +4316,7 @@
   },
   {
     "id": "api.user.delete_user.not_enabled.for_admin.app_error",
-    "translation": "ميزة حذف المستخدم الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPIUserDeletion إلى true لاستخدام هذا الأمر. انظر https://mattermost.com/pl/environment-configuration-settings لمزيد من المعلومات."
+    "translation": "ميزة حذف المستخدم الدائم غير مفعلة. يجب تعيين ServiceSettings.EnableAPIUserDeletion إلى true لاستخدام هذا الأمر. انظر https://sofa.com/pl/environment-configuration-settings لمزيد من المعلومات."
   },
   {
     "id": "api.user.demote_user_to_guest.already_guest.app_error",
@@ -4880,7 +4880,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} تم إلغاء تنشيطه. كان يديد حسابات البوت التالية التي تم تعطيلها الآن.\n\n{{.BotNames}}{{else}}{{.UserName}} تم إلغاء تنشيطه. كان يديد {{.NumBots}} حساب بوت التي تم تعطيلها الآن، بما في ذلك التالي:\n\n{{.BotNames}}{{end}}يمكنك تولي ملكية كل بوت عن طريق تفعيله في **التكاملات > حسابات البوت** وإنشاء رموز جديدة للبوت.\n\nلمزيد من المعلومات، انظر [توثيقنا](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} تم إلغاء تنشيطه. كان يديد حسابات البوت التالية التي لا تزال مفعلة.\n\n{{.BotNames}}\n{{else}}{{.UserName}} تم إلغاء تنشيطه. كان يديد {{.NumBots}} حساب بوت التي لا تزال مفعلة، بما في ذلك التالي:\n\n{{.BotNames}}{{end}}نوصي بشدة بتولي ملكية كل بوت عن طريق إعادة تفعيله في **التكاملات > حسابات البوت** وإنشاء رموز جديدة للبوت.\n\nلمزيد من المعلومات، انظر [توثيقنا](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nإذا كنت تريد تعطيل حسابات البوت تلقائياً بعد إلغاء تنشيط المالك، قم بتعيين \"تعطيل حسابات البوت عند إلغاء تنشيط المالك\" في **وحدة تحكم النظام > التكاملات > حسابات البوت** إلى true.{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} تم إلغاء تنشيطه. كان يديد حسابات البوت التالية التي تم تعطيلها الآن.\n\n{{.BotNames}}{{else}}{{.UserName}} تم إلغاء تنشيطه. كان يديد {{.NumBots}} حساب بوت التي تم تعطيلها الآن، بما في ذلك التالي:\n\n{{.BotNames}}{{end}}يمكنك تولي ملكية كل بوت عن طريق تفعيله في **التكاملات > حسابات البوت** وإنشاء رموز جديدة للبوت.\n\nلمزيد من المعلومات، انظر [توثيقنا](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} تم إلغاء تنشيطه. كان يديد حسابات البوت التالية التي لا تزال مفعلة.\n\n{{.BotNames}}\n{{else}}{{.UserName}} تم إلغاء تنشيطه. كان يديد {{.NumBots}} حساب بوت التي لا تزال مفعلة، بما في ذلك التالي:\n\n{{.BotNames}}{{end}}نوصي بشدة بتولي ملكية كل بوت عن طريق إعادة تفعيله في **التكاملات > حسابات البوت** وإنشاء رموز جديدة للبوت.\n\nلمزيد من المعلومات، انظر [توثيقنا](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nإذا كنت تريد تعطيل حسابات البوت تلقائياً بعد إلغاء تنشيط المالك، قم بتعيين \"تعطيل حسابات البوت عند إلغاء تنشيط المالك\" في **وحدة تحكم النظام > التكاملات > حسابات البوت** إلى true.{{end}}"
   },
   {
     "id": "app.bot.get_system_bot.empty_admin_list.app_error",
@@ -8850,7 +8850,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "تم تجاوز حد الحجم (Size Limit Exceeded). حاول زيادة إعداد الحد الأقصى لحجم الصفحة. تحقق من https://docs.mattermost.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded لمزيد من التفاصيل."
+    "translation": "تم تجاوز حد الحجم (Size Limit Exceeded). حاول زيادة إعداد الحد الأقصى لحجم الصفحة. تحقق من https://docs.sofa.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded لمزيد من التفاصيل."
   },
   {
     "id": "ent.ldap.update_cpa.empty_attribute",
@@ -9213,7 +9213,7 @@
     "translation": "غير قادر على الحصول على القنوات."
   },
   {
-    "id": "mattermost.bulletin.subject",
+    "id": "sofa.bulletin.subject",
     "translation": "نشرة أمنية workspace"
   },
   {
@@ -10677,8 +10677,8 @@
     "translation": "يجب أن يكون رابط الأيقونة صالحاً ويبدأ بـ http:// أو https://."
   },
   {
-    "id": "model.oauth.is_valid.mattermost_app_id.app_error",
-    "translation": "الحد الأقصى لطول MattermostAppID هو 32 حرفاً."
+    "id": "model.oauth.is_valid.sofa_app_id.app_error",
+    "translation": "الحد الأقصى لطول SofaAppID هو 32 حرفاً."
   },
   {
     "id": "model.oauth.is_valid.name.app_error",

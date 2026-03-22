@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -10,28 +10,28 @@ import (
 	"hash/maphash"
 	"net/http"
 	"runtime"
-	"github.com/mattermost/mattermost/server/public/shared/httpservice"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
 	"strconv"
 	"sync"
 	"sync/atomic"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/app/featureflag"
-	"github.com/mattermost/mattermost/server/v8/channels/jobs"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/store/localcachelayer"
-	"github.com/mattermost/mattermost/server/v8/channels/store/retrylayer"
-	"github.com/mattermost/mattermost/server/v8/channels/store/searchlayer"
-	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
-	"github.com/mattermost/mattermost/server/v8/channels/store/timerlayer"
-	"github.com/mattermost/mattermost/server/v8/config"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
-	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
-	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/filestore"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/featureflag"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/localcachelayer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/retrylayer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/searchlayer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/sqlstore"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/timerlayer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/cache"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/filestore"
 )
 
 // PlatformService is the service for the platform related tasks. It is

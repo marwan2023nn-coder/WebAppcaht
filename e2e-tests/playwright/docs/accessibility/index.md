@@ -1,6 +1,6 @@
 # Accessibility Testing Guidelines
 
-Welcome to Mattermost's accessibility testing documentation. This guide covers how to write comprehensive accessibility tests that ensure our application meets WCAG 2.1 AA compliance standards and provides an inclusive experience for all users.
+Welcome to Sofa's accessibility testing documentation. This guide covers how to write comprehensive accessibility tests that ensure our application meets WCAG 2.1 AA compliance standards and provides an inclusive experience for all users.
 
 ## Quick Start
 
@@ -203,4 +203,4 @@ See the main [README.md](../../README.md#visual-testing) for visual testing guid
 - Review existing tests in `specs/accessibility/` for patterns
 - Check automated scan guidelines for axe-core usage
 - See interaction testing docs for keyboard navigation patterns
-- Ask questions in [~e2e-testing](https://community.mattermost.com/core/channels/e2e-testing) channels at Mattermost Community.
+- Ask questions in [~e2e-testing](https://community.sofa.com/core/channels/e2e-testing) channels at Sofa Community.

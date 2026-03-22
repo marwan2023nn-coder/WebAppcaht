@@ -1,7 +1,7 @@
 package settings
 
 import (
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func stringsToOptions(in []string) []*model.PostActionOptions {

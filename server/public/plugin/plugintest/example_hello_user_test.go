@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugintest_test
@@ -13,17 +13,17 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/plugin"
-	"github.com/mattermost/mattermost/server/public/plugin/plugintest"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest"
 )
 
 type HelloUserPlugin struct {
-	plugin.MattermostPlugin
+	plugin.SofaPlugin
 }
 
 func (p *HelloUserPlugin) ServeHTTP(context *plugin.Context, w http.ResponseWriter, r *http.Request) {
-	userID := r.Header.Get("Mattermost-User-Id")
+	userID := r.Header.Get("Sofa-User-Id")
 	user, err := p.API.GetUser(userID)
 	if err != nil {
 		w.WriteHeader(http.StatusBadRequest)
@@ -50,7 +50,7 @@ func Example() {
 
 	w := httptest.NewRecorder()
 	r := httptest.NewRequest("GET", "/", nil)
-	r.Header.Add("Mattermost-User-Id", user.Id)
+	r.Header.Add("Sofa-User-Id", user.Id)
 	p.ServeHTTP(&plugin.Context{}, w, r)
 	body, err := io.ReadAll(w.Result().Body)
 	require.NoError(t, err)

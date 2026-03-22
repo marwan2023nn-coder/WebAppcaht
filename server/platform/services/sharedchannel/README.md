@@ -1,10 +1,10 @@
 ## Shared Channel Service
 
-Package `sharedchannel` implements Mattermost's shared channels functionality, for sharing channel content across Mattermost instances/clusters. Here are the key responsibilities:
+Package `sharedchannel` implements Sofa's shared channels functionality, for sharing channel content across Sofa instances/clusters. Here are the key responsibilities:
 
 ### Channel Sharing:
 
-- Allows channels to be shared between different Mattermost instances/clusters
+- Allows channels to be shared between different Sofa instances/clusters
 - Handles inviting remote clusters to shared channels
 - Manages permissions and read-only status for shared channels
 
@@ -29,17 +29,17 @@ Package `sharedchannel` implements Mattermost's shared channels functionality, f
 - Verifies remote cluster authenticity
 - Sanitizes user data during sync
 
-The service acts as a bridge between Mattermost instances, allowing users from different instances to collaborate in shared channels while keeping content synchronized across all participating instances.
+The service acts as a bridge between Sofa instances, allowing users from different instances to collaborate in shared channels while keeping content synchronized across all participating instances.
 
 This is implemented through a Service struct that handles all the shared channel operations and maintains the synchronization state. It works in conjunction with the RemoteCluster service to handle the actual communication between instances.
 
 ---
 
-## API Calls and Flow Between Mattermost Instances
+## API Calls and Flow Between Sofa Instances
 
 ### Overview
 
-Shared channels enable two Mattermost instances to synchronize specific channels. The architecture uses:
+Shared channels enable two Sofa instances to synchronize specific channels. The architecture uses:
 - **Remote Cluster Service** - Handles inter-cluster communication
 - **Shared Channel Service** - Manages channel synchronization
 - **Push-based sync** - Each server pushes changes to remotes
@@ -133,7 +133,7 @@ erDiagram
 ```
 
 **RemoteCluster** (`server/public/model/remote_cluster.go:56`)
-- Connection between two Mattermost instances
+- Connection between two Sofa instances
 - Contains authentication tokens (bidirectional)
 - Tracks heartbeat status (`LastPingAt`)
 
@@ -516,4 +516,4 @@ sequenceDiagram
 - `server/platform/services/remotecluster/` - Connection management
 - `server/platform/services/sharedchannel/` - Sync logic
 
-This architecture enables secure, bidirectional synchronization of channels between independent Mattermost instances while maintaining data privacy and consistency.
+This architecture enables secure, bidirectional synchronization of channels between independent Sofa instances while maintaining data privacy and consistency.

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -54,7 +54,7 @@ function simulateSubscription() {
         statusCode: 200,
         body: {
             name: 'Test environment ',
-            email: 'test.mattermost.com@mattermost.com',
+            email: 'test.sofa.com@sofa.com',
             num_employees: 12,
             monthly_subscription_alt_payment_method: '',
             id: 'oip7khhhkpbk7cjkrf7m66qyas',

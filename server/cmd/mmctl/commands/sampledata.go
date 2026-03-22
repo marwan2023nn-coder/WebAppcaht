@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 //nolint:gosec
@@ -15,13 +15,13 @@ import (
 	"sort"
 	"time"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 
-	"github.com/mattermost/mattermost/server/v8/channels/app/imports"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imports"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	pUtils "github.com/mattermost/mattermost/server/public/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	pUtils "github.com/marwan2023nn-coder/sofa/server/public/utils"
 
 	"github.com/icrowley/fake"
 	"github.com/spf13/cobra"

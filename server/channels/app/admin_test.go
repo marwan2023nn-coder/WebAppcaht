@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -11,7 +11,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func TestGetLatestVersion(t *testing.T) {
@@ -24,8 +24,8 @@ func TestGetLatestVersion(t *testing.T) {
 		Name:        "v6.3.0",
 		CreatedAt:   "2022-01-13T14:19:44Z",
 		PublishedAt: "2022-01-14T13:45:09Z",
-		Body:        "Mattermost Platform Release v6.3.0",
-		Url:         "https://github.com/mattermost/mattermost-server/releases/tag/v6.3.0",
+		Body:        "Sofa Platform Release v6.3.0",
+		Url:         "https://github.com/marwan2023nn-coder/sofa-server/releases/tag/v6.3.0",
 	}
 
 	validJSON, jsonErr := json.Marshal(version)
@@ -56,8 +56,8 @@ func TestGetLatestVersion(t *testing.T) {
 			Name:        "v6.3.1",
 			CreatedAt:   "2022-01-13T14:19:44Z",
 			PublishedAt: "2022-01-14T13:45:09Z",
-			Body:        "Mattermost Platform Release v6.3.0",
-			Url:         "https://github.com/mattermost/mattermost-server/releases/tag/v6.3.0",
+			Body:        "Sofa Platform Release v6.3.0",
+			Url:         "https://github.com/marwan2023nn-coder/sofa-server/releases/tag/v6.3.0",
 		}
 
 		updatedJSON, jsonErr := json.Marshal(v)

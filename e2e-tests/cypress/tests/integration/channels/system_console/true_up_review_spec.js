@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import moment from 'moment-timezone';
@@ -87,7 +87,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.visit('/admin_console/reporting/team_statistics');
         cy.findByText('True Up Review').should('exist');
 
-        cy.findByText('Share to Mattermost').should('exist').click();
+        cy.findByText('Share to Sofa').should('exist').click();
 
         cy.wait('@reviewRequest');
 
@@ -107,7 +107,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.visit('/admin_console/reporting/team_statistics');
         cy.findByText('True Up Review').should('exist');
 
-        cy.findByText('Share to Mattermost').should('exist').click();
+        cy.findByText('Share to Sofa').should('exist').click();
 
         cy.wait('@reviewRequest');
 
@@ -128,7 +128,7 @@ describe('System Console > Site Statistics > True Up Review', () => {
         cy.visit('/admin_console/reporting/team_statistics');
         cy.findByText('True Up Review').should('exist');
 
-        cy.findByText('Share to Mattermost').should('exist').click();
+        cy.findByText('Share to Sofa').should('exist').click();
 
         cy.wait('@reviewRequest');
 

@@ -8,9 +8,9 @@ We are automatically generating Notice.txt by using first-level dependencies of 
 Sample:
 
 ```
-title: "Mattermost Playbooks"
-copyright: "©2015-present Mattermost, Inc.  All Rights Reserved.  See LICENSE for license information."
-description: "This document includes a list of open source components used in Mattermost Playbooks, including those that have been modified."
+title: "Sofa Playbooks"
+copyright: "©2015-present Sofa, Inc.  All Rights Reserved.  See LICENSE for license information."
+description: "This document includes a list of open source components used in Sofa Playbooks, including those that have been modified."
 search:
   - "go.mod"
   - "client/go.mod"

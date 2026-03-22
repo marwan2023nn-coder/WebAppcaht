@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 package main
@@ -6,7 +6,7 @@ package main
 import (
 	"os"
 
-	"github.com/mattermost/mattermost/tools/mmgotool/commands"
+	"github.com/marwan2023nn-coder/sofa/tools/mmgotool/commands"
 )
 
 func main() {

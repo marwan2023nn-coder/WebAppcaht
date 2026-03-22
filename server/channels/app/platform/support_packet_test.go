@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -16,13 +16,13 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/channels/testlib"
-	"github.com/mattermost/mattermost/server/v8/config"
-	emocks "github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
-	semocks "github.com/mattermost/mattermost/server/v8/platform/services/searchengine/mocks"
-	fmocks "github.com/mattermost/mattermost/server/v8/platform/shared/filestore/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	emocks "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	semocks "github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine/mocks"
+	fmocks "github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/filestore/mocks"
 )
 
 func TestGenerateSupportPacket(t *testing.T) {
@@ -72,7 +72,7 @@ func TestGenerateSupportPacket(t *testing.T) {
 		"goroutines",
 	}
 
-	expectedFileNamesWithLogs := append(expectedFileNames, "mattermost.log")
+	expectedFileNamesWithLogs := append(expectedFileNames, "sofa.log")
 
 	var fileDatas []model.FileData
 
@@ -105,7 +105,7 @@ func TestGenerateSupportPacket(t *testing.T) {
 			IncludeLogs: true,
 		})
 		require.Error(t, err)
-		assert.Contains(t, err.Error(), "failed read mattermost log file")
+		assert.Contains(t, err.Error(), "failed read sofa log file")
 		rFileNames := getFileNames(t, fileDatas)
 
 		assert.ElementsMatch(t, expectedFileNames, rFileNames)
@@ -366,9 +366,9 @@ func TestGetSupportPacketDiagnostics(t *testing.T) {
 			cfg.SamlSettings.Enable = model.NewPointer(true)
 			cfg.SamlSettings.Verify = model.NewPointer(false)
 			cfg.SamlSettings.Encrypt = model.NewPointer(false)
-			cfg.SamlSettings.IdpURL = model.NewPointer("http://localhost:8484/realms/mattermost/protocol/saml")
-			cfg.SamlSettings.IdpDescriptorURL = model.NewPointer("http://localhost:8484/realms/mattermost")
-			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("mattermost")
+			cfg.SamlSettings.IdpURL = model.NewPointer("http://localhost:8484/realms/sofa/protocol/saml")
+			cfg.SamlSettings.IdpDescriptorURL = model.NewPointer("http://localhost:8484/realms/sofa")
+			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("sofa")
 			cfg.SamlSettings.IdpCertificateFile = model.NewPointer("saml-idp.crt")
 			cfg.SamlSettings.EmailAttribute = model.NewPointer("email")
 			cfg.SamlSettings.UsernameAttribute = model.NewPointer("username")
@@ -386,7 +386,7 @@ func TestGetSupportPacketDiagnostics(t *testing.T) {
 			cfg.SamlSettings.Encrypt = model.NewPointer(false)
 			cfg.SamlSettings.IdpURL = model.NewPointer("https://adfs.company.com/adfs/ls")
 			cfg.SamlSettings.IdpDescriptorURL = model.NewPointer("https://adfs.company.com/adfs/services/trust")
-			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("mattermost")
+			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("sofa")
 			cfg.SamlSettings.IdpCertificateFile = model.NewPointer("saml-idp.crt")
 			cfg.SamlSettings.EmailAttribute = model.NewPointer("email")
 			cfg.SamlSettings.UsernameAttribute = model.NewPointer("username")
@@ -404,7 +404,7 @@ func TestGetSupportPacketDiagnostics(t *testing.T) {
 			cfg.SamlSettings.Encrypt = model.NewPointer(false)
 			cfg.SamlSettings.IdpURL = model.NewPointer("https://custom-saml.example.com/sso/login")
 			cfg.SamlSettings.IdpDescriptorURL = model.NewPointer("https://custom-saml.example.com/sso")
-			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("mattermost")
+			cfg.SamlSettings.ServiceProviderIdentifier = model.NewPointer("sofa")
 			cfg.SamlSettings.IdpCertificateFile = model.NewPointer("saml-idp.crt")
 			cfg.SamlSettings.EmailAttribute = model.NewPointer("email")
 			cfg.SamlSettings.UsernameAttribute = model.NewPointer("username")
@@ -558,7 +558,7 @@ func TestDetectSAMLProviderType(t *testing.T) {
 	}{
 		{
 			name:             "Keycloak provider",
-			idpDescriptorURL: "http://localhost:8484/realms/mattermost",
+			idpDescriptorURL: "http://localhost:8484/realms/sofa",
 			expectedProvider: "Keycloak",
 		},
 		{
@@ -578,12 +578,12 @@ func TestDetectSAMLProviderType(t *testing.T) {
 		},
 		{
 			name:             "Okta provider",
-			idpDescriptorURL: "https://company.okta.com/app/mattermost/saml",
+			idpDescriptorURL: "https://company.okta.com/app/sofa/saml",
 			expectedProvider: "Okta",
 		},
 		{
 			name:             "Okta preview provider",
-			idpDescriptorURL: "https://company.oktapreview.com/app/mattermost/saml",
+			idpDescriptorURL: "https://company.oktapreview.com/app/sofa/saml",
 			expectedProvider: "Okta",
 		},
 		{
@@ -633,7 +633,7 @@ func TestDetectSAMLProviderType(t *testing.T) {
 		},
 		{
 			name:             "Case insensitive - Okta",
-			idpDescriptorURL: "https://COMPANY.OKTA.COM/app/mattermost/saml",
+			idpDescriptorURL: "https://COMPANY.OKTA.COM/app/sofa/saml",
 			expectedProvider: "Okta",
 		},
 		{

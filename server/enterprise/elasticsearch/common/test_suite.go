@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package common
@@ -7,10 +7,10 @@ import (
 	"encoding/json"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/api4"
-	"github.com/mattermost/mattermost/server/v8/channels/store/searchtest"
-	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/searchtest"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine"
 
 	"github.com/stretchr/testify/suite"
 )
@@ -82,10 +82,10 @@ func (c *CommonTestSuite) TestIndexPost() {
 		},
 		{
 			Name:                "Should be able to index urls",
-			Message:             "Test message www.mattermost.com http://www.mattermost.com [link](http://www.notindexed.com)",
+			Message:             "Test message www.sofa.com http://www.sofa.com [link](http://www.notindexed.com)",
 			ExpectedAttachments: "",
 			ExpectedHashtags:    []string{},
-			ExpectedURLs:        []string{"www.mattermost.com", "http://www.mattermost.com"},
+			ExpectedURLs:        []string{"www.sofa.com", "http://www.sofa.com"},
 		},
 	}
 

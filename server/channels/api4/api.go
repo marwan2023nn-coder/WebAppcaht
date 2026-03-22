@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -7,12 +7,12 @@ import (
 	"net/http"
 
 	"github.com/gorilla/mux"
-	_ "github.com/mattermost/go-i18n/i18n"
+	_ "github.com/sofa/go-i18n/i18n"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/manualtesting"
-	"github.com/mattermost/mattermost/server/v8/channels/web"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/manualtesting"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/web"
 )
 
 type Routes struct {

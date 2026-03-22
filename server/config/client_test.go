@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -9,7 +9,7 @@ import (
 
 	"github.com/stretchr/testify/assert"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 )
 
 func TestGetClientConfig(t *testing.T) {
@@ -32,7 +32,7 @@ func TestGetClientConfig(t *testing.T) {
 					AllowCustomThemes: model.NewPointer(false),
 				},
 				ServiceSettings: model.ServiceSettings{
-					WebsocketURL:        model.NewPointer("ws://mattermost.example.com:8065"),
+					WebsocketURL:        model.NewPointer("ws://sofa.example.com:8065"),
 					WebsocketPort:       model.NewPointer(80),
 					WebsocketSecurePort: model.NewPointer(443),
 				},
@@ -44,7 +44,7 @@ func TestGetClientConfig(t *testing.T) {
 				"EmailNotificationContentsType":    "full",
 				"AllowCustomThemes":                "true",
 				"EnforceMultifactorAuthentication": "false",
-				"WebsocketURL":                     "ws://mattermost.example.com:8065",
+				"WebsocketURL":                     "ws://sofa.example.com:8065",
 				"WebsocketPort":                    "80",
 				"WebsocketSecurePort":              "443",
 			},
@@ -440,7 +440,7 @@ func TestGetClientConfig(t *testing.T) {
 			},
 			map[string]string{
 				"IntuneMAMEnabled": "true",
-				"IntuneScope":      "api://87654321-4321-4321-4321-210987654321/login.mattermost",
+				"IntuneScope":      "api://87654321-4321-4321-4321-210987654321/login.sofa",
 			},
 		},
 		{
@@ -551,7 +551,7 @@ func TestGetClientConfig(t *testing.T) {
 			},
 			map[string]string{
 				"IntuneMAMEnabled":  "true",
-				"IntuneScope":       "api://87654321-4321-4321-4321-210987654321/login.mattermost",
+				"IntuneScope":       "api://87654321-4321-4321-4321-210987654321/login.sofa",
 				"IntuneAuthService": "saml",
 			},
 		},
@@ -616,7 +616,7 @@ func TestGetLimitedClientConfig(t *testing.T) {
 					AllowCustomThemes: model.NewPointer(false),
 				},
 				ServiceSettings: model.ServiceSettings{
-					WebsocketURL:        model.NewPointer("ws://mattermost.example.com:8065"),
+					WebsocketURL:        model.NewPointer("ws://sofa.example.com:8065"),
 					WebsocketPort:       model.NewPointer(80),
 					WebsocketSecurePort: model.NewPointer(443),
 				},
@@ -626,7 +626,7 @@ func TestGetLimitedClientConfig(t *testing.T) {
 			map[string]string{
 				"DiagnosticId":                     "",
 				"EnforceMultifactorAuthentication": "false",
-				"WebsocketURL":                     "ws://mattermost.example.com:8065",
+				"WebsocketURL":                     "ws://sofa.example.com:8065",
 				"WebsocketPort":                    "80",
 				"WebsocketSecurePort":              "443",
 			},

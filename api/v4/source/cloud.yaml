@@ -32,7 +32,7 @@
         - cloud
       summary: Get cloud products
       description: >
-        Retrieve a list of all products that are offered for Mattermost Cloud.
+        Retrieve a list of all products that are offered for Sofa Cloud.
 
         ##### Permissions
 
@@ -64,7 +64,7 @@
         - cloud
       summary: Create a customer setup payment intent
       description: |
-        Creates a customer setup payment intent for the given Mattermost cloud installation.
+        Creates a customer setup payment intent for the given Sofa cloud installation.
 
         ##### Permissions
 
@@ -129,7 +129,7 @@
         - cloud
       summary: Get cloud customer
       description: >
-        Retrieves the customer information for the Mattermost Cloud customer bound to this installation.
+        Retrieves the customer information for the Sofa Cloud customer bound to this installation.
 
         ##### Permissions
 
@@ -158,7 +158,7 @@
         - cloud
       summary: Update cloud customer
       description: >
-        Updates the customer information for the Mattermost Cloud customer bound to this installation.
+        Updates the customer information for the Sofa Cloud customer bound to this installation.
 
         ##### Permissions
 
@@ -206,7 +206,7 @@
         - cloud
       summary: Update cloud customer address
       description: >
-        Updates the company address for the Mattermost Cloud customer bound to this installation.
+        Updates the company address for the Sofa Cloud customer bound to this installation.
 
         ##### Permissions
 
@@ -243,7 +243,7 @@
         - cloud
       summary: Get cloud subscription
       description: >
-        Retrieves the subscription information for the Mattermost Cloud customer bound to this installation.
+        Retrieves the subscription information for the Sofa Cloud customer bound to this installation.
 
         ##### Permissions
 
@@ -400,7 +400,7 @@
 
         ##### Permissions
 
-        This endpoint should only be accessed by CWS, in a Mattermost Cloud instance
+        This endpoint should only be accessed by CWS, in a Sofa Cloud instance
 
         __Minimum server version__: 5.30
         __Note:__ This is intended for internal use and is subject to change.

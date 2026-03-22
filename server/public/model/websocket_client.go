@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -11,7 +11,7 @@ import (
 	"sync/atomic"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 
 	"github.com/gorilla/websocket"
 	"github.com/vmihailenco/msgpack/v5"

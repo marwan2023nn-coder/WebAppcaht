@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
 // See License for license information.
 
 package bot
@@ -6,19 +6,19 @@ package bot
 import (
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/pluginapi"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
 )
 
 type Bot interface {
 	Ensure(stored *model.Bot, iconPath string) error
-	MattermostUserID() string
+	SofaUserID() string
 	String() string
 }
 
 type bot struct {
 	botService       pluginapi.BotService
-	mattermostUserID string
+	sofaUserID string
 	displayName      string
 }
 
@@ -30,7 +30,7 @@ func New(botService pluginapi.BotService) Bot {
 }
 
 func (bot *bot) Ensure(stored *model.Bot, iconPath string) error {
-	if bot.mattermostUserID != "" {
+	if bot.sofaUserID != "" {
 		// Already done
 		return nil
 	}
@@ -39,13 +39,13 @@ func (bot *bot) Ensure(stored *model.Bot, iconPath string) error {
 	if err != nil {
 		return errors.Wrap(err, "failed to ensure bot account")
 	}
-	bot.mattermostUserID = botUserID
+	bot.sofaUserID = botUserID
 	bot.displayName = stored.DisplayName
 	return nil
 }
 
-func (bot *bot) MattermostUserID() string {
-	return bot.mattermostUserID
+func (bot *bot) SofaUserID() string {
+	return bot.sofaUserID
 }
 
 func (bot *bot) String() string {

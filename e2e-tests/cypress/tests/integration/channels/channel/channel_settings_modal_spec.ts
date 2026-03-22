@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @channels @channel @channel_settings
 
-import {Team} from '@mattermost/types/teams';
-import {Channel} from '@mattermost/types/channels';
-import {UserProfile} from '@mattermost/types/users';
+import {Team} from '@sofa/types/teams';
+import {Channel} from '@sofa/types/channels';
+import {UserProfile} from '@sofa/types/users';
 
 describe('Channel Settings Modal', () => {
     let testTeam: Team;
@@ -420,7 +420,7 @@ describe('Channel Settings Modal', () => {
                 should('contain', 'italic');
 
             // # Add markdown to header
-            cy.get('#channel_settings_header_textbox').clear().type('Visit [Mattermost](https://mattermost.com)');
+            cy.get('#channel_settings_header_textbox').clear().type('Visit [Sofa](https://sofa.com)');
 
             // # Click preview button for header
             cy.get('#channel_settings_header_textbox').
@@ -428,11 +428,11 @@ describe('Channel Settings Modal', () => {
                 find('#PreviewInputTextButton').
                 click();
 
-            // * Verify that markdown is rendered in preview: check for a link with text "Mattermost"
+            // * Verify that markdown is rendered in preview: check for a link with text "Sofa"
             cy.get('.textbox-preview-area').
                 should('contain', 'Visit').
                 find('a').
-                should('contain', 'Mattermost');
+                should('contain', 'Sofa');
         });
     });
 

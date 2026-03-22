@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 export function getEmailUrl() {
@@ -17,7 +17,7 @@ export function getEmailResetEmailTemplate(userEmail) {
         'You updated your email',
         '----------------------',
         '',
-        `Your email address for Mattermost has been changed to ${userEmail}.`,
+        `Your email address for Sofa has been changed to ${userEmail}.`,
         'If you did not make this change, please contact the system administrator.',
         '',
         'To change your notification preferences, log in to your team site and go to Settings > Notifications.',
@@ -29,15 +29,15 @@ export function getJoinEmailTemplate(sender, userEmail, team, isGuest = false) {
 
     return [
         `${sender} invited you to join the ${team.display_name} team.`,
-        `${isGuest ? 'You were invited as a guest to collaborate with the team' : 'Start collaborating with your team on Mattermost'}`,
+        `${isGuest ? 'You were invited as a guest to collaborate with the team' : 'Start collaborating with your team on Sofa'}`,
         '',
         `<join-link-check> Join now ( ${baseUrl}/signup_user_complete/?d=${encodeURIComponent(JSON.stringify({display_name: team.display_name.replace(' ', '+'), email: userEmail, name: team.name}))}&t=<actual-token> )`,
         '',
-        'What is Mattermost?',
-        'Mattermost is a flexible, open source messaging platform that enables secure team collaboration.',
-        'Learn more ( mattermost.com )',
+        'What is Sofa?',
+        'Sofa is a flexible, open source messaging platform that enables secure team collaboration.',
+        'Learn more ( sofa.com )',
         '',
-        `© 2015 - ${new Date().getFullYear()} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
+        `© 2015 - ${new Date().getFullYear()} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
     ];
 }
 
@@ -48,7 +48,7 @@ export function getMentionEmailTemplate(sender, message, postId, siteName, teamN
         `@${sender} mentioned you in a message`,
         `While you were away, @${sender} mentioned you in the ${channelDisplayName} channel.`,
         '',
-        `Reply in Mattermost ( ${baseUrl}/landing#/${teamName}/pl/${postId} )`,
+        `Reply in Sofa ( ${baseUrl}/landing#/${teamName}/pl/${postId} )`,
         '',
         `@${sender}`,
         '<skip-local-time-check>',
@@ -59,7 +59,7 @@ export function getMentionEmailTemplate(sender, message, postId, siteName, teamN
         'Want to change your notifications settings?',
         `Login to ${siteName} ( ${baseUrl} ) and go to Settings > Notifications`,
         '',
-        `© 2015 - ${new Date().getFullYear()} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
+        `© 2015 - ${new Date().getFullYear()} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
     ];
 }
 
@@ -74,7 +74,7 @@ export function getPasswordResetEmailTemplate() {
         '',
         'The password reset link expires in 24 hours.',
         '',
-        `© 2015 - ${new Date().getFullYear()} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
+        `© 2015 - ${new Date().getFullYear()} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
     ];
 }
 
@@ -88,10 +88,10 @@ export function getEmailVerifyEmailTemplate(userEmail) {
         '',
         `<email-verify-link-check> Verify Email ( ${baseUrl}/do_verify_email?token=<actual-token>&email=${encodeURIComponent(userEmail)} )`,
         '',
-        'This email address was used to create an account with Mattermost.',
+        'This email address was used to create an account with Sofa.',
         'If it was not you, you can safely ignore this email.',
         '',
-        `© 2015 - ${new Date().getFullYear()} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
+        `© 2015 - ${new Date().getFullYear()} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
     ];
 }
 
@@ -111,9 +111,9 @@ export function getWelcomeEmailTemplate(userEmail, siteName, teamName) {
         'Download the desktop and mobile apps',
         'For the best experience, download the apps for PC, Mac, iOS and Android.',
         '',
-        'Download ( https://mattermost.com/pl/download-apps )',
+        'Download ( https://sofa.com/pl/download-apps )',
         '',
-        `© 2015 - ${new Date().getFullYear()} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
+        `© 2015 - ${new Date().getFullYear()} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303`,
     ];
 }
 

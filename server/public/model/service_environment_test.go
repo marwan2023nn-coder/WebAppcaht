@@ -4,7 +4,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/stretchr/testify/require"
 )
 

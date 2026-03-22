@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -39,8 +39,8 @@ describe('Main menu', () => {
     it('MM-T910 Can open Administrators Guide', () => {
         cy.apiGetClientLicense().then(({isCloudLicensed}) => {
             const guideLink = isCloudLicensed ?
-                'https://docs.mattermost.com/guides/administration.html#cloud-workspace-management' :
-                'https://docs.mattermost.com/guides/administration.html';
+                'https://docs.sofa.com/guides/administration.html#cloud-workspace-management' :
+                'https://docs.sofa.com/guides/administration.html';
 
             // * Verify administrator's guide link
             verifyLink("Administrator's Guide", guideLink);
@@ -49,7 +49,7 @@ describe('Main menu', () => {
 
     it('MM-T911 Can open Troubleshooting Forum', () => {
         // * Verify troubleshooting forum link
-        verifyLink('Troubleshooting Forum', 'https://forum.mattermost.com/t/how-to-use-the-troubleshooting-forum/150');
+        verifyLink('Troubleshooting Forum', 'https://forum.sofa.com/t/how-to-use-the-troubleshooting-forum/150');
     });
 
     it('MM-T914 Can log out from system console', () => {

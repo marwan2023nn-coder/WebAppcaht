@@ -1,10 +1,10 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import type {ChannelMembership} from '@mattermost/types/channels';
-import type {Post} from '@mattermost/types/posts';
-import type {TeamMembership} from '@mattermost/types/teams';
-import type {UserProfile} from '@mattermost/types/users';
+import type {ChannelMembership} from '@sofa/types/channels';
+import type {Post} from '@sofa/types/posts';
+import type {TeamMembership} from '@sofa/types/teams';
+import type {UserProfile} from '@sofa/types/users';
 
 import {getRandomId} from '../utils';
 
@@ -68,7 +68,7 @@ function externalCreateUser(user: Partial<UserProfile>): Cypress.Chainable<UserP
         path: 'users',
         data: {
             username: 'user' + randomValue,
-            email: 'email' + randomValue + '@example.mattermost.com',
+            email: 'email' + randomValue + '@example.sofa.com',
             password: 'password' + randomValue,
             ...user,
         },

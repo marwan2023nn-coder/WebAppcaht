@@ -1,10 +1,10 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import os from 'node:os';
 
 import {expect, test} from '@playwright/test';
-import {PluginManifest} from '@mattermost/types/plugins';
+import {PluginManifest} from '@sofa/types/plugins';
 
 import {callsPluginId} from './constant';
 import {getAdminClient} from './server/init';
@@ -65,7 +65,7 @@ export async function requestTrialLicense() {
             users: 100,
             contact_name: admin.first_name + ' ' + admin.last_name,
             contact_email: admin.email,
-            company_name: 'Mattermost Playwright E2E Tests',
+            company_name: 'Sofa Playwright E2E Tests',
             company_size: '101-250',
             company_country: 'United States',
         });

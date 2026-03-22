@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@mattermost/playwright-lib';
+import {expect, test} from '@sofa/playwright-lib';
 
 import {createPost, verifyAuthorNotification, setupContentFlagging} from './../support';
 
@@ -9,7 +9,7 @@ import {createPost, verifyAuthorNotification, setupContentFlagging} from './../s
  * @objective Verify that when the author deletes a flagged message before review,
  * the flag status is updated to "Removed" and the report reflects the deletion.
  */
-// TODO: Fix defect https://mattermost.atlassian.net/browse/MM-66342
+// TODO: Fix defect https://sofa.atlassian.net/browse/MM-66342
 test.skip('should not be able to restore flagged messages when author deletes message', async ({pw}) => {
     const {adminClient, team, user: reviewerUser} = await pw.initSetup();
     // Create second user and add to team

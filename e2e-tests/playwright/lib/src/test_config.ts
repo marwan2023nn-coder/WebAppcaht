@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import * as dotenv from 'dotenv';
@@ -29,7 +29,7 @@ export class TestConfig {
         this.baseURL = process.env.PW_BASE_URL || 'http://localhost:8065';
         this.adminUsername = process.env.PW_ADMIN_USERNAME || 'sysadmin';
         this.adminPassword = process.env.PW_ADMIN_PASSWORD || 'Sys@dmin-sample1';
-        this.adminEmail = process.env.PW_ADMIN_EMAIL || 'sysadmin@sample.mattermost.com';
+        this.adminEmail = process.env.PW_ADMIN_EMAIL || 'sysadmin@sample.sofa.com';
         this.ensurePluginsInstalled =
             typeof process.env?.PW_ENSURE_PLUGINS_INSTALLED === 'string'
                 ? process.env.PW_ENSURE_PLUGINS_INSTALLED.split(',').filter((plugin) => Boolean(plugin))
@@ -37,7 +37,7 @@ export class TestConfig {
         this.haClusterEnabled = parseBool(process.env.PW_HA_CLUSTER_ENABLED, false);
         this.haClusterNodeCount = parseNumber(process.env.PW_HA_CLUSTER_NODE_COUNT, 2);
         this.haClusterName = process.env.PW_HA_CLUSTER_NAME || 'mm_dev_cluster';
-        this.pushNotificationServer = process.env.PW_PUSH_NOTIFICATION_SERVER || 'https://push-test.mattermost.com';
+        this.pushNotificationServer = process.env.PW_PUSH_NOTIFICATION_SERVER || 'https://push-test.sofa.com';
         this.resetBeforeTest = parseBool(process.env.PW_RESET_BEFORE_TEST, false);
         // CI
         this.isCI = !!process.env.CI;

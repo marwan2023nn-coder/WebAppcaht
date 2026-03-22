@@ -7,8 +7,8 @@
     "@babel/eslint-plugin": "7.27.1",
     "@cypress/request": "3.0.9",
     "@eslint/js": "9.34.0",
-    "@mattermost/client": "10.9.0",
-    "@mattermost/types": "10.9.0",
+    "@sofa/client": "10.9.0",
+    "@sofa/types": "10.9.0",
     "@testing-library/cypress": "10.0.3",
     "@types/async": "3.2.25",
     "@types/authenticator": "1.1.4",
@@ -47,7 +47,7 @@
     "eslint-plugin-cypress": "5.1.0",
     "eslint-plugin-header": "3.1.1",
     "eslint-plugin-import": "2.32.0",
-    "eslint-plugin-mattermost": "github:mattermost/eslint-plugin-mattermost#5b0c972eacf19286e4c66221b39113bf8728a99e",
+    "eslint-plugin-sofa": "github:sofa/eslint-plugin-sofa#5b0c972eacf19286e4c66221b39113bf8728a99e",
     "eslint-plugin-no-only-tests": "3.3.0",
     "eslint-plugin-react": "7.37.5",
     "express": "5.1.0",
@@ -81,10 +81,10 @@
     "yargs": "17.7.2"
   },
   "overrides": {
-    "@mattermost/client": {
+    "@sofa/client": {
       "typescript": "^5.0.4"
     },
-    "@mattermost/types": {
+    "@sofa/types": {
       "typescript": "^5.0.4"
     }
   },
@@ -96,7 +96,7 @@
     "cypress:run:firefox": "cross-env TZ=Etc/UTC cypress run --browser firefox",
     "cypress:run:edge": "cross-env TZ=Etc/UTC cypress run --browser edge",
     "cypress:run:electron": "cross-env TZ=Etc/UTC cypress run --browser electron",
-    "benchmarks:run-server": "cd mattermost && bin/mattermost",
+    "benchmarks:run-server": "cd sofa && bin/sofa",
     "start:webhook": "node webhook_serve.js",
     "pretest": "npm run clean",
     "test": "cross-env TZ=Etc/UTC cypress run",

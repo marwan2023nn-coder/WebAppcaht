@@ -76,7 +76,7 @@ export default [
             'header/header': [
                 'error',
                 'line',
-                ' Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.\n See LICENSE.txt for license information.',
+                ' Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.\n See LICENSE.txt for license information.',
                 2,
             ],
             'import/no-duplicates': 2,

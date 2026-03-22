@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package searchtest
@@ -9,9 +9,9 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 var searchPostStoreTests = []searchTest{
@@ -2041,14 +2041,14 @@ func testSearchURLsPostgres(t *testing.T, th *SearchTestHelper) {
 	// Create posts with various URL formats
 	fullUrlId := createPost("check out https://example.com/path/to/page for more info")
 	urlNoProtocolId := createPost("visit example.org/docs today")
-	urlNoPathId := createPost("go to https://mattermost.com for details")
+	urlNoPathId := createPost("go to https://sofa.com for details")
 	urlNoProtocolNoPathId := createPost("see testsite.io now")
 	httpUrlId := createPost("old link http://legacy.example.net/old")
 
 	defer th.deleteUserPosts(th.User.Id)
 
 	// Note: Searching for URLs with the protocol (https://, http://) doesn't work because
-	// Mattermost strips special characters (including ":") from search terms before sending
+	// Sofa strips special characters (including ":") from search terms before sending
 	// them to PostgreSQL. This is defined in specialSearchChars (store.go) and applied in
 	// post_store.go. The colon is stripped because it has special meaning in PostgreSQL's
 	// to_tsquery() function (prefix operator). As a result, "https://example.com" becomes
@@ -2067,7 +2067,7 @@ func testSearchURLsPostgres(t *testing.T, th *SearchTestHelper) {
 		},
 		{
 			name:        "Search URL with protocol but without path does not match",
-			terms:       "https://mattermost.com",
+			terms:       "https://sofa.com",
 			expectedIDs: []string{},
 		},
 		{
@@ -2093,7 +2093,7 @@ func testSearchURLsPostgres(t *testing.T, th *SearchTestHelper) {
 		},
 		{
 			name:        "Search domain without protocol or path",
-			terms:       "mattermost.com",
+			terms:       "sofa.com",
 			expectedIDs: []string{urlNoPathId},
 		},
 		{
@@ -2134,7 +2134,7 @@ func testSearchURLsPostgres(t *testing.T, th *SearchTestHelper) {
 		},
 		{
 			name:        "Search domain with text after",
-			terms:       "mattermost.com details",
+			terms:       "sofa.com details",
 			expectedIDs: []string{urlNoPathId},
 		},
 		// Negative test cases

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -11,7 +11,7 @@
 // Group: @channels @channel_settings
 // node run_tests.js --group='@channel_settings'
 
-import {ChannelType} from '@mattermost/types/channels';
+import {ChannelType} from '@sofa/types/channels';
 
 import {getRandomId} from '../../../utils';
 import * as TIMEOUTS from '../../../fixtures/timeouts';

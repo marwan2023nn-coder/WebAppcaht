@@ -12,9 +12,9 @@ else
 endif
 ifeq ($(FIPS_ENABLED),true)
 	@echo Verifying Build Linux amd64 for FIPS
-	$(GO) version -m $(GOBIN)/$(MM_BIN_NAME) | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS mattermost binary missing GOEXPERIMENT=systemcrypto" && exit 1)
-	$(GO) version -m $(GOBIN)/$(MM_BIN_NAME) | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS mattermost binary missing -tags=requirefips" && exit 1)
-	$(GO) tool nm $(GOBIN)/$(MM_BIN_NAME) | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS mattermost binary missing OpenSSL integration" && exit 1)
+	$(GO) version -m $(GOBIN)/$(MM_BIN_NAME) | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS sofa binary missing GOEXPERIMENT=systemcrypto" && exit 1)
+	$(GO) version -m $(GOBIN)/$(MM_BIN_NAME) | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS sofa binary missing -tags=requirefips" && exit 1)
+	$(GO) tool nm $(GOBIN)/$(MM_BIN_NAME) | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS sofa binary missing OpenSSL integration" && exit 1)
 	$(GO) version -m $(GOBIN)/$(MMCTL_BIN_NAME) | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS mmctl binary missing GOEXPERIMENT=systemcrypto" && exit 1)
 	$(GO) version -m $(GOBIN)/$(MMCTL_BIN_NAME) | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS mmctl binary missing -tags=requirefips" && exit 1)
 	$(GO) tool nm $(GOBIN)/$(MMCTL_BIN_NAME) | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS mmctl binary missing OpenSSL integration" && exit 1)
@@ -88,9 +88,9 @@ else
 endif
 ifeq ($(FIPS_ENABLED),true)
 	@echo Verifying Build Linux amd64 for FIPS
-	$(GO) version -m $(GOBIN)/mattermost | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS mattermost binary missing GOEXPERIMENT=systemcrypto" && exit 1)
-	$(GO) version -m $(GOBIN)/mattermost | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS mattermost binary missing -tags=requirefips" && exit 1)
-	$(GO) tool nm $(GOBIN)/mattermost | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS mattermost binary missing OpenSSL integration" && exit 1)
+	$(GO) version -m $(GOBIN)/sofa | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS sofa binary missing GOEXPERIMENT=systemcrypto" && exit 1)
+	$(GO) version -m $(GOBIN)/sofa | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS sofa binary missing -tags=requirefips" && exit 1)
+	$(GO) tool nm $(GOBIN)/sofa | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS sofa binary missing OpenSSL integration" && exit 1)
 	$(GO) version -m $(GOBIN)/mmctl | grep -q "GOEXPERIMENT=systemcrypto" || (echo "ERROR: FIPS mmctl binary missing GOEXPERIMENT=systemcrypto" && exit 1)
 	$(GO) version -m $(GOBIN)/mmctl | grep "\-tags" | grep -q "requirefips" || (echo "ERROR: FIPS mmctl binary missing -tags=requirefips" && exit 1)
 	$(GO) tool nm $(GOBIN)/mmctl | grep -q "func_go_openssl_OpenSSL_version" || (echo "ERROR: FIPS mmctl binary missing OpenSSL integration" && exit 1)
@@ -155,12 +155,12 @@ build: setup-go-work build-client build-linux
 build-cmd: setup-go-work build-client build-cmd-linux
 
 build-client:
-	@echo Building mattermost web app
+	@echo Building sofa web app
 
 	cd $(BUILD_WEBAPP_DIR) && $(MAKE) dist
 
 package-prep:
-	@ echo Packaging mattermost
+	@ echo Packaging sofa
 	@# Remove any old files
 	rm -Rf $(DIST_ROOT)
 
@@ -203,15 +203,15 @@ endif
 	fi
 
 fetch-prepackaged-plugins:
-	@# Import Mattermost plugin public key, ignoring errors. In FIPS mode, GPG fails to start
+	@# Import Sofa plugin public key, ignoring errors. In FIPS mode, GPG fails to start
 	@# the gpg-agent, but still imports the key. If it really fails, it will fail validation later.
 	-gpg --import build/plugin-production-public-key.gpg
 	@# Download prepackaged plugins
 	mkdir -p tmpprepackaged
 	@echo "Downloading prepackaged plugins ... "
 	@cd tmpprepackaged && for plugin_package in $(PLUGIN_PACKAGES) ; do \
-		curl -f -O -L https://plugins.releases.mattermost.com/release/$$plugin_package-$(PLUGIN_ARCH).tar.gz; \
-		curl -f -O -L https://plugins.releases.mattermost.com/release/$$plugin_package-$(PLUGIN_ARCH).tar.gz.sig; \
+		curl -f -O -L https://plugins.releases.sofa.com/release/$$plugin_package-$(PLUGIN_ARCH).tar.gz; \
+		curl -f -O -L https://plugins.releases.sofa.com/release/$$plugin_package-$(PLUGIN_ARCH).tar.gz.sig; \
 	done
 	@echo "Done"
 
@@ -244,32 +244,32 @@ package-plugins: fetch-prepackaged-plugins
 	done
 
 package-osx-amd64: package-prep
-	DIST_PATH_GENERIC=$(DIST_PATH_OSX_AMD64) CURRENT_PACKAGE_ARCH=darwin_amd64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_OSX_AMD64) CURRENT_PACKAGE_ARCH=darwin_amd64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_OSX_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-darwin-amd64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_OSX_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-darwin-amd64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/darwin_amd64
 
 package-osx-arm64: package-prep
-	DIST_PATH_GENERIC=$(DIST_PATH_OSX_ARM64) CURRENT_PACKAGE_ARCH=darwin_arm64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_OSX_ARM64) CURRENT_PACKAGE_ARCH=darwin_arm64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_OSX_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-darwin-arm64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_OSX_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-darwin-arm64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/darwin_arm64
 
 package-osx: package-osx-amd64 package-osx-arm64
 
 package-freebsd-amd64: package-prep
-	DIST_PATH_GENERIC=$(DIST_PATH_FREEBSD_AMD64) CURRENT_PACKAGE_ARCH=freebsd_amd64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_FREEBSD_AMD64) CURRENT_PACKAGE_ARCH=freebsd_amd64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_FREEBSD_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-freebsd-amd64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_FREEBSD_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-freebsd-amd64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/freebsd_amd64
 
 package-freebsd-arm64: package-prep
-	DIST_PATH_GENERIC=$(DIST_PATH_FREEBSD_ARM64) CURRENT_PACKAGE_ARCH=freebsd_arm64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_FREEBSD_ARM64) CURRENT_PACKAGE_ARCH=freebsd_arm64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_FREEBSD_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-freebsd-arm64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_FREEBSD_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-freebsd-arm64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/freebsd_arm64
 
@@ -277,9 +277,9 @@ package-freebsd: package-freebsd-amd64 package-freebsd-arm64
 
 package-linux-amd64: package-prep
 	DIST_PATH_GENERIC=$(DIST_PATH_LIN_AMD64) PLUGIN_ARCH=linux-amd64 $(MAKE) package-plugins
-	DIST_PATH_GENERIC=$(DIST_PATH_LIN_AMD64) CURRENT_PACKAGE_ARCH=linux_amd64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_LIN_AMD64) CURRENT_PACKAGE_ARCH=linux_amd64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_LIN_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-linux-amd64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_LIN_AMD64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-linux-amd64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/linux_amd64
 
@@ -287,9 +287,9 @@ package-linux-arm64: package-prep
 ifeq ($(FIPS_ENABLED),true)
 	@echo Skipping package linux arm64 for FIPS
 else
-	DIST_PATH_GENERIC=$(DIST_PATH_LIN_ARM64) CURRENT_PACKAGE_ARCH=linux_arm64 MM_BIN_NAME=mattermost MMCTL_BIN_NAME=mmctl $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_LIN_ARM64) CURRENT_PACKAGE_ARCH=linux_arm64 MM_BIN_NAME=sofa MMCTL_BIN_NAME=mmctl $(MAKE) package-general
 	@# Package
-	tar -C $(DIST_PATH_LIN_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-linux-arm64.tar.gz mattermost ../mattermost
+	tar -C $(DIST_PATH_LIN_ARM64)/.. -czf $(DIST_PATH)-$(BUILD_TYPE_NAME)-linux-arm64.tar.gz sofa ../sofa
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/linux_arm64
 endif
@@ -297,9 +297,9 @@ endif
 package-linux: package-linux-amd64 package-linux-arm64
 
 package-windows: package-prep
-	DIST_PATH_GENERIC=$(DIST_PATH_WIN) CURRENT_PACKAGE_ARCH=windows_amd64 MM_BIN_NAME=mattermost.exe MMCTL_BIN_NAME=mmctl.exe $(MAKE) package-general
+	DIST_PATH_GENERIC=$(DIST_PATH_WIN) CURRENT_PACKAGE_ARCH=windows_amd64 MM_BIN_NAME=sofa.exe MMCTL_BIN_NAME=mmctl.exe $(MAKE) package-general
 	@# Package
-	cd $(DIST_PATH_WIN)/.. && zip -9 -r -q -l ../mattermost-$(BUILD_TYPE_NAME)-windows-amd64.zip mattermost ../mattermost && cd ../..
+	cd $(DIST_PATH_WIN)/.. && zip -9 -r -q -l ../sofa-$(BUILD_TYPE_NAME)-windows-amd64.zip sofa ../sofa && cd ../..
 	@# Cleanup
 	rm -rf $(DIST_ROOT)/windows
 

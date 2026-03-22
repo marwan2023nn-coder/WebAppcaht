@@ -1,17 +1,17 @@
 {
-  "name": "@mattermost/playwright-lib",
+  "name": "@sofa/playwright-lib",
   "version": "11.4.0",
-  "description": "A comprehensive end-to-end testing library for Mattermost web, desktop and plugin applications using Playwright",
+  "description": "A comprehensive end-to-end testing library for Sofa web, desktop and plugin applications using Playwright",
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/mattermost/mattermost.git"
+    "url": "git+https://github.com/sofa/sofa.git"
   },
-  "author": "mattermost",
+  "author": "sofa",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/mattermost/mattermost/issues"
+    "url": "https://github.com/sofa/sofa/issues"
   },
-  "homepage": "https://github.com/mattermost/mattermost/tree/master/e2e-tests/playwright/lib#readme",
+  "homepage": "https://github.com/sofa/sofa/tree/master/e2e-tests/playwright/lib#readme",
   "type": "commonjs",
   "files": [
     "dist"
@@ -25,7 +25,7 @@
     }
   },
   "keywords": [
-    "mattermost",
+    "sofa",
     "e2e",
     "playwright",
     "test-automation"
@@ -43,8 +43,8 @@
   },
   "dependencies": {
     "@axe-core/playwright": "4.11.0",
-    "@mattermost/client": "file:../../../webapp/platform/client",
-    "@mattermost/types": "file:../../../webapp/platform/types",
+    "@sofa/client": "file:../../../webapp/platform/client",
+    "@sofa/types": "file:../../../webapp/platform/types",
     "@percy/cli": "1.31.8",
     "@percy/playwright": "1.0.10",
     "async-wait-until": "2.0.31",

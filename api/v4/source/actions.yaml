@@ -6,7 +6,7 @@
       description: >
         Open an interactive dialog using a trigger ID provided by a slash
         command, or some other action payload. See
-        https://docs.mattermost.com/developer/interactive-dialogs.html for more
+        https://docs.sofa.com/developer/interactive-dialogs.html for more
         information on interactive dialogs.
 
         __Minimum server version: 5.6__
@@ -47,7 +47,7 @@
                     elements:
                       type: array
                       description: Input elements, see
-                        https://docs.mattermost.com/developer/interactive-dialogs.html#elements
+                        https://docs.sofa.com/developer/interactive-dialogs.html#elements
                       items:
                         type: object
                     submit_label:
@@ -77,8 +77,8 @@
         - integration_actions
       summary: Submit a dialog
       description: >
-        Endpoint used by the Mattermost clients to submit a dialog. See
-        https://docs.mattermost.com/developer/interactive-dialogs.html for more
+        Endpoint used by the Sofa clients to submit a dialog. See
+        https://docs.sofa.com/developer/interactive-dialogs.html for more
         information on interactive dialogs.
 
         __Minimum server version: 5.6__
@@ -137,8 +137,8 @@
         - integration_actions
       summary: Lookup dialog elements
       description: >
-        Endpoint used by the Mattermost clients to lookup dynamic dialog
-        elements. See https://docs.mattermost.com/developer/interactive-dialogs.html
+        Endpoint used by the Sofa clients to lookup dynamic dialog
+        elements. See https://docs.sofa.com/developer/interactive-dialogs.html
         for more information on interactive dialogs.
 
         __Minimum server version: 11.0__

@@ -1,17 +1,17 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package elasticsearch
 
 import (
-	"github.com/mattermost/mattermost/server/v8/enterprise/elasticsearch/elasticsearch"
-	"github.com/mattermost/mattermost/server/v8/enterprise/elasticsearch/opensearch"
+	"github.com/marwan2023nn-coder/sofa/server/v8/enterprise/elasticsearch/elasticsearch"
+	"github.com/marwan2023nn-coder/sofa/server/v8/enterprise/elasticsearch/opensearch"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
-	ejobs "github.com/mattermost/mattermost/server/v8/einterfaces/jobs"
-	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/platform"
+	ejobs "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine"
 )
 
 func init() {

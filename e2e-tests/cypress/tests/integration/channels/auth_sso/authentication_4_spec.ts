@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -277,7 +277,7 @@ describe('Authentication', () => {
         cy.findByText('Copy invite link').click();
 
         // # Input email, select member
-        cy.findByLabelText('Invite People').type(`test-${getRandomId()}@mattermost.com{downarrow}{downarrow}{enter}`, {force: true});
+        cy.findByLabelText('Invite People').type(`test-${getRandomId()}@sofa.com{downarrow}{downarrow}{enter}`, {force: true});
 
         // # Click invite members button
         cy.findByRole('button', {name: 'Invite'}).click({force: true});

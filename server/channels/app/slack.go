@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -12,10 +12,10 @@ import (
 	"strings"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/platform/services/slackimport"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/slackimport"
 )
 
 func (a *App) SlackImport(rctx request.CTX, fileData multipart.File, fileSize int64, teamID string) (*model.AppError, *bytes.Buffer) {
@@ -49,7 +49,7 @@ func (a *App) SlackImport(rctx request.CTX, fileData multipart.File, fileSize in
 	}
 
 	// Determine if this is an Admin import:
-	// mattermost cmd imports (no session) are treated as admin imports since only server admins can run them
+	// sofa cmd imports (no session) are treated as admin imports since only server admins can run them
 	// Web imports (include mmctl calls) check the actual user's role
 	isAdminImport := false
 
@@ -111,7 +111,7 @@ func expandAnnouncement(text string) string {
 }
 
 // Replaces user IDs mentioned like this <@userID> to a normal username (eg. @bob)
-// This is required so that Mattermost maintains Slack compatibility
+// This is required so that Sofa maintains Slack compatibility
 // Refer to: https://api.slack.com/changelog/2017-09-the-one-about-usernames
 func replaceUserIds(rctx request.CTX, userStore store.UserStore, text string) string {
 	rgx, err := regexp.Compile("<@([a-zA-Z0-9]+)>")

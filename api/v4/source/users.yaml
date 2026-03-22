@@ -2,7 +2,7 @@
     post:
       tags:
         - users
-      summary: Login to Mattermost server
+      summary: Login to Sofa server
       description: >
         ##### Permissions
 
@@ -47,7 +47,7 @@
     post:
       tags:
         - users
-      summary: Auto-Login to Mattermost server using CWS token
+      summary: Auto-Login to Sofa server using CWS token
       description: >
         CWS stands for Customer Web Server which is the cloud service used to
         manage cloud instances.
@@ -194,7 +194,7 @@
         ##### Enterprise Feature
 
 
-        Requires Mattermost Enterprise Advanced license and proper Intune MAM configuration
+        Requires Sofa Enterprise Advanced license and proper Intune MAM configuration
         (tenant ID, client ID, and auth service).
       operationId: LoginIntune
       requestBody:
@@ -244,7 +244,7 @@
         "428":
           description: >
             Precondition Required - SAML user account not found. The user must first
-            login via web or desktop application to establish their Mattermost account
+            login via web or desktop application to establish their Sofa account
             with objectId as AuthData before using mobile Intune MAM authentication.
             For Entra ID Domain Services LDAP sync, ensure SamlSettings.IdAttribute references
             the objectidentifier claim and LdapSettings.IdAttribute is set to 'msDS-aadObjectId'.
@@ -264,7 +264,7 @@
         "501":
           description: >
             Not Implemented - Intune MAM feature is not available. This occurs when
-            running Mattermost Team Edition or when enterprise features are not loaded.
+            running Sofa Team Edition or when enterprise features are not loaded.
           content:
             application/json:
               schema:
@@ -273,7 +273,7 @@
     post:
       tags:
         - users
-      summary: Logout from the Mattermost server
+      summary: Logout from the Sofa server
       description: >
         ##### Permissions
 
@@ -553,7 +553,7 @@
         __Minimum server version__: 5.26.0
 
 
-        __Local mode only__: This endpoint is only available through [local mode](https://docs.mattermost.com/administration/mmctl-cli-tool.html#local-mode).
+        __Local mode only__: This endpoint is only available through [local mode](https://docs.sofa.com/administration/mmctl-cli-tool.html#local-mode).
       operationId: PermanentDeleteAllUsers
       responses:
         "200":
@@ -1184,10 +1184,10 @@
         - users
       summary: Activate or deactivate a user
       description: >
-        Activate or deactivate a user's account. A deactivated user can't log into Mattermost or use it without being reactivated.
+        Activate or deactivate a user's account. A deactivated user can't log into Sofa or use it without being reactivated.
 
 
-        __Since server version 4.6, users using a SSO provider to login can be activated or deactivated with this endpoint. However, if their activation status in Mattermost does not reflect their status in the SSO provider, the next synchronization or login by that user will reset the activation status to that of their account in the SSO provider. Server versions 4.5 and before do not allow activation or deactivation of SSO users from this endpoint.__
+        __Since server version 4.6, users using a SSO provider to login can be activated or deactivated with this endpoint. However, if their activation status in Sofa does not reflect their status in the SSO provider, the next synchronization or login by that user will reset the activation status to that of their account in the SSO provider. Server versions 4.5 and before do not allow activation or deactivation of SSO users from this endpoint.__
 
         ##### Permissions
 
@@ -2260,7 +2260,7 @@
       summary: Create a user access token
       description: >
         Generate a user access token that can be used to authenticate with the
-        Mattermost REST API.
+        Sofa REST API.
 
 
         __Minimum server version__: 4.1

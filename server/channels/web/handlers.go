@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package web
@@ -17,12 +17,12 @@ import (
 
 	"github.com/klauspost/compress/gzhttp"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
 )
 
 func GetHandlerName(h func(*Context, http.ResponseWriter, *http.Request)) string {
@@ -390,7 +390,7 @@ func (h Handler) handleContextError(c *Context, w http.ResponseWriter, r *http.R
 	// check if error is a MaxBytesError error, which occurs when you read more bytes from buffer than configured
 	if ok := errors.As(c.Err, &maxBytesErr); ok {
 		// replace the context error with this error if so,
-		newErr := model.NewAppError(c.Err.Where, "api.context.request_body_too_large.app_error", nil, "Use the setting `MaximumPayloadSizeBytes` in Mattermost config to configure allowed payload limit. Learn more about this setting in Mattermost docs at https://docs.mattermost.com/configure/environment-configuration-settings.html#maximum-payload-size", http.StatusRequestEntityTooLarge)
+		newErr := model.NewAppError(c.Err.Where, "api.context.request_body_too_large.app_error", nil, "Use the setting `MaximumPayloadSizeBytes` in Sofa config to configure allowed payload limit. Learn more about this setting in Sofa docs at https://docs.sofa.com/configure/environment-configuration-settings.html#maximum-payload-size", http.StatusRequestEntityTooLarge)
 		c.Err = newErr
 	}
 
@@ -455,8 +455,8 @@ const (
 
 // GetOriginClient returns the device from which the provided request was issued. The algorithm roughly looks like:
 // - If the URL contains the query mobilev2=true, then it's mobile
-// - If the first field of the user agent starts with either "rnbeta" or "Mattermost", then it's mobile
-// - If the last field of the user agent starts with "Mattermost", then it's desktop
+// - If the first field of the user agent starts with either "rnbeta" or "Sofa", then it's mobile
+// - If the last field of the user agent starts with "Sofa", then it's desktop
 // - Otherwise, it's web
 func GetOriginClient(r *http.Request) OriginClient {
 	userAgent := r.Header.Get("User-Agent")
@@ -473,12 +473,12 @@ func GetOriginClient(r *http.Request) OriginClient {
 
 	// Is mobile pre v2?
 	clientAgent := fields[0]
-	if strings.HasPrefix(clientAgent, "rnbeta") || strings.HasPrefix(clientAgent, "Mattermost") {
+	if strings.HasPrefix(clientAgent, "rnbeta") || strings.HasPrefix(clientAgent, "Sofa") {
 		return OriginClientMobile
 	}
 
 	// Is desktop?
-	if strings.HasPrefix(fields[len(fields)-1], "Mattermost") {
+	if strings.HasPrefix(fields[len(fields)-1], "Sofa") {
 		return OriginClientDesktop
 	}
 

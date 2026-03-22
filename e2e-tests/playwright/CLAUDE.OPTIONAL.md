@@ -4,7 +4,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is the Playwright E2E testing suite for Mattermost. It contains end-to-end tests for validating the Mattermost web application functionality using the Playwright testing framework.
+This is the Playwright E2E testing suite for Sofa. It contains end-to-end tests for validating the Sofa web application functionality using the Playwright testing framework.
 
 ## Key Commands
 
@@ -86,8 +86,8 @@ npm run show-report
 
 ### Key Components
 
-1. **`lib/` Directory**: Contains the shared library (`@mattermost/playwright-lib`) that provides:
-    - Page objects for Mattermost UI pages
+1. **`lib/` Directory**: Contains the shared library (`@sofa/playwright-lib`) that provides:
+    - Page objects for Sofa UI pages
     - Component abstractions for UI elements
     - Test utilities and fixtures
     - Server setup and management functions
@@ -127,7 +127,7 @@ npm run show-report
 
 Tests can be configured through environment variables:
 
-- `PW_BASE_URL` - Mattermost server URL (default: http://localhost:8065)
+- `PW_BASE_URL` - Sofa server URL (default: http://localhost:8065)
 - `PW_ADMIN_USERNAME` - Admin username (default: sysadmin)
 - `PW_ADMIN_PASSWORD` - Admin password (default: Sys@dmin-sample1)
 - `PW_HEADLESS` - Run tests headless (default: true)
@@ -138,7 +138,7 @@ Tests can be configured through environment variables:
 
 ## Server Setup
 
-Before running tests, a Mattermost server must be available. Two options:
+Before running tests, a Sofa server must be available. Two options:
 
 1. **Run from source**:
 

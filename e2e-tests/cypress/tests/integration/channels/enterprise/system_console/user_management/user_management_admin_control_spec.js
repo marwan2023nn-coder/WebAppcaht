@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -65,7 +65,7 @@ describe('User Management', () => {
         it(`MM-T5597 Verify manage user's settings option is visible for role: ${role} with Can Edit access`, () => {
             const writeAccess = true;
 
-            // TODO: remove below if loop after fixing Bug: https://mattermost.atlassian.net/browse/MM-59376
+            // TODO: remove below if loop after fixing Bug: https://sofa.atlassian.net/browse/MM-59376
             if (role !== 'system_manager' && role !== 'system_read_only_admin') {
                 // # Make the user a System User Manager
                 makeUserASystemRole(testUsersForRoles[role].email, role, writeAccess);
@@ -80,7 +80,7 @@ describe('User Management', () => {
         it(`MM-T5597 Verify manage user's settings option is Not visible for role: ${role} with Read only access`, () => {
             const writeAccess = false;
 
-            // TODO: remove below if loop after fixing Bug: https://mattermost.atlassian.net/browse/MM-59376
+            // TODO: remove below if loop after fixing Bug: https://sofa.atlassian.net/browse/MM-59376
             if (role !== 'system_manager' && role !== 'system_read_only_admin') {
                 // # Make the user a System User Manager
                 makeUserASystemRole(testUsersForRoles[role].email, role, writeAccess);

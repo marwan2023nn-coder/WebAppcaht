@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -37,7 +37,7 @@ describe('Image Link Preview', () => {
     });
 
     it('MM-T331 Image link preview - Collapse and expand', () => {
-        const link = 'https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/small-image.png';
+        const link = 'https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/small-image.png';
 
         // # Post a link to an externally hosted image
         cy.postMessage(link);
@@ -100,7 +100,7 @@ describe('Image Link Preview', () => {
         cy.visit(offTopicUrl);
 
         const markdownImageText = 'exampleImage';
-        const markdownImageSrc = 'https://docs.mattermost.com/_images/icon-76x76.png';
+        const markdownImageSrc = 'https://docs.sofa.com/_images/icon-76x76.png';
         const markdownImageSrcEncoded = encodeURIComponent(markdownImageSrc); // Since the url preview will be encoded string
         const messageWithMarkdownImage = `![${markdownImageText}](${markdownImageSrc}) an image plus some text that has [a link](https://example.com/)`;
 

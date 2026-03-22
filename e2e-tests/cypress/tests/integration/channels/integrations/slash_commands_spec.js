@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -188,7 +188,7 @@ describe('Integrations', () => {
         cy.getLastPost().should('contain', 'Image links now expand by default').and('contain', 'System');
 
         // # Post message
-        cy.postMessage('https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/png-image-file.png');
+        cy.postMessage('https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/png-image-file.png');
         cy.getLastPostId().as('postID');
 
         cy.get('@postID').then((postID) => {
@@ -208,7 +208,7 @@ describe('Integrations', () => {
         cy.visit(offTopicUrl1);
 
         // # Post message
-        cy.postMessage('https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/png-image-file.png');
+        cy.postMessage('https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/png-image-file.png');
         cy.getLastPostId().as('postID');
 
         // # Open RHS
@@ -255,7 +255,7 @@ describe('Integrations', () => {
         cy.get('#url').type(commandURL);
         cy.get('#saveCommand').click();
         cy.get('#doneButton').click();
-        cy.findByText('Back to Mattermost').click();
+        cy.findByText('Back to Sofa').click();
 
         // # Post slash command
         cy.uiPostMessageQuickly(`/${commandTrigger} `);

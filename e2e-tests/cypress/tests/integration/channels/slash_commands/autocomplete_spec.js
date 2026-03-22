@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -49,7 +49,7 @@ describe('Integrations', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).
                 should('contain.text', '(Only visible to you)').
-                should('contain.text', 'is not a valid Mattermost SITEURL.');
+                should('contain.text', 'is not a valid Sofa SITEURL.');
         });
     });
 
@@ -94,7 +94,7 @@ describe('Integrations', () => {
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).
                 should('contain.text', '(Only visible to you)').
-                should('contain.text', 'is not a valid Mattermost SITEURL.');
+                should('contain.text', 'is not a valid Sofa SITEURL.');
         });
     });
 

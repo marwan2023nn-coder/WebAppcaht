@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -58,7 +58,7 @@ describe('Notifications', () => {
             cy.postMessageAs({sender: user2, message: `@${user1.username}`, channelId: ownDMChannel.id});
         });
 
-        // * Browser tab shows: (1) * Town Square - [team name] Mattermost
+        // * Browser tab shows: (1) * Town Square - [team name] Sofa
         cy.title().should('include', `(1) Town Square - ${team1.display_name} ${siteName}`);
 
         // * Team sidebar shows: No unread / mention indicator in team sidebar on either team

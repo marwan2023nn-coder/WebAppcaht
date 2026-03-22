@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package main
@@ -17,24 +17,24 @@ func TestCheckAPIVersionComments(t *testing.T) {
 	}{
 		{
 			name:    "valid comments",
-			pkgPath: "github.com/mattermost/mattermost/server/public/plugin/checker/internal/test/valid",
+			pkgPath: "github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/test/valid",
 			err:     "",
 		},
 		{
 			name:    "invalid comments",
-			pkgPath: "github.com/mattermost/mattermost/server/public/plugin/checker/internal/test/invalid",
+			pkgPath: "github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/test/invalid",
 			expected: result{
 				Errors: []string{"internal/test/invalid/invalid.go:15:2: missing a minimum server version comment on method InvalidMethod"},
 			},
 		},
 		{
 			name:    "missing API interface",
-			pkgPath: "github.com/mattermost/mattermost/server/public/plugin/checker/internal/test/missing",
+			pkgPath: "github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/test/missing",
 			err:     "could not find API interface",
 		},
 		{
 			name:    "non-existent package path",
-			pkgPath: "github.com/mattermost/mattermost/server/public/plugin/checker/internal/test/does_not_exist",
+			pkgPath: "github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/test/does_not_exist",
 			err:     "could not find API interface",
 		},
 	}

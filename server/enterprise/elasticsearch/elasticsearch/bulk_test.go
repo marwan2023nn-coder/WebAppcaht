@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package elasticsearch
@@ -7,8 +7,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/v8/channels/api4"
-	"github.com/mattermost/mattermost/server/v8/enterprise/elasticsearch/common"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
+	"github.com/marwan2023nn-coder/sofa/server/v8/enterprise/elasticsearch/common"
 	"github.com/stretchr/testify/require"
 )
 

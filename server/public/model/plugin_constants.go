@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -8,7 +8,7 @@ const (
 	PluginIdFocalboard    = "focalboard"
 	PluginIdApps          = "com.workspace.apps"
 	PluginIdCalls         = "com.workspace.calls"
-	PluginIdNPS           = "com.mattermost.nps"
-	PluginIdChannelExport = "com.mattermost.plugin-channel-export"
+	PluginIdNPS           = "com.sofa.nps"
+	PluginIdChannelExport = "com.sofa.plugin-channel-export"
 	PluginIdAI            = "workspace-ai"
 )

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,7 +9,7 @@
 
 // Group: @channels @channel
 
-import {UserProfile} from '@mattermost/types/users';
+import {UserProfile} from '@sofa/types/users';
 
 import {getAdminAccount} from '../../../support/env';
 

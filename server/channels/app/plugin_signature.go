@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -14,10 +14,10 @@ import (
 	"golang.org/x/crypto/openpgp"       //nolint:staticcheck
 	"golang.org/x/crypto/openpgp/armor" //nolint:staticcheck
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 
-	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
 )
 
 // GetPublicKey will return the actual public key saved in the `name` file.
@@ -75,7 +75,7 @@ func (a *App) DeletePublicKey(name string) *model.AppError {
 
 func (ch *Channels) verifyPlugin(logger *mlog.Logger, plugin, signature io.ReadSeeker) *model.AppError {
 	// First try verifying using the hard-coded public key.
-	if err := verifySignature(bytes.NewReader(mattermostPluginPublicKey), plugin, signature); err == nil {
+	if err := verifySignature(bytes.NewReader(sofaPluginPublicKey), plugin, signature); err == nil {
 		logger.Debug("Plugin signature verified using hard-coded public key")
 		return nil
 	}

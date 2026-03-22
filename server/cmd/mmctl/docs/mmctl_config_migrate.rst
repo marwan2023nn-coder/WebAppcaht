@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Migrate a file-based configuration to (or from) a database-based configuration. Point the Mattermost server at the target configuration to start using it. Note that this command is only available in `--local` mode.
+Migrate a file-based configuration to (or from) a database-based configuration. Point the Sofa server at the target configuration to start using it. Note that this command is only available in `--local` mode.
 
 ::
 
@@ -20,7 +20,7 @@ Examples
 
 ::
 
-  config migrate path/to/config.json "postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10"
+  config migrate path/to/config.json "postgres://mmuser:mostest@localhost:5432/sofa_test?sslmode=disable&connect_timeout=10"
 
 Options
 ~~~~~~~

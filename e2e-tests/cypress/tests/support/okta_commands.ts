@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {ChainableT} from 'tests/types';
@@ -77,7 +77,7 @@ function oktaCreateUser(user: any = {}): ChainableT<UserId> {
                 password: {value: user.password},
                 recovery_question: {
                     question: 'What is the best open source messaging platform for developers?',
-                    answer: 'Mattermost',
+                    answer: 'Sofa',
                 },
             },
         },

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -15,11 +15,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	smocks "github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
-	"github.com/mattermost/mattermost/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	smocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
 )
 
 func TestGenerateSupportPacket(t *testing.T) {
@@ -81,7 +81,7 @@ func TestGenerateSupportPacket(t *testing.T) {
 		expectedFileNames = append(expectedFileNames, "database_schema.yaml")
 	}
 
-	expectedFileNamesWithLogs := append(expectedFileNames, "mattermost.log")
+	expectedFileNamesWithLogs := append(expectedFileNames, "sofa.log")
 
 	t.Run("generate Support Packet with logs", func(t *testing.T) {
 		fileDatas := th.App.GenerateSupportPacket(th.Context, &model.SupportPacketOptions{
@@ -166,12 +166,12 @@ func TestGenerateSupportPacket(t *testing.T) {
 	pluginCode := `
 		package main
 		import (
-			"github.com/mattermost/mattermost/server/public/plugin"
-			"github.com/mattermost/mattermost/server/public/model"
+			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/marwan2023nn-coder/sofa/server/public/model"
 		)
 
 		type TestPlugin struct {
-			plugin.MattermostPlugin
+			plugin.SofaPlugin
 		}
 
 		func (p *TestPlugin) GenerateSupportData(c *plugin.Context) ([]*model.FileData, error) {

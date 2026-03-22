@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -10,14 +10,14 @@ import (
 	"runtime"
 	"strconv"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
 )
 
 const (
-	PropSecurityURL      = "https://securityupdatecheck.mattermost.com"
+	PropSecurityURL      = "https://securityupdatecheck.sofa.com"
 	SecurityUpdatePeriod = 86400000 // 24 hours in milliseconds.
 
 	PropSecurityID              = "id"
@@ -45,7 +45,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 	currentTime := model.GetMillis()
 
 	if (currentTime - lastSecurityTime) > SecurityUpdatePeriod {
-		mlog.Debug("Checking for security update from Mattermost")
+		mlog.Debug("Checking for security update from Sofa")
 
 		v := url.Values{}
 
@@ -90,7 +90,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 		// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
 		res, err := s.HTTPService().MakeClient(false).Get(PropSecurityURL + "/security?" + v.Encode())
 		if err != nil {
-			mlog.Error("Failed to get security update information from Mattermost.")
+			mlog.Error("Failed to get security update information from Sofa.")
 			return
 		}
 
@@ -107,7 +107,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 				if props["SecurityBulletin_"+bulletin.Id] == "" {
 					users, userErr := s.Store().User().GetSystemAdminProfiles()
 					if userErr != nil {
-						mlog.Error("Failed to get system admins for security update information from Mattermost.")
+						mlog.Error("Failed to get system admins for security update information from Sofa.")
 						return
 					}
 
@@ -131,7 +131,7 @@ func (s *Server) DoSecurityUpdateCheck() {
 						license := s.License()
 						mailConfig := s.MailServiceConfig()
 						complianceEnabled := license != nil && license.Features != nil && *license.Features.Compliance
-						err = mail.SendMailUsingConfig(user.Email, i18n.T("mattermost.bulletin.subject"), string(body), mailConfig, complianceEnabled, "", "", "", "", "SecurityUpdateCheck")
+						err = mail.SendMailUsingConfig(user.Email, i18n.T("sofa.bulletin.subject"), string(body), mailConfig, complianceEnabled, "", "", "", "", "SecurityUpdateCheck")
 						if err != nil {
 							s.Log().Error("Failed to send security bulletin email", mlog.String("user_email", user.Email), mlog.Err(err))
 						}

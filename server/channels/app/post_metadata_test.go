@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -18,8 +18,8 @@ import (
 	"testing"
 	"time"
 
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
 	"github.com/stretchr/testify/mock"
 
 	"github.com/dyatlov/go-opengraph/opengraph"
@@ -27,13 +27,13 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/httpservice"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
-	"github.com/mattermost/mattermost/server/v8/platform/services/imageproxy"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/platform"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/imageproxy"
 )
 
 func TestPreparePostListForClient(t *testing.T) {
@@ -622,7 +622,7 @@ func TestPreparePostForClient(t *testing.T) {
 		th := setup(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -654,7 +654,7 @@ func TestPreparePostForClient(t *testing.T) {
 		th := setup(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -716,7 +716,7 @@ func TestPreparePostForClient(t *testing.T) {
 		th := setup(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -752,7 +752,7 @@ func TestPreparePostForClient(t *testing.T) {
 		th := setup(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -798,7 +798,7 @@ func TestPreparePostForClient(t *testing.T) {
 		th := setup(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -848,7 +848,7 @@ func TestPreparePostForClientWithImageProxy(t *testing.T) {
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
 			*cfg.ServiceSettings.EnableLinkPreviews = true
-			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 			*cfg.ServiceSettings.AllowedUntrustedInternalConnections = "localhost,127.0.0.1"
 			*cfg.ImageProxySettings.Enable = true
 			*cfg.ImageProxySettings.ImageProxyType = "atmos/camo"
@@ -877,7 +877,7 @@ func TestPreparePostForClientWithImageProxy(t *testing.T) {
 func testProxyLinkedImage(t *testing.T, th *TestHelper, shouldProxy bool) {
 	postTemplate := "![foo](%v)"
 	imageURL := "http://mydomain.com/myimage"
-	proxiedImageURL := "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
+	proxiedImageURL := "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
 
 	post := &model.Post{
 		UserId:    th.BasicUser.Id,
@@ -952,7 +952,7 @@ func testProxyOpenGraphImage(t *testing.T, th *TestHelper, shouldProxy bool) {
 	image := og.Images[0]
 	if shouldProxy {
 		assert.Equal(t, "", image.URL, "image URL should not be set with proxy")
-		assert.Equal(t, "http://mymattermost.com/api/v4/image?url="+url.QueryEscape(server.URL+"/test-image3.png"), image.SecureURL, "secure image URL should be sent through proxy")
+		assert.Equal(t, "http://mysofa.com/api/v4/image?url="+url.QueryEscape(server.URL+"/test-image3.png"), image.SecureURL, "secure image URL should be sent through proxy")
 	} else {
 		assert.Equal(t, server.URL+"/test-image3.png", image.URL, "image URL should be set")
 		assert.Equal(t, "", image.SecureURL, "secure image URL should not be set")
@@ -1373,7 +1373,7 @@ func TestGetImagesForPost(t *testing.T) {
 		assert.Equal(t, images, map[string]*model.PostImage{})
 	})
 
-	t.Run("should not process OpenGraph image that's a Mattermost permalink", func(t *testing.T) {
+	t.Run("should not process OpenGraph image that's a Sofa permalink", func(t *testing.T) {
 		th := SetupWithStoreMock(t)
 
 		ogURL := "https://example.com/index.html"
@@ -1400,7 +1400,7 @@ func TestGetImagesForPost(t *testing.T) {
 
 		mockPostStore := mocks.PostStore{}
 		mockPostStore.On("GetSingle", "qwertyuiopasdfghjklzxcvbnm", false).RunFn = func(args mock.Arguments) {
-			assert.Fail(t, "should not have tried to process Mattermost permalink in OG image URL")
+			assert.Fail(t, "should not have tried to process Sofa permalink in OG image URL")
 		}
 
 		mockLinkMetadataStore := mocks.LinkMetadataStore{}
@@ -2527,7 +2527,7 @@ func TestGetLinkMetadata(t *testing.T) {
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
 			*cfg.ServiceSettings.AllowedUntrustedInternalConnections = ""
-			*cfg.ServiceSettings.SiteURL = "http://mattermost.example.com"
+			*cfg.ServiceSettings.SiteURL = "http://sofa.example.com"
 			*cfg.ImageProxySettings.Enable = true
 			*cfg.ImageProxySettings.ImageProxyType = "local"
 		})
@@ -2606,14 +2606,14 @@ func TestResolveMetadataURL(t *testing.T) {
 		{
 			Name:       "relative to root",
 			RequestURL: "/file?param=1",
-			SiteURL:    "https://mattermost.example.com:123",
-			Expected:   "https://mattermost.example.com:123/file?param=1",
+			SiteURL:    "https://sofa.example.com:123",
+			Expected:   "https://sofa.example.com:123/file?param=1",
 		},
 		{
 			Name:       "relative to root with subpath",
 			RequestURL: "/file?param=1",
-			SiteURL:    "https://mattermost.example.com:123/subpath",
-			Expected:   "https://mattermost.example.com:123/file?param=1",
+			SiteURL:    "https://sofa.example.com:123/subpath",
+			Expected:   "https://sofa.example.com:123/file?param=1",
 		},
 	} {
 		t.Run(test.Name, func(t *testing.T) {
@@ -2914,7 +2914,7 @@ func TestSanitizePostMetaDataForAudit(t *testing.T) {
 	th := Setup(t).InitBasic(t)
 
 	th.App.UpdateConfig(func(cfg *model.Config) {
-		*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+		*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 	})
 
 	th.Context.Session().UserId = th.BasicUser.Id
@@ -3015,7 +3015,7 @@ func TestSanitizePostMetadataForUser(t *testing.T) {
 					},
 					{
 						Type: model.PostEmbedLink,
-						URL:  "https://mattermost.com",
+						URL:  "https://sofa.com",
 					},
 				},
 			},
@@ -3067,7 +3067,7 @@ func TestSanitizePostMetadataForUser(t *testing.T) {
 					},
 					{
 						Type: model.PostEmbedLink,
-						URL:  "https://mattermost.com",
+						URL:  "https://sofa.com",
 					},
 				},
 			},
@@ -3190,7 +3190,7 @@ func TestPreparePostListForClient_BulkPermalinks(t *testing.T) {
 	th := Setup(t).InitBasic(t)
 
 	th.App.UpdateConfig(func(cfg *model.Config) {
-		*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
+		*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
 		*cfg.ServiceSettings.EnablePermalinkPreviews = true
 	})
 

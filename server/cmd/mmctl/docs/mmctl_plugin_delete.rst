@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Delete previously uploaded plugins from your Mattermost server.
+Delete previously uploaded plugins from your Sofa server.
 
 ::
 

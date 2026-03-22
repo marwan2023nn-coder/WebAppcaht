@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -93,7 +93,7 @@ describe('Login page with open server', () => {
             const currentYear = todaysDate.getFullYear();
 
             // * Check if copyright footer is present
-            cy.findByText(`© ${currentYear} Mattermost Inc.`).should('exist');
+            cy.findByText(`© ${currentYear} Sofa Inc.`).should('exist');
         });
     });
 

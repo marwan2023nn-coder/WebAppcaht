@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package i18n
@@ -9,10 +9,10 @@ import (
 	"path/filepath"
 	"testing"
 
-	"github.com/mattermost/go-i18n/i18n/bundle"
-	"github.com/mattermost/go-i18n/i18n/language"
-	"github.com/mattermost/go-i18n/i18n/translation"
-	"github.com/mattermost/mattermost/server/public/utils"
+	"github.com/sofa/go-i18n/i18n/bundle"
+	"github.com/sofa/go-i18n/i18n/language"
+	"github.com/sofa/go-i18n/i18n/translation"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )

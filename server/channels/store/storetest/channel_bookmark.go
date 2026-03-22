@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package storetest
@@ -10,9 +10,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 func find_bookmark(slice []*model.ChannelBookmarkWithFileInfo, id string) *model.ChannelBookmarkWithFileInfo {
@@ -44,7 +44,7 @@ func testSaveChannelBookmark(t *testing.T, rctx request.CTX, ss store.Store) {
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Link bookmark test",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 		Emoji:       ":smile:",
 	}
@@ -222,7 +222,7 @@ func testUpdateChannelBookmark(t *testing.T, rctx request.CTX, ss store.Store) {
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Link bookmark test",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 	}
 
@@ -234,7 +234,7 @@ func testUpdateChannelBookmark(t *testing.T, rctx request.CTX, ss store.Store) {
 		bookmark2 := bookmarkResp.ChannelBookmark.Clone()
 		bookmark2.DisplayName = "Updated display name"
 		bookmark2.Emoji = ":smile:"
-		bookmark2.LinkUrl = "https://mattermost.com/about"
+		bookmark2.LinkUrl = "https://sofa.com/about"
 
 		time.Sleep(time.Millisecond * 250)
 
@@ -271,7 +271,7 @@ func testUpdateSortOrderChannelBookmark(t *testing.T, rctx request.CTX, ss store
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Bookmark 0",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 		Emoji:       ":smile:",
 	}
@@ -309,7 +309,7 @@ func testUpdateSortOrderChannelBookmark(t *testing.T, rctx request.CTX, ss store
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Bookmark 2",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 	}
 
@@ -317,7 +317,7 @@ func testUpdateSortOrderChannelBookmark(t *testing.T, rctx request.CTX, ss store
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Bookmark 3",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 	}
 
@@ -325,7 +325,7 @@ func testUpdateSortOrderChannelBookmark(t *testing.T, rctx request.CTX, ss store
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Bookmark 4",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 	}
 
@@ -459,7 +459,7 @@ func testDeleteChannelBookmark(t *testing.T, rctx request.CTX, ss store.Store) {
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Link bookmark test",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 		Emoji:       ":smile:",
 	}
@@ -533,7 +533,7 @@ func testGetChannelBookmark(t *testing.T, rctx request.CTX, ss store.Store) {
 		ChannelId:   channelID,
 		OwnerId:     userID,
 		DisplayName: "Link bookmark test",
-		LinkUrl:     "https://mattermost.com",
+		LinkUrl:     "https://sofa.com",
 		Type:        model.ChannelBookmarkLink,
 		Emoji:       ":smile:",
 	}

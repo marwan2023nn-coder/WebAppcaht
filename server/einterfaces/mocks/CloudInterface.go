@@ -7,7 +7,7 @@ package mocks
 import (
 	multipart "mime/multipart"
 
-	model "github.com/mattermost/mattermost/server/public/model"
+	model "github.com/marwan2023nn-coder/sofa/server/public/model"
 	mock "github.com/stretchr/testify/mock"
 )
 

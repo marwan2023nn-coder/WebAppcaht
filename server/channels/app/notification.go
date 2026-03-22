@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -13,12 +13,12 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/markdown"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/markdown"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 func (a *App) canSendPushNotifications() bool {
@@ -741,7 +741,7 @@ func (a *App) SendNotifications(rctx request.CTX, post *model.Post, team *model.
 	if isCRTAllowed && post.RootId != "" {
 		for uid := range followers {
 			// A user following a thread but had left the channel won't get a notification
-			// https://mattermost.atlassian.net/browse/MM-36769
+			// https://sofa.atlassian.net/browse/MM-36769
 			if profileMap[uid] == nil {
 				// This also sometimes happens when bots, which will never show up in the map, reply to threads
 				// Their own post goes through this and they get "notified", which we don't need to count as an error if they can't

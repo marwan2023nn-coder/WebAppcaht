@@ -5,10 +5,10 @@
 package mocks
 
 import (
-	logr "github.com/mattermost/logr/v2"
+	logr "github.com/sofa/logr/v2"
 	mock "github.com/stretchr/testify/mock"
 
-	model "github.com/mattermost/mattermost/server/public/model"
+	model "github.com/marwan2023nn-coder/sofa/server/public/model"
 
 	sql "database/sql"
 )

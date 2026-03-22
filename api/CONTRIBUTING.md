@@ -10,4 +10,4 @@ All the documentation is written in YAML and found in the [source](v4/source) di
 
 There is no strict style guide but please try to follow the example of the existing documentation.
 
-To build the full YAML, run `make build` and it will be output to `html/static/mattermost-openapi.yaml`. To check for syntax, you can copy the contents of that into http://editor.swagger.io/ or you can look into using a commandline or ESLint-based syntax checker.
+To build the full YAML, run `make build` and it will be output to `html/static/sofa-openapi.yaml`. To check for syntax, you can copy the contents of that into http://editor.swagger.io/ or you can look into using a commandline or ESLint-based syntax checker.

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package utils
@@ -9,7 +9,7 @@ import (
 	"os"
 	"testing"
 
-	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
@@ -115,13 +115,13 @@ func TestGetLicenseFileLocation(t *testing.T) {
 	fileName := GetLicenseFileLocation("")
 	require.NotEmpty(t, fileName, "invalid default file name")
 
-	fileName = GetLicenseFileLocation("mattermost.mattermost-license")
-	require.Equal(t, fileName, "mattermost.mattermost-license", "invalid file name")
+	fileName = GetLicenseFileLocation("sofa.sofa-license")
+	require.Equal(t, fileName, "sofa.sofa-license", "invalid file name")
 }
 
 func TestGetLicenseFileFromDisk(t *testing.T) {
 	t.Run("missing file", func(t *testing.T) {
-		fileBytes := GetLicenseFileFromDisk("thisfileshouldnotexist.mattermost-license")
+		fileBytes := GetLicenseFileFromDisk("thisfileshouldnotexist.sofa-license")
 		assert.Empty(t, fileBytes, "invalid bytes")
 	})
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package upgrader
@@ -24,13 +24,13 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/crypto/openpgp" //nolint:staticcheck
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/httpservice"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 //go:embed pubkey.gpg
-var mattermostBuildPublicKeys []byte
+var sofaBuildPublicKeys []byte
 
 var (
 	upgradePercentage int64
@@ -94,7 +94,7 @@ func getCurrentVersionTgzURL() string {
 		version = model.BuildNumber
 	}
 
-	return "https://releases.mattermost.com/" + version + "/mattermost-" + version + "-linux-amd64.tar.gz"
+	return "https://releases.sofa.com/" + version + "/sofa-" + version + "-linux-amd64.tar.gz"
 }
 
 func verifySignature(filename string, sigfilename string, publicKey []byte) error {
@@ -104,21 +104,21 @@ func verifySignature(filename string, sigfilename string, publicKey []byte) erro
 		return NewInvalidSignature()
 	}
 
-	mattermost_tar, err := os.Open(filename)
+	sofa_tar, err := os.Open(filename)
 	if err != nil {
-		mlog.Debug("Unable to open the Mattermost .tar file to verify the file signature", mlog.Err(err))
+		mlog.Debug("Unable to open the Sofa .tar file to verify the file signature", mlog.Err(err))
 		return NewInvalidSignature()
 	}
 
 	signature, err := os.Open(sigfilename)
 	if err != nil {
-		mlog.Debug("Unable to open the Mattermost .sig file verify the file signature", mlog.Err(err))
+		mlog.Debug("Unable to open the Sofa .sig file verify the file signature", mlog.Err(err))
 		return NewInvalidSignature()
 	}
 
-	_, err = openpgp.CheckDetachedSignature(keyring, mattermost_tar, signature)
+	_, err = openpgp.CheckDetachedSignature(keyring, sofa_tar, signature)
 	if err != nil {
-		mlog.Debug("Unable to verify the Mattermost file signature", mlog.Err(err))
+		mlog.Debug("Unable to verify the Sofa file signature", mlog.Err(err))
 		return NewInvalidSignature()
 	}
 	return nil
@@ -143,23 +143,23 @@ func canIWriteTheExecutable() error {
 		return errors.New("error getting the executable info")
 	}
 
-	mattermostUID := os.Getuid()
-	mattermostUser, err := user.LookupId(strconv.Itoa(mattermostUID))
+	sofaUID := os.Getuid()
+	sofaUser, err := user.LookupId(strconv.Itoa(sofaUID))
 	if err != nil {
 		return errors.New("error getting the executable info")
 	}
 
 	mode := executableInfo.Mode()
-	if fileUID != mattermostUID && mode&(1<<1) == 0 && mode&(1<<7) == 0 {
-		return NewInvalidPermissions("invalid-user-and-permission", path.Dir(executablePath), mattermostUser.Username, fileUser.Username)
+	if fileUID != sofaUID && mode&(1<<1) == 0 && mode&(1<<7) == 0 {
+		return NewInvalidPermissions("invalid-user-and-permission", path.Dir(executablePath), sofaUser.Username, fileUser.Username)
 	}
 
-	if fileUID != mattermostUID && mode&(1<<1) == 0 && mode&(1<<7) != 0 {
-		return NewInvalidPermissions("invalid-user", path.Dir(executablePath), mattermostUser.Username, fileUser.Username)
+	if fileUID != sofaUID && mode&(1<<1) == 0 && mode&(1<<7) != 0 {
+		return NewInvalidPermissions("invalid-user", path.Dir(executablePath), sofaUser.Username, fileUser.Username)
 	}
 
-	if fileUID == mattermostUID && mode&(1<<7) == 0 {
-		return NewInvalidPermissions("invalid-permission", path.Dir(executablePath), mattermostUser.Username, fileUser.Username)
+	if fileUID == sofaUID && mode&(1<<7) == 0 {
+		return NewInvalidPermissions("invalid-permission", path.Dir(executablePath), sofaUser.Username, fileUser.Username)
 	}
 	return nil
 }
@@ -180,7 +180,7 @@ func CanIUpgradeToE0() error {
 	}
 	if model.BuildEnterpriseReady == "true" {
 		mlog.Warn("Unable to upgrade from TE to E0. The server is already running E0.")
-		return errors.New("you cannot upgrade your server from TE to E0 because you are already running Mattermost Enterprise Edition")
+		return errors.New("you cannot upgrade your server from TE to E0 because you are already running Sofa Enterprise Edition")
 	}
 	return nil
 }
@@ -198,7 +198,7 @@ func UpgradeToE0(httpService httpservice.HTTPService) error {
 	executablePath, err := os.Executable()
 	if err != nil {
 		setUpgradeError(errors.New("error getting the executable path"))
-		mlog.Error("Unable to get the path of the Mattermost executable", mlog.Err(err))
+		mlog.Error("Unable to get the path of the Sofa executable", mlog.Err(err))
 		setUpgradePercentage(0)
 		return err
 	}
@@ -208,8 +208,8 @@ func UpgradeToE0(httpService httpservice.HTTPService) error {
 		if filename != "" {
 			os.Remove(filename)
 		}
-		setUpgradeError(fmt.Errorf("error downloading the new Mattermost server binary file (percentage: %d)", getUpgradePercentage()))
-		mlog.Error("Unable to download the Mattermost server binary file", mlog.Int("percentage", getUpgradePercentage()), mlog.String("url", getCurrentVersionTgzURL()), mlog.Err(err))
+		setUpgradeError(fmt.Errorf("error downloading the new Sofa server binary file (percentage: %d)", getUpgradePercentage()))
+		mlog.Error("Unable to download the Sofa server binary file", mlog.Int("percentage", getUpgradePercentage()), mlog.String("url", getCurrentVersionTgzURL()), mlog.Err(err))
 		setUpgradePercentage(0)
 		return err
 	}
@@ -221,13 +221,13 @@ func UpgradeToE0(httpService httpservice.HTTPService) error {
 			os.Remove(sigfilename)
 		}
 		setUpgradeError(errors.New("error downloading the signature file of the new server"))
-		mlog.Error("Unable to download the signature file of the new Mattermost server", mlog.String("url", getCurrentVersionTgzURL()+".sig"), mlog.Err(err))
+		mlog.Error("Unable to download the signature file of the new Sofa server", mlog.String("url", getCurrentVersionTgzURL()+".sig"), mlog.Err(err))
 		setUpgradePercentage(0)
 		return err
 	}
 	defer os.Remove(sigfilename)
 
-	err = verifySignature(filename, sigfilename, mattermostBuildPublicKeys)
+	err = verifySignature(filename, sigfilename, sofaBuildPublicKeys)
 	if err != nil {
 		setUpgradeError(errors.New("unable to verify the signature of the downloaded file"))
 		mlog.Error("Unable to verify the signature of the downloaded file", mlog.Err(err))
@@ -263,7 +263,7 @@ func download(httpService httpservice.HTTPService, url string) (string, error) {
 		return "", errors.Errorf("error downloading file %s: %s", url, resp.Status)
 	}
 
-	out, err := os.CreateTemp("", "*_mattermost.tar.gz")
+	out, err := os.CreateTemp("", "*_sofa.tar.gz")
 	if err != nil {
 		return "", err
 	}
@@ -311,14 +311,14 @@ func extractBinary(executablePath string, filename string) error {
 		header, err := tarReader.Next()
 
 		if err == io.EOF {
-			return errors.New("unable to find the Mattermost binary in the downloaded version")
+			return errors.New("unable to find the Sofa binary in the downloaded version")
 		}
 
 		if err != nil {
 			return err
 		}
 
-		if header.Typeflag == tar.TypeReg && header.Name == "mattermost/bin/mattermost" {
+		if header.Typeflag == tar.TypeReg && header.Name == "sofa/bin/sofa" {
 			permissions := getFilePermissionsOrDefault(executablePath, 0755)
 			tmpFile, err := os.CreateTemp(path.Dir(executablePath), "*")
 			if err != nil {

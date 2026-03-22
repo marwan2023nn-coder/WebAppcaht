@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -26,14 +26,14 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
-	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
 
-	_ "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/gitlab"
+	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oauthproviders/gitlab"
 )
 
 func TestCreateUser(t *testing.T) {
@@ -387,7 +387,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		th.App.UpdateConfig(func(cfg *model.Config) {
 			*cfg.TeamSettings.EnableOpenServer = true
 			*cfg.TeamSettings.EnableUserCreation = true
-			*cfg.TeamSettings.RestrictCreationToDomains = "mattermost.com"
+			*cfg.TeamSettings.RestrictCreationToDomains = "sofa.com"
 			*cfg.ServiceSettings.EnableAPIUserDeletion = true
 		})
 
@@ -397,7 +397,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		})
 
 		th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
-			user := &model.User{Email: "foobar+testdomainrestriction@mattermost.com", Password: "Password1", Username: GenerateTestUsername()}
+			user := &model.User{Email: "foobar+testdomainrestriction@sofa.com", Password: "Password1", Username: GenerateTestUsername()}
 			u, _, err := client.CreateUser(context.Background(), user) // we need the returned created user to use its Id for deletion.
 			require.NoError(t, err)
 			_, err = client.PermanentDeleteUser(context.Background(), u.Id)
@@ -405,7 +405,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		}, "ValidUser")
 
 		th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
-			user := &model.User{Email: "foobar+testdomainrestriction@mattermost.org", Password: "Password1", Username: GenerateTestUsername()}
+			user := &model.User{Email: "foobar+testdomainrestriction@sofa.org", Password: "Password1", Username: GenerateTestUsername()}
 			_, resp, err := client.CreateUser(context.Background(), user)
 			require.Error(t, err)
 			CheckBadRequestStatus(t, resp)
@@ -414,7 +414,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		t.Run("ValidAuthServiceFilter", func(t *testing.T) {
 			t.Run("SystemAdminClient", func(t *testing.T) {
 				user := &model.User{
-					Email:       "foobar+testdomainrestriction@mattermost.org",
+					Email:       "foobar+testdomainrestriction@sofa.org",
 					Username:    GenerateTestUsername(),
 					AuthService: "ldap",
 					AuthData:    model.NewPointer("999099"),
@@ -426,7 +426,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 			})
 			t.Run("LocalClient", func(t *testing.T) {
 				user := &model.User{
-					Email:       "foobar+testdomainrestrictionlocalclient@mattermost.org",
+					Email:       "foobar+testdomainrestrictionlocalclient@sofa.org",
 					Username:    GenerateTestUsername(),
 					AuthService: "ldap",
 					AuthData:    model.NewPointer("999100"),
@@ -439,7 +439,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		})
 
 		th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
-			user := &model.User{Email: "foobar+testdomainrestriction@mattermost.org", Password: "Password1", Username: GenerateTestUsername(), AuthService: "ldap"}
+			user := &model.User{Email: "foobar+testdomainrestriction@sofa.org", Password: "Password1", Username: GenerateTestUsername(), AuthService: "ldap"}
 			_, resp, err := th.Client.CreateUser(context.Background(), user)
 			require.Error(t, err)
 			CheckBadRequestStatus(t, resp)
@@ -455,7 +455,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 		})
 
 		th.TestForSystemAdminAndLocal(t, func(t *testing.T, client *model.Client4) {
-			emailAddr := "foobar+testinvalidrole@mattermost.com"
+			emailAddr := "foobar+testinvalidrole@sofa.com"
 			user := &model.User{Email: emailAddr, Password: "Password1", Username: GenerateTestUsername(), Roles: "system_user system_admin"}
 			_, _, err := client.CreateUser(context.Background(), user)
 			require.NoError(t, err)
@@ -472,7 +472,7 @@ func TestCreateUserInputFilter(t *testing.T) {
 			*cfg.TeamSettings.EnableOpenServer = true
 			*cfg.TeamSettings.EnableUserCreation = true
 		})
-		user := &model.User{Id: "AAAAAAAAAAAAAAAAAAAAAAAAAA", Email: "foobar+testinvalidid@mattermost.com", Password: "Password1", Username: GenerateTestUsername(), Roles: "system_user system_admin"}
+		user := &model.User{Id: "AAAAAAAAAAAAAAAAAAAAAAAAAA", Email: "foobar+testinvalidid@sofa.com", Password: "Password1", Username: GenerateTestUsername(), Roles: "system_user system_admin"}
 		_, resp, err := client.CreateUser(context.Background(), user)
 		require.Error(t, err)
 		CheckBadRequestStatus(t, resp)
@@ -1762,7 +1762,7 @@ func TestAutocompleteUsersInChannel(t *testing.T) {
 	})
 
 	t.Run("Check OutOfChannel results with/without VIEW_MEMBERS permissions", func(t *testing.T) {
-		t.Skip("https://mattermost.atlassian.net/browse/MM-61041")
+		t.Skip("https://sofa.atlassian.net/browse/MM-61041")
 
 		th.App.UpdateConfig(func(cfg *model.Config) { *cfg.GuestAccountsSettings.Enable = true })
 		th.App.Srv().SetLicense(model.NewTestLicense())
@@ -2919,7 +2919,7 @@ func TestUpdateUserActive(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		ldapUser := &model.User{
-			Email:         "ldapuser@mattermost-customer.com",
+			Email:         "ldapuser@sofa-customer.com",
 			Username:      "ldapuser",
 			Password:      "Password123",
 			AuthService:   model.UserAuthServiceLdap,
@@ -4433,7 +4433,7 @@ func TestLoginCookies(t *testing.T) {
 
 	t.Run("should return cookie with MMCLOUDURL for cloud installations", func(t *testing.T) {
 		updateConfig := func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "https://testchips.cloud.mattermost.com"
+			*cfg.ServiceSettings.SiteURL = "https://testchips.cloud.sofa.com"
 		}
 		th := SetupAndApplyConfigBeforeLogin(t, updateConfig).InitBasic(t)
 
@@ -4448,7 +4448,7 @@ func TestLoginCookies(t *testing.T) {
 			if strings.Contains(cookies[i], "MMCLOUDURL") {
 				found = true
 				assert.Contains(t, cookies[i], "MMCLOUDURL=testchips;", "should contain MMCLOUDURL")
-				assert.Contains(t, cookies[i], "Domain=mattermost.com;", "should contain Domain=mattermost.com")
+				assert.Contains(t, cookies[i], "Domain=sofa.com;", "should contain Domain=sofa.com")
 				break
 			}
 		}
@@ -4460,7 +4460,7 @@ func TestLoginCookies(t *testing.T) {
 		os.Setenv("CWS_CLOUD_TOKEN", token)
 
 		updateConfig := func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "https://testchips.cloud.mattermost.com"
+			*cfg.ServiceSettings.SiteURL = "https://testchips.cloud.sofa.com"
 		}
 		th := SetupAndApplyConfigBeforeLogin(t, updateConfig).InitBasic(t)
 
@@ -4497,7 +4497,7 @@ func TestLoginCookies(t *testing.T) {
 
 	t.Run("should NOT return cookie with MMCLOUDURL for cloud installations without expected format of cloud URL", func(t *testing.T) {
 		updateConfig := func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "https://testchips.com" // correct cloud URL would be https://testchips.cloud.mattermost.com
+			*cfg.ServiceSettings.SiteURL = "https://testchips.com" // correct cloud URL would be https://testchips.cloud.sofa.com
 		}
 		th := SetupAndApplyConfigBeforeLogin(t, updateConfig).InitBasic(t)
 
@@ -8288,7 +8288,7 @@ func TestGetUsersWithInvalidEmails(t *testing.T) {
 	client := th.SystemAdminClient
 
 	user := model.User{
-		Email:    "ben@invalid.mattermost.com",
+		Email:    "ben@invalid.sofa.com",
 		Nickname: "Ben Cooke",
 		Password: "hello1",
 		Username: GenerateTestUsername(),
@@ -8318,7 +8318,7 @@ func TestGetUsersWithInvalidEmails(t *testing.T) {
 
 	th.App.UpdateConfig(func(cfg *model.Config) {
 		*cfg.TeamSettings.EnableOpenServer = false
-		*cfg.TeamSettings.RestrictCreationToDomains = "localhost,simulator.amazonses.com,invalid.mattermost.com"
+		*cfg.TeamSettings.RestrictCreationToDomains = "localhost,simulator.amazonses.com,invalid.sofa.com"
 	})
 
 	users, _, err = client.GetUsersWithInvalidEmails(context.Background(), 0, 50)
@@ -9236,7 +9236,7 @@ func TestResetPasswordFailedAttempts(t *testing.T) {
 		username := GenerateTestUsername()
 
 		ldapUser := &model.User{
-			Email:         "foobar+testdomainrestriction@mattermost.org",
+			Email:         "foobar+testdomainrestriction@sofa.org",
 			Username:      username,
 			AuthService:   "ldap",
 			AuthData:      &username,

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -37,7 +37,7 @@ describe('Message Draft with attachment and Switch Channels', () => {
         cy.get(`#sidebarItem_${testChannel1.name}`).findByTestId('draftIcon').should('not.exist');
 
         // # Upload a file on center view
-        cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
+        cy.get('#fileUploadInput').attachFile('sofa-icon.png');
 
         // # Go to test channel without submitting the draft in the previous channel
         cy.get(`#sidebarItem_${testChannel2.name}`).click({force: true});

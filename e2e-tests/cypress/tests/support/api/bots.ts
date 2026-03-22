@@ -1,19 +1,19 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Bot, BotPatch} from '@mattermost/types/bots';
+import {Bot, BotPatch} from '@sofa/types/bots';
 import {ChainableT} from 'tests/types';
 
 import {getRandomId} from '../../utils';
 
 // *****************************************************************************
 // Bots
-// https://api.mattermost.com/#tag/bots
+// https://api.sofa.com/#tag/bots
 // *****************************************************************************
 
 /**
  * Create a bot.
- * See https://api.mattermost.com/#tag/bots/paths/~1bots/post
+ * See https://api.sofa.com/#tag/bots/paths/~1bots/post
  * @param {string} options.bot - predefined `bot` object instead of random bot
  * @param {string} options.prefix - 'bot' (default) or any prefix to easily identify a bot
  * @returns {Bot} out.bot: `Bot` object
@@ -45,7 +45,7 @@ Cypress.Commands.add('apiCreateBot', apiCreateBot);
 
 /**
  * Get bots.
- * See https://api.mattermost.com/#tag/bots/paths/~1bots/get
+ * See https://api.sofa.com/#tag/bots/paths/~1bots/get
  * @param {number} options.page - The page to select
  * @param {number} options.perPage - The number of users per page. There is a maximum limit of 200 users per page
  * @param {boolean} options.includeDeleted - If deleted bots should be returned
@@ -69,7 +69,7 @@ Cypress.Commands.add('apiGetBots', apiGetBots);
 
 /**
  * Disable bot.
- * See https://api.mattermost.com/#tag/bots/operation/DisableBot
+ * See https://api.sofa.com/#tag/bots/operation/DisableBot
  * @param {string} userId - User ID
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
  *

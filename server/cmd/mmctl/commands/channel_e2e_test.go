@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -7,14 +7,14 @@ import (
 	"fmt"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/api4"
-	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 )
 
 func (s *MmctlE2ETestSuite) TestListChannelsCmdF() {
@@ -374,7 +374,7 @@ func (s *MmctlE2ETestSuite) TestDeleteChannelsCmd() {
 		err := deleteChannelsCmdF(s.th.SystemAdminClient, cmd, args)
 
 		var expected error
-		expected = multierror.Append(expected, errors.New("unable to delete channel '\""+channel.Name+"\"' error: Permanent channel deletion feature is not enabled. ServiceSettings.EnableAPIChannelDeletion must be set to true to use this command. See https://mattermost.com/pl/environment-configuration-settings for more information"))
+		expected = multierror.Append(expected, errors.New("unable to delete channel '\""+channel.Name+"\"' error: Permanent channel deletion feature is not enabled. ServiceSettings.EnableAPIChannelDeletion must be set to true to use this command. See https://sofa.com/pl/environment-configuration-settings for more information"))
 
 		s.Require().NotNil(err)
 		s.Require().EqualError(err, expected.Error())

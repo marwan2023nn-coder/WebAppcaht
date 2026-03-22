@@ -215,7 +215,7 @@ components:
         total_msg_count:
           type: integer
         extra_update_at:
-          description: Deprecated in Mattermost 5.0 release
+          description: Deprecated in Sofa 5.0 release
           type: integer
           format: int64
         creator_id:
@@ -2882,12 +2882,12 @@ components:
         min_server_version:
           type: string
           description: |
-            The minimum Mattermost server version required for the plugin.
+            The minimum Sofa server version required for the plugin.
 
             Available as server version 5.6.
         backend:
           type: object
-          description: Deprecated in Mattermost 5.2 release.
+          description: Deprecated in Sofa 5.2 release.
           properties:
             executable:
               type: string
@@ -3558,7 +3558,7 @@ components:
       properties:
         has_syncables:
           type: boolean
-        mattermost_group_id:
+        sofa_group_id:
           type: string
         primary_key:
           type: string
@@ -3793,13 +3793,13 @@ components:
           description: Optional override for the action button text (defaults to OK)
           type: string
         description:
-          description: "Notice content. Use {{Mattermost}} instead of plain text to support white-labeling. Text supports Markdown."
+          description: "Notice content. Use {{Sofa}} instead of plain text to support white-labeling. Text supports Markdown."
           type: string
         image:
           description: URL of image to display
           type: string
         title:
-          description: "Notice title. Use {{Mattermost}} instead of plain text to support white-labeling. Text supports Markdown."
+          description: "Notice title. Use {{Sofa}} instead of plain text to support white-labeling. Text supports Markdown."
           type: string
     SharedChannel:
       type: object
@@ -4720,7 +4720,7 @@ components:
           format: int64
           description: The time in milliseconds the recap channel was created
 externalDocs:
-  description: Find out more about Mattermost
-  url: 'https://about.mattermost.com'
+  description: Find out more about Sofa
+  url: 'https://about.sofa.com'
 security:
   - bearerAuth: []

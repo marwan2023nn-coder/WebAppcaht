@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable no-console */
@@ -191,12 +191,12 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
 
         return {
             username: 'Cypress UI Test',
-            icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+            icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
             attachments: [{
                 color: testResult.color,
                 author_name: 'Webapp End-to-end Testing',
-                author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
-                author_link: 'https://www.mattermost.com',
+                author_icon: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+                author_link: 'https://www.sofa.com',
                 title,
                 fields: [
                     {
@@ -240,12 +240,12 @@ function generateTestReport(summary, isUploadedToS3, reportLink, environment, te
 
     return {
         username: 'Cypress UI Test',
-        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [{
             color: testResult.color,
             author_name: 'Webapp End-to-end Testing',
-            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
-            author_link: 'https://www.mattermost.com/',
+            author_icon: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+            author_link: 'https://www.sofa.com/',
             title,
             text: `${quickSummary} | ${statsDuration} ${testCycleLink} ${automationDashboardField}\n${runnerEnvValue}${SERVER_TYPE ? '\nTest server: ' + SERVER_TYPE : ''}${rollingReleaseFromField}${MM_ENV ? '\nTest server override: ' + MM_ENV : ''}`,
         }],
@@ -264,7 +264,7 @@ function generateTitle() {
 
     let dockerImageLink = '';
     if (MM_DOCKER_IMAGE && MM_DOCKER_TAG) {
-        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermostdevelopment/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/sofadevelopment/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
     }
 
     let releaseDate = '';
@@ -305,12 +305,12 @@ function generateDiagnosticReport(summary, serverInfo) {
 
     return {
         username: 'Cypress UI Test',
-        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [{
             color: '#43A047',
             author_name: 'Cypress UI Test',
-            author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
-            author_link: 'https://community.mattermost.com/core/channels/ui-test-automation',
+            author_icon: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+            author_link: 'https://community.sofa.com/core/channels/ui-test-automation',
             title: `Cypress UI Test Automation #${BUILD_ID}, **${BRANCH}** branch`,
             fields: [{
                 short: false,

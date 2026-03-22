@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -9,11 +9,11 @@ import (
 	"fmt"
 	"strings"
 
-	sq "github.com/mattermost/squirrel"
+	sq "github.com/sofa/squirrel"
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
 )
 
 type SqlRoleStore struct {
@@ -351,7 +351,7 @@ func (s *SqlRoleStore) channelHigherScopedPermissionsQuery(roleNames []string) s
 	`
 
 	// The below three channel role names are referenced by their name value because there is no system scheme
-	// record that ships with Mattermost, otherwise the system scheme would be referenced by name and the channel
+	// record that ships with Sofa, otherwise the system scheme would be referenced by name and the channel
 	// roles would be referenced by their column names.
 	return fmt.Sprintf(
 		sqlTmpl,

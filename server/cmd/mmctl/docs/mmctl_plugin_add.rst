@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Add plugins to your Mattermost server.
+Add plugins to your Sofa server.
 
 ::
 

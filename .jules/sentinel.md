@@ -1,6 +1,6 @@
 ## 2025-05-14 - License Feature Nil Pointer Dereference
 **Vulnerability:** Potential server panics (DoS) due to missing nil checks on `license.Features` before accessing specific feature pointers like `LDAP`.
-**Learning:** While the top-level `license` object was checked for nil, its nested `Features` pointer (common in the Mattermost/Sofa model) could also be nil in certain configurations or license states.
+**Learning:** While the top-level `license` object was checked for nil, its nested `Features` pointer (common in the Sofa/Sofa model) could also be nil in certain configurations or license states.
 **Prevention:** Always verify both `license` and `license.Features` are non-nil, and use `model.SafeDereference` for the actual feature pointers to handle optional or omitted fields safely.
 
 ## 2025-05-15 - Insecure Default HTTP Client Usage
@@ -11,7 +11,7 @@
 ## 2025-05-16 - Nested Nil Pointer Dereference in License Features
 **Vulnerability:** Potential server panics (DoS) in multiple modules (admin, email, jobs, file) when dereferencing `license.Features` or `license.Limits` pointers without ensuring they are non-nil.
 **Learning:** Even when the top-level `license` object is checked for nil, its nested components like `Features` and `Limits` can still be nil depending on how the license was loaded or forged. This pattern was widespread in background jobs and configuration-dependent logic.
-**Prevention:** Use `license.IsCloud()` or `license.IsMattermostEntry()` helpers where applicable as they handle nested nil checks. For other features, always explicitly check `license != nil && license.Features != nil` before dereferencing feature flags.
+**Prevention:** Use `license.IsCloud()` or `license.IsSofaEntry()` helpers where applicable as they handle nested nil checks. For other features, always explicitly check `license != nil && license.Features != nil` before dereferencing feature flags.
 
 ## 2025-05-17 - Insecure Default HTTP Client and Missing Timeouts
 **Vulnerability:** Resource exhaustion (DoS) and potential SSRF due to usage of `http.Get` or unconfigured `http.Client` which lacks timeouts and security overrides.

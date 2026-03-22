@@ -1,10 +1,10 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {Page} from '@playwright/test';
-import {UserProfile} from '@mattermost/types/users';
+import {UserProfile} from '@sofa/types/users';
 
-import {expect, test, ChannelsPage} from '@mattermost/playwright-lib';
+import {expect, test, ChannelsPage} from '@sofa/playwright-lib';
 
 test('MM-63451 should be able to navigate the account settings menu with the keyboard after opening it with the mouse', async ({
     pw,

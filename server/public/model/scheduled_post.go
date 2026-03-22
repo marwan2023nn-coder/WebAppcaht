@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -85,7 +85,7 @@ func (s *ScheduledPost) PreUpdate() {
 	s.Draft.PreCommit()
 }
 
-// ToPost converts a scheduled post toa  regular, mattermost post object.
+// ToPost converts a scheduled post toa  regular, sofa post object.
 func (s *ScheduledPost) ToPost() (*Post, error) {
 	post := &Post{
 		UserId:    s.UserId,

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import typescript from '@rollup/plugin-typescript';
@@ -23,8 +23,8 @@ export default {
     ],
     external: [
         '@playwright/test',
-        '@mattermost/client',
-        '@mattermost/types/config',
+        '@sofa/client',
+        '@sofa/types/config',
         '@axe-core/playwright',
         '@percy/playwright',
         'dotenv',

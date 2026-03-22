@@ -1478,7 +1478,7 @@
                   type: integer
                 importFrom:
                   description: String that defines from which application the team was
-                    exported to be imported into Mattermost.
+                    exported to be imported into Sofa.
                   type: string
               required:
                 - file

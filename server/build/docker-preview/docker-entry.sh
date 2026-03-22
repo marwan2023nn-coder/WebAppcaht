@@ -1,5 +1,5 @@
 #!/bin/bash
-# Copyright (c) 2016 Mattermost, Inc. All Rights Reserved.
+# Copyright (c) 2016 Sofa, Inc. All Rights Reserved.
 # See License.txt for license information.
 
 echo "Starting PostgreSQL"
@@ -14,5 +14,5 @@ echo "Updating CA certificates"
 update-ca-certificates --fresh >/dev/null
 
 echo "Starting platform"
-cd mattermost
-exec ./bin/mattermost --config=config/config_docker.json
+cd sofa
+exec ./bin/sofa --config=config/config_docker.json

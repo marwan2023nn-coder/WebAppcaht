@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -43,7 +43,7 @@ describe('Customization', () => {
             cy.get('.help-text').should('be.visible').and('have.text', contents);
 
             // # upload the image
-            cy.get('input').attachFile('mattermost-icon.png');
+            cy.get('input').attachFile('sofa-icon.png');
         });
 
         // # Save setting
@@ -64,7 +64,7 @@ describe('Customization', () => {
         cy.findByTestId('TeamSettings.SiteNameinput').should('have.value', origConfig.TeamSettings.SiteName);
 
         // * Verify the site name's help text is visible and matches the text
-        cy.findByTestId('TeamSettings.SiteNamehelp-text').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Mattermost".');
+        cy.findByTestId('TeamSettings.SiteNamehelp-text').should('be.visible').and('have.text', 'Name of service shown in login screens and UI. When not specified, it defaults to "Sofa".');
 
         // # Generate and enter a random site name
         const siteName = 'New site name';

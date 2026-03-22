@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -19,13 +19,13 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/store"
-	storemocks "github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
-	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
-	eMocks "github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
-	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	storemocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	eMocks "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine/mocks"
 )
 
 func TestGeneratePublicLinkHash(t *testing.T) {

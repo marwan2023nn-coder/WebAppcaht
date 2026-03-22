@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -17,9 +17,9 @@ import (
 	"github.com/stretchr/testify/require"
 	"golang.org/x/crypto/bcrypt"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/v8/channels/app/password/hashers"
-	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/password/hashers"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
 )
 
 func TestParseAuthTokenFromRequest(t *testing.T) {
@@ -176,7 +176,7 @@ func TestCheckLdapUserPasswordAndAllCriteria(t *testing.T) {
 
 	// create an ldap user by calling createUser
 	ldapUser := &model.User{
-		Email:         "ldapuser@mattermost-customer.com",
+		Email:         "ldapuser@sofa-customer.com",
 		Username:      "ldapuser",
 		AuthService:   model.UserAuthServiceLdap,
 		AuthData:      &authData,
@@ -270,7 +270,7 @@ func TestCheckLdapUserPasswordConcurrency(t *testing.T) {
 
 	// create an ldap user by calling createUser
 	ldapUser := &model.User{
-		Email:         "ldapuser@mattermost-customer.com",
+		Email:         "ldapuser@sofa-customer.com",
 		Username:      "ldapuser",
 		AuthService:   model.UserAuthServiceLdap,
 		AuthData:      &authData,

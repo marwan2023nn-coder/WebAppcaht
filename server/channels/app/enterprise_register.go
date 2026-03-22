@@ -1,12 +1,12 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
 
 import (
-	"github.com/mattermost/mattermost/server/v8/channels/jobs/data_retention"
-	"github.com/mattermost/mattermost/server/v8/einterfaces"
-	ejobs "github.com/mattermost/mattermost/server/v8/einterfaces/jobs"
+	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs/data_retention"
+	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
+	ejobs "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/jobs"
 )
 
 func init() {

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -20,9 +20,9 @@ describe('Onboarding', () => {
     const usernameOne = `user${getRandomId()}`;
     const usernameTwo = `user${getRandomId()}`;
     const usernameThree = `user${getRandomId()}`;
-    const emailOne = `${usernameOne}@sample.mattermost.com`;
-    const emailTwo = `${usernameTwo}@sample.mattermost.com`;
-    const emailThree = `${usernameThree}@sample.mattermost.com`;
+    const emailOne = `${usernameOne}@sample.sofa.com`;
+    const emailTwo = `${usernameTwo}@sample.sofa.com`;
+    const emailThree = `${usernameThree}@sample.sofa.com`;
     const password = 'passwd';
 
     let testTeam;

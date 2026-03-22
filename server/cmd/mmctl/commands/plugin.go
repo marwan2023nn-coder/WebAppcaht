@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -8,8 +8,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
-	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
+	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
@@ -24,7 +24,7 @@ var PluginCmd = &cobra.Command{
 var PluginAddCmd = &cobra.Command{
 	Use:     "add [plugins]",
 	Short:   "Add plugins",
-	Long:    "Add plugins to your Mattermost server.",
+	Long:    "Add plugins to your Sofa server.",
 	Example: `  plugin add hovercardexample.tar.gz pluginexample.tar.gz`,
 	RunE:    withClient(pluginAddCmdF),
 	Args:    cobra.MinimumNArgs(1),
@@ -35,10 +35,10 @@ var PluginInstallURLCmd = &cobra.Command{
 	Short: "Install plugin from url",
 	Long:  "Supply one or multiple URLs to plugins compressed in a .tar.gz file. Plugins must be enabled in the server's config settings",
 	Example: `  # You can install one plugin
-  $ mmctl plugin install-url https://example.com/mattermost-plugin.tar.gz
+  $ mmctl plugin install-url https://example.com/sofa-plugin.tar.gz
 
   # Or install multiple in one go
-  $ mmctl plugin install-url https://example.com/mattermost-plugin-one.tar.gz https://example.com/mattermost-plugin-two.tar.gz`,
+  $ mmctl plugin install-url https://example.com/sofa-plugin-one.tar.gz https://example.com/sofa-plugin-two.tar.gz`,
 	RunE: withClient(pluginInstallURLCmdF),
 	Args: cobra.MinimumNArgs(1),
 }
@@ -46,7 +46,7 @@ var PluginInstallURLCmd = &cobra.Command{
 var PluginDeleteCmd = &cobra.Command{
 	Use:     "delete [plugins]",
 	Short:   "Delete plugins",
-	Long:    "Delete previously uploaded plugins from your Mattermost server.",
+	Long:    "Delete previously uploaded plugins from your Sofa server.",
 	Example: `  plugin delete hovercardexample pluginexample`,
 	RunE:    withClient(pluginDeleteCmdF),
 	Args:    cobra.MinimumNArgs(1),
@@ -55,7 +55,7 @@ var PluginDeleteCmd = &cobra.Command{
 var PluginEnableCmd = &cobra.Command{
 	Use:     "enable [plugins]",
 	Short:   "Enable plugins",
-	Long:    "Enable plugins for use on your Mattermost server.",
+	Long:    "Enable plugins for use on your Sofa server.",
 	Example: `  plugin enable hovercardexample pluginexample`,
 	RunE:    withClient(pluginEnableCmdF),
 	Args:    cobra.MinimumNArgs(1),
@@ -73,7 +73,7 @@ var PluginDisableCmd = &cobra.Command{
 var PluginListCmd = &cobra.Command{
 	Use:     "list",
 	Short:   "List plugins",
-	Long:    "List all enabled and disabled plugins installed on your Mattermost server.",
+	Long:    "List all enabled and disabled plugins installed on your Sofa server.",
 	Example: `  plugin list`,
 	RunE:    withClient(pluginListCmdF),
 }

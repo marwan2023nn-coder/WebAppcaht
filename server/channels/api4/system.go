@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -17,13 +17,13 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
-	"github.com/mattermost/mattermost/server/public/utils"
-	"github.com/mattermost/mattermost/server/v8/config"
-	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
-	"github.com/mattermost/mattermost/server/v8/platform/services/upgrader"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/web"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/utils"
+	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/cache"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/upgrader"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/web"
 )
 
 const (
@@ -211,7 +211,7 @@ func getSystemPing(c *Context, w http.ResponseWriter, r *http.Request) {
 			w.Header().Set(filestoreStatusKey, res)
 		}
 
-		// Checking if mattermost is running as root, if the user is system admin
+		// Checking if sofa is running as root, if the user is system admin
 		if c.App.SessionHasPermissionTo(*c.AppContext.Session(), model.PermissionManageSystem) {
 			s["root_status"] = os.Geteuid() == 0
 		}
@@ -530,7 +530,7 @@ func getLatestVersion(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	resp, appErr := c.App.GetLatestVersion(c.AppContext, "https://api.github.com/repos/mattermost/mattermost-server/releases/latest")
+	resp, appErr := c.App.GetLatestVersion(c.AppContext, "https://api.github.com/repos/sofa/sofa-server/releases/latest")
 	if appErr != nil {
 		c.Err = appErr
 		return
@@ -656,7 +656,7 @@ func getRedirectLocation(c *Context, w http.ResponseWriter, r *http.Request) {
 
 	location = res.Header.Get("Location")
 
-	// If the location length is > 2100, we can probably ignore. Fixes https://mattermost.atlassian.net/browse/MM-54219
+	// If the location length is > 2100, we can probably ignore. Fixes https://sofa.atlassian.net/browse/MM-54219
 	if len(location) > RedirectLocationMaximumLength {
 		// Treating as a "failure". Cache failures to prevent retries.
 		cacheErr := redirectLocationDataCache.SetWithExpiry(url, "", RedirectLocationCacheExpiry)
@@ -875,7 +875,7 @@ func upgradeToEnterprise(c *Context, w http.ResponseWriter, r *http.Request) {
 		switch {
 		case errors.As(err, &ipErr):
 			params := map[string]any{
-				"MattermostUsername": ipErr.MattermostUsername,
+				"SofaUsername": ipErr.SofaUsername,
 				"FileUsername":       ipErr.FileUsername,
 				"Path":               ipErr.Path,
 			}

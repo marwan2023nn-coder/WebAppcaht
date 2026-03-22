@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @channels @channel
 
-import {Channel} from '@mattermost/types/channels';
-import {Team} from '@mattermost/types/teams';
+import {Channel} from '@sofa/types/channels';
+import {Team} from '@sofa/types/teams';
 
 import {getRandomId} from '../../../utils';
 

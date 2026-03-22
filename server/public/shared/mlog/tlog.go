@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package mlog
@@ -10,9 +10,9 @@ import (
 	"sync"
 	"testing"
 
-	"github.com/mattermost/logr/v2"
-	"github.com/mattermost/logr/v2/formatters"
-	"github.com/mattermost/logr/v2/targets"
+	"github.com/sofa/logr/v2"
+	"github.com/sofa/logr/v2/formatters"
+	"github.com/sofa/logr/v2/targets"
 )
 
 // AddWriterTarget adds a simple io.Writer target to an existing Logger.

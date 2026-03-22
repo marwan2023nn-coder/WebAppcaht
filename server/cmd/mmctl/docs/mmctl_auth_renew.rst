@@ -50,5 +50,5 @@ Options inherited from parent commands
 SEE ALSO
 ~~~~~~~~
 
-* `mmctl auth <mmctl_auth.rst>`_ 	 - Manages the credentials of the remote Mattermost instances
+* `mmctl auth <mmctl_auth.rst>`_ 	 - Manages the credentials of the remote Sofa instances
 

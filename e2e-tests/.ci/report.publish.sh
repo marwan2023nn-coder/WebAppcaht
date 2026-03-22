@@ -11,15 +11,15 @@ cd "$(dirname "$0")"
 # Default or assert variables required by the save_report.js script, and document optional variables
 : ${FULL_REPORT:=false} # Valid values: true, false
 : ${TYPE:=NONE}         # Valid values: PR, RELEASE, MASTER, MASTER_UNSTABLE, CLOUD, CLOUD_UNSTABLE, NONE (which is the same as omitting it); also known as REPORT_TYPE
-: ${WEBHOOK_URL:-}      # Optional. Mattermost webhook to post the report back to
+: ${WEBHOOK_URL:-}      # Optional. Sofa webhook to post the report back to
 : ${RELEASE_DATE:-}     # Optional. If set, its value will be included in the report as the release date of the tested artifact
 if [ "$TYPE" = "PR" ]; then
   # Try to determine PR number: first from PR_NUMBER, then from BRANCH (server-pr-XXXX format)
   if [ -n "${PR_NUMBER:-}" ]; then
-    export PULL_REQUEST="https://github.com/mattermost/mattermost/pull/${PR_NUMBER}"
+    export PULL_REQUEST="https://github.com/sofa/sofa/pull/${PR_NUMBER}"
   elif grep -qE '^server-pr-[0-9]+$' <<<"${BRANCH:-}"; then
     PR_NUMBER="${BRANCH##*-}"
-    export PULL_REQUEST="https://github.com/mattermost/mattermost/pull/${PR_NUMBER}"
+    export PULL_REQUEST="https://github.com/sofa/sofa/pull/${PR_NUMBER}"
   else
     mme2e_log "Warning: TYPE=PR but cannot determine PR number from PR_NUMBER or BRANCH. Falling back to TYPE=NONE."
     TYPE=NONE
@@ -35,7 +35,7 @@ fi
 
 # Populate intermediate variables
 export BUILD_TAG="${SERVER_IMAGE##*/}"
-export MM_DOCKER_IMAGE="${BUILD_TAG%%:*}" # NB: the 'mattermostdevelopment/' prefix is assumed
+export MM_DOCKER_IMAGE="${BUILD_TAG%%:*}" # NB: the 'sofadevelopment/' prefix is assumed
 export MM_DOCKER_TAG="${BUILD_TAG##*:}"
 export SERVER_TYPE="${SERVER}"
 export AUTOMATION_DASHBOARD_FRONTEND_URL="${AUTOMATION_DASHBOARD_URL:+${AUTOMATION_DASHBOARD_URL%%/api}}"

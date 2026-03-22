@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -12,12 +12,12 @@ import (
 	"net/http"
 	"time"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/httpservice"
-	"github.com/mattermost/mattermost/server/public/shared/i18n"
-	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/platform/services/cache"
-	"github.com/mattermost/mattermost/server/v8/platform/shared/mail"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/cache"
+	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mail"
 )
 
 var latestVersionCache = cache.NewLRU(&cache.CacheOptions{
@@ -164,7 +164,7 @@ func (a *App) TestSiteURL(rctx request.CTX, siteURL string) *model.AppError {
 	// We also bypass TLS verification as it's an admin-only tool specifically for testing the server's own reachability,
 	// which may be using a local IP or a self-signed certificate.
 	client := a.HTTPService().MakeClient(true)
-	if tr, ok := client.Transport.(*httpservice.MattermostTransport); ok {
+	if tr, ok := client.Transport.(*httpservice.SofaTransport); ok {
 		if ht, ok := tr.Transport.(*http.Transport); ok {
 			if ht.TLSClientConfig == nil {
 				ht.TLSClientConfig = &tls.Config{}

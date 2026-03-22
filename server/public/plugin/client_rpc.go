@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 //go:generate go run interface_generator/main.go
@@ -24,18 +24,18 @@ import (
 	"github.com/hashicorp/go-plugin"
 	"github.com/lib/pq"
 
-	"github.com/mattermost/mattermost/server/public/model"
-	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
 )
 
 // Plugin RPC Architecture
 //
-// Mattermost plugins run as separate OS processes for isolation and safety, using
+// Sofa plugins run as separate OS processes for isolation and safety, using
 // HashiCorp's go-plugin library. Communication between the server and plugins is
 // bidirectional via RPC:
 //
 //	┌─────────────────────────┐                    ┌─────────────────────────┐
-//	│   Mattermost Server     │                    │     Plugin Process      │
+//	│   Sofa Server     │                    │     Plugin Process      │
 //	│                         │                    │                         │
 //	│  ┌───────────────────┐  │   hooks (calls)    │  ┌───────────────────┐  │
 //	│  │ hooksRPCClient    │──┼───────────────────►│  │ hooksRPCServer    │  │
@@ -50,7 +50,7 @@ import (
 //   to hooksRPCServer in the plugin process, which delegates to the plugin implementation.
 //
 // - Plugin → Server (API): apiRPCClient in the plugin serializes API calls and sends
-//   them to apiRPCServer in the server, which delegates to the Mattermost API.
+//   them to apiRPCServer in the server, which delegates to the Sofa API.
 //
 // The MuxBroker enables multiplexed streaming connections over a single RPC connection,
 // which is essential for efficiently streaming HTTP bodies, file uploads, and other
@@ -58,11 +58,11 @@ import (
 
 var hookNameToId = make(map[string]int)
 
-// hooksRPCClient is the client-side RPC proxy that runs in the Mattermost server process and connects to to the [hooksRPCServer] on the plugin side.
+// hooksRPCClient is the client-side RPC proxy that runs in the Sofa server process and connects to to the [hooksRPCServer] on the plugin side.
 // It implements the Hooks interface and forwards hook invocations to plugins running in
 // separate processes via RPC.
 //
-// When Mattermost needs to call a plugin hook (e.g., MessageWillBePosted), it calls the
+// When Sofa needs to call a plugin hook (e.g., MessageWillBePosted), it calls the
 // corresponding method on hooksRPCClient, which serializes the arguments and makes an
 // RPC call to the plugin process where hooksRPCServer receives and handles it.
 //
@@ -79,12 +79,12 @@ type hooksRPCClient struct {
 }
 
 // hooksRPCServer is the server-side RPC handler that runs in the plugin process and receives requests from [hooksRPCClient].
-// It receives hook invocations from hooksRPCClient (in the Mattermost server) and
+// It receives hook invocations from hooksRPCClient (in the Sofa server) and
 // delegates them to the actual plugin implementation.
 //
 // During plugin activation (OnActivate), it establishes a reverse RPC connection
 // back to the server, creating an apiRPCClient that the plugin uses to call
-// Mattermost APIs.
+// Sofa APIs.
 type hooksRPCServer struct {
 	impl         any
 	muxBroker    *plugin.MuxBroker
@@ -113,8 +113,8 @@ func (p *hooksPlugin) Client(b *plugin.MuxBroker, client *rpc.Client) (any, erro
 	}, nil
 }
 
-// apiRPCClient is the client-side RPC proxy that runs in the plugin process and connects to the [apiRPCServer] on the Mattermost server side.
-// It implements the API interface and allows plugins to call Mattermost server
+// apiRPCClient is the client-side RPC proxy that runs in the plugin process and connects to the [apiRPCServer] on the Sofa server side.
+// It implements the API interface and allows plugins to call Sofa server
 // APIs (e.g., GetUser, CreatePost) by forwarding requests via RPC to apiRPCServer.
 //
 // This is created during plugin activation and injected into the plugin via SetAPI().
@@ -123,11 +123,11 @@ type apiRPCClient struct {
 	muxBroker *plugin.MuxBroker
 }
 
-// apiRPCServer is the server-side RPC handler that runs in the Mattermost server process and receives requests from [apiRPCClient].
+// apiRPCServer is the server-side RPC handler that runs in the Sofa server process and receives requests from [apiRPCClient].
 // It receives API calls from plugins (via apiRPCClient) and delegates them to the actual
-// Mattermost API implementation.
+// Sofa API implementation.
 //
-// This enables plugins to interact with Mattermost functionality like users, posts,
+// This enables plugins to interact with Sofa functionality like users, posts,
 // channels, and configuration through a well-defined API boundary.
 type apiRPCServer struct {
 	impl      API

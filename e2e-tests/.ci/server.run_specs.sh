@@ -48,7 +48,7 @@ EOF
   fi
 
   # Collect server logs
-  ${MME2E_DC_SERVER} logs --no-log-prefix -- server >"../cypress/logs/${LOGFILE_SUFFIX}_mattermost.log" 2>&1
+  ${MME2E_DC_SERVER} logs --no-log-prefix -- server >"../cypress/logs/${LOGFILE_SUFFIX}_sofa.log" 2>&1
   ;;
 playwright)
   mme2e_log "Running Playwright with specified specs"
@@ -60,7 +60,7 @@ playwright)
 cd e2e-tests/playwright
 rm -rf logs results storage_state
 mkdir -p logs results
-touch logs/mattermost.log
+touch logs/sofa.log
 EOF
 
   # Install dependencies
@@ -89,7 +89,7 @@ EOF
   fi
 
   # Collect server logs
-  ${MME2E_DC_SERVER} logs --no-log-prefix -- server >"../playwright/logs/${LOGFILE_SUFFIX}_mattermost.log" 2>&1
+  ${MME2E_DC_SERVER} logs --no-log-prefix -- server >"../playwright/logs/${LOGFILE_SUFFIX}_sofa.log" 2>&1
   ;;
 *)
   mme2e_log "Error, unsupported value for TEST: $TEST" >&2

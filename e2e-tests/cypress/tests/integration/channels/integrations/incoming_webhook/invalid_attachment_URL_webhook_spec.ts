@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -49,7 +49,7 @@ describe('Integrations/Incoming Webhook', () => {
                 pretext: 'Testing viewing attachments with invalid URL does not cause the application to crash.',
                 image_url: 'https://example.com',
             }],
-            icon_url: 'http://www.mattermost.org/wp-content/uploads/2016/04/icon_WS.png',
+            icon_url: 'http://www.sofa.org/wp-content/uploads/2016/04/icon_WS.png',
         };
         cy.postIncomingWebhook({url: incomingWebhook.url, data: payload, waitFor: 'attachment-pretext'});
 
