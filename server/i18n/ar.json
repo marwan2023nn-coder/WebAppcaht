@@ -11683,5 +11683,13 @@
   {
     "id": "web.incoming_webhook.user.app_error",
     "translation": "تعذر العثور على المستخدم {{.user}}"
+  },
+  {
+    "id": "model.config.is_valid.autotranslation.workers.app_error",
+    "translation": "يجب أن يكون عدد العمال بين 1 و 64."
+  },
+  {
+    "id": "model.dcr.is_valid.redirect_uri_not_allowlisted.app_error",
+    "translation": "رابط إعادة التوجيه غير مدرج في قائمة السماح."
   }
 ]

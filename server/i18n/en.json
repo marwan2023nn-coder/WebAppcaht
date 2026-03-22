@@ -9949,6 +9949,10 @@
     "translation": "Workers must be between 1 and 32."
   },
   {
+    "id": "model.dcr.is_valid.redirect_uri_not_allowlisted.app_error",
+    "translation": "Redirect URI is not allowlisted."
+  },
+  {
     "id": "model.config.is_valid.cache_type.app_error",
     "translation": "Cache type must be either lru or redis."
   },

@@ -123,6 +123,9 @@ func (fi *FileInfo) IsValid() *AppError {
 }
 
 func (fi *FileInfo) IsImage() bool {
+	if fi.MimeType == "image/vnd.adobe.photoshop" || fi.MimeType == "image/x-photoshop" {
+		return false
+	}
 	return strings.HasPrefix(fi.MimeType, "image")
 }
 

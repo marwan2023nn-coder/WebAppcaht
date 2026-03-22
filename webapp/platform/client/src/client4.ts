@@ -5,7 +5,7 @@
 
 import type {AccessControlPolicy, CELExpressionError, AccessControlTestResult, AccessControlPoliciesResult, AccessControlPolicyChannelsResult, AccessControlVisualAST, AccessControlAttributes, AccessControlPolicyActiveUpdate} from '@workspace/types/access_control';
 import type {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilterQuery} from '@workspace/types/admin';
-import type {Agent} from '@workspace/types/agents';
+import type {Agent, LLMService} from '@workspace/types/agents';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@workspace/types/apps';
 import type {Audit} from '@workspace/types/audits';
 import type {UserAutocomplete, AutocompleteSuggestion} from '@workspace/types/autocomplete';
@@ -4876,6 +4876,17 @@ export default class Client4 {
     getAdminContentFlaggingConfig = () => {
         return this.doFetch<ContentFlaggingSettings>(
             `${this.getContentFlaggingRoute()}/config`,
+            {method: 'get'},
+        );
+    };
+
+    getLLMServicesRoute() {
+        return `${this.getAgentsRoute()}/llm_services`;
+    }
+
+    getLLMServices = () => {
+        return this.doFetch<LLMService[]>(
+            `${this.getLLMServicesRoute()}`,
             {method: 'get'},
         );
     };

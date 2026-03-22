@@ -189,7 +189,7 @@ func decodeIncomingWebhookRequest(by []byte) (*IncomingWebhookRequest, error) {
 
 func IncomingWebhookRequestFromJSON(data io.Reader) (*IncomingWebhookRequest, *AppError) {
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(data)
+	buf.ReadFrom(io.LimitReader(data, 1024*1024))
 	by := buf.Bytes()
 
 	// Try to decode the JSON data. Only if it fails, try to escape control

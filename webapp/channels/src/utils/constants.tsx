@@ -538,6 +538,8 @@ export const ModalIdentifiers = {
     FLAG_POST: 'flag_post',
     REMOVE_FLAGGED_POST: 'remove_flagged_post',
     CREATE_RECAP_MODAL: 'create_recap_modal',
+    DISABLE_AUTOTRANSLATION_CONFIRM: 'disable_autotranslation_confirm',
+    SHOW_TRANSLATION: 'show_translation',
 };
 
 export const UserStatuses = {
