@@ -2169,7 +2169,7 @@ func (s *SqlPostStore) search(teamId string, userId string, params *model.Search
 			excludedTermList := strings.Fields(excludedTerms)
 			for _, term := range excludedTermList {
 				term = sanitizeSearchTerm(strings.Trim(term, "\""), "\\")
-				baseQuery = baseQuery.Where(fmt.Sprintf("%s NOT LIKE ?", searchColumn), "%"+term+"%")
+				baseQuery = baseQuery.Where(sq.NotLike{searchColumn: "%" + term + "%"})
 			}
 			baseQuery = baseQuery.OrderBy("q2.CreateAt DESC")
 		}
