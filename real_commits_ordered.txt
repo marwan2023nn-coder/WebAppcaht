@@ -1,0 +1,73 @@
+b34511a9 Fix Data Retention Policy functional issues and complete security audit
+1e0483bf Fix data retention policy issues and LDAP group API 500 errors
+23cad13b Refactor for Enterprise-Grade Data Retention and Search Optimization
+84f23289 Fix nil pointer dereferences in API handlers and restore build integrity
+60b7614e Add high-performance 'Online Users' filter to Admin Dashboard
+99327bac Merge branch 'main' into enterprise-refactor-unlocked-10776544795683414920
+7349adf3 Complete comprehensive repository health audit
+a25c7174 Revert "Deep WebApp Audit Report"
+e130fe8f Merge branch 'main' into fix-ldap-500-and-data-retention-policy-11519834541979149782
+1cc18580 Implement secure user deletion (soft delete) in Admin Console
+003e4015 🛡️ Sentinel: Enhance docextractor security with managed HTTP client
+51f3e7c9 🎨 Palette: Add aria-label to post multiselect checkbox
+174f4b30 Audit repository and optimize email batching performance
+5b99c3ae ⚡ Bolt: optimize link metadata retrieval via bulk loading
+c23caca6 Add translation audit report and script for en.json and ar.json
+87a5adb2 Update i18n: extract latest English messages and sync Arabic translation
+998da4f9 Force hard delete for users in Admin Console
+aa27a1d5 Batch 1: Audit and Remediate Config & API Security
+1f2c1e09 Fix: prevent virtual license fallback after explicit removal
+faae5391 Fix media display and author experience for Burn-on-Read messages
+47b64dfa Allow internal IPs and insecure TLS in SiteURL test
+22c862bb Support insecure/internal connections for development
+de511a83 webapp: use logical property margin-inline-end for system users online filter
+f69b87c5 Fix WebSocket synchronization and support protocol downgrade behind proxies
+f085bb19 i18n: translate admin.user_item.delete to Arabic
+de965154 Fix Unrecognized config permissions tag value warnings
+0f4f0e22 fix: whitelist translation domains in Content Security Policy
+be2b1eee Merge branch 'main' into fix-csp-fetch-websocket-error-13799106080830181615
+1bc5e23b fix: unify Arabic translations and fix missing labels in delete modal
+98b1ac37 🛡️ Sentinel: Use secured HTTP service in upgrader
+bd294b0e Fix root cause of Panic and refine XSS sanitization
+f2ffd0c4 Modernize security headers and improve CSP robustness
+bc2684c5 feat: Update product branding texts to Arabic and enhance user management features
+09981986 Merge pull request #81 from marwan2023nn-coder/webapppfix
+64d607d8 docs: update management summary with technical implementation details
+d684cf88 Security audit and remediation: XSS fix and performance optimizations
+79b96465 perf: optimize PostComponent multi-select re-renders
+f07d89be ⚡ Bolt: Finalize post attachments caching and metadata optimization
+7a5ead21 Revert "Architectural hardening and security fixes 6935411367225274637"
+66c7af60 Final submission of fixes for SQL errors, Burn on Read visibility, Search localization, and Admin sorting.
+c28c78cd Architectural hardening and security remediation of the Sofa Workspace backend.
+992461ba Refactor plugin ID rebranding and align server-side constants
+9e6efe7d Fix: Comprehensive responsiveness for custom posts and file columns in RHS
+99513a1d Fix 403 Forbidden on user self-patch and ToS acceptance
+49d6855c Revert "Make custom post bubbles responsive in thread viewer"
+8b9f8573 Ensure full responsiveness for post bubbles and content in narrow containers
+8ef36959 Localize search filters to Arabic and improve admin user sorting
+9f3b2d9a fix: ensure code blocks shrink and scroll within post bubbles
+31fcc098 Implement partial search using pg_trgm and ILIKE on PostgreSQL
+e0cb131c Add comprehensive engineering analysis and execution plan for rebranding to Sofa
+e94430be 🛡️ Sentinel: Fix nil pointer dereference in client config
+0e8df9b7 fix: allow browser extension schemes and workers in CSP
+6aace067 Revert "Relax CSP to support browser extensions and workers"
+3685f034 Merge branch 'main' into sentinel-sql-hardening-whitelisting-17655426800948431623
+0266692b Hardening and optimization of the webapp plugin system
+f0b39824 Support unlimited DM/GM sidebar visibility
+dc59e244 Fix reminder bot displaying months in English when using Arabic locale
+4af08b16 Audit Arabic localization and RTL support in Admin Console
+84ae7743 webapp: synchronize moment locale with user preference
+82142494 Fix English month names in reminder bot for Arabic users
+cd160edd Harden CSP by removing broad https: source from connect-src
+d8b538bb Fix audio player playback, acceleration, and state persistence
+a637322c feat: enable High Availability (Cluster) functionality using memberlist and Redis
+a72bf8bc Fix localization and security hardening in Sofa Workspace
+8e5cae38 Sync project with Mattermost v11.5.1 features and security hardening
+fd9ff97e Upgrade to v11.5.1: Security hardening and configuration enhancements
+33306cc3 Fix missing imports in server/public/model/utils.go
+98a8c564 Implement Security Hardening and v11 Authentication Fixes
+ed2c87c6 Resolve critical security, stability, and infrastructure issues
+7110a340 chore: complete synchronization with official repository and security hardening
+316ae298 Merge branch 'main' into rebranding-sofa-workspace-16416347082236518853
+f7c3e4db Initialize Sofa AI Plugin and apply core security hardening
+cba9a80d Merge pull request #170 from marwan2023nn-coder/fix/test-panic-and-sqli-15089177941928042216
