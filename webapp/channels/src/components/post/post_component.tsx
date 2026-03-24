@@ -54,10 +54,14 @@ import { imageURLForUser, makeIsEligibleForClick } from 'utils/utils';
 import { getPermalinkURL } from 'selectors/urls';
 import { getIsPostMultiSelectModeEnabled, getMultiSelectedPostIds } from 'selectors/posts';
 
+import WebSocketClient from 'client/web_websocket_client';
+
 import type { PostActionComponent, PostPluginComponent } from 'types/store/plugins';
 import type { GlobalState } from 'types/store';
 
 import { withPostErrorBoundary } from './post_error_boundary';
+import { observe, unobserve } from 'utils/post_visibility_observer';
+
 import PostOptions from './post_options';
 import PostUserProfile from './user_profile';
 import './custom.scss';
@@ -755,23 +759,28 @@ function PostComponent(props: Props) {
         handleOpenBurnOnReadConfirmModal(post.user_id === props.currentUserId);
     }, [handleOpenBurnOnReadConfirmModal, post.user_id, props.currentUserId]);
 
+    /**
+     * Use a shared IntersectionObserver to track when the post enters the viewport.
+     * When visible, it marks the post as read via WebSocket.
+     * This optimization reduces memory usage by avoiding multiple individual observers.
+     */
     useEffect(() => {
         if (!post || post.user_id === currentUserId || post.read_at > 0 || props.location !== Locations.CENTER) {
-            return;
+            return undefined;
         }
 
-        const observer = new IntersectionObserver((entries) => {
-            if (entries[0].isIntersecting) {
+        const currentRef = postRef.current;
+        if (currentRef) {
+            observe(currentRef, () => {
                 WebSocketClient.sendMessage('mark_read', { post_id: post.id });
-                observer.disconnect();
-            }
-        }, { threshold: 0.5 });
-
-        if (postRef.current) {
-            observer.observe(postRef.current);
+            });
         }
 
-        return () => observer.disconnect();
+        return () => {
+            if (currentRef) {
+                unobserve(currentRef);
+            }
+        };
     }, [post?.id, post?.read_at, currentUserId, props.location]);
 
     const postClass = classNames('post__body', { 'post--edited': PostUtils.isEdited(post), 'search-item-snippet': isSearchResultItem });
@@ -1336,4 +1345,8 @@ function PostComponent(props: Props) {
     );
 }
 
-export default withPostErrorBoundary(PostComponent);
+/**
+ * PostComponent is memoized to prevent unnecessary re-renders when the post list
+ * updates, as it is a complex component rendered frequently in lists.
+ */
+export default withPostErrorBoundary(React.memo(PostComponent));
