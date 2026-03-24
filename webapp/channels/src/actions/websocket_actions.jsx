@@ -369,6 +369,27 @@ export function handleEvent(msg) {
         handlePostUnreadEvent(msg);
         break;
 
+    case 'post_delivered':
+        dispatch({
+            type: PostTypes.POST_DELIVERED,
+            data: {
+                postId: msg.data.post_id,
+                deliveredAt: msg.data.delivered_at,
+            },
+        });
+        break;
+
+    case 'post_read':
+        dispatch({
+            type: PostTypes.POST_READ,
+            data: {
+                postId: msg.data.post_id,
+                deliveredAt: msg.data.delivered_at,
+                readAt: msg.data.read_at,
+            },
+        });
+        break;
+
     case SocketEvents.BURN_ON_READ_POST_REVEALED:
         dispatch(handleBurnOnReadPostRevealed(msg.data));
         break;
@@ -773,6 +794,10 @@ export function handleNewPostEvent(msg) {
 
         myDispatch(handleNewPost(post, msg));
         myDispatch(batchFetchStatusesProfilesGroupsFromPosts([post]));
+
+        if (post.user_id !== getCurrentUserId(myGetState())) {
+            WebSocketClient.sendMessage('mark_delivered', {post_id: post.id});
+        }
 
         // Since status updates aren't real time, assume another user is online if they have posted and:
         // 1. The user hasn't set their status manually to something that isn't online

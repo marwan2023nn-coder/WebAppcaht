@@ -145,7 +145,7 @@ export type Props = {
 };
 
 function PostComponent(props: Props) {
-    const { post, shouldHighlight, togglePostMenu } = props;
+    const { post, shouldHighlight, togglePostMenu, currentUserId } = props;
 
     const dispatch = useDispatch();
 
@@ -755,6 +755,25 @@ function PostComponent(props: Props) {
         handleOpenBurnOnReadConfirmModal(post.user_id === props.currentUserId);
     }, [handleOpenBurnOnReadConfirmModal, post.user_id, props.currentUserId]);
 
+    useEffect(() => {
+        if (!post || post.user_id === currentUserId || post.read_at > 0 || props.location !== Locations.CENTER) {
+            return;
+        }
+
+        const observer = new IntersectionObserver((entries) => {
+            if (entries[0].isIntersecting) {
+                WebSocketClient.sendMessage('mark_read', { post_id: post.id });
+                observer.disconnect();
+            }
+        }, { threshold: 0.5 });
+
+        if (postRef.current) {
+            observer.observe(postRef.current);
+        }
+
+        return () => observer.disconnect();
+    }, [post?.id, post?.read_at, currentUserId, props.location]);
+
     const postClass = classNames('post__body', { 'post--edited': PostUtils.isEdited(post), 'search-item-snippet': isSearchResultItem });
 
     let comment;
@@ -1053,6 +1072,8 @@ function PostComponent(props: Props) {
                                         postId={post.id}
                                         location={props.location}
                                         timestampProps={{ ...props.timestampProps, style: isConsecutivePostForUI && !props.compactDisplay ? 'narrow' : undefined }}
+                                        deliveredAt={props.currentUserId === post.user_id ? (post.delivered_at || 0) : undefined}
+                                        readAt={props.currentUserId === post.user_id ? (post.read_at || 0) : undefined}
                                     />
                                 )}
                                 {burnOnReadBadge}
@@ -1217,23 +1238,8 @@ function PostComponent(props: Props) {
                                     {!props.isPostBeingEdited && (
                                         <div
                                             className='d-flex pt-1 post-time-in-bubble'
-                                            style={{ gap: '4px', justifyContent: 'end' }}
+                                            style={{ gap: '4px', justifyContent: 'end', alignItems: 'center' }}
                                         >
-                                            {(props.isConsecutivePost || props.expireAt) && (
-                                                <div className='d-flex align-items-center' style={{ gap: '4px' }}>
-                                                    {props.isConsecutivePost && (
-                                                        <PostTime
-                                                            isPermalink={false}
-                                                            teamName={props.team?.name}
-                                                            eventTime={post.create_at}
-                                                            postId={post.id}
-                                                            location={props.location}
-                                                            timestampProps={{ ...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined }}
-                                                        />
-                                                    )}
-                                                </div>
-                                            )}
-
                                             <div className='post__body-reactions-acks'>
                                                 {(post.props?.ack === true || Boolean(post.props?.acknowledgements)) &&
                                                     post.message !== BUZZMESSAGE && (
@@ -1244,6 +1250,20 @@ function PostComponent(props: Props) {
                                                         />
                                                     )}
                                             </div>
+                                            {(props.isConsecutivePost || props.currentUserId === post.user_id || props.expireAt) && (
+                                                <div className='d-flex align-items-center' style={{ gap: '4px' }}>
+                                                    <PostTime
+                                                        isPermalink={false}
+                                                        teamName={props.team?.name}
+                                                        eventTime={post.create_at}
+                                                        postId={post.id}
+                                                        location={props.location}
+                                                        timestampProps={{ ...props.timestampProps, style: (props.isConsecutivePost || props.currentUserId === post.user_id) && !props.compactDisplay ? 'narrow' : undefined }}
+                                                        deliveredAt={props.currentUserId === post.user_id ? (post.delivered_at || 0) : undefined}
+                                                        readAt={props.currentUserId === post.user_id ? (post.read_at || 0) : undefined}
+                                                    />
+                                                </div>
+                                            )}
                                         </div>
                                     )}
                                 </div>

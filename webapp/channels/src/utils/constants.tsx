@@ -762,6 +762,8 @@ export const SocketEvents = {
     CPA_VALUES_UPDATED: 'custom_profile_attributes_values_updated',
     CONTENT_FLAGGING_REPORT_VALUE_CHANGED: 'content_flagging_report_value_updated',
     RECAP_UPDATED: 'recap_updated',
+    POST_DELIVERED: 'post_delivered',
+    POST_READ: 'post_read',
 };
 
 export const TutorialSteps = {

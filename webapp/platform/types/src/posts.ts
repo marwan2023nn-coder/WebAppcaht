@@ -87,6 +87,8 @@ export type Post = {
     channel_id: string;
     root_id: string;
     original_id: string;
+    delivered_at: number;
+    read_at: number;
     message: string;
     type: PostType;
     props: Record<string, unknown>;
