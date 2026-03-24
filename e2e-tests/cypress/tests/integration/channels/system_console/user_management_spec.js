@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -20,7 +20,7 @@ const TIMEOUTS = require('../../../fixtures/timeouts');
 
 describe('User Management', () => {
     const newUsername = 'u' + getRandomId();
-    const newEmailAddr = newUsername + '@sample.sofa.com';
+    const newEmailAddr = newUsername + '@sample.mattermost.com';
     let testTeam;
     let testChannel;
     let sysadmin;
@@ -82,10 +82,10 @@ describe('User Management', () => {
         resetUserEmail(testUser.email, '', 'Please enter a valid email address');
 
         // * Invalid email address: "Please enter a valid email address"
-        resetUserEmail(testUser.email, 'user-1(at)sample.sofa.com', 'Please enter a valid email address');
+        resetUserEmail(testUser.email, 'user-1(at)sample.mattermost.com', 'Please enter a valid email address');
 
         // * Email address already in use: "An account with that email already exists."
-        resetUserEmail(testUser.email, 'sysadmin@sample.sofa.com', 'An account with that email already exists.');
+        resetUserEmail(testUser.email, 'sysadmin@sample.mattermost.com', 'An account with that email already exists.');
     });
 
     it('MM-T929 Users - Change a user\'s email address, with verification off', () => {

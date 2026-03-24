@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -45,7 +45,7 @@ describe('Incoming webhook', () => {
     });
 
     it('MM-T622 Disallow override of username and profile picture', () => {
-        const iconUrl = 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png';
+        const iconUrl = 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png';
 
         // # Enable username and icon override
         cy.apiAdminLogin();

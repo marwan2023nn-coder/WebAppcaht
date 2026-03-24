@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,10 +9,10 @@
 
 // Group: @channels @enterprise @ldap
 
-import {Channel} from '@sofa/types/channels';
-import {Team} from '@sofa/types/teams';
-import {UserProfile} from '@sofa/types/users';
-import {AdminConfig} from '@sofa/types/config';
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {AdminConfig} from '@mattermost/types/config';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 
@@ -27,7 +27,7 @@ function setLDAPTestSettings(config: AdminConfig) {
 
 // assumes the CYPRESS_* variables are set
 // assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the sofa/platform-private/config/ldap-test-setup.txt file
+// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 context('ldap', () => {
     let testChannel: Channel;
     let testTeam: Team;
@@ -100,7 +100,7 @@ context('ldap', () => {
 
             // # Click save settings on bottom screen to save settings
             cy.get('#saveSetting').should('be.enabled').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Channels');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
             // # Go back to the testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
@@ -114,7 +114,7 @@ context('ldap', () => {
 
             // # Save settings
             cy.get('#saveSetting').should('be.enabled').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Channels');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
             // # Go back to testChannel management page
             cy.visit(`/admin_console/user_management/channels/${testChannel.id}`);
@@ -147,7 +147,7 @@ context('ldap', () => {
 
             // # Accept confirmation modal
             cy.get('#confirmModalButton').should('be.visible').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Teams');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Teams');
 
             // # Go to board group edit page
             cy.visit('/admin_console/user_management/groups');
@@ -177,7 +177,7 @@ context('ldap', () => {
 
             // # Save the settings
             cy.get('#saveSetting').should('be.enabled').click();
-            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Teams');
+            cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Teams');
 
             // # Start with a new team
             cy.apiCreateTeam('team', 'Team').then(({team}) => {
@@ -259,7 +259,7 @@ context('ldap', () => {
                 cy.findByTestId('allow-all-toggle').click();
                 cy.get('#cancelButtonSettings').click();
                 cy.get('#confirmModalButton').click();
-                cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Channels');
+                cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
                 // Reload
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);
@@ -271,7 +271,7 @@ context('ldap', () => {
                 cy.findByTestId('allow-all-toggle').should('has.have.text', 'Private').click();
                 cy.get('#saveSetting').should('be.enabled').click();
                 cy.get('#confirmModalButton').click();
-                cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Channels');
+                cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Channels');
 
                 // Reload
                 cy.visit(`/admin_console/user_management/channels/${privateChannel.id}`);

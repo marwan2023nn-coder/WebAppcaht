@@ -1,6 +1,6 @@
 # Hashtag Testing
 
-Hashtags in Sofas should render as specified below.
+Hashtags in Mattermosts should render as specified below.
 
 #### These strings should auto-link:
 

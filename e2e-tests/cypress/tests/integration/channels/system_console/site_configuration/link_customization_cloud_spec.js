@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -27,7 +27,7 @@ describe('SupportSettings', () => {
             // * Verify links changed
             [
                 {text: 'Ask the community', link: SupportSettings.ASK_COMMUNITY_LINK},
-                {text: 'Sofa user guide', link: SupportSettings.MATTERMOST_USER_GUIDE},
+                {text: 'Mattermost user guide', link: SupportSettings.MATTERMOST_USER_GUIDE},
                 {text: 'Report a problem', link: SupportSettings.REPORT_A_PROBLEM_LINK},
                 {text: 'Keyboard shortcuts'},
             ].forEach(({text, link}) => {

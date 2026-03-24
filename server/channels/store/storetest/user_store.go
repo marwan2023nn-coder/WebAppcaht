@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package storetest
@@ -15,10 +15,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/password/hashers"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app/password/hashers"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
 const (
@@ -4603,13 +4603,13 @@ func testUserStoreAnalyticsGetGuestCount(t *testing.T, rctx request.CTX, ss stor
 }
 
 func testUserStoreAnalyticsGetExternalUsers(t *testing.T, rctx request.CTX, ss store.Store) {
-	localHostDomain := "sofa.com"
+	localHostDomain := "mattermost.com"
 	result, err := ss.User().AnalyticsGetExternalUsers(localHostDomain)
 	require.NoError(t, err)
 	assert.False(t, result)
 
 	u1 := model.User{}
-	u1.Email = "a@sofa.com"
+	u1.Email = "a@mattermost.com"
 	u1.Username = model.NewUsername()
 	u1.Roles = "system_user system_admin"
 
@@ -6243,7 +6243,7 @@ func testIsEmpty(t *testing.T, rctx request.CTX, ss store.Store) {
 
 func testGetUsersWithInvalidEmails(t *testing.T, rctx request.CTX, ss store.Store) {
 	u1, err := ss.User().Save(rctx, &model.User{
-		Email:    "ben@invalid.sofa.com",
+		Email:    "ben@invalid.mattermost.com",
 		Username: "u1" + model.NewId(),
 	})
 
@@ -6662,7 +6662,7 @@ func testGetUserReport(t *testing.T, rctx request.CTX, ss store.Store, s SqlStor
 
 func testMfaUsedTimestamps(t *testing.T, rctx request.CTX, ss store.Store) {
 	u1, err := ss.User().Save(rctx, &model.User{
-		Email:    "ben@invalid.sofa.com",
+		Email:    "ben@invalid.mattermost.com",
 		Username: "u1" + model.NewId(),
 	})
 

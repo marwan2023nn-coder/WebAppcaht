@@ -1,5 +1,5 @@
 # mmctl
 
-`mmctl` is a remote CLI tool that lets you manage your Sofa instance from the terminal.
+`mmctl` is a remote CLI tool that lets you manage your Mattermost instance from the terminal.
 
-The project's documentation can be accessed within the [the Sofa documentation](https://docs.sofa.com/manage/mmctl-command-line-tool.html).
+The project's documentation can be accessed within the [the Mattermost documentation](https://docs.mattermost.com/manage/mmctl-command-line-tool.html).

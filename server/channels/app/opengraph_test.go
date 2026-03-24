@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -16,7 +16,7 @@ func BenchmarkForceHTMLEncodingToUTF8(b *testing.B) {
 	HTML := `
 		<html>
 			<head>
-				<meta property="og:url" content="https://example.com/apps/sofa">
+				<meta property="og:url" content="https://example.com/apps/mattermost">
 				<meta property="og:image" content="https://images.example.com/image.png">
 			</head>
 		</html>
@@ -54,47 +54,47 @@ func TestMakeOpenGraphURLsAbsolute(t *testing.T) {
 			HTML: `
 				<html>
 					<head>
-						<meta property="og:url" content="https://example.com/apps/sofa">
+						<meta property="og:url" content="https://example.com/apps/mattermost">
 						<meta property="og:image" content="https://images.example.com/image.png">
 					</head>
 				</html>`,
 			RequestURL: "https://example.com",
-			URL:        "https://example.com/apps/sofa",
+			URL:        "https://example.com/apps/mattermost",
 			ImageURL:   "https://images.example.com/image.png",
 		},
 		"URLs starting with /": {
 			HTML: `
 				<html>
 					<head>
-						<meta property="og:url" content="/apps/sofa">
+						<meta property="og:url" content="/apps/mattermost">
 						<meta property="og:image" content="/image.png">
 					</head>
 				</html>`,
 			RequestURL: "http://example.com",
-			URL:        "http://example.com/apps/sofa",
+			URL:        "http://example.com/apps/mattermost",
 			ImageURL:   "http://example.com/image.png",
 		},
 		"HTTPS URLs starting with /": {
 			HTML: `
 				<html>
 					<head>
-						<meta property="og:url" content="/apps/sofa">
+						<meta property="og:url" content="/apps/mattermost">
 						<meta property="og:image" content="/image.png">
 					</head>
 				</html>`,
 			RequestURL: "https://example.com",
-			URL:        "https://example.com/apps/sofa",
+			URL:        "https://example.com/apps/mattermost",
 			ImageURL:   "https://example.com/image.png",
 		},
 		"missing image URL": {
 			HTML: `
 				<html>
 					<head>
-						<meta property="og:url" content="/apps/sofa">
+						<meta property="og:url" content="/apps/mattermost">
 					</head>
 				</html>`,
 			RequestURL: "http://example.com",
-			URL:        "http://example.com/apps/sofa",
+			URL:        "http://example.com/apps/mattermost",
 			ImageURL:   "",
 		},
 		"relative URLs": {

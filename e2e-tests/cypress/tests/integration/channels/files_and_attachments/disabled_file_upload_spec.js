@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -82,7 +82,7 @@ describe('Upload Files - Settings', () => {
     });
 
     it('MM-T1147_2 drag and drop a file on center and RHS should produce an error', () => {
-        const filename = 'sofa-icon.png';
+        const filename = 'mattermost-icon.png';
 
         // # Drag and drop file in center channel
         cy.get('.row.main').trigger('dragenter');
@@ -125,7 +125,7 @@ describe('Upload Files - Settings', () => {
     });
 
     it('MM-T1147_3 copy a file and paste in message box and reply box should produce an error', () => {
-        const filename = 'sofa-icon.png';
+        const filename = 'mattermost-icon.png';
 
         // # Paste a file in the center channel
         cy.fixture(filename).then((img) => {

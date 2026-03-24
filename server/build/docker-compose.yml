@@ -54,7 +54,7 @@ services:
         service: promtail
 
   start_dependencies:
-    image: sofa/sofa-wait-for-dep:latest
+    image: mattermost/mattermost-wait-for-dep:latest
     networks:
       - mm-test
     depends_on:

@@ -1,6 +1,6 @@
 with-expecter: false
 packages:
-  github.com/sofa/sofa/server/v8/channels/app/platform:
+  github.com/mattermost/mattermost/server/v8/channels/app/platform:
     config:
       dir: "channels/app/platform/mocks"
       filename: "{{.InterfaceName}}.go"

@@ -1,10 +1,10 @@
-// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
 // See License for license information.
 
 package poster
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // Poster defines an entity that can post DMs and Ephemerals and update and delete those posts
@@ -13,10 +13,10 @@ type Poster interface {
 
 	// DMWithAttachments posts a Direct Message that contains Slack attachments.
 	// Often used to include post actions.
-	DMWithAttachments(sofaUserID string, attachments ...*model.SlackAttachment) (string, error)
+	DMWithAttachments(mattermostUserID string, attachments ...*model.SlackAttachment) (string, error)
 
 	// Ephemeral sends an ephemeral message to a user
-	Ephemeral(sofaUserID, channelID, format string, args ...any)
+	Ephemeral(mattermostUserID, channelID, format string, args ...any)
 
 	// UpdatePostByID updates the post with postID with the formatted message
 	UpdatePostByID(postID, format string, args ...any) error
@@ -27,12 +27,12 @@ type Poster interface {
 	// DMUpdatePost substitute one post with another
 	UpdatePost(post *model.Post) error
 
-	// UpdatePosterID updates the Sofa User ID of the poster
+	// UpdatePosterID updates the Mattermost User ID of the poster
 	UpdatePosterID(id string)
 }
 
 // DMer defines an entity that can send Direct Messages
 type DMer interface {
 	// DM posts a simple Direct Message to the specified user
-	DM(sofaUserID, format string, args ...any) (string, error)
+	DM(mattermostUserID, format string, args ...any) (string, error)
 }

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -7,8 +7,8 @@ import (
 	"database/sql"
 	"fmt"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	sq "github.com/sofa/squirrel"
+	"github.com/mattermost/mattermost/server/public/model"
+	sq "github.com/mattermost/squirrel"
 	"github.com/pkg/errors"
 )
 

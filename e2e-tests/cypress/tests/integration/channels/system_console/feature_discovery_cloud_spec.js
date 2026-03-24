@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -20,9 +20,9 @@ const professionalPaidFeatures = [
 const enterprisePaidFeatures = [
     {sidebarName: 'Groups', featureDiscoveryTitle: 'Active Directory/LDAP groups'},
     {sidebarName: 'Delegated Granular Administration', featureDiscoveryTitle: 'controlled access to the System Console'},
-    {sidebarName: 'Data Retention Policy', featureDiscoveryTitle: 'Create data retention schedules with Sofa Enterprise'},
-    {sidebarName: 'Compliance Export', featureDiscoveryTitle: 'Run compliance exports with Sofa Enterprise'},
-    {sidebarName: 'Custom Terms of Service', featureDiscoveryTitle: 'Create custom terms of service with Sofa Enterprise'},
+    {sidebarName: 'Data Retention Policy', featureDiscoveryTitle: 'Create data retention schedules with Mattermost Enterprise'},
+    {sidebarName: 'Compliance Export', featureDiscoveryTitle: 'Run compliance exports with Mattermost Enterprise'},
+    {sidebarName: 'Custom Terms of Service', featureDiscoveryTitle: 'Create custom terms of service with Mattermost Enterprise'},
 ];
 
 function simulateSubscription(subscription) {

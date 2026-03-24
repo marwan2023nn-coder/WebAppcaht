@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -9,7 +9,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestGetTimeSortedPostAccessibleBounds(t *testing.T) {
@@ -330,7 +330,7 @@ func TestGetFilteredAccessiblePosts(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t)
 
-	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 	entryLicenseWithLimits.Limits = &model.LicenseLimits{PostHistory: 100}
 	th.App.Srv().SetLicense(entryLicenseWithLimits)
 
@@ -376,7 +376,7 @@ func TestIsInaccessiblePost(t *testing.T) {
 	th := Setup(t)
 
 	// Set up license with PostHistory limits to enable post filtering
-	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 	entryLicenseWithLimits.Limits = &model.LicenseLimits{PostHistory: 100}
 	th.App.Srv().SetLicense(entryLicenseWithLimits)
 

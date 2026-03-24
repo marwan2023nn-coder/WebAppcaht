@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -202,10 +202,10 @@ func TestLicenseRecordPreSave(t *testing.T) {
 
 func TestIsLegacyTrialRequest(t *testing.T) {
 	legacyTr := &TrialLicenseRequest{
-		Email:         "test@sofa.com",
+		Email:         "test@mattermost.com",
 		TermsAccepted: true,
-		SiteURL:       "https://sofa.com",
-		SiteName:      "Sofa",
+		SiteURL:       "https://mattermost.com",
+		SiteName:      "Mattermost",
 		Users:         100,
 	}
 	t.Run("legacy trial request", func(t *testing.T) {

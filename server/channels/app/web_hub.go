@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/platform"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
 )
 
 func (a *App) TotalWebsocketConnections() int {

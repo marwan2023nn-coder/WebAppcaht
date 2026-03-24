@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package users
@@ -6,7 +6,7 @@ package users
 import (
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // CheckUserDomain checks that a user's email domain matches a list of space-delimited domains as a string.

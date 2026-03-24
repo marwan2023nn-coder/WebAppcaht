@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -225,10 +225,10 @@ describe('Integrations', () => {
         // * Error appears: "Could not find the channel [channel name]. Please use the channel handle to identify channels."
         cy.uiWaitUntilMessagePostedIncludes(`Could not find the channel ${testChannel.display_name.split(' ')[1]}. Please use the channel handle to identify channels.`);
 
-        // * "channel handle" is a live link to https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel
+        // * "channel handle" is a live link to https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel
         cy.getLastPostId().then((postId) => {
             cy.get(`#post_${postId}`).
-                contains('a', 'channel handle').should('have.attr', 'href', 'https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel');
+                contains('a', 'channel handle').should('have.attr', 'href', 'https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel');
         });
     });
 });

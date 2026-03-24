@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable no-console */
@@ -21,7 +21,7 @@
  *      - TM4J_API_KEY=[api_key]
  *      - JIRA_PROJECT_KEY=[project_key], e.g. "MM",
  *      - TM4J_FOLDER_ID=[folder_id], e.g. 847997
- *   For sending hooks to Sofa channels
+ *   For sending hooks to Mattermost channels
  *      - FULL_REPORT, WEBHOOK_URL and DIAGNOSTIC_WEBHOOK_URL
  *      - If AUTOMATION_DASHBOARD_FRONTEND_URL is set, a link to the corresponding cycle will be included in the report message
  *   Test type

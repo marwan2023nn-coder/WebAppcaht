@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -240,7 +240,7 @@ func TestChannelBookmarkIsValid(t *testing.T) {
 				FileId:      "",
 				DisplayName: "display name",
 				SortOrder:   0,
-				LinkUrl:     "https://sofa.com",
+				LinkUrl:     "https://mattermost.com",
 				ImageUrl:    "",
 				Emoji:       "",
 				Type:        ChannelBookmarkLink,
@@ -259,7 +259,7 @@ func TestChannelBookmarkIsValid(t *testing.T) {
 				FileId:      "",
 				DisplayName: "display name",
 				SortOrder:   0,
-				LinkUrl:     "https://sofa.com",
+				LinkUrl:     "https://mattermost.com",
 				ImageUrl:    "",
 				Emoji:       "",
 				Type:        ChannelBookmarkLink,
@@ -278,7 +278,7 @@ func TestChannelBookmarkIsValid(t *testing.T) {
 				FileId:      "",
 				DisplayName: "display name",
 				SortOrder:   0,
-				LinkUrl:     "https://sofa.com",
+				LinkUrl:     "https://mattermost.com",
 				ImageUrl:    "invalid",
 				Emoji:       "",
 				Type:        ChannelBookmarkLink,
@@ -297,8 +297,8 @@ func TestChannelBookmarkIsValid(t *testing.T) {
 				FileId:      "",
 				DisplayName: "display name",
 				SortOrder:   0,
-				LinkUrl:     "https://sofa.com",
-				ImageUrl:    "https://sofa.com/some-image-without-extension", // we don't care if the URL is an actual image as the client should handle the error
+				LinkUrl:     "https://mattermost.com",
+				ImageUrl:    "https://mattermost.com/some-image-without-extension", // we don't care if the URL is an actual image as the client should handle the error
 				Emoji:       "",
 				Type:        ChannelBookmarkLink,
 				CreateAt:    2,
@@ -539,7 +539,7 @@ func TestChannelBookmarkPreSave(t *testing.T) {
 		OwnerId:     NewId(),
 		DisplayName: "display name",
 		SortOrder:   0,
-		LinkUrl:     "https://sofa.com",
+		LinkUrl:     "https://mattermost.com",
 		Type:        ChannelBookmarkLink,
 		DeleteAt:    0,
 	}
@@ -571,7 +571,7 @@ func TestChannelBookmarkPreUpdate(t *testing.T) {
 		OwnerId:     NewId(),
 		DisplayName: "display name",
 		SortOrder:   0,
-		LinkUrl:     "https://sofa.com",
+		LinkUrl:     "https://mattermost.com",
 		Type:        ChannelBookmarkLink,
 		CreateAt:    2,
 		DeleteAt:    0,

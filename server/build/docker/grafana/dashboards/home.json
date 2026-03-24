@@ -60,7 +60,7 @@
         "includeVars": false,
         "keepTime": false,
         "maxItems": 30,
-        "query": "Sofa",
+        "query": "Mattermost",
         "showHeadings": true,
         "showRecentlyViewed": false,
         "showSearch": true,
@@ -158,7 +158,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-postgres\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-postgres\"}[5m])) or vector(0)",
           "legendFormat": "Postgres",
           "queryType": "range",
           "refId": "A"
@@ -169,7 +169,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-inbucket\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-inbucket\"}[5m])) or vector(0)",
           "legendFormat": "Inbucket",
           "queryType": "range",
           "refId": "C"
@@ -180,7 +180,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-minio\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-minio\"}[5m])) or vector(0)",
           "legendFormat": "MinIO",
           "queryType": "range",
           "refId": "D"
@@ -191,7 +191,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-openldap\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-openldap\"}[5m])) or vector(0)",
           "legendFormat": "OpenLDAP",
           "queryType": "range",
           "refId": "E"
@@ -202,7 +202,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-dejavu\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-dejavu\"}[5m])) or vector(0)",
           "legendFormat": "DejaVu",
           "queryType": "range",
           "refId": "F"
@@ -213,7 +213,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-keycloak\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-keycloak\"}[5m])) or vector(0)",
           "legendFormat": "Keycloak",
           "queryType": "range",
           "refId": "G"
@@ -224,7 +224,7 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "sum(count_over_time({container=\"sofa-elasticsearch\"}[5m])) or vector(0)",
+          "expr": "sum(count_over_time({container=\"mattermost-elasticsearch\"}[5m])) or vector(0)",
           "legendFormat": "Elasticsearch",
           "queryType": "range",
           "refId": "H"
@@ -235,7 +235,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(up{container=\"sofa-prometheus\"}) or vector(0)",
+          "expr": "sum(up{container=\"mattermost-prometheus\"}) or vector(0)",
           "hide": false,
           "legendFormat": "Prometheus",
           "range": true,
@@ -247,7 +247,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(up{container=\"sofa-grafana\"}) or vector(0)",
+          "expr": "sum(up{container=\"mattermost-grafana\"}) or vector(0)",
           "hide": false,
           "legendFormat": "Grafana",
           "range": true,
@@ -259,7 +259,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(up{container=\"sofa-loki\"}) or vector(0)",
+          "expr": "sum(up{container=\"mattermost-loki\"}) or vector(0)",
           "hide": false,
           "legendFormat": "Loki",
           "range": true,
@@ -271,7 +271,7 @@
             "uid": "PBFA97CFB590B2093"
           },
           "editorMode": "code",
-          "expr": "sum(up{container=\"sofa-promtail\"}) or vector(0)",
+          "expr": "sum(up{container=\"mattermost-promtail\"}) or vector(0)",
           "hide": false,
           "legendFormat": "Promtail",
           "range": true,
@@ -300,7 +300,7 @@
           "showLineNumbers": false,
           "showMiniMap": false
         },
-        "content": "* [Sofa Error Logs](/explore?schemaVersion=1&panes=%7B%22z8g%22:%7B%22datasource%22:%22P8E80F9AEF21F6940%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22sofa%5C%22%7D%20%7C%20level%3D%5C%22error%5C%22%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22P8E80F9AEF21F6940%22%7D,%22editorMode%22:%22code%22%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D%7D&orgId=1)\n* [Plugin Logs](/explore?schemaVersion=1&panes=%7B%22z8g%22:%7B%22datasource%22:%22P8E80F9AEF21F6940%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22sofa%5C%22%7D%20%7C%20json%20%7C%20plugin_id%20%21%3D%20%5C%22%5C%22%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22P8E80F9AEF21F6940%22%7D,%22editorMode%22:%22code%22%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D%7D&orgId=1)",
+        "content": "* [Mattermost Error Logs](/explore?schemaVersion=1&panes=%7B%22z8g%22:%7B%22datasource%22:%22P8E80F9AEF21F6940%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22mattermost%5C%22%7D%20%7C%20level%3D%5C%22error%5C%22%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22P8E80F9AEF21F6940%22%7D,%22editorMode%22:%22code%22%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D%7D&orgId=1)\n* [Plugin Logs](/explore?schemaVersion=1&panes=%7B%22z8g%22:%7B%22datasource%22:%22P8E80F9AEF21F6940%22,%22queries%22:%5B%7B%22refId%22:%22A%22,%22expr%22:%22%7Bapp%3D%5C%22mattermost%5C%22%7D%20%7C%20json%20%7C%20plugin_id%20%21%3D%20%5C%22%5C%22%22,%22queryType%22:%22range%22,%22datasource%22:%7B%22type%22:%22loki%22,%22uid%22:%22P8E80F9AEF21F6940%22%7D,%22editorMode%22:%22code%22%7D%5D,%22range%22:%7B%22from%22:%22now-6h%22,%22to%22:%22now%22%7D%7D%7D&orgId=1)",
         "mode": "markdown"
       },
       "pluginVersion": "10.4.2",
@@ -312,7 +312,7 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "description": "Logs from the localhost Sofa instance.",
+      "description": "Logs from the localhost Mattermost instance.",
       "gridPos": {
         "h": 10,
         "w": 24,
@@ -337,12 +337,12 @@
             "uid": "P8E80F9AEF21F6940"
           },
           "editorMode": "code",
-          "expr": "{app=\"sofa\"}",
+          "expr": "{app=\"mattermost\"}",
           "queryType": "range",
           "refId": "A"
         }
       ],
-      "title": "Sofa Logs",
+      "title": "Mattermost Logs",
       "type": "logs"
     },
     {
@@ -350,7 +350,7 @@
         "type": "loki",
         "uid": "P8E80F9AEF21F6940"
       },
-      "description": "Logs from the Docker services running to support Sofa.",
+      "description": "Logs from the Docker services running to support Mattermost.",
       "gridPos": {
         "h": 10,
         "w": 24,

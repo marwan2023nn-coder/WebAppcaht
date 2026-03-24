@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugin_test
@@ -9,11 +9,11 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
 )
 
-// configuration represents the configuration for this plugin as exposed via the Sofa
+// configuration represents the configuration for this plugin as exposed via the Mattermost
 // server configuration.
 type configuration struct {
 	TeamName    string
@@ -23,10 +23,10 @@ type configuration struct {
 	channelID string
 }
 
-// HelpPlugin implements the interface expected by the Sofa server to communicate
+// HelpPlugin implements the interface expected by the Mattermost server to communicate
 // between the server and plugin processes.
 type HelpPlugin struct {
-	plugin.SofaPlugin
+	plugin.MattermostPlugin
 
 	// configurationLock synchronizes access to the configuration.
 	configurationLock sync.RWMutex
@@ -65,7 +65,7 @@ func (p *HelpPlugin) setConfiguration(configuration *configuration) {
 func (p *HelpPlugin) OnConfigurationChange() error {
 	var configuration = new(configuration)
 
-	// Load the public configuration fields from the Sofa server configuration.
+	// Load the public configuration fields from the Mattermost server configuration.
 	if err := p.API.LoadPluginConfiguration(configuration); err != nil {
 		return errors.Wrap(err, "failed to load plugin configuration")
 	}
@@ -108,7 +108,7 @@ func (p *HelpPlugin) MessageHasBeenPosted(c *plugin.Context, post *model.Post) {
 
 	p.API.SendEphemeralPost(post.UserId, &model.Post{
 		ChannelId: configuration.channelID,
-		Message:   "You asked for help? Checkout https://support.sofa.com/hc/en-us",
+		Message:   "You asked for help? Checkout https://support.mattermost.com/hc/en-us",
 		Props: map[string]any{
 			"sent_by_plugin": true,
 		},

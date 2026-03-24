@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // Integration Action Flow
@@ -32,11 +32,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 func (a *App) DoPostActionWithCookie(rctx request.CTX, postID, actionId, userID, selectedOption string, cookie *model.PostActionCookie) (string, *model.AppError) {
@@ -424,7 +424,7 @@ func (ch *Channels) doPluginRequest(rctx request.CTX, method, rawURL string, val
 	if err != nil {
 		return nil, model.NewAppError("doPluginRequest", "api.post.do_action.action_integration.app_error", nil, "", http.StatusBadRequest).Wrap(err)
 	}
-	r.Header.Set("Sofa-User-Id", rctx.Session().UserId)
+	r.Header.Set("Mattermost-User-Id", rctx.Session().UserId)
 	r.Header.Set(model.HeaderAuth, "Bearer "+rctx.Session().Token)
 	params := make(map[string]string)
 	params["plugin_id"] = pluginID

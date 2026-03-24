@@ -21,10 +21,10 @@ Examples
 ::
 
     # You can install one plugin
-    $ mmctl plugin install-url https://example.com/sofa-plugin.tar.gz
+    $ mmctl plugin install-url https://example.com/mattermost-plugin.tar.gz
 
     # Or install multiple in one go
-    $ mmctl plugin install-url https://example.com/sofa-plugin-one.tar.gz https://example.com/sofa-plugin-two.tar.gz
+    $ mmctl plugin install-url https://example.com/mattermost-plugin-one.tar.gz https://example.com/mattermost-plugin-two.tar.gz
 
 Options
 ~~~~~~~

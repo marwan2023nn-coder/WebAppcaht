@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,8 +10,8 @@
 // Stage: @prod
 // Group: @channels @bot_accounts
 
-import {Team} from '@sofa/types/teams';
-import {Channel} from '@sofa/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {Channel} from '@mattermost/types/channels';
 
 import {createBotPatch} from '../../../support/api/bots';
 import {createChannelPatch} from '../../../support/api/channel';
@@ -22,7 +22,7 @@ describe('Managing bots in Teams and Channels', () => {
     before(() => {
         cy.apiUpdateConfig({
             TeamSettings: {
-                RestrictCreationToDomains: 'sample.sofa.com',
+                RestrictCreationToDomains: 'sample.mattermost.com',
             },
         });
         cy.apiInitSetup({loginAfter: true}).then((out) => {

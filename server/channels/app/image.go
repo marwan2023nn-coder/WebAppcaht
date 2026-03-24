@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -7,7 +7,7 @@ import (
 	"fmt"
 	"io"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imaging"
+	"github.com/mattermost/mattermost/server/v8/channels/app/imaging"
 )
 
 func checkImageResolutionLimit(w, h int, maxRes int64) error {

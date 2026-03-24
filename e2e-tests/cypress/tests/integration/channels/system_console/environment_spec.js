@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -16,7 +16,7 @@ describe('Environment', () => {
     let townsquareLink;
     let testTeam;
 
-    const sofaIcon = 'sofa-icon_128x128.png';
+    const mattermostIcon = 'mattermost-icon_128x128.png';
     before(() => {
         cy.shouldNotRunOnCloudEdition();
         cy.apiInitSetup().then(({team}) => {
@@ -43,7 +43,7 @@ describe('Environment', () => {
             cy.get('i[title="Edit Icon"]').should('be.visible');
 
             // # Upload a file on center view
-            cy.findByTestId('uploadPicture').attachFile(sofaIcon);
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
             // after uploading the picture the save button must be disabled
             cy.uiSave().wait(TIMEOUTS.HALF_SEC);
@@ -87,7 +87,7 @@ describe('Environment', () => {
             cy.get('i[title="Edit Icon"]').should('be.visible');
 
             // # Upload a file on center view
-            cy.findByTestId('uploadPicture').attachFile(sofaIcon);
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
             // * After uploading the picture the save button must be disabled
             cy.uiSave().wait(TIMEOUTS.HALF_SEC);
@@ -131,7 +131,7 @@ describe('Environment', () => {
             cy.get('i[title="Edit Icon"]').should('be.visible');
 
             // # Upload a file on center view
-            cy.findByTestId('uploadPicture').attachFile(sofaIcon);
+            cy.findByTestId('uploadPicture').attachFile(mattermostIcon);
 
             // * After uploading the picture the save button must be disabled
             cy.uiSave().wait(TIMEOUTS.HALF_SEC);

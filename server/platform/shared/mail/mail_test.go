@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package mail
@@ -273,8 +273,8 @@ func TestSendMailUsingConfigAdvanced(t *testing.T) {
 	mail := mailData{
 		mimeTo:        "test@example.com",
 		smtpTo:        "test2@example.com",
-		from:          mail.Address{Name: "Nobody", Address: "nobody@sofa.com"},
-		replyTo:       mail.Address{Name: "ReplyTo", Address: "reply_to@sofa.com"},
+		from:          mail.Address{Name: "Nobody", Address: "nobody@mattermost.com"},
+		replyTo:       mail.Address{Name: "ReplyTo", Address: "reply_to@mattermost.com"},
 		subject:       "Testing this email",
 		htmlBody:      "This is a test from autobot",
 		embeddedFiles: embeddedFiles,
@@ -414,10 +414,10 @@ func TestSendMail(t *testing.T) {
 
 		"adds message-id header": {
 			mail.Address{},
-			"<abc123@sofa.com>",
+			"<abc123@mattermost.com>",
 			"",
 			"",
-			"\r\nMessage-ID: <abc123@sofa.com>\r\n",
+			"\r\nMessage-ID: <abc123@mattermost.com>\r\n",
 			"",
 		},
 		"always adds message-id header": {
@@ -431,9 +431,9 @@ func TestSendMail(t *testing.T) {
 		"adds in-reply-to header": {
 			mail.Address{},
 			"",
-			"<defg456@sofa.com>",
+			"<defg456@mattermost.com>",
 			"",
-			"\r\nIn-Reply-To: <defg456@sofa.com>\r\n",
+			"\r\nIn-Reply-To: <defg456@mattermost.com>\r\n",
 			"",
 		},
 		"doesn't add in-reply-to header": {
@@ -448,8 +448,8 @@ func TestSendMail(t *testing.T) {
 			mail.Address{},
 			"",
 			"",
-			"<ghi789@sofa.com>",
-			"\r\nReferences: <ghi789@sofa.com>\r\n",
+			"<ghi789@mattermost.com>",
+			"\r\nReferences: <ghi789@mattermost.com>\r\n",
 			"",
 		},
 		"doesn't add references header": {

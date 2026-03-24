@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -8,10 +8,10 @@ import (
 	"strings"
 
 	"github.com/hashicorp/go-multierror"
-	sq "github.com/sofa/squirrel"
+	sq "github.com/mattermost/squirrel"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // GetSchemaDefinition dumps the database schema.

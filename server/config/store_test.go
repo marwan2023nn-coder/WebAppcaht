@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -10,7 +10,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestNewStoreFromDSN(t *testing.T) {
@@ -50,7 +50,7 @@ func TestSQLSettingsDataSourceOverride(t *testing.T) {
 
 	// Create a config with a different datasource
 	initialConfig := &model.Config{}
-	initialConfig.SqlSettings.DataSource = model.NewPointer("postgres://mmuser:mostest@localhost/sofa_test?sslmode=disable")
+	initialConfig.SqlSettings.DataSource = model.NewPointer("postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable")
 	initialConfig.SetDefaults()
 
 	err = memstore.Set(initialConfig)
@@ -64,7 +64,7 @@ func TestSQLSettingsDataSourceOverride(t *testing.T) {
 	})
 
 	t.Run("GetNoEnv should return the original value from the store", func(t *testing.T) {
-		require.Equal(t, "postgres://mmuser:mostest@localhost/sofa_test?sslmode=disable", *store.GetNoEnv().SqlSettings.DataSource)
+		require.Equal(t, "postgres://mmuser:mostest@localhost/mattermost_test?sslmode=disable", *store.GetNoEnv().SqlSettings.DataSource)
 	})
 }
 

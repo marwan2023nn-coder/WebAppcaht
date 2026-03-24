@@ -5,7 +5,7 @@
       summary: Sync with LDAP
       description: >
         Synchronize any user attribute changes in the configured AD/LDAP server
-        with Sofa.
+        with Mattermost.
 
         ##### Permissions
 

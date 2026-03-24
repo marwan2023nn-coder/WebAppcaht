@@ -3,7 +3,7 @@ global:
   evaluation_interval: 60s
 
 scrape_configs:
-  - job_name: 'sofa'
+  - job_name: 'mattermost'
     static_configs:
       - targets: ['host.docker.internal:8067']
   - job_name: fmetrics_scrape

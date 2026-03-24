@@ -195,10 +195,10 @@ func main() {
 	// --- Base64 encode (matches server's base64.StdEncoding.Decode) ---
 	encoded := base64.StdEncoding.EncodeToString(signed)
 
-	licenseFile, _ := os.Create("workspace-enterprise.sofa-license")
+	licenseFile, _ := os.Create("workspace-enterprise.mattermost-license")
 	licenseFile.WriteString(encoded)
 	licenseFile.Close()
-	fmt.Println("✅ License file saved: workspace-enterprise.sofa-license")
+	fmt.Println("✅ License file saved: workspace-enterprise.mattermost-license")
 	fmt.Println("")
 
 	// ---- Second license: 500 users, 1 month ----
@@ -262,10 +262,10 @@ func main() {
 	signed2 := append(plaintext2, sig2...)
 	encoded2 := base64.StdEncoding.EncodeToString(signed2)
 
-	licFile2, _ := os.Create("workspace-500users-1month.sofa-license")
+	licFile2, _ := os.Create("workspace-500users-1month.mattermost-license")
 	licFile2.WriteString(encoded2)
 	licFile2.Close()
-	fmt.Println("✅ License file saved: workspace-500users-1month.sofa-license")
+	fmt.Println("✅ License file saved: workspace-500users-1month.mattermost-license")
 	fmt.Println("   👤 Users: 500  |  ⏱ Duration: 1 month")
 
 	// ---- Third license: 1 hour ----
@@ -329,10 +329,10 @@ func main() {
 	signed3 := append(plaintext3, sig3...)
 	encoded3 := base64.StdEncoding.EncodeToString(signed3)
 
-	licFile3, _ := os.Create("workspace-1hour.sofa-license")
+	licFile3, _ := os.Create("workspace-1hour.mattermost-license")
 	licFile3.WriteString(encoded3)
 	licFile3.Close()
-	fmt.Println("✅ License file saved: workspace-1hour.sofa-license")
+	fmt.Println("✅ License file saved: workspace-1hour.mattermost-license")
 	fmt.Println("   ⏱ Duration: 1 hour")
 
 	// ---- Fourth license: 1,000,000 users, 1 month ----
@@ -394,10 +394,10 @@ func main() {
 	signed4 := append(plaintext4, sig4...)
 	encoded4 := base64.StdEncoding.EncodeToString(signed4)
 
-	licFile4, _ := os.Create("workspace-1month-1M-users.sofa-license")
+	licFile4, _ := os.Create("workspace-1month-1M-users.mattermost-license")
 	licFile4.WriteString(encoded4)
 	licFile4.Close()
-	fmt.Println("✅ License file saved: workspace-1month-1M-users.sofa-license")
+	fmt.Println("✅ License file saved: workspace-1month-1M-users.mattermost-license")
 	fmt.Println("   👤 Users: 1,000,000  |  ⏱ Duration: 1 month")
 
 	fmt.Println("")
@@ -462,10 +462,10 @@ func main() {
 	signed5 := append(plaintext5, sig5...)
 	encoded5 := base64.StdEncoding.EncodeToString(signed5)
 
-	licFile5, _ := os.Create("workspace-10min-2users.sofa-license")
+	licFile5, _ := os.Create("workspace-10min-2users.mattermost-license")
 	licFile5.WriteString(encoded5)
 	licFile5.Close()
-	fmt.Println("✅ License file saved: workspace-10min-2users.sofa-license")
+	fmt.Println("✅ License file saved: workspace-10min-2users.mattermost-license")
 	fmt.Println("   👤 Users: 2  |  ⏱ Duration: 10 minutes")
 
 	fmt.Println("")
@@ -530,10 +530,10 @@ func main() {
 	signed6 := append(plaintext6, sig6...)
 	encoded6 := base64.StdEncoding.EncodeToString(signed6)
 
-	licFile6, _ := os.Create("workspace-2days-2users.sofa-license")
+	licFile6, _ := os.Create("workspace-2days-2users.mattermost-license")
 	licFile6.WriteString(encoded6)
 	licFile6.Close()
-	fmt.Println("✅ License file saved: workspace-2days-2users.sofa-license")
+	fmt.Println("✅ License file saved: workspace-2days-2users.mattermost-license")
 	fmt.Println("   👤 Users: 2  |  ⏱ Duration: 2 days")
 
 	fmt.Println("")

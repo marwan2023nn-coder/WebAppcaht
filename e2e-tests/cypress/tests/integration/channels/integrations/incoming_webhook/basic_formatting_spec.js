@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -73,15 +73,15 @@ describe('Incoming webhook', () => {
                 cy.wrap(el).should('contain', '(ampersand, open angle, close angle): & < >');
                 cy.wrap(el).should('contain', 'The following should appear as links:');
                 cy.get('.markdown__link').eq(0).
-                    should('have.text', 'This is a link to about-dot-sofa-dot-com').
-                    and('have.attr', 'href', 'https://sofa.com/');
+                    should('have.text', 'This is a link to about-dot-mattermost-dot-com').
+                    and('have.attr', 'href', 'https://mattermost.com/');
                 cy.get('.markdown__link').eq(1).
                     should('have.text', 'Markdown Link also to About page').
-                    and('have.attr', 'href', 'https://sofa.com/');
+                    and('have.attr', 'href', 'https://mattermost.com/');
                 cy.wrap(el).should('contain', 'Normal Link:');
                 cy.get('.markdown__link').eq(2).
-                    should('have.text', 'https://sofa.com/').
-                    and('have.attr', 'href', 'https://sofa.com/');
+                    should('have.text', 'https://mattermost.com/').
+                    and('have.attr', 'href', 'https://mattermost.com/');
                 cy.wrap(el).should('contain', 'Mail Link:');
                 cy.get('.markdown__link').eq(3).
                     should('have.text', 'Email').
@@ -108,9 +108,9 @@ function getPayload(channel, user) {
     const text = `The following escaped characters should appear normally
     (ampersand, open angle, close angle): &amp; &lt; &gt;
 The following should appear as links:
-    <https://sofa.com/|This is a link to about-dot-sofa-dot-com>
-    [Markdown Link also to About page](https://sofa.com/)
-    Normal Link: https://sofa.com/
+    <https://mattermost.com/|This is a link to about-dot-mattermost-dot-com>
+    [Markdown Link also to About page](https://mattermost.com/)
+    Normal Link: https://mattermost.com/
     Mail Link: <mailto:mail@example.com|Email>
 The following should be markdown formatted
     (mouse emoji, strawberry emoji, then formatting as indicated): 🐹 :strawberry: **bold** _italic_ \`code\` ~~strike~~ #hashtag
@@ -122,6 +122,6 @@ The following should turn into a user mention and clicking it should open profil
         channel: channel.name,
         username: 'new_username',
         text,
-        icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
     };
 }

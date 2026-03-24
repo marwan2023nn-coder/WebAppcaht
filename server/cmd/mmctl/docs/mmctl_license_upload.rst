@@ -20,7 +20,7 @@ Examples
 
 ::
 
-    license upload /path/to/license/mylicensefile.sofa-license
+    license upload /path/to/license/mylicensefile.mattermost-license
 
 Options
 ~~~~~~~

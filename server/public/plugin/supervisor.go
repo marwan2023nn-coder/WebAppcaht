@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugin
@@ -18,8 +18,8 @@ import (
 	plugin "github.com/hashicorp/go-plugin"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 type supervisor struct {
@@ -60,7 +60,7 @@ func WithExecutableFromManifest(pluginInfo *model.BundleInfo) func(*supervisor, 
 
 		// This doesn't add more security than before
 		// but removes the SecureConfig is nil warning.
-		// https://sofa.atlassian.net/browse/MM-49167
+		// https://mattermost.atlassian.net/browse/MM-49167
 		pluginChecksum, err := getPluginExecutableChecksum(executable)
 		if err != nil {
 			return errors.Wrapf(err, "unable to generate plugin checksum")

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -40,7 +40,7 @@ type OAuthApp struct {
 	CallbackUrls    StringArray `json:"callback_urls"`
 	Homepage        string      `json:"homepage"`
 	IsTrusted       bool        `json:"is_trusted"`
-	SofaAppID string      `json:"sofa_app_id"`
+	MattermostAppID string      `json:"mattermost_app_id"`
 
 	IsDynamicallyRegistered bool `json:"is_dynamically_registered,omitempty"`
 }
@@ -68,7 +68,7 @@ func (a *OAuthApp) Auditable() map[string]any {
 		"callback_urls:":             a.CallbackUrls,
 		"homepage":                   a.Homepage,
 		"is_trusted":                 a.IsTrusted,
-		"sofa_app_id":          a.SofaAppID,
+		"mattermost_app_id":          a.MattermostAppID,
 		"token_endpoint_auth_method": a.GetTokenEndpointAuthMethod(),
 		"is_dynamically_registered":  a.IsDynamicallyRegistered,
 	}
@@ -128,8 +128,8 @@ func (a *OAuthApp) IsValid() *AppError {
 		}
 	}
 
-	if len(a.SofaAppID) > 32 {
-		return NewAppError("OAuthApp.IsValid", "model.oauth.is_valid.sofa_app_id.app_error", nil, "app_id="+a.Id, http.StatusBadRequest)
+	if len(a.MattermostAppID) > 32 {
+		return NewAppError("OAuthApp.IsValid", "model.oauth.is_valid.mattermost_app_id.app_error", nil, "app_id="+a.Id, http.StatusBadRequest)
 	}
 
 	return nil

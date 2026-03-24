@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 //nolint:gosec
@@ -12,9 +12,9 @@ import (
 	"strings"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imports"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/channels/app/imports"
 
 	"github.com/icrowley/fake"
 )
@@ -70,11 +70,11 @@ func randomMessage(users []string) string {
 	case 1:
 		switch rand.Intn(2) {
 		case 0:
-			sofaVideos := []string{"Q4MgnxbpZas", "BFo7E9-Kc_E", "LsMLR-BHsKg", "MRmGDhlMhNA", "mUOPxT7VgWc"}
-			message = "https://www.youtube.com/watch?v=" + sofaVideos[rand.Intn(len(sofaVideos))]
+			mattermostVideos := []string{"Q4MgnxbpZas", "BFo7E9-Kc_E", "LsMLR-BHsKg", "MRmGDhlMhNA", "mUOPxT7VgWc"}
+			message = "https://www.youtube.com/watch?v=" + mattermostVideos[rand.Intn(len(mattermostVideos))]
 		case 1:
-			sofaTweets := []string{"943119062334353408", "949370809528832005", "948539688171819009", "939122439115681792", "938061722027425797"}
-			message = "https://twitter.com/sofahq/status/" + sofaTweets[rand.Intn(len(sofaTweets))]
+			mattermostTweets := []string{"943119062334353408", "949370809528832005", "948539688171819009", "939122439115681792", "938061722027425797"}
+			message = "https://twitter.com/mattermosthq/status/" + mattermostTweets[rand.Intn(len(mattermostTweets))]
 		}
 	case 2:
 		message = ""
@@ -117,23 +117,23 @@ func createUser(idx int, teamMemberships int, channelMemberships int, teamsAndCh
 	switch userType {
 	case guestUser:
 		password = fmt.Sprintf("SampleGu@st-%d", idx)
-		email = fmt.Sprintf("guest-%d@sample.sofa.com", idx)
+		email = fmt.Sprintf("guest-%d@sample.mattermost.com", idx)
 		roles = "system_guest"
 		if idx == 0 {
 			username = "guest"
 			password = "SampleGu@st1"
-			email = "guest@sample.sofa.com"
+			email = "guest@sample.mattermost.com"
 		}
 	case deactivatedUser:
 		password = fmt.Sprintf("SampleDe@ctivated-%d", idx)
-		email = fmt.Sprintf("deactivated-%d@sample.sofa.com", idx)
+		email = fmt.Sprintf("deactivated-%d@sample.mattermost.com", idx)
 	default:
 		password = fmt.Sprintf("SampleUs@r-%d", idx)
-		email = fmt.Sprintf("user-%d@sample.sofa.com", idx)
+		email = fmt.Sprintf("user-%d@sample.mattermost.com", idx)
 		if idx == 0 {
 			username = "sysadmin"
 			password = "Sys@dmin-sample1"
-			email = "sysadmin@sample.sofa.com"
+			email = "sysadmin@sample.mattermost.com"
 		} else if idx == 1 {
 			username = "user-1"
 		}

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package mfa
@@ -11,8 +11,8 @@ import (
 	"strings"
 
 	"github.com/dgryski/dgoogauth"
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/sofa/rsc/qr"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/rsc/qr"
 	"github.com/pkg/errors"
 )
 
@@ -48,7 +48,7 @@ func newRandomBase32String(size int) string {
 }
 
 func getIssuerFromURL(uri string) string {
-	issuer := "Sofa"
+	issuer := "Mattermost"
 	siteURL := strings.TrimSpace(uri)
 
 	if siteURL != "" {

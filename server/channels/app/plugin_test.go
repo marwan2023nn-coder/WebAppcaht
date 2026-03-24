@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -20,11 +20,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
 )
 
 func getHashedKey(key string) string {
@@ -515,7 +515,7 @@ func TestPluginSync(t *testing.T) {
 	}
 }
 
-// See https://github.com/marwan2023nn-coder/sofa-server/issues/19189
+// See https://github.com/mattermost/mattermost-server/issues/19189
 func TestChannelsPluginsInit(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t)
@@ -614,12 +614,12 @@ func TestPluginPanicLogs(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -663,11 +663,11 @@ func TestPluginStatusActivateError(t *testing.T) {
 		import (
 			"errors"
 
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) OnActivate() error {

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package main
@@ -7,13 +7,13 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/plugin_api_tests"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/v8/channels/app/plugin_api_tests"
 )
 
 type MyPlugin struct {
-	plugin.SofaPlugin
+	plugin.MattermostPlugin
 	configuration plugin_api_tests.BasicConfig
 }
 

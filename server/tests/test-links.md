@@ -1,6 +1,6 @@
 # Link Testing
  
-Links in Sofas should render as specified below.
+Links in Mattermosts should render as specified below.
 
 #### These strings should auto-link:
  

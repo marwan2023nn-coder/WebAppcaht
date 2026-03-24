@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -16,9 +16,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/config"
 )
 
 func TestGetConfig(t *testing.T) {
@@ -73,7 +73,7 @@ func TestGetConfigWithAccessTag(t *testing.T) {
 
 	// set some values so that we know they're not blank
 	mockVaryByHeader := model.NewId()
-	mockSupportEmail := model.NewId() + "@sofa.com"
+	mockSupportEmail := model.NewId() + "@mattermost.com"
 	th.App.UpdateConfig(func(cfg *model.Config) {
 		cfg.RateLimitSettings.VaryByHeader = mockVaryByHeader
 		cfg.SupportSettings.SupportEmail = &mockSupportEmail
@@ -599,7 +599,7 @@ func TestUpdateConfigDiffInAuditRecord(t *testing.T) {
 }
 
 func TestGetEnvironmentConfig(t *testing.T) {
-	os.Setenv("MM_SERVICESETTINGS_SITEURL", "http://example.sofa.com")
+	os.Setenv("MM_SERVICESETTINGS_SITEURL", "http://example.mattermost.com")
 	os.Setenv("MM_SERVICESETTINGS_ENABLECUSTOMEMOJI", "true")
 	defer os.Unsetenv("MM_SERVICESETTINGS_SITEURL")
 	defer os.Unsetenv("MM_SERVICESETTINGS_ENABLECUSTOMEMOJI")
@@ -796,10 +796,10 @@ func TestPatchConfig(t *testing.T) {
 			assert.False(t, *oldConfig.PasswordSettings.Lowercase)
 			assert.NotEqual(t, 15, *oldConfig.PasswordSettings.MinimumLength)
 			assert.Equal(t, "DEBUG", *oldConfig.LogSettings.ConsoleLevel)
-			assert.True(t, oldConfig.PluginSettings.PluginStates["com.sofa.nps"].Enable)
+			assert.True(t, oldConfig.PluginSettings.PluginStates["com.mattermost.nps"].Enable)
 
 			states := make(map[string]*model.PluginState)
-			states["com.sofa.nps"] = &model.PluginState{Enable: *model.NewPointer(false)}
+			states["com.mattermost.nps"] = &model.PluginState{Enable: *model.NewPointer(false)}
 			config := model.Config{PasswordSettings: model.PasswordSettings{
 				Lowercase:     model.NewPointer(true),
 				MinimumLength: model.NewPointer(15),
@@ -822,7 +822,7 @@ func TestPatchConfig(t *testing.T) {
 			assert.True(t, *updatedConfig.PasswordSettings.Lowercase)
 			assert.Equal(t, "INFO", *updatedConfig.LogSettings.ConsoleLevel)
 			assert.Equal(t, []string{"another-channel"}, updatedConfig.TeamSettings.ExperimentalDefaultChannels)
-			assert.False(t, updatedConfig.PluginSettings.PluginStates["com.sofa.nps"].Enable)
+			assert.False(t, updatedConfig.PluginSettings.PluginStates["com.mattermost.nps"].Enable)
 			assert.Equal(t, "no-cache, no-store, must-revalidate", response.Header.Get("Cache-Control"))
 
 			// reset the config

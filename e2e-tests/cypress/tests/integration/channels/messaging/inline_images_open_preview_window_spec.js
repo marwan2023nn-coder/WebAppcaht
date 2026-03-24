@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -21,7 +21,7 @@ describe('Messaging', () => {
 
     it('MM-T187 Inline markdown images open preview window', () => {
         // # Post the image link to the channel
-        cy.postMessage('Hello ![test image](https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/image-small-height.png)');
+        cy.postMessage('Hello ![test image](https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/image-small-height.png)');
 
         // * Confirm the image container is visible
         cy.uiWaitUntilMessagePostedIncludes('Hello');

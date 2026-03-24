@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package markdown
@@ -7,7 +7,7 @@ import (
 	"regexp"
 )
 
-// Based off the mobile app's emoji parsing from https://github.com/sofa/commonmark.js
+// Based off the mobile app's emoji parsing from https://github.com/mattermost/commonmark.js
 
 var (
 	emojiRegex = regexp.MustCompile(`^:([a-z0-9_\-+]+):\B`)

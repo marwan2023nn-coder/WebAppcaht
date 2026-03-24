@@ -1,18 +1,18 @@
 openapi: 3.0.0
 info:
   description: >
-    The Sofa Web Services API enables Sofa clients and third-party applications
-    to interact with Sofa servers.
+    The Mattermost Web Services API enables Mattermost clients and third-party applications
+    to interact with Mattermost servers.
 
 
     [Official JavaScript and Golang drivers](#/#official-drivers)
     are available to simplify API integration.
 
 
-    By using this API, you agree to our [terms of service](https://about.sofa.com/default-terms/).
+    By using this API, you agree to our [terms of service](https://about.mattermost.com/default-terms/).
 
 
-    [Find out more about Sofa](https://about.sofa.com/)
+    [Find out more about Mattermost](https://about.mattermost.com/)
 
     ## Contents
 
@@ -49,7 +49,7 @@ info:
 
     ## Schema & Conventions
 
-    - All API access is through HTTP(S) requests at `your-sofa-url/api/v4`.
+    - All API access is through HTTP(S) requests at `your-mattermost-url/api/v4`.
 
     - All request and response bodies are `application/json`.
 
@@ -64,13 +64,13 @@ info:
 
     ## Authentication
 
-      There are multiple ways to authenticate against the Sofa API.
+      There are multiple ways to authenticate against the Mattermost API.
 
-      All examples assume there is a Sofa instance running at http://localhost:8065.
+      All examples assume there is a Mattermost instance running at http://localhost:8065.
 
       ### Session Token
 
-      Make an HTTP POST to `your-sofa-url/api/v4/users/login` with a JSON
+      Make an HTTP POST to `your-mattermost-url/api/v4/users/login` with a JSON
       body indicating the user's `login_id`, `password` and optionally the MFA
       `token`. The `login_id` can be an email, username or an AD/LDAP ID
       depending on the system's configuration.
@@ -122,7 +122,7 @@ info:
 
       ### Personal Access Tokens
 
-      Using [personal access tokens](https://developers.sofa.com/integrate/reference/personal-access-token/) is very similar to using a session token. The only real difference is that session tokens will expire, while personal access tokens will live until they are manually revoked by the user or an admin.
+      Using [personal access tokens](https://developers.mattermost.com/integrate/reference/personal-access-token/) is very similar to using a session token. The only real difference is that session tokens will expire, while personal access tokens will live until they are manually revoked by the user or an admin.
 
       Just like session tokens, include the personal access token as part of the `Authorization` header in your requests using the `Bearer` method. Assuming our personal access token is `9xuqwrwgstrb3mzrxb83nb357a`, we could use it as shown below.
 
@@ -131,7 +131,7 @@ info:
       ```
 
     ## Rate Limiting
-      Whenever you make an HTTP request to the Sofa API you might notice
+      Whenever you make an HTTP request to the Mattermost API you might notice
       the following headers included in the response:
 
       ```http
@@ -179,14 +179,14 @@ info:
       ```
 
     ## WebSocket
-     In addition to the HTTP RESTful web service, Sofa also offers a WebSocket event delivery system and some API functionality.
+     In addition to the HTTP RESTful web service, Mattermost also offers a WebSocket event delivery system and some API functionality.
 
-     To connect to the WebSocket follow the standard opening handshake as [defined by the RFC specification](https://tools.ietf.org/html/rfc6455#section-1.3) to the `/api/v4/websocket` endpoint of Sofa.
+     To connect to the WebSocket follow the standard opening handshake as [defined by the RFC specification](https://tools.ietf.org/html/rfc6455#section-1.3) to the `/api/v4/websocket` endpoint of Mattermost.
 
 
     ### Authentication
 
-      The Sofa WebSocket can be authenticated using [the standard API authentication methods](/#/#authentication) (by a cookie or with an explicit Authorization header) or through an authentication challenge. If you're authenticating from a browser and have logged in with the Sofa API, your authentication cookie should already be set. This is how the Sofa webapp authenticates with the WebSocket.
+      The Mattermost WebSocket can be authenticated using [the standard API authentication methods](/#/#authentication) (by a cookie or with an explicit Authorization header) or through an authentication challenge. If you're authenticating from a browser and have logged in with the Mattermost API, your authentication cookie should already be set. This is how the Mattermost webapp authenticates with the WebSocket.
 
       To authenticate with an authentication challenge, first connect the WebSocket and then send the following JSON over the connection:
 
@@ -196,7 +196,7 @@ info:
         "seq": 1,
         "action": "authentication_challenge",
         "data": {
-          "token": "sofatokengoeshere"
+          "token": "mattermosttokengoeshere"
         }
       }
       ```
@@ -215,7 +215,7 @@ info:
 
     ### Websocket Events
 
-      WebSocket events are primarily used to alert the client to changes in Sofa, such as delivering new posts or alerting the client that another user is typing in a channel.
+      WebSocket events are primarily used to alert the client to changes in Mattermost, such as delivering new posts or alerting the client that another user is typing in a channel.
 
       Events on the WebSocket will have the form:
 
@@ -237,7 +237,7 @@ info:
 
       The `event` field indicates the event type, `data` contains any data relevant to the event and `broadcast` contains information about who the event was sent to. For example, the above example has `user_id` set to "ay5sq51sebfh58ktrce5ijtcwy" meaning that only the user with that ID received this event broadcast. The `omit_users` field can contain an array of user IDs that were specifically omitted from receiving the event.
 
-      The list of Sofa WebSocket events are:
+      The list of Mattermost WebSocket events are:
 
       - added_to_team
       - authentication_challenge
@@ -286,7 +286,7 @@ info:
 
     ### Websocket API
 
-      Sofa has some basic support for WebSocket APIs. A connected WebSocket can make requests by sending the following over the connection:
+      Mattermost has some basic support for WebSocket APIs. A connected WebSocket can make requests by sending the following over the connection:
 
       ```json
       {
@@ -337,36 +337,36 @@ info:
       - get_statuses_by_ids
 
 
-      To see how these actions work, please refer to either the [Golang WebSocket driver](https://github.com/sofa/sofa/blob/master/server/public/model/websocket_client.go) or our [JavaScript WebSocket driver](https://github.com/sofa/sofa/blob/master/webapp/platform/client/src/websocket.ts).
+      To see how these actions work, please refer to either the [Golang WebSocket driver](https://github.com/mattermost/mattermost/blob/master/server/public/model/websocket_client.go) or our [JavaScript WebSocket driver](https://github.com/mattermost/mattermost/blob/master/webapp/platform/client/src/websocket.ts).
 
     ## Drivers
-      The easiest way to interact with the Sofa Web Service API is through
+      The easiest way to interact with the Mattermost Web Service API is through
       a language specific driver.
 
       ### Official Drivers
 
-      * Sofa JavaScript/TypeScript Driver
-        * [NPM](https://www.npmjs.com/package/@sofa/client)
-        * [Source](https://github.com/sofa/sofa/tree/master/webapp/platform/client)
+      * Mattermost JavaScript/TypeScript Driver
+        * [NPM](https://www.npmjs.com/package/@mattermost/client)
+        * [Source](https://github.com/mattermost/mattermost/tree/master/webapp/platform/client)
 
-      * [Sofa Golang Driver](https://pkg.go.dev/github.com/sofa/sofa/server/public/model#Client4)
+      * [Mattermost Golang Driver](https://pkg.go.dev/github.com/mattermost/mattermost/server/public/model#Client4)
 
       ### Community-built Drivers
 
-      For community-built drivers and API wrappers, see [our app directory](https://sofa.com/marketplace-category/sofa-developers-tools/).
+      For community-built drivers and API wrappers, see [our app directory](https://mattermost.com/marketplace-category/mattermost-developers-tools/).
 
     ## Support
 
-    Sofa core committers work with the community to keep the API documentation up-to-date.
+    Mattermost core committers work with the community to keep the API documentation up-to-date.
 
     If you have questions on API routes not listed in this reference, you can:
 
-    - [Join the Sofa community server](https://community.sofa.com) to ask questions in the Developers channel
+    - [Join the Mattermost community server](https://community.mattermost.com) to ask questions in the Developers channel
 
-    - Contact us at feedback@sofa.com
+    - Contact us at feedback@mattermost.com
 
 
-    [Bug reports](https://github.com/sofa/sofa/issues) in the documentation or the API are also welcome, as are pull requests to fix the issues.
+    [Bug reports](https://github.com/mattermost/mattermost/issues) in the documentation or the API are also welcome, as are pull requests to fix the issues.
 
 
     ## Contributing
@@ -374,13 +374,13 @@ info:
     When you have answers to API questions not addressed in our documentation we ask you to consider making a pull request to improve our reference. Small and large changes are all welcome.
 
 
-    We also have [Help Wanted tickets](https://github.com/sofa/sofa/issues?q=is%3Aopen+is%3Aissue+label%3AArea%2FAPI) available for community members who would like to help others more easily use the APIs. We acknowledge everyone's contribution in the [release notes of our next version](https://docs.sofa.com/administration/changelog.html#contributors).
+    We also have [Help Wanted tickets](https://github.com/mattermost/mattermost/issues?q=is%3Aopen+is%3Aissue+label%3AArea%2FAPI) available for community members who would like to help others more easily use the APIs. We acknowledge everyone's contribution in the [release notes of our next version](https://docs.mattermost.com/administration/changelog.html#contributors).
 
 
-    The source code for this API reference is hosted at https://github.com/sofa/sofa/tree/master/api.
+    The source code for this API reference is hosted at https://github.com/mattermost/mattermost/tree/master/api.
 
   version: 4.0.0
-  title: Sofa API
+  title: Mattermost API
 tags:
   - name: users
     description: >
@@ -418,11 +418,11 @@ tags:
   - name: brand
     description:
       Endpoints related to custom branding and white-labeling. See [our branding
-      documentation](https://docs.sofa.com/administration/branding.html)
+      documentation](https://docs.mattermost.com/administration/branding.html)
       for more information.
   - name: OAuth
     description:
-      Endpoints for configuring and interacting with Sofa as an OAuth 2.0
+      Endpoints for configuring and interacting with Mattermost as an OAuth 2.0
       service provider.
   - name: SAML
     description: Endpoints for configuring and interacting with SAML.
@@ -467,8 +467,8 @@ tags:
   - name: agents
     description: Endpoints for interacting with AI agents and LLM services.
 servers:
-  - url: "{your-sofa-url}"
+  - url: "{your-mattermost-url}"
     variables:
-      your-sofa-url:
+      your-mattermost-url:
         default: http://localhost:8065
 paths:

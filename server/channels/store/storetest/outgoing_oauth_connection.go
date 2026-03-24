@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package storetest
@@ -7,9 +7,9 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 	"github.com/stretchr/testify/require"
 )
 
@@ -301,7 +301,7 @@ func runAudienceTests(t *testing.T, ss store.Store, connection *model.OutgoingOA
 	})
 
 	t.Run("non-existent", func(t *testing.T) {
-		conn, err := ss.OutgoingOAuthConnection().GetConnections(c, model.OutgoingOAuthConnectionGetConnectionsFilter{Audience: "https://sofa.com"})
+		conn, err := ss.OutgoingOAuthConnection().GetConnections(c, model.OutgoingOAuthConnectionGetConnectionsFilter{Audience: "https://mattermost.com"})
 		require.NoError(t, err)
 		require.Empty(t, conn)
 	})

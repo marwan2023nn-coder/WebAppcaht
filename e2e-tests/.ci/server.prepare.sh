@@ -31,9 +31,9 @@ if [ "$TEST" = "cypress" ]; then
   ${MME2E_DC_SERVER} exec -T -u "$MME2E_UID" -- cypress tee tests/fixtures/keycloak.crt >/dev/null <../../server/build/docker/keycloak/keycloak.crt
   # Download plugins using wget in the Cypress container
   for PLUGIN_URL in \
-    "https://github.com/sofa/sofa-plugin-gitlab/releases/download/v1.3.0/com.github.manland.sofa-plugin-gitlab-1.3.0.tar.gz" \
-    "https://github.com/sofa/sofa-plugin-demo/releases/download/v0.9.0/com.sofa.demo-plugin-0.9.0.tar.gz" \
-    "https://github.com/sofa/sofa-plugin-demo/releases/download/v0.8.0/com.sofa.demo-plugin-0.8.0.tar.gz"; do
+    "https://github.com/mattermost/mattermost-plugin-gitlab/releases/download/v1.3.0/com.github.manland.mattermost-plugin-gitlab-1.3.0.tar.gz" \
+    "https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.9.0/com.mattermost.demo-plugin-0.9.0.tar.gz" \
+    "https://github.com/mattermost/mattermost-plugin-demo/releases/download/v0.8.0/com.mattermost.demo-plugin-0.8.0.tar.gz"; do
     PLUGIN_NAME="${PLUGIN_URL##*/}"
     PLUGIN_PATH="tests/fixtures/$PLUGIN_NAME"
 
@@ -66,9 +66,9 @@ for SERVICE in $ENABLED_DOCKER_SERVICES; do
     ;;
   minio)
     mme2e_log "Configuring the $SERVICE container"
-    ${MME2E_DC_SERVER} exec -T -- minio sh -c 'mkdir -p /data/sofa-test'
+    ${MME2E_DC_SERVER} exec -T -- minio sh -c 'mkdir -p /data/mattermost-test'
     ;;
   esac
 done
 
-mme2e_log "Sofa is running and ready for E2E testing"
+mme2e_log "Mattermost is running and ready for E2E testing"

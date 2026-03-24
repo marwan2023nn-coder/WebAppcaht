@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -8,7 +8,7 @@
 // ***************************************************************
 
 //  - Requires mmctl at fixtures folder
-//  -> copy ./mmctl/mmctl to ./sofa-webapp/e2e/cypress/tests/fixtures/mmctl
+//  -> copy ./mmctl/mmctl to ./mattermost-webapp/e2e/cypress/tests/fixtures/mmctl
 
 // Group: @channels @plugin @system_console
 

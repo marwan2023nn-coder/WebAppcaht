@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package slackimport
@@ -18,12 +18,12 @@ import (
 	"time"
 	"unicode/utf8"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 type slackChannel struct {
@@ -98,7 +98,7 @@ type Actions struct {
 	PrepareImage           func(fileData []byte) (image.Image, string, func(), error)
 }
 
-// SlackImporter is a service that allows to import slack dumps into sofa
+// SlackImporter is a service that allows to import slack dumps into mattermost
 type SlackImporter struct {
 	store         store.Store
 	actions       Actions
@@ -344,7 +344,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{
@@ -385,7 +385,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.Comment.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{
@@ -430,7 +430,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 
@@ -458,7 +458,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{
@@ -478,7 +478,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{
@@ -495,7 +495,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{
@@ -512,7 +512,7 @@ func (si *SlackImporter) slackAddPosts(rctx request.CTX, teamId string, channel 
 				continue
 			}
 			if users[sPost.User] == nil {
-				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Sofa.", mlog.String("user", sPost.User))
+				rctx.Logger().Debug("Slack Import: Unable to add the message as the Slack user does not exist in Mattermost.", mlog.String("user", sPost.User))
 				continue
 			}
 			newPost := model.Post{

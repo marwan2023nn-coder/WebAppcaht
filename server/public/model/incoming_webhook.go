@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -189,7 +189,7 @@ func decodeIncomingWebhookRequest(by []byte) (*IncomingWebhookRequest, error) {
 
 func IncomingWebhookRequestFromJSON(data io.Reader) (*IncomingWebhookRequest, *AppError) {
 	buf := new(bytes.Buffer)
-	buf.ReadFrom(io.LimitReader(data, 1024*1024))
+	buf.ReadFrom(data)
 	by := buf.Bytes()
 
 	// Try to decode the JSON data. Only if it fails, try to escape control

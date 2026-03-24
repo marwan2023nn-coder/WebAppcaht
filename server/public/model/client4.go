@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -4356,7 +4356,7 @@ func (c *Client4) UploadLicenseFile(ctx context.Context, data []byte) (*Response
 	body := &bytes.Buffer{}
 	writer := multipart.NewWriter(body)
 
-	part, err := writer.CreateFormFile("license", "test-license.sofa-license")
+	part, err := writer.CreateFormFile("license", "test-license.mattermost-license")
 	if err != nil {
 		return nil, fmt.Errorf("failed to create form file for license upload: %w", err)
 	}
@@ -4889,7 +4889,7 @@ func (c *Client4) GetLdapGroups(ctx context.Context) ([]*Group, *Response, error
 	return responseData.Groups, resp, nil
 }
 
-// LinkLdapGroup creates or undeletes a Sofa group and associates it to the given LDAP group DN.
+// LinkLdapGroup creates or undeletes a Mattermost group and associates it to the given LDAP group DN.
 func (c *Client4) LinkLdapGroup(ctx context.Context, dn string) (*Group, *Response, error) {
 	r, err := c.doAPIPost(ctx, c.ldapRoute().Join("groups", dn, "link"), "")
 	if err != nil {
@@ -4899,7 +4899,7 @@ func (c *Client4) LinkLdapGroup(ctx context.Context, dn string) (*Group, *Respon
 	return DecodeJSONFromResponse[*Group](r)
 }
 
-// UnlinkLdapGroup deletes the Sofa group associated with the given LDAP group DN.
+// UnlinkLdapGroup deletes the Mattermost group associated with the given LDAP group DN.
 func (c *Client4) UnlinkLdapGroup(ctx context.Context, dn string) (*Group, *Response, error) {
 	r, err := c.doAPIDelete(ctx, c.ldapRoute().Join("groups", dn, "link"))
 	if err != nil {
@@ -4930,7 +4930,7 @@ func (c *Client4) GetGroupsByNames(ctx context.Context, names []string) ([]*Grou
 	return DecodeJSONFromResponse[[]*Group](r)
 }
 
-// GetGroupsByChannel retrieves the Sofa Groups associated with a given channel
+// GetGroupsByChannel retrieves the Mattermost Groups associated with a given channel
 func (c *Client4) GetGroupsByChannel(ctx context.Context, channelId string, opts GroupSearchOpts) ([]*GroupWithSchemeAdmin, int, *Response, error) {
 	values := url.Values{}
 	values.Set("q", opts.Q)
@@ -4957,7 +4957,7 @@ func (c *Client4) GetGroupsByChannel(ctx context.Context, channelId string, opts
 	return responseData.Groups, responseData.Count, resp, nil
 }
 
-// GetGroupsByTeam retrieves the Sofa Groups associated with a given team
+// GetGroupsByTeam retrieves the Mattermost Groups associated with a given team
 func (c *Client4) GetGroupsByTeam(ctx context.Context, teamId string, opts GroupSearchOpts) ([]*GroupWithSchemeAdmin, int, *Response, error) {
 	values := url.Values{}
 	values.Set("q", opts.Q)
@@ -4984,7 +4984,7 @@ func (c *Client4) GetGroupsByTeam(ctx context.Context, teamId string, opts Group
 	return responseData.Groups, responseData.Count, resp, nil
 }
 
-// GetGroupsAssociatedToChannelsByTeam retrieves the Sofa Groups associated with channels in a given team
+// GetGroupsAssociatedToChannelsByTeam retrieves the Mattermost Groups associated with channels in a given team
 func (c *Client4) GetGroupsAssociatedToChannelsByTeam(ctx context.Context, teamId string, opts GroupSearchOpts) (map[string][]*GroupWithSchemeAdmin, *Response, error) {
 	values := url.Values{}
 	values.Set("q", opts.Q)
@@ -5009,7 +5009,7 @@ func (c *Client4) GetGroupsAssociatedToChannelsByTeam(ctx context.Context, teamI
 	return responseData.GroupsAssociatedToChannels, resp, nil
 }
 
-// GetGroups retrieves Sofa Groups
+// GetGroups retrieves Mattermost Groups
 func (c *Client4) GetGroups(ctx context.Context, opts GroupSearchOpts) ([]*Group, *Response, error) {
 	values := url.Values{}
 	values.Set("include_member_count", fmt.Sprintf("%v", opts.IncludeMemberCount))
@@ -5039,7 +5039,7 @@ func (c *Client4) GetGroups(ctx context.Context, opts GroupSearchOpts) ([]*Group
 	return DecodeJSONFromResponse[[]*Group](r)
 }
 
-// GetGroupsByUserId retrieves Sofa Groups for a user
+// GetGroupsByUserId retrieves Mattermost Groups for a user
 func (c *Client4) GetGroupsByUserId(ctx context.Context, userId string) ([]*Group, *Response, error) {
 	r, err := c.doAPIGet(ctx, c.usersRoute().Join(userId, "groups"), "")
 	if err != nil {
@@ -5201,7 +5201,7 @@ func (c *Client4) GetLogs(ctx context.Context, page, perPage int) ([]string, *Re
 	return DecodeJSONFromResponse[[]string](r)
 }
 
-// Download logs as sofa.log file
+// Download logs as mattermost.log file
 func (c *Client4) DownloadLogs(ctx context.Context) ([]byte, *Response, error) {
 	r, err := c.doAPIGet(ctx, c.logsRoute().Join("download"), "")
 	if err != nil {
@@ -5224,7 +5224,7 @@ func (c *Client4) PostLog(ctx context.Context, message map[string]string) (map[s
 
 // OAuth Section
 
-// CreateOAuthApp will register a new OAuth 2.0 client application with Sofa acting as an OAuth 2.0 service provider.
+// CreateOAuthApp will register a new OAuth 2.0 client application with Mattermost acting as an OAuth 2.0 service provider.
 func (c *Client4) CreateOAuthApp(ctx context.Context, app *OAuthApp) (*OAuthApp, *Response, error) {
 	r, err := c.doAPIPostJSON(ctx, c.oAuthAppsRoute(), app)
 	if err != nil {
@@ -5234,7 +5234,7 @@ func (c *Client4) CreateOAuthApp(ctx context.Context, app *OAuthApp) (*OAuthApp,
 	return DecodeJSONFromResponse[*OAuthApp](r)
 }
 
-// UpdateOAuthApp updates a page of registered OAuth 2.0 client applications with Sofa acting as an OAuth 2.0 service provider.
+// UpdateOAuthApp updates a page of registered OAuth 2.0 client applications with Mattermost acting as an OAuth 2.0 service provider.
 func (c *Client4) UpdateOAuthApp(ctx context.Context, app *OAuthApp) (*OAuthApp, *Response, error) {
 	r, err := c.doAPIPutJSON(ctx, c.oAuthAppRoute(app.Id), app)
 	if err != nil {
@@ -5244,7 +5244,7 @@ func (c *Client4) UpdateOAuthApp(ctx context.Context, app *OAuthApp) (*OAuthApp,
 	return DecodeJSONFromResponse[*OAuthApp](r)
 }
 
-// GetOAuthApps gets a page of registered OAuth 2.0 client applications with Sofa acting as an OAuth 2.0 service provider.
+// GetOAuthApps gets a page of registered OAuth 2.0 client applications with Mattermost acting as an OAuth 2.0 service provider.
 func (c *Client4) GetOAuthApps(ctx context.Context, page, perPage int) ([]*OAuthApp, *Response, error) {
 	values := url.Values{}
 	values.Set("page", strconv.Itoa(page))
@@ -5257,7 +5257,7 @@ func (c *Client4) GetOAuthApps(ctx context.Context, page, perPage int) ([]*OAuth
 	return DecodeJSONFromResponse[[]*OAuthApp](r)
 }
 
-// GetOAuthApp gets a registered OAuth 2.0 client application with Sofa acting as an OAuth 2.0 service provider.
+// GetOAuthApp gets a registered OAuth 2.0 client application with Mattermost acting as an OAuth 2.0 service provider.
 func (c *Client4) GetOAuthApp(ctx context.Context, appId string) (*OAuthApp, *Response, error) {
 	r, err := c.doAPIGet(ctx, c.oAuthAppRoute(appId), "")
 	if err != nil {
@@ -5267,7 +5267,7 @@ func (c *Client4) GetOAuthApp(ctx context.Context, appId string) (*OAuthApp, *Re
 	return DecodeJSONFromResponse[*OAuthApp](r)
 }
 
-// GetOAuthAppInfo gets a sanitized version of a registered OAuth 2.0 client application with Sofa acting as an OAuth 2.0 service provider.
+// GetOAuthAppInfo gets a sanitized version of a registered OAuth 2.0 client application with Mattermost acting as an OAuth 2.0 service provider.
 func (c *Client4) GetOAuthAppInfo(ctx context.Context, appId string) (*OAuthApp, *Response, error) {
 	r, err := c.doAPIGet(ctx, c.oAuthAppRoute(appId).Join("info"), "")
 	if err != nil {
@@ -6801,7 +6801,7 @@ func (c *Client4) RequestTrialLicense(ctx context.Context, users int) (*Response
 	return BuildResponse(r), nil
 }
 
-// GetGroupStats retrieves stats for a Sofa Group
+// GetGroupStats retrieves stats for a Mattermost Group
 func (c *Client4) GetGroupStats(ctx context.Context, groupID string) (*GroupStats, *Response, error) {
 	r, err := c.doAPIGet(ctx, c.groupRoute(groupID).Join("stats"), "")
 	if err != nil {

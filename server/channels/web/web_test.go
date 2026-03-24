@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package web
@@ -15,14 +15,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/utils"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/plugin/utils"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/config"
 )
 
 var apiClient *model.Client4
@@ -193,7 +193,7 @@ func (th *TestHelper) InitBasic(tb testing.TB) *TestHelper {
 func TestStaticFilesRequest(t *testing.T) {
 	th := Setup(t).InitPlugins()
 
-	pluginID := "com.sofa.sample"
+	pluginID := "com.mattermost.sample"
 
 	// Setup the directory directly in the plugin working path.
 	pluginDir := filepath.Join(*th.App.Config().PluginSettings.Directory, pluginID)
@@ -208,11 +208,11 @@ func TestStaticFilesRequest(t *testing.T) {
 	package main
 
 	import (
-		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+		"github.com/mattermost/mattermost/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.SofaPlugin
+		plugin.MattermostPlugin
 	}
 
 	func main() {
@@ -229,7 +229,7 @@ func TestStaticFilesRequest(t *testing.T) {
 	require.NoError(t, err)
 
 	// Write the plugin.json manifest
-	pluginManifest := `{"id": "com.sofa.sample", "server": {"executable": "backend.exe"}, "webapp": {"bundle_path":"main.js"}, "settings_schema": {"settings": []}}`
+	pluginManifest := `{"id": "com.mattermost.sample", "server": {"executable": "backend.exe"}, "webapp": {"bundle_path":"main.js"}, "settings_schema": {"settings": []}}`
 	err = os.WriteFile(filepath.Join(pluginDir, "plugin.json"), []byte(pluginManifest), 0600)
 	require.NoError(t, err)
 
@@ -240,7 +240,7 @@ func TestStaticFilesRequest(t *testing.T) {
 	require.True(t, activated)
 
 	// Verify access to the bundle with requisite headers
-	req, err := http.NewRequest("GET", "/static/plugins/com.sofa.sample/com.sofa.sample_724ed0e2ebb2b841_bundle.js", nil)
+	req, err := http.NewRequest("GET", "/static/plugins/com.mattermost.sample/com.mattermost.sample_724ed0e2ebb2b841_bundle.js", nil)
 	require.NoError(t, err)
 	res := httptest.NewRecorder()
 	th.Web.MainRouter.ServeHTTP(res, req)
@@ -250,7 +250,7 @@ func TestStaticFilesRequest(t *testing.T) {
 
 	// Verify cached access to the bundle with an If-Modified-Since timestamp in the future
 	future := time.Now().Add(24 * time.Hour)
-	req, err = http.NewRequest("GET", "/static/plugins/com.sofa.sample/com.sofa.sample_724ed0e2ebb2b841_bundle.js", nil)
+	req, err = http.NewRequest("GET", "/static/plugins/com.mattermost.sample/com.mattermost.sample_724ed0e2ebb2b841_bundle.js", nil)
 	require.NoError(t, err)
 	req.Header.Add("If-Modified-Since", future.Format(time.RFC850))
 	res = httptest.NewRecorder()
@@ -261,7 +261,7 @@ func TestStaticFilesRequest(t *testing.T) {
 
 	// Verify access to the bundle with an If-Modified-Since timestamp in the past
 	past := time.Now().Add(-24 * time.Hour)
-	req, err = http.NewRequest("GET", "/static/plugins/com.sofa.sample/com.sofa.sample_724ed0e2ebb2b841_bundle.js", nil)
+	req, err = http.NewRequest("GET", "/static/plugins/com.mattermost.sample/com.mattermost.sample_724ed0e2ebb2b841_bundle.js", nil)
 	require.NoError(t, err)
 	req.Header.Add("If-Modified-Since", past.Format(time.RFC850))
 	res = httptest.NewRecorder()
@@ -271,7 +271,7 @@ func TestStaticFilesRequest(t *testing.T) {
 	assert.Equal(t, []string{"max-age=31556926, public"}, res.Result().Header[http.CanonicalHeaderKey("Cache-Control")])
 
 	// Verify handling of 404.
-	req, err = http.NewRequest("GET", "/static/plugins/com.sofa.sample/404.js", nil)
+	req, err = http.NewRequest("GET", "/static/plugins/com.mattermost.sample/404.js", nil)
 	require.NoError(t, err)
 	res = httptest.NewRecorder()
 	th.Web.MainRouter.ServeHTTP(res, req)
@@ -293,17 +293,17 @@ func TestPublicFilesRequest(t *testing.T) {
 	env, err := plugin.NewEnvironment(th.NewPluginAPI, app.NewDriverImpl(th.Server), pluginDir, webappPluginDir, th.App.Log(), nil)
 	require.NoError(t, err)
 
-	pluginID := "com.sofa.sample"
+	pluginID := "com.mattermost.sample"
 	pluginCode :=
 		`
 	package main
 
 	import (
-		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+		"github.com/mattermost/mattermost/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.SofaPlugin
+		plugin.MattermostPlugin
 	}
 
 	func main() {
@@ -316,12 +316,12 @@ func TestPublicFilesRequest(t *testing.T) {
 	utils.CompileGo(t, pluginCode, backend)
 
 	// Write the plugin.json manifest
-	pluginManifest := `{"id": "com.sofa.sample", "server": {"executable": "backend.exe"}, "settings_schema": {"settings": []}}`
+	pluginManifest := `{"id": "com.mattermost.sample", "server": {"executable": "backend.exe"}, "settings_schema": {"settings": []}}`
 	err = os.WriteFile(filepath.Join(pluginDir, pluginID, "plugin.json"), []byte(pluginManifest), 0600)
 	require.NoError(t, err)
 
 	// Write the test public file
-	helloHTML := `Hello from the static files public folder for the com.sofa.sample plugin!`
+	helloHTML := `Hello from the static files public folder for the com.mattermost.sample plugin!`
 	htmlFolderPath := filepath.Join(pluginDir, pluginID, "public")
 	err = os.MkdirAll(htmlFolderPath, os.ModePerm)
 	require.NoError(t, err)
@@ -341,19 +341,19 @@ func TestPublicFilesRequest(t *testing.T) {
 
 	th.App.Channels().SetPluginsEnvironment(env)
 
-	req, err := http.NewRequest("GET", "/plugins/com.sofa.sample/public/hello.html", nil)
+	req, err := http.NewRequest("GET", "/plugins/com.mattermost.sample/public/hello.html", nil)
 	require.NoError(t, err)
 	res := httptest.NewRecorder()
 	th.Web.MainRouter.ServeHTTP(res, req)
 	assert.Equal(t, helloHTML, res.Body.String())
 
-	req, err = http.NewRequest("GET", "/plugins/com.sofa.sample/nefarious-file-access.html", nil)
+	req, err = http.NewRequest("GET", "/plugins/com.mattermost.sample/nefarious-file-access.html", nil)
 	require.NoError(t, err)
 	res = httptest.NewRecorder()
 	th.Web.MainRouter.ServeHTTP(res, req)
 	assert.Equal(t, 404, res.Code)
 
-	req, err = http.NewRequest("GET", "/plugins/com.sofa.sample/public/../nefarious-file-access.html", nil)
+	req, err = http.NewRequest("GET", "/plugins/com.mattermost.sample/public/../nefarious-file-access.html", nil)
 	require.NoError(t, err)
 	res = httptest.NewRecorder()
 	th.Web.MainRouter.ServeHTTP(res, req)
@@ -380,7 +380,7 @@ func TestStaticFilesCaching(t *testing.T) {
 	fakeMainBundleName := "main.1234ab.js"
 	fakeRootHTML := `<html>
 <head>
-	<title>Sofa</title>
+	<title>Mattermost</title>
 </head>
 </html>`
 	fakeMainBundle := `module.exports = 'main';`
@@ -452,7 +452,7 @@ func TestCheckClientCompatability(t *testing.T) {
 		{"Chrome 60", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.90 Safari/537.36", true},
 		{"Chrome Mobile", "Mozilla/5.0 (Linux; Android 6.0; Nexus 5 Build/MRA58N) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/60.0.3112.113 Mobile Safari/537.36", true},
 		{"MM Classic App", "Mozilla/5.0 (Linux; Android 8.0.0; Nexus 5X Build/OPR6.170623.013; wv) AppleWebKit/537.36 (KHTML, like Gecko) Version/4.0 Chrome/61.0.3163.81 Mobile Safari/537.36 Web-Atoms-Mobile-WebView", true},
-		{"MM App 3.7.1", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Sofa/3.7.1 Chrome/56.0.2924.87 Electron/1.6.11 Safari/537.36", true},
+		{"MM App 3.7.1", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Mattermost/3.7.1 Chrome/56.0.2924.87 Electron/1.6.11 Safari/537.36", true},
 		{"Franz 4.0.4", "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_12_6) AppleWebKit/537.36 (KHTML, like Gecko) Franz/4.0.4 Chrome/52.0.2743.82 Electron/1.3.1 Safari/537.36", true},
 		{"Edge 14", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/51.0.2704.79 Safari/537.36 Edge/14.14393", true},
 		{"Internet Explorer 9", "Mozilla/5.0 (compatible; MSIE 9.0; Windows NT 7.1; Trident/5.0", false},

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package slashcommands
@@ -15,15 +15,15 @@ import (
 
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
-var usage = `Sofa testing commands to help configure the system
+var usage = `Mattermost testing commands to help configure the system
 
 	COMMANDS:
 
@@ -631,7 +631,7 @@ func (*LoadTestProvider) URLCommand(a *app.App, rctx request.CTX, args *model.Co
 
 	// provide a shortcut to easily access tests stored in doc/developer/tests
 	if !strings.HasPrefix(url, "http") {
-		url = "https://raw.githubusercontent.com/sofa/sofa-server/master/server/tests/" + url
+		url = "https://raw.githubusercontent.com/mattermost/mattermost-server/master/server/tests/" + url
 
 		if path.Ext(url) == "" {
 			url += ".md"
@@ -688,7 +688,7 @@ func (*LoadTestProvider) JSONCommand(a *app.App, rctx request.CTX, args *model.C
 
 	// provide a shortcut to easily access tests stored in doc/developer/tests
 	if !strings.HasPrefix(url, "http") {
-		url = "https://raw.githubusercontent.com/sofa/sofa-server/master/server/tests/" + url
+		url = "https://raw.githubusercontent.com/mattermost/mattermost-server/master/server/tests/" + url
 
 		if path.Ext(url) == "" {
 			url += ".json"

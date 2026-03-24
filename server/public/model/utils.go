@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -13,11 +13,9 @@ import (
 	"io"
 	"maps"
 	"net"
-	"net/http"
 	"net/mail"
 	"net/url"
 	"os"
-	"path/filepath"
 	"regexp"
 	"slices"
 	"sort"
@@ -29,8 +27,8 @@ import (
 	"github.com/pborman/uuid"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 const (
@@ -112,7 +110,7 @@ func (sa StringArray) Value() (driver.Value, error) {
 	if err != nil {
 		return nil, err
 	}
-	// non utf8 characters are not supported https://sofa.atlassian.net/browse/MM-41066
+	// non utf8 characters are not supported https://mattermost.atlassian.net/browse/MM-41066
 	return string(j), err
 }
 
@@ -213,7 +211,7 @@ func (si StringInterface) Value() (driver.Value, error) {
 		return nil, ErrMaxPropSizeExceeded
 	}
 
-	// non utf8 characters are not supported https://sofa.atlassian.net/browse/MM-41066
+	// non utf8 characters are not supported https://mattermost.atlassian.net/browse/MM-41066
 	return string(j), err
 }
 
@@ -632,7 +630,7 @@ func IsValidEmail(input string) bool {
 		// accept plain addresses like "billy@example.com"
 
 		// Log a warning for admins in case pre-existing users with emails like <billy@example.com>, which used
-		// to be valid before https://github.com/marwan2023nn-coder/sofa/pull/29661, know how to deal with this
+		// to be valid before https://github.com/mattermost/mattermost/pull/29661, know how to deal with this
 		// error. We don't need to check for the case addr.Name != "", since that has always been rejected
 		if addr.Name == "" {
 			mlog.Warn("email seems to be enclosed in angle brackets, which is not valid; if this relates to an existing user, use the following mmctl command to modify their email: `mmctl user email \"<affecteduser@domain.com>\" affecteduser@domain.com`", mlog.String("email", input))
@@ -916,29 +914,4 @@ func SafeInt(i *int) int {
 		return 0
 	}
 	return *i
-}
-
-func ValidateDCRRedirectURIs(uris []string, allowlist string) *AppError {
-	if allowlist == "" {
-		return nil
-	}
-
-	patterns := strings.Split(allowlist, ",")
-	for _, uri := range uris {
-		match := false
-		for _, pattern := range patterns {
-			pattern = strings.TrimSpace(pattern)
-			if pattern == "" {
-				continue
-			}
-			if matched, _ := filepath.Match(pattern, uri); matched {
-				match = true
-				break
-			}
-		}
-		if !match {
-			return NewAppError("ValidateDCRRedirectURIs", "model.dcr.is_valid.redirect_uri_not_allowlisted.app_error", nil, "uri="+uri, http.StatusBadRequest)
-		}
-	}
-	return nil
 }

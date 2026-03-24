@@ -135,15 +135,15 @@ linters:
           channels/store/storetest/team_store.go|\
           channels/store/storetest/thread_store.go|\
           channels/store/storetest/user_store.go|\
-          cmd/sofa/commands/cmdtestlib.go|\
-          cmd/sofa/commands/db.go|\
-          cmd/sofa/commands/export.go|\
-          cmd/sofa/commands/import.go|\
-          cmd/sofa/commands/jobserver.go|\
-          cmd/sofa/commands/server.go|\
-          cmd/sofa/commands/server_test.go|\
-          cmd/sofa/commands/test.go|\
-          cmd/sofa/commands/version.go|\
+          cmd/mattermost/commands/cmdtestlib.go|\
+          cmd/mattermost/commands/db.go|\
+          cmd/mattermost/commands/export.go|\
+          cmd/mattermost/commands/import.go|\
+          cmd/mattermost/commands/jobserver.go|\
+          cmd/mattermost/commands/server.go|\
+          cmd/mattermost/commands/server_test.go|\
+          cmd/mattermost/commands/test.go|\
+          cmd/mattermost/commands/version.go|\
           platform/services/cache/lru_striped.go|\
           platform/services/cache/lru_striped_bench_test.go|\
           platform/services/cache/lru_striped_test.go|\

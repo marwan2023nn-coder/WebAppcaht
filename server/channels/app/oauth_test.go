@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -17,11 +17,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/einterfaces"
+	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
 )
 
 func TestGetOAuthAccessTokenForImplicitFlow(t *testing.T) {
@@ -336,7 +336,7 @@ func TestAuthorizeOAuthUser(t *testing.T) {
 	}
 
 	makeRequest := func(cookie string) *http.Request {
-		request, err := http.NewRequest(http.MethodGet, "https://sofa.example.com", nil)
+		request, err := http.NewRequest(http.MethodGet, "https://mattermost.example.com", nil)
 		require.NoError(t, err)
 
 		if cookie != "" {
@@ -731,7 +731,7 @@ func TestGetAuthorizationCode(t *testing.T) {
 					*cfg.ServiceSettings.SiteURL = tc.SiteURL
 				})
 
-				request, _ := http.NewRequest(http.MethodGet, "https://sofa.example.com", nil)
+				request, _ := http.NewRequest(http.MethodGet, "https://mattermost.example.com", nil)
 
 				stateProps := map[string]string{
 					"email":  "email@example.com",

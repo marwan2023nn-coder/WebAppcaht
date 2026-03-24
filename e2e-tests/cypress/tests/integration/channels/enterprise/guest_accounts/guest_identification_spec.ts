@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -14,7 +14,7 @@
  */
 
 import authenticator from 'authenticator';
-import {UserProfile} from '@sofa/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {
@@ -98,7 +98,7 @@ describe('Guest Accounts', () => {
         // # Click "Save".
         cy.get('#saveSetting').scrollIntoView().click();
 
-        const email = `${username}@sample.sofa.com`;
+        const email = `${username}@sample.mattermost.com`;
 
         // # From the main page, invite a Guest user and click on the Join Team in the email sent to the guest user.
         cy.visit(`/${testTeam.name}/channels/town-square`);

@@ -3,7 +3,7 @@ package poster
 import (
 	"fmt"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 type defaultPoster struct {
@@ -20,11 +20,11 @@ func NewPoster(postAPI PostAPI, id string) Poster {
 }
 
 // DM posts a simple Direct Message to the specified user
-func (p *defaultPoster) DM(sofaUserID, format string, args ...any) (string, error) {
+func (p *defaultPoster) DM(mattermostUserID, format string, args ...any) (string, error) {
 	post := &model.Post{
 		Message: fmt.Sprintf(format, args...),
 	}
-	err := p.postAPI.DM(p.id, sofaUserID, post)
+	err := p.postAPI.DM(p.id, mattermostUserID, post)
 	if err != nil {
 		return "", err
 	}
@@ -33,10 +33,10 @@ func (p *defaultPoster) DM(sofaUserID, format string, args ...any) (string, erro
 
 // DMWithAttachments posts a Direct Message that contains Slack attachments.
 // Often used to include post actions.
-func (p *defaultPoster) DMWithAttachments(sofaUserID string, attachments ...*model.SlackAttachment) (string, error) {
+func (p *defaultPoster) DMWithAttachments(mattermostUserID string, attachments ...*model.SlackAttachment) (string, error) {
 	post := model.Post{}
 	model.ParseSlackAttachment(&post, attachments)
-	err := p.postAPI.DM(p.id, sofaUserID, &post)
+	err := p.postAPI.DM(p.id, mattermostUserID, &post)
 	if err != nil {
 		return "", err
 	}

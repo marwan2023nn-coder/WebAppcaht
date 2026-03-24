@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package filestore
@@ -25,7 +25,7 @@ import (
 	"github.com/minio/minio-go/v7/pkg/s3utils"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 // S3FileBackend contains all necessary information to communicate with
@@ -45,7 +45,7 @@ type S3FileBackend struct {
 	skipVerify     bool
 	timeout        time.Duration
 	presignExpires time.Duration
-	isCloud        bool // field to indicate whether this is running under Sofa cloud or not.
+	isCloud        bool // field to indicate whether this is running under Mattermost cloud or not.
 	uploadPartSize int64
 	storageClass   string
 }
@@ -85,7 +85,7 @@ func (s *S3FileBackendNoBucketError) Error() string {
 	return "no such bucket"
 }
 
-// NewS3FileBackend returns an instance of an S3FileBackend and determine if we are in Sofa cloud or not.
+// NewS3FileBackend returns an instance of an S3FileBackend and determine if we are in Mattermost cloud or not.
 func NewS3FileBackend(settings FileBackendSettings) (*S3FileBackend, error) {
 	return newS3FileBackend(settings, os.Getenv("MM_CLOUD_FILESTORE_BIFROST") != "")
 }

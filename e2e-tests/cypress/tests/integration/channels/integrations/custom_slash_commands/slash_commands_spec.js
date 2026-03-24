@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -152,7 +152,7 @@ describe('Slash commands page', () => {
         cy.get('a[href*="/edit"]').click();
 
         // # Change url
-        cy.get('#url').clear().type('http://sofa.com');
+        cy.get('#url').clear().type('http://mattermost.com');
 
         // # Click on Cancel
         cy.get('a').contains('Cancel').click();

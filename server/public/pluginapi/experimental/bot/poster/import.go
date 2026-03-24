@@ -1,7 +1,7 @@
 package poster
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // PostAPI defines the portion of the Post Service used by the poster

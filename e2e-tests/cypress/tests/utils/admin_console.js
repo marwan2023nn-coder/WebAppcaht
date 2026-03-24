@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 export const adminConsoleNavigation = [
@@ -48,7 +48,7 @@ export const adminConsoleNavigation = [
     },
     {
         type: ['team', 'e20', 'cloud_enterprise'],
-        header: 'Sofa Users',
+        header: 'Mattermost Users',
         headerSelector: '.admin-console__header #systemUsersTable-headerId',
         sidebar: 'Users',
         url: 'admin_console/user_management/users',
@@ -61,13 +61,13 @@ export const adminConsoleNavigation = [
     },
     {
         type: ['team', 'e20', 'cloud_enterprise'],
-        header: 'Sofa Teams',
+        header: 'Mattermost Teams',
         sidebar: 'Teams',
         url: 'admin_console/user_management/teams',
     },
     {
         type: ['team', 'e20', 'cloud_enterprise'],
-        header: 'Sofa Channels',
+        header: 'Mattermost Channels',
         team_header: 'Channels',
         sidebar: 'Channels',
         url: 'admin_console/user_management/channels',

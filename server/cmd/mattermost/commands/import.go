@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -10,9 +10,9 @@ import (
 
 	"github.com/spf13/cobra"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
 )
 
 var ImportCmd = &cobra.Command{
@@ -31,7 +31,7 @@ var SlackImportCmd = &cobra.Command{
 var BulkImportCmd = &cobra.Command{
 	Use:     "bulk [file]",
 	Short:   "Import bulk data.",
-	Long:    "Import data from a Sofa Bulk Import File.",
+	Long:    "Import data from a Mattermost Bulk Import File.",
 	Example: "  import bulk bulk_data.json",
 	RunE:    bulkImportCmdF,
 }

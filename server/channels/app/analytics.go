@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -8,9 +8,9 @@ import (
 
 	"golang.org/x/sync/errgroup"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
 )
 
 const (
@@ -225,7 +225,7 @@ func (a *App) getUserCountsWithPostsAnalytics(rctx request.CTX, teamID string, s
 }
 
 func (a *App) getExtraCountsAnalytics(rctx request.CTX, teamID string) (model.AnalyticsRows, *model.AppError) {
-	// Refresh file stats to ensure they are up to date (standard Sofa practice for this view)
+	// Refresh file stats to ensure they are up to date (standard Mattermost practice for this view)
 	_ = a.Srv().Store().FileInfo().RefreshFileStats()
 
 	var rows model.AnalyticsRows = make([]*model.AnalyticsRow, 8)

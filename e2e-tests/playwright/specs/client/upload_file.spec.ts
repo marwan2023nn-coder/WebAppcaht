@@ -1,13 +1,13 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@sofa/client';
-import {ServerChannel} from '@sofa/types/channels';
-import {FileUploadResponse} from '@sofa/types/files';
-import {Team} from '@sofa/types/teams';
-import {UserProfile} from '@sofa/types/users';
+import {Client4} from '@mattermost/client';
+import {ServerChannel} from '@mattermost/types/channels';
+import {FileUploadResponse} from '@mattermost/types/files';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
-import {expect, test, getFileFromAsset, getBlobFromAsset} from '@sofa/playwright-lib';
+import {expect, test, getFileFromAsset, getBlobFromAsset} from '@mattermost/playwright-lib';
 
 import {FileUploadResponseSchema} from './schema';
 
@@ -16,7 +16,7 @@ let user: UserProfile;
 let team: Team;
 let townSquareChannel: ServerChannel;
 
-const filename = 'sofa-icon_128x128.png';
+const filename = 'mattermost-icon_128x128.png';
 const file = getFileFromAsset(filename);
 const blob = getBlobFromAsset(filename);
 

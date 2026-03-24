@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -9,7 +9,7 @@ import (
 	"strings"
 	"testing"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 	"github.com/spf13/cobra"
 	"github.com/stretchr/testify/assert"
 )
@@ -28,7 +28,7 @@ func TestRootRecover(t *testing.T) {
 
 	lines := printer.GetErrorLines()
 	assert.Equal(t, "Uh oh! Something unexpected happened :( Would you mind reporting it?", lines[0])
-	assert.True(t, strings.HasPrefix(lines[1], "https://github.com/marwan2023nn-coder/sofa/issues/new?body="))
+	assert.True(t, strings.HasPrefix(lines[1], "https://github.com/mattermost/mattermost/issues/new?body="))
 	assert.Equal(t, "some panic", lines[2])
 	assert.True(t, strings.HasPrefix(lines[3], "goroutine "))
 }

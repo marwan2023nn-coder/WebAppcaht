@@ -1,2 +1,2 @@
-CREATE DATABASE sofa_node_test;
-GRANT ALL PRIVILEGES ON DATABASE sofa_node_test TO mmuser;
+CREATE DATABASE mattermost_node_test;
+GRANT ALL PRIVILEGES ON DATABASE mattermost_node_test TO mmuser;

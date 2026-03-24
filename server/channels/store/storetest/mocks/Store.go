@@ -5,14 +5,14 @@
 package mocks
 
 import (
-	mlog "github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	mlog "github.com/mattermost/mattermost/server/public/shared/mlog"
 	mock "github.com/stretchr/testify/mock"
 
-	model "github.com/marwan2023nn-coder/sofa/server/public/model"
+	model "github.com/mattermost/mattermost/server/public/model"
 
 	sql "database/sql"
 
-	store "github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	store "github.com/mattermost/mattermost/server/v8/channels/store"
 
 	time "time"
 )

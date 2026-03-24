@@ -26,13 +26,13 @@ up()
     docker run -it -u root \
         --privileged \
         -v $GOPATH:/go \
-        -w /go/src/github.com/sofa/sofa-server/ \
+        -w /go/src/github.com/mattermost/mattermost-server/ \
         --net ${COMPOSE_PROJECT_NAME}_mm-test \
         --env-file=dotenv/test.env
         -e GOPATH="/go" \
-        -e MM_SQLSETTINGS_DATASOURCE="postgres://mmuser:mostest@postgres:5432/sofa_test?sslmode=disable&connect_timeout=10" \
+        -e MM_SQLSETTINGS_DATASOURCE="postgres://mmuser:mostest@postgres:5432/mattermost_test?sslmode=disable&connect_timeout=10" \
         -e MM_SQLSETTINGS_DRIVERNAME=postgres
-        sofa/sofa-build-server:20210810_golang-1.16.7 bash
+        mattermost/mattermost-build-server:20210810_golang-1.16.7 bash
 }
 
 down()

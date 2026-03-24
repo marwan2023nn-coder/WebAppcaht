@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -12,9 +12,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 )
 
 var SystemCmd = &cobra.Command{
@@ -53,7 +53,7 @@ var SystemClearBusyCmd = &cobra.Command{
 var SystemVersionCmd = &cobra.Command{
 	Use:     "version",
 	Short:   "Prints the remote server version",
-	Long:    "Prints the server version of the currently connected Sofa instance",
+	Long:    "Prints the server version of the currently connected Mattermost instance",
 	Example: `  system version`,
 	Args:    cobra.NoArgs,
 	RunE:    withClient(systemVersionCmdF),
@@ -71,7 +71,7 @@ var SystemStatusCmd = &cobra.Command{
 var SystemSupportPacketCmd = &cobra.Command{
 	Use:     "supportpacket",
 	Short:   "Download a Support Packet",
-	Long:    "Generate and download a Support Packet of the server to share it with Sofa Support",
+	Long:    "Generate and download a Support Packet of the server to share it with Mattermost Support",
 	Example: `  system supportpacket`,
 	Args:    cobra.NoArgs,
 	RunE:    withClient(systemSupportPacketCmdF),

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -13,11 +13,11 @@ import (
 	"sort"
 	"testing"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
@@ -255,7 +255,7 @@ Arguments:
 
   migration-options (saml):
     users_file:
-      The path of a json file with the usernames and emails of all users to migrate to SAML. The username and email must be the same that the SAML service provider store. And the email must match with the email in sofa database.
+      The path of a json file with the usernames and emails of all users to migrate to SAML. The username and email must be the same that the SAML service provider store. And the email must match with the email in mattermost database.
 
       Example json content:
         {
@@ -384,7 +384,7 @@ func init() {
 	ChangePasswordUserCmd.Flags().Bool("hashed", false, "The supplied password is already hashed")
 
 	MigrateAuthCmd.Flags().Bool("force", false, "Force the migration to occur even if there are duplicates on the LDAP server. Duplicates will not be migrated. (ldap only)")
-	MigrateAuthCmd.Flags().Bool("auto", false, "Automatically migrate all users. Assumes the usernames and emails are identical between Sofa and SAML services. (saml only)")
+	MigrateAuthCmd.Flags().Bool("auto", false, "Automatically migrate all users. Assumes the usernames and emails are identical between Mattermost and SAML services. (saml only)")
 	MigrateAuthCmd.Flags().Bool("confirm", false, "Confirm you really want to proceed with auto migration. (saml only)")
 	MigrateAuthCmd.SetHelpTemplate(`Usage:
   mmctl user migrate-auth [from_auth] [to_auth] [migration-options] [flags]
@@ -1000,7 +1000,7 @@ func migrateAuthToSamlCmdF(c client.Client, cmd *cobra.Command, userArgs []strin
 	auto, _ := cmd.Flags().GetBool("auto")
 	confirm, _ := cmd.Flags().GetBool("confirm")
 	if auto && !confirm {
-		if err := getConfirmation("You are about to perform an automatic \""+fromAuth+" to saml\" migration. This must only be done if your current Sofa users with "+fromAuth+" auth have the same username and email in your SAML service. Otherwise, provide the usernames and emails from your SAML Service using the \"users file\" without the \"--auto\" option.\n\nDo you want to proceed with automatic migration anyway?", false); err != nil {
+		if err := getConfirmation("You are about to perform an automatic \""+fromAuth+" to saml\" migration. This must only be done if your current Mattermost users with "+fromAuth+" auth have the same username and email in your SAML service. Otherwise, provide the usernames and emails from your SAML Service using the \"users file\" without the \"--auto\" option.\n\nDo you want to proceed with automatic migration anyway?", false); err != nil {
 			return err
 		}
 	}

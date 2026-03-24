@@ -10,10 +10,10 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
-	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost/server/public/pluginapi"
 )
 
 func TestInstallPluginFromURL(t *testing.T) {
@@ -99,16 +99,16 @@ func TestInstallPluginFromURL(t *testing.T) {
 }
 
 func TestGetPluginAssetURL(t *testing.T) {
-	siteURL := "https://sofa.example.com"
+	siteURL := "https://mattermost.example.com"
 	api := &plugintest.API{}
 	api.On("GetConfig").Return(&model.Config{ServiceSettings: model.ServiceSettings{SiteURL: &siteURL}})
 
 	client := pluginapi.NewClient(api, &plugintest.Driver{})
 
 	t.Run("Valid asset directory was provided", func(t *testing.T) {
-		pluginID := "sofa-1234"
+		pluginID := "mattermost-1234"
 		dir := "assets"
-		wantedURL := "https://sofa.example.com/sofa-1234/assets"
+		wantedURL := "https://mattermost.example.com/mattermost-1234/assets"
 		gotURL, err := client.System.GetPluginAssetURL(pluginID, dir)
 
 		assert.Equalf(t, wantedURL, gotURL, "GetPluginAssetURL(%q, %q) got=%q; want=%v", pluginID, dir, gotURL, wantedURL)
@@ -116,9 +116,9 @@ func TestGetPluginAssetURL(t *testing.T) {
 	})
 
 	t.Run("Valid asset directory path was provided", func(t *testing.T) {
-		pluginID := "sofa-1234"
-		dirPath := "/sofa/assets"
-		wantedURL := "https://sofa.example.com/sofa-1234/sofa/assets"
+		pluginID := "mattermost-1234"
+		dirPath := "/mattermost/assets"
+		wantedURL := "https://mattermost.example.com/mattermost-1234/mattermost/assets"
 		gotURL, err := client.System.GetPluginAssetURL(pluginID, dirPath)
 
 		assert.Equalf(t, wantedURL, gotURL, "GetPluginAssetURL(%q, %q) got=%q; want=%q", pluginID, dirPath, gotURL, wantedURL)
@@ -126,9 +126,9 @@ func TestGetPluginAssetURL(t *testing.T) {
 	})
 
 	t.Run("Valid pluginID was provided", func(t *testing.T) {
-		pluginID := "sofa-1234"
+		pluginID := "mattermost-1234"
 		dir := "assets"
-		wantedURL := "https://sofa.example.com/sofa-1234/assets"
+		wantedURL := "https://mattermost.example.com/mattermost-1234/assets"
 		gotURL, err := client.System.GetPluginAssetURL(pluginID, dir)
 
 		assert.Equalf(t, wantedURL, gotURL, "GetPluginAssetURL(%q, %q) got=%q; want=%q", pluginID, dir, gotURL, wantedURL)
@@ -136,7 +136,7 @@ func TestGetPluginAssetURL(t *testing.T) {
 	})
 
 	t.Run("Invalid asset directory name was provided", func(t *testing.T) {
-		pluginID := "sofa-1234"
+		pluginID := "mattermost-1234"
 		dir := ""
 		want := ""
 		gotURL, err := client.System.GetPluginAssetURL(pluginID, dir)
@@ -159,7 +159,7 @@ func TestGetPluginAssetURL(t *testing.T) {
 	api.On("GetConfig").Return(&model.Config{ServiceSettings: model.ServiceSettings{SiteURL: &siteURL}})
 
 	t.Run("Empty SiteURL was configured", func(t *testing.T) {
-		pluginID := "sofa-1234"
+		pluginID := "mattermost-1234"
 		dir := "assets"
 		want := ""
 		gotURL, err := client.System.GetPluginAssetURL(pluginID, dir)

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -19,15 +19,15 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	oauthgitlab "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oauthproviders/gitlab"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	storemocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/sharedchannel"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	oauthgitlab "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/gitlab"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	storemocks "github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
+	"github.com/mattermost/mattermost/server/v8/einterfaces"
+	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/v8/platform/services/sharedchannel"
 )
 
 // saveTeamState returns a function that restores the team's AllowedDomains field
@@ -310,12 +310,12 @@ func TestCreateUser(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) UserHasBeenCreated(c *plugin.Context, user *model.User) {
@@ -1021,7 +1021,7 @@ func TestCreateUserWithInviteId(t *testing.T) {
 		restoreTeam := saveTeamState(th)
 		defer restoreTeam()
 
-		th.BasicTeam.AllowedDomains = "sofa.com"
+		th.BasicTeam.AllowedDomains = "mattermost.com"
 		_, nErr := th.App.Srv().Store().Team().Update(th.BasicTeam)
 		require.NoError(t, nErr)
 		_, err := th.App.CreateUserWithInviteId(th.Context, &user, th.BasicTeam.InviteId, "")

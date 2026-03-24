@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package testutils
@@ -14,10 +14,10 @@ import (
 	"strconv"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 	"github.com/stretchr/testify/assert"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
 )
 
 // CollectTWithLogf adds Logf to assert.CollectT to make this pattern possible:

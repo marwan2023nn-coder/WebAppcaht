@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package utils
@@ -15,8 +15,8 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
 )
 
 func CheckOrigin(r *http.Request, allowedOrigins string) bool {
@@ -38,7 +38,7 @@ func OriginChecker(allowedOrigins string) func(*http.Request) bool {
 }
 
 // CheckEmbeddedCookie returns true if the MMEMBED cookie is set to 1.
-// MMEMBED is set via any plugin that facilitates Sofa embedded in an iframe (e.g. sofa-plugin-msteams-sync).
+// MMEMBED is set via any plugin that facilitates Mattermost embedded in an iframe (e.g. mattermost-plugin-msteams-sync).
 func CheckEmbeddedCookie(r *http.Request) bool {
 	cookie, err := r.Cookie("MMEMBED")
 	if err != nil {

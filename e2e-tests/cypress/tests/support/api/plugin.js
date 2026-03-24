@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../../fixtures/timeouts';
 
 // *****************************************************************************
 // Plugins
-// https://api.sofa.com/#tag/plugins
+// https://api.mattermost.com/#tag/plugins
 // *****************************************************************************
 
 Cypress.Commands.add('apiGetAllPlugins', () => {
@@ -136,17 +136,17 @@ Cypress.Commands.add('apiDisablePluginById', (pluginId) => {
 
 const prepackagedPlugins = [
     'antivirus',
-    'sofa-autolink',
-    'com.sofa.aws-sns',
-    'com.sofa.plugin-channel-export',
-    'com.sofa.custom-attributes',
+    'mattermost-autolink',
+    'com.mattermost.aws-sns',
+    'com.mattermost.plugin-channel-export',
+    'com.mattermost.custom-attributes',
     'github',
-    'com.github.manland.sofa-plugin-gitlab',
-    'com.sofa.plugin-incident-management',
+    'com.github.manland.mattermost-plugin-gitlab',
+    'com.mattermost.plugin-incident-management',
     'jenkins',
     'jira',
-    'com.sofa.nps',
-    'com.sofa.welcomebot',
+    'com.mattermost.nps',
+    'com.mattermost.welcomebot',
     'zoom',
     'playbooks',
 ];

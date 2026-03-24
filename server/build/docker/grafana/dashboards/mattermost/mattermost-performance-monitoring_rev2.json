@@ -13,7 +13,7 @@
       {
         "datasource": "Prometheus",
         "enable": false,
-        "expr": "sofa_system_server_start_time{instance=~\"$server\"}*1000",
+        "expr": "mattermost_system_server_start_time{instance=~\"$server\"}*1000",
         "hide": false,
         "iconColor": "#C8F2C2",
         "limit": 100,
@@ -29,7 +29,7 @@
       {
         "datasource": "Prometheus",
         "enable": false,
-        "expr": "sofa_jobs_active{instance=~\"$server\"}",
+        "expr": "mattermost_jobs_active{instance=~\"$server\"}",
         "hide": false,
         "iconColor": "#FFF899",
         "limit": 100,
@@ -101,22 +101,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(sofa_post_total{instance=~\"$server\"}[1m])",
+          "expr": "irate(mattermost_post_total{instance=~\"$server\"}[1m])",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_post_total",
+          "metric": "mattermost_post_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(irate(sofa_post_total{instance=~\"$server\"}[1m]))",
+          "expr": "sum(irate(mattermost_post_total{instance=~\"$server\"}[1m]))",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_post_total",
+          "metric": "mattermost_post_total",
           "refId": "B",
           "step": 5
         }
@@ -214,22 +214,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(sofa_http_errors_total{instance=~\"$server\"}[1m])",
+          "expr": "irate(mattermost_http_errors_total{instance=~\"$server\"}[1m])",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_http_errors_total",
+          "metric": "mattermost_http_errors_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(irate(sofa_http_errors_total{instance=~\"$server\"}[1m]))",
+          "expr": "sum(irate(mattermost_http_errors_total{instance=~\"$server\"}[1m]))",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_http_errors_total",
+          "metric": "mattermost_http_errors_total",
           "refId": "B",
           "step": 5
         }
@@ -361,17 +361,17 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sofa_http_websockets_total{instance=~\"$server\"}",
+          "expr": "mattermost_http_websockets_total{instance=~\"$server\"}",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_http_websockets_total",
+          "metric": "mattermost_http_websockets_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(sofa_http_websockets_total{instance=~\"$server\"})",
+          "expr": "sum(mattermost_http_websockets_total{instance=~\"$server\"})",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
@@ -481,22 +481,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sofa_db_master_connections_total{instance=~\"$server\"}",
+          "expr": "mattermost_db_master_connections_total{instance=~\"$server\"}",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_db_master_connections_total",
+          "metric": "mattermost_db_master_connections_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(sofa_db_master_connections_total{instance=~\"$server\"})",
+          "expr": "sum(mattermost_db_master_connections_total{instance=~\"$server\"})",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_db_master_connections_total",
+          "metric": "mattermost_db_master_connections_total",
           "refId": "B",
           "step": 5
         }
@@ -594,22 +594,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sofa_db_read_replica_connections_total{instance=~\"$server\"}",
+          "expr": "mattermost_db_read_replica_connections_total{instance=~\"$server\"}",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_db_read_replica_connections_total",
+          "metric": "mattermost_db_read_replica_connections_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(sofa_db_read_replica_connections_total{instance=~\"$server\"})",
+          "expr": "sum(mattermost_db_read_replica_connections_total{instance=~\"$server\"})",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_db_read_replica_connections_total",
+          "metric": "mattermost_db_read_replica_connections_total",
           "refId": "B",
           "step": 5
         }
@@ -707,22 +707,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sofa_db_search_replica_connections_total{instance=~\"$server\"}",
+          "expr": "mattermost_db_search_replica_connections_total{instance=~\"$server\"}",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_db_search_replica_connections_total",
+          "metric": "mattermost_db_search_replica_connections_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(sofa_db_search_replica_connections_total{instance=~\"$server\"})",
+          "expr": "sum(mattermost_db_search_replica_connections_total{instance=~\"$server\"})",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_db_search_replica_connections_total",
+          "metric": "mattermost_db_search_replica_connections_total",
           "refId": "B",
           "step": 5
         }
@@ -820,22 +820,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(irate(sofa_post_webhooks_total[1m]))",
+          "expr": "sum(irate(mattermost_post_webhooks_total[1m]))",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Webhooks",
-          "metric": "sofa_post_webhooks_total",
+          "metric": "mattermost_post_webhooks_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(irate(sofa_post_total[1m])*10)-sum(irate(sofa_post_webhooks_total[1m]))",
+          "expr": "sum(irate(mattermost_post_total[1m])*10)-sum(irate(mattermost_post_webhooks_total[1m]))",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Users",
-          "metric": "sofa_post_total",
+          "metric": "mattermost_post_total",
           "refId": "B",
           "step": 5
         }
@@ -933,22 +933,22 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(sofa_post_broadcasts_total{instance=~\"$server\"}[1m])",
+          "expr": "irate(mattermost_post_broadcasts_total{instance=~\"$server\"}[1m])",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_post_broadcasts_total",
+          "metric": "mattermost_post_broadcasts_total",
           "refId": "A",
           "step": 5
         },
         {
-          "expr": "sum(irate(sofa_post_broadcasts_total{instance=~\"$server\"}[1m]))",
+          "expr": "sum(irate(mattermost_post_broadcasts_total{instance=~\"$server\"}[1m]))",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "Total",
-          "metric": "sofa_post_broadcasts_total",
+          "metric": "mattermost_post_broadcasts_total",
           "refId": "B",
           "step": 5
         }
@@ -1046,7 +1046,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "irate(sofa_process_cpu_seconds_total{instance=~\"$server\"}[1m])* 100",
+          "expr": "irate(mattermost_process_cpu_seconds_total{instance=~\"$server\"}[1m])* 100",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
@@ -1148,12 +1148,12 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "1000.0 * rate(sofa_http_request_duration_seconds_sum{instance=~\"$server\"}[1m]) /   rate(sofa_http_request_duration_seconds_count{instance=~\"$server\"}[1m])",
+          "expr": "1000.0 * rate(mattermost_http_request_duration_seconds_sum{instance=~\"$server\"}[1m]) /   rate(mattermost_http_request_duration_seconds_count{instance=~\"$server\"}[1m])",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
           "legendFormat": "{{instance}}",
-          "metric": "sofa_http_request_duration_seconds_sum",
+          "metric": "mattermost_http_request_duration_seconds_sum",
           "refId": "A",
           "step": 5
         }
@@ -1251,7 +1251,7 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "1000.0 * rate(sofa_cluster_cluster_request_duration_seconds_sum{instance=~\"$server\"}[1m]) /  rate(sofa_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[1m])",
+          "expr": "1000.0 * rate(mattermost_cluster_cluster_request_duration_seconds_sum{instance=~\"$server\"}[1m]) /  rate(mattermost_cluster_cluster_request_duration_seconds_count{instance=~\"$server\"}[1m])",
           "format": "time_series",
           "interval": "5s",
           "intervalFactor": 1,
@@ -1581,7 +1581,7 @@
       "steppedLine": true,
       "targets": [
         {
-          "expr": "sofa_jobs_active{instance=~\"$server\"}",
+          "expr": "mattermost_jobs_active{instance=~\"$server\"}",
           "instant": false,
           "interval": "",
           "legendFormat": "",
@@ -1634,8 +1634,8 @@
   "schemaVersion": 26,
   "style": "dark",
   "tags": [
-    "sofa",
-    "sofa-perf"
+    "mattermost",
+    "mattermost-perf"
   ],
   "templating": {
     "list": [
@@ -1698,7 +1698,7 @@
     ]
   },
   "timezone": "browser",
-  "title": "Sofa Performance Monitoring",
+  "title": "Mattermost Performance Monitoring",
   "uid": "000000011",
   "version": 1
 }

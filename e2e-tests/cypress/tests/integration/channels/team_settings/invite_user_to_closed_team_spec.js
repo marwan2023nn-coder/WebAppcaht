@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -26,8 +26,8 @@ describe('Team Settings', () => {
         });
     });
 
-    it('MM-T388 - Invite new user to closed team with "Allow only users with a specific email domain to join this team" set to "sample.sofa.com" AND include a non-sample.sofa.com email address in the invites', () => {
-        const emailDomain = 'sample.sofa.com';
+    it('MM-T388 - Invite new user to closed team with "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com" AND include a non-sample.mattermost.com email address in the invites', () => {
+        const emailDomain = 'sample.mattermost.com';
         const invalidEmail = `user.${getRandomId()}@invalid.com`;
         const userDetailsString = `@${newUser.username} - ${newUser.first_name} ${newUser.last_name} (${newUser.nickname})`;
         const inviteSuccessMessage = 'This member has been added to the team.';
@@ -46,7 +46,7 @@ describe('Team Settings', () => {
                 cy.get('.mm-modal-generic-section-item__input-checkbox').should('not.be.checked').click();
             });
 
-            // # Set 'sample.sofa.com' as the only allowed email domain and save
+            // # Set 'sample.mattermost.com' as the only allowed email domain and save
             cy.get('#allowedDomains').click().type(emailDomain).type(' ');
             cy.findByText('Save').should('be.visible').click();
         });
@@ -72,7 +72,7 @@ describe('Team Settings', () => {
         // # Click on the 'Invite More People button'
         cy.findByTestId('invite-more').click();
 
-        // # Invite a user with an invalid email domain (not sample.sofa.com)
+        // # Invite a user with an invalid email domain (not sample.mattermost.com)
         inviteNewMemberToTeam(invalidEmail);
 
         // * Assert that the invite failed and the correct error message is shown

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -111,7 +111,7 @@ describe('Integrations', () => {
                 cy.findByText('(Only visible to you)').should('exist');
 
                 // * Check if we got ephemeral message of our selection
-                cy.contains('Sofa is an open source platform for secure communication').should('exist');
+                cy.contains('Mattermost is an open source platform for secure communication').should('exist');
             });
         });
     });

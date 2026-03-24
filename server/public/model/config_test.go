@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -657,7 +657,7 @@ func TestMessageExportSettingsIsValidGlobalRelaySettingsInvalidCustomerType(t *t
 		BatchSize:           NewPointer(100),
 		GlobalRelaySettings: &GlobalRelayMessageExportSettings{
 			CustomerType: NewPointer("Invalid"),
-			EmailAddress: NewPointer("valid@sofa.com"),
+			EmailAddress: NewPointer("valid@mattermost.com"),
 			SMTPUsername: NewPointer("SomeUsername"),
 			SMTPPassword: NewPointer("SomePassword"),
 		},
@@ -688,7 +688,7 @@ func TestMessageExportSettingsGlobalRelaySettings(t *testing.T) {
 			"Missing smtp username",
 			&GlobalRelayMessageExportSettings{
 				CustomerType: NewPointer(GlobalrelayCustomerTypeA10),
-				EmailAddress: NewPointer("valid@sofa.com"),
+				EmailAddress: NewPointer("valid@mattermost.com"),
 				SMTPPassword: NewPointer("SomePassword"),
 			},
 			false,
@@ -697,7 +697,7 @@ func TestMessageExportSettingsGlobalRelaySettings(t *testing.T) {
 			"Invalid smtp username",
 			&GlobalRelayMessageExportSettings{
 				CustomerType: NewPointer(GlobalrelayCustomerTypeA10),
-				EmailAddress: NewPointer("valid@sofa.com"),
+				EmailAddress: NewPointer("valid@mattermost.com"),
 				SMTPUsername: NewPointer(""),
 				SMTPPassword: NewPointer("SomePassword"),
 			},
@@ -707,7 +707,7 @@ func TestMessageExportSettingsGlobalRelaySettings(t *testing.T) {
 			"Invalid smtp password",
 			&GlobalRelayMessageExportSettings{
 				CustomerType: NewPointer(GlobalrelayCustomerTypeA10),
-				EmailAddress: NewPointer("valid@sofa.com"),
+				EmailAddress: NewPointer("valid@mattermost.com"),
 				SMTPUsername: NewPointer("SomeUsername"),
 				SMTPPassword: NewPointer(""),
 			},
@@ -717,7 +717,7 @@ func TestMessageExportSettingsGlobalRelaySettings(t *testing.T) {
 			"Valid data",
 			&GlobalRelayMessageExportSettings{
 				CustomerType: NewPointer(GlobalrelayCustomerTypeA9),
-				EmailAddress: NewPointer("valid@sofa.com"),
+				EmailAddress: NewPointer("valid@mattermost.com"),
 				SMTPUsername: NewPointer("SomeUsername"),
 				SMTPPassword: NewPointer("SomePassword"),
 			},
@@ -1621,10 +1621,10 @@ func TestConfigSanitize(t *testing.T) {
 	t.Run("partially sanitize DataSource", func(t *testing.T) {
 		c := Config{}
 		c.SetDefaults()
-		*c.SqlSettings.DataSource = "postgres://mmuser:mostest@localhost:5432/sofa_test?sslmode=disable"
+		*c.SqlSettings.DataSource = "postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable"
 		c.Sanitize(nil, &SanitizeOptions{PartiallyRedactDataSources: true})
 
-		expectedURL := "postgres://" + SanitizedPassword + ":" + SanitizedPassword + "@localhost:5432/sofa_test?sslmode=disable"
+		expectedURL := "postgres://" + SanitizedPassword + ":" + SanitizedPassword + "@localhost:5432/mattermost_test?sslmode=disable"
 		assert.Equal(t, expectedURL, *c.SqlSettings.DataSource)
 	})
 }
@@ -2007,7 +2007,7 @@ func TestConfigServiceSettingsIsValid(t *testing.T) {
 
 		// now we can check if the file exist or not
 		*cfg.ServiceSettings.EnableLocalMode = true
-		*cfg.ServiceSettings.LocalModeSocketLocation = "/invalid_directory/sofa_local.socket"
+		*cfg.ServiceSettings.LocalModeSocketLocation = "/invalid_directory/mattermost_local.socket"
 		appErr = cfg.ServiceSettings.isValid()
 		require.NotNil(t, appErr)
 		require.Equal(t, "model.config.is_valid.local_mode_socket.app_error", appErr.Id)
@@ -2493,7 +2493,7 @@ func TestFilterConfig(t *testing.T) {
 		cfg := &Config{}
 		cfg.SetDefaults()
 
-		dsn := "somedb://user:password@localhost:5432/sofa"
+		dsn := "somedb://user:password@localhost:5432/mattermost"
 		cfg.SqlSettings.DataSource = NewPointer(dsn)
 
 		m, err := FilterConfig(cfg, ConfigFilterOptions{
@@ -2568,7 +2568,7 @@ func TestFilterConfig(t *testing.T) {
 		cfg := &Config{}
 		cfg.SetDefaults()
 		cfg.PluginSettings.Plugins = map[string]map[string]any{
-			"com.sofa.plugin-a": {
+			"com.mattermost.plugin-a": {
 				"setting": 1.0,
 			},
 		}
@@ -2579,7 +2579,7 @@ func TestFilterConfig(t *testing.T) {
 			},
 		})
 		require.NoError(t, err)
-		require.Equal(t, 1.0, m["PluginSettings"].(map[string]any)["Plugins"].(map[string]any)["com.sofa.plugin-a"].(map[string]any)["setting"])
+		require.Equal(t, 1.0, m["PluginSettings"].(map[string]any)["Plugins"].(map[string]any)["com.mattermost.plugin-a"].(map[string]any)["setting"])
 	})
 
 	t.Run("should be able to filter specific tag", func(t *testing.T) {
@@ -2668,31 +2668,6 @@ func TestAutoTranslationSettingsIsValid(t *testing.T) {
 			name: "disabled settings should be valid",
 			settings: AutoTranslationSettings{
 				Enable: NewPointer(false),
-			},
-			expectError: false,
-		},
-		{
-			name: "workers more than 64 should fail",
-			settings: AutoTranslationSettings{
-				Enable:   NewPointer(true),
-				Provider: NewPointer("libretranslate"),
-				LibreTranslate: &LibreTranslateProviderSettings{
-					URL: NewPointer("https://lt.example.com"),
-				},
-				Workers: NewPointer(65),
-			},
-			expectError: true,
-			errorId:     "model.config.is_valid.autotranslation.workers.app_error",
-		},
-		{
-			name: "workers 64 should pass",
-			settings: AutoTranslationSettings{
-				Enable:   NewPointer(true),
-				Provider: NewPointer("libretranslate"),
-				LibreTranslate: &LibreTranslateProviderSettings{
-					URL: NewPointer("https://lt.example.com"),
-				},
-				Workers: NewPointer(64),
 			},
 			expectError: false,
 		},

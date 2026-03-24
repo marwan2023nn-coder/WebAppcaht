@@ -14,7 +14,7 @@ ifeq ($(shell uname)/$(shell uname -m),Darwin/arm64)
 endif
 
 define LICENSE_HEADER
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 endef
@@ -28,7 +28,7 @@ BUILD_TAGS =
 
 
 # Docker
-export COMPOSE_PROJECT_NAME=sofa-server
+export COMPOSE_PROJECT_NAME=mattermost-server
 
 # If we don't set the build number it defaults to dev
 ifeq ($(BUILD_NUMBER),)
@@ -50,7 +50,7 @@ endif
 # mmctl
 MMCTL_BUILD_TAGS =
 MMCTL_TESTFLAGS ?= -timeout 30m
-MMCTL_PKG = github.com/sofa/sofa/server/v8/cmd/mmctl/commands
+MMCTL_PKG = github.com/mattermost/mattermost/server/v8/cmd/mmctl/commands
 MMCTL_BUILD_DATE = $(shell date -u +'%Y-%m-%dT%H:%M:%SZ')
 MMCTL_LDFLAGS += -X "$(MMCTL_PKG).buildDate=$(MMCTL_BUILD_DATE)"
 
@@ -61,7 +61,7 @@ BUILD_ENTERPRISE_READY = false
 BUILD_TYPE_NAME = team
 BUILD_HASH_ENTERPRISE = none
 ifneq ($(wildcard $(BUILD_ENTERPRISE_DIR)/.),)
-	MMCTL_TESTFLAGS += -ldflags '-X "$(MMCTL_PKG).EnableEnterpriseTests=true" -X "github.com/sofa/sofa/server/public/model.BuildEnterpriseReady=true"'
+	MMCTL_TESTFLAGS += -ldflags '-X "$(MMCTL_PKG).EnableEnterpriseTests=true" -X "github.com/mattermost/mattermost/server/public/model.BuildEnterpriseReady=true"'
 	MMCTL_BUILD_TAGS += enterprise
 
   ifeq ($(BUILD_ENTERPRISE),true)
@@ -117,11 +117,11 @@ ifeq ($(FIPS_ENABLED),true)
 endif
 
 DELVE ?= dlv
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.BuildNumber=$(BUILD_NUMBER)"
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.BuildDate=$(BUILD_DATE)"
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.BuildHash=$(BUILD_HASH)"
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)"
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.BuildNumber=$(BUILD_NUMBER)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.BuildDate=$(BUILD_DATE)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.BuildHash=$(BUILD_HASH)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)"
 
 GO_MAJOR_VERSION = $(shell $(GO) version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f1)
 GO_MINOR_VERSION = $(shell $(GO) version | cut -c 14- | cut -d' ' -f1 | cut -d'.' -f2)
@@ -133,18 +133,18 @@ GO_COMPATIBILITY_TEST_VERSIONS := 1.22.7 1.23.6
 # GOOS/GOARCH of the build host, used to determine whether we're cross-compiling or not
 BUILDER_GOOS_GOARCH="$(shell $(GO) env GOOS)_$(shell $(GO) env GOARCH)"
 
-PLATFORM_FILES="./cmd/sofa"
+PLATFORM_FILES="./cmd/mattermost"
 
 # Output paths
 DIST_ROOT=dist
-DIST_PATH=$(DIST_ROOT)/sofa
-DIST_PATH_LIN_AMD64=$(DIST_ROOT)/linux_amd64/sofa
-DIST_PATH_LIN_ARM64=$(DIST_ROOT)/linux_arm64/sofa
-DIST_PATH_OSX_AMD64=$(DIST_ROOT)/darwin_amd64/sofa
-DIST_PATH_OSX_ARM64=$(DIST_ROOT)/darwin_arm64/sofa
-DIST_PATH_FREEBSD_AMD64=$(DIST_ROOT)/freebsd_amd64/sofa
-DIST_PATH_FREEBSD_ARM64=$(DIST_ROOT)/freebsd_arm64/sofa
-DIST_PATH_WIN=$(DIST_ROOT)/windows/sofa
+DIST_PATH=$(DIST_ROOT)/mattermost
+DIST_PATH_LIN_AMD64=$(DIST_ROOT)/linux_amd64/mattermost
+DIST_PATH_LIN_ARM64=$(DIST_ROOT)/linux_arm64/mattermost
+DIST_PATH_OSX_AMD64=$(DIST_ROOT)/darwin_amd64/mattermost
+DIST_PATH_OSX_ARM64=$(DIST_ROOT)/darwin_arm64/mattermost
+DIST_PATH_FREEBSD_AMD64=$(DIST_ROOT)/freebsd_amd64/mattermost
+DIST_PATH_FREEBSD_ARM64=$(DIST_ROOT)/freebsd_arm64/mattermost
+DIST_PATH_WIN=$(DIST_ROOT)/windows/mattermost
 
 # Packages lists
 TE_PACKAGES=$(shell $(GO) list ./public/...) $(shell $(GO) list ./... | grep -vE 'server/v8/cmd/mmctl')
@@ -154,29 +154,29 @@ TEMPLATES_DIR=templates
 
 # Plugins Packages
 PLUGIN_PACKAGES ?= $(PLUGIN_PACKAGES:)
-PLUGIN_PACKAGES += sofa-plugin-calls-v1.11.0
-PLUGIN_PACKAGES += sofa-plugin-github-v2.5.0
-PLUGIN_PACKAGES += sofa-plugin-gitlab-v1.12.0
-PLUGIN_PACKAGES += sofa-plugin-jira-v4.5.1
-PLUGIN_PACKAGES += sofa-plugin-playbooks-v2.7.0
-PLUGIN_PACKAGES += sofa-plugin-servicenow-v2.4.0
-PLUGIN_PACKAGES += sofa-plugin-zoom-v1.12.0
-PLUGIN_PACKAGES += sofa-plugin-agents-v1.7.2
-PLUGIN_PACKAGES += sofa-plugin-boards-v9.2.2
-PLUGIN_PACKAGES += sofa-plugin-user-survey-v1.1.1
-PLUGIN_PACKAGES += sofa-plugin-mscalendar-v1.5.0
-PLUGIN_PACKAGES += sofa-plugin-msteams-meetings-v2.4.0
-PLUGIN_PACKAGES += sofa-plugin-metrics-v0.7.0
-PLUGIN_PACKAGES += sofa-plugin-channel-export-v1.3.0
+PLUGIN_PACKAGES += mattermost-plugin-calls-v1.11.0
+PLUGIN_PACKAGES += mattermost-plugin-github-v2.5.0
+PLUGIN_PACKAGES += mattermost-plugin-gitlab-v1.12.0
+PLUGIN_PACKAGES += mattermost-plugin-jira-v4.5.1
+PLUGIN_PACKAGES += mattermost-plugin-playbooks-v2.7.0
+PLUGIN_PACKAGES += mattermost-plugin-servicenow-v2.4.0
+PLUGIN_PACKAGES += mattermost-plugin-zoom-v1.12.0
+PLUGIN_PACKAGES += mattermost-plugin-agents-v1.7.2
+PLUGIN_PACKAGES += mattermost-plugin-boards-v9.2.2
+PLUGIN_PACKAGES += mattermost-plugin-user-survey-v1.1.1
+PLUGIN_PACKAGES += mattermost-plugin-mscalendar-v1.5.0
+PLUGIN_PACKAGES += mattermost-plugin-msteams-meetings-v2.4.0
+PLUGIN_PACKAGES += mattermost-plugin-metrics-v0.7.0
+PLUGIN_PACKAGES += mattermost-plugin-channel-export-v1.3.0
 
 # Overwrite the definition of PLUGIN_PACKAGES with the list of FIPS-ready plugins
 # Note that the '+' in the file name is encoded as %2B for the URL we use to
 # download the package from to work. This will no longer be needed when we unify
 # the way we pre-package FIPS and non-FIPS plugins.
 ifeq ($(FIPS_ENABLED),true)
-	PLUGIN_PACKAGES  = sofa-plugin-playbooks-v2.6.2%2Bb8f2bd9-fips
-	PLUGIN_PACKAGES += sofa-plugin-agents-v1.7.2%2B866e2dd-fips
-	PLUGIN_PACKAGES += sofa-plugin-boards-v9.2.2%2B4282c63-fips
+	PLUGIN_PACKAGES  = mattermost-plugin-playbooks-v2.6.2%2Bb8f2bd9-fips
+	PLUGIN_PACKAGES += mattermost-plugin-agents-v1.7.2%2B866e2dd-fips
+	PLUGIN_PACKAGES += mattermost-plugin-boards-v9.2.2%2B4282c63-fips
 endif
 
 EE_PACKAGES=$(shell $(GO) list $(BUILD_ENTERPRISE_DIR)/...)
@@ -204,8 +204,8 @@ include config.mk
 include build/*.mk
 include public/Makefile
 
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.MockCWS=$(MM_ENABLE_CWS_MOCK)"
-LDFLAGS += -X "github.com/sofa/sofa/server/public/model.SofaGiphySdkKey=$(MM_GIPHY_SDK_KEY)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.MockCWS=$(MM_ENABLE_CWS_MOCK)"
+LDFLAGS += -X "github.com/mattermost/mattermost/server/public/model.MattermostGiphySdkKey=$(MM_GIPHY_SDK_KEY)"
 
 RUN_IN_BACKGROUND ?=
 ifeq ($(RUN_SERVER_IN_BACKGROUND),true)
@@ -268,7 +268,7 @@ update-docker: stop-docker ## Updates the docker containers for local developmen
 
 run-haserver:
 ifeq ($(BUILD_ENTERPRISE_READY),true)
-	@echo Starting sofa in an HA topology '(3 node cluster)'
+	@echo Starting mattermost in an HA topology '(3 node cluster)'
 
 	docker compose -f docker-compose.yaml $(DOCKER_COMPOSE_OVERRIDE) up --remove-orphans haproxy
 endif
@@ -295,7 +295,7 @@ else
 	docker compose down -v
 	docker compose rm -v
 
-	docker volume rm sofa-server_postgres-14-data || true
+	docker volume rm mattermost-server_postgres-14-data || true
 endif
 
 plugin-checker:
@@ -305,8 +305,8 @@ prepackaged-plugins: ## Populate the prepackaged-plugins directory.
 	@echo Downloading prepackaged plugins: $(PLUGIN_PACKAGES)
 	mkdir -p prepackaged_plugins
 	@cd prepackaged_plugins && for plugin_package in $(PLUGIN_PACKAGES) ; do \
-		curl -f -O -L https://plugins.releases.sofa.com/release/$$plugin_package.tar.gz; \
-		curl -f -O -L https://plugins.releases.sofa.com/release/$$plugin_package.tar.gz.sig; \
+		curl -f -O -L https://plugins.releases.mattermost.com/release/$$plugin_package.tar.gz; \
+		curl -f -O -L https://plugins.releases.mattermost.com/release/$$plugin_package.tar.gz.sig; \
 	done
 
 prepackaged-binaries: ## Populate the prepackaged-binaries to the bin directory
@@ -353,7 +353,7 @@ store-layers: ## Generate layers for the store
 	$(GO) generate $(GOFLAGS) ./channels/store
 
 new-migration: ## Creates a new migration. Run with make new-migration name=<>
-	$(GO) install github.com/sofa/morph/cmd/morph@1e0640c
+	$(GO) install github.com/mattermost/morph/cmd/morph@1e0640c
 	@echo "Generating new migration for postgres"
 	$(GOBIN)/morph new script $(name) --driver postgres --dir channels/db/migrations --sequence
 
@@ -395,7 +395,7 @@ platform-mocks: ## Creates mocks for platform interfaces.
 
 mmctl-mocks: ## Creates mocks for mmctl
 	$(GO) install github.com/golang/mock/mockgen@v1.6.0
-	$(GOBIN)/mockgen -destination=cmd/mmctl/mocks/client_mock.go -copyright_file=cmd/mmctl/mocks/copyright.txt -package=mocks github.com/sofa/sofa/server/v8/cmd/mmctl/client Client
+	$(GOBIN)/mockgen -destination=cmd/mmctl/mocks/client_mock.go -copyright_file=cmd/mmctl/mocks/copyright.txt -package=mocks github.com/mattermost/mattermost/server/v8/cmd/mmctl/client Client
 
 pluginapi: ## Generates api and hooks glue code for plugins
 	cd ./public && $(GO) generate $(GOFLAGS) ./plugin
@@ -530,7 +530,7 @@ inject-test-data: # add test data to the local instance.
 	bin/mmctl config set TeamSettings.MaxUsersPerTeam 100 --local
 	bin/mmctl sampledata -u 60 --local
 
-	@echo You may need to restart the Sofa server before using the following
+	@echo You may need to restart the Mattermost server before using the following
 	@echo ========================================================================
 	@echo Login with a system admin account username=sysadmin password=Sys@dmin-sample1
 	@echo Login with a regular account username=user-1 password=SampleUs@r-1
@@ -565,7 +565,7 @@ test-mmctl-coverage: check-prereqs-enterprise gotestsum start-docker
 	$(GOBIN)/gotestsum --packages="$(MMCTL_PACKAGES)" -- -tags 'unit e2e $(MMCTL_BUILD_TAGS)' -coverprofile=mmctlcover.out $(MMCTL_TESTFLAGS)
 	$(GO) tool cover -html=mmctlcover.out
 
-validate-go-version: ## Validates the installed version of go against Sofa's minimum requirement.
+validate-go-version: ## Validates the installed version of go against Mattermost's minimum requirement.
 	@if [ $(GO_MAJOR_VERSION) -gt $(MINIMUM_SUPPORTED_GO_MAJOR_VERSION) ]; then \
 		exit 0 ;\
 	elif [ $(GO_MAJOR_VERSION) -lt $(MINIMUM_SUPPORTED_GO_MAJOR_VERSION) ]; then \
@@ -580,7 +580,7 @@ build-templates: ## Compile all mjml email templates
 	cd $(TEMPLATES_DIR) && $(MAKE) build
 
 run-server: setup-go-work prepackaged-binaries validate-go-version start-docker client ## Starts the server.
-	@echo Running sofa for development
+	@echo Running mattermost for development
 ifeq ($(MM_USE_PGVECTOR),true)
 	@echo With pgvector PostgreSQL support enabled
 endif
@@ -594,43 +594,43 @@ run-server-pgvector: ## Starts the server with pgvector PostgreSQL image.
 debug-server: start-docker ## Compile and start server using delve.
 	mkdir -p $(BUILD_WEBAPP_DIR)/channels/dist/files
 	$(DELVE) debug $(PLATFORM_FILES) --build-flags="-ldflags '\
-		-X github.com/sofa/sofa/server/public/model.BuildNumber=$(BUILD_NUMBER)\
-		-X \"github.com/sofa/sofa/server/public/model.BuildDate=$(BUILD_DATE)\"\
-		-X github.com/sofa/sofa/server/public/model.BuildHash=$(BUILD_HASH)\
-		-X github.com/sofa/sofa/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)\
-		-X github.com/sofa/sofa/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)'\
+		-X github.com/mattermost/mattermost/server/public/model.BuildNumber=$(BUILD_NUMBER)\
+		-X \"github.com/mattermost/mattermost/server/public/model.BuildDate=$(BUILD_DATE)\"\
+		-X github.com/mattermost/mattermost/server/public/model.BuildHash=$(BUILD_HASH)\
+		-X github.com/mattermost/mattermost/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)\
+		-X github.com/mattermost/mattermost/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)'\
 		-tags '$(BUILD_TAGS)'"
 
 debug-server-headless: start-docker ## Debug server from within an IDE like VSCode or IntelliJ.
 	mkdir -p $(BUILD_WEBAPP_DIR)/channels/dist/files
 	$(DELVE) debug --headless --listen=:2345 --api-version=2 --accept-multiclient $(PLATFORM_FILES) --build-flags="-ldflags '\
-		-X github.com/sofa/sofa/server/public/model.BuildNumber=$(BUILD_NUMBER)\
-		-X \"github.com/sofa/sofa/server/public/model.BuildDate=$(BUILD_DATE)\"\
-		-X github.com/sofa/sofa/server/public/model.BuildHash=$(BUILD_HASH)\
-		-X github.com/sofa/sofa/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)\
-		-X github.com/sofa/sofa/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)'\
+		-X github.com/mattermost/mattermost/server/public/model.BuildNumber=$(BUILD_NUMBER)\
+		-X \"github.com/mattermost/mattermost/server/public/model.BuildDate=$(BUILD_DATE)\"\
+		-X github.com/mattermost/mattermost/server/public/model.BuildHash=$(BUILD_HASH)\
+		-X github.com/mattermost/mattermost/server/public/model.BuildHashEnterprise=$(BUILD_HASH_ENTERPRISE)\
+		-X github.com/mattermost/mattermost/server/public/model.BuildEnterpriseReady=$(BUILD_ENTERPRISE_READY)'\
 		-tags '$(BUILD_TAGS)'"
 
 # run-node: export MM_SERVICESETTINGS_SITEURL=http://localhost:8066
 # run-node: export MM_SERVICESETTINGS_LISTENADDRESS=:8066
 # run-node: export MM_SERVICESETTINGS_ENABLELOCALMODE=true
-# run-node: export MM_SERVICESETTINGS_LOCALMODESOCKETLOCATION=/var/tmp/sofa_local_node.socket
+# run-node: export MM_SERVICESETTINGS_LOCALMODESOCKETLOCATION=/var/tmp/mattermost_local_node.socket
 # run-node: export MM_SQLSETTINGS_DRIVERNAME=postgres
-# run-node: export MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@localhost/sofa_node_test?sslmode=disable&sslmode=disable&connect_timeout=10&binary_parameters=yes
+# run-node: export MM_SQLSETTINGS_DATASOURCE=postgres://mmuser:mostest@localhost/mattermost_node_test?sslmode=disable&sslmode=disable&connect_timeout=10&binary_parameters=yes
 
 run-node: start-docker ## Runs a shared channel node.
-	@echo Running sofa node
+	@echo Running mattermost node
 
 	$(GO) run $(GOFLAGS) -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' $(PLATFORM_FILES) $(RUN_IN_BACKGROUND)
 
 run-cli: start-docker ## Runs CLI.
-	@echo Running sofa for development
+	@echo Running mattermost for development
 	@echo Example should be like 'make ARGS="-version" run-cli'
 
 	$(GO) run $(GOFLAGS) -ldflags '$(LDFLAGS)' -tags '$(BUILD_TAGS)' $(PLATFORM_FILES) ${ARGS}
 
 run-client: client ## Runs the webapp.
-	@echo Running sofa client for development
+	@echo Running mattermost client for development
 
 	cd $(BUILD_WEBAPP_DIR) && $(MAKE) run
 
@@ -639,7 +639,7 @@ client: ## Sets up a symlink to the compiled files generated by the web app
 	ln -nfs $(BUILD_WEBAPP_DIR)/channels/dist client
 
 run-client-fullmap: client ## Legacy alias to run-client
-	@echo Running sofa client for development
+	@echo Running mattermost client for development
 
 	cd $(BUILD_WEBAPP_DIR) && $(MAKE) run
 
@@ -651,24 +651,24 @@ run-pgvector: ## Runs the server and webapp with pgvector PostgreSQL image.
 run-fullmap: run-server run-client ## Legacy alias to run
 
 stop-server: ## Stops the server.
-	@echo Stopping sofa
+	@echo Stopping mattermost
 
 ifeq ($(BUILDER_GOOS_GOARCH),"windows_amd64")
 	wmic process where "Caption='go.exe' and CommandLine like '%go.exe run%'" call terminate
-	wmic process where "Caption='sofa.exe' and CommandLine like '%go-build%'" call terminate
+	wmic process where "Caption='mattermost.exe' and CommandLine like '%go-build%'" call terminate
 else
-	@for PID in $$(ps -ef | grep "[g]o run" | grep "sofa" | awk '{ print $$2 }'); do \
+	@for PID in $$(ps -ef | grep "[g]o run" | grep "mattermost" | awk '{ print $$2 }'); do \
 		echo stopping go $$PID; \
 		kill $$PID; \
 	done
-	@for PID in $$(ps -ef | grep "[g]o-build" | grep "sofa" | awk '{ print $$2 }'); do \
-		echo stopping sofa $$PID; \
+	@for PID in $$(ps -ef | grep "[g]o-build" | grep "mattermost" | awk '{ print $$2 }'); do \
+		echo stopping mattermost $$PID; \
 		kill $$PID; \
 	done
 endif
 
 stop-client: ## Stops the webapp.
-	@echo Stopping sofa client
+	@echo Stopping mattermost client
 
 	cd $(BUILD_WEBAPP_DIR) && $(MAKE) stop
 
@@ -676,13 +676,13 @@ stop: stop-server stop-client stop-docker ## Stops server, client and the docker
 
 restart: restart-server restart-client ## Restarts the server and webapp.
 
-restart-server: | stop-server run-server ## Restarts the sofa server to pick up development change.
+restart-server: | stop-server run-server ## Restarts the mattermost server to pick up development change.
 
 restart-server-pgvector: ## Restarts the server with pgvector PostgreSQL image.
 	@MM_USE_PGVECTOR=true $(MAKE) restart-server
 
 restart-haserver:
-	@echo Restarting sofa in an HA topology
+	@echo Restarting mattermost in an HA topology
 
 	docker compose restart follower2
 	docker compose restart follower
@@ -737,7 +737,7 @@ config-reset: ## Resets the config/config.json file to the default production va
 	rm -f config/config.json
 	OUTPUT_CONFIG=$(PWD)/config/config.json $(GO) run $(GOFLAGS) -tags production ./scripts/config_generator
 
-diff-config: ## Compares default configuration between two sofa versions
+diff-config: ## Compares default configuration between two mattermost versions
 	@./scripts/diff-config.sh
 
 clean: stop-docker ## Clean up everything except persistent server data.
@@ -751,8 +751,8 @@ clean: stop-docker ## Clean up everything except persistent server data.
 	find . -type d -name data | xargs rm -rf
 	rm -rf logs
 
-	rm -f sofa.log
-	rm -f sofa.log.jsonl
+	rm -f mattermost.log
+	rm -f mattermost.log.jsonl
 	rm -f npm-debug.log
 	rm -f .prepare-go
 	rm -f cover.out
@@ -760,7 +760,7 @@ clean: stop-docker ## Clean up everything except persistent server data.
 	rm -f *.out
 	rm -f *.test
 	rm -f channels/imports/imports.go
-	rm -f cmd/sofa/cprofile*.out
+	rm -f cmd/mattermost/cprofile*.out
 
 nuke: clean clean-docker ## Clean plus removes persistent server data.
 	@echo BOOM
@@ -789,9 +789,9 @@ ifeq ($(BUILD_ENTERPRISE_READY),true)
 	mv enterprise/external_imports.go.orig enterprise/external_imports.go
 endif
 
-vet: ## Run sofa go vet specific checks
-	$(GO) install github.com/sofa/sofa-govet/v2@7d8db289e508999dfcac47b97c9490a0fec12d66
-	$(GO) vet -vettool=$(GOBIN)/sofa-govet \
+vet: ## Run mattermost go vet specific checks
+	$(GO) install github.com/mattermost/mattermost-govet/v2@7d8db289e508999dfcac47b97c9490a0fec12d66
+	$(GO) vet -vettool=$(GOBIN)/mattermost-govet \
 		-structuredLogging \
 		-inconsistentReceiverName \
 		-emptyStrCmp \
@@ -805,15 +805,15 @@ vet: ## Run sofa go vet specific checks
 		./...
 ifeq ($(BUILD_ENTERPRISE_READY),true)
   ifneq ($(MM_NO_ENTERPRISE_LINT),true)
-	$(GO) vet -vettool=$(GOBIN)/sofa-govet -structuredLogging -inconsistentReceiverName -emptyStrCmp -tFatal -configtelemetry -errorAssertions -requestCtxNaming -enterpriseLicense $(BUILD_ENTERPRISE_DIR)/...
+	$(GO) vet -vettool=$(GOBIN)/mattermost-govet -structuredLogging -inconsistentReceiverName -emptyStrCmp -tFatal -configtelemetry -errorAssertions -requestCtxNaming -enterpriseLicense $(BUILD_ENTERPRISE_DIR)/...
   endif
 endif
 
 vet-api: export GO := $(GO)
 vet-api: export GOBIN := $(GOBIN)
 vet-api: export ROOT := $(ROOT)
-vet-api: ## Run sofa go vet to verify api4 documentation, currently not passing
-	$(GO) install github.com/sofa/sofa-govet/v2@7d8db289e508999dfcac47b97c9490a0fec12d66
+vet-api: ## Run mattermost go vet to verify api4 documentation, currently not passing
+	$(GO) install github.com/mattermost/mattermost-govet/v2@7d8db289e508999dfcac47b97c9490a0fec12d66
 	make -C ../api build
 	./scripts/vet-api-check.sh
 

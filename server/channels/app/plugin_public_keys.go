@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
 
-var sofaPluginPublicKey = []byte(`-----BEGIN PGP PUBLIC KEY BLOCK-----
+var mattermostPluginPublicKey = []byte(`-----BEGIN PGP PUBLIC KEY BLOCK-----
 
 mQINBF3YTiEBEACgkhnZ5+xylKZhLVj193b6d/rSQuCU/zwWeZJnqyR8wRsPotXO
 CMXOUM9bTTaGfItCP9KlPPcyrshNEIgqcqhB6TSKkWSyrV5XS95Opd9Esbjw1VZq

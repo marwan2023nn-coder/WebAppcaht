@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /* eslint-disable @typescript-eslint/no-require-imports */
@@ -25,7 +25,7 @@ function generateTitle() {
     let dockerImageLink = '';
     let releaseDate = '';
     if (MM_DOCKER_IMAGE && MM_DOCKER_TAG) {
-        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/sofadevelopment/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
+        dockerImageLink = ` with [${MM_DOCKER_IMAGE}:${MM_DOCKER_TAG}](https://hub.docker.com/r/mattermostdevelopment/${MM_DOCKER_IMAGE}/tags?name=${MM_DOCKER_TAG})`;
     }
     if (RELEASE_DATE) {
         releaseDate = ` for ${RELEASE_DATE}`;
@@ -80,13 +80,13 @@ function generateWebhookBody() {
     const rollingReleaseFromField = rollingReleaseFrom ? `\nRolling release upgrade from: ${rollingReleaseFrom}` : '';
     return {
         username: 'Playwright UI Test',
-        icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
         attachments: [
             {
                 color: testResult.color,
                 author_name: 'Webapp End-to-end Testing (Playwright)',
-                author_icon: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
-                author_link: 'https://www.sofa.com',
+                author_icon: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
+                author_link: 'https://www.mattermost.com',
                 title: generateTitle(),
                 text: `${summaryField}${serverTypeField}${rollingReleaseFromField}${mmEnvField}`,
             },

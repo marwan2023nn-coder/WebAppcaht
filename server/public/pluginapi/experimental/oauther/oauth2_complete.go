@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
 // See License for license information.
 
 package oauther
@@ -15,7 +15,7 @@ func (o *oAuther) oauth2Complete(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	authedUserID := r.Header.Get("Sofa-User-ID")
+	authedUserID := r.Header.Get("Mattermost-User-ID")
 	if authedUserID == "" {
 		o.logger.Debugf("oauth2Complete: reached by non authed user")
 		http.Error(w, "Not authorized", http.StatusUnauthorized)

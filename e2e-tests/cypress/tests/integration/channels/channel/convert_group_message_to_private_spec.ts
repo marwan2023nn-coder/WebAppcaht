@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Channel} from '@sofa/types/channels';
-import {Team, TeamMembership} from '@sofa/types/teams';
-import {UserProfile} from '@sofa/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {Team, TeamMembership} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 // ***************************************************************
 // - [#] indicates a test step (e.g. # Go to a page)

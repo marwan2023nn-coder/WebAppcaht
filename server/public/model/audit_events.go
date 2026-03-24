@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -200,11 +200,11 @@ const (
 	AuditEventAddLdapPrivateCertificate    = "addLdapPrivateCertificate"    // add private certificate for LDAP
 	AuditEventAddLdapPublicCertificate     = "addLdapPublicCertificate"     // add public certificate for LDAP
 	AuditEventIdMigrateLdap                = "idMigrateLdap"                // migrate user ID mapping to another attribute
-	AuditEventLinkLdapGroup                = "linkLdapGroup"                // link LDAP group to Sofa team or channel
+	AuditEventLinkLdapGroup                = "linkLdapGroup"                // link LDAP group to Mattermost team or channel
 	AuditEventRemoveLdapPrivateCertificate = "removeLdapPrivateCertificate" // remove private certificate for LDAP
 	AuditEventRemoveLdapPublicCertificate  = "removeLdapPublicCertificate"  // remove public certificate for LDAP
 	AuditEventSyncLdap                     = "syncLdap"                     // synchronize users and groups from LDAP
-	AuditEventUnlinkLdapGroup              = "unlinkLdapGroup"              // unlink LDAP group from Sofa team or channel
+	AuditEventUnlinkLdapGroup              = "unlinkLdapGroup"              // unlink LDAP group from Mattermost team or channel
 )
 
 // Licensing
@@ -294,8 +294,8 @@ const (
 
 // Remote Clusters
 const (
-	AuditEventCreateRemoteCluster            = "createRemoteCluster"            // create connection to remote Sofa cluster
-	AuditEventDeleteRemoteCluster            = "deleteRemoteCluster"            // delete connection to remote Sofa cluster
+	AuditEventCreateRemoteCluster            = "createRemoteCluster"            // create connection to remote Mattermost cluster
+	AuditEventDeleteRemoteCluster            = "deleteRemoteCluster"            // delete connection to remote Mattermost cluster
 	AuditEventGenerateRemoteClusterInvite    = "generateRemoteClusterInvite"    // generate invitation token for remote cluster connection
 	AuditEventInviteRemoteClusterToChannel   = "inviteRemoteClusterToChannel"   // invite remote cluster users to shared channel
 	AuditEventPatchRemoteCluster             = "patchRemoteCluster"             // update remote cluster connection settings
@@ -355,7 +355,7 @@ const (
 	AuditEventInvalidateCaches           = "invalidateCaches"           // clear server caches
 	AuditEventLocalCheckIntegrity        = "localCheckIntegrity"        // check database integrity locally
 	AuditEventQueryLogs                  = "queryLogs"                  // search server log entries
-	AuditEventRestartServer              = "restartServer"              // restart Sofa server process
+	AuditEventRestartServer              = "restartServer"              // restart Mattermost server process
 	AuditEventSetServerBusy              = "setServerBusy"              // set server busy status to disallow any operations
 	AuditEventUpdateViewedProductNotices = "updateViewedProductNotices" // update viewed status of product notices
 	AuditEventUpgradeToEnterprise        = "upgradeToEnterprise"        // upgrade server to Enterprise edition

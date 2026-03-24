@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,7 +9,7 @@
 
 // Group: @channels @enterprise @ldap
 
-import {UserProfile} from '@sofa/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import ldapUsers from '../../../../fixtures/ldap_users.json';
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
@@ -17,7 +17,7 @@ import {getAdminAccount} from '../../../../support/env';
 import {getRandomId} from '../../../../utils';
 
 // assumes that E20 license is uploaded
-// for setup with AWS: Follow the instructions mentioned in the sofa/platform-private/config/ldap-test-setup.txt file
+// for setup with AWS: Follow the instructions mentioned in the mattermost/platform-private/config/ldap-test-setup.txt file
 describe('LDAP guest', () => {
     let testSettings;
     let user1Data;
@@ -213,7 +213,7 @@ describe('LDAP guest', () => {
 
                     // # Accept confirmation modal
                     cy.get('#confirmModalButton').should('be.visible').click();
-                    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Sofa Teams');
+                    cy.get('.admin-console__header', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible').and('have.text', 'Mattermost Teams');
 
                     // # Login as board.one user
                     testSettings.user = userBoard1;

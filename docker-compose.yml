@@ -1,11 +1,6 @@
 ---
 services:
 
-  workspace-redis:
-    container_name: 'workspace-redis'
-    image: redis:7-alpine
-    restart: ${RESTART_POLICY}
-
   workspace-postgres:
     container_name: 'workspace-postgres'
     image: postgres:${POSTGRES_IMAGE_TAG}
@@ -26,6 +21,8 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 5432:5432
 
   workspace:
     image: git.sofa.io:4567/sofachat/web/worksapce-11.1.1:${VERSION}
@@ -36,7 +33,7 @@ services:
     depends_on:
       workspace-postgres:
         condition: service_healthy 
-    # image: sofa/sofa-enterprise-edition:10.2.0
+    # image: mattermost/mattermost-enterprise-edition:10.2.0
     # restart: ${RESTART_POLICY}l
     ports:
       - ${CHAT_PORT}:8065
@@ -57,7 +54,7 @@ services:
       # timezone inside container
       - TZ
 
-      # necessary Sofa options/variables (see env.example)
+      # necessary Mattermost options/variables (see env.example)
       - MM_SQLSETTINGS_DRIVERNAME
       - MM_SQLSETTINGS_DATASOURCE
 
@@ -68,13 +65,6 @@ services:
       - MM_SERVICESETTINGS_SITEURL
       # - MM_SERVICESETTINGS_WEBSOCKETURL
   
-      # Cluster and Redis
-      - MM_CLUSTERSETTINGS_ENABLE=true
-      - MM_CLUSTERSETTINGS_CLUSTERNAME=production
-      - MM_REDISSETTINGS_ADDRESS=workspace-redis:6379
-      - MM_CACHESETTINGS_CACHETYPE=redis
-      - MM_CACHESETTINGS_REDISADDRESS=workspace-redis:6379
-
       - MM_FILESETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_CLIENTDIRECTORY

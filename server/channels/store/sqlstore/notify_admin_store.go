@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -9,10 +9,10 @@ import (
 
 	"github.com/pkg/errors"
 
-	sq "github.com/sofa/squirrel"
+	sq "github.com/mattermost/squirrel"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
 type SqlNotifyAdminStore struct {
@@ -60,7 +60,7 @@ func (s SqlNotifyAdminStore) Save(data *model.NotifyAdminData) (*model.NotifyAdm
 	return data, nil
 }
 
-func (s SqlNotifyAdminStore) GetDataByUserIdAndFeature(userId string, feature model.SofaFeature) ([]*model.NotifyAdminData, error) {
+func (s SqlNotifyAdminStore) GetDataByUserIdAndFeature(userId string, feature model.MattermostFeature) ([]*model.NotifyAdminData, error) {
 	data := []*model.NotifyAdminData{}
 	query, args, err := s.notifyAdminQuery.
 		Where(sq.Eq{"UserId": userId, "RequiredFeature": feature}).
@@ -101,7 +101,7 @@ func (s SqlNotifyAdminStore) DeleteBefore(trial bool, now int64) error {
 	return nil
 }
 
-func (s SqlNotifyAdminStore) Update(userId string, requiredPlan string, requiredFeature model.SofaFeature, now int64) error {
+func (s SqlNotifyAdminStore) Update(userId string, requiredPlan string, requiredFeature model.MattermostFeature, now int64) error {
 	if _, err := s.GetMaster().Exec("UPDATE NotifyAdmin SET SentAt = ? WHERE UserId = ? AND RequiredPlan = ? AND RequiredFeature = ?", now, userId, requiredPlan, requiredFeature); err != nil {
 		return errors.Wrapf(err, "failed to update SentAt for userId=%s and requiredPlan=%s", userId, requiredPlan)
 	}

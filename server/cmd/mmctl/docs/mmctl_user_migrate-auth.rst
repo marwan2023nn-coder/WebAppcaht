@@ -27,7 +27,7 @@ Arguments:
 
   migration-options (saml):
     users_file:
-      The path of a json file with the usernames and emails of all users to migrate to SAML. The username and email must be the same that the SAML service provider store. And the email must match with the email in sofa database.
+      The path of a json file with the usernames and emails of all users to migrate to SAML. The username and email must be the same that the SAML service provider store. And the email must match with the email in mattermost database.
 
       Example json content:
         {
@@ -52,7 +52,7 @@ Options
 
 ::
 
-      --auto      Automatically migrate all users. Assumes the usernames and emails are identical between Sofa and SAML services. (saml only)
+      --auto      Automatically migrate all users. Assumes the usernames and emails are identical between Mattermost and SAML services. (saml only)
       --confirm   Confirm you really want to proceed with auto migration. (saml only)
       --force     Force the migration to occur even if there are duplicates on the LDAP server. Duplicates will not be migrated. (ldap only)
   -h, --help      help for migrate-auth

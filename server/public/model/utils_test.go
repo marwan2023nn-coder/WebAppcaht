@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -1245,7 +1245,7 @@ func TestIsValidHTTPURL(t *testing.T) {
 		},
 		{
 			"url with invalid scheme",
-			"http-bad://sofa.com",
+			"http-bad://mattermost.com",
 			false,
 		},
 		{
@@ -1260,17 +1260,17 @@ func TestIsValidHTTPURL(t *testing.T) {
 		},
 		{
 			"url with extra slashes",
-			"https:///sofa.com",
+			"https:///mattermost.com",
 			false,
 		},
 		{
 			"correct url with http scheme",
-			"http://sofa.com",
+			"http://mattermost.com",
 			true,
 		},
 		{
 			"correct url with https scheme",
-			"https://sofa.com/api/test",
+			"https://mattermost.com/api/test",
 			true,
 		},
 		{
@@ -1280,12 +1280,12 @@ func TestIsValidHTTPURL(t *testing.T) {
 		},
 		{
 			"correct url without scheme",
-			"sofa.com/some/url/",
+			"mattermost.com/some/url/",
 			false,
 		},
 		{
 			"correct url with extra slashes",
-			"https://sofa.com/some//url",
+			"https://mattermost.com/some//url",
 			true,
 		},
 	}

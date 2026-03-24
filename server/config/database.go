@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -21,13 +21,13 @@ import (
 	// Load the Postgres driver
 	_ "github.com/lib/pq"
 
-	"github.com/sofa/morph"
+	"github.com/mattermost/morph"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/sofa/morph/drivers"
-	ps "github.com/sofa/morph/drivers/postgres"
-	mbindata "github.com/sofa/morph/sources/embedded"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/morph/drivers"
+	ps "github.com/mattermost/morph/drivers/postgres"
+	mbindata "github.com/mattermost/morph/sources/embedded"
 )
 
 //go:embed migrations

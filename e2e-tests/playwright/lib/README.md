@@ -1,12 +1,12 @@
-# @sofa/playwright-lib
+# @mattermost/playwright-lib
 
-A comprehensive end-to-end testing library for Sofa web, desktop and plugin applications using Playwright.
+A comprehensive end-to-end testing library for Mattermost web, desktop and plugin applications using Playwright.
 
 ## Overview
 
 This library provides:
 
-- Pre-built page objects and components for common Sofa UI elements
+- Pre-built page objects and components for common Mattermost UI elements
 - Server configuration and initialization utilities
 - Test fixtures and helpers
 - Visual testing support with Percy integration
@@ -18,7 +18,7 @@ This library provides:
 ## Installation
 
 ```bash
-npm install @sofa/playwright-lib
+npm install @mattermost/playwright-lib
 ```
 
 ### Peer Dependencies
@@ -34,7 +34,7 @@ npm install @playwright/test@^1.55.0
 Basic example of logging in and posting a message:
 
 ```typescript
-import {test, expect} from '@sofa/playwright-lib';
+import {test, expect} from '@mattermost/playwright-lib';
 
 test('user can post message', async ({pw}) => {
     // # Create and login a new user
@@ -56,7 +56,7 @@ test('user can post message', async ({pw}) => {
 
 ### Page Objects
 
-Ready-to-use page objects for common Sofa pages:
+Ready-to-use page objects for common Mattermost pages:
 
 - Login
 - Signup
@@ -99,7 +99,7 @@ All environment variables are optional with sensible defaults.
 | `PW_BASE_URL`                 | Server URL                                 | `http://localhost:8065`          |
 | `PW_ADMIN_USERNAME`           | Admin username                             | `sysadmin`                       |
 | `PW_ADMIN_PASSWORD`           | Admin password                             | `Sys@dmin-sample1`               |
-| `PW_ADMIN_EMAIL`              | Admin email                                | `sysadmin@sample.sofa.com` |
+| `PW_ADMIN_EMAIL`              | Admin email                                | `sysadmin@sample.mattermost.com` |
 | `PW_ENSURE_PLUGINS_INSTALLED` | Comma-separated list of plugins to install | `[]`                             |
 | `PW_RESET_BEFORE_TEST`        | Reset server before test                   | `false`                          |
 
@@ -115,7 +115,7 @@ All environment variables are optional with sensible defaults.
 
 | Variable                      | Description                  | Default                            |
 | ----------------------------- | ---------------------------- | ---------------------------------- |
-| `PW_PUSH_NOTIFICATION_SERVER` | Push notification server URL | `https://push-test.sofa.com` |
+| `PW_PUSH_NOTIFICATION_SERVER` | Push notification server URL | `https://push-test.mattermost.com` |
 
 #### Playwright Settings
 
@@ -143,7 +143,7 @@ All environment variables are optional with sensible defaults.
 The library includes built-in accessibility testing using [axe-core](https://github.com/dequelabs/axe-core):
 
 ```typescript
-import {test, expect} from '@sofa/playwright-lib';
+import {test, expect} from '@mattermost/playwright-lib';
 
 test('verify login page accessibility', async ({page, axe}) => {
     // # Navigate to login page
@@ -169,7 +169,7 @@ The axe-core integration:
 The library supports visual testing through [Playwright's built-in visual comparisons](https://playwright.dev/docs/test-snapshots) and [Percy](https://www.browserstack.com/percy) integration:
 
 ```typescript
-import {test, expect} from '@sofa/playwright-lib';
+import {test, expect} from '@mattermost/playwright-lib';
 
 test('verify channel header appearance', async ({pw, browserName, viewport}, testInfo) => {
     // # Setup and login
@@ -191,7 +191,7 @@ test('verify channel header appearance', async ({pw, browserName, viewport}, tes
 Mock and verify browser notifications:
 
 ```typescript
-import {test, expect} from '@sofa/playwright-lib';
+import {test, expect} from '@mattermost/playwright-lib';
 
 test('verify notification on mention', async ({pw}) => {
     // # Setup users and team
@@ -215,8 +215,8 @@ test('verify notification on mention', async ({pw}) => {
 
 ## Contributing
 
-See [CONTRIBUTING.md](https://github.com/sofa/sofa/blob/master/CONTRIBUTING.md) for development setup and guidelines.
+See [CONTRIBUTING.md](https://github.com/mattermost/mattermost/blob/master/CONTRIBUTING.md) for development setup and guidelines.
 
 ## License
 
-See [LICENSE.txt](https://github.com/sofa/sofa/blob/master/LICENSE.txt) for license information.
+See [LICENSE.txt](https://github.com/mattermost/mattermost/blob/master/LICENSE.txt) for license information.

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package sqlstore
@@ -14,15 +14,15 @@ import (
 	"time"
 	"unicode/utf8"
 
-	sq "github.com/sofa/squirrel"
+	sq "github.com/mattermost/squirrel"
 	"github.com/pkg/errors"
 	"golang.org/x/sync/errgroup"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/einterfaces"
 )
 
 const (
@@ -2215,16 +2215,18 @@ func applyViewRestrictionsFilter(query sq.SelectBuilder, restrictions *model.Vie
 
 	restrictionClause := sq.Or{}
 	if len(restrictions.Teams) > 0 {
-		teamSubquery := sq.Select("UserId").
+		teamSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
 			From("TeamMembers").
 			Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})
-		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN ?", teamSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", teamSubquery))
 	}
 	if len(restrictions.Channels) > 0 {
-		channelSubquery := sq.Select("UserId").
+		channelSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
 			From("ChannelMembers").
 			Where(sq.Eq{"ChannelId": restrictions.Channels})
-		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN ?", channelSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", channelSubquery))
 	}
 
 	return query.Where(restrictionClause)

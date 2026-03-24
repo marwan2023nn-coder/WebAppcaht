@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {test} from '@sofa/playwright-lib';
+import {test} from '@mattermost/playwright-lib';
 
 test('MM-T5521-7 Should be able to filter users with team filter', async ({pw}) => {
     const {adminUser, adminClient} = await pw.initSetup();

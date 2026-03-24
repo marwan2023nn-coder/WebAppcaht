@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package imageproxy
@@ -12,15 +12,15 @@ import (
 	"strings"
 	"sync"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/configservice"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/configservice"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 var ErrNotEnabled = Error{errors.New("imageproxy.ImageProxy: image proxy not enabled")}
 
-// An ImageProxy is the public interface for Sofa's image proxy. An instance of ImageProxy should be created
+// An ImageProxy is the public interface for Mattermost's image proxy. An instance of ImageProxy should be created
 // using MakeImageProxy which requires a configService and an HTTPService provided by the server.
 type ImageProxy struct {
 	ConfigService    configservice.ConfigService

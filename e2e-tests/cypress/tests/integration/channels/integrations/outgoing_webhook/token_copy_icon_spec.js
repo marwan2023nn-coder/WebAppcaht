@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -33,7 +33,7 @@ describe('Integrations', () => {
         cy.get('#displayName').type('test');
         cy.get('#channelSelect').select(testChannel);
         cy.get('#triggerWords').type('trigger');
-        cy.get('#callbackUrls').type('https://sofa.com');
+        cy.get('#callbackUrls').type('https://mattermost.com');
         cy.findByText('Save').click();
 
         // Assert that webhook was set up

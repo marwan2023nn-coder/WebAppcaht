@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import * as TIMEOUTS from '../fixtures/timeouts';
@@ -121,7 +121,7 @@ Cypress.Commands.add('checkForLDAPError', () => {
     cy.wait(TIMEOUTS.FIVE_SEC);
     return cy.get('body').then((body) => {
         if (body.text().includes('User not registered on AD/LDAP server.')) {
-            cy.findByText('Back to Sofa').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
+            cy.findByText('Back to Mattermost').should('exist').and('be.visible').click().wait(TIMEOUTS.FIVE_SEC);
             return cy.wrap(true);
         }
         return cy.wrap(false);

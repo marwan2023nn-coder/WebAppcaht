@@ -1,8 +1,8 @@
 package pluginapi
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
 )
 
 // FrontendService exposes methods to interact with the frontend.
@@ -21,7 +21,7 @@ func (f *FrontendService) OpenInteractiveDialog(dialog model.OpenDialogRequest) 
 
 // PublishWebSocketEvent sends an event to WebSocket connections.
 // event is the type and will be prepended with "custom_<pluginid>_".
-// payload is the data sent with the event. Interface values must be primitive Go types or sofa-server/model types.
+// payload is the data sent with the event. Interface values must be primitive Go types or mattermost-server/model types.
 // broadcast determines to which users to send the event.
 //
 // Minimum server version: 5.2

@@ -6,10 +6,10 @@ SELECT count(*) != 0 INTO column_exist
     FROM information_schema.columns
     WHERE table_name = 'oauthapps'
     AND table_schema = current_schema()
-    AND column_name = 'sofaappid';
+    AND column_name = 'mattermostappid';
 IF column_exist THEN
-    UPDATE OAuthApps SET SofaAppID = '' WHERE SofaAppID IS NULL;
-    ALTER TABLE OAuthApps ALTER COLUMN SofaAppID SET DEFAULT '';
-    ALTER TABLE OAuthApps ALTER COLUMN SofaAppID SET NOT NULL;
+    UPDATE OAuthApps SET MattermostAppID = '' WHERE MattermostAppID IS NULL;
+    ALTER TABLE OAuthApps ALTER COLUMN MattermostAppID SET DEFAULT '';
+    ALTER TABLE OAuthApps ALTER COLUMN MattermostAppID SET NOT NULL;
 END IF;
 END $$;

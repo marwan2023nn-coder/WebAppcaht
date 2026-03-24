@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -11,8 +11,8 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/jobs"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/v8/channels/jobs"
+	"github.com/mattermost/mattermost/server/v8/config"
 )
 
 const (
@@ -77,7 +77,7 @@ func TestRunServerSystemdNotification(t *testing.T) {
 	defer th.TearDownServerTest()
 
 	// Get a random temporary filename for using as a mock systemd socket
-	socketFile, err := os.CreateTemp("", "sofa-systemd-mock-socket-")
+	socketFile, err := os.CreateTemp("", "mattermost-systemd-mock-socket-")
 	require.NoError(t, err)
 
 	socketPath := socketFile.Name()

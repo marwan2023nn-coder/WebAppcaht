@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package upgrader
@@ -34,18 +34,18 @@ type InvalidPermissions struct {
 	ErrType            string
 	Path               string
 	FileUsername       string
-	SofaUsername string
+	MattermostUsername string
 }
 
-func NewInvalidPermissions(errType string, path string, sofaUsername string, fileUsername string) *InvalidPermissions {
+func NewInvalidPermissions(errType string, path string, mattermostUsername string, fileUsername string) *InvalidPermissions {
 	return &InvalidPermissions{
 		ErrType:            errType,
 		Path:               path,
 		FileUsername:       fileUsername,
-		SofaUsername: sofaUsername,
+		MattermostUsername: mattermostUsername,
 	}
 }
 
 func (e *InvalidPermissions) Error() string {
-	return fmt.Sprintf("the user %s is unable to update the %s file", e.SofaUsername, e.Path)
+	return fmt.Sprintf("the user %s is unable to update the %s file", e.MattermostUsername, e.Path)
 }

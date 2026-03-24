@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import classNames from 'classnames';
@@ -118,7 +118,7 @@ export default function RewriteMenu({
             placeholderText = prompt;
         } else if (draftMessage.trim()) {
             placeholderText = formatMessage({
-                id: 'texteditor.rewrite.placeholder.rewriting',
+                id: 'texteditor.rewrite.rewriting',
                 defaultMessage: 'Rewriting...',
             });
         }
@@ -144,7 +144,6 @@ export default function RewriteMenu({
                             onBotSelect={setSelectedAgentId}
                             bots={agents}
                             disabled={isProcessing}
-                            showLabel={true}
                         />
                     )}
                     {isProcessing &&
@@ -171,7 +170,6 @@ export default function RewriteMenu({
                         <Input
                             ref={customPromptRef}
                             inputPrefix={<CreationOutlineIcon size={18}/>}
-                            label={placeholderText}
                             placeholder={placeholderText}
                             disabled={isProcessing}
                             value={prompt}

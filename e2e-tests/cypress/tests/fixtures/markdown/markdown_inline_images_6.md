@@ -1,3 +1,3 @@
 ### In-line Images
 
-![test image](https://raw.githubusercontent.com/sofa/sofa/master/e2e-tests/cypress/tests/fixtures/image-small-height.png)
+![test image](https://raw.githubusercontent.com/mattermost/mattermost/master/e2e-tests/cypress/tests/fixtures/image-small-height.png)

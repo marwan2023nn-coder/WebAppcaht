@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package storetest
@@ -9,9 +9,9 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
 )
 
 func TestOAuthStore(t *testing.T, rctx request.CTX, ss store.Store) {
@@ -49,13 +49,13 @@ func testOAuthStoreSaveApp(t *testing.T, rctx request.CTX, ss store.Store) {
 	require.Error(t, err, "Should have failed, app should be invalid cause it doesn' have a name set")
 
 	a1.Name = "TestApp" + model.NewId() // Valid name
-	a1.SofaAppID = "a very, very, very, very, very, very, very long id"
+	a1.MattermostAppID = "a very, very, very, very, very, very, very long id"
 	_, err = ss.OAuth().SaveApp(&a1)
-	require.Error(t, err, "Should have failed, app should be invalid cause the SofaAppID is to long")
+	require.Error(t, err, "Should have failed, app should be invalid cause the MattermostAppID is to long")
 
 	// Save the app
 	a1.Id = ""
-	a1.SofaAppID = "some small id" // Valid id
+	a1.MattermostAppID = "some small id" // Valid id
 	_, err = ss.OAuth().SaveApp(&a1)
 	require.NoError(t, err)
 }

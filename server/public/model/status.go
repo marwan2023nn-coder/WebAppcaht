@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -29,7 +29,7 @@ type Status struct {
 	LastActivityAt int64  `json:"last_activity_at"`
 	ActiveChannel  string `json:"active_channel,omitempty" db:"-"`
 
-	// DNDEndTime is the time that the user's DND status will expire. Unlike other timestamps in Sofa, this value
+	// DNDEndTime is the time that the user's DND status will expire. Unlike other timestamps in Mattermost, this value
 	// is in seconds instead of milliseconds.
 	DNDEndTime int64 `json:"dnd_end_time"`
 

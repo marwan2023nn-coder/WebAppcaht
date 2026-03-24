@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -12,7 +12,7 @@
 
 /**
  * Note: This test requires hundreds of deactivated users
- * May generate by modifying `make test-data` command at `./sofa-server/Makefile`
+ * May generate by modifying `make test-data` command at `./mattermost-server/Makefile`
  * Should change to `sampledata -w 4 -u 60 --deactivated-users 200`
  */
 

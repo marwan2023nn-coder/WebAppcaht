@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -11,10 +11,10 @@ import (
 	"math"
 	"net/http"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
 )
 
 func (api *API) InitLicense() {
@@ -50,8 +50,11 @@ func getClientLicense(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Only override feature flags if there IS an active license.
-	// If IsLicensed is explicitly "false" (license removed/expired) or empty, do NOT override it.
-	if clientLicense["IsLicensed"] != "false" && clientLicense["IsLicensed"] != "" {
+	// If IsLicensed is explicitly "false" (license removed/expired), do NOT override it.
+	if clientLicense["IsLicensed"] != "false" {
+		if clientLicense["IsLicensed"] == "" {
+			clientLicense["IsLicensed"] = "true"
+		}
 		clientLicense["FutureFeatures"] = "true"
 		clientLicense["AdvancedLogging"] = "true"
 		clientLicense["ThemeManagement"] = "true"

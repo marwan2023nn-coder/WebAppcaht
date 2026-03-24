@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,7 +9,7 @@
 
 // Group: @channels @enterprise @system_console @authentication @mfa
 
-import {UserProfile} from '@sofa/types/users';
+import {UserProfile} from '@mattermost/types/users';
 import * as authenticator from 'authenticator';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';

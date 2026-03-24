@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -131,7 +131,7 @@ describe('Upload Files', () => {
             // * Verify that we land on attachment not found page
             cy.findByText('Error');
             cy.findByText('Unable to get the file info.');
-            cy.findByText('Back to Sofa').
+            cy.findByText('Back to Mattermost').
                 parent().
                 should('have.attr', 'href', '/').
                 click();

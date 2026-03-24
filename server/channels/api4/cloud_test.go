@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -14,8 +14,8 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
 )
 
 func TestGetSubscription(t *testing.T) {
@@ -142,7 +142,7 @@ func TestValidateBusinessEmail(t *testing.T) {
 		_, _, err := th.Client.Login(context.Background(), th.BasicUser.Email, th.BasicUser.Password)
 		require.NoError(t, err)
 
-		validBusinessEmail := model.ValidateBusinessEmailRequest{Email: "valid@sofa.com"}
+		validBusinessEmail := model.ValidateBusinessEmailRequest{Email: "valid@mattermost.com"}
 
 		th.App.Srv().SetLicense(model.NewTestLicense("cloud"))
 
@@ -191,7 +191,7 @@ func TestValidateWorkspaceBusinessEmail(t *testing.T) {
 		cloud := mocks.CloudInterface{}
 
 		cloudCustomerInfo := model.CloudCustomerInfo{
-			Email: "valid@sofa.com",
+			Email: "valid@mattermost.com",
 		}
 
 		cloudCustomer := &model.CloudCustomer{

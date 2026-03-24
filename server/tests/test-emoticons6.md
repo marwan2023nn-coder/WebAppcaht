@@ -4,7 +4,7 @@
 
 ### Emoji - Special
 
-:bowtie: :feelsgood: :finnadie: :goberserk: :godmode: :hurtrealbad: :neckbeard: :octocat: :rage1: :rage2: :rage3: :rage4: :shipit: :squirrel: :suspect: :trollface: :sofa:
+:bowtie: :feelsgood: :finnadie: :goberserk: :godmode: :hurtrealbad: :neckbeard: :octocat: :rage1: :rage2: :rage3: :rage4: :shipit: :squirrel: :suspect: :trollface: :mattermost:
 
 ### Emoji - Without space separator
 

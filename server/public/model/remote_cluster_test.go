@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -217,8 +217,8 @@ func TestNewIDFromBytes(t *testing.T) {
 	}{
 		{name: "empty", ss: ""},
 		{name: "very short", ss: "x"},
-		{name: "normal", ss: "com.sofa.msteams-sync"},
-		{name: "long", ss: "com.sofa.msteams-synccom.sofa.msteams-synccom.sofa.msteams-synccom.sofa.msteams-sync"},
+		{name: "normal", ss: "com.mattermost.msteams-sync"},
+		{name: "long", ss: "com.mattermost.msteams-synccom.mattermost.msteams-synccom.mattermost.msteams-synccom.mattermost.msteams-sync"},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

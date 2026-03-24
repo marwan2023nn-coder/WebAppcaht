@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -372,7 +372,7 @@ func TestPost_AttachmentsEqual(t *testing.T) {
 								URL: "http://localhost",
 								Context: map[string]any{
 									"context": "foobar",
-									"test":    "sofa",
+									"test":    "mattermost",
 								},
 							},
 						},

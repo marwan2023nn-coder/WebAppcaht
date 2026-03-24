@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -26,7 +26,7 @@ describe('Paste Image', () => {
     });
 
     it('MM-T2263 - Paste image in message box and post', () => {
-        const filename = 'sofa-icon.png';
+        const filename = 'mattermost-icon.png';
 
         // # Paste image
         cy.fixture(filename).then((img) => {

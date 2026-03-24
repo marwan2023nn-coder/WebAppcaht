@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -28,7 +28,7 @@ var PermissionInviteUser *Permission
 var PermissionAddUserToTeam *Permission
 
 // Deprecated: PermissionUseSlashCommands is not longer used. It's only kept for backwards compatibility.
-// See https://sofa.atlassian.net/browse/MM-52574 for more details.
+// See https://mattermost.atlassian.net/browse/MM-52574 for more details.
 var PermissionUseSlashCommands *Permission
 var PermissionManageSlashCommands *Permission
 var PermissionManageOthersSlashCommands *Permission
@@ -2459,7 +2459,6 @@ func initializePermissions() {
 		PermissionEditOtherUsers,
 		PermissionReadOtherUsersTeams,
 		PermissionGetPublicLink,
-		PermissionManageOAuth,
 		PermissionManageSystemWideOAuth,
 		PermissionCreateTeam,
 		PermissionListUsersWithoutTeam,
@@ -2613,6 +2612,7 @@ func initializePermissions() {
 		PermissionManageIncomingWebhooks,
 		PermissionManageOutgoingWebhooks,
 		PermissionManageSlashCommands,
+		PermissionManageOAuth,
 		PermissionManageEmojis,
 		PermissionManageOthersEmojis,
 		PermissionSysconsoleReadAuthentication,

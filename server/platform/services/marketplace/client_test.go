@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package marketplace
@@ -18,19 +18,19 @@ func TestBuildURL(t *testing.T) {
 		expected string
 	}{
 		"Base url with trailing slash and path with leading slash": {
-			base:     "https://api.integrations.sofa.com/",
+			base:     "https://api.integrations.mattermost.com/",
 			path:     "/api/v1/plugins",
-			expected: "https://api.integrations.sofa.com/api/v1/plugins",
+			expected: "https://api.integrations.mattermost.com/api/v1/plugins",
 		},
 		"Base url without trailing slash and path with leading slash": {
-			base:     "https://api.integrations.sofa.com",
+			base:     "https://api.integrations.mattermost.com",
 			path:     "/api/v1/plugins",
-			expected: "https://api.integrations.sofa.com/api/v1/plugins",
+			expected: "https://api.integrations.mattermost.com/api/v1/plugins",
 		},
 		"Base url without trailing slash and path without leading slash": {
-			base:     "https://api.integrations.sofa.com",
+			base:     "https://api.integrations.mattermost.com",
 			path:     "api/v1/plugins",
-			expected: "https://api.integrations.sofa.com/api/v1/plugins",
+			expected: "https://api.integrations.mattermost.com/api/v1/plugins",
 		},
 	}
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -52,20 +52,20 @@ describe('MM-T2574 Session Lengths', () => {
     it('should match help text', () => {
         const helpText = {
             extendSessionLengthWithActivity: {
-                false: 'When true, sessions will be automatically extended when the user is active in their Sofa client. Users sessions will only expire if they are not active in their Sofa client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Sofa. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
-                true: 'When true, sessions will be automatically extended when the user is active in their Sofa client. Users sessions will only expire if they are not active in their Sofa client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Sofa. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
+                false: 'When true, sessions will be automatically extended when the user is active in their Mattermost client. Users sessions will only expire if they are not active in their Mattermost client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Mattermost. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
+                true: 'When true, sessions will be automatically extended when the user is active in their Mattermost client. Users sessions will only expire if they are not active in their Mattermost client for the entire duration of the session lengths defined in the fields below. When false, sessions will not extend with activity in Mattermost. User sessions will immediately expire at the end of the session length or idle timeouts defined below. ',
             },
             sessionLengthWebInHours: {
                 false: 'The number of hours from the last time a user entered their credentials to the expiry of the user\'s session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                true: 'Set the number of hours from the last activity in Sofa to the expiry of the user’s session when using email and AD/LDAP authentication. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of hours from the last activity in Mattermost to the expiry of the user’s session when using email and AD/LDAP authentication. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
             },
             sessionLengthMobileInHours: {
                 false: 'The number of hours from the last time a user entered their credentials to the expiry of the user\'s session. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
-                true: 'Set the number of hours from the last activity in Sofa to the expiry of the user’s session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of hours from the last activity in Mattermost to the expiry of the user’s session on mobile. After changing this setting, the new session length will take effect after the next time the user enters their credentials.',
             },
             sessionLengthSSOInHours: {
-                false: 'The number of hours from the last time a user entered their credentials to the expiry of the user\'s session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Sofa if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
-                true: 'Set the number of hours from the last activity in Sofa to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Sofa if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+                false: 'The number of hours from the last time a user entered their credentials to the expiry of the user\'s session. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
+                true: 'Set the number of hours from the last activity in Mattermost to the expiry of the user’s session for SSO authentication, such as SAML, GitLab and OAuth 2.0. If the authentication method is SAML or GitLab, the user may automatically be logged back in to Mattermost if they are already logged in to SAML or GitLab. After changing this setting, the setting will take effect after the next time the user enters their credentials.',
             },
             sessionCacheInMinutes: {
                 false: 'The number of minutes to cache a session in memory.',

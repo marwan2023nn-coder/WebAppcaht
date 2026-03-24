@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -19,8 +19,8 @@ import (
 	"unicode/utf8"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/markdown"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/markdown"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 type PostContextKey string
@@ -123,7 +123,7 @@ type Post struct {
 
 	Message string `json:"message"`
 	// MessageSource will contain the message as submitted by the user if Message has been modified
-	// by Sofa for presentation (e.g if an image proxy is being used). It should be used to
+	// by Mattermost for presentation (e.g if an image proxy is being used). It should be used to
 	// populate edit boxes if present.
 	MessageSource string `json:"message_source,omitempty"`
 

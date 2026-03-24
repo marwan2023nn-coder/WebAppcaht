@@ -128,7 +128,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile / 100, sum by(le) (increase(sofa_desktopapp_cpu_usage_bucket{processName=~\"$processName\",version=~\"$version\",platform=~\"$platform\"}[$decay])))",
+          "expr": "histogram_quantile($percentile / 100, sum by(le) (increase(mattermost_desktopapp_cpu_usage_bucket{processName=~\"$processName\",version=~\"$version\",platform=~\"$platform\"}[$decay])))",
           "instant": false,
           "legendFormat": "[[percentile]]th Percentile",
           "range": true,
@@ -224,7 +224,7 @@
             "uid": "Prometheus"
           },
           "editorMode": "code",
-          "expr": "histogram_quantile($percentile / 100, sum by(le) (increase(sofa_desktopapp_memory_usage_bucket{processName=~\"$processName\",version=~\"$version\",platform=~\"$platform\"}[$decay])))",
+          "expr": "histogram_quantile($percentile / 100, sum by(le) (increase(mattermost_desktopapp_memory_usage_bucket{processName=~\"$processName\",version=~\"$version\",platform=~\"$platform\"}[$decay])))",
           "instant": false,
           "legendFormat": "[[percentile]]th Percentile",
           "range": true,
@@ -246,7 +246,7 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "label_values(sofa_desktopapp_cpu_usage_bucket,processName)",
+        "definition": "label_values(mattermost_desktopapp_cpu_usage_bucket,processName)",
         "hide": 0,
         "includeAll": true,
         "label": "Process",
@@ -255,7 +255,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(sofa_desktopapp_cpu_usage_bucket,processName)",
+          "query": "label_values(mattermost_desktopapp_cpu_usage_bucket,processName)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -270,7 +270,7 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "label_values(sofa_desktopapp_cpu_usage_bucket,version)",
+        "definition": "label_values(mattermost_desktopapp_cpu_usage_bucket,version)",
         "hide": 0,
         "includeAll": true,
         "label": "App Version",
@@ -279,7 +279,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(sofa_desktopapp_cpu_usage_bucket,version)",
+          "query": "label_values(mattermost_desktopapp_cpu_usage_bucket,version)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,
@@ -294,7 +294,7 @@
           "type": "prometheus",
           "uid": "Prometheus"
         },
-        "definition": "label_values(sofa_desktopapp_cpu_usage_bucket,platform)",
+        "definition": "label_values(mattermost_desktopapp_cpu_usage_bucket,platform)",
         "hide": 0,
         "includeAll": true,
         "multi": true,
@@ -302,7 +302,7 @@
         "options": [],
         "query": {
           "qryType": 1,
-          "query": "label_values(sofa_desktopapp_cpu_usage_bucket,platform)",
+          "query": "label_values(mattermost_desktopapp_cpu_usage_bucket,platform)",
           "refId": "PrometheusVariableQueryEditor-VariableQuery"
         },
         "refresh": 1,

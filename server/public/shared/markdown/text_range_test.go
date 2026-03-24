@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package markdown
@@ -86,9 +86,9 @@ func TestTextRanges(t *testing.T) {
 			ExpectedValues: []string{"&amp test"},
 		},
 		"notcharref2": {
-			Markdown:       "this is &sofa;",
+			Markdown:       "this is &mattermost;",
 			ExpectedRanges: []Range{{0, 20}},
-			ExpectedValues: []string{"this is &sofa;"},
+			ExpectedValues: []string{"this is &mattermost;"},
 		},
 		"standalone-ampersand": {
 			Markdown:       "Hello & World",

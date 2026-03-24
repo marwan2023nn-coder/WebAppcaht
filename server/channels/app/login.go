@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -16,12 +16,12 @@ import (
 
 	"github.com/avct/uasurfer"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 const cwsTokenEnv = "CWS_CLOUD_TOKEN"
@@ -235,7 +235,7 @@ func (a *App) AttachCloudSessionCookie(rctx request.CTX, w http.ResponseWriter, 
 	if strings.Contains(domain, "localhost") {
 		workspaceName = "localhost"
 	} else {
-		// ensure we have a format for a cloud workspace url i.e. example.cloud.sofa.com
+		// ensure we have a format for a cloud workspace url i.e. example.cloud.mattermost.com
 		if len(strings.Split(domain, ".")) != 4 {
 			return
 		}
@@ -309,7 +309,7 @@ func (a *App) AttachSessionCookies(rctx request.CTX, w http.ResponseWriter, r *h
 	http.SetCookie(w, userCookie)
 	http.SetCookie(w, csrfCookie)
 
-	// For context see: https://sofa.atlassian.net/browse/MM-39583
+	// For context see: https://mattermost.atlassian.net/browse/MM-39583
 	if a.License().IsCloud() {
 		a.AttachCloudSessionCookie(rctx, w, r)
 	}

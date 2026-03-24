@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package teams
@@ -7,7 +7,7 @@ import (
 	"slices"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // By default the list will be (not necessarily in this order):
@@ -90,7 +90,7 @@ func (ts *TeamService) checkValidDomains(team *model.Team) error {
 
 func normalizeDomains(domains string) []string {
 	// commas and @ signs are optional
-	// can be in the form of "@corp.sofa.com, sofa.com sofa.org" -> corp.sofa.com sofa.com sofa.org
+	// can be in the form of "@corp.mattermost.com, mattermost.com mattermost.org" -> corp.mattermost.com mattermost.com mattermost.org
 	return strings.Fields(strings.TrimSpace(strings.ToLower(strings.Replace(strings.Replace(domains, "@", " ", -1), ",", " ", -1))))
 }
 

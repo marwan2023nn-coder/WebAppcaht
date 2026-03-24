@@ -89,7 +89,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Pridėkite mane prie komandų ir kanalų, kuriuose norite, kad dalyvaučiau. Tam naudokite naršyklę arba \"Sofa Desktop\" programėlę."
+    "translation": "Pridėkite mane prie komandų ir kanalų, kuriuose norite, kad dalyvaučiau. Tam naudokite naršyklę arba \"Mattermost Desktop\" programėlę."
   },
   {
     "id": "api.channel.add_members.user_denied",
@@ -193,7 +193,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Atrodo, kad jūsų \"Sofa\" el. paštas nustatytas teisingai!"
+    "translation": "Atrodo, kad jūsų \"Mattermost\" el. paštas nustatytas teisingai!"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -201,7 +201,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "\"Sofa\" - El. pašto nustatymų testavimas"
+    "translation": "\"Mattermost\" - El. pašto nustatymų testavimas"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -553,7 +553,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Siųskite kvietimą el. paštu savo \"Sofa\" komandai"
+    "translation": "Siųskite kvietimą el. paštu savo \"Mattermost\" komandai"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",

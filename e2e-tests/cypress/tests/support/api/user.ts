@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserAccessToken, UserProfile} from '@sofa/types/users';
+import {UserAccessToken, UserProfile} from '@mattermost/types/users';
 import authenticator from 'authenticator';
 import {ChainableT} from 'tests/types';
 
@@ -12,12 +12,12 @@ import {buildQueryString} from './helpers';
 
 // *****************************************************************************
 // Users
-// https://api.sofa.com/#tag/users
+// https://api.mattermost.com/#tag/users
 // *****************************************************************************
 
 /**
  * Login to server via API.
- * See https://api.sofa.com/#tag/users/paths/~1users~1login/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
  * @param {string} user.username - username of a user
  * @param {string} user.password - password of  user
  * @returns {UserProfile} out.user: `UserProfile` object
@@ -54,7 +54,7 @@ Cypress.Commands.add('apiLogin', apiLogin);
 
 /**
  * Login to server via API.
- * See https://api.sofa.com/#tag/users/paths/~1users~1login/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
  * @param {string} user.username - username of a user
  * @param {string} user.password - password of  user
  * @param {string} token - MFA token for the session
@@ -84,7 +84,7 @@ Cypress.Commands.add('apiLoginWithMFA', apiLoginWithMFA);
 
 /**
  * Login as admin via API.
- * See https://api.sofa.com/#tag/users/paths/~1users~1login/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
  * @param {Object} requestOptions - cypress' request options object, see https://docs.cypress.io/api/commands/request#Arguments
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -118,7 +118,7 @@ Cypress.Commands.add('apiAdminLogin', apiAdminLogin);
 
 /**
  * Login as admin via API.
- * See https://api.sofa.com/#tag/users/paths/~1users~1login/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1login/post
  * @param {string} token - MFA token for the session
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -135,7 +135,7 @@ Cypress.Commands.add('apiAdminLoginWithMFA', apiAdminLoginWithMFA);
 
 /**
  * Logout a user's active session from server via API.
- * See https://api.sofa.com/#tag/users/paths/~1users~1logout/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1logout/post
  * Clears all cookies especially `MMAUTHTOKEN`, `MMUSERID` and `MMCSRF`.
  *
  * @example
@@ -165,7 +165,7 @@ Cypress.Commands.add('apiLogout', apiLogout);
 
 /**
  * Get current user.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}/get
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
  * @returns {user: UserProfile} out.user: `UserProfile` object
  *
  * @example
@@ -181,7 +181,7 @@ Cypress.Commands.add('apiGetMe', apiGetMe);
 
 /**
  * Get a user by ID.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}/get
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/get
  * @param {String} userId - ID of a user to get profile
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -204,7 +204,7 @@ Cypress.Commands.add('apiGetUserById', apiGetUserById);
 
 /**
  * Get a user by email.
- * See https://api.sofa.com/#tag/users/paths/~1users~1email~1{email}/get
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1email~1{email}/get
  * @param {String} email - email address of a user to get profile
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -233,7 +233,7 @@ Cypress.Commands.add('apiGetUserByEmail', apiGetUserByEmail);
 
 /**
  * Get users by usernames.
- * See https://api.sofa.com/#tag/users/paths/~1users~1usernames/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1usernames/post
  * @param {String[]} usernames - list of usernames to get profiles
  * @returns {UserProfile[]} out.users: list of `UserProfile` objects
  *
@@ -258,7 +258,7 @@ Cypress.Commands.add('apiGetUsersByUsernames', apiGetUsersByUsernames);
 
 /**
  * Patch a user.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1patch/put
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1patch/put
  * @param {String} userId - ID of user to patch
  * @param {UserProfile} userData - user profile to be updated
  * @returns {UserProfile} out.user: `UserProfile` object
@@ -283,7 +283,7 @@ Cypress.Commands.add('apiPatchUser', apiPatchUser);
 
 /**
  * Convenient command to patch a current user.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1patch/put
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1patch/put
  * @param {UserProfile} userData - user profile to be updated
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -351,7 +351,7 @@ function apiCreateAdmin() {
         password,
         first_name: 'Kenneth',
         last_name: 'Moreno',
-        email: 'sysadmin@sample.sofa.com',
+        email: 'sysadmin@sample.mattermost.com',
     };
 
     const options = {
@@ -375,7 +375,7 @@ function generateRandomUser(prefix = 'user', createAt = 0): Partial<UserProfile>
     const randomId = getRandomId();
 
     return {
-        email: `${prefix}${randomId}@sample.sofa.com`,
+        email: `${prefix}${randomId}@sample.mattermost.com`,
         username: `${prefix}${randomId}`,
         password: 'passwd',
         first_name: `First${randomId}`,
@@ -481,7 +481,7 @@ Cypress.Commands.add('apiCreateGuestUser', apiCreateGuestUser);
 
 /**
  * Revoke all active sessions for a user.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1sessions~1revoke~1all/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1sessions~1revoke~1all/post
  * @param {String} userId - ID of a user
  * @returns {Object} `out.data` as response status
  *
@@ -503,7 +503,7 @@ Cypress.Commands.add('apiRevokeUserSessions', apiRevokeUserSessions);
 
 /**
  * Get list of users based on query parameters
- * See https://api.sofa.com/#tag/users/paths/~1users/get
+ * See https://api.mattermost.com/#tag/users/paths/~1users/get
  * @param {String} queryParams - see link on available query parameters
  * @returns {UserProfile[]} `out.users` as `UserProfile[]` object
  *
@@ -529,7 +529,7 @@ Cypress.Commands.add('apiGetUsers', apiGetUsers);
 
 /**
  * Get list of users that are not team members.
- * See https://api.sofa.com/#tag/users/paths/~1users/get
+ * See https://api.mattermost.com/#tag/users/paths/~1users/get
  * @param {String} queryParams.teamId - Team ID
  * @param {String} queryParams.page - Page to select, 0 (default)
  * @param {String} queryParams.perPage - The number of users per page, 60 (default)
@@ -570,7 +570,7 @@ Cypress.Commands.add('apiPatchUserRoles', apiPatchUserRoles);
 
 /**
  * Deactivate a user account.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}/delete
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}/delete
  * @param {string} userId - User ID
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
  *
@@ -622,7 +622,7 @@ Cypress.Commands.add('apiActivateUser', apiActivateUser);
 
 /**
  * Convert a regular user into a guest. This will convert the user into a guest for the whole system while retaining their existing team and channel memberships.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1demote/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1demote/post
  * @param {string} userId - User ID
  * @returns {UserProfile} out.guest: `UserProfile` object
  *
@@ -646,7 +646,7 @@ Cypress.Commands.add('apiDemoteUserToGuest', apiDemoteUserToGuest);
 
 /**
  * Convert a guest into a regular user. This will convert the guest into a user for the whole system while retaining any team and channel memberships and automatically joining them to the default channels.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1promote/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1promote/post
  * @param {string} userId - User ID
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -668,7 +668,7 @@ Cypress.Commands.add('apiPromoteGuestToUser', apiPromoteGuestToUser);
 
 /**
  * Verifies a user's email via userId without having to go to the user's email inbox.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1email~1verify~1member/post
  * @param {string} userId - User ID
  * @returns {UserProfile} out.user: `UserProfile` object
  *
@@ -694,7 +694,7 @@ Cypress.Commands.add('apiVerifyUserEmailById', apiVerifyUserEmailById);
 
 /**
  * Update a user MFA.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
  * @param {String} userId - ID of user to patch
  * @param {boolean} activate - Whether MFA is going to be enabled or disabled
  * @param {string} token - MFA token/code
@@ -750,7 +750,7 @@ Cypress.Commands.add('apiGenerateMfaSecret', apiGenerateMfaSecret);
 
 /**
  * Create a user access token
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1tokens/post
  * @param {String} userId - ID of user for whom to generate token
  * @param {String} description - The description of the token usage
  * @example
@@ -774,7 +774,7 @@ Cypress.Commands.add('apiAccessToken', apiAccessToken);
 
 /**
  * Revoke a user access token
- * See https://api.sofa.com/#tag/users/paths/~1users~1tokens~1revoke/post
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1tokens~1revoke/post
  * @param {String} tokenId - The id of the token to revoke
  * @example
  *   cy.apiRevokeAccessToken('token-id')
@@ -797,7 +797,7 @@ Cypress.Commands.add('apiRevokeAccessToken', apiRevokeAccessToken);
 
 /**
  * Update a user auth method.
- * See https://api.sofa.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
+ * See https://api.mattermost.com/#tag/users/paths/~1users~1{user_id}~1mfa/put
  * @param {String} userId - ID of user to patch
  * @param {String} authData
  * @param {String} password
@@ -825,7 +825,7 @@ Cypress.Commands.add('apiUpdateUserAuth', apiUpdateUserAuth);
 
 /**
  * Get total count of users in the system
- * See https://api.sofa.com/#operation/GetTotalUsersStats
+ * See https://api.mattermost.com/#operation/GetTotalUsersStats
  *
  * @returns {number} - total count of all users
  *

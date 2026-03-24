@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -17,14 +17,14 @@ const (
 	ExpiredLicenseError = "api.license.add_license.expired.app_error"
 	InvalidLicenseError = "api.license.add_license.invalid.app_error"
 	LicenseGracePeriod  = DayInMilliseconds * 10 //10 days
-	LicenseRenewalLink  = "https://sofa.com/renew/"
+	LicenseRenewalLink  = "https://mattermost.com/renew/"
 
 	LicenseShortSkuE10                = "E10"
 	LicenseShortSkuE20                = "E20"
 	LicenseShortSkuProfessional       = "professional"
 	LicenseShortSkuEnterprise         = "enterprise"
 	LicenseShortSkuEnterpriseAdvanced = "advanced"
-	LicenseShortSkuSofaEntry    = "entry"
+	LicenseShortSkuMattermostEntry    = "entry"
 
 	ProfessionalTier = 10
 	EnterpriseTier   = 20
@@ -37,7 +37,7 @@ var LicenseToLicenseTier = map[string]int{
 	LicenseShortSkuProfessional:       ProfessionalTier,
 	LicenseShortSkuEnterprise:         EnterpriseTier,
 	LicenseShortSkuEnterpriseAdvanced: EnterpriseAdvancedTier,
-	LicenseShortSkuSofaEntry:    EntryTier,
+	LicenseShortSkuMattermostEntry:    EntryTier,
 }
 
 const (
@@ -89,8 +89,8 @@ type License struct {
 	Limits     *LicenseLimits `json:"limits"`
 }
 
-func (l *License) IsSofaEntry() bool {
-	return l != nil && l.SkuShortName == LicenseShortSkuSofaEntry
+func (l *License) IsMattermostEntry() bool {
+	return l != nil && l.SkuShortName == LicenseShortSkuMattermostEntry
 }
 
 type Customer struct {

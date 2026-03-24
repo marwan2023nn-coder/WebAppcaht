@@ -94,7 +94,7 @@
         "PersistentNotificationMaxRecipients": 5,
         "EnableAPIChannelDeletion": false,
         "EnableLocalMode": false,
-        "LocalModeSocketLocation": "/var/tmp/sofa_local.socket",
+        "LocalModeSocketLocation": "/var/tmp/mattermost_local.socket",
         "EnableAWSMetering": false,
         "AWSMeteringTimeoutSeconds": 30,
         "SplitKey": "",
@@ -111,7 +111,7 @@
         "MaximumURLLength": 2048
     },
     "TeamSettings": {
-        "SiteName": "Sofa",
+        "SiteName": "Mattermost",
         "MaxUsersPerTeam": 2000,
         "EnableJoinLeaveMessageByDefault": true,
         "EnableUserCreation": true,
@@ -167,7 +167,7 @@
         "SMTPServerTimeout": 10,
         "ConnectionSecurity": "",
         "SendPushNotifications": true,
-        "PushNotificationServer": "https://push-test.sofa.com",
+        "PushNotificationServer": "https://push-test.mattermost.com",
         "PushNotificationContents": "generic",
         "PushNotificationBuffer": 1000,
         "EnableEmailBatching": false,
@@ -185,11 +185,11 @@
         "ShowFullName": true
     },
     "SupportSettings": {
-        "TermsOfServiceLink": "https://sofa.com/pl/terms-of-use/",
-        "PrivacyPolicyLink": "https://sofa.com/pl/privacy-policy/",
-        "AboutLink": "https://sofa.com/pl/about-sofa",
-        "HelpLink": "https://sofa.com/pl/help/",
-        "ReportAProblemLink": "https://sofa.com/pl/report-a-bug",
+        "TermsOfServiceLink": "https://mattermost.com/pl/terms-of-use/",
+        "PrivacyPolicyLink": "https://mattermost.com/pl/privacy-policy/",
+        "AboutLink": "https://mattermost.com/pl/about-mattermost",
+        "HelpLink": "https://mattermost.com/pl/help/",
+        "ReportAProblemLink": "https://mattermost.com/pl/report-a-bug",
         "ReportAProblemType": "link",
         "ForgotPasswordLink": "",
         "SupportEmail": "",
@@ -205,7 +205,7 @@
         "AllowBannerDismissal": true,
         "AdminNoticesEnabled": false,
         "UserNoticesEnabled": false,
-        "NoticesURL": "https://notices.sofa.com/",
+        "NoticesURL": "https://notices.mattermost.com/",
         "NoticesFetchFrequency": 3600,
         "NoticesSkipCache": false
     },
@@ -350,9 +350,9 @@
             "mmauth://",
             "mmauthbeta://"
         ],
-        "AppDownloadLink": "https://sofa.com/pl/download-apps",
-        "AndroidAppDownloadLink": "https://sofa.com/pl/android-app/",
-        "IosAppDownloadLink": "https://sofa.com/pl/ios-app/"
+        "AppDownloadLink": "https://mattermost.com/pl/download-apps",
+        "AndroidAppDownloadLink": "https://mattermost.com/pl/android-app/",
+        "IosAppDownloadLink": "https://mattermost.com/pl/ios-app/"
     },
     "ClusterSettings": {
         "Enable": false
@@ -406,7 +406,7 @@
             "com.workspace.calls": {
                 "Enable": false
             },
-            "com.sofa.nps": {
+            "com.mattermost.nps": {
                 "Enable": false
             },
             "workspace": {
@@ -417,7 +417,7 @@
         "EnableRemoteMarketplace": true,
         "AutomaticPrepackagedPlugins": true,
         "RequirePluginSignature": false,
-        "MarketplaceURL": "https://api.integrations.sofa.com",
+        "MarketplaceURL": "https://api.integrations.mattermost.com",
         "SignaturePublicKeyFiles": [],
         "ChimeraOAuthProxyURL": ""
     },

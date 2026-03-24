@@ -1,4 +1,4 @@
-module github.com/marwan2023nn-coder/sofa/tools/mmgotool
+module github.com/mattermost/mattermost/tools/mmgotool
 
 go 1.20
 

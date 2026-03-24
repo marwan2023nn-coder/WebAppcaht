@@ -3,12 +3,12 @@ package main
 import (
 	"fmt"
 
-	"github.com/sofa/sofa/server/public/model"
-	"github.com/sofa/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
 )
 
 type TestPlugin struct {
-	plugin.SofaPlugin
+	plugin.MattermostPlugin
 }
 
 func (p *TestPlugin) OnActivate() error {

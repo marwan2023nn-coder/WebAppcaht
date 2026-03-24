@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -14,22 +14,22 @@ import (
 	"os/user"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/public/utils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/audit"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/public/utils"
+	"github.com/mattermost/mattermost/server/v8/channels/audit"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/config"
 )
 
 // Audit level aliases for convenient access within the app package.
 // These map directly to the audit levels defined in mlog.
 //
-// See [github.com/marwan2023nn-coder/sofa/server/public/shared/mlog.LvlAuditAPI],
-// [github.com/marwan2023nn-coder/sofa/server/public/shared/mlog.LvlAuditContent],
-// [github.com/marwan2023nn-coder/sofa/server/public/shared/mlog.LvlAuditPerms],
-// [github.com/marwan2023nn-coder/sofa/server/public/shared/mlog.LvlAuditCLI]
+// See [github.com/mattermost/mattermost/server/public/shared/mlog.LvlAuditAPI],
+// [github.com/mattermost/mattermost/server/public/shared/mlog.LvlAuditContent],
+// [github.com/mattermost/mattermost/server/public/shared/mlog.LvlAuditPerms],
+// [github.com/mattermost/mattermost/server/public/shared/mlog.LvlAuditCLI]
 // for detailed documentation on when to use each level.
 var (
 	LevelAPI     = mlog.LvlAuditAPI

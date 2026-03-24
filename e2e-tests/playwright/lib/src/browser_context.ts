@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {writeFile} from 'node:fs/promises';
@@ -6,7 +6,7 @@ import path from 'node:path';
 import fs from 'node:fs';
 
 import {Browser, BrowserContext, request} from '@playwright/test';
-import {UserProfile} from '@sofa/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
 import {testConfig} from './test_config';
 import {pages} from './ui/pages';

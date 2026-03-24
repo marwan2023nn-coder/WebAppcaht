@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -9,13 +9,13 @@ import (
 	"path"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/password/hashers"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/users"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/platform/shared/mfa"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app/password/hashers"
+	"github.com/mattermost/mattermost/server/v8/channels/app/users"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/v8/platform/shared/mfa"
 )
 
 type TokenLocation int
@@ -429,7 +429,7 @@ func (a *App) authenticateUser(rctx request.CTX, user *model.User, password, mfa
 
 	if err := a.CheckPasswordAndAllCriteria(rctx, user.Id, password, mfaToken); err != nil {
 		if err.Id == "api.user.check_user_password.invalid.app_error" {
-			rctx.Logger().LogM(mlog.MlvlLDAPInfo, "A user tried to sign in, which matched a Sofa account, but the password was incorrect.", mlog.String("username", user.Username))
+			rctx.Logger().LogM(mlog.MlvlLDAPInfo, "A user tried to sign in, which matched a Mattermost account, but the password was incorrect.", mlog.String("username", user.Username))
 		}
 
 		err.StatusCode = http.StatusUnauthorized

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -17,7 +17,7 @@ describe('Plugin Marketplace', () => {
 
     before(() => {
         cy.shouldNotRunOnCloudEdition();
-        cy.shouldHaveFeatureFlag('StreamlinedMarketplace', 'false'); // https://sofa.atlassian.net/browse/MM-54230
+        cy.shouldHaveFeatureFlag('StreamlinedMarketplace', 'false'); // https://mattermost.atlassian.net/browse/MM-54230
         cy.shouldHavePluginUploadEnabled();
 
         cy.apiInitSetup().then(({team}) => {
@@ -33,12 +33,12 @@ describe('Plugin Marketplace', () => {
                 Enable: true,
                 EnableMarketplace: true,
                 EnableRemoteMarketplace: true,
-                MarketplaceURL: 'https://api.integrations.sofa.com',
+                MarketplaceURL: 'https://api.integrations.mattermost.com',
                 PluginStates: {
                     github: {
                         Enable: false,
                     },
-                    'com.sofa.webex': {
+                    'com.mattermost.webex': {
                         Enable: false,
                     },
                 },
@@ -73,7 +73,7 @@ describe('Plugin Marketplace', () => {
         cy.get('#marketplaceTabs-pane-allListing').should('be.visible');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('MM-T2001 autofocus on search plugin input box', () => {
         cy.uiClose();
 
@@ -84,7 +84,7 @@ describe('Plugin Marketplace', () => {
         cy.findByPlaceholderText('Search Marketplace').should('be.focused');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('render the list of all plugins by default', () => {
         // * Verify all plugins tab should be active
         cy.get('#marketplaceTabs-tab-allListing').should('be.visible').parent().should('have.class', 'active');
@@ -95,7 +95,7 @@ describe('Plugin Marketplace', () => {
         cy.get('#marketplaceTabs-pane-installed').should('not.exist');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     // this test uses exist, not visible, due to issues with Cypress
     it('render the list of installed plugins on demand', () => {
         // # Click on installed plugins tab
@@ -121,7 +121,7 @@ describe('Plugin Marketplace', () => {
         cy.get('#modal_marketplace').should('not.exist');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('should filter all on search', () => {
         // # Load all plugins before searching
         cy.get('.more-modal__row').should('have.length', 15);
@@ -141,7 +141,7 @@ describe('Plugin Marketplace', () => {
             should('have.length', 1);
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('should show an error bar on failing to filter', () => {
         // # Enable Plugin Marketplace
         cy.apiUpdateConfig({
@@ -161,23 +161,23 @@ describe('Plugin Marketplace', () => {
 
     it('should install a plugin on demand', () => {
         // # Uninstall any existing webex plugin
-        cy.apiRemovePluginById('com.sofa.webex');
+        cy.apiRemovePluginById('com.mattermost.webex');
 
         // * Verify webex plugin should be visible
         cy.findByText('Next').click();
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').scrollIntoView().should('be.visible');
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
 
         // # Install the webex plugin
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').find('.btn.btn-primary').click();
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
 
         // * Verify should show "Configure" after installation
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('should install a plugin from search results on demand', () => {
         // # Uninstall any existing webex plugin
-        cy.apiRemovePluginById('com.sofa.webex');
+        cy.apiRemovePluginById('com.mattermost.webex');
 
         // # Filter to webex plugin only
         cy.findByPlaceholderText('Search Marketplace').scrollIntoView().should('be.visible').type('webex');
@@ -186,13 +186,13 @@ describe('Plugin Marketplace', () => {
         cy.get('#marketplaceTabs-pane-allListing').find('.more-modal__row').should('have.length', 1);
 
         // * Verify webex plugin should be visible
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').scrollIntoView().should('be.visible');
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').scrollIntoView().should('be.visible');
 
         // # Install the webex plugin
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').find('.btn.btn-primary').click();
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-primary').click();
 
         // * Verify should show "Configure" after installation
-        cy.get('#marketplace-plugin-com\\.sofa\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
+        cy.get('#marketplace-plugin-com\\.mattermost\\.webex').find('.btn.btn-outline', {timeout: TIMEOUTS.ONE_MIN}).scrollIntoView().should('be.visible').and('have.text', 'Configure');
 
         // * Verify search filter should be maintained
         cy.get('#marketplaceTabs-pane-allListing').find('.more-modal__row').should('have.length', 1);
@@ -233,7 +233,7 @@ describe('Plugin Marketplace', () => {
         cy.get('#marketplace-plugin-github').should('be.visible');
     });
 
-    // https://sofa.atlassian.net/browse/MM-54230
+    // https://mattermost.atlassian.net/browse/MM-54230
     it('MM-T1986 change tab to "All Plugins" when "Install Plugins" link is clicked', () => {
         cy.get('#marketplaceTabs').scrollIntoView().should('be.visible').within(() => {
             // # Switch tab to installed plugin

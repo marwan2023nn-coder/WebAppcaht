@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -18,16 +18,16 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/email"
-	emailmocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/email/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/teams"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/users"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/sqlstore"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app/email"
+	emailmocks "github.com/mattermost/mattermost/server/v8/channels/app/email/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/app/teams"
+	"github.com/mattermost/mattermost/server/v8/channels/app/users"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
 )
 
 func TestCreateTeam(t *testing.T) {
@@ -1791,7 +1791,7 @@ func TestInviteNewUsersToTeamGracefully(t *testing.T) {
 	t.Run("it return list of email with no error on success", func(t *testing.T) {
 		emailServiceMock := emailmocks.ServiceInterface{}
 		memberInvite := &model.MemberInvite{
-			Emails: []string{"idontexist@sofa.com"},
+			Emails: []string{"idontexist@mattermost.com"},
 		}
 		emailServiceMock.On("SendInviteEmails",
 			mock.AnythingOfType("*model.Team"),
@@ -1816,7 +1816,7 @@ func TestInviteNewUsersToTeamGracefully(t *testing.T) {
 	t.Run("it should assign errors to emails when failing to send", func(t *testing.T) {
 		emailServiceMock := emailmocks.ServiceInterface{}
 		memberInvite := &model.MemberInvite{
-			Emails: []string{"idontexist@sofa.com"},
+			Emails: []string{"idontexist@mattermost.com"},
 		}
 		emailServiceMock.On("SendInviteEmails",
 			mock.AnythingOfType("*model.Team"),
@@ -1841,7 +1841,7 @@ func TestInviteNewUsersToTeamGracefully(t *testing.T) {
 	t.Run("it return list of email with no error when inviting to team and channels using memberInvite struct", func(t *testing.T) {
 		emailServiceMock := emailmocks.ServiceInterface{}
 		memberInvite := &model.MemberInvite{
-			Emails:     []string{"idontexist@sofa.com"},
+			Emails:     []string{"idontexist@mattermost.com"},
 			ChannelIds: []string{th.BasicChannel.Id},
 		}
 		emailServiceMock.On("SendInviteEmailsToTeamAndChannels",
@@ -1870,13 +1870,13 @@ func TestInviteNewUsersToTeamGracefully(t *testing.T) {
 	t.Run("it return list of email with no error when inviting to team and channels using plain emails array", func(t *testing.T) {
 		emailServiceMock := emailmocks.ServiceInterface{}
 		memberInvite := &model.MemberInvite{
-			Emails: []string{"idontexist@sofa.com"},
+			Emails: []string{"idontexist@mattermost.com"},
 		}
 		emailServiceMock.On("SendInviteEmails",
 			mock.AnythingOfType("*model.Team"),
 			mock.AnythingOfType("string"),
 			mock.AnythingOfType("string"),
-			[]string{"idontexist@sofa.com"},
+			[]string{"idontexist@mattermost.com"},
 			"",
 			mock.Anything,
 			true,
@@ -1909,7 +1909,7 @@ func TestInviteGuestsToChannelsGracefully(t *testing.T) {
 			mock.AnythingOfType("string"),
 			mock.AnythingOfType("string"),
 			mock.AnythingOfType("[]uint8"),
-			[]string{"idontexist@sofa.com"},
+			[]string{"idontexist@mattermost.com"},
 			"",
 			"",
 			true,
@@ -1921,7 +1921,7 @@ func TestInviteGuestsToChannelsGracefully(t *testing.T) {
 		th.App.Srv().EmailService = &emailServiceMock
 
 		res, err := th.App.InviteGuestsToChannelsGracefully(th.Context, th.BasicTeam.Id, &model.GuestsInvite{
-			Emails:   []string{"idontexist@sofa.com"},
+			Emails:   []string{"idontexist@mattermost.com"},
 			Channels: []string{th.BasicChannel.Id},
 		}, th.BasicUser.Id, false)
 		require.Nil(t, err)
@@ -1937,7 +1937,7 @@ func TestInviteGuestsToChannelsGracefully(t *testing.T) {
 			mock.AnythingOfType("string"),
 			mock.AnythingOfType("string"),
 			mock.AnythingOfType("[]uint8"),
-			[]string{"idontexist@sofa.com"},
+			[]string{"idontexist@mattermost.com"},
 			"",
 			"",
 			true,
@@ -1949,7 +1949,7 @@ func TestInviteGuestsToChannelsGracefully(t *testing.T) {
 		th.App.Srv().EmailService = &emailServiceMock
 
 		res, err := th.App.InviteGuestsToChannelsGracefully(th.Context, th.BasicTeam.Id, &model.GuestsInvite{
-			Emails:   []string{"idontexist@sofa.com"},
+			Emails:   []string{"idontexist@mattermost.com"},
 			Channels: []string{th.BasicChannel.Id},
 		}, th.BasicUser.Id, false)
 

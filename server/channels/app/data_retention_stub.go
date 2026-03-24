@@ -4,7 +4,7 @@
 package app
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // dataRetentionStub is a no-op implementation of einterfaces.DataRetentionInterface.

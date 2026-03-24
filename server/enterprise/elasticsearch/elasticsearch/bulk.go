@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package elasticsearch
@@ -9,8 +9,8 @@ import (
 
 	elastic "github.com/elastic/go-elasticsearch/v8"
 	esTypes "github.com/elastic/go-elasticsearch/v8/typedapi/types"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/v8/enterprise/elasticsearch/common"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/v8/enterprise/elasticsearch/common"
 )
 
 type BulkClient interface {

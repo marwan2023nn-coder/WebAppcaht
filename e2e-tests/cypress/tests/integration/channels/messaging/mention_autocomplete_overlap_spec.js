@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -94,7 +94,7 @@ describe('Messaging', () => {
 
 function uploadFileAndAddAutocompleteThenVerifyNoOverlap() {
     // # Upload file
-    cy.get('#fileUploadInput').attachFile('sofa-icon.png');
+    cy.get('#fileUploadInput').attachFile('mattermost-icon.png');
 
     // # Create and then type message to use
     cy.uiGetPostTextBox().clear();

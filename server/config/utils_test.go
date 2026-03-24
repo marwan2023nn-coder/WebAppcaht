@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -9,8 +9,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 func TestDesanitize(t *testing.T) {
@@ -195,7 +195,7 @@ func TestIsDatabaseDSN(t *testing.T) {
 		},
 		{
 			Name:     "Absolute path DSN",
-			DSN:      "/opt/sofa/configuration/config.json",
+			DSN:      "/opt/mattermost/configuration/config.json",
 			Expected: false,
 		},
 	}
@@ -226,7 +226,7 @@ func TestIsJSONMap(t *testing.T) {
 		{name: "array json", data: `["test1", "test2"]`, want: false},
 		{name: "bad json", data: `{huh?}`, want: false},
 		{name: "filename", data: "/tmp/logger.conf", want: false},
-		{name: "postgres dsn", data: "postgres://mmuser:passwordlocalhost:5432/sofa?sslmode=disable&connect_timeout=10", want: false},
+		{name: "postgres dsn", data: "postgres://mmuser:passwordlocalhost:5432/mattermost?sslmode=disable&connect_timeout=10", want: false},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

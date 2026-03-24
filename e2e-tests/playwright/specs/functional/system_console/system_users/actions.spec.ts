@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {type PlaywrightExtended, expect, test} from '@sofa/playwright-lib';
+import {type PlaywrightExtended, expect, test} from '@mattermost/playwright-lib';
 
 /**
  * Setup a new random user, and search for it such that it's the first row in the list

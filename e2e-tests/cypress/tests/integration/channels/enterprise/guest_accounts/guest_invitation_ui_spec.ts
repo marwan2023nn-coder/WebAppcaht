@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -68,7 +68,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.findByTestId('inviteButton').scrollIntoView().should('be.visible').and('be.disabled');
 
         // * Verify Invite People field
-        const email = `temp-${getRandomId()}@sofa.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             // * Verify the input placeholder text
             cy.get('.users-emails-input__placeholder').should('have.text', 'Enter a name or email address');
@@ -137,7 +137,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         // # Reload the current page
         cy.reload();
 
-        const email = `temp-${getRandomId()}@sofa.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email, 'Town Square', false);
 
         // * Verify Invite Guests button is disabled
@@ -152,7 +152,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         cy.visit(`/${testTeam.name}/channels/town-square`);
 
         // # Invite a email containing uppercase letters
-        const email = `tEMp-${getRandomId()}@sofa.com`;
+        const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen
@@ -210,7 +210,7 @@ describe('Guest Account - Guest User Invitation Flow', () => {
         });
 
         // * Verify the email field is empty
-        const email = `temp-${getRandomId()}@sofa.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
         cy.get('.users-emails-input__control').should('be.visible').within(() => {
             cy.get('.users-emails-input__multi-value').should('not.exist');
             cy.get('input').typeWithForce(email);

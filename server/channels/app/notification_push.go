@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -15,13 +15,13 @@ import (
 	"sync"
 
 	"github.com/golang-jwt/jwt/v5"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/plugin"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 type notificationType string
@@ -497,8 +497,8 @@ func (a *App) rawSendToPushProxy(msg *model.PushNotification) (model.PushRespons
 	// Add auth token and server ID headers if available
 	if a.Srv().PushProxy != nil {
 		if authToken := a.Srv().PushProxy.GetAuthToken(); authToken != "" {
-			request.Header.Set("X-Sofa-Auth", authToken)
-			request.Header.Set("X-Sofa-ServerID", a.ServerId())
+			request.Header.Set("X-Mattermost-Auth", authToken)
+			request.Header.Set("X-Mattermost-ServerID", a.ServerId())
 		}
 	}
 
@@ -574,8 +574,8 @@ func (a *App) SendAckToPushProxy(rctx request.CTX, ack *model.PushNotificationAc
 	// Add auth token and server ID headers if available
 	if a.Srv().PushProxy != nil {
 		if authToken := a.Srv().PushProxy.GetAuthToken(); authToken != "" {
-			request.Header.Set("X-Sofa-Auth", authToken)
-			request.Header.Set("X-Sofa-ServerID", a.ServerId())
+			request.Header.Set("X-Mattermost-Auth", authToken)
+			request.Header.Set("X-Mattermost-ServerID", a.ServerId())
 		}
 	}
 

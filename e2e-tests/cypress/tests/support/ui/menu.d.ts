@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /// <reference types="cypress" />
@@ -19,7 +19,7 @@ declare namespace Cypress {
 
         /**
          * Open main menu at system console
-         * @param {string} item - such as `'Switch to [Team Name]'`, `'Administrator's Guide'`, `'Troubleshooting Forum'`, `'Commercial Support'`, `'About Sofa'` and `'Log Out'`.
+         * @param {string} item - such as `'Switch to [Team Name]'`, `'Administrator's Guide'`, `'Troubleshooting Forum'`, `'Commercial Support'`, `'About Mattermost'` and `'Log Out'`.
          * @return the main menu
          *
          * @example

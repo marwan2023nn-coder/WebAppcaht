@@ -1,9 +1,9 @@
 services:
   elasticsearch:
-    image: "sofadevelopment/sofa-elasticsearch:8.9.0"
+    image: "mattermostdevelopment/mattermost-elasticsearch:8.9.0"
     platform: linux/arm64/v8
     restart: 'no'
-    container_name: sofa-elasticsearch
+    container_name: mattermost-elasticsearch
     ports:
       - "9200:9200"
       - "9300:9300"

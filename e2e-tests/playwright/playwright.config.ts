@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {defineConfig, devices} from '@playwright/test';
 
-import {duration, testConfig} from '@sofa/playwright-lib';
+import {duration, testConfig} from '@mattermost/playwright-lib';
 
 export default defineConfig({
     globalSetup: './global_setup.ts',

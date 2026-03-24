@@ -4,17 +4,17 @@ import (
 	"net/url"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
+	"github.com/mattermost/mattermost/server/public/pluginapi"
 )
 
 // GetPluginURL returns a url like siteURL/plugins/pluginID based on the information from the client.
 // If any error happens in the process, a empty string is returned.
 func GetPluginURL(client *pluginapi.Client) string {
-	sofaSiteURL := client.Configuration.GetConfig().ServiceSettings.SiteURL
-	if sofaSiteURL == nil {
+	mattermostSiteURL := client.Configuration.GetConfig().ServiceSettings.SiteURL
+	if mattermostSiteURL == nil {
 		return ""
 	}
-	_, err := url.Parse(*sofaSiteURL)
+	_, err := url.Parse(*mattermostSiteURL)
 	if err != nil {
 		return ""
 	}
@@ -24,5 +24,5 @@ func GetPluginURL(client *pluginapi.Client) string {
 	}
 
 	pluginURLPath := "/plugins/" + manifest.Id
-	return strings.TrimRight(*sofaSiteURL, "/") + pluginURLPath
+	return strings.TrimRight(*mattermostSiteURL, "/") + pluginURLPath
 }

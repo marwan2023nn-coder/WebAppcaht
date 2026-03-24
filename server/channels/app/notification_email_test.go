@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -14,12 +14,12 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/i18n"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/timezones"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/i18n"
+	"github.com/mattermost/mattermost/server/public/shared/timezones"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 // Helper function to create PostNotification for testing
@@ -1121,33 +1121,33 @@ func TestMarkdownConversion(t *testing.T) {
 		},
 		{
 			name: "markdown: strong",
-			args: "This is **Sofa**",
-			want: "This is <strong>Sofa</strong>",
+			args: "This is **Mattermost**",
+			want: "This is <strong>Mattermost</strong>",
 		},
 		{
 			name: "markdown: blockquote",
 			args: "Below is blockquote\n" +
-				"> This is Sofa blockquote\n" +
+				"> This is Mattermost blockquote\n" +
 				"> on multiple lines!",
 			want: "<blockquote>\n" +
-				"<p>This is Sofa blockquote\n" +
+				"<p>This is Mattermost blockquote\n" +
 				"on multiple lines!</p>\n" +
 				"</blockquote>",
 		},
 		{
 			name: "markdown: emphasis",
-			args: "This is *Sofa*",
-			want: "This is <em>Sofa</em>",
+			args: "This is *Mattermost*",
+			want: "This is <em>Mattermost</em>",
 		},
 		{
 			name: "markdown: links",
-			args: "This is [Sofa](https://sofa.com)",
-			want: "This is <a href=\"https://sofa.com\">Sofa</a>",
+			args: "This is [Mattermost](https://mattermost.com)",
+			want: "This is <a href=\"https://mattermost.com\">Mattermost</a>",
 		},
 		{
 			name: "markdown: strikethrough",
-			args: "This is ~~Sofa~~",
-			want: "This is <del>Sofa</del>",
+			args: "This is ~~Mattermost~~",
+			want: "This is <del>Mattermost</del>",
 		},
 		{
 			name: "markdown: table",
@@ -1185,9 +1185,9 @@ func TestMarkdownConversion(t *testing.T) {
 		},
 		{
 			name: "markdown: multiline with header and links",
-			args: "###### H6 header\n[link 1](https://sofa.com) - [link 2](https://sofa.com)",
+			args: "###### H6 header\n[link 1](https://mattermost.com) - [link 2](https://mattermost.com)",
 			want: "<h6>H6 header</h6>\n" +
-				"<p><a href=\"https://sofa.com\">link 1</a> - <a href=\"https://sofa.com\">link 2</a></p>",
+				"<p><a href=\"https://mattermost.com\">link 1</a> - <a href=\"https://mattermost.com\">link 2</a></p>",
 		},
 	}
 

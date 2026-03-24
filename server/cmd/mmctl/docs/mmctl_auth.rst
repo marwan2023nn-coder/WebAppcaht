@@ -3,13 +3,13 @@
 mmctl auth
 ----------
 
-Manages the credentials of the remote Sofa instances
+Manages the credentials of the remote Mattermost instances
 
 Synopsis
 ~~~~~~~~
 
 
-Manages the credentials of the remote Sofa instances
+Manages the credentials of the remote Mattermost instances
 
 Options
 ~~~~~~~

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -188,7 +188,7 @@ const checkChannelPermission = (permissionName, hasChannelPermissionCheckFunc, n
         const teamScheme = schemes[0];
         const url = `admin_console/user_management/permissions/team_override_scheme/${teamScheme.id}`;
 
-        // todo: add checks for guests once sofa-webapp/pull/5061 is merged
+        // todo: add checks for guests once mattermost-webapp/pull/5061 is merged
         const usersTestId = `all_users-posts-${permissionName}-checkbox`;
         const channelTestId = `${teamScheme.default_channel_admin_role}-posts-${permissionName}-checkbox`;
         const teamTestId = `${teamScheme.default_team_admin_role}-posts-${permissionName}-checkbox`;

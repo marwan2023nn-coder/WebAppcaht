@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,7 +10,7 @@
 // Stage: @prod
 // Group: @channels @not_cloud @bot_accounts
 
-import {Team} from '@sofa/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import * as TIMEOUTS from '../../../fixtures/timeouts';
 

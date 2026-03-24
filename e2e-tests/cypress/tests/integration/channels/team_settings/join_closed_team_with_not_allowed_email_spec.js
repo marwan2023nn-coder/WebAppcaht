@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -15,7 +15,7 @@ import * as TIMEOUTS from '../../../fixtures/timeouts';
 
 describe('Team Settings', () => {
     const randomId = getRandomId();
-    const emailDomain = 'sample.sofa.com';
+    const emailDomain = 'sample.mattermost.com';
     let testTeam;
 
     before(() => {
@@ -39,7 +39,7 @@ describe('Team Settings', () => {
         });
     });
 
-    it('MM-T387 - Try to join a closed team from a NON-sofa email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "sample.sofa.com"', () => {
+    it('MM-T387 - Try to join a closed team from a NON-mattermost email address via "Get Team Invite Link" while "Allow only users with a specific email domain to join this team" set to "sample.mattermost.com"', () => {
         stubClipboard().as('clipboard');
 
         // # Open team menu and click 'Team Settings'
@@ -56,7 +56,7 @@ describe('Team Settings', () => {
                 cy.get('.mm-modal-generic-section-item__input-checkbox').should('not.be.checked').click();
             });
 
-            // # Set 'sample.sofa.com' as the only allowed email domain and save
+            // # Set 'sample.mattermost.com' as the only allowed email domain and save
             cy.get('#allowedDomains').click().type(emailDomain).type(' ');
             cy.findByText('Save').should('be.visible').click();
         });
@@ -118,7 +118,7 @@ describe('Team Settings', () => {
                 cy.get('.mm-modal-generic-section-item__input-checkbox').should('not.be.checked').click();
             });
 
-            // # Set 'sample.sofa.com' as the only allowed email domain and save
+            // # Set 'sample.mattermost.com' as the only allowed email domain and save
             cy.get('#allowedDomains').click().type(emailDomain).type(' ');
             cy.findByText('Save').should('be.visible');
 

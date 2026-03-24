@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -79,7 +79,7 @@ describe('Onboarding', () => {
 
         cy.wait(TIMEOUTS.HALF_SEC);
 
-        // * Check that 'Sofa: You are almost done' text should be visible when email hasn't been verified yet
+        // * Check that 'Mattermost: You are almost done' text should be visible when email hasn't been verified yet
         cy.findByText('You’re almost done!').should('be.visible');
 
         cy.getRecentEmail(user).then((data) => {

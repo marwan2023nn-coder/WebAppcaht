@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package config
@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 type cleanUpFn func(store *Store)
@@ -64,10 +64,10 @@ func TestMigrate(t *testing.T) {
 			files[4],
 		}
 		cfg.SqlSettings.DataSourceReplicas = []string{
-			"postgres://mmuser:password@replicahost:5432/sofa",
+			"postgres://mmuser:password@replicahost:5432/mattermost",
 		}
 		cfg.SqlSettings.DataSourceSearchReplicas = []string{
-			"postgres://mmuser:password@searchreplicahost:5432/sofa",
+			"postgres://mmuser:password@searchreplicahost:5432/mattermost",
 		}
 
 		_, _, err := source.Set(cfg)

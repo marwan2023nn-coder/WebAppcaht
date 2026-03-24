@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,9 +10,9 @@
 // Stage: @prod
 // Group: @channels @collapsed_reply_threads @not_cloud
 
-import {Channel} from '@sofa/types/channels';
-import {Team} from '@sofa/types/teams';
-import {UserProfile} from '@sofa/types/users';
+import {Channel} from '@mattermost/types/channels';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
 
 import * as MESSAGES from '../../../fixtures/messages';
 import {matterpollPlugin} from '../../../utils/plugins';
@@ -57,8 +57,8 @@ describe('Collapsed Reply Threads', () => {
         // # Upload and enable "matterpoll" plugin
         cy.apiUploadAndEnablePlugin(matterpollPlugin);
 
-        // # In center post the following: /poll "Do you like https://sofa.com?"
-        cy.postMessage('/poll "Do you like https://sofa.com?"');
+        // # In center post the following: /poll "Do you like https://mattermost.com?"
+        cy.postMessage('/poll "Do you like https://mattermost.com?"');
 
         cy.getLastPostId().then((pollId) => {
             // # Post a reply on the POLL to create a thread and follow
@@ -70,8 +70,8 @@ describe('Collapsed Reply Threads', () => {
             // # Visit global threads
             cy.uiClickSidebarItem('threads');
 
-            // * Text in ThreadItem should say 'username: Do you like https://sofa.com?'
-            cy.get('.attachment__truncated').first().should('have.text', user1.nickname + ': Do you like https://sofa.com?');
+            // * Text in ThreadItem should say 'username: Do you like https://mattermost.com?'
+            cy.get('.attachment__truncated').first().should('have.text', user1.nickname + ': Do you like https://mattermost.com?');
 
             // * Text in ThreadItem should say 'Total votes: 1'
             cy.get('.attachment__truncated').last().should('have.text', 'Total votes: 1');
@@ -89,8 +89,8 @@ describe('Collapsed Reply Threads', () => {
             // # Visit global threads
             cy.uiClickSidebarItem('threads');
 
-            // * Text in ThreadItem should say 'username: Do you like https://sofa.com?'
-            cy.get('.attachment__truncated').first().should('have.text', user1.nickname + ': Do you like https://sofa.com?');
+            // * Text in ThreadItem should say 'username: Do you like https://mattermost.com?'
+            cy.get('.attachment__truncated').first().should('have.text', user1.nickname + ': Do you like https://mattermost.com?');
 
             // * Text in ThreadItem should say 'This poll has ended. The results are:'
             cy.get('.attachment__truncated').last().should('have.text', 'This poll has ended. The results are:');

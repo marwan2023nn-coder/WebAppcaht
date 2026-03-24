@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -13,17 +13,17 @@ import (
 	"testing"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/web"
+	"github.com/mattermost/mattermost/server/v8/channels/web"
 
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
-	einterfacesmocks "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
+	einterfacesmocks "github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
 )
 
 func TestCreateChannel(t *testing.T) {
@@ -310,7 +310,7 @@ func TestUpdateChannel(t *testing.T) {
 	// Update a open channel
 	channel.DisplayName = "My new display name"
 	channel.Header = "My fancy header"
-	channel.Purpose = "Sofa ftw!"
+	channel.Purpose = "Mattermost ftw!"
 
 	newChannel, _, err := client.UpdateChannel(context.Background(), channel)
 	require.NoError(t, err)
@@ -330,7 +330,7 @@ func TestUpdateChannel(t *testing.T) {
 	// Update a private channel
 	private.DisplayName = "My new display name for private channel"
 	private.Header = "My fancy private header"
-	private.Purpose = "Sofa ftw! in private mode"
+	private.Purpose = "Mattermost ftw! in private mode"
 
 	newPrivateChannel, _, err := client.UpdateChannel(context.Background(), private)
 	require.NoError(t, err)

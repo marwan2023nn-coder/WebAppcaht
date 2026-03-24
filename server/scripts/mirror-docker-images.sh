@@ -21,7 +21,7 @@ get_image_specs_per_line | while read IMAGE_SPEC; do
   DST_IMG_NAME=$(jq -r '.dst_img_name' <<<$IMAGE_SPEC)
   DST_IMG_TAG=$(jq -r '.dst_img_tag' <<<$IMAGE_SPEC)
   SOURCE_IMAGE=$(jq -r '.src_img' <<<$IMAGE_SPEC)
-  DESTINATION_IMAGE=sofadevelopment/mirrored-${DST_IMG_NAME}:${DST_IMG_TAG}
+  DESTINATION_IMAGE=mattermostdevelopment/mirrored-${DST_IMG_NAME}:${DST_IMG_TAG}
   if [ "${DRY_RUN,,}" = "no" ]; then
     log "Pushing image: $SOURCE_IMAGE ---> $DESTINATION_IMAGE"
     docker pull $SOURCE_IMAGE

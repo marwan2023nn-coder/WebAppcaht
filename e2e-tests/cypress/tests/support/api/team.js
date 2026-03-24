@@ -1,11 +1,11 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {getRandomId} from '../../utils';
 
 // *****************************************************************************
 // Teams
-// https://api.sofa.com/#tag/teams
+// https://api.mattermost.com/#tag/teams
 // *****************************************************************************
 
 export function createTeamPatch(name = 'team', displayName = 'Team', type = 'O', unique = true) {

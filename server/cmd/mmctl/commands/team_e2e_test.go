@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -11,10 +11,10 @@ import (
 	"github.com/spf13/cobra"
 
 	"github.com/hashicorp/go-multierror"
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 )
 
 func (s *MmctlE2ETestSuite) TestRenameTeamCmdF() {
@@ -185,7 +185,7 @@ func (s *MmctlE2ETestSuite) TestDeleteTeamsCmdF() {
 		s.Require().Error(err)
 		s.Len(printer.GetLines(), 0)
 		s.Len(printer.GetErrorLines(), 1)
-		s.Equal("Unable to delete team '"+s.th.BasicTeam.Name+"' error: Permanent team deletion feature is not enabled. ServiceSettings.EnableAPITeamDeletion must be set to true to use this command. See https://sofa.com/pl/environment-configuration-settings for more information.", printer.GetErrorLines()[0])
+		s.Equal("Unable to delete team '"+s.th.BasicTeam.Name+"' error: Permanent team deletion feature is not enabled. ServiceSettings.EnableAPITeamDeletion must be set to true to use this command. See https://mattermost.com/pl/environment-configuration-settings for more information.", printer.GetErrorLines()[0])
 
 		// verify team still exists
 		team, _ := s.th.App.GetTeam(s.th.BasicTeam.Id)

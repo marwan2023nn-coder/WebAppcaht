@@ -4,8 +4,8 @@
 package app
 
 import (
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/request"
 )
 
 // ldapStub is a no-op implementation of einterfaces.LdapInterface.

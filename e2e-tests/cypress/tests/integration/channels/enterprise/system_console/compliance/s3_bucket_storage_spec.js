@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -9,9 +9,9 @@
 
 // Group: @channels @enterprise @system_console @compliance_export @not_cloud
 
-// Requires "sofa-minio" docker instance to be accessible at http://localhost:9000
-// and a bucket named "sofa-test". Bucket can be created manually in the UI or by:
-// ``docker exec sofa-minio sh -c 'mkdir -p /data/sofa-test'``
+// Requires "mattermost-minio" docker instance to be accessible at http://localhost:9000
+// and a bucket named "mattermost-test". Bucket can be created manually in the UI or by:
+// ``docker exec mattermost-minio sh -c 'mkdir -p /data/mattermost-test'``
 
 import * as TIMEOUTS from '../../../../../fixtures/timeouts';
 

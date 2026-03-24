@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {CollapsedThreads} from '@sofa/types/config';
+import {CollapsedThreads} from '@mattermost/types/config';
 
-import {expect, test} from '@sofa/playwright-lib';
+import {expect, test} from '@mattermost/playwright-lib';
 
 /**
  * @objective Verify that the entire thread appears in the RHS and is scrollable

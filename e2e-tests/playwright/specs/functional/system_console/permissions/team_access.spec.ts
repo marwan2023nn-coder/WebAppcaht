@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {UserProfile} from '@sofa/types/users';
+import {UserProfile} from '@mattermost/types/users';
 
-import {expect, PlaywrightExtended, test} from '@sofa/playwright-lib';
+import {expect, PlaywrightExtended, test} from '@mattermost/playwright-lib';
 
 // setupSystemManagerRole configures the system manager with the given permission ("Can Edit", "Read only", "No access")
 // for the given section and subsection (e.g. "permission_section_reporting_site_statistics" and "permission_section_reporting_team_statistics").

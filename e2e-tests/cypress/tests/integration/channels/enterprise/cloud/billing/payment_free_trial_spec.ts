@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -32,7 +32,7 @@ describe('System Console - Payment Information section', () => {
         cy.intercept('PUT', '/api/v4/cloud/customer', {
             body: {
                 name: '',
-                email: 'user123@example.sofa.com',
+                email: 'user123@example.mattermost.com',
                 num_employees: 0,
                 monthly_subscription_intent_wire_transfer: '',
                 id: 'uniqueID',
@@ -58,7 +58,7 @@ describe('System Console - Payment Information section', () => {
                     card_brand: '',
                     name: ''},
             }}).as('feedbackResponse');
-        cy.get('.UpgradeSofaCloud__upgradeButton').click();
+        cy.get('.UpgradeMattermostCloud__upgradeButton').click();
         cy.get('button#monthlySubscription').as('paymentFeedbackLink').should('be.visible').should('have.text', 'Looking for other payment options?').click();
         cy.get('.Form-section-title').should('be.visible');
         cy.get('input#wire').should('be.not.checked');

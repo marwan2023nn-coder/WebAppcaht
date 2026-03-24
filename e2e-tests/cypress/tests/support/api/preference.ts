@@ -1,19 +1,19 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {ChainableT} from 'tests/types';
-import {PreferenceType} from '@sofa/types/preferences';
+import {PreferenceType} from '@mattermost/types/preferences';
 
 import theme from '../../fixtures/theme.json';
 
 // *****************************************************************************
 // Preferences
-// https://api.sofa.com/#tag/preferences
+// https://api.mattermost.com/#tag/preferences
 // *****************************************************************************
 
 /**
  * Save a list of the user's preferences.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {PreferenceType[]} preferences - List of preference objects
  * @param {string} userId - User ID
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
@@ -34,7 +34,7 @@ Cypress.Commands.add('apiSaveUserPreference', apiSaveUserPreference);
 
 /**
  * Save clock display mode to 24-hour preference.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {boolean} is24Hour - true (default) or false for 12-hour
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
  *
@@ -240,7 +240,7 @@ Cypress.Commands.add('apiSaveOnboardingPreference', apiSaveOnboardingPreference)
 
 /**
  * Save DM channel show preference.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @param {string} otherUserId - Other user in a DM channel
  * @param {string} value - options are 'true' or 'false'
@@ -277,7 +277,7 @@ Cypress.Commands.add('apiHideSidebarWhatsNewModalPreference', apiHideSidebarWhat
 
 /**
  * Get the full list of the user's preferences.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/get
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/get
  * @param {string} userId - User ID
  * @returns {Response} response: Cypress-chainable response which should have a list of preference objects
  *
@@ -295,7 +295,7 @@ Cypress.Commands.add('apiGetUserPreference', apiGetUserPreference);
 
 /**
  * Save Collapsed Reply Threads preference.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @param {string} value - options are 'on' or 'off'
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
@@ -318,7 +318,7 @@ Cypress.Commands.add('apiSaveCRTPreference', apiSaveCRTPreference);
 
 /**
  * Save cloud trial banner preference.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @param {string} name - options are trial or hide
  * @param {string} value - options are 'max_days_banner' or '3_days_banner' for trial, and 'true' or 'false' for hide
@@ -342,7 +342,7 @@ Cypress.Commands.add('apiSaveCloudTrialBannerPreference', apiSaveCloudTrialBanne
 
 /**
  * Save show trial modal.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @param {string} name - trial_modal_auto_shown
  * @param {string} value - values are 'true' or 'false'
@@ -366,7 +366,7 @@ Cypress.Commands.add('apiSaveStartTrialModal', apiSaveStartTrialModal);
 
 /**
  * Save onboarding tasklist preference.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @param {string} name - options are complete_profile, team_setup, invite_members or hide
  * @param {string} value - options are 'true' or 'false'
@@ -425,7 +425,7 @@ Cypress.Commands.add('apiSaveUnreadScrollPositionPreference', apiSaveUnreadScrol
 
 /**
  * Mark Boards welcome page as viewed.
- * See https://api.sofa.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
+ * See https://api.mattermost.com/#tag/preferences/paths/~1users~1{user_id}~1preferences/put
  * @param {string} userId - User ID
  * @returns {Response} response: Cypress-chainable response which should have successful HTTP status of 200 OK to continue or pass.
  *

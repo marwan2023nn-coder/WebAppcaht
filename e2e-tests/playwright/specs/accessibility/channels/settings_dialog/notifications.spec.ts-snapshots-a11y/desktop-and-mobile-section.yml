@@ -1,7 +1,7 @@
 - heading "Desktop and mobile notifications" [level=4]
 - text: 󰀪
 - heading "Browser notification permission was denied" [level=4]
-- paragraph: You're missing important message and call notifications from Sofa. To start receiving notifications, please enable notifications for Sofa in your browser settings.
+- paragraph: You're missing important message and call notifications from Mattermost. To start receiving notifications, please enable notifications for Mattermost in your browser settings.
 - button "How to enable notifications"
 - group "Send notifications for:":
   - radio "All new messages"

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -38,7 +38,7 @@ describe('Profile > Profile Settings > Profile Picture', () => {
         cy.get('#pictureEdit').should('be.visible').click();
 
         // # Upload and save profile picture
-        cy.findByTestId('uploadPicture').attachFile('sofa-icon.png');
+        cy.findByTestId('uploadPicture').attachFile('mattermost-icon.png');
         cy.uiSave().wait(TIMEOUTS.HALF_SEC);
 
         // # Close modal

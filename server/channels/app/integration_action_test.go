@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -18,7 +18,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 // Test for MM-13598 where an invalid integration URL was causing a crash
@@ -716,12 +716,12 @@ func TestSubmitInteractiveDialog(t *testing.T) {
 			"net/http"
 			"encoding/json"
 
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1007,12 +1007,12 @@ func TestPostActionRelativePluginURL(t *testing.T) {
 			"net/http"
 			"encoding/json"
 
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) 	ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1337,12 +1337,12 @@ func TestLookupInteractiveDialog(t *testing.T) {
 				"encoding/json"
 				"net/http"
 
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {
@@ -1729,11 +1729,11 @@ func TestDoPluginRequest(t *testing.T) {
 			"reflect"
 			"sort"
 
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) ServeHTTP(c *plugin.Context, w http.ResponseWriter, r *http.Request) {

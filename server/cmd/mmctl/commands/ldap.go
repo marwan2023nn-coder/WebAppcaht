@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -11,9 +11,9 @@ import (
 	"github.com/pkg/errors"
 	"github.com/spf13/cobra"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 )
 
 var LdapCmd = &cobra.Command{
@@ -41,7 +41,7 @@ var LdapIDMigrate = &cobra.Command{
 1. Wait for an off-peak time when your users won’t be impacted by a server restart.
 2. Run the command "mmctl ldap idmigrate objectGUID".
 3. Update the config within the System Console to the new value "objectGUID".
-4. Restart the Sofa server.`,
+4. Restart the Mattermost server.`,
 	Example: "mmctl ldap idmigrate objectGUID",
 	Args:    cobra.ExactArgs(1),
 	RunE:    withClient(ldapIDMigrateCmdF),
@@ -57,7 +57,7 @@ var LdapJobListCmd = &cobra.Command{
 	Example: "mmctl ldap job list",
 	Short:   "List LDAP sync jobs",
 	// Alisases cause error in zsh. Supposedly, completion V2 will fix that: https://github.com/spf13/cobra/pull/1146
-	// https://sofa.atlassian.net/browse/MM-57062
+	// https://mattermost.atlassian.net/browse/MM-57062
 	// Aliases: []string{"ls"},
 	Args:              cobra.NoArgs,
 	ValidArgsFunction: noCompletion,

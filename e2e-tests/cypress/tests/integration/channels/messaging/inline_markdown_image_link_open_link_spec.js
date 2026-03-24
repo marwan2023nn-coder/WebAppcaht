@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -21,7 +21,7 @@ describe('Messaging', () => {
 
     it('MM-T188 - Inline markdown image that is a link, opens the link', () => {
         const linkUrl = 'https://www.google.com';
-        const imageUrl = 'https://docs.sofa.com/_images/icon-76x76.png';
+        const imageUrl = 'https://docs.mattermost.com/_images/icon-76x76.png';
         const label = 'Build Status';
         const baseUrl = Cypress.config('baseUrl');
 

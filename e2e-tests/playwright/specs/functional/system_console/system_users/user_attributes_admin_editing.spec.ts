@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 /**
@@ -13,12 +13,12 @@
  * For multi-language support, these assertions would need refactoring.
  */
 
-import {Team} from '@sofa/types/teams';
-import {UserProfile} from '@sofa/types/users';
-import {Client4} from '@sofa/client';
-import {UserPropertyField} from '@sofa/types/properties';
+import {Team} from '@mattermost/types/teams';
+import {UserProfile} from '@mattermost/types/users';
+import {Client4} from '@mattermost/client';
+import {UserPropertyField} from '@mattermost/types/properties';
 
-import {expect, test} from '@sofa/playwright-lib';
+import {expect, test} from '@mattermost/playwright-lib';
 
 import {
     CustomProfileAttribute,

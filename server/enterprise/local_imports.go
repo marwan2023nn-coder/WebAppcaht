@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 //go:build enterprise || sourceavailable
@@ -7,9 +7,9 @@ package enterprise
 
 import (
 	// Needed to ensure the init() method in the EE gets run
-	_ "github.com/marwan2023nn-coder/sofa/server/v8/enterprise/metrics"
+	_ "github.com/mattermost/mattermost/server/v8/enterprise/metrics"
 	// Needed to ensure the init() method in the EE gets run
-	_ "github.com/marwan2023nn-coder/sofa/server/v8/enterprise/elasticsearch"
+	_ "github.com/mattermost/mattermost/server/v8/enterprise/elasticsearch"
 	// Needed to ensure the generic OpenID provider gets registered
-	_ "github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oauthproviders/openid"
+	_ "github.com/mattermost/mattermost/server/v8/channels/app/oauthproviders/openid"
 )

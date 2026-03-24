@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -17,7 +17,7 @@ import {allowOnlyUserFromSpecificDomain, inviteUserByEmail, verifyEmailInviteAnd
 describe('Team Settings', () => {
     const sysadmin = getAdminAccount();
     const {username, email, password} = generateRandomUser();
-    const emailDomain = 'sample.sofa.com';
+    const emailDomain = 'sample.mattermost.com';
 
     let testTeam;
     let siteName;
@@ -41,8 +41,8 @@ describe('Team Settings', () => {
         });
     });
 
-    it('MM-T386 Invite new user to closed team with \'Allow only users with a specific email domain to join this team\' set to \'sample.sofa.com\'', () => {
-        // # Allow only users from 'sample.sofa.com' domain
+    it('MM-T386 Invite new user to closed team with \'Allow only users with a specific email domain to join this team\' set to \'sample.mattermost.com\'', () => {
+        // # Allow only users from 'sample.mattermost.com' domain
         allowOnlyUserFromSpecificDomain(emailDomain);
 
         // # Invite user via email

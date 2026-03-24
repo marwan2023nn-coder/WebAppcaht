@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -13,11 +13,11 @@ import (
 
 	"github.com/gorilla/mux"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
 )
 
 func (ch *Channels) ServePluginRequest(w http.ResponseWriter, r *http.Request) {
@@ -90,15 +90,15 @@ func (a *App) ServeInternalPluginRequest(userID string, w http.ResponseWriter, r
 
 	// Set authentication headers - these are trusted because this function is internal
 	// and not exposed to external HTTP routes
-	r.Header.Set("Sofa-User-Id", userID)
+	r.Header.Set("Mattermost-User-Id", userID)
 
 	// Set plugin ID header to identify the caller
 	// Use a special ID for core server calls to distinguish them from plugin-to-plugin calls
 	if sourcePluginID != "" {
-		r.Header.Set("Sofa-Plugin-ID", sourcePluginID)
+		r.Header.Set("Mattermost-Plugin-ID", sourcePluginID)
 	} else {
 		// Core server call - use special identifier
-		r.Header.Set("Sofa-Plugin-ID", "com.sofa.server")
+		r.Header.Set("Mattermost-Plugin-ID", "com.mattermost.server")
 	}
 
 	hooks.ServeHTTP(context, w, r)
@@ -185,11 +185,11 @@ func (ch *Channels) servePluginRequest(w http.ResponseWriter, r *http.Request, h
 		token = r.URL.Query().Get("access_token")
 	}
 
-	// Sofa-Plugin-ID can only be set by inter-plugin requests
-	r.Header.Del("Sofa-Plugin-ID")
+	// Mattermost-Plugin-ID can only be set by inter-plugin requests
+	r.Header.Del("Mattermost-Plugin-ID")
 
-	// Clean Sofa-User-Id header. The server sets this header for authenticated requests
-	r.Header.Del("Sofa-User-Id")
+	// Clean Mattermost-User-Id header. The server sets this header for authenticated requests
+	r.Header.Del("Mattermost-User-Id")
 
 	cookies := r.Cookies()
 	r.Header.Del("Cookie")
@@ -264,7 +264,7 @@ func (ch *Channels) servePluginRequest(w http.ResponseWriter, r *http.Request, h
 	}
 
 	if validateCSRFForPluginRequest(rctx, r, session, cookieAuth, *ch.cfgSvc.Config().ServiceSettings.ExperimentalStrictCSRFEnforcement) {
-		r.Header.Set("Sofa-User-Id", session.UserId)
+		r.Header.Set("Mattermost-User-Id", session.UserId)
 		context.SessionId = session.Id
 	} else {
 		rctx.Logger().Debug("CSRF request failed. Treating the request as unauthenticated.")

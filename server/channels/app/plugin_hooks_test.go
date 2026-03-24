@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -22,13 +22,13 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/utils"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest"
+	"github.com/mattermost/mattermost/server/public/plugin/utils"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
+	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
 )
 
 func SetAppEnvironmentWithPlugins(t *testing.T, pluginCode []string, app *App, apiFunc func(*model.Manifest) plugin.API) (func(), []string, []error) {
@@ -86,12 +86,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -126,12 +126,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -167,12 +167,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -210,12 +210,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -254,12 +254,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -276,12 +276,12 @@ func TestHookMessageWillBePosted(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -322,12 +322,12 @@ func TestHookMessageHasBeenPosted(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageHasBeenPosted(c *plugin.Context, post *model.Post) {
@@ -361,12 +361,12 @@ func TestHookMessageWillBeUpdated(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model.Post) (*model.Post, string) {
@@ -410,12 +410,12 @@ func TestHookMessageHasBeenUpdated(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageHasBeenUpdated(c *plugin.Context, newPost, oldPost *model.Post) {
@@ -458,12 +458,12 @@ func TestHookMessageHasBeenDeleted(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageHasBeenDeleted(c *plugin.Context, post *model.Post) {
@@ -505,12 +505,12 @@ func TestHookFileWillBeUploaded(t *testing.T) {
 
 			import (
 				"io"
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) FileWillBeUploaded(c *plugin.Context, info *model.FileInfo, file io.Reader, output io.Writer) (*model.FileInfo, string) {
@@ -550,12 +550,12 @@ func TestHookFileWillBeUploaded(t *testing.T) {
 			import (
 				"fmt"
 				"io"
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) FileWillBeUploaded(c *plugin.Context, info *model.FileInfo, file io.Reader, output io.Writer) (*model.FileInfo, string) {
@@ -599,12 +599,12 @@ func TestHookFileWillBeUploaded(t *testing.T) {
 
 			import (
 				"io"
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) FileWillBeUploaded(c *plugin.Context, info *model.FileInfo, file io.Reader, output io.Writer) (*model.FileInfo, string) {
@@ -657,12 +657,12 @@ func TestHookFileWillBeUploaded(t *testing.T) {
 				"io"
 				"fmt"
 				"bytes"
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) FileWillBeUploaded(c *plugin.Context, info *model.FileInfo, file io.Reader, output io.Writer) (*model.FileInfo, string) {
@@ -726,12 +726,12 @@ func TestUserWillLogIn_Blocked(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) UserWillLogIn(c *plugin.Context, user *model.User) string {
@@ -767,12 +767,12 @@ func TestUserWillLogInIn_Passed(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) UserWillLogIn(c *plugin.Context, user *model.User) string {
@@ -809,12 +809,12 @@ func TestUserHasLoggedIn(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) UserHasLoggedIn(c *plugin.Context, user *model.User) {
@@ -852,12 +852,12 @@ func TestUserHasBeenDeactivated(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) UserHasBeenDeactivated(c *plugin.Context, user *model.User) {
@@ -901,12 +901,12 @@ func TestUserHasBeenCreated(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) UserHasBeenCreated(c *plugin.Context, user *model.User) {
@@ -949,11 +949,11 @@ func TestErrorString(t *testing.T) {
 			import (
 				"errors"
 
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/plugin"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnActivate() error {
@@ -979,12 +979,12 @@ func TestErrorString(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnActivate() error {
@@ -1033,12 +1033,12 @@ func TestHookContext(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) MessageHasBeenPosted(c *plugin.Context, post *model.Post) {
@@ -1077,12 +1077,12 @@ func TestActiveHooks(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnActivate() error {
@@ -1162,12 +1162,12 @@ func TestHookMetrics(t *testing.T) {
 	package main
 
 	import (
-		"github.com/marwan2023nn-coder/sofa/server/public/model"
-		"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+		"github.com/mattermost/mattermost/server/public/model"
+		"github.com/mattermost/mattermost/server/public/plugin"
 	)
 
 	type MyPlugin struct {
-		plugin.SofaPlugin
+		plugin.MattermostPlugin
 	}
 
 	func (p *MyPlugin) OnActivate() error {
@@ -1249,12 +1249,12 @@ func TestHookReactionHasBeenAdded(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) ReactionHasBeenAdded(c *plugin.Context, reaction *model.Reaction) {
@@ -1295,12 +1295,12 @@ func TestHookReactionHasBeenRemoved(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) ReactionHasBeenRemoved(c *plugin.Context, reaction *model.Reaction) {
@@ -1340,11 +1340,11 @@ func TestHookRunDataRetention(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) RunDataRetention(nowMillis, batchSize int64) (int64, error){
@@ -1385,11 +1385,11 @@ func TestHookOnSendDailyTelemetry(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) OnSendDailyTelemetry() {
@@ -1429,12 +1429,12 @@ func TestHookOnCloudLimitsUpdated(t *testing.T) {
 		package main
 
 		import (
-			"github.com/marwan2023nn-coder/sofa/server/public/model"
-			"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+			"github.com/mattermost/mattermost/server/public/model"
+			"github.com/mattermost/mattermost/server/public/plugin"
 		)
 
 		type MyPlugin struct {
-			plugin.SofaPlugin
+			plugin.MattermostPlugin
 		}
 
 		func (p *MyPlugin) OnCloudLimitsUpdated(_ *model.ProductLimits) {
@@ -1729,12 +1729,12 @@ func TestHookMessagesWillBeConsumed(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessagesWillBeConsumed(posts []*model.Post) []*model.Post {
@@ -1813,12 +1813,12 @@ func TestHookPreferencesHaveChanged(t *testing.T) {
 			import (
 				"fmt"
 
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) PreferencesHaveChanged(c *plugin.Context, preferences []model.Preference) {
@@ -1877,8 +1877,8 @@ func TestHookPreferencesHaveChanged(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			const (
@@ -1886,7 +1886,7 @@ func TestHookPreferencesHaveChanged(t *testing.T) {
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) PreferencesHaveChanged(c *plugin.Context, preferences []model.Preference) {
@@ -1960,8 +1960,8 @@ func TestChannelHasBeenCreated(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			const (
@@ -1969,7 +1969,7 @@ func TestChannelHasBeenCreated(t *testing.T) {
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) ChannelHasBeenCreated(c *plugin.Context, channel *model.Channel) {
@@ -2085,8 +2085,8 @@ func TestUserHasJoinedChannel(t *testing.T) {
 			import (
 				"fmt"
 
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			const (
@@ -2094,7 +2094,7 @@ func TestUserHasJoinedChannel(t *testing.T) {
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) UserHasJoinedChannel(c *plugin.Context, channelMember *model.ChannelMember, actor *model.User) {

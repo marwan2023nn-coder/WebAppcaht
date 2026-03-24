@@ -20,10 +20,10 @@ Examples
 
 ::
 
-    auth login https://sofa.example.com
-    auth login https://sofa.example.com --name local-server --username sysadmin --password-file mysupersecret.txt
-    auth login https://sofa.example.com --name local-server --username sysadmin --password-file mysupersecret.txt --mfa-token 123456
-    auth login https://sofa.example.com --name local-server --access-token myaccesstoken
+    auth login https://mattermost.example.com
+    auth login https://mattermost.example.com --name local-server --username sysadmin --password-file mysupersecret.txt
+    auth login https://mattermost.example.com --name local-server --username sysadmin --password-file mysupersecret.txt --mfa-token 123456
+    auth login https://mattermost.example.com --name local-server --access-token myaccesstoken
 
 Options
 ~~~~~~~
@@ -56,5 +56,5 @@ Options inherited from parent commands
 SEE ALSO
 ~~~~~~~~
 
-* `mmctl auth <mmctl_auth.rst>`_ 	 - Manages the credentials of the remote Sofa instances
+* `mmctl auth <mmctl_auth.rst>`_ 	 - Manages the credentials of the remote Mattermost instances
 

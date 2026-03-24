@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -10,13 +10,13 @@
 // Stage: @prod
 // Group: @channels @enterprise @system_console @authentication
 
-import {Team} from '@sofa/types/teams';
+import {Team} from '@mattermost/types/teams';
 
 import * as TIMEOUTS from '../../../../fixtures/timeouts';
 import {getRandomId} from '../../../../utils';
 
 describe('Authentication', () => {
-    const restrictCreationToDomains = 'sofa.com, test.com';
+    const restrictCreationToDomains = 'mattermost.com, test.com';
     let testTeam: Team;
 
     before(() => {
@@ -47,8 +47,8 @@ describe('Authentication', () => {
         // # Click "Save"
         cy.findByText('Save').scrollIntoView().click();
 
-        // # Wait until we are at the Sofa Teams page
-        cy.findByText('Sofa Teams', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
+        // # Wait until we are at the Mattermost Teams page
+        cy.findByText('Mattermost Teams', {timeout: TIMEOUTS.ONE_MIN}).should('be.visible');
 
         cy.apiLogout().visit(`/signup_user_complete/?id=${testTeam.invite_id}`);
 

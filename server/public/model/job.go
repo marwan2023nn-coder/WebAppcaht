@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -6,7 +6,7 @@ package model
 import (
 	"net/http"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/utils/timeutils"
+	"github.com/mattermost/mattermost/server/public/utils/timeutils"
 )
 
 const (

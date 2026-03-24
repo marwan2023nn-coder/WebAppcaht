@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -17,10 +17,10 @@ import (
 	"github.com/stretchr/testify/mock"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
-	"github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest"
+	"github.com/mattermost/mattermost/server/v8/config"
+	"github.com/mattermost/mattermost/server/v8/einterfaces/mocks"
 )
 
 // A copy of validTestLicense from channels/utils/license_test.go
@@ -236,7 +236,7 @@ func TestSetTelemetryId(t *testing.T) {
 	})
 }
 
-func TestDatabaseTypeAndSofaVersion(t *testing.T) {
+func TestDatabaseTypeAndMattermostVersion(t *testing.T) {
 	mainHelper.Parallel(t)
 	th := Setup(t)
 

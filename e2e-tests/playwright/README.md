@@ -25,9 +25,9 @@ cd server && make run-server
 
 # 2. Set the server image (optional)
 #    To use the latest master image:
-SERVER_IMAGE="sofadevelopment/sofa-enterprise-edition:master"
-#    If not set, it will use the current commit: sofadevelopment/sofa-enterprise-edition:$(git rev-parse --short=7 HEAD)
-#    Note: The image must exist in Docker Hub at https://hub.docker.com/r/sofadevelopment/sofa-enterprise-edition/tags
+SERVER_IMAGE="mattermostdevelopment/mattermost-enterprise-edition:master"
+#    If not set, it will use the current commit: mattermostdevelopment/mattermost-enterprise-edition:$(git rev-parse --short=7 HEAD)
+#    Note: The image must exist in Docker Hub at https://hub.docker.com/r/mattermostdevelopment/mattermost-enterprise-edition/tags
 
 # 3. Add your license if needed
 MM_LICENSE=<your-license-key>
@@ -150,7 +150,7 @@ test(
 Change to the `./` project directory, then run the docker container. (See https://playwright.dev/docs/docker for reference.)
 
 ```bash
-docker run -it --rm -v "$(pwd):/sofa/" --ipc=host mcr.microsoft.com/playwright:v1.57.0-noble /bin/bash
+docker run -it --rm -v "$(pwd):/mattermost/" --ipc=host mcr.microsoft.com/playwright:v1.57.0-noble /bin/bash
 ```
 
 #### 2. Inside the docker container
@@ -158,7 +158,7 @@ docker run -it --rm -v "$(pwd):/sofa/" --ipc=host mcr.microsoft.com/playwright:v
 ```bash
 export PW_BASE_URL=http://host.docker.internal:8065
 export PW_HEADLESS=true
-cd sofa/e2e-tests/playwright
+cd mattermost/e2e-tests/playwright
 
 # Install npm packages. Use "npm ci" to match the automated environment
 export PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD=1 npm ci
@@ -182,7 +182,7 @@ npm run percy:docker
 
 ## Accessibility Testing
 
-Accessibility tests ensure Sofa meets WCAG 2.1 AA compliance standards. Tests are located in `specs/accessibility/` and cover keyboard navigation, screen reader support, focus management, and automated accessibility scanning.
+Accessibility tests ensure Mattermost meets WCAG 2.1 AA compliance standards. Tests are located in `specs/accessibility/` and cover keyboard navigation, screen reader support, focus management, and automated accessibility scanning.
 
 For comprehensive guidelines on writing accessibility tests, aria snapshots, and folder structure, see [docs/accessibility/](docs/accessibility/).
 

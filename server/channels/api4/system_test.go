@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -22,8 +22,8 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
 )
 
 func TestGetPing(t *testing.T) {
@@ -476,7 +476,7 @@ func TestDownloadLogs(t *testing.T) {
 		require.NoError(t, err2)
 
 		require.Equal(t, "text/plain", resp.Header.Get("Content-Type"))
-		require.Contains(t, resp.Header.Get("Content-Disposition"), "attachment;filename=\"sofa.log\"")
+		require.Contains(t, resp.Header.Get("Content-Disposition"), "attachment;filename=\"mattermost.log\"")
 
 		bodyString := string(resData)
 		for i := range 20 {
@@ -662,7 +662,7 @@ func TestS3TestConnection(t *testing.T) {
 		CheckBadRequestStatus(t, resp)
 		CheckErrorMessage(t, err, "S3 Bucket is required")
 		// If this fails, check the test configuration to ensure minio is setup with the
-		// `sofa-test` bucket defined by model.MINIO_BUCKET.
+		// `mattermost-test` bucket defined by model.MINIO_BUCKET.
 		*config.FileSettings.AmazonS3Bucket = model.MinioBucket
 		config.FileSettings.AmazonS3PathPrefix = model.NewPointer("")
 		*config.FileSettings.AmazonS3Region = "us-east-1"
@@ -717,7 +717,7 @@ func TestSupportedTimezones(t *testing.T) {
 
 func TestRedirectLocation(t *testing.T) {
 	mainHelper.Parallel(t)
-	expected := "https://sofa.com/wp-content/themes/sofav2/img/logo-light.svg"
+	expected := "https://mattermost.com/wp-content/themes/mattermostv2/img/logo-light.svg"
 
 	testServer := httptest.NewServer(http.HandlerFunc(func(res http.ResponseWriter, req *http.Request) {
 		res.Header().Set("Location", expected)
@@ -739,7 +739,7 @@ func TestRedirectLocation(t *testing.T) {
 	*th.App.Config().ServiceSettings.EnableLinkPreviews = true
 	*th.App.Config().ServiceSettings.AllowedUntrustedInternalConnections = "127.0.0.1"
 
-	_, _, err := th.SystemAdminClient.GetRedirectLocation(context.Background(), "https://sofa.com/", "")
+	_, _, err := th.SystemAdminClient.GetRedirectLocation(context.Background(), "https://mattermost.com/", "")
 	require.NoError(t, err)
 
 	_, resp, err := th.SystemAdminClient.GetRedirectLocation(context.Background(), "", "")
@@ -756,7 +756,7 @@ func TestRedirectLocation(t *testing.T) {
 	assert.Equal(t, expected, actual)
 
 	*th.App.Config().ServiceSettings.EnableLinkPreviews = false
-	actual, _, err = th.SystemAdminClient.GetRedirectLocation(context.Background(), "https://sofa.com/", "")
+	actual, _, err = th.SystemAdminClient.GetRedirectLocation(context.Background(), "https://mattermost.com/", "")
 	require.NoError(t, err)
 	assert.Equal(t, actual, "")
 
@@ -1034,7 +1034,7 @@ func TestCompleteOnboarding(t *testing.T) {
 
 	samplePlugins := []*model.MarketplacePlugin{{
 		BaseMarketplacePlugin: &model.BaseMarketplacePlugin{
-			HomepageURL: "https://example.com/sofa/sofa-plugin-nps",
+			HomepageURL: "https://example.com/mattermost/mattermost-plugin-nps",
 			IconData:    "https://example.com/icon.svg",
 			DownloadURL: pluginServer.URL,
 			Manifest: &model.Manifest{

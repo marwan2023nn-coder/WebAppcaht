@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.enterprise for license information.
 
 package metrics
@@ -6,8 +6,8 @@ package metrics
 import (
 	"testing"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/api4"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/v8/channels/api4"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
 )
 
 var mainHelper *testlib.MainHelper

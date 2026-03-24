@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -18,7 +18,7 @@ import {getRandomId} from '../../../../utils';
 //  - assumes keycloak docker - uses api to update
 // assumes the CYPRESS_* variables are set (CYPRESS_keycloakBaseUrl / CYPRESS_keycloakAppName)
 // requires {"chromeWebSecurity": false}
-// copy ./sofa-server/build/docker/keycloak/keycloak.crt -> ./sofa-webapp/e2e/cypress/tests/fixtures/keycloak.crt
+// copy ./mattermost-server/build/docker/keycloak/keycloak.crt -> ./mattermost-webapp/e2e/cypress/tests/fixtures/keycloak.crt
 describe('SAML Guest', () => {
     const loginButtonText = 'SAML';
 
@@ -32,7 +32,7 @@ describe('SAML Guest', () => {
     };
     const userFilter = `username=${guestUser.username}`;
     const keycloakBaseUrl = Cypress.env('keycloakBaseUrl') || 'http://localhost:8484';
-    const keycloakAppName = Cypress.env('keycloakAppName') || 'sofa';
+    const keycloakAppName = Cypress.env('keycloakAppName') || 'mattermost';
     const idpUrl = `${keycloakBaseUrl}/auth/realms/${keycloakAppName}/protocol/saml`;
     const idpDescriptorUrl = `${keycloakBaseUrl}/auth/realms/${keycloakAppName}`;
 

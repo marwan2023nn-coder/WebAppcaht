@@ -1206,7 +1206,7 @@
             type: string
         - name: include_deleted
           in: query
-          description: Defines if deleted channels should be returned or not (Sofa Server 5.26.0+)
+          description: Defines if deleted channels should be returned or not (Mattermost Server 5.26.0+)
           schema:
             type: boolean
             default: false
@@ -1248,7 +1248,7 @@
             type: string
         - name: include_deleted
           in: query
-          description: Defines if deleted channels should be returned or not (Sofa Server 5.26.0+)
+          description: Defines if deleted channels should be returned or not (Mattermost Server 5.26.0+)
           schema:
             type: boolean
             default: false
@@ -1702,7 +1702,7 @@
         Must be logged in as user or have `edit_other_users` permission.
 
 
-        __Response only includes `last_viewed_at_times` in Sofa server 4.3 and newer.__
+        __Response only includes `last_viewed_at_times` in Mattermost server 4.3 and newer.__
       operationId: ViewChannel
       parameters:
         - in: path

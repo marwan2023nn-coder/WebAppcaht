@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -13,10 +13,10 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
 )
 
 func (a *App) GenerateSupportPacket(rctx request.CTX, options *model.SupportPacketOptions) []model.FileData {
@@ -70,14 +70,14 @@ func (a *App) GenerateSupportPacket(rctx request.CTX, options *model.SupportPack
 			if cluster := a.Cluster(); cluster != nil && *a.Config().ClusterSettings.Enable {
 				hostname := cluster.GetMyClusterInfo().Hostname
 				for _, file := range files {
-					// When running in a cluster, the files are generated with the cluster node name as the directory, e.g. 7917b92f9e4c/sofa.log
+					// When running in a cluster, the files are generated with the cluster node name as the directory, e.g. 7917b92f9e4c/mattermost.log
 					fileDatas = append(fileDatas, model.FileData{
 						Filename: filepath.Join(hostname, file.Filename),
 						Body:     file.Body,
 					})
 				}
 			} else {
-				// When running in standalone mode, all files are generated with the same directory name, e.g. sofa.log.
+				// When running in standalone mode, all files are generated with the same directory name, e.g. mattermost.log.
 				fileDatas = append(fileDatas, files...)
 			}
 		}

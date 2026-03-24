@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -21,15 +21,15 @@ import (
 	"github.com/pkg/errors"
 	"golang.org/x/net/idna"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/markdown"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/imaging"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/oembed"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app/platform"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/imgutils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/markdown"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/app/imaging"
+	"github.com/mattermost/mattermost/server/v8/channels/app/oembed"
+	"github.com/mattermost/mattermost/server/v8/channels/utils"
+	"github.com/mattermost/mattermost/server/v8/channels/app/platform"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/imgutils"
 )
 
 type linkMetadataCache struct {
@@ -722,7 +722,7 @@ func (a *App) isLinkAllowedForPreview(rctx request.CTX, link string) bool {
 
 func normalizeDomains(domains string) []string {
 	// commas and @ signs are optional
-	// can be in the form of "@corp.sofa.com, sofa.com sofa.org" -> corp.sofa.com sofa.com sofa.org
+	// can be in the form of "@corp.mattermost.com, mattermost.com mattermost.org" -> corp.mattermost.com mattermost.com mattermost.org
 	return strings.Fields(
 		strings.TrimSpace(
 			strings.ToLower(

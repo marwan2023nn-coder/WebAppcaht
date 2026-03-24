@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package main
@@ -50,7 +50,7 @@ func main() {
 	var dockerCompose DockerCompose
 	dockerCompose.Services = map[string]*Container{}
 	dockerCompose.Services["start_dependencies"] = &Container{
-		Image:     "sofa/sofa-wait-for-dep:latest",
+		Image:     "mattermost/mattermost-wait-for-dep:latest",
 		Network:   []string{"mm-test"},
 		DependsOn: os.Args[1:],
 		Command:   strings.Join(command, " "),

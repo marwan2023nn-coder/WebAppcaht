@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -19,24 +19,24 @@ import (
 	"github.com/spf13/viper"
 	"golang.org/x/term"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 )
 
 var AuthCmd = &cobra.Command{
 	Use:   "auth",
-	Short: "Manages the credentials of the remote Sofa instances",
+	Short: "Manages the credentials of the remote Mattermost instances",
 }
 
 var LoginCmd = &cobra.Command{
 	Use:   "login [instance url] --name [server name] --username [username] --password-file [password-file]",
 	Short: "Login into an instance",
 	Long:  "Login into an instance and store credentials",
-	Example: `  auth login https://sofa.example.com
-  auth login https://sofa.example.com --name local-server --username sysadmin --password-file mysupersecret.txt
-  auth login https://sofa.example.com --name local-server --username sysadmin --password-file mysupersecret.txt --mfa-token 123456
-  auth login https://sofa.example.com --name local-server --access-token myaccesstoken`,
+	Example: `  auth login https://mattermost.example.com
+  auth login https://mattermost.example.com --name local-server --username sysadmin --password-file mysupersecret.txt
+  auth login https://mattermost.example.com --name local-server --username sysadmin --password-file mysupersecret.txt --mfa-token 123456
+  auth login https://mattermost.example.com --name local-server --access-token myaccesstoken`,
 	Args: cobra.ExactArgs(1),
 	RunE: loginCmdF,
 }

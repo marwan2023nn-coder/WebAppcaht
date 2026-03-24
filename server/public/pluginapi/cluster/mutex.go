@@ -5,7 +5,7 @@ import (
 	"sync"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/pkg/errors"
 )
 
@@ -31,7 +31,7 @@ type MutexPluginAPI interface {
 
 // Mutex is similar to sync.Mutex, except usable by multiple plugin instances across a cluster.
 //
-// Internally, a mutex relies on an atomic key-value set operation as exposed by the Sofa
+// Internally, a mutex relies on an atomic key-value set operation as exposed by the Mattermost
 // plugin API.
 //
 // Mutexes with different names are unrelated. Mutexes with the same name from different plugins

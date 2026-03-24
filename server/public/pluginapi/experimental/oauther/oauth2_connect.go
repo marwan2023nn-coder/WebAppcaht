@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
 // See License for license information.
 
 package oauther
@@ -9,8 +9,8 @@ import (
 
 	"golang.org/x/oauth2"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/pluginapi"
 )
 
 func (o *oAuther) oauth2Connect(w http.ResponseWriter, r *http.Request) {
@@ -18,7 +18,7 @@ func (o *oAuther) oauth2Connect(w http.ResponseWriter, r *http.Request) {
 		http.Error(w, "Method not allowed", http.StatusMethodNotAllowed)
 		return
 	}
-	userID := r.Header.Get("Sofa-User-ID")
+	userID := r.Header.Get("Mattermost-User-ID")
 	if userID == "" {
 		o.logger.Debugf("oauth2Connect: reached by non authed user")
 		http.Error(w, "Not authorized", http.StatusUnauthorized)

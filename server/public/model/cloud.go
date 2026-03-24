@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -221,7 +221,7 @@ type SubscriptionHistoryChange struct {
 	CreateAt       int64  `json:"create_at"`
 }
 
-// GetWorkSpaceNameFromDNS returns the work space name. For example from test.sofa.cloud.com, it returns test
+// GetWorkSpaceNameFromDNS returns the work space name. For example from test.mattermost.cloud.com, it returns test
 func (s *Subscription) GetWorkSpaceNameFromDNS() string {
 	return strings.Split(s.DNS, ".")[0]
 }

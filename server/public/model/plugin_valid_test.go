@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -21,7 +21,7 @@ func TestIsValidPluginId(t *testing.T) {
 		"abcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghijabcdefghij1": false,
 		"../path":     false,
 		"/etc/passwd": false,
-		"com.sofa.plugin_with_features-0.9": true,
+		"com.mattermost.plugin_with_features-0.9": true,
 		"PLUGINS-THAT-YELL-ARE-OK-2":              true,
 	}
 

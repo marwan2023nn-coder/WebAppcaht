@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -169,7 +169,7 @@ describe('Self hosted Pricing modal', () => {
 
         cy.get('.air-gapped-purchase-modal').should('exist');
 
-        cy.findByText('https://sofa.com/pl/pricing/#self-hosted').last().should('exist');
+        cy.findByText('https://mattermost.com/pl/pricing/#self-hosted').last().should('exist');
     });
 
     function withTrialBefore(trialed: string) {

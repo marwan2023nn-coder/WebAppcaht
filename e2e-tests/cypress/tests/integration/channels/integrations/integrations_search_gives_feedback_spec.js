@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -35,7 +35,7 @@ describe('Integrations', () => {
                     team_id: team.id,
                     display_name: `Test ${i} `,
                     trigger_words: [`test-trigger-${i}`],
-                    callback_urls: ['https://sofa.com'],
+                    callback_urls: ['https://mattermost.com'],
                 };
                 cy.apiCreateWebhook(newOutgoingHook, false);
             });

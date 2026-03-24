@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -10,7 +10,7 @@ import (
 	"testing"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 	"github.com/stretchr/testify/require"
 )
 
@@ -24,7 +24,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -43,7 +43,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -59,7 +59,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicPrivateChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -78,7 +78,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -96,7 +96,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicPrivateChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -116,7 +116,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -131,7 +131,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicDeletedChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -146,7 +146,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -181,7 +181,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -210,7 +210,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -237,7 +237,7 @@ func TestCreateChannelBookmark(t *testing.T) {
 		bookmark1 := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -357,7 +357,7 @@ func TestEditChannelBookmark(t *testing.T) {
 				channelBookmark := &model.ChannelBookmark{
 					ChannelId:   tc.channelId,
 					DisplayName: "Link bookmark test",
-					LinkUrl:     "https://sofa.com",
+					LinkUrl:     "https://mattermost.com",
 					Type:        model.ChannelBookmarkLink,
 					Emoji:       ":smile:",
 				}
@@ -392,7 +392,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -423,7 +423,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicDeletedChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -465,7 +465,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -505,7 +505,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -555,7 +555,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -595,7 +595,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -638,7 +638,7 @@ func TestEditChannelBookmark(t *testing.T) {
 		bookmark1 := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -852,7 +852,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -878,7 +878,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicDeletedChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -910,7 +910,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1001,7 +1001,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1032,7 +1032,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		bookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1040,7 +1040,7 @@ func TestUpdateChannelBookmarkSortOrder(t *testing.T) {
 		bookmark2 := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test 2",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1200,7 +1200,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1226,7 +1226,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicDeletedChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1258,7 +1258,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1293,7 +1293,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		dmBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1314,7 +1314,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		gmBookmark := &model.ChannelBookmark{
 			ChannelId:   gm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1337,7 +1337,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		dmBookmark := &model.ChannelBookmark{
 			ChannelId:   dm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1357,7 +1357,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		gmBookmark := &model.ChannelBookmark{
 			ChannelId:   gm.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1375,7 +1375,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1404,7 +1404,7 @@ func TestDeleteChannelBookmark(t *testing.T) {
 		bookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1650,7 +1650,7 @@ func TestListChannelBookmarksForChannel(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicDeletedChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}
@@ -1675,7 +1675,7 @@ func TestListChannelBookmarksForChannel(t *testing.T) {
 		channelBookmark := &model.ChannelBookmark{
 			ChannelId:   th.BasicChannel.Id,
 			DisplayName: "Link bookmark test",
-			LinkUrl:     "https://sofa.com",
+			LinkUrl:     "https://mattermost.com",
 			Type:        model.ChannelBookmarkLink,
 			Emoji:       ":smile:",
 		}

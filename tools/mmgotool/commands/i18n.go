@@ -1,4 +1,4 @@
-// Copyright (c) 2016-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2016-present Mattermost, Inc. All Rights Reserved.
 // See License.txt for license information.
 
 package commands
@@ -37,7 +37,7 @@ type Item struct {
 
 var I18nCmd = &cobra.Command{
 	Use:   "i18n",
-	Short: "Management of Sofa translations",
+	Short: "Management of Mattermost translations",
 }
 
 var ExtractCmd = &cobra.Command{
@@ -74,29 +74,29 @@ var CleanEmptyCmd = &cobra.Command{
 
 func init() {
 	ExtractCmd.Flags().Bool("skip-dynamic", false, "Whether to skip dynamically added translations")
-	ExtractCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Sofa Customer Portal source code")
-	ExtractCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Sofa enterprise source code")
-	ExtractCmd.Flags().String("server-dir", "./", "Path to folder with the Sofa server source code")
-	ExtractCmd.Flags().String("model-dir", "../model", "Path to folder with the Sofa model package source code")
-	ExtractCmd.Flags().String("plugin-dir", "../plugin", "Path to folder with the Sofa plugin package source code")
+	ExtractCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Mattermost Customer Portal source code")
+	ExtractCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Mattermost enterprise source code")
+	ExtractCmd.Flags().String("server-dir", "./", "Path to folder with the Mattermost server source code")
+	ExtractCmd.Flags().String("model-dir", "../model", "Path to folder with the Mattermost model package source code")
+	ExtractCmd.Flags().String("plugin-dir", "../plugin", "Path to folder with the Mattermost plugin package source code")
 	ExtractCmd.Flags().Bool("contributor", false, "Allows contributors safely extract translations from source code without removing enterprise messages keys")
 
 	CheckCmd.Flags().Bool("skip-dynamic", false, "Whether to skip dynamically added translations")
-	CheckCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Sofa Customer Portal source code")
-	CheckCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Sofa enterprise source code")
-	CheckCmd.Flags().String("server-dir", "./", "Path to folder with the Sofa server source code")
-	CheckCmd.Flags().String("model-dir", "../model", "Path to folder with the Sofa model package source code")
-	CheckCmd.Flags().String("plugin-dir", "../plugin", "Path to folder with the Sofa plugin package source code")
+	CheckCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Mattermost Customer Portal source code")
+	CheckCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Mattermost enterprise source code")
+	CheckCmd.Flags().String("server-dir", "./", "Path to folder with the Mattermost server source code")
+	CheckCmd.Flags().String("model-dir", "../model", "Path to folder with the Mattermost model package source code")
+	CheckCmd.Flags().String("plugin-dir", "../plugin", "Path to folder with the Mattermost plugin package source code")
 
-	CheckEmptySrcCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Sofa Customer Portal source code")
-	CheckEmptySrcCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Sofa enterprise source code")
-	CheckEmptySrcCmd.Flags().String("server-dir", "./", "Path to folder with the Sofa server source code")
+	CheckEmptySrcCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Mattermost Customer Portal source code")
+	CheckEmptySrcCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Mattermost enterprise source code")
+	CheckEmptySrcCmd.Flags().String("server-dir", "./", "Path to folder with the Mattermost server source code")
 
 	CleanEmptyCmd.Flags().Bool("dry-run", false, "Run without applying changes")
 	CleanEmptyCmd.Flags().Bool("check", false, "Throw exit code on empty translation strings")
-	CleanEmptyCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Sofa Customer Portal source code")
-	CleanEmptyCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Sofa enterprise source code")
-	CleanEmptyCmd.Flags().String("server-dir", "./", "Path to folder with the Sofa server source code")
+	CleanEmptyCmd.Flags().String("portal-dir", "../customer-web-server", "Path to folder with the Mattermost Customer Portal source code")
+	CleanEmptyCmd.Flags().String("enterprise-dir", "../../enterprise", "Path to folder with the Mattermost enterprise source code")
+	CleanEmptyCmd.Flags().String("server-dir", "./", "Path to folder with the Mattermost server source code")
 
 	I18nCmd.AddCommand(
 		ExtractCmd,
@@ -107,8 +107,8 @@ func init() {
 	RootCmd.AddCommand(I18nCmd)
 }
 
-func getBaseFileSrcStrings(sofaDir string) ([]Translation, error) {
-	jsonFile, err := os.ReadFile(path.Join(sofaDir, "i18n", "en.json"))
+func getBaseFileSrcStrings(mattermostDir string) ([]Translation, error) {
+	jsonFile, err := os.ReadFile(path.Join(mattermostDir, "i18n", "en.json"))
 	if err != nil {
 		return nil, err
 	}
@@ -125,10 +125,10 @@ func resolveSymlink(path string) string {
 	return path
 }
 
-func extractSrcStrings(enterpriseDir, sofaDir, modelDir, pluginDir, portalDir string) map[string]bool {
+func extractSrcStrings(enterpriseDir, mattermostDir, modelDir, pluginDir, portalDir string) map[string]bool {
 	i18nStrings := map[string]bool{}
 	walkFunc := func(p string, info os.FileInfo, err error) error {
-		if strings.HasPrefix(p, path.Join(sofaDir, "vendor")) {
+		if strings.HasPrefix(p, path.Join(mattermostDir, "vendor")) {
 			return nil
 		}
 		return extractFromPath(p, info, err, i18nStrings)
@@ -137,7 +137,7 @@ func extractSrcStrings(enterpriseDir, sofaDir, modelDir, pluginDir, portalDir st
 	if portalDir != "" {
 		_ = filepath.Walk(resolveSymlink(portalDir), walkFunc)
 	} else {
-		_ = filepath.Walk(resolveSymlink(sofaDir), walkFunc)
+		_ = filepath.Walk(resolveSymlink(mattermostDir), walkFunc)
 		_ = filepath.Walk(resolveSymlink(enterpriseDir), walkFunc)
 		_ = filepath.Walk(resolveSymlink(modelDir), walkFunc)
 		_ = filepath.Walk(resolveSymlink(pluginDir), walkFunc)
@@ -154,7 +154,7 @@ func extractCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid enterprise-dir parameter")
 	}
-	sofaDir, err := command.Flags().GetString("server-dir")
+	mattermostDir, err := command.Flags().GetString("server-dir")
 	if err != nil {
 		return errors.New("invalid server-dir parameter")
 	}
@@ -174,15 +174,15 @@ func extractCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid plugin-dir parameter")
 	}
-	translationDir := sofaDir
+	translationDir := mattermostDir
 	if portalDir != "" {
-		if enterpriseDir != "" || sofaDir != "" {
+		if enterpriseDir != "" || mattermostDir != "" {
 			return errors.New("please specify EITHER portal-dir or enterprise-dir/server-dir")
 		}
 		skipDynamic = true // dynamics are not needed for portal
 		translationDir = portalDir
 	}
-	i18nStrings := extractSrcStrings(enterpriseDir, sofaDir, modelDir, pluginDir, portalDir)
+	i18nStrings := extractSrcStrings(enterpriseDir, mattermostDir, modelDir, pluginDir, portalDir)
 	if !skipDynamic {
 		addDynamicallyGeneratedStrings(i18nStrings)
 	}
@@ -230,7 +230,7 @@ func extractCmdF(command *cobra.Command, args []string) error {
 	}
 	sort.Slice(result, func(i, j int) bool { return result[i].Id < result[j].Id })
 
-	f, err := os.Create(path.Join(sofaDir, "i18n", "en.json"))
+	f, err := os.Create(path.Join(mattermostDir, "i18n", "en.json"))
 	if err != nil {
 		return err
 	}
@@ -256,7 +256,7 @@ func checkCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid enterprise-dir parameter")
 	}
-	sofaDir, err := command.Flags().GetString("server-dir")
+	mattermostDir, err := command.Flags().GetString("server-dir")
 	if err != nil {
 		return errors.New("invalid server-dir parameter")
 	}
@@ -272,15 +272,15 @@ func checkCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid plugin-dir parameter")
 	}
-	translationDir := sofaDir
+	translationDir := mattermostDir
 	if portalDir != "" {
-		if enterpriseDir != "" || sofaDir != "" {
+		if enterpriseDir != "" || mattermostDir != "" {
 			return errors.New("please specify EITHER portal-dir or enterprise-dir/server-dir")
 		}
 		translationDir = portalDir
 		skipDynamic = true // dynamics are not needed for portal
 	}
-	extractedSrcStrings := extractSrcStrings(enterpriseDir, sofaDir, modelDir, pluginDir, portalDir)
+	extractedSrcStrings := extractSrcStrings(enterpriseDir, mattermostDir, modelDir, pluginDir, portalDir)
 	if !skipDynamic {
 		addDynamicallyGeneratedStrings(extractedSrcStrings)
 	}
@@ -575,7 +575,7 @@ func checkEmptySrcCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid enterprise-dir parameter")
 	}
-	sofaDir, err := command.Flags().GetString("server-dir")
+	mattermostDir, err := command.Flags().GetString("server-dir")
 	if err != nil {
 		return errors.New("invalid server-dir parameter")
 	}
@@ -583,9 +583,9 @@ func checkEmptySrcCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid portal-dir parameter")
 	}
-	translationDir := path.Join(sofaDir, "i18n")
+	translationDir := path.Join(mattermostDir, "i18n")
 	if portalDir != "" {
-		if enterpriseDir != "" || sofaDir != "" {
+		if enterpriseDir != "" || mattermostDir != "" {
 			return errors.New("please specify EITHER portal-dir or enterprise-dir/server-dir")
 		}
 		translationDir = portalDir
@@ -640,7 +640,7 @@ func cleanEmptyCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid enterprise-dir parameter")
 	}
-	sofaDir, err := command.Flags().GetString("server-dir")
+	mattermostDir, err := command.Flags().GetString("server-dir")
 	if err != nil {
 		return errors.New("invalid server-dir parameter")
 	}
@@ -648,9 +648,9 @@ func cleanEmptyCmdF(command *cobra.Command, args []string) error {
 	if err != nil {
 		return errors.New("invalid portal-dir parameter")
 	}
-	translationDir := path.Join(sofaDir, "i18n")
+	translationDir := path.Join(mattermostDir, "i18n")
 	if portalDir != "" {
-		if enterpriseDir != "" || sofaDir != "" {
+		if enterpriseDir != "" || mattermostDir != "" {
 			return errors.New("please specify EITHER portal-dir or enterprise-dir/server-dir")
 		}
 		translationDir = portalDir

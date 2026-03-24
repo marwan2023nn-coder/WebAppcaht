@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package plugin
@@ -11,7 +11,7 @@ import (
 
 	"github.com/hashicorp/go-hclog"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 type hclogAdapter struct {
@@ -131,5 +131,5 @@ func (h *hclogAdapter) ImpliedArgs() []any {
 }
 
 func (h *hclogAdapter) Name() string {
-	return "SofaPluginLogger"
+	return "MattermostPluginLogger"
 }

@@ -1,8 +1,8 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {Client4} from '@sofa/client';
-import {UserProfile} from '@sofa/types/users';
+import {Client4} from '@mattermost/client';
+import {UserProfile} from '@mattermost/types/users';
 
 import {testConfig} from '@/test_config';
 

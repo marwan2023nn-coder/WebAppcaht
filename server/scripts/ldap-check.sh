@@ -24,7 +24,7 @@ if [[ -z ${1} ]]; then
 fi
 
 find_config_file() {
-	local config_paths=("./config.json" "./config/config.json" "../config/config.json" "/opt/sofa/config/config.json")
+	local config_paths=("./config.json" "./config/config.json" "../config/config.json" "/opt/mattermost/config/config.json")
 	
 	for path in "${config_paths[@]}"; do
 		if [[ -e "$path" ]]; then

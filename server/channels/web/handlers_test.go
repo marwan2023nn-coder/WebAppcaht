@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package web
@@ -14,11 +14,11 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/app"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/v8/channels/app"
+	"github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
 )
 
 func handlerForHTTPErrors(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -47,7 +47,7 @@ func TestHandlerServeHTTPErrors(t *testing.T) {
 		t.Run(tt.name, func(t *testing.T) {
 			request := httptest.NewRequest("GET", tt.url, nil)
 			if tt.mobile {
-				request.Header.Add("X-Mobile-App", "sofa")
+				request.Header.Add("X-Mobile-App", "mattermost")
 			}
 			response := httptest.NewRecorder()
 			handler.ServeHTTP(response, request)
@@ -942,12 +942,12 @@ func TestGetOriginClient(t *testing.T) {
 		},
 		{
 			name:           "Mobile iOS",
-			userAgent:      "Sofa/2.0.0.441 someother-agent/3.2.4",
+			userAgent:      "Mattermost/2.0.0.441 someother-agent/3.2.4",
 			expectedClient: OriginClientMobile,
 		},
 		{
 			name:           "Desktop user agent",
-			userAgent:      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.177 Electron/23.1.2 Safari/537.36 Sofa/5.3.1",
+			userAgent:      "Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/110.0.5481.177 Electron/23.1.2 Safari/537.36 Mattermost/5.3.1",
 			expectedClient: OriginClientDesktop,
 		},
 	}

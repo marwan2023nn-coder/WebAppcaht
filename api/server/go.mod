@@ -1,4 +1,4 @@
-module github.com/marwan2023nn-coder/sofa/api/internal
+module github.com/mattermost/mattermost/api/internal
 
 go 1.20
 

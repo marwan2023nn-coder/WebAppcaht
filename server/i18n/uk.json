@@ -85,7 +85,7 @@
   },
   {
     "id": "api.admin.test_email.body",
-    "translation": "Здається, що ваша електронна пошта Sofa встановлена вірно!"
+    "translation": "Здається, що ваша електронна пошта Mattermost встановлена вірно!"
   },
   {
     "id": "api.admin.test_email.missing_server",
@@ -97,7 +97,7 @@
   },
   {
     "id": "api.admin.test_email.subject",
-    "translation": "Sofa - Тестування налаштувань електронної пошти"
+    "translation": "Mattermost - Тестування налаштувань електронної пошти"
   },
   {
     "id": "api.admin.test_s3.missing_s3_bucket",
@@ -341,7 +341,7 @@
   },
   {
     "id": "api.command.invite_people.desc",
-    "translation": "Надішліть запрошення на електронну пошту своїй команді Sofa"
+    "translation": "Надішліть запрошення на електронну пошту своїй команді Mattermost"
   },
   {
     "id": "api.command.invite_people.email_invitations_off",
@@ -617,7 +617,7 @@
   },
   {
     "id": "api.command_help.desc",
-    "translation": "Показати повідомлення довідки Sofa"
+    "translation": "Показати повідомлення довідки Mattermost"
   },
   {
     "id": "api.command_help.name",
@@ -629,7 +629,7 @@
   },
   {
     "id": "api.command_invite.channel.error",
-    "translation": "Не вдалося знайти канал {{.Channel}}. Будь ласка, використовуйте [назву каналу](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) для ідентифікації каналів."
+    "translation": "Не вдалося знайти канал {{.Channel}}. Будь ласка, використовуйте [назву каналу](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) для ідентифікації каналів."
   },
   {
     "id": "api.command_invite.desc",
@@ -665,7 +665,7 @@
   },
   {
     "id": "api.command_invite.private_channel.app_error",
-    "translation": "Не вдалося знайти канал {{.Channel}}. Будь ласка, використовуйте [управління каналом](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) для ідентифікації каналів."
+    "translation": "Не вдалося знайти канал {{.Channel}}. Будь ласка, використовуйте [управління каналом](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) для ідентифікації каналів."
   },
   {
     "id": "api.command_invite.success",
@@ -725,7 +725,7 @@
   },
   {
     "id": "api.command_logout.desc",
-    "translation": "Вихід з Sofa"
+    "translation": "Вихід з Mattermost"
   },
   {
     "id": "api.command_logout.name",
@@ -777,7 +777,7 @@
   },
   {
     "id": "api.command_mute.error",
-    "translation": "Канал {{.Channel}} не знайдено. Зверніть, будь ласка, увагу, що для ідентифікації каналів слід використовувати [ідентифікатор каналу](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel)."
+    "translation": "Канал {{.Channel}} не знайдено. Зверніть, будь ласка, увагу, що для ідентифікації каналів слід використовувати [ідентифікатор каналу](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel)."
   },
   {
     "id": "api.command_mute.hint",
@@ -789,7 +789,7 @@
   },
   {
     "id": "api.command_mute.no_channel.error",
-    "translation": "Не вдалося знайти вказаний канал. Будь ласка, використовуйте [гештег каналу](https://docs.sofa.com/messaging/managing-channels.html#naming-a-channel) для ідентифікаціі каналів."
+    "translation": "Не вдалося знайти вказаний канал. Будь ласка, використовуйте [гештег каналу](https://docs.mattermost.com/messaging/managing-channels.html#naming-a-channel) для ідентифікаціі каналів."
   },
   {
     "id": "api.command_mute.success_mute",
@@ -1505,7 +1505,7 @@
   },
   {
     "id": "api.slackimport.slack_add_channels.merge",
-    "translation": "Канал Slack {{.DisplayName}} вже існує як активний канал Sofa. Обидва канали об'єднано.\n"
+    "translation": "Канал Slack {{.DisplayName}} вже існує як активний канал Mattermost. Обидва канали об'єднано.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.created",
@@ -1517,11 +1517,11 @@
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing",
-    "translation": "Користувача Slack об'єднано з існуючим користувачем Sofa з однаковими електронними адресами {{.Email}} та іменем користувача {{.Username}}.\n"
+    "translation": "Користувача Slack об'єднано з існуючим користувачем Mattermost з однаковими електронними адресами {{.Email}} та іменем користувача {{.Username}}.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.merge_existing_failed",
-    "translation": "Користувач Slack об'єднаний з існуючим користувачем Sofa з відповідною електронною поштою {{.Email}} та ім'ям користувача {{.Username}}, але не вдалося додати користувача до їхньої команди.\n"
+    "translation": "Користувач Slack об'єднаний з існуючим користувачем Mattermost з відповідною електронною поштою {{.Email}} та ім'ям користувача {{.Username}}, але не вдалося додати користувача до їхньої команди.\n"
   },
   {
     "id": "api.slackimport.slack_add_users.missing_email_address",
@@ -1533,7 +1533,7 @@
   },
   {
     "id": "api.slackimport.slack_import.log",
-    "translation": "Лог імпорту Sofa Slack\n"
+    "translation": "Лог імпорту Mattermost Slack\n"
   },
   {
     "id": "api.slackimport.slack_import.note1",
@@ -1841,7 +1841,7 @@
   },
   {
     "id": "api.templates.post_body.button",
-    "translation": "Відповісти в Sofa"
+    "translation": "Відповісти в Mattermost"
   },
   {
     "id": "api.templates.reset_body.button",
@@ -1901,7 +1901,7 @@
   },
   {
     "id": "api.templates.verify_body.info",
-    "translation": "Ця електронна адреса була використана для створення облікового запису на Sofa."
+    "translation": "Ця електронна адреса була використана для створення облікового запису на Mattermost."
   },
   {
     "id": "api.templates.verify_body.title",
@@ -1921,7 +1921,7 @@
   },
   {
     "id": "api.templates.welcome_body.info",
-    "translation": "Ця електронна адреса була використана для створення облікового запису на Sofa."
+    "translation": "Ця електронна адреса була використана для створення облікового запису на Mattermost."
   },
   {
     "id": "api.templates.welcome_body.title",
@@ -3065,7 +3065,7 @@
   },
   {
     "id": "ent.elasticsearch.test_config.license.error",
-    "translation": "Ваша ліцензія Sofa не підтримує індексований пошук."
+    "translation": "Ваша ліцензія Mattermost не підтримує індексований пошук."
   },
   {
     "id": "ent.elasticsearch.test_config.reenter_password",
@@ -3109,7 +3109,7 @@
   },
   {
     "id": "ent.ldap.do_login.user_filtered.app_error",
-    "translation": "Ваш обліковий запис AD/LDAP не має дозволу на використання цього сервера Sofa. Попросіть вашого системного адміністратора перевірити фільтр користувачів AD/LDAP."
+    "translation": "Ваш обліковий запис AD/LDAP не має дозволу на використання цього сервера Mattermost. Попросіть вашого системного адміністратора перевірити фільтр користувачів AD/LDAP."
   },
   {
     "id": "ent.ldap.do_login.user_not_registered.app_error",
@@ -3129,7 +3129,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure.app_error",
-    "translation": "Не вдалося здійснити пошук користувачів в AD/LDAP. Перевірте, чи може сервер Sofa підключитися до вашого сервера AD/LDAP, і повторіть спробу."
+    "translation": "Не вдалося здійснити пошук користувачів в AD/LDAP. Перевірте, чи може сервер Mattermost підключитися до вашого сервера AD/LDAP, і повторіть спробу."
   },
   {
     "id": "ent.ldap.validate_filter.app_error",
@@ -3173,7 +3173,7 @@
   },
   {
     "id": "ent.migration.migratetosaml.username_already_used_by_other_user",
-    "translation": "Ім'я користувача вже використовується іншим користувачем Sofa."
+    "translation": "Ім'я користувача вже використовується іншим користувачем Mattermost."
   },
   {
     "id": "ent.saml.attribute.app_error",
@@ -3256,8 +3256,8 @@
     "translation": "Не вдалось отримати канали."
   },
   {
-    "id": "sofa.bulletin.subject",
-    "translation": "Бюлетень безпеки Sofa"
+    "id": "mattermost.bulletin.subject",
+    "translation": "Бюлетень безпеки Mattermost"
   },
   {
     "id": "mfa.activate.bad_token.app_error",
@@ -4397,7 +4397,7 @@
   },
   {
     "id": "oauth.gitlab.tos.error",
-    "translation": "Умови використання GitLab оновилися. Будь ласка, перейдіть за посиланням {{.URL}}, щоб прийняти їх, а потім спробуйте увійти до Sofa ще раз."
+    "translation": "Умови використання GitLab оновилися. Будь ласка, перейдіть за посиланням {{.URL}}, щоб прийняти їх, а потім спробуйте увійти до Mattermost ще раз."
   },
   {
     "id": "plugin.api.update_user_status.bad_status",
@@ -4561,11 +4561,11 @@
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support_version",
-    "translation": "Ця версія вашого браузера більше не підтримується Sofa"
+    "translation": "Ця версія вашого браузера більше не підтримується Mattermost"
   },
   {
     "id": "web.error.unsupported_browser.no_longer_support",
-    "translation": "Цей браузер більше не підтримується Sofa"
+    "translation": "Цей браузер більше не підтримується Mattermost"
   },
   {
     "id": "web.error.unsupported_browser.min_os_version.windows",
@@ -4609,7 +4609,7 @@
   },
   {
     "id": "web.error.unsupported_browser.download_app_or_upgrade_browser",
-    "translation": "Завантажте додаток Sofa або використовуйте підтримуваний браузер для кращого досвіду."
+    "translation": "Завантажте додаток Mattermost або використовуйте підтримуваний браузер для кращого досвіду."
   },
   {
     "id": "web.error.unsupported_browser.download",
@@ -4781,7 +4781,7 @@
   },
   {
     "id": "ent.ldap.syncronize.search_failure_size_exceeded.app_error",
-    "translation": "Розмір перевищено. Спробуйте збільшити налаштування максимальної кількості елементів на сторінці. Для отримання додаткової інформації відвідайте https://docs.sofa.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded."
+    "translation": "Розмір перевищено. Спробуйте збільшити налаштування максимальної кількості елементів на сторінці. Для отримання додаткової інформації відвідайте https://docs.mattermost.com/onboard/ad-ldap.html#i-see-the-log-error-ldap-result-code-4-size-limit-exceeded."
   },
   {
     "id": "ent.id_loaded.license_disable.app_error",
@@ -5137,7 +5137,7 @@
   },
   {
     "id": "app.bot.get_disable_bot_sysadmin_message",
-    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} був деактивований. Вони керували наступними бот-акаунтами, які тепер вимкнені.\n\n{{.BotNames}}{{else}}{{.UserName}} був деактивований. Вони керували {{.NumBots}} бот-акаунтами, які тепер були вимкнені, включаючи наступні:\n\n{{.BotNames}}{{end}} Ви можете взяти на себе керування кожним ботом, увімкнувши його в розділі **Інтеграції > Бот-акаунти** та створивши нові токени для бота.\n\nДля додаткової інформації ознайомтесь з нашою [документацією](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} був деактивований. Вони керували наступними бот-акаунтами, які все ще увімкнені.\n\n{{.BotNames}}\n{{else}}{{.UserName}} був деактивований. Вони керували {{.NumBots}} бот-акаунтами, які все ще увімкнені, включаючи наступні:\n\n{{.BotNames}}{{end}} Ми рішуче рекомендуємо взяти на себе керування кожним ботом, повторно увімкнувши його в розділі **Інтеграції > Бот-акаунти** та створивши нові токени для бота.\n\nДля додаткової інформації ознайомтесь з нашою [документацією](https://docs.sofa.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nЯкщо ви хочете, щоб бот-акаунти вимикалися автоматично після деактивації власника, встановіть опцію \"Вимикати бот-акаунти після деактивації власника\" в **Системній консолі > Інтеграції > Бот-акаунти** на значення \"так\".{{end}}"
+    "translation": "{{if .disableBotsSetting}}{{if .printAllBots}}{{.UserName}} був деактивований. Вони керували наступними бот-акаунтами, які тепер вимкнені.\n\n{{.BotNames}}{{else}}{{.UserName}} був деактивований. Вони керували {{.NumBots}} бот-акаунтами, які тепер були вимкнені, включаючи наступні:\n\n{{.BotNames}}{{end}} Ви можете взяти на себе керування кожним ботом, увімкнувши його в розділі **Інтеграції > Бот-акаунти** та створивши нові токени для бота.\n\nДля додаткової інформації ознайомтесь з нашою [документацією](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).{{else}}{{if .printAllBots}}{{.UserName}} був деактивований. Вони керували наступними бот-акаунтами, які все ще увімкнені.\n\n{{.BotNames}}\n{{else}}{{.UserName}} був деактивований. Вони керували {{.NumBots}} бот-акаунтами, які все ще увімкнені, включаючи наступні:\n\n{{.BotNames}}{{end}} Ми рішуче рекомендуємо взяти на себе керування кожним ботом, повторно увімкнувши його в розділі **Інтеграції > Бот-акаунти** та створивши нові токени для бота.\n\nДля додаткової інформації ознайомтесь з нашою [документацією](https://docs.mattermost.com/developer/bot-accounts.html#what-happens-when-a-user-who-owns-bot-accounts-is-disabled).\n\nЯкщо ви хочете, щоб бот-акаунти вимикалися автоматично після деактивації власника, встановіть опцію \"Вимикати бот-акаунти після деактивації власника\" в **Системній консолі > Інтеграції > Бот-акаунти** на значення \"так\".{{end}}"
   },
   {
     "id": "app.bot.createbot.internal_error",
@@ -5229,7 +5229,7 @@
   },
   {
     "id": "api.templates.remove_expired_license.subject",
-    "translation": "Ліцензію Sofa Enterprise вимкнено."
+    "translation": "Ліцензію Mattermost Enterprise вимкнено."
   },
   {
     "id": "api.templates.remove_expired_license.body.title",
@@ -5449,7 +5449,7 @@
   },
   {
     "id": "api.bot.teams_channels.add_message_mobile",
-    "translation": "Будь ласка, додайте мене до команд і каналів, в яких ви хочете, щоб я взаємодіяв. Для цього скористайтеся браузером або програмою Sofa на комп'ютері."
+    "translation": "Будь ласка, додайте мене до команд і каналів, в яких ви хочете, щоб я взаємодіяв. Для цього скористайтеся браузером або програмою Mattermost на комп'ютері."
   },
   {
     "id": "api.bot.create_disabled",
@@ -6497,7 +6497,7 @@
   },
   {
     "id": "api.command_remote.desc",
-    "translation": "Створіть безпечні з'єднання для зв'язку між екземплярами Sofa."
+    "translation": "Створіть безпечні з'єднання для зв'язку між екземплярами Mattermost."
   },
   {
     "id": "api.command_remote.decode_invitation.error",
@@ -6521,7 +6521,7 @@
   },
   {
     "id": "api.command_remote.accept.help",
-    "translation": "Прийняти запрошення від зовнішнього екземпляра Sofa"
+    "translation": "Прийняти запрошення від зовнішнього екземпляра Mattermost"
   },
   {
     "id": "api.command_marketplace.unsupported.app_error",
@@ -6537,7 +6537,7 @@
   },
   {
     "id": "api.command_help.success",
-    "translation": "Sofa – це платформа з відкритим вихідним кодом для безпечного спілкування, співробітництва та організації роботи між командами з використанням різноманітних інструментів.\nSofa складається з трьох ключових інструментів:\n\n**Channels** - залишайтеся на зв’язку зі своєю командою за допомогою індивідуальних і групових повідомлень.\n**[Playbooks](/playbooks)** - створіть і налаштуйте повторювані процеси для досягнення конкретних і передбачуваних результатів.\n\n[Переглянути документацію та посібники]({{.HelpLink}})"
+    "translation": "Mattermost – це платформа з відкритим вихідним кодом для безпечного спілкування, співробітництва та організації роботи між командами з використанням різноманітних інструментів.\nMattermost складається з трьох ключових інструментів:\n\n**Channels** - залишайтеся на зв’язку зі своєю командою за допомогою індивідуальних і групових повідомлень.\n**[Playbooks](/playbooks)** - створіть і налаштуйте повторювані процеси для досягнення конкретних і передбачуваних результатів.\n\n[Переглянути документацію та посібники]({{.HelpLink}})"
   },
   {
     "id": "api.command_custom_status.success",
@@ -6889,7 +6889,7 @@
   },
   {
     "id": "api.command_remote.invite_summary",
-    "translation": "Надішліть запрошення, зашифроване за допомогою AES 256-біт, адміністратору зовнішньої системи Sofa разом із паролем. Для прийняття запрошення він використає слеш-команду `{{.Command}}`.\n\n```\n{{.Invitation}}\n```\n\n**Перевірте, що ваш Sofa доступний через захищене з'єднання за адресою** {{.SiteURL}}"
+    "translation": "Надішліть запрошення, зашифроване за допомогою AES 256-біт, адміністратору зовнішньої системи Mattermost разом із паролем. Для прийняття запрошення він використає слеш-команду `{{.Command}}`.\n\n```\n{{.Invitation}}\n```\n\n**Перевірте, що ваш Mattermost доступний через захищене з'єднання за адресою** {{.SiteURL}}"
   },
   {
     "id": "api.context.outgoing_oauth_connection.create_connection.app_error",
@@ -6925,7 +6925,7 @@
   },
   {
     "id": "api.email_batching.send_batched_email_notification.button",
-    "translation": "Відкрити Sofa"
+    "translation": "Відкрити Mattermost"
   },
   {
     "id": "api.emoji.create.internal_error",
@@ -7001,7 +7001,7 @@
   },
   {
     "id": "api.command_share.invite_remote.help",
-    "translation": "Запрошує віддалений екземпляр Sofa до поточного спільного каналу"
+    "translation": "Запрошує віддалений екземпляр Mattermost до поточного спільного каналу"
   },
   {
     "id": "api.command_share.missing_action",
@@ -7201,7 +7201,7 @@
   },
   {
     "id": "api.config.update.elasticsearch.autocomplete_cannot_be_enabled_error",
-    "translation": "Автозаповнення каналів не може бути увімкнено, оскільки схема індексу каналів застаріла. Рекомендується перегенерувати індекс каналів. Дивіться журнал змін Sofa для отримання додаткової інформації"
+    "translation": "Автозаповнення каналів не може бути увімкнено, оскільки схема індексу каналів застаріла. Рекомендується перегенерувати індекс каналів. Дивіться журнал змін Mattermost для отримання додаткової інформації"
   },
   {
     "id": "api.context.request_body_too_large.app_error",
@@ -7233,7 +7233,7 @@
   },
   {
     "id": "api.command_share.desc",
-    "translation": "Розділяє поточний канал із зовнішнім екземпляром Sofa."
+    "translation": "Розділяє поточний канал із зовнішнім екземпляром Mattermost."
   },
   {
     "id": "api.context.outgoing_oauth_connection.update_connection.app_error",
@@ -7273,7 +7273,7 @@
   },
   {
     "id": "api.file.cloud_upload.app_error",
-    "translation": "Завантаження через mmctl до хмарного екземпляра не підтримується. Будь ласка, ознайомтеся з документацією тут: https://docs.sofa.com/manage/cloud-data-export.html."
+    "translation": "Завантаження через mmctl до хмарного екземпляра не підтримується. Будь ласка, ознайомтеся з документацією тут: https://docs.mattermost.com/manage/cloud-data-export.html."
   },
   {
     "id": "api.file.file_exists.app_error",
@@ -7353,7 +7353,7 @@
   },
   {
     "id": "api.license.request_trial_license.app_error",
-    "translation": "Не вдалося отримати пробну ліцензію, спробуйте ще раз або зверніться до support@sofa.com."
+    "translation": "Не вдалося отримати пробну ліцензію, спробуйте ще раз або зверніться до support@mattermost.com."
   },
   {
     "id": "api.license.request-trial.can-start-trial.error",
@@ -7457,11 +7457,11 @@
   },
   {
     "id": "api.license.request-trial.can-start-trial.not-allowed",
-    "translation": "Не вдалося застосувати нову пробну ліцензію, оскільки у вашому робочому просторі вже було застосовано пробну ліцензію. Якщо ви хочете продовжити пробний період, будь ласка, [зв'яжіться з нашим відділом продажів] (https://sofa.com/contact-us/)."
+    "translation": "Не вдалося застосувати нову пробну ліцензію, оскільки у вашому робочому просторі вже було застосовано пробну ліцензію. Якщо ви хочете продовжити пробний період, будь ласка, [зв'яжіться з нашим відділом продажів] (https://mattermost.com/contact-us/)."
   },
   {
     "id": "api.license.request_trial_license.embargoed",
-    "translation": "Ми не змогли обробити запит через обмеження для країн, на які накладено ембарго. [Дізнайтеся більше в нашій документації] (https://sofa.com/pl/limitations-for-embargoed-countries) або зверніться за адресою legal@sofa.com з питаннями щодо експортних обмежень."
+    "translation": "Ми не змогли обробити запит через обмеження для країн, на які накладено ембарго. [Дізнайтеся більше в нашій документації] (https://mattermost.com/pl/limitations-for-embargoed-countries) або зверніться за адресою legal@mattermost.com з питаннями щодо експортних обмежень."
   },
   {
     "id": "api.oauth.auth_complete",
@@ -7549,7 +7549,7 @@
   },
   {
     "id": "api.license.request-trial.bad-request.terms-not-accepted",
-    "translation": "Щоб отримати ліцензію, ви повинні прийняти Угоду про оцінку програмного забезпечення Sofa та Політику конфіденційності."
+    "translation": "Щоб отримати ліцензію, ви повинні прийняти Угоду про оцінку програмного забезпечення Mattermost та Політику конфіденційності."
   },
   {
     "id": "api.payload.parse.error",
@@ -7609,7 +7609,7 @@
   },
   {
     "id": "api.server.cws.disabled",
-    "translation": "Взаємодія з клієнтським порталом Sofa була відключена системним адміністратором."
+    "translation": "Взаємодія з клієнтським порталом Mattermost була відключена системним адміністратором."
   },
   {
     "id": "api.server.cws.health_check.app_error",
@@ -7617,7 +7617,7 @@
   },
   {
     "id": "api.server.cws.needs_enterprise_edition",
-    "translation": "Послуга доступна лише у версії Sofa Enterprise"
+    "translation": "Послуга доступна лише у версії Mattermost Enterprise"
   },
   {
     "id": "api.roles.patch_roles.not_allowed_permission.error",
@@ -7669,7 +7669,7 @@
   },
   {
     "id": "api.templates.email_footer_v2",
-    "translation": "© 2015 - {{ .CurrentYear }} Sofa, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303"
+    "translation": "© 2015 - {{ .CurrentYear }} Mattermost, Inc. 2100 Geng Road, Suite 210, Palo Alto, CA, 94303"
   },
   {
     "id": "api.templates.invite_team_and_channel_subject",
@@ -7717,7 +7717,7 @@
   },
   {
     "id": "api.templates.invite_body.subTitle",
-    "translation": "Почніть співпрацювати зі своєю командою на Sofa"
+    "translation": "Почніть співпрацювати зі своєю командою на Mattermost"
   },
   {
     "id": "api.templates.invite_body.title.reminder",
@@ -7769,7 +7769,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.button",
-    "translation": "Відкрити Sofa"
+    "translation": "Відкрити Mattermost"
   },
   {
     "id": "api.templates.cloud_welcome_email.signin_sub_info",
@@ -7781,7 +7781,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.info",
-    "translation": "Sofa - це гнучка платформа для обміну повідомленнями з відкритим кодом, яка забезпечує безпечну командну роботу."
+    "translation": "Mattermost - це гнучка платформа для обміну повідомленнями з відкритим кодом, яка забезпечує безпечну командну роботу."
   },
   {
     "id": "api.templates.invite_body_footer.learn_more",
@@ -7797,7 +7797,7 @@
   },
   {
     "id": "api.templates.invite_body_footer.title",
-    "translation": "Що таке Sofa?"
+    "translation": "Що таке Mattermost?"
   },
   {
     "id": "api.templates.cloud_welcome_email.invite_sub_info",
@@ -7809,7 +7809,7 @@
   },
   {
     "id": "api.templates.cloud_welcome_email.download_mm_info",
-    "translation": "Завантажити додаток Sofa"
+    "translation": "Завантажити додаток Mattermost"
   },
   {
     "id": "api.team.update_team_member_roles.user_and_guest.app_error",
@@ -7837,11 +7837,11 @@
   },
   {
     "id": "api.templates.license_up_for_renewal_subtitle",
-    "translation": "{{.UserName}}, термін дії вашої підписки закінчується через {{.Days}} днів. Ми сподіваємося, що ви насолоджуєтесь гнучкою та безпечною командною співпрацею, яку забезпечує Sofa. Поновіть свою підписку якнайшвидше, щоб ваша команда могла продовжувати користуватися цими перевагами."
+    "translation": "{{.UserName}}, термін дії вашої підписки закінчується через {{.Days}} днів. Ми сподіваємося, що ви насолоджуєтесь гнучкою та безпечною командною співпрацею, яку забезпечує Mattermost. Поновіть свою підписку якнайшвидше, щоб ваша команда могла продовжувати користуватися цими перевагами."
   },
   {
     "id": "api.templates.license_up_for_renewal_title",
-    "translation": "Ваша підписка на Sofa підлягає поновленню"
+    "translation": "Ваша підписка на Mattermost підлягає поновленню"
   },
   {
     "id": "api.templates.questions_footer.title",
@@ -7885,7 +7885,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise.already-done.app_error",
-    "translation": "Ви вже оновилися до Sofa Enterprise Edition. Будь ласка, перезапустіть сервер, щоб завершити оновлення."
+    "translation": "Ви вже оновилися до Mattermost Enterprise Edition. Будь ласка, перезапустіть сервер, щоб завершити оновлення."
   },
   {
     "id": "api.unable_to_create_zip_file",
@@ -7893,15 +7893,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.generic_error.app_error",
-    "translation": "Sofa не зміг оновитися до Корпоративної версії."
+    "translation": "Mattermost не зміг оновитися до Корпоративної версії."
   },
   {
     "id": "api.upgrade_to_enterprise.already-enterprise.app_error",
-    "translation": "Ви не можете оновитися, оскільки у вас вже працює Sofa Enterprise Edition."
+    "translation": "Ви не можете оновитися, оскільки у вас вже працює Mattermost Enterprise Edition."
   },
   {
     "id": "api.upgrade_to_enterprise.app_error",
-    "translation": "Оновлення до Sofa Enterprise Edition вже виконується."
+    "translation": "Оновлення до Mattermost Enterprise Edition вже виконується."
   },
   {
     "id": "api.templates.welcome_body.subTitle1",
@@ -7941,15 +7941,15 @@
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user-and-permission.app_error",
-    "translation": "Sofa не вдалося оновити до корпоративної версії. Системний користувач Sofa {{.SofaUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Sofa:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Sofa. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "Mattermost не вдалося оновити до корпоративної версії. Системний користувач Mattermost {{.MattermostUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\nchmod +w \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Mattermost. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-user.app_error",
-    "translation": "Sofa не вдалося оновити до корпоративної версії. Системний користувач Sofa {{.SofaUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Sofa:\n\n```\nchown {{.SofaUsername}} \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Sofa. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
+    "translation": "Mattermost не вдалося оновити до корпоративної версії. Системний користувач Mattermost {{.MattermostUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Mattermost:\n\n```\nchown {{.MattermostUsername}} \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Mattermost. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchown {{.FileUsername}} \"{{.Path}}\"\n```"
   },
   {
     "id": "api.upgrade_to_enterprise.invalid-permission.app_error",
-    "translation": "Sofa не вдалося оновити до корпоративної версії. Системний користувач Sofa {{.SofaUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Sofa:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Sofa. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchmod -w \"{{.Path}}\"\n```"
+    "translation": "Mattermost не вдалося оновити до корпоративної версії. Системний користувач Mattermost {{.MattermostUsername}} не має прав запису до необхідного двійкового файлу. Системний адміністратор може оновити дозволи файлу, виконавши наступну команду на сервері, де встановлено Mattermost:\n\n```\nchmod +w \"{{.Path}}\"\n```\n\nПісля зміни дозволів файлу спробуйте знову оновити Mattermost. Після завершення оновлення та перезапуску системи не забудьте відновити початкові дозволи для двійкового файлу:\n\n```\nchmod -w \"{{.Path}}\"\n```"
   },
   {
     "id": "api.team.import_team.unknown_import_from.app_error",
@@ -7985,11 +7985,11 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.app_error",
-    "translation": "Sofa не вдалось оновитися до корпоративної версії."
+    "translation": "Mattermost не вдалось оновитися до корпоративної версії."
   },
   {
     "id": "api.upgrade_to_enterprise.system_not_supported.app_error",
-    "translation": "Sofa не вдалося оновити до корпоративної версії. Ця функція працюватиме лише на системах Linux з архітектурою x86-64."
+    "translation": "Mattermost не вдалося оновити до корпоративної версії. Ця функція працюватиме лише на системах Linux з архітектурою x86-64."
   },
   {
     "id": "api.upload.create.upload_too_large.app_error",
@@ -8001,7 +8001,7 @@
   },
   {
     "id": "api.upgrade_to_enterprise_status.signature.app_error",
-    "translation": "Sofa не вдалося оновити до корпоративної версії. Цифровий підпис завантаженого бінарного файлу не вдалося перевірити."
+    "translation": "Mattermost не вдалося оновити до корпоративної версії. Цифровий підпис завантаженого бінарного файлу не вдалося перевірити."
   },
   {
     "id": "api.system.update_notices.validating_failed",
@@ -8485,7 +8485,7 @@
   },
   {
     "id": "app.notification.footer.infoLogin",
-    "translation": "Увійдіть до Sofa"
+    "translation": "Увійдіть до Mattermost"
   },
   {
     "id": "app.notify_admin.save.app_error",
@@ -9584,8 +9584,8 @@
     "translation": "Неправильний ідентифікатор користувача."
   },
   {
-    "id": "model.oauth.is_valid.sofa_app_id.app_error",
-    "translation": "Максимальна довжина SofaAppID - 32 символи."
+    "id": "model.oauth.is_valid.mattermost_app_id.app_error",
+    "translation": "Максимальна довжина MattermostAppID - 32 символи."
   },
   {
     "id": "model.outgoing_oauth_connection.is_valid.create_at.error",

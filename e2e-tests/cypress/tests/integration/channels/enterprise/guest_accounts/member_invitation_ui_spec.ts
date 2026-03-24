@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -49,7 +49,7 @@ describe('Guest Account - Member Invitation Flow', () => {
     });
 
     it('MM-T1323 Verify UI Elements of Members Invitation Flow - Accessing Invite People', () => {
-        const email = `temp-${getRandomId()}@sofa.com`;
+        const email = `temp-${getRandomId()}@mattermost.com`;
 
         // # Open team menu and click 'Invite People'
         cy.uiOpenTeamMenu('Invite people');
@@ -102,7 +102,7 @@ describe('Guest Account - Member Invitation Flow', () => {
 
         // # Sign up via email
         const username = `temp-${getRandomId()}`;
-        const email = `${username}@sofa.com`;
+        const email = `${username}@mattermost.com`;
         cy.get('#input_email').type(email);
         cy.get('#input_name').type(username);
         cy.get('#input_password-input').type('Testing123');
@@ -186,7 +186,7 @@ describe('Guest Account - Member Invitation Flow', () => {
             loginAsNewUser(team);
 
             // # Search and add a new member by email who is not part of the team
-            const email = `temp-${getRandomId()}@sofa.com`;
+            const email = `temp-${getRandomId()}@mattermost.com`;
             invitePeople(email, 1, email);
 
             // * Verify the content and message in next screen
@@ -199,7 +199,7 @@ describe('Guest Account - Member Invitation Flow', () => {
         loginAsNewUser(testTeam);
 
         // # Invite a email containing uppercase letters
-        const email = `tEMp-${getRandomId()}@sofa.com`;
+        const email = `tEMp-${getRandomId()}@mattermost.com`;
         invitePeople(email, 1, email);
 
         // * Verify the content and message in next screen

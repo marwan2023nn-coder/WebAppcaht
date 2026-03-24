@@ -85,7 +85,7 @@ alias docker-compose-mmserver='${MME2E_DC_SERVER}'
 alias docker-compose-mmdashboard='${MME2E_DC_DASHBOARD}'
 
 # Default values for optional variables
-export SERVER_IMAGE_DEFAULT="sofadevelopment/sofa-enterprise-edition:$(git rev-parse --short=7 HEAD)"
+export SERVER_IMAGE_DEFAULT="mattermostdevelopment/mattermost-enterprise-edition:$(git rev-parse --short=7 HEAD)"
 export BROWSER_DEFAULT="chrome"
 export SERVER_DEFAULT="onprem"
 export TEST_DEFAULT="cypress"

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -14,7 +14,7 @@ import (
 	"github.com/pkg/errors"
 )
 
-// BaseMarketplacePlugin is a Sofa plugin received from the Marketplace server.
+// BaseMarketplacePlugin is a Mattermost plugin received from the Marketplace server.
 type BaseMarketplacePlugin struct {
 	HomepageURL     string             `json:"homepage_url"`
 	IconData        string             `json:"icon_data"`

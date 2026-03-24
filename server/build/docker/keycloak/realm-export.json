@@ -1,6 +1,6 @@
 {
   "id" : "b452bc2b-8c3d-4132-b096-8cb983bfa0fa",
-  "realm" : "sofa",
+  "realm" : "mattermost",
   "notBefore" : 0,
   "defaultSignatureAlgorithm" : "RS256",
   "revokeRefreshToken" : false,
@@ -62,7 +62,7 @@
       "attributes" : { }
     }, {
       "id" : "44215b4f-7373-48b2-9882-ff6ea744c2b9",
-      "name" : "default-roles-sofa",
+      "name" : "default-roles-mattermost",
       "description" : "${role_default-roles}",
       "composite" : true,
       "composites" : {
@@ -244,8 +244,8 @@
         "containerId" : "d7c4c70f-6d4b-469f-afec-366c4494e9b4",
         "attributes" : { }
       } ],
-      "sofa" : [ ],
-      "sofa-openid" : [ {
+      "mattermost" : [ ],
+      "mattermost-openid" : [ {
         "id" : "4ee3d3fb-4a1d-4933-b45f-cde999835106",
         "name" : "uma_protection",
         "composite" : false,
@@ -353,7 +353,7 @@
   } ],
   "defaultRole" : {
     "id" : "44215b4f-7373-48b2-9882-ff6ea744c2b9",
-    "name" : "default-roles-sofa",
+    "name" : "default-roles-mattermost",
     "description" : "${role_default-roles}",
     "composite" : true,
     "clientRole" : false,
@@ -454,17 +454,17 @@
   }, {
     "id" : "bf6d32c1-6364-4ac0-8dca-10d69ebfefa1",
     "createdTimestamp" : 1714991464428,
-    "username" : "service-account-sofa-openid",
+    "username" : "service-account-mattermost-openid",
     "enabled" : true,
     "totp" : false,
     "emailVerified" : false,
-    "serviceAccountClientId" : "sofa-openid",
+    "serviceAccountClientId" : "mattermost-openid",
     "credentials" : [ ],
     "disableableCredentialTypes" : [ ],
     "requiredActions" : [ ],
-    "realmRoles" : [ "default-roles-sofa" ],
+    "realmRoles" : [ "default-roles-mattermost" ],
     "clientRoles" : {
-      "sofa-openid" : [ "uma_protection" ]
+      "mattermost-openid" : [ "uma_protection" ]
     },
     "notBefore" : 0,
     "groups" : [ ]
@@ -484,12 +484,12 @@
     "clientId" : "account",
     "name" : "${client_account}",
     "rootUrl" : "${authBaseUrl}",
-    "baseUrl" : "/realms/sofa/account/",
+    "baseUrl" : "/realms/mattermost/account/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/realms/sofa/account/*" ],
+    "redirectUris" : [ "/realms/mattermost/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -514,12 +514,12 @@
     "clientId" : "account-console",
     "name" : "${client_account-console}",
     "rootUrl" : "${authBaseUrl}",
-    "baseUrl" : "/realms/sofa/account/",
+    "baseUrl" : "/realms/mattermost/account/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/realms/sofa/account/*" ],
+    "redirectUris" : [ "/realms/mattermost/account/*" ],
     "webOrigins" : [ ],
     "notBefore" : 0,
     "bearerOnly" : false,
@@ -606,7 +606,7 @@
     "optionalClientScopes" : [ "address", "phone", "offline_access", "microprofile-jwt" ]
   }, {
     "id" : "88e48acd-0b87-4e5b-a1e0-94ba87c9471c",
-    "clientId" : "sofa",
+    "clientId" : "mattermost",
     "name" : "",
     "description" : "",
     "rootUrl" : "http://localhost:8065",
@@ -716,7 +716,7 @@
     "optionalClientScopes" : [ ]
   }, {
     "id" : "427658c0-080b-426b-b37b-d69e4ced5890",
-    "clientId" : "sofa-openid",
+    "clientId" : "mattermost-openid",
     "name" : "",
     "description" : "",
     "rootUrl" : "",
@@ -832,12 +832,12 @@
     "clientId" : "security-admin-console",
     "name" : "${client_security-admin-console}",
     "rootUrl" : "${authAdminUrl}",
-    "baseUrl" : "/admin/sofa/console/",
+    "baseUrl" : "/admin/mattermost/console/",
     "surrogateAuthRequired" : false,
     "enabled" : true,
     "alwaysDisplayInConsole" : false,
     "clientAuthenticatorType" : "client-secret",
-    "redirectUris" : [ "/admin/sofa/console/*" ],
+    "redirectUris" : [ "/admin/mattermost/console/*" ],
     "webOrigins" : [ "+" ],
     "notBefore" : 0,
     "bearerOnly" : false,

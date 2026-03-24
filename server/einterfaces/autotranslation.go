@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package einterfaces
@@ -6,8 +6,8 @@ package einterfaces
 import (
 	"context"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	ejobs "github.com/marwan2023nn-coder/sofa/server/v8/einterfaces/jobs"
+	"github.com/mattermost/mattermost/server/public/model"
+	ejobs "github.com/mattermost/mattermost/server/v8/einterfaces/jobs"
 )
 
 // AutoTranslationInterface defines the enterprise advanced auto-translation functionality.

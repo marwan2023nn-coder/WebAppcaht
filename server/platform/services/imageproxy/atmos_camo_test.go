@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package imageproxy
@@ -13,16 +13,16 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/httpservice"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/testutils"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/httpservice"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/testutils"
 )
 
 func makeTestAtmosCamoProxy() *ImageProxy {
 	configService := &testutils.StaticConfigService{
 		Cfg: &model.Config{
 			ServiceSettings: model.ServiceSettings{
-				SiteURL:                             model.NewPointer("https://sofa.example.com"),
+				SiteURL:                             model.NewPointer("https://mattermost.example.com"),
 				AllowedUntrustedInternalConnections: model.NewPointer("127.0.0.1"),
 			},
 			ImageProxySettings: model.ImageProxySettings{
@@ -38,7 +38,7 @@ func makeTestAtmosCamoProxy() *ImageProxy {
 }
 
 func TestAtmosCamoBackend_GetImage(t *testing.T) {
-	imageURL := "https://www.sofa.com/wp-content/uploads/2022/02/logoHorizontalWhite.png"
+	imageURL := "https://www.mattermost.com/wp-content/uploads/2022/02/logoHorizontalWhite.png"
 	proxiedURL := "http://images.example.com/b569ce17f1be4550cffa8d8dd3a9e80e6d209584/68747470733a2f2f7777772e6d61747465726d6f73742e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032322f30322f6c6f676f486f72697a6f6e74616c57686974652e706e67"
 
 	proxy := makeTestAtmosCamoProxy()
@@ -66,7 +66,7 @@ func TestAtmosCamoBackend_GetImageDirect(t *testing.T) {
 	defer mock.Close()
 
 	proxy := makeTestAtmosCamoProxy()
-	parsedURL, err := url.Parse("https://sofa.example.com")
+	parsedURL, err := url.Parse("https://mattermost.example.com")
 	require.NoError(t, err)
 
 	remoteURL, err := url.Parse(mock.URL)
@@ -89,10 +89,10 @@ func TestAtmosCamoBackend_GetImageDirect(t *testing.T) {
 }
 
 func TestGetAtmosCamoImageURL(t *testing.T) {
-	imageURL := "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png"
+	imageURL := "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png"
 	proxiedURL := "http://images.example.com/03b122734ae088d10cb46ea05512ec7dc852299e/68747470733a2f2f6d61747465726d6f73742e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032322f30322f6c6f676f486f72697a6f6e74616c2e706e67"
 
-	defaultSiteURL := "https://sofa.example.com"
+	defaultSiteURL := "https://mattermost.example.com"
 	proxyURL := "http://images.example.com"
 
 	for _, test := range []struct {
@@ -123,7 +123,7 @@ func TestGetAtmosCamoImageURL(t *testing.T) {
 			Name:     "should not proxy a relative image",
 			Input:    "/static/logo.png",
 			SiteURL:  defaultSiteURL,
-			Expected: "https://sofa.example.com/static/logo.png",
+			Expected: "https://mattermost.example.com/static/logo.png",
 		},
 		{
 			Name:     "should bypass opaque URLs",
@@ -132,16 +132,16 @@ func TestGetAtmosCamoImageURL(t *testing.T) {
 			Expected: defaultSiteURL,
 		},
 		{
-			Name:     "should not proxy an image on the Sofa server",
-			Input:    "https://sofa.example.com/static/logo.png",
+			Name:     "should not proxy an image on the Mattermost server",
+			Input:    "https://mattermost.example.com/static/logo.png",
 			SiteURL:  defaultSiteURL,
-			Expected: "https://sofa.example.com/static/logo.png",
+			Expected: "https://mattermost.example.com/static/logo.png",
 		},
 		{
-			Name:     "should not proxy an image on the Sofa server when a subpath is set",
-			Input:    "https://sofa.example.com/static/logo.png",
+			Name:     "should not proxy an image on the Mattermost server when a subpath is set",
+			Input:    "https://mattermost.example.com/static/logo.png",
 			SiteURL:  defaultSiteURL + "/static",
-			Expected: "https://sofa.example.com/static/logo.png",
+			Expected: "https://mattermost.example.com/static/logo.png",
 		},
 		{
 			Name:     "should not proxy an image that has already been proxied",
@@ -151,19 +151,19 @@ func TestGetAtmosCamoImageURL(t *testing.T) {
 		},
 		{
 			Name:     "should not bypass protocol relative URLs",
-			Input:    "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png",
-			SiteURL:  "http://sofa.example.com",
+			Input:    "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png",
+			SiteURL:  "http://mattermost.example.com",
 			Expected: proxiedURL,
 		},
 		{
 			Name:     "should not bypass if the host prefix is same",
-			Input:    "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png",
+			Input:    "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png",
 			SiteURL:  defaultSiteURL,
 			Expected: "http://images.example.com/03b122734ae088d10cb46ea05512ec7dc852299e/68747470733a2f2f6d61747465726d6f73742e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032322f30322f6c6f676f486f72697a6f6e74616c2e706e67",
 		},
 		{
 			Name:     "should not bypass for user auth URLs",
-			Input:    "https://sofa.com/wp-content/uploads/2022/02/logoHorizontal.png",
+			Input:    "https://mattermost.com/wp-content/uploads/2022/02/logoHorizontal.png",
 			SiteURL:  defaultSiteURL,
 			Expected: "http://images.example.com/03b122734ae088d10cb46ea05512ec7dc852299e/68747470733a2f2f6d61747465726d6f73742e636f6d2f77702d636f6e74656e742f75706c6f6164732f323032322f30322f6c6f676f486f72697a6f6e74616c2e706e67",
 		},

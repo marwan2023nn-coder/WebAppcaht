@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -123,9 +123,6 @@ func (fi *FileInfo) IsValid() *AppError {
 }
 
 func (fi *FileInfo) IsImage() bool {
-	if fi.MimeType == "image/vnd.adobe.photoshop" || fi.MimeType == "image/x-photoshop" {
-		return false
-	}
 	return strings.HasPrefix(fi.MimeType, "image")
 }
 

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -27,7 +27,7 @@ var platformNames = map[uasurfer.Platform]string{
 func getPlatformName(ua *uasurfer.UserAgent, userAgentString string) string {
 	platform := ua.OS.Platform
 
-	if platform == uasurfer.PlatformUnknown && strings.Contains(userAgentString, "Sofa Mobile/") {
+	if platform == uasurfer.PlatformUnknown && strings.Contains(userAgentString, "Mattermost Mobile/") {
 		if strings.Contains(userAgentString, "iPhone") {
 			platform = uasurfer.PlatformiPhone
 		} else if strings.Contains(userAgentString, "iPad") {
@@ -89,7 +89,7 @@ func getOSName(ua *uasurfer.UserAgent, userAgentString string) string {
 
 	osName := os.Name
 
-	if osName == uasurfer.OSUnknown && strings.Contains(userAgentString, "Sofa Mobile/") {
+	if osName == uasurfer.OSUnknown && strings.Contains(userAgentString, "Mattermost Mobile/") {
 		if strings.Contains(userAgentString, "iPhone") {
 			osName = uasurfer.OSiOS
 		} else if strings.Contains(userAgentString, "iPad") {
@@ -108,8 +108,8 @@ func getOSName(ua *uasurfer.UserAgent, userAgentString string) string {
 }
 
 var versionPrefixes = []string{
-	"Sofa Mobile/",
-	"Sofa/",
+	"Mattermost Mobile/",
+	"Mattermost/",
 	"mmctl/",
 	"Franz/",
 }
@@ -154,11 +154,11 @@ func getBrowserName(ua *uasurfer.UserAgent, userAgentString string) string {
 	browser := ua.Browser.Name
 
 	if strings.Contains(userAgentString, "Electron") ||
-		(strings.Contains(userAgentString, "Sofa") && !strings.Contains(userAgentString, "Sofa Mobile")) {
+		(strings.Contains(userAgentString, "Mattermost") && !strings.Contains(userAgentString, "Mattermost Mobile")) {
 		return "Desktop App"
 	}
 
-	if strings.Contains(userAgentString, "Sofa Mobile") {
+	if strings.Contains(userAgentString, "Mattermost Mobile") {
 		return "Mobile App"
 	}
 

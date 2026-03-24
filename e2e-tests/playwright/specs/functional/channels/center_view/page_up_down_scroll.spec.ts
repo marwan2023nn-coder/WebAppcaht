@@ -1,9 +1,9 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {Page} from '@playwright/test';
 
-import {expect, test} from '@sofa/playwright-lib';
+import {expect, test} from '@mattermost/playwright-lib';
 
 test('should be able to scroll the post list with page up and down', async ({pw}) => {
     const {user} = await pw.initSetup();

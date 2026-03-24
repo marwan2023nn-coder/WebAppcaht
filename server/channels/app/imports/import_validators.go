@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package imports
@@ -12,17 +12,9 @@ import (
 	"strings"
 	"unicode/utf8"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
-
-// IsRootJsonlFile reports whether the given zip entry name refers to a .jsonl
-// file at the root of the archive (no directory component). This is used to
-// locate the import manifest while ignoring .jsonl files that may exist as
-// exported attachments in subdirectories.
-func IsRootJsonlFile(name string) bool {
-	return filepath.Ext(name) == ".jsonl" && filepath.Dir(name) == "."
-}
 
 func ValidateSchemeImportData(data *SchemeImportData) *model.AppError {
 	if data.Scope == nil {

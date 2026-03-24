@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -46,7 +46,7 @@ describe('Team members test', () => {
         cy.visit('/admin_console/user_management/teams/invalid');
 
         // * Verify that the user is seeing the listing (subroute not matched)
-        cy.findByText('Sofa Teams').should('be.visible');
+        cy.findByText('Mattermost Teams').should('be.visible');
     });
 
     it('MM-23938 - Team members block is only visible when team is not group synced', () => {

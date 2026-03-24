@@ -56,7 +56,7 @@ services:
       MM_SERVICESETTINGS_ALLOWCORSFROM: "*"
       MM_SERVICESETTINGS_ENABLELOCALMODE: "true"
       MM_SERVICESETTINGS_ENABLESECURITYFIXALERT: "false"
-      MM_SQLSETTINGS_DATASOURCE: "postgres://mmuser:mostest@localhost:5432/sofa_test?sslmode=disable&connect_timeout=10&binary_parameters=yes"
+      MM_SQLSETTINGS_DATASOURCE: "postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10&binary_parameters=yes"
       MM_SQLSETTINGS_DRIVERNAME: "postgres"
       MM_EMAILSETTINGS_SMTPSERVER: "localhost"
       MM_CLUSTERSETTINGS_READONLYCONFIG: "false"
@@ -82,7 +82,7 @@ $(for service in $ENABLED_DOCKER_SERVICES; do
 $(if mme2e_is_token_in_list "postgres" "$ENABLED_DOCKER_SERVICES"; then
     echo '
   postgres:
-    image: sofadevelopment/mirrored-postgres:14
+    image: mattermostdevelopment/mirrored-postgres:14
     restart: "no"
     network_mode: host
     networks: !reset []
@@ -158,7 +158,7 @@ $(if mme2e_is_token_in_list "elasticsearch" "$ENABLED_DOCKER_SERVICES"; then
       retries: 12'
     if [ "$MME2E_ARCHTYPE" = "arm64" ]; then
       echo '
-    image: sofadevelopment/sofa-elasticsearch:8.9.0
+    image: mattermostdevelopment/mattermost-elasticsearch:8.9.0
     platform: linux/arm64/v8'
     fi
   fi)
@@ -229,7 +229,7 @@ $(if mme2e_is_token_in_list "cypress" "$ENABLED_DOCKER_SERVICES"; then
       - "../../e2e-tests/.ci/.env.cypress"
     environment:
       CYPRESS_baseUrl: "http://localhost:8065"
-      CYPRESS_dbConnection: "postgres://mmuser:mostest@localhost:5432/sofa_test?sslmode=disable&connect_timeout=10"
+      CYPRESS_dbConnection: "postgres://mmuser:mostest@localhost:5432/mattermost_test?sslmode=disable&connect_timeout=10"
       CYPRESS_smtpUrl: "http://localhost:9001"
       CYPRESS_webhookBaseUrl: "http://localhost:3000"
       CYPRESS_chromeWebSecurity: "false"
@@ -284,7 +284,7 @@ $(if mme2e_is_token_in_list "playwright" "$ENABLED_DOCKER_SERVICES"; then
     command:
       - |
         # Install Node.js based on .nvmrc
-        NODE_VERSION=$$(cat /sofa/.nvmrc)
+        NODE_VERSION=$$(cat /mattermost/.nvmrc)
         echo "Installing Node.js $${NODE_VERSION}..."
         curl -fsSL https://deb.nodesource.com/setup_$${NODE_VERSION%%.*}.x | bash -
         apt-get install -y nodejs
@@ -299,7 +299,7 @@ $(if mme2e_is_token_in_list "playwright" "$ENABLED_DOCKER_SERVICES"; then
       PW_BASE_URL: http://localhost:8065
       PW_ADMIN_USERNAME: sysadmin
       PW_ADMIN_PASSWORD: Sys@dmin-sample1
-      PW_ADMIN_EMAIL: sysadmin@sample.sofa.com
+      PW_ADMIN_EMAIL: sysadmin@sample.mattermost.com
       PW_ENSURE_PLUGINS_INSTALLED: ""
       PW_HA_CLUSTER_ENABLED: "false"
       PW_RESET_BEFORE_TEST: "false"
@@ -312,10 +312,10 @@ $(if mme2e_is_token_in_list "playwright" "$ENABLED_DOCKER_SERVICES"; then
       nofile:
         soft: 8096
         hard: 1048576
-    working_dir: /sofa
+    working_dir: /mattermost
     network_mode: host
     volumes:
-      - "../../:/sofa"'
+      - "../../:/mattermost"'
   fi)
 EOL
 
@@ -356,7 +356,7 @@ generate_env_files() {
 
   # Generating TEST-specific env files
   # Some are defaulted in .e2erc due to being needed to other scripts as well
-  export REPO=sofa # Static, but declared here for making generate_test_cycle.js easier to run
+  export REPO=mattermost # Static, but declared here for making generate_test_cycle.js easier to run
   export HEADLESS=true   # Static, but declared here for making generate_test_cycle.js easier to run
   case "$TEST" in
   cypress)

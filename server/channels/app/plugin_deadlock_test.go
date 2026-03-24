@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -12,7 +12,7 @@ import (
 
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestPluginDeadlock(t *testing.T) {
@@ -24,12 +24,12 @@ func TestPluginDeadlock(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnActivate() error {
@@ -112,12 +112,12 @@ func TestPluginDeadlock(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) MessageWillBePosted(c *plugin.Context, post *model.Post) (*model.Post, string) {
@@ -147,12 +147,12 @@ func TestPluginDeadlock(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnActivate() error {
@@ -219,12 +219,12 @@ func TestPluginDeadlock(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 			}
 
 			func (p *MyPlugin) OnDeactivate() error {

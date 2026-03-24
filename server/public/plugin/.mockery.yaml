@@ -1,6 +1,6 @@
 with-expecter: false
 packages:
-  github.com/sofa/sofa/server/public/plugin:
+  github.com/mattermost/mattermost/server/public/plugin:
     config:
       dir: "public/plugin/plugintest"
       filename: "{{.InterfaceNameLower}}.go"

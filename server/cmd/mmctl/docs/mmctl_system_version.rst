@@ -9,7 +9,7 @@ Synopsis
 ~~~~~~~~
 
 
-Prints the server version of the currently connected Sofa instance
+Prints the server version of the currently connected Mattermost instance
 
 ::
 

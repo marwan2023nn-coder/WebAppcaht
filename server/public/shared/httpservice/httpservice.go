@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package httpservice
@@ -12,8 +12,8 @@ import (
 	"time"
 	"unicode"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
 )
 
 // HTTPService wraps the functionality for making http requests to provide some improvements to the default client
@@ -26,9 +26,9 @@ type HTTPService interface {
 	// implementation provides:
 	// - A shorter timeout for dial and TLS handshake (defined as constant "ConnectTimeout")
 	// - A timeout for end-to-end requests
-	// - A Sofa-specific user agent header
+	// - A Mattermost-specific user agent header
 	// - Additional security for untrusted and insecure connections
-	MakeTransport(trustURLs bool) *SofaTransport
+	MakeTransport(trustURLs bool) *MattermostTransport
 }
 
 type getConfig interface {
@@ -71,7 +71,7 @@ func (h *HTTPServiceImpl) MakeClient(trustURLs bool) *http.Client {
 	}
 }
 
-func (h *HTTPServiceImpl) MakeTransport(trustURLs bool) *SofaTransport {
+func (h *HTTPServiceImpl) MakeTransport(trustURLs bool) *MattermostTransport {
 	insecure := h.configService.Config().ServiceSettings.EnableInsecureOutgoingConnections != nil && *h.configService.Config().ServiceSettings.EnableInsecureOutgoingConnections
 
 	if trustURLs {

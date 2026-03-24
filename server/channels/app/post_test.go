@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -17,14 +17,14 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/plugintest/mock"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	storemocks "github.com/marwan2023nn-coder/sofa/server/v8/channels/store/storetest/mocks"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
-	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/imageproxy"
-	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/searchengine/mocks"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin/plugintest/mock"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	storemocks "github.com/mattermost/mattermost/server/v8/channels/store/storetest/mocks"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/v8/platform/services/imageproxy"
+	"github.com/mattermost/mattermost/server/v8/platform/services/searchengine/mocks"
 )
 
 func enableBoRFeature(th *TestHelper) {
@@ -75,12 +75,12 @@ func TestCreatePostDeduplicate(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 				allow bool
 			}
 
@@ -131,13 +131,13 @@ func TestCreatePostDeduplicate(t *testing.T) {
 			package main
 
 			import (
-				"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-				"github.com/marwan2023nn-coder/sofa/server/public/model"
+				"github.com/mattermost/mattermost/server/public/plugin"
+				"github.com/mattermost/mattermost/server/public/model"
 				"time"
 			)
 
 			type MyPlugin struct {
-				plugin.SofaPlugin
+				plugin.MattermostPlugin
 				instant bool
 			}
 
@@ -513,12 +513,12 @@ func TestUpdatePostPluginHooks(t *testing.T) {
 				package main
 
 				import (
-					"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-					"github.com/marwan2023nn-coder/sofa/server/public/model"
+					"github.com/mattermost/mattermost/server/public/plugin"
+					"github.com/mattermost/mattermost/server/public/model"
 				)
 
 				type MyPlugin struct {
-					plugin.SofaPlugin
+					plugin.MattermostPlugin
 				}
 
 				func (p *MyPlugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model.Post) (*model.Post, string) {
@@ -533,12 +533,12 @@ func TestUpdatePostPluginHooks(t *testing.T) {
 				package main
 
 				import (
-					"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-					"github.com/marwan2023nn-coder/sofa/server/public/model"
+					"github.com/mattermost/mattermost/server/public/plugin"
+					"github.com/mattermost/mattermost/server/public/model"
 				)
 
 				type MyPlugin struct {
-					plugin.SofaPlugin
+					plugin.MattermostPlugin
 				}
 
 				func (p *MyPlugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model.Post) (*model.Post, string) {
@@ -582,12 +582,12 @@ func TestUpdatePostPluginHooks(t *testing.T) {
 				package main
 
 				import (
-					"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-					"github.com/marwan2023nn-coder/sofa/server/public/model"
+					"github.com/mattermost/mattermost/server/public/plugin"
+					"github.com/mattermost/mattermost/server/public/model"
 				)
 
 				type MyPlugin struct {
-					plugin.SofaPlugin
+					plugin.MattermostPlugin
 				}
 
 				func (p *MyPlugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model.Post) (*model.Post, string) {
@@ -603,12 +603,12 @@ func TestUpdatePostPluginHooks(t *testing.T) {
 				package main
 
 				import (
-					"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-					"github.com/marwan2023nn-coder/sofa/server/public/model"
+					"github.com/mattermost/mattermost/server/public/plugin"
+					"github.com/mattermost/mattermost/server/public/model"
 				)
 
 				type MyPlugin struct {
-					plugin.SofaPlugin
+					plugin.MattermostPlugin
 				}
 
 				func (p *MyPlugin) MessageWillBeUpdated(c *plugin.Context, newPost, oldPost *model.Post) (*model.Post, string) {
@@ -733,7 +733,7 @@ func TestImageProxy(t *testing.T) {
 	mockStore.On("GetDBSchemaVersion").Return(1, nil)
 
 	th.App.UpdateConfig(func(cfg *model.Config) {
-		*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+		*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 	})
 
 	th.App.ch.imageProxy = imageproxy.MakeImageProxy(th.Server.platform, th.Server.HTTPService(), th.Server.Log())
@@ -752,23 +752,23 @@ func TestImageProxy(t *testing.T) {
 			ProxyOptions:           "foo",
 			ImageURL:               "http://mydomain.com/myimage",
 			ProxiedRemovedImageURL: "http://mydomain.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage",
+			ProxiedImageURL:        "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage",
 		},
 		"atmos/camo_SameSite": {
 			ProxyType:              model.ImageProxyTypeAtmosCamo,
 			ProxyURL:               "https://127.0.0.1",
 			ProxyOptions:           "foo",
-			ImageURL:               "http://mysofa.com/myimage",
-			ProxiedRemovedImageURL: "http://mysofa.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/myimage",
+			ImageURL:               "http://mymattermost.com/myimage",
+			ProxiedRemovedImageURL: "http://mymattermost.com/myimage",
+			ProxiedImageURL:        "http://mymattermost.com/myimage",
 		},
 		"atmos/camo_PathOnly": {
 			ProxyType:              model.ImageProxyTypeAtmosCamo,
 			ProxyURL:               "https://127.0.0.1",
 			ProxyOptions:           "foo",
 			ImageURL:               "/myimage",
-			ProxiedRemovedImageURL: "http://mysofa.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/myimage",
+			ProxiedRemovedImageURL: "http://mymattermost.com/myimage",
+			ProxiedImageURL:        "http://mymattermost.com/myimage",
 		},
 		"atmos/camo_EmptyImageURL": {
 			ProxyType:              model.ImageProxyTypeAtmosCamo,
@@ -782,19 +782,19 @@ func TestImageProxy(t *testing.T) {
 			ProxyType:              model.ImageProxyTypeLocal,
 			ImageURL:               "http://mydomain.com/myimage",
 			ProxiedRemovedImageURL: "http://mydomain.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage",
+			ProxiedImageURL:        "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage",
 		},
 		"local_SameSite": {
 			ProxyType:              model.ImageProxyTypeLocal,
-			ImageURL:               "http://mysofa.com/myimage",
-			ProxiedRemovedImageURL: "http://mysofa.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/myimage",
+			ImageURL:               "http://mymattermost.com/myimage",
+			ProxiedRemovedImageURL: "http://mymattermost.com/myimage",
+			ProxiedImageURL:        "http://mymattermost.com/myimage",
 		},
 		"local_PathOnly": {
 			ProxyType:              model.ImageProxyTypeLocal,
 			ImageURL:               "/myimage",
-			ProxiedRemovedImageURL: "http://mysofa.com/myimage",
-			ProxiedImageURL:        "http://mysofa.com/myimage",
+			ProxiedRemovedImageURL: "http://mymattermost.com/myimage",
+			ProxiedImageURL:        "http://mymattermost.com/myimage",
 		},
 		"local_EmptyImageURL": {
 			ProxyType:              model.ImageProxyTypeLocal,
@@ -956,7 +956,7 @@ func TestCreatePost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 			*cfg.ImageProxySettings.Enable = true
 			*cfg.ImageProxySettings.ImageProxyType = "atmos/camo"
 			*cfg.ImageProxySettings.RemoteImageProxyURL = "https://127.0.0.1"
@@ -966,7 +966,7 @@ func TestCreatePost(t *testing.T) {
 		th.App.ch.imageProxy = imageproxy.MakeImageProxy(th.Server.platform, th.Server.HTTPService(), th.Server.Log())
 
 		imageURL := "http://mydomain.com/myimage"
-		proxiedImageURL := "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
+		proxiedImageURL := "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
 
 		post := &model.Post{
 			ChannelId: th.BasicChannel.Id,
@@ -1045,7 +1045,7 @@ func TestCreatePost(t *testing.T) {
 		}
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -1112,7 +1112,7 @@ func TestCreatePost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.AddUserToChannel(t, th.BasicUser, th.BasicChannel)
@@ -1361,7 +1361,7 @@ func TestPatchPost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 			*cfg.ImageProxySettings.Enable = true
 			*cfg.ImageProxySettings.ImageProxyType = "atmos/camo"
 			*cfg.ImageProxySettings.RemoteImageProxyURL = "https://127.0.0.1"
@@ -1371,7 +1371,7 @@ func TestPatchPost(t *testing.T) {
 		th.App.ch.imageProxy = imageproxy.MakeImageProxy(th.Server.platform, th.Server.HTTPService(), th.Server.Log())
 
 		imageURL := "http://mydomain.com/myimage"
-		proxiedImageURL := "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
+		proxiedImageURL := "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
 
 		post := &model.Post{
 			ChannelId: th.BasicChannel.Id,
@@ -1751,7 +1751,7 @@ func TestUpdateEphemeralPost(t *testing.T) {
 		}
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -1788,7 +1788,7 @@ func TestUpdateEphemeralPost(t *testing.T) {
 		}
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -1816,7 +1816,7 @@ func TestUpdatePost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 			*cfg.ImageProxySettings.Enable = true
 			*cfg.ImageProxySettings.ImageProxyType = "atmos/camo"
 			*cfg.ImageProxySettings.RemoteImageProxyURL = "https://127.0.0.1"
@@ -1826,7 +1826,7 @@ func TestUpdatePost(t *testing.T) {
 		th.App.ch.imageProxy = imageproxy.MakeImageProxy(th.Server.platform, th.Server.HTTPService(), th.Server.Log())
 
 		imageURL := "http://mydomain.com/myimage"
-		proxiedImageURL := "http://mysofa.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
+		proxiedImageURL := "http://mymattermost.com/api/v4/image?url=http%3A%2F%2Fmydomain.com%2Fmyimage"
 
 		post := &model.Post{
 			ChannelId: th.BasicChannel.Id,
@@ -1860,7 +1860,7 @@ func TestUpdatePost(t *testing.T) {
 		}
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.Context.Session().UserId = th.BasicUser.Id
@@ -1893,7 +1893,7 @@ func TestUpdatePost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		th.App.UpdateConfig(func(cfg *model.Config) {
-			*cfg.ServiceSettings.SiteURL = "http://mysofa.com"
+			*cfg.ServiceSettings.SiteURL = "http://mymattermost.com"
 		})
 
 		th.AddUserToChannel(t, th.BasicUser, th.BasicChannel)
@@ -2841,7 +2841,7 @@ func TestCountMentionsFromPost(t *testing.T) {
 		th := Setup(t).InitBasic(t)
 
 		// Create an Entry license with post history limits
-		license := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+		license := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 		license.Limits = &model.LicenseLimits{
 			PostHistory: 10000, // Set some post history limit to enable filtering
 		}
@@ -3904,7 +3904,7 @@ func TestGetLastAccessiblePostTime(t *testing.T) {
 	assert.Equal(t, int64(0), r)
 
 	// Test with Entry license but no limits configured - should return 0
-	entryLicenseNoLimits := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+	entryLicenseNoLimits := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 	entryLicenseNoLimits.Limits = nil // No limits configured
 	th.App.Srv().SetLicense(entryLicenseNoLimits)
 	r, err = th.App.GetLastAccessiblePostTime()
@@ -3912,7 +3912,7 @@ func TestGetLastAccessiblePostTime(t *testing.T) {
 	assert.Equal(t, int64(0), r, "Entry license with no limits should return 0")
 
 	// Test with Entry license with zero post history limit - should return 0
-	entryLicenseZeroLimit := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+	entryLicenseZeroLimit := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 	entryLicenseZeroLimit.Limits = &model.LicenseLimits{PostHistory: 0} // Zero limit
 	th.App.Srv().SetLicense(entryLicenseZeroLimit)
 	r, err = th.App.GetLastAccessiblePostTime()
@@ -3920,7 +3920,7 @@ func TestGetLastAccessiblePostTime(t *testing.T) {
 	assert.Equal(t, int64(0), r, "Entry license with zero post history limit should return 0")
 
 	// Test with Entry license that has post history limits
-	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+	entryLicenseWithLimits := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 	entryLicenseWithLimits.Limits = &model.LicenseLimits{PostHistory: 1000} // Actual limit
 	th.App.Srv().SetLicense(entryLicenseWithLimits)
 
@@ -3954,7 +3954,7 @@ func TestComputeLastAccessiblePostTime(t *testing.T) {
 		th := SetupWithStoreMock(t)
 
 		// Set Entry license with post history limit of 100 messages
-		entryLicensePostsLimit := model.NewTestLicenseSKU(model.LicenseShortSkuSofaEntry)
+		entryLicensePostsLimit := model.NewTestLicenseSKU(model.LicenseShortSkuMattermostEntry)
 		entryLicensePostsLimit.Limits = &model.LicenseLimits{PostHistory: 100}
 		th.App.Srv().SetLicense(entryLicensePostsLimit)
 

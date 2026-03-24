@@ -1,6 +1,6 @@
 with-expecter: false
 packages:
-  github.com/sofa/sofa/server/v8/platform/services/searchengine:
+  github.com/mattermost/mattermost/server/v8/platform/services/searchengine:
     config:
       all: true
       dir: "platform/services/searchengine/mocks"

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -20,12 +20,12 @@ import (
 	svg "github.com/h2non/go-is-svg"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/utils/fileutils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/platform/services/marketplace"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/v8/channels/utils/fileutils"
+	"github.com/mattermost/mattermost/server/v8/platform/services/marketplace"
 )
 
 // prepackagedPluginsDir is the hard-coded folder name where prepackaged plugins are bundled
@@ -1037,14 +1037,14 @@ func (ch *Channels) processPrepackagedPlugin(pluginPath *pluginSignaturePath) (*
 var transitionallyPrepackagedPlugins = []string{
 	"antivirus",
 	"focalboard",
-	"sofa-autolink",
-	"com.sofa.aws-sns",
-	"com.sofa.confluence",
-	"com.sofa.custom-attributes",
+	"mattermost-autolink",
+	"com.mattermost.aws-sns",
+	"com.mattermost.confluence",
+	"com.mattermost.custom-attributes",
 	"jenkins",
 	"jitsi",
-	"com.sofa.plugin-todo",
-	"com.sofa.welcomebot",
+	"com.mattermost.plugin-todo",
+	"com.mattermost.welcomebot",
 	model.PluginIdApps,
 }
 

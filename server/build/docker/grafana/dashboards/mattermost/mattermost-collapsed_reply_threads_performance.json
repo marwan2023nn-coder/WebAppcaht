@@ -89,13 +89,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "histogram_quantile (\n  0.99,\n  sum by (le,instance)(\n    rate(sofa_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.99,\n  sum by (le,instance)(\n    rate(mattermost_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
         },
         {
-          "expr": "histogram_quantile (\n  0.50,\n  sum by (le,instance)(\n    rate(sofa_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.50,\n  sum by (le,instance)(\n    rate(mattermost_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -174,13 +174,13 @@
       "steppedLine": false,
       "targets": [
         {
-          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[1m])) by (instance)",
+          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[1m])) by (instance)",
           "interval": "",
           "legendFormat": "count-{{instance}}",
           "refId": "A"
         },
         {
-          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[1m]))",
+          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.GetThreadsForUser\"}[1m]))",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"
@@ -264,7 +264,7 @@
             "uid": "Prometheus"
           },
           "exemplar": true,
-          "expr": "histogram_quantile (\n  0.99,\n  sum by (le,instance)(\n    rate(sofa_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.99,\n  sum by (le,instance)(\n    rate(mattermost_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p99-{{instance}}",
           "refId": "A"
@@ -275,7 +275,7 @@
             "uid": "Prometheus"
           },
           "exemplar": true,
-          "expr": "histogram_quantile (\n  0.50,\n  sum by (le,instance)(\n    rate(sofa_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[5m])\n  )\n)",
+          "expr": "histogram_quantile (\n  0.50,\n  sum by (le,instance)(\n    rate(mattermost_db_store_time_bucket{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[5m])\n  )\n)",
           "interval": "",
           "legendFormat": "p50-{{instance}}",
           "refId": "B"
@@ -359,7 +359,7 @@
             "uid": "Prometheus"
           },
           "exemplar": true,
-          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[1m])) by (instance)",
+          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[1m])) by (instance)",
           "interval": "",
           "legendFormat": "count-{{instance}}",
           "refId": "A"
@@ -370,7 +370,7 @@
             "uid": "Prometheus"
           },
           "exemplar": true,
-          "expr": "sum(rate(sofa_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[1m]))",
+          "expr": "sum(rate(mattermost_db_store_time_count{instance=~\"$server\",method=\"ThreadStore.MarkAllAsReadByChannels\"}[1m]))",
           "interval": "",
           "legendFormat": "Total",
           "refId": "B"

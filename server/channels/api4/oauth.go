@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package api4
@@ -7,8 +7,8 @@ import (
 	"encoding/json"
 	"net/http"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
 )
 
 func (api *API) InitOAuth() {
@@ -350,18 +350,6 @@ func registerOAuthClient(c *Context, w http.ResponseWriter, r *http.Request) {
 		dcrError := model.NewDCRError(model.DCRErrorInvalidClientMetadata, "Invalid JSON in request body")
 
 		w.WriteHeader(http.StatusBadRequest)
-		if err := json.NewEncoder(w).Encode(dcrError); err != nil {
-			c.Logger.Warn("Error while writing response", mlog.Err(err))
-		}
-		return
-	}
-
-	// Validate against allowlist
-	allowlist := *c.App.Config().ServiceSettings.DCRRedirectURIAllowlist
-	if appErr := model.ValidateDCRRedirectURIs(clientRequest.RedirectURIs, allowlist); appErr != nil {
-		dcrError := model.NewDCRError(model.DCRErrorInvalidRedirectURI, appErr.Message)
-
-		w.WriteHeader(appErr.StatusCode)
 		if err := json.NewEncoder(w).Encode(dcrError); err != nil {
 			c.Logger.Warn("Error while writing response", mlog.Err(err))
 		}

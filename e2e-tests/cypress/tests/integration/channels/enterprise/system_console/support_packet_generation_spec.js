@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -37,7 +37,7 @@ describe('Support Packet Generation', () => {
         goToSupportPacketGenerationModal();
 
         // * Verify that the "submit a support ticket." link exist and points to Customer Support Request page
-        cy.findByText('submit a support ticket').should('have.attr', 'href').and('include', 'https://support.sofa.com/hc/en-us/requests/new');
+        cy.findByText('submit a support ticket').should('have.attr', 'href').and('include', 'https://support.mattermost.com/hc/en-us/requests/new');
 
         // * Verify that the "here" link exist and points to Logging admin page
         cy.findByRole('link', {name: 'here'}).should('have.attr', 'href').and('include', '/admin_console/environment/logging');

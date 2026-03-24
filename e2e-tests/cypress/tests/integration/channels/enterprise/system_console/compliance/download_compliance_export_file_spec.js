@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -180,7 +180,7 @@ describe('Compliance Export', () => {
         verifyActianceXMLFile(
             targetFolder,
             'have.string',
-            `<LoginName>${newUser.username}@sample.sofa.com</LoginName>`,
+            `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`,
         );
 
         // # Post a message by Admin
@@ -202,7 +202,7 @@ describe('Compliance Export', () => {
         verifyActianceXMLFile(
             targetFolder,
             'not.have.string',
-            `<LoginName>${newUser.username}@sample.sofa.com</LoginName>`,
+            `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`,
         );
 
         // # Re-activate the user
@@ -227,7 +227,7 @@ describe('Compliance Export', () => {
         verifyActianceXMLFile(
             targetFolder,
             'have.string',
-            `<LoginName>${newUser.username}@sample.sofa.com</LoginName>`,
+            `<LoginName>${newUser.username}@sample.mattermost.com</LoginName>`,
         );
     });
 });

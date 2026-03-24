@@ -7,8 +7,8 @@ import (
 	// import sql drivers
 	_ "github.com/lib/pq"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/driver"
+	"github.com/mattermost/mattermost/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/shared/driver"
 	"github.com/pkg/errors"
 )
 

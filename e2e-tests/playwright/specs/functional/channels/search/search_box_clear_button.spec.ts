@@ -1,7 +1,7 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {expect, test} from '@sofa/playwright-lib';
+import {expect, test} from '@mattermost/playwright-lib';
 
 test('MM-64155 search box clear button should not leave type badge after closing the search box', async ({pw}) => {
     // # Set up test with a user

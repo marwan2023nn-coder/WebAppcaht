@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -8,8 +8,8 @@ import (
 	"errors"
 	"os"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/client"
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/client"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 
 	"github.com/spf13/cobra"
 )
@@ -23,7 +23,7 @@ var UploadLicenseCmd = &cobra.Command{
 	Use:     "upload [license]",
 	Short:   "Upload a license.",
 	Long:    "Upload a license. Replaces current license.",
-	Example: "  license upload /path/to/license/mylicensefile.sofa-license",
+	Example: "  license upload /path/to/license/mylicensefile.mattermost-license",
 	RunE:    withClient(uploadLicenseCmdF),
 }
 
@@ -38,7 +38,7 @@ var UploadLicenseStringCmd = &cobra.Command{
 var RemoveLicenseCmd = &cobra.Command{
 	Use:     "remove",
 	Short:   "Remove the current license.",
-	Long:    "Remove the current license and leave sofa in Team Edition.",
+	Long:    "Remove the current license and leave mattermost in Team Edition.",
 	Example: "  license remove",
 	RunE:    withClient(removeLicenseCmdF),
 }

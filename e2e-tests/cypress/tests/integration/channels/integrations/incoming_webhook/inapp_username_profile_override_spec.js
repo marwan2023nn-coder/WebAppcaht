@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -124,7 +124,7 @@ function getPayload(channel, withUsernameAndProfileIcon) {
     return {
         ...payload,
         username: 'payload_username',
-        icon_url: 'https://sofa.com/wp-content/uploads/2022/02/icon_WS.png',
+        icon_url: 'https://mattermost.com/wp-content/uploads/2022/02/icon_WS.png',
     };
 }
 

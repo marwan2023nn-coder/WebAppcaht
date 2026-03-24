@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 // ***************************************************************
@@ -24,16 +24,16 @@ describe('Main menu', () => {
 
     it('MM-T913 About opens About modal', () => {
         // # click to open about modal
-        cy.findByText('About Sofa').click();
+        cy.findByText('About Mattermost').click();
 
         // * Verify server link text has correct link destination and opens in a new tab
-        verifyLink('server', 'https://github.com/sofa/sofa-server/blob/master/NOTICE.txt');
+        verifyLink('server', 'https://github.com/mattermost/mattermost-server/blob/master/NOTICE.txt');
 
         // * Verify link text has correct link destination and opens in a new tab
-        verifyLink('desktop', 'https://github.com/sofa/desktop/blob/master/NOTICE.txt');
+        verifyLink('desktop', 'https://github.com/mattermost/desktop/blob/master/NOTICE.txt');
 
         // * Verify link text has correct matches link destination and opens in a new tab
-        verifyLink('mobile', 'https://github.com/sofa/sofa-mobile/blob/master/NOTICE.txt');
+        verifyLink('mobile', 'https://github.com/mattermost/mattermost-mobile/blob/master/NOTICE.txt');
 
         // * Verify version exists in modal
         cy.get('[data-testid="aboutModalVersionInfo"]').should('contain.text', 'Server Version:');

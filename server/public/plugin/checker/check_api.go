@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package main
@@ -8,8 +8,8 @@ import (
 	"go/ast"
 	"go/token"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/asthelpers"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin/checker/internal/version"
+	"github.com/mattermost/mattermost/server/public/plugin/checker/internal/asthelpers"
+	"github.com/mattermost/mattermost/server/public/plugin/checker/internal/version"
 )
 
 func checkAPIVersionComments(pkgPath string) (result, error) {

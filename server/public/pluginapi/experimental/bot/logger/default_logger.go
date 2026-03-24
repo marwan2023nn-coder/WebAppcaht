@@ -1,4 +1,4 @@
-// Copyright (c) 2019-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2019-present Mattermost, Inc. All Rights Reserved.
 // See License for license information.
 
 package logger
@@ -8,7 +8,7 @@ import (
 	"maps"
 	"time"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/pluginapi/experimental/common"
+	"github.com/mattermost/mattermost/server/public/pluginapi/experimental/common"
 )
 
 type defaultLogger struct {

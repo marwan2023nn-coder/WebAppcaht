@@ -7,7 +7,7 @@ services:
     environment:
       POSTGRES_USER: mmuser
       POSTGRES_PASSWORD: mostest
-      POSTGRES_DB: sofa_test
+      POSTGRES_DB: mattermost_test
       POSTGRES_INITDB_ARGS: "--auth-host=scram-sha-256 --auth-local=scram-sha-256"
     command: postgres -c 'config_file=/etc/postgresql/postgresql.conf'
     volumes:
@@ -43,11 +43,11 @@ services:
       - mm-test
     environment:
       LDAP_TLS_VERIFY_CLIENT: "never"
-      LDAP_ORGANISATION: "Sofa Test"
+      LDAP_ORGANISATION: "Mattermost Test"
       LDAP_DOMAIN: "mm.test.com"
       LDAP_ADMIN_PASSWORD: "mostest"
   elasticsearch:
-    image: "sofadevelopment/sofa-elasticsearch:8.9.0"
+    image: "mattermostdevelopment/mattermost-elasticsearch:8.9.0"
     networks:
       - mm-test
     environment:

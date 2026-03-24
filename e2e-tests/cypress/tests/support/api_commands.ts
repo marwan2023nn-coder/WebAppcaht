@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import {ChainableT, ResponseT} from 'tests/types';
@@ -8,12 +8,12 @@ import {getAdminAccount, User} from './env';
 // *****************************************************************************
 // Read more:
 // - https://on.cypress.io/custom-commands on writing Cypress commands
-// - https://api.sofa.com/ for Sofa API reference
+// - https://api.mattermost.com/ for Mattermost API reference
 // *****************************************************************************
 
 // *****************************************************************************
 // Commands
-// https://api.sofa.com/#tag/commands
+// https://api.mattermost.com/#tag/commands
 // *****************************************************************************
 
 type CypressResponseAny = Cypress.Response<any>
@@ -50,7 +50,7 @@ Cypress.Commands.add('apiEmailTest', apiEmailTest);
 
 // *****************************************************************************
 // Posts
-// https://api.sofa.com/#tag/posts
+// https://api.mattermost.com/#tag/posts
 // *****************************************************************************
 
 function apiCreatePost(channelId: string, message: string, rootId: string, props: Record<string, any>, token = '', failOnStatusCode = true): ResponseT {
@@ -118,7 +118,7 @@ Cypress.Commands.add('apiUnpinPosts', apiUnpinPosts);
 
 // *****************************************************************************
 // Webhooks
-// https://api.sofa.com/#tag/webhooks
+// https://api.mattermost.com/#tag/webhooks
 // *****************************************************************************
 
 function apiCreateWebhook(hook: Record<string, any> = {}, isIncoming = true): ChainableT<{data: CypressResponseAny['body']; url: string}> {
@@ -184,7 +184,7 @@ Cypress.Commands.add('apiGetLDAPSync', apiGetLDAPSync);
 
 // *****************************************************************************
 // Groups
-// https://api.sofa.com/#tag/groups
+// https://api.mattermost.com/#tag/groups
 // *****************************************************************************
 function apiGetGroups(page = 0, perPage = 100): ResponseT {
     return cy.request({

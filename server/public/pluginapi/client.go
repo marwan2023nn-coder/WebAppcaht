@@ -2,11 +2,11 @@ package pluginapi
 
 import (
 	"github.com/blang/semver/v4"
-	"github.com/marwan2023nn-coder/sofa/server/public/plugin"
+	"github.com/mattermost/mattermost/server/public/plugin"
 	"github.com/pkg/errors"
 )
 
-// Client is a streamlined wrapper over the sofa plugin API.
+// Client is a streamlined wrapper over the mattermost plugin API.
 type Client struct {
 	api plugin.API
 

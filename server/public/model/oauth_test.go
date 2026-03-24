@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package model
@@ -79,7 +79,7 @@ func TestOAuthAppIsValid(t *testing.T) {
 		app.CallbackUrls = []string{"https://nowhere.com"}
 		require.NotNil(t, app.IsValid())
 
-		app.SofaAppID = "Some app ID"
+		app.MattermostAppID = "Some app ID"
 		require.NotNil(t, app.IsValid())
 
 		app.Homepage = "https://nowhere.com"

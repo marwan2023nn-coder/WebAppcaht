@@ -223,7 +223,7 @@
         Must have `manage_system` permission.
       operationId: TestEmail
       requestBody:
-        description: Sofa configuration
+        description: Mattermost configuration
         required: true
         content:
           application/json:
@@ -270,7 +270,7 @@
         - system
       summary: Checks the validity of a Site URL
       description: >
-        Sends a Ping request to the sofa server using the specified Site
+        Sends a Ping request to the mattermost server using the specified Site
         URL.
 
 
@@ -324,7 +324,7 @@
         __Minimum server version__: 4.8
       operationId: TestS3Connection
       requestBody:
-        description: Sofa configuration
+        description: Mattermost configuration
         required: true
         content:
           application/json:
@@ -403,7 +403,7 @@
         Must have `manage_system` permission.
       operationId: UpdateConfig
       requestBody:
-        description: Sofa configuration
+        description: Mattermost configuration
         required: true
         content:
           application/json:
@@ -512,7 +512,7 @@
         to update a plugins configurations.
       operationId: PatchConfig
       requestBody:
-        description: Sofa configuration
+        description: Mattermost configuration
         required: true
         content:
           application/json:
@@ -780,7 +780,7 @@
         - system
       summary: Invalidate all the caches
       description: >
-        Purge all the in-memory caches for the Sofa server. This can have
+        Purge all the in-memory caches for the Mattermost server. This can have
         a temporary negative effect on performance while the caches are
         re-populated.
 
@@ -1066,7 +1066,7 @@
         - system
       summary: Get an image by url
       description: >
-        Fetches an image via Sofa image proxy.
+        Fetches an image via Mattermost image proxy.
 
         __Minimum server version__: 3.10
 
@@ -1091,9 +1091,9 @@
         - system
       summary: Executes an inplace upgrade from Team Edition to Enterprise Edition
       description: >
-        It downloads the Sofa Enterprise Edition of your current version
+        It downloads the Mattermost Enterprise Edition of your current version
         and replace your current version with it. After the upgrade you need to
-        restart the Sofa server.
+        restart the Mattermost server.
 
         __Minimum server version__: 5.27
 
@@ -1165,7 +1165,7 @@
         - system
       summary: Restart the system after an upgrade from Team Edition to Enterprise Edition
       description: >
-        It restarts the current running sofa instance to execute the new
+        It restarts the current running mattermost instance to execute the new
         Enterprise binary.
 
         __Minimum server version__: 5.27
@@ -1198,7 +1198,7 @@
         __Minimum server version__: 5.28.0
 
 
-        __Local mode only__: This endpoint is only available through [local mode](https://docs.sofa.com/administration/mmctl-cli-tool.html#local-mode).
+        __Local mode only__: This endpoint is only available through [local mode](https://docs.mattermost.com/administration/mmctl-cli-tool.html#local-mode).
       operationId: CheckIntegrity
       responses:
         "200":
@@ -1213,9 +1213,9 @@
     get:
       tags:
         - system
-      summary: Download a zip file which contains helpful and useful information for troubleshooting your sofa instance.
+      summary: Download a zip file which contains helpful and useful information for troubleshooting your mattermost instance.
       description: |
-        Download a zip file which contains helpful and useful information for troubleshooting your sofa instance.
+        Download a zip file which contains helpful and useful information for troubleshooting your mattermost instance.
         __Minimum server version: 5.32__
         ##### Permissions
         Must have any of the system console read permissions.

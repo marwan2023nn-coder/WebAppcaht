@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import merge from 'deepmerge';
@@ -10,7 +10,7 @@ import cloudDefaultConfig from './cloud_default_config.json';
 
 // *****************************************************************************
 // System
-// https://api.sofa.com/#tag/system
+// https://api.mattermost.com/#tag/system
 // *****************************************************************************
 
 function hasLicenseForFeature(license, key) {
@@ -87,8 +87,8 @@ Cypress.Commands.add('apiInstallTrialLicense', () => {
 
             // Enriched fields required for trial license as of v10.7
             company_country: 'US',
-            company_name: 'sofa',
-            contact_email: 'test@sofa.com',
+            company_name: 'mattermost',
+            contact_email: 'test@mattermost.com',
             company_size: '1-10',
             contact_name: 'John Doe',
         },

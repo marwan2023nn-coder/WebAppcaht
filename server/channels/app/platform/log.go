@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -16,11 +16,11 @@ import (
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/request"
-	"github.com/marwan2023nn-coder/sofa/server/public/utils"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/public/shared/request"
+	"github.com/mattermost/mattermost/server/public/utils"
+	"github.com/mattermost/mattermost/server/v8/config"
 )
 
 func (ps *PlatformService) Log() mlog.LoggerIFace {
@@ -190,28 +190,28 @@ func (ps *PlatformService) GetLogsSkipSend(rctx request.CTX, page, perPage int, 
 
 func (ps *PlatformService) GetLogFile(rctx request.CTX) (*model.FileData, error) {
 	if !*ps.Config().LogSettings.EnableFile {
-		return nil, errors.New("Unable to retrieve sofa logs because LogSettings.EnableFile is set to false")
+		return nil, errors.New("Unable to retrieve mattermost logs because LogSettings.EnableFile is set to false")
 	}
 
-	sofaLog := config.GetLogFileLocation(*ps.Config().LogSettings.FileLocation)
+	mattermostLog := config.GetLogFileLocation(*ps.Config().LogSettings.FileLocation)
 
 	// Validate the file path to prevent arbitrary file reads
-	if err := ps.validateLogFilePath(sofaLog); err != nil {
+	if err := ps.validateLogFilePath(mattermostLog); err != nil {
 		rctx.Logger().Error("Blocked attempt to read log file outside allowed root",
-			mlog.String("path", sofaLog),
+			mlog.String("path", mattermostLog),
 			mlog.String("config_section", "LogSettings.FileLocation"),
 			mlog.Err(err))
-		return nil, errors.Wrapf(err, "log file path %s is outside allowed logging directory", sofaLog)
+		return nil, errors.Wrapf(err, "log file path %s is outside allowed logging directory", mattermostLog)
 	}
 
-	sofaLogFileData, err := os.ReadFile(sofaLog)
+	mattermostLogFileData, err := os.ReadFile(mattermostLog)
 	if err != nil {
-		return nil, errors.Wrapf(err, "failed read sofa log file at path %s", sofaLog)
+		return nil, errors.Wrapf(err, "failed read mattermost log file at path %s", mattermostLog)
 	}
 
 	return &model.FileData{
 		Filename: config.LogFilename,
-		Body:     sofaLogFileData,
+		Body:     mattermostLogFileData,
 	}, nil
 }
 

@@ -1,4 +1,4 @@
-module github.com/marwan2023nn-coder/sofa/server/v8
+module github.com/mattermost/mattermost/server/v8
 
 go 1.24.11
 
@@ -39,15 +39,15 @@ require (
 	github.com/klauspost/compress v1.18.0
 	github.com/ledongthuc/pdf v0.0.0-20250511090121-5959a4027728
 	github.com/lib/pq v1.10.9
-	github.com/sofa/go-i18n v1.11.1-0.20211013152124-5c415071e404
-	github.com/sofa/gosaml2 v0.10.0
-	github.com/sofa/ldap v0.0.0-20231116144001-0f480c025956
-	github.com/sofa/logr/v2 v2.0.22
-	github.com/marwan2023nn-coder/sofa-plugin-ai v1.5.0
-	github.com/marwan2023nn-coder/sofa/server/public v0.1.20
-	github.com/sofa/morph v1.1.0
-	github.com/sofa/rsc v0.0.0-20160330161541-bbaefb05eaa0
-	github.com/sofa/squirrel v0.5.0
+	github.com/mattermost/go-i18n v1.11.1-0.20211013152124-5c415071e404
+	github.com/mattermost/gosaml2 v0.10.0
+	github.com/mattermost/ldap v0.0.0-20231116144001-0f480c025956
+	github.com/mattermost/logr/v2 v2.0.22
+	github.com/mattermost/mattermost-plugin-ai v1.5.0
+	github.com/mattermost/mattermost/server/public v0.1.20
+	github.com/mattermost/morph v1.1.0
+	github.com/mattermost/rsc v0.0.0-20160330161541-bbaefb05eaa0
+	github.com/mattermost/squirrel v0.5.0
 	github.com/mholt/archives v0.1.5
 	github.com/microcosm-cc/bluemonday v1.0.27
 	github.com/minio/minio-go/v7 v7.0.95
@@ -153,7 +153,7 @@ require (
 	github.com/lann/builder v0.0.0-20180802200727-47ae307949d0 // indirect
 	github.com/lann/ps v0.0.0-20150810152359-62de8c46ede0 // indirect
 	github.com/levigross/exp-html v0.0.0-20120902181939-8df60c69a8f5 // indirect
-	github.com/sofa/xml-roundtrip-validator v0.1.0 // indirect
+	github.com/mattermost/xml-roundtrip-validator v0.1.0 // indirect
 	github.com/mattn/go-colorable v0.1.14 // indirect
 	github.com/mattn/go-isatty v0.0.20 // indirect
 	github.com/mattn/go-runewidth v0.0.19 // indirect
@@ -232,6 +232,6 @@ require (
 replace github.com/olekukonko/tablewriter => github.com/olekukonko/tablewriter v0.0.5
 
 // See MM-66167 for more details.
-replace github.com/vmihailenco/msgpack/v5 => github.com/sofa/msgpack/v5 v5.0.0-20260120151306-2f9c67d7e57f
+replace github.com/vmihailenco/msgpack/v5 => github.com/mattermost/msgpack/v5 v5.0.0-20260120151306-2f9c67d7e57f
 
-replace github.com/marwan2023nn-coder/sofa/server/public => ./public
+replace github.com/mattermost/mattermost/server/public => ./public

@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package app
@@ -8,9 +8,9 @@ import (
 	"net/http"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/store/sqlstore"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/v8/channels/store"
+	"github.com/mattermost/mattermost/server/v8/channels/store/sqlstore"
 )
 
 type permissionTransformation struct {
@@ -930,7 +930,7 @@ func (a *App) getAddAuthenticationSubsectionPermissions() (permissionsMap, error
 	}, nil
 }
 
-// This migration fixes https://github.com/marwan2023nn-coder/sofa-server/issues/17642 where this particular ancillary permission was forgotten during the initial migrations
+// This migration fixes https://github.com/mattermost/mattermost-server/issues/17642 where this particular ancillary permission was forgotten during the initial migrations
 func (a *App) getAddTestEmailAncillaryPermission() (permissionsMap, error) {
 	return permissionsMap{
 		// Give these ancillary permissions to anyone with WRITE_ENVIRONMENT_SMTP

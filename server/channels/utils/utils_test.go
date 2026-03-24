@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package utils
@@ -11,7 +11,7 @@ import (
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 )
 
 func TestStringArrayIntersection(t *testing.T) {
@@ -208,7 +208,7 @@ func TestRemoveStringFromSlice(t *testing.T) {
 }
 
 func TestAppendQueryParamsToURL(t *testing.T) {
-	url := "sofa://callback"
+	url := "mattermost://callback"
 	redirectURL := AppendQueryParamsToURL(url, map[string]string{
 		"key1": "value1",
 		"key2": "value2",
@@ -567,10 +567,10 @@ func TestIsValidWebAuthRedirectURL(t *testing.T) {
 	t.Run("Valid redirect URL with path", func(t *testing.T) {
 		config := &model.Config{
 			ServiceSettings: model.ServiceSettings{
-				SiteURL: model.NewPointer("https://example.com/sofa"),
+				SiteURL: model.NewPointer("https://example.com/mattermost"),
 			},
 		}
-		redirectURL := "https://example.com/sofa/oauth/callback"
+		redirectURL := "https://example.com/mattermost/oauth/callback"
 
 		err := ValidateWebAuthRedirectUrl(config, redirectURL)
 		require.NoError(t, err)
@@ -603,10 +603,10 @@ func TestIsValidWebAuthRedirectURL(t *testing.T) {
 	t.Run("Invalid redirect URL with @ symbol in host", func(t *testing.T) {
 		config := &model.Config{
 			ServiceSettings: model.ServiceSettings{
-				SiteURL: model.NewPointer("https://qa-release.test.sofa.cloud"),
+				SiteURL: model.NewPointer("https://qa-release.test.mattermost.cloud"),
 			},
 		}
-		redirectURL := "https://qa-release.test.sofa.cloud@example.com/oauth/callback"
+		redirectURL := "https://qa-release.test.mattermost.cloud@example.com/oauth/callback"
 
 		err := ValidateWebAuthRedirectUrl(config, redirectURL)
 		require.Error(t, err)

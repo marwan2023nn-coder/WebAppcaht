@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package platform
@@ -10,27 +10,27 @@ import (
 	"path"
 	"testing"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
-	"github.com/marwan2023nn-coder/sofa/server/public/shared/mlog"
-	"github.com/marwan2023nn-coder/sofa/server/v8/channels/testlib"
-	"github.com/marwan2023nn-coder/sofa/server/v8/config"
+	"github.com/mattermost/mattermost/server/public/model"
+	"github.com/mattermost/mattermost/server/public/shared/mlog"
+	"github.com/mattermost/mattermost/server/v8/channels/testlib"
+	"github.com/mattermost/mattermost/server/v8/config"
 	"github.com/stretchr/testify/assert"
 	"github.com/stretchr/testify/require"
 )
 
-func TestGetSofaLog(t *testing.T) {
+func TestGetMattermostLog(t *testing.T) {
 	mainHelper.Parallel(t)
 
 	th := Setup(t)
 
-	// disable sofa log file setting in config so we should get an warning
+	// disable mattermost log file setting in config so we should get an warning
 	th.Service.UpdateConfig(func(cfg *model.Config) {
 		*cfg.LogSettings.EnableFile = false
 	})
 
 	fileData, err := th.Service.GetLogFile(th.Context)
 	assert.Nil(t, fileData)
-	assert.ErrorContains(t, err, "Unable to retrieve sofa logs because LogSettings.EnableFile is set to false")
+	assert.ErrorContains(t, err, "Unable to retrieve mattermost logs because LogSettings.EnableFile is set to false")
 
 	dir, err := os.MkdirTemp("", "")
 	require.NoError(t, err)
@@ -58,10 +58,10 @@ func TestGetSofaLog(t *testing.T) {
 
 	logLocation := config.GetLogFileLocation(dir)
 
-	// There is no sofa.log file yet, so this fails
+	// There is no mattermost.log file yet, so this fails
 	fileData, err = th.Service.GetLogFile(th.Context)
 	assert.Nil(t, fileData)
-	assert.ErrorContains(t, err, "failed read sofa log file at path "+logLocation)
+	assert.ErrorContains(t, err, "failed read mattermost log file at path "+logLocation)
 
 	// Happy path where we get a log file and no warning
 	d1 := []byte("hello\ngo\n")
@@ -71,7 +71,7 @@ func TestGetSofaLog(t *testing.T) {
 	fileData, err = th.Service.GetLogFile(th.Context)
 	require.NoError(t, err)
 	require.NotNil(t, fileData)
-	assert.Equal(t, "sofa.log", fileData.Filename)
+	assert.Equal(t, "mattermost.log", fileData.Filename)
 	assert.Positive(t, len(fileData.Body))
 
 	// Test path validation: FileLocation outside MM_LOG_PATH should be blocked

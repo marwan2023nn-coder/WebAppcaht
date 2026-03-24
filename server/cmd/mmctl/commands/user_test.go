@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Mattermost, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 package commands
@@ -11,9 +11,9 @@ import (
 	"os"
 	"strings"
 
-	"github.com/marwan2023nn-coder/sofa/server/public/model"
+	"github.com/mattermost/mattermost/server/public/model"
 
-	"github.com/marwan2023nn-coder/sofa/server/v8/cmd/mmctl/printer"
+	"github.com/mattermost/mattermost/server/v8/cmd/mmctl/printer"
 
 	"github.com/hashicorp/go-multierror"
 	"github.com/pkg/errors"
@@ -681,11 +681,11 @@ func (s *MmctlUnitTestSuite) TestSearchUserCmd() {
 
 	s.Run("Avoid path traversal", func() {
 		printer.Clean()
-		arg := "test/../hello?@sofa.com"
+		arg := "test/../hello?@mattermost.com"
 
 		err := searchUserCmdF(s.client, &cobra.Command{}, []string{arg})
 		s.Require().NotNil(err)
-		s.Require().Equal("1 error occurred:\n\t* user test/../hello?@sofa.com not found\n\n", printer.GetErrorLines()[0])
+		s.Require().Equal("1 error occurred:\n\t* user test/../hello?@mattermost.com not found\n\n", printer.GetErrorLines()[0])
 	})
 
 	s.Run("Error while getting user by email", func() {
