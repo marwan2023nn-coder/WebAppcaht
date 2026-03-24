@@ -102,6 +102,8 @@ const (
 	WebsocketEventPostRevealed                        WebsocketEventType = "post_revealed"
 	WebsocketEventPostBurned                          WebsocketEventType = "post_burned"
 	WebsocketEventBurnOnReadAllRevealed               WebsocketEventType = "burn_on_read_all_revealed"
+	WebsocketEventPostDelivered                       WebsocketEventType = "post_delivered"
+	WebsocketEventPostRead                            WebsocketEventType = "post_read"
 
 	WebSocketMsgTypeResponse = "response"
 	WebSocketMsgTypeEvent    = "event"

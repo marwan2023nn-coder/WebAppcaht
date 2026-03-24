@@ -76,6 +76,8 @@ func postSliceColumnsWithTypes() []struct {
 		{"FileIds", reflect.Slice},
 		{"HasReactions", reflect.Bool},
 		{"RemoteId", reflect.String},
+		{"DeliveredAt", reflect.Int64},
+		{"ReadAt", reflect.Int64},
 	}
 }
 
@@ -99,6 +101,8 @@ func postToSlice(post *model.Post) []any {
 		model.ArrayToJSON(post.FileIds),
 		post.HasReactions,
 		post.RemoteId,
+		post.DeliveredAt,
+		post.ReadAt,
 	}
 }
 
@@ -422,7 +426,9 @@ func (s *SqlPostStore) Update(rctx request.CTX, newPost *model.Post, oldPost *mo
 			Filenames=:Filenames,
 			FileIds=:FileIds,
 			HasReactions=:HasReactions,
-			RemoteId=:RemoteId
+			RemoteId=:RemoteId,
+			DeliveredAt=:DeliveredAt,
+			ReadAt=:ReadAt
 		WHERE
 			Id=:Id
 		`, newPost); err != nil {
@@ -488,7 +494,9 @@ func (s *SqlPostStore) OverwriteMultiple(rctx request.CTX, posts []*model.Post) 
 					Filenames=:Filenames,
 					FileIds=:FileIds,
 					HasReactions=:HasReactions,
-					RemoteId=:RemoteId
+					RemoteId=:RemoteId,
+					DeliveredAt=:DeliveredAt,
+					ReadAt=:ReadAt
 				WHERE
 					Id=:Id
 			`, post); err2 != nil {
@@ -3241,6 +3249,25 @@ func (s *SqlPostStore) RefreshPostStats() error {
 // When restoring replies, it does not restore posts that were intentionally deleted by a user, and
 // it only restores posts deleted by the specified deletedBy user ID, which in case of Content Flagging is
 // the Content Reviewer bot.
+func (s *SqlPostStore) UpdatePostReceipts(postId string, deliveredAt, readAt int64) error {
+	query := s.getQueryBuilder().
+		Update("Posts").
+		Where(sq.Eq{"Id": postId})
+
+	if deliveredAt > 0 {
+		query = query.Set("DeliveredAt", deliveredAt)
+	}
+	if readAt > 0 {
+		query = query.Set("ReadAt", readAt)
+	}
+
+	if _, err := s.GetMaster().ExecBuilder(query); err != nil {
+		return errors.Wrapf(err, "failed to update Post receipts with id=%s", postId)
+	}
+
+	return nil
+}
+
 func (s *SqlPostStore) RestoreContentFlaggedPost(flaggedPost *model.Post, statusFieldId, contentFlaggingManagedFieldId string) error {
 	tx, err := s.GetMaster().Beginx()
 	if err != nil {

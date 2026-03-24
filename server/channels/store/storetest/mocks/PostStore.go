@@ -1417,6 +1417,24 @@ func (_m *PostStore) SetPostReminder(reminder *model.PostReminder) error {
 	return r0
 }
 
+// UpdatePostReceipts provides a mock function with given fields: postId, deliveredAt, readAt
+func (_m *PostStore) UpdatePostReceipts(postId string, deliveredAt int64, readAt int64) error {
+	ret := _m.Called(postId, deliveredAt, readAt)
+
+	if len(ret) == 0 {
+		panic("no return value specified for UpdatePostReceipts")
+	}
+
+	var r0 error
+	if rf, ok := ret.Get(0).(func(string, int64, int64) error); ok {
+		r0 = rf(postId, deliveredAt, readAt)
+	} else {
+		r0 = ret.Error(0)
+	}
+
+	return r0
+}
+
 // Update provides a mock function with given fields: rctx, newPost, oldPost
 func (_m *PostStore) Update(rctx request.CTX, newPost *model.Post, oldPost *model.Post) (*model.Post, error) {
 	ret := _m.Called(rctx, newPost, oldPost)
