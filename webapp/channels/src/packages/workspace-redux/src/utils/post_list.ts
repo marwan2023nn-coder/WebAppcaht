@@ -339,8 +339,6 @@ export function makeGenerateCombinedPost(): (state: GlobalState, combinedId: str
                 root_id: '',
                 parent_id: '',
                 original_id: '',
-                delivered_at: 0,
-                read_at: 0,
                 message: messages.join('\n'),
                 type: Posts.POST_TYPES.COMBINED_USER_ACTIVITY,
                 props: {
