@@ -64,6 +64,4 @@ export default keyMirror({
     REVEAL_BURN_ON_READ_SUCCESS: null,
     POST_RECIPIENTS_UPDATED: null,
     BURN_ON_READ_ALL_REVEALED: null,
-    POST_DELIVERED: null,
-    POST_READ: null,
 });

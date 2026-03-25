@@ -1,10 +1,5 @@
 # FROM ubuntu:noble-20240605@sha256:2e863c44b718727c860746568e1d54afd13b2fa71b160f5cd9058fc436217b30 AS base
 FROM ubuntu:24.04 AS base
-FROM base AS build
-
-SHELL ["/bin/bash", "-o", "pipefail", "-c"]
-
-
 RUN apt-get update \
   && DEBIAN_FRONTEND=noninteractive apt-get install --no-install-recommends -y \
   ca-certificates \
@@ -12,6 +7,55 @@ RUN apt-get update \
   git \
   make \
   && rm -rf /var/lib/apt/lists/*
+
+#__________________________________________________________________
+FROM base AS server-build
+
+ARG GO_VERSION=1.26.1
+ARG TARGETOS=linux
+ARG TARGETARCH=amd64
+ARG BUILD_NUMBER
+ARG BUILD_TAGS
+
+ENV BUILD_NUMBER=$BUILD_NUMBER
+ENV BUILD_TAGS=$BUILD_TAGS
+
+RUN curl -fsSL "https://go.dev/dl/go${GO_VERSION}.${TARGETOS}-${TARGETARCH}.tar.gz" \
+    | tar -C /usr/local -xz
+
+ENV PATH="/usr/local/go/bin:${PATH}"
+ENV GOPATH="/go"
+# ENV GOBIN="/go/bin"
+
+WORKDIR /server
+COPY server .
+
+RUN make setup-go-work
+RUN make build-cmd-linux
+
+# #+++++++++++++[debug]++++++++++++
+# RUN ls -la / & ls -la  & ls -la bin/ 
+# RUN find /server -name "mattermost" -o -name "mmctl" 2>/dev/null | head -20
+# # #++++++++++++++++++++++++++++++++
+RUN mkdir -p /server/bin/build
+RUN mv /server/bin/mattermost /server/bin/build/workspace && \
+    mv /server/bin/mmctl /server/bin/build/wsctl
+
+#__________________________________________________________________
+FROM base AS webapp-build
+
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+RUN apt-get update && apt-get install -y \
+    autoconf \
+    automake \
+    libtool \
+    pkg-config \
+    libpng-dev \
+    gifsicle \
+    nasm \
+    --no-install-recommends && \
+    rm -rf /var/lib/apt/lists/*
 
 # install nvm
 ARG NVM_DIR=/usr/local/nvm
@@ -22,7 +66,8 @@ RUN mkdir $NVM_DIR
 # https://github.com/creationix/nvm#install-script
 WORKDIR /nvm_install
 
-RUN curl -ko install.sh https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh
+# RUN curl -ko install.sh https://raw.githubusercontent.com/nvm-sh/nvm/$NVM_VERSION/install.sh
+COPY ./assets/nvm/v0.40.4/install.sh install.sh
 
 RUN chmod +x install.sh
 
@@ -107,14 +152,14 @@ RUN mkdir -p ${APP_DIR}/data \
 
 
 WORKDIR ${APP_DIR}
-COPY --from=build /webapp/${FRONT_PKG} .
-COPY backend/bin/${SERVER_VERSION}  ./bin
-COPY backend/bin/entrypoint.sh  ./bin/entrypoint.sh 
+COPY --from=server-build /server/bin/build/  ./bin/
+COPY --from=server-build /server/fonts  ./fonts
+COPY --from=server-build /server/i18n  ./i18n
+COPY --from=server-build /server/templates  ./templates
+COPY --from=webapp-build /webapp/${FRONT_PKG} .
+# COPY backend/bin/entrypoint.sh  ./bin/entrypoint.sh 
 # COPY backend/tb_tar/${SERVER_VERSION}  ./tb_tar
-COPY backend/config  ./config
-COPY backend/fonts  ./fonts
-COPY backend/i18n  ./i18n
-COPY backend/templates  ./templates
+# COPY backend/config  ./config
 
 # ENV BACKUP_DIR="${APP_DIR}/tb_tar"
 

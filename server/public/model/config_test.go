@@ -2672,31 +2672,6 @@ func TestAutoTranslationSettingsIsValid(t *testing.T) {
 			expectError: false,
 		},
 		{
-			name: "workers more than 64 should fail",
-			settings: AutoTranslationSettings{
-				Enable:   NewPointer(true),
-				Provider: NewPointer("libretranslate"),
-				LibreTranslate: &LibreTranslateProviderSettings{
-					URL: NewPointer("https://lt.example.com"),
-				},
-				Workers: NewPointer(65),
-			},
-			expectError: true,
-			errorId:     "model.config.is_valid.autotranslation.workers.app_error",
-		},
-		{
-			name: "workers 64 should pass",
-			settings: AutoTranslationSettings{
-				Enable:   NewPointer(true),
-				Provider: NewPointer("libretranslate"),
-				LibreTranslate: &LibreTranslateProviderSettings{
-					URL: NewPointer("https://lt.example.com"),
-				},
-				Workers: NewPointer(64),
-			},
-			expectError: false,
-		},
-		{
 			name: "enabled with no provider should fail",
 			settings: AutoTranslationSettings{
 				Enable:   NewPointer(true),

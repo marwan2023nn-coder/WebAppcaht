@@ -1,4 +1,4 @@
-// Copyright (c) 2015-present Sofa Workspace, Inc. All Rights Reserved.
+// Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useEffect, useMemo, useRef, useState} from 'react';
@@ -55,7 +55,7 @@ const useRewrite = (
             setLastAction(action);
         }
 
-        const promise = Client4.getAIRewrittenMessage(selectedAgentId, draft.message, action, prompt, draft.rootId);
+        const promise = Client4.getAIRewrittenMessage(selectedAgentId, draft.message, action, prompt);
         currentPromiseRef.current = promise;
 
         try {
@@ -83,13 +83,12 @@ const useRewrite = (
                 currentPromiseRef.current = undefined;
             }
         }
-    }, [draft, handleDraftChange, isProcessing, selectedAgentId, setServerError]);
+    }, [draft, handleDraftChange, isProcessing, setServerError, selectedAgentId]);
 
     const resetState = useCallback(() => {
         setOriginalMessage('');
         setLastAction(RewriteAction.CUSTOM);
         setPrompt('');
-        setLastPrompt('');
     }, []);
 
     const undoMessage = useCallback(() => {
@@ -99,7 +98,7 @@ const useRewrite = (
         }, {instant: true});
         focusTextbox();
         resetState();
-    }, [draft, focusTextbox, handleDraftChange, originalMessage, resetState]);
+    }, [draft, handleDraftChange, originalMessage, focusTextbox, resetState]);
 
     const regenerateMessage = useCallback(() => {
         setPrompt(lastPrompt);
@@ -110,7 +109,7 @@ const useRewrite = (
         if (lastAction) {
             handleRewrite(lastAction, lastAction === RewriteAction.CUSTOM ? lastPrompt : undefined);
         }
-    }, [draft, handleDraftChange, handleRewrite, lastAction, lastPrompt, originalMessage]);
+    }, [draft, handleRewrite, originalMessage, lastAction, lastPrompt, handleDraftChange]);
 
     const cancelProcessing = useCallback(() => {
         setIsProcessing(false);
@@ -148,6 +147,12 @@ const useRewrite = (
             customPromptRef.current?.focus();
         }
     }, [isMenuOpen, draft.message]);
+
+    useEffect(() => {
+        if (!isProcessing && draft.message.trim() && lastAction) {
+            resetState();
+        }
+    }, [draft.message]);
 
     // This adds an overlay to the textbox to
     // indicate that the AI is rewriting the message.

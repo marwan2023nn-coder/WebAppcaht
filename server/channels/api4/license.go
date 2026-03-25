@@ -50,8 +50,11 @@ func getClientLicense(c *Context, w http.ResponseWriter, r *http.Request) {
 	}
 
 	// Only override feature flags if there IS an active license.
-	// If IsLicensed is explicitly "false" (license removed/expired) or empty, do NOT override it.
-	if clientLicense["IsLicensed"] != "false" && clientLicense["IsLicensed"] != "" {
+	// If IsLicensed is explicitly "false" (license removed/expired), do NOT override it.
+	if clientLicense["IsLicensed"] != "false" {
+		if clientLicense["IsLicensed"] == "" {
+			clientLicense["IsLicensed"] = "true"
+		}
 		clientLicense["FutureFeatures"] = "true"
 		clientLicense["AdvancedLogging"] = "true"
 		clientLicense["ThemeManagement"] = "true"

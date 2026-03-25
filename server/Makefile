@@ -24,7 +24,7 @@ IS_CI ?= false
 BUILD_NUMBER ?= $(BUILD_NUMBER:)
 BUILD_DATE = $(shell date -u)
 BUILD_HASH = $(shell git rev-parse HEAD)
-BUILD_TAGS =
+BUILD_TAGS ?= $(BUILD_TAGS:)
 
 
 # Docker

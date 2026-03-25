@@ -116,12 +116,10 @@ type Post struct {
 	EditAt     int64  `json:"edit_at"`
 	DeleteAt   int64  `json:"delete_at"`
 	IsPinned   bool   `json:"is_pinned"`
-	UserId      string `json:"user_id"`
-	ChannelId   string `json:"channel_id"`
-	RootId      string `json:"root_id"`
-	OriginalId  string `json:"original_id"`
-	DeliveredAt int64  `json:"delivered_at"`
-	ReadAt      int64  `json:"read_at"`
+	UserId     string `json:"user_id"`
+	ChannelId  string `json:"channel_id"`
+	RootId     string `json:"root_id"`
+	OriginalId string `json:"original_id"`
 
 	Message string `json:"message"`
 	// MessageSource will contain the message as submitted by the user if Message has been modified
@@ -166,8 +164,6 @@ func (o *Post) Auditable() map[string]any {
 		"channel_id":      o.ChannelId,
 		"root_id":         o.RootId,
 		"original_id":     o.OriginalId,
-		"delivered_at":    o.DeliveredAt,
-		"read_at":         o.ReadAt,
 		"type":            o.Type,
 		"props":           o.GetProps(),
 		"file_ids":        o.FileIds,
@@ -348,8 +344,6 @@ func (o *Post) ShallowCopy(dst *Post) error {
 	dst.ChannelId = o.ChannelId
 	dst.RootId = o.RootId
 	dst.OriginalId = o.OriginalId
-	dst.DeliveredAt = o.DeliveredAt
-	dst.ReadAt = o.ReadAt
 	dst.Message = o.Message
 	dst.MessageSource = o.MessageSource
 	dst.Type = o.Type

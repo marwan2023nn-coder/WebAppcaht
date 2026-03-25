@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {PanelRight} from 'lucide-react';
 import React, {useEffect, useRef, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
@@ -9,14 +8,15 @@ import styled from 'styled-components';
 import {getLicense} from 'workspace-redux/selectors/entities/general';
 import {getMyTeamsCount} from 'workspace-redux/selectors/entities/teams';
 
+import {LicenseSkus} from 'utils/constants';
+import {AudioTypes} from 'utils/constants';
+
 import HeaderIconButton from 'components/global_header/header_icon_button';
-
-import {LicenseSkus, AudioTypes} from 'utils/constants';
-
-import type {GlobalState} from 'types/store';
 
 import ProductBranding from './product_branding';
 import ProductBrandingFreeEdition from './product_branding_team_edition';
+import { ProductsIcon } from '@workspace/compass-icons/components';
+import { Minimize, PanelLeft, PanelRight } from 'lucide-react';
 
 export const ProductMenuContainer = styled.nav<{ $teamsNamesVisible?: boolean }>`
     display: flex;
@@ -76,8 +76,8 @@ export const ProductMenuButton1 = styled(HeaderIconButton).attrs(() => ({
     type: 'button' as const,
 }))<React.ComponentProps<typeof HeaderIconButton>>`
     margin-inline-start: 7px;
-    width: 30px;
-    height: 30px;
+    width:30px;
+    height:30px
 `;
 
 const ProductMenu = (): JSX.Element => {
@@ -97,7 +97,7 @@ const ProductMenu = (): JSX.Element => {
     useEffect(() => {
         const root = document.querySelector('#root');
         if (!root) {
-            return undefined;
+            return;
         }
 
         root.classList.toggle('team-sidebar--show-names', teamsNamesVisible);
@@ -112,7 +112,7 @@ const ProductMenu = (): JSX.Element => {
         setTeamsNamesVisible((prev) => !prev);
     };
 
-    const {audioUrl, isPlaying, currentTime, playbackRate, isBackground} = useSelector((state: GlobalState) => state.audio);
+    const {audioUrl, isPlaying, currentTime, mimeType, isBackground} = useSelector((state: any) => state.audio);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
@@ -124,12 +124,11 @@ const ProductMenu = (): JSX.Element => {
         if (audioUrl && audio.src !== audioUrl) {
             audio.src = audioUrl;
             audio.load();
-            audio.currentTime = currentTime;
         }
 
-        audio.playbackRate = playbackRate;
+        audio.currentTime = currentTime;
 
-        if (isPlaying && isBackground) {
+        if (isPlaying || isBackground) {
             audio.play();
         } else {
             audio.pause();
@@ -138,6 +137,14 @@ const ProductMenu = (): JSX.Element => {
         const handleEnded = () => {
             dispatch({
                 type: AudioTypes.RESET_AUDIO,
+                payload: {
+                    audioUrl: '',
+                    currentTime: 0,
+                    duration: 0,
+                    isPlaying: false,
+                    mimeType: '',
+                    isBackground: false,
+                },
             });
         };
 
@@ -147,7 +154,7 @@ const ProductMenu = (): JSX.Element => {
         return () => {
             audio.removeEventListener('ended', handleEnded);
         };
-    }, [audioUrl, isPlaying, isBackground, currentTime, playbackRate, dispatch]);
+    }, [audioUrl, isPlaying, isBackground, currentTime, dispatch]);
 
     const togglePlay = () => {
         dispatch({type: isPlaying ? AudioTypes.PAUSE_AUDIO : AudioTypes.PLAY_AUDIO});
@@ -161,6 +168,14 @@ const ProductMenu = (): JSX.Element => {
         }
         dispatch({
             type: AudioTypes.RESET_AUDIO,
+            payload: {
+                audioUrl: '',
+                currentTime: 0,
+                duration: 0,
+                isPlaying: false,
+                mimeType: '',
+                isBackground: false,
+            },
         });
     };
 
@@ -193,7 +208,7 @@ const ProductMenu = (): JSX.Element => {
                     )}
                 </ProductMenuButton>
 
-                {audioUrl && isBackground && (
+                {audioUrl && (
                     <AudioPlayerContainer>
                         <AudioButton
                             onClick={togglePlay}
@@ -207,10 +222,11 @@ const ProductMenu = (): JSX.Element => {
                         >
                             <i className='icon icon-close'/>
                         </AudioButton>
-                        <audio
-                            ref={audioRef}
-                        >
-                            <track kind='captions'/>
+                        <audio ref={audioRef}>
+                            <source
+                                src={audioUrl}
+                                type={mimeType}
+                            />
                         </audio>
                     </AudioPlayerContainer>
                 )}

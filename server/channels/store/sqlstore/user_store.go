@@ -2215,16 +2215,18 @@ func applyViewRestrictionsFilter(query sq.SelectBuilder, restrictions *model.Vie
 
 	restrictionClause := sq.Or{}
 	if len(restrictions.Teams) > 0 {
-		teamSubquery := sq.Select("UserId").
+		teamSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
 			From("TeamMembers").
 			Where(sq.Eq{"DeleteAt": 0, "TeamId": restrictions.Teams})
-		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN ?", teamSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", teamSubquery))
 	}
 	if len(restrictions.Channels) > 0 {
-		channelSubquery := sq.Select("UserId").
+		channelSubquery := sq.StatementBuilder.PlaceholderFormat(sq.Question).
+			Select("UserId").
 			From("ChannelMembers").
 			Where(sq.Eq{"ChannelId": restrictions.Channels})
-		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN ?", channelSubquery))
+		restrictionClause = append(restrictionClause, sq.Expr("Users.Id IN (?)", channelSubquery))
 	}
 
 	return query.Where(restrictionClause)

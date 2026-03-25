@@ -1,11 +1,6 @@
 ---
 services:
 
-  workspace-redis:
-    container_name: 'workspace-redis'
-    image: redis:7-alpine
-    restart: ${RESTART_POLICY}
-
   workspace-postgres:
     container_name: 'workspace-postgres'
     image: postgres:${POSTGRES_IMAGE_TAG}
@@ -20,15 +15,17 @@ services:
       # necessary Postgres options/variables
       - POSTGRES_USER
       - POSTGRES_PASSWORD
-      - POSTGRES_DB=postgres
+      - POSTGRES_DB
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U $$POSTGRES_USER -d $$POSTGRES_DB"]
       interval: 10s
       timeout: 5s
       retries: 5
+    ports:
+      - 5432:5432  
 
   workspace:
-    image: git.sofa.io:4567/sofachat/web/worksapce-11.1.1:${VERSION}
+    image: git.sofa.io:4567/sofachat/web/workspace:${VERSION}
     # build:
     #   context: .
     #   dockerfile: Dockerfile
@@ -36,8 +33,6 @@ services:
     depends_on:
       workspace-postgres:
         condition: service_healthy 
-      workspace-redis:
-        condition: service_started
     # image: mattermost/mattermost-enterprise-edition:10.2.0
     # restart: ${RESTART_POLICY}l
     ports:
@@ -67,16 +62,9 @@ services:
       - MM_BLEVESETTINGS_INDEXDIR
 
       # additional settings
-      - MM_SERVICESETTINGS_SITEURL
+      # - MM_SERVICESETTINGS_SITEURL
       # - MM_SERVICESETTINGS_WEBSOCKETURL
   
-      # Cluster and Redis
-      - MM_CLUSTERSETTINGS_ENABLE=true
-      - MM_CLUSTERSETTINGS_CLUSTERNAME=production
-      - MM_REDISSETTINGS_ADDRESS=workspace-redis:6379
-      - MM_CACHESETTINGS_CACHETYPE=redis
-      - MM_CACHESETTINGS_REDISADDRESS=workspace-redis:6379
-
       - MM_FILESETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_DIRECTORY
       - MM_PLUGINSETTINGS_CLIENTDIRECTORY

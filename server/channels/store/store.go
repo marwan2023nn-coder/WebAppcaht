@@ -428,7 +428,6 @@ type PostStore interface {
 	// RefreshPostStats refreshes the various materialized views for admin console post stats.
 	RefreshPostStats() error
 	RestoreContentFlaggedPost(post *model.Post, statusFieldId, contentFlaggingManagedFieldId string) error
-	UpdatePostReceipts(postId string, deliveredAt, readAt int64) error
 }
 
 type UserStore interface {

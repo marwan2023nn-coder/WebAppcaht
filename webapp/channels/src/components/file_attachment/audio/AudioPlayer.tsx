@@ -4,19 +4,17 @@
 import {Play, Pause} from 'lucide-react';
 import './AudioPlayer.scss';
 import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import styled from 'styled-components';
-
-import {Client4} from 'workspace-redux/client';
 
 import store from 'stores/redux_store';
 
-import {AudioTypes} from 'utils/constants';
-
 import type {GlobalState} from 'types/store';
 
-import WaveformVisualizer from '../components/WaveformVisualizer';
+import {AudioTypes} from 'utils/constants';
 
+import WaveformVisualizer from '../components/WaveformVisualizer';
+import { Client4 } from 'workspace-redux/client';
 let activeAudioRef: HTMLAudioElement | null = null;
 
 const SenderProfileImage = styled.div `
@@ -51,23 +49,19 @@ interface AudioPlayerProps {
 }
 
 const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId}) => {
-    const reduxAudio = useSelector((state: GlobalState) => state.audio);
-    const isThisAudioInRedux = reduxAudio?.audioUrl === audioUrl;
-
-    const [isPlaying, setIsPlaying] = useState(isThisAudioInRedux && reduxAudio.isPlaying);
-    const [currentTime, setCurrentTime] = useState(isThisAudioInRedux ? reduxAudio.currentTime : 0);
-    const [duration, setDuration] = useState(isThisAudioInRedux ? reduxAudio.duration : 0);
+    const [isPlaying, setIsPlaying] = useState(false);
+    const [currentTime, setCurrentTime] = useState(0);
+    const [duration, setDuration] = useState(0);
     const [showMenu, setShowMenu] = useState(false);
-    const [playbackRate, setPlaybackRate] = useState(isThisAudioInRedux ? reduxAudio.playbackRate : 1);
-
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const [playbackRate, setPlaybackRate] = useState(1);
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     const [isDragging, setIsDragging] = useState(false);
-    const [hasPlayed, setHasPlayed] = useState(isThisAudioInRedux && reduxAudio.currentTime > 0);
+    const [hasPlayed, setHasPlayed] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
     const progressRef = useRef<HTMLDivElement>(null);
 
     const speeds = [1.0, 1.5, 2.0];
-    const dispatch = useDispatch();
 
     const handleSpeedChange = () => {
         if (!audioRef.current) {
@@ -80,13 +74,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             const nextIndex = (currentIndex + 1) % speeds.length;
             const newSpeed = speeds[nextIndex];
             audio.playbackRate = newSpeed;
-
-            if (isThisAudioInRedux) {
-                dispatch({
-                    type: AudioTypes.UPDATE_PLAYBACK_RATE,
-                    payload: {playbackRate: newSpeed},
-                });
-            }
             return newSpeed;
         });
     };
@@ -156,37 +143,14 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             </div>
         )
     );
-
+    const dispatch = useDispatch();
     const currentAudioSpeed = (
         <CurrentAudioSpeedDiv
             onClick={handleSpeedChange}
         >
-            {playbackRate}{'x'}
+            {playbackRate}
         </CurrentAudioSpeedDiv>
     );
-
-    // Sync with Redux on mount if this audio was playing in background
-    useEffect(() => {
-        if (isThisAudioInRedux && audioRef.current) {
-            audioRef.current.currentTime = reduxAudio.currentTime;
-            audioRef.current.playbackRate = reduxAudio.playbackRate;
-            if (reduxAudio.isPlaying) {
-                audioRef.current.play();
-                setIsPlaying(true);
-                setHasPlayed(true);
-                activeAudioRef = audioRef.current;
-
-                // Take over from background
-                dispatch({
-                    type: AudioTypes.SET_AUDIO,
-                    payload: {
-                        isBackground: false,
-                    },
-                });
-            }
-        }
-        // eslint-disable-next-line react-hooks/exhaustive-deps
-    }, []);
 
     // تعديل: useEffect منفصل لإضافة أحداث الصوت مع تنظيفها عند إزالة المكون
     useEffect(() => {
@@ -199,20 +163,9 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             setDuration(audioEl.duration || 0);
         };
 
-        let lastSyncTime = 0;
         const handleTimeUpdate = () => {
-            const time = audioEl.currentTime || 0;
             if (!isDragging) {
-                setCurrentTime(time);
-            }
-
-            // Sync with Redux periodically when playing
-            if (audioEl === activeAudioRef && isPlaying && Math.abs(time - lastSyncTime) > 1) {
-                lastSyncTime = time;
-                dispatch({
-                    type: AudioTypes.UPDATE_AUDIO_TIME,
-                    payload: {currentTime: time},
-                });
+                setCurrentTime(audioEl.currentTime || 0);
             }
         };
 
@@ -223,18 +176,19 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             if (activeAudioRef === audioEl) {
                 activeAudioRef = null;
                 setIsPlaying(false);
-                dispatch({type: AudioTypes.PAUSE_AUDIO});
             }
         };
 
         const unsubscribe = store.subscribe(() => {
             const state = store.getState() as GlobalState;
-
             // If global audio is cleared, stop whichever audio is currently active
             if (!state.audio || !state.audio.audioUrl) {
                 if (audioEl === activeAudioRef) {
                     audioEl.pause();
+                    audioEl.currentTime = 0;
                     setIsPlaying(false);
+                    setCurrentTime(0);
+                    setHasPlayed(false);
                     activeAudioRef = null;
                 }
                 return;
@@ -244,16 +198,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             if (state.audio.audioUrl !== audioUrl) {
                 if (audioEl === activeAudioRef) {
                     audioEl.pause();
+                    audioEl.currentTime = 0;
                     setIsPlaying(false);
+                    setCurrentTime(0);
+                    setHasPlayed(false);
                     activeAudioRef = null;
                 }
                 return;
-            }
-
-            // Sync playback rate from Redux
-            if (audioEl === activeAudioRef && audioEl.playbackRate !== state.audio.playbackRate) {
-                audioEl.playbackRate = state.audio.playbackRate;
-                setPlaybackRate(state.audio.playbackRate);
             }
 
             // From here: state.audio refers to THIS audio instance
@@ -272,24 +223,12 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
 
         // eslint-disable-next-line consistent-return
         return () => {
-            if (audioEl === activeAudioRef) {
-                // Moving to background
-                dispatch({
-                    type: AudioTypes.SET_AUDIO,
-                    payload: {
-                        currentTime: audioEl.currentTime,
-                        playbackRate: audioEl.playbackRate,
-                        isBackground: true,
-                    },
-                });
-            }
-
             audioEl.removeEventListener('loadedmetadata', handleLoadedMetadata);
             audioEl.removeEventListener('timeupdate', handleTimeUpdate);
             audioEl.removeEventListener('ended', handleEnded);
             unsubscribe();
         };
-    }, [isDragging, isPlaying, audioUrl, dispatch]);
+    }, [isDragging]);
 
     // تعديل: useEffect منفصل للتعامل مع النقر خارج القائمة (menu)
     useEffect(() => {
@@ -325,7 +264,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             // استئناف التشغيل من النقطة الحالية بدون إعادة تعيين الوقت
             audioRef.current.play();
             setIsPlaying(true);
-            setHasPlayed(true);
             activeAudioRef = audioRef.current; // تعيين الصوت النشط الجديد
             dispatch({
                 type: AudioTypes.SET_AUDIO,
@@ -336,7 +274,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
                     mimeType,
                     isPlaying: true,
                     duration: audioRef.current?.duration || 0,
-                    playbackRate,
                 },
             });
         }
@@ -355,7 +292,6 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             const newTime = progress * duration;
             audioRef.current.currentTime = newTime;
             setCurrentTime(newTime);
-            setHasPlayed(true);
 
             // Only update Redux time for the currently active audio.
             // Otherwise seeking a non-active audio would move the currently playing one.
@@ -402,8 +338,8 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             </div>
             <audio
                 ref={audioRef}
+                muted={true}
             >
-                <track kind='captions'/>
                 <source
                     src={audioUrl}
                     type={mimeType}

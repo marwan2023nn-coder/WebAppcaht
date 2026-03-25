@@ -356,18 +356,6 @@ func registerOAuthClient(c *Context, w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	// Validate against allowlist
-	allowlist := *c.App.Config().ServiceSettings.DCRRedirectURIAllowlist
-	if appErr := model.ValidateDCRRedirectURIs(clientRequest.RedirectURIs, allowlist); appErr != nil {
-		dcrError := model.NewDCRError(model.DCRErrorInvalidRedirectURI, appErr.Message)
-
-		w.WriteHeader(appErr.StatusCode)
-		if err := json.NewEncoder(w).Encode(dcrError); err != nil {
-			c.Logger.Warn("Error while writing response", mlog.Err(err))
-		}
-		return
-	}
-
 	// Add DCR request parameters to audit record
 	model.AddEventParameterToAuditRec(auditRec, "redirect_uris", clientRequest.RedirectURIs)
 	if clientRequest.ClientName != nil {

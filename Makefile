@@ -2,7 +2,7 @@
 # Define variables
 OS ?= $(shell uname -s)
 CONTAINER_REGISTRY = git.sofa.io:4567
-IMAGE_PATH = sofachat/web/worksapce-11.1.1
+IMAGE_PATH = sofachat/web/workspace
 DOCKER_IMAGE ?= $(CONTAINER_REGISTRY)/$(IMAGE_PATH)
 DOCKER_IMAGE_TAR = $(CONTAINER_REGISTRY)_$(IMAGE_PATH)_$(VERSION).tar
 DOCKER_IMAGE_DIR = docker_imgs
@@ -58,6 +58,8 @@ build: check-version
 	@echo "Building Docker image for OS: $(OS)"
 	docker build \
 		--build-arg BUILDKIT_INLINE_CACHE=1 \
+		--build-arg BUILD_TAGS=$(VERSION) \
+		--build-arg BUILD_NUMBER=$(VERSION) \
 		--cache-from $(DOCKER_IMAGE):latest \
 		-f $(DOCKERFILE) \
 		-t $(DOCKER_IMAGE):latest \
@@ -79,6 +81,7 @@ down: check-version
 run: check-version
 	$(MAKE) setup_dotenv
 	@echo "Bringing up services with updated Docker Compose"
+	$(MAKE) down
 	$(MAKE) up
 		
 

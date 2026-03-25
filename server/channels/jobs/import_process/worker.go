@@ -19,7 +19,6 @@ import (
 	"github.com/mattermost/mattermost/server/public/shared/configservice"
 	"github.com/mattermost/mattermost/server/public/shared/mlog"
 	"github.com/mattermost/mattermost/server/public/shared/request"
-	"github.com/mattermost/mattermost/server/v8/channels/app/imports"
 	"github.com/mattermost/mattermost/server/v8/channels/jobs"
 	"github.com/mattermost/mattermost/server/v8/platform/shared/filestore"
 )
@@ -99,32 +98,30 @@ func MakeWorker(jobServer *jobs.JobServer, app AppIface) *jobs.SimpleWorker {
 		if err != nil {
 			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "", http.StatusInternalServerError).Wrap(err)
 		}
+
 		// find JSONL import file.
-		var jsonZipFile *zip.File
-		jsonZipFileCount := 0
+		var jsonFile io.ReadCloser
 		for _, f := range importZipReader.File {
-			if imports.IsRootJsonlFile(f.Name) {
-				jsonZipFile = f
-				jsonZipFileCount++
+			if filepath.Ext(f.Name) != ".jsonl" {
+				continue
 			}
+			// avoid "zip slip"
+			if strings.Contains(f.Name, "..") {
+				return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "jsonFilePath contains path traversal", http.StatusForbidden)
+			}
+
+			jsonFile, err = f.Open()
+			if err != nil {
+				return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "", http.StatusInternalServerError).Wrap(err)
+			}
+
+			defer jsonFile.Close()
+			break
 		}
-		if jsonZipFileCount == 0 {
+
+		if jsonFile == nil {
 			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.missing_jsonl", nil, "jsonFile was nil", http.StatusBadRequest)
 		}
-		if jsonZipFileCount > 1 {
-			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "multiple root jsonl files found", http.StatusBadRequest)
-		}
-
-		// avoid "zip slip"
-		if strings.Contains(jsonZipFile.Name, "..") {
-			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "jsonFilePath contains path traversal", http.StatusForbidden)
-		}
-
-		jsonFile, err := jsonZipFile.Open()
-		if err != nil {
-			return model.NewAppError("ImportProcessWorker", "import_process.worker.do_job.open_file", nil, "", http.StatusInternalServerError).Wrap(err)
-		}
-		defer jsonFile.Close()
 
 		extractContent := job.Data["extract_content"] == "true"
 		// do the actual import.

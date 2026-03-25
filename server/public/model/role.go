@@ -1198,13 +1198,14 @@ func MakeDefaultRoles() map[string]*Role {
 
 func AddAncillaryPermissions(permissions []string) []string {
 	visited := make(map[string]bool)
-	for i := 0; i < len(permissions); i++ {
+	i := 0
+	for i < len(permissions) {
 		permission := permissions[i]
 		if visited[permission] {
+			i++
 			continue
 		}
 		visited[permission] = true
-
 		if ancillaryPermissions, ok := SysconsoleAncillaryPermissions[permission]; ok {
 			for _, ancillaryPermission := range ancillaryPermissions {
 				if !visited[ancillaryPermission.Id] {
@@ -1212,6 +1213,7 @@ func AddAncillaryPermissions(permissions []string) []string {
 				}
 			}
 		}
+		i++
 	}
 	return permissions
 }

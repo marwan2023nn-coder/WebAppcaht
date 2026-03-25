@@ -392,37 +392,6 @@ export function handlePosts(state: IDMappedObjects<Post> = {}, action: MMReduxAc
         return nextState;
     }
 
-    case PostTypes.POST_DELIVERED: {
-        const {postId, deliveredAt} = action.data;
-        if (!state[postId]) {
-            return state;
-        }
-
-        return {
-            ...state,
-            [postId]: {
-                ...state[postId],
-                delivered_at: deliveredAt,
-            },
-        };
-    }
-
-    case PostTypes.POST_READ: {
-        const {postId, deliveredAt, readAt} = action.data;
-        if (!state[postId]) {
-            return state;
-        }
-
-        return {
-            ...state,
-            [postId]: {
-                ...state[postId],
-                delivered_at: deliveredAt,
-                read_at: readAt,
-            },
-        };
-    }
-
     case ThreadTypes.FOLLOW_CHANGED_THREAD: {
         const {id, following} = action.data;
         const post = state[id];

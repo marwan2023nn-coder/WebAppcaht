@@ -455,7 +455,6 @@ type ServiceSettings struct {
 	EnableWebHubChannelIteration                      *bool   `access:"write_restrictable,cloud_restrictable"` // telemetry: none
 	FrameAncestors                                    *string `access:"write_restrictable,cloud_restrictable"` // telemetry: none
 	DeleteAccountLink                                 *string `access:"site_users_and_teams,write_restrictable,cloud_restrictable"`
-	DCRRedirectURIAllowlist                           *string `access:"integrations_integration_management"`
 }
 
 var MattermostGiphySdkKey string
@@ -1023,10 +1022,6 @@ func (s *ServiceSettings) SetDefaults(isUpdate bool) {
 
 	if s.DeleteAccountLink == nil {
 		s.DeleteAccountLink = NewPointer("")
-	}
-
-	if s.DCRRedirectURIAllowlist == nil {
-		s.DCRRedirectURIAllowlist = NewPointer("")
 	}
 }
 
@@ -4842,8 +4837,8 @@ func (s *AutoTranslationSettings) isValid() *AppError {
 		return NewAppError("Config.IsValid", "model.config.is_valid.autotranslation.timeout.app_error", nil, "", http.StatusBadRequest)
 	}
 
-	// Validate workers if set (must be between 1 and 64)
-	if s.Workers != nil && (*s.Workers < 1 || *s.Workers > 64) {
+	// Validate workers if set (must be between 1 and 32)
+	if s.Workers != nil && (*s.Workers < 1 || *s.Workers > 32) {
 		return NewAppError("Config.IsValid", "model.config.is_valid.autotranslation.workers.app_error", nil, "", http.StatusBadRequest)
 	}
 

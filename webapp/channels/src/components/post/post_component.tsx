@@ -54,14 +54,10 @@ import { imageURLForUser, makeIsEligibleForClick } from 'utils/utils';
 import { getPermalinkURL } from 'selectors/urls';
 import { getIsPostMultiSelectModeEnabled, getMultiSelectedPostIds } from 'selectors/posts';
 
-import WebSocketClient from 'client/web_websocket_client';
-
 import type { PostActionComponent, PostPluginComponent } from 'types/store/plugins';
 import type { GlobalState } from 'types/store';
 
 import { withPostErrorBoundary } from './post_error_boundary';
-import { observe, unobserve } from 'utils/post_visibility_observer';
-
 import PostOptions from './post_options';
 import PostUserProfile from './user_profile';
 import './custom.scss';
@@ -149,7 +145,7 @@ export type Props = {
 };
 
 function PostComponent(props: Props) {
-    const { post, shouldHighlight, togglePostMenu, currentUserId } = props;
+    const { post, shouldHighlight, togglePostMenu } = props;
 
     const dispatch = useDispatch();
 
@@ -759,30 +755,6 @@ function PostComponent(props: Props) {
         handleOpenBurnOnReadConfirmModal(post.user_id === props.currentUserId);
     }, [handleOpenBurnOnReadConfirmModal, post.user_id, props.currentUserId]);
 
-    /**
-     * Use a shared IntersectionObserver to track when the post enters the viewport.
-     * When visible, it marks the post as read via WebSocket.
-     * This optimization reduces memory usage by avoiding multiple individual observers.
-     */
-    useEffect(() => {
-        if (!post || post.user_id === currentUserId || post.read_at > 0 || props.location !== Locations.CENTER) {
-            return undefined;
-        }
-
-        const currentRef = postRef.current;
-        if (currentRef) {
-            observe(currentRef, () => {
-                WebSocketClient.sendMessage('mark_read', { post_id: post.id });
-            });
-        }
-
-        return () => {
-            if (currentRef) {
-                unobserve(currentRef);
-            }
-        };
-    }, [post?.id, post?.read_at, currentUserId, props.location]);
-
     const postClass = classNames('post__body', { 'post--edited': PostUtils.isEdited(post), 'search-item-snippet': isSearchResultItem });
 
     let comment;
@@ -1081,8 +1053,6 @@ function PostComponent(props: Props) {
                                         postId={post.id}
                                         location={props.location}
                                         timestampProps={{ ...props.timestampProps, style: isConsecutivePostForUI && !props.compactDisplay ? 'narrow' : undefined }}
-                                        deliveredAt={props.currentUserId === post.user_id ? (post.delivered_at || 0) : undefined}
-                                        readAt={props.currentUserId === post.user_id ? (post.read_at || 0) : undefined}
                                     />
                                 )}
                                 {burnOnReadBadge}
@@ -1247,8 +1217,23 @@ function PostComponent(props: Props) {
                                     {!props.isPostBeingEdited && (
                                         <div
                                             className='d-flex pt-1 post-time-in-bubble'
-                                            style={{ gap: '4px', justifyContent: 'end', alignItems: 'center' }}
+                                            style={{ gap: '4px', justifyContent: 'end' }}
                                         >
+                                            {(props.isConsecutivePost || props.expireAt) && (
+                                                <div className='d-flex align-items-center' style={{ gap: '4px' }}>
+                                                    {props.isConsecutivePost && (
+                                                        <PostTime
+                                                            isPermalink={false}
+                                                            teamName={props.team?.name}
+                                                            eventTime={post.create_at}
+                                                            postId={post.id}
+                                                            location={props.location}
+                                                            timestampProps={{ ...props.timestampProps, style: props.isConsecutivePost && !props.compactDisplay ? 'narrow' : undefined }}
+                                                        />
+                                                    )}
+                                                </div>
+                                            )}
+
                                             <div className='post__body-reactions-acks'>
                                                 {(post.props?.ack === true || Boolean(post.props?.acknowledgements)) &&
                                                     post.message !== BUZZMESSAGE && (
@@ -1259,20 +1244,6 @@ function PostComponent(props: Props) {
                                                         />
                                                     )}
                                             </div>
-                                            {(props.isConsecutivePost || props.currentUserId === post.user_id || props.expireAt) && (
-                                                <div className='d-flex align-items-center' style={{ gap: '4px' }}>
-                                                    <PostTime
-                                                        isPermalink={false}
-                                                        teamName={props.team?.name}
-                                                        eventTime={post.create_at}
-                                                        postId={post.id}
-                                                        location={props.location}
-                                                        timestampProps={{ ...props.timestampProps, style: (props.isConsecutivePost || props.currentUserId === post.user_id) && !props.compactDisplay ? 'narrow' : undefined }}
-                                                        deliveredAt={props.currentUserId === post.user_id ? (post.delivered_at || 0) : undefined}
-                                                        readAt={props.currentUserId === post.user_id ? (post.read_at || 0) : undefined}
-                                                    />
-                                                </div>
-                                            )}
                                         </div>
                                     )}
                                 </div>
@@ -1345,8 +1316,4 @@ function PostComponent(props: Props) {
     );
 }
 
-/**
- * PostComponent is memoized to prevent unnecessary re-renders when the post list
- * updates, as it is a complex component rendered frequently in lists.
- */
-export default withPostErrorBoundary(React.memo(PostComponent));
+export default withPostErrorBoundary(PostComponent);

@@ -21,14 +21,10 @@ export default function WaveformVisualizer({
     useEffect(() => {
         const initialBars = Array.from(
             {length: totalBars},
-            () => (Math.random() * 0.5) + 0.5,
+            () => Math.random() * 0.5 + 0.5,
         );
         setBars(initialBars);
     }, [totalBars]);
-
-    const handleKeyDown = () => {
-        // Accessibility placeholder
-    };
 
     const handleClick = (event: React.MouseEvent<HTMLDivElement>) => {
         if (!waveformRef.current) {
@@ -38,24 +34,20 @@ export default function WaveformVisualizer({
         const rect = waveformRef.current.getBoundingClientRect();
         const x = event.clientX - rect.left;
         const isRtl = document.documentElement.dir === 'rtl';
-        const newProgress = isRtl ? Math.max(0, Math.min(1, 1 - (x / rect.width))) : Math.max(0, Math.min(1, x / rect.width));
+        const newProgress = isRtl ? Math.max(0, Math.min(1, x / rect.width)) : Math.max(0, Math.min(1, 1 - x / rect.width));
         onSeek(newProgress);
     };
 
     return (
-        <button style={{backgroundColor: 'transparent', border: 'none', width: '140px'}}>
+        <button style={{backgroundColor: 'transparent', border: 'none'  , width: '140px'}}>
             <div
                 ref={waveformRef}
                 className='waveform'
-                role='button'
-                tabIndex={0}
                 onClick={handleClick}
-                onKeyDown={handleKeyDown}
             >
                 {bars.map((height, index) => (
                     <div
-                        // eslint-disable-next-line react/no-array-index-key
-                        key={height + index}
+                        key={index}
                         className={`${
                             (index / totalBars) * 100 <= progress * 100 ? 'bg-progress' : 'bg-default'
                         } waveform__bar`}
