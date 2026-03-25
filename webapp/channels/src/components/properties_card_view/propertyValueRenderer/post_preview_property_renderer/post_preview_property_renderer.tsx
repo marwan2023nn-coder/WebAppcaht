@@ -1,7 +1,7 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import React from 'react';
+import React, {useMemo} from 'react';
 import {useIntl} from 'react-intl';
 
 import type {PostPreviewMetadata} from '@workspace/types/posts';
@@ -30,6 +30,14 @@ export default function PostPreviewPropertyRenderer({value, metadata}: Props) {
 
     const {formatMessage} = useIntl();
 
+    const contextValue = useMemo(() => ({
+        handlePopupOpened: noop,
+        overrideGenerateFileDownloadUrl: metadata?.generateFileDownloadUrl,
+        overrideGenerateFileThumbnailUrl: metadata?.generateFileThumbnailUrl,
+        overrideGenerateFilePreviewUrl: metadata?.generateFilePreviewUrl,
+        overrideGenerateFileUrl: metadata?.generateFileUrl,
+    }), [metadata]);
+
     if (!post || !channel || !team) {
         return null;
     }
@@ -50,14 +58,6 @@ export default function PostPreviewPropertyRenderer({value, metadata}: Props) {
     {
         channel: channel?.display_name || '',
     });
-
-    const contextValue = useMemo(() => ({
-        handlePopupOpened: noop,
-        overrideGenerateFileDownloadUrl: metadata?.generateFileDownloadUrl,
-        overrideGenerateFileThumbnailUrl: metadata?.generateFileThumbnailUrl,
-        overrideGenerateFilePreviewUrl: metadata?.generateFilePreviewUrl,
-        overrideGenerateFileUrl: metadata?.generateFileUrl,
-    }), [metadata]);
 
     return (
         <div
