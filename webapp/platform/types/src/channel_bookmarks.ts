@@ -52,6 +52,11 @@ export type ChannelBookmarkWithFileInfo = ChannelBookmark & {
     file: FileInfo;
 }
 
+export type UpdateChannelBookmarkResponse = {
+    updated: ChannelBookmark;
+    deleted: ChannelBookmark;
+}
+
 export type ChannelBookmarksState = {
     byChannelId: {[channelId: Channel['id']]: IDMappedObjects<ChannelBookmark>};
 }
