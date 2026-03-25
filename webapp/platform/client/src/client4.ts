@@ -10,7 +10,7 @@ import type {AppBinding, AppCallRequest, AppCallResponse} from '@workspace/types
 import type {Audit} from '@workspace/types/audits';
 import type {UserAutocomplete, AutocompleteSuggestion} from '@workspace/types/autocomplete';
 import type {Bot, BotPatch} from '@workspace/types/bots';
-import type {ChannelBookmark, ChannelBookmarkCreate, ChannelBookmarkPatch} from '@workspace/types/channel_bookmarks';
+import type {ChannelBookmark, ChannelBookmarkCreate, ChannelBookmarkPatch, UpdateChannelBookmarkResponse} from '@workspace/types/channel_bookmarks';
 import type {ChannelCategory, OrderedChannelCategories} from '@workspace/types/channel_categories';
 import type {
     Channel,
@@ -153,6 +153,7 @@ import type {
     UserStatus,
     GetFilteredUsersStatsOpts,
     UserCustomStatus,
+    UserAuthUpdate,
 } from '@workspace/types/users';
 import type {DeepPartial, PartialExcept, RelationOneToOne} from '@workspace/types/utilities';
 
@@ -653,6 +654,13 @@ export default class Client4 {
         return this.doFetch<UserProfile>(
             `${this.getUserRoute(user.id)}`,
             {method: 'put', body: JSON.stringify(user)},
+        );
+    };
+
+    updateUserAuth = (userId: string, userAuth: UserAuthUpdate) => {
+        return this.doFetch<UserAuthUpdate>(
+            `${this.getUserRoute(userId)}/auth`,
+            {method: 'put', body: JSON.stringify(userAuth)},
         );
     };
 
@@ -1785,6 +1793,13 @@ export default class Client4 {
         );
     };
 
+    setMyChannelAutotranslation = (channelId: string, enabled: boolean) => {
+        return this.doFetch<StatusOK>(
+            `${this.getChannelMemberRoute(channelId, 'me')}/autotranslation`,
+            {method: 'put', body: JSON.stringify({autotranslation_disabled: !enabled})},
+        );
+    };
+
     getChannel = (channelId: string, asContentReviewer = false, flaggedPostId?: string) => {
         const queryParamsArgs: Record<string, any> = {};
         if (asContentReviewer) {
@@ -2055,7 +2070,7 @@ export default class Client4 {
     };
 
     updateChannelBookmark = (channelId: string, channelBookmarkId: string, patch: ChannelBookmarkPatch, connectionId: string) => {
-        return this.doFetch<{ updated: ChannelBookmark; deleted: ChannelBookmark }>(
+        return this.doFetch<UpdateChannelBookmarkResponse>(
             `${this.getChannelBookmarkRoute(channelId, channelBookmarkId)}`,
             {method: 'PATCH', body: JSON.stringify(patch), headers: {'Connection-Id': connectionId}},
         );
