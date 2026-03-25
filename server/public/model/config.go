@@ -518,7 +518,7 @@ func (s *ServiceSettings) SetDefaults(isUpdate bool) {
 	}
 
 	if s.EnableSecurityFixAlert == nil {
-		s.EnableSecurityFixAlert = NewPointer(true)
+		s.EnableSecurityFixAlert = NewPointer(false)
 	}
 
 	if s.EnableInsecureOutgoingConnections == nil {
@@ -1608,7 +1608,7 @@ func (s *LogSettings) SetDefaults() {
 	}
 
 	if s.EnableDiagnostics == nil {
-		s.EnableDiagnostics = NewPointer(true)
+		s.EnableDiagnostics = NewPointer(false)
 	}
 
 	if s.EnableSentry == nil {
@@ -2363,11 +2363,11 @@ func (s *AnnouncementSettings) SetDefaults() {
 	}
 
 	if s.AdminNoticesEnabled == nil {
-		s.AdminNoticesEnabled = NewPointer(true)
+		s.AdminNoticesEnabled = NewPointer(false)
 	}
 
 	if s.UserNoticesEnabled == nil {
-		s.UserNoticesEnabled = NewPointer(true)
+		s.UserNoticesEnabled = NewPointer(false)
 	}
 	if s.NoticesURL == nil {
 		s.NoticesURL = NewPointer(AnnouncementSettingsDefaultNoticesJsonURL)
@@ -3486,7 +3486,7 @@ func (s *PluginSettings) SetDefaults(ls LogSettings) {
 	}
 
 	if s.EnableRemoteMarketplace == nil {
-		s.EnableRemoteMarketplace = NewPointer(true)
+		s.EnableRemoteMarketplace = NewPointer(false)
 	}
 
 	if s.AutomaticPrepackagedPlugins == nil {
@@ -4079,6 +4079,7 @@ func (o *Config) SetDefaults() {
 	o.ThemeSettings.SetDefaults()
 	o.CacheSettings.SetDefaults()
 	o.ClusterSettings.SetDefaults()
+	o.LogSettings.SetDefaults()
 	o.PluginSettings.SetDefaults(o.LogSettings)
 	o.AnalyticsSettings.SetDefaults()
 	o.ComplianceSettings.SetDefaults()
@@ -4089,7 +4090,6 @@ func (o *Config) SetDefaults() {
 	o.IntuneSettings.SetDefaults()
 	o.DataRetentionSettings.SetDefaults()
 	o.RateLimitSettings.SetDefaults()
-	o.LogSettings.SetDefaults()
 	o.ExperimentalAuditSettings.SetDefaults()
 	o.JobSettings.SetDefaults()
 	o.MessageExportSettings.SetDefaults()
