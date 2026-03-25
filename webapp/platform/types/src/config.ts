@@ -332,6 +332,7 @@ export type ServiceSettings = {
     GoogleDeveloperKey: string;
     EnableOAuthServiceProvider: boolean;
     EnableDynamicClientRegistration: boolean;
+    DCRRedirectURIAllowlist: string[];
     EnableIncomingWebhooks: boolean;
     EnableOutgoingWebhooks: boolean;
     EnableOutgoingOAuthConnections: boolean;
@@ -428,6 +429,7 @@ export type ServiceSettings = {
     MaximumPayloadSizeBytes: number;
     EnableAPIPostDeletion: boolean;
     EnableDesktopLandingPage: boolean;
+    MinimumDesktopAppVersion: string;
     MaximumURLLength: number;
     ScheduledPosts: boolean;
     EnableWebHubChannelIteration: boolean;
@@ -636,6 +638,7 @@ export type RateLimitSettings = {
 export type PrivacySettings = {
     ShowEmailAddress: boolean;
     ShowFullName: boolean;
+    UseAnonymousURLs: boolean;
 };
 
 export type SupportSettings = {
@@ -754,7 +757,7 @@ export type LocalizationSettings = {
 
 export type AutoTranslationSettings = {
     Enable: boolean;
-    Provider: '' | 'libretranslate';
+    Provider: '' | 'libretranslate' | 'agents';
     LibreTranslate: {
         URL: string;
         APIKey: string;
@@ -763,6 +766,9 @@ export type AutoTranslationSettings = {
         NewPost: number;
         Fetch: number;
         Notification: number;
+    };
+    Agents?: {
+        LLMServiceID: string;
     };
 };
 
@@ -903,6 +909,7 @@ export type ElasticsearchSettings = {
     ClientKey: string;
     Trace: string;
     IgnoredPurgeIndexes: string;
+    EnableSearchPublicChannelsWithoutMembership: boolean;
 };
 
 export type DataRetentionSettings = {

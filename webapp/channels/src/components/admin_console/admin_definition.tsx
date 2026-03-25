@@ -6,6 +6,7 @@
 import React from 'react';
 import { FormattedMessage, defineMessage, defineMessages } from 'react-intl';
 import { Link } from 'react-router-dom';
+import semver from 'semver';
 
 import { AccountMultipleOutlineIcon, ChartBarIcon, CogOutlineIcon, CreditCardOutlineIcon, FlaskOutlineIcon, FormatListBulletedIcon, InformationOutlineIcon, PowerPlugOutlineIcon, ServerVariantIcon, ShieldOutlineIcon, SitemapIcon, TableLargeIcon } from '@workspace/compass-icons/components';
 
@@ -2525,6 +2526,33 @@ const AdminDefinition: AdminDefinitionType = {
                             help_text: defineMessage({ id: 'admin.customization.enableDesktopLandingPageDesc', defaultMessage: 'Whether or not to prompt a user to use the Desktop App when they first use Workspace.' }),
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
                         },
+                        {
+                            type: 'text',
+                            key: 'ServiceSettings.MinimumDesktopAppVersion',
+                            label: defineMessage({
+                                id: 'admin.customization.minimumDesktopAppVersionTitle',
+                                defaultMessage: 'Minimum desktop app version:',
+                            }),
+                            placeholder: defineMessage({
+                                id: 'admin.customization.minimumDesktopAppVersionPlaceholder',
+                                defaultMessage: 'Input a version number (e.g. 5.0.0)',
+                            }),
+                            help_text: defineMessage({
+                                id: 'admin.customization.minimumDesktopAppVersionDesc',
+                                defaultMessage: 'Specify the minimum version of the Workspace Desktop App required to connect to this server (e.g., 5.10.0). Users connecting with a Desktop App version below this minimum will be shown an update required page and will not be able to use the application until they update. Leave this field blank to allow all Desktop App versions to connect without restriction.',
+                            }),
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.CUSTOMIZATION)),
+                            validate: (value) => {
+                                const trimmed = typeof value === 'string' ? value.trim() : value;
+                                if (trimmed && !semver.valid(trimmed)) {
+                                    return new ValidationResult(false, defineMessage({
+                                        id: 'admin.customization.minimumDesktopAppVersionError',
+                                        defaultMessage: 'Invalid version number. Must be a valid semantic version (e.g. 5.0.0).',
+                                    }));
+                                }
+                                return new ValidationResult(true, '');
+                            },
+                        },
                     ],
                 },
             },
@@ -2660,6 +2688,13 @@ const AdminDefinition: AdminDefinitionType = {
                             key: 'PrivacySettings.ShowFullName',
                             label: defineMessage({ id: 'admin.privacy.showFullNameTitle', defaultMessage: 'Show Full Name:' }),
                             help_text: defineMessage({ id: 'admin.privacy.showFullNameDescription', defaultMessage: 'When false, hides the full name of members from everyone except System Administrators. Username is shown in place of full name.' }),
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
+                        },
+                        {
+                            type: 'bool',
+                            key: 'PrivacySettings.UseAnonymousURLs',
+                            label: defineMessage({id: 'admin.privacy.useAnonymousURLsTitle', defaultMessage: 'Use anonymous channel and team URLs:'}),
+                            help_text: defineMessage({id: 'admin.privacy.useAnonymousURLsDescription', defaultMessage: 'When true, newly created channels and teams use randomized, non-descriptive identifiers in their URLs instead of human-readable name slugs. This prevents channel and team names from being exposed when team, channel, or message URLs are shared. **Note:** Enabling this setting does not change the URLs of existing teams and channels. To update existing URLs to use anonymous identifiers, use the mmctl command line tool or update them manually.'}),
                             isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.SITE.USERS_AND_TEAMS)),
                         },
                         {
@@ -5367,6 +5402,63 @@ const AdminDefinition: AdminDefinitionType = {
                                 it.stateIsFalse('ServiceSettings.EnableOAuthServiceProvider'),
                             ),
                             isHidden: it.licensedForFeature('Cloud'),
+                        },
+                        {
+                            type: 'text',
+                            key: 'ServiceSettings.DCRRedirectURIAllowlist',
+                            multiple: true,
+                            label: defineMessage({id: 'admin.oauth.dcrRedirectURIAllowlistTitle', defaultMessage: 'DCR Redirect URI Allowlist:'}),
+                            help_text: defineMessage({id: 'admin.oauth.dcrRedirectURIAllowlistDesc', defaultMessage: 'When Dynamic Client Registration is enabled, optionally restrict which redirect URIs can be registered. Enter comma-separated glob patterns (e.g. https://*.example.com/**). If empty, all valid redirect URIs are allowed. Patterns support * (single path segment) and ** (multi-segment path).'}),
+                            help_text_markdown: false,
+                            placeholder: defineMessage({id: 'admin.oauth.dcrRedirectURIAllowlistPlaceholder', defaultMessage: 'E.g.: https://*.example.com/**, https://app.example.com/callback'}),
+                            isDisabled: it.any(
+                                it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
+                                it.stateIsFalse('ServiceSettings.EnableOAuthServiceProvider'),
+                                it.stateIsFalse('ServiceSettings.EnableDynamicClientRegistration'),
+                            ),
+                            isHidden: it.licensedForFeature('Cloud'),
+                        },
+                        {
+                            type: 'number',
+                            key: 'ServiceSettings.OutgoingIntegrationRequestsTimeout',
+                            label: defineMessage({id: 'admin.service.integrationRequestTitle', defaultMessage: 'Integration request timeout: '}),
+                            help_text: defineMessage({id: 'admin.service.integrationRequestDesc', defaultMessage: 'The number of seconds to wait for Integration requests. That includes <slashCommands>Slash Commands</slashCommands>, <outgoingWebhooks>Outgoing Webhooks</outgoingWebhooks>, <interactiveMessages>Interactive Messages</interactiveMessages> and <interactiveDialogs>Interactive Dialogs</interactiveDialogs>.'}), // eslint-disable-line formatjs/enforce-placeholders -- placeholders provided
+                            help_text_values: {
+                                slashCommands: (msg: string) => (
+                                    <ExternalLink
+                                        location='admin_console'
+                                        href={DeveloperLinks.CUSTOM_SLASH_COMMANDS}
+                                    >
+                                        {msg}
+                                    </ExternalLink>
+                                ),
+                                outgoingWebhooks: (msg: string) => (
+                                    <ExternalLink
+                                        location='admin_console'
+                                        href={DeveloperLinks.OUTGOING_WEBHOOKS}
+                                    >
+                                        {msg}
+                                    </ExternalLink>
+                                ),
+                                interactiveMessages: (msg: string) => (
+                                    <ExternalLink
+                                        location='admin_console'
+                                        href={DeveloperLinks.INTERACTIVE_MESSAGES}
+                                    >
+                                        {msg}
+                                    </ExternalLink>
+                                ),
+                                interactiveDialogs: (msg: string) => (
+                                    <ExternalLink
+                                        location='admin_console'
+                                        href={DeveloperLinks.INTERACTIVE_DIALOGS}
+                                    >
+                                        {msg}
+                                    </ExternalLink>
+                                ),
+                            },
+                            help_text_markdown: false,
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.INTEGRATIONS.INTEGRATION_MANAGEMENT)),
                         },
                         {
                             type: 'number',

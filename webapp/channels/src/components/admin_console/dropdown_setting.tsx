@@ -10,7 +10,7 @@ import Setting from './setting';
 
 type Props = {
     id: string;
-    values: Array<{text: string; value: string}>;
+    values: Array<{text: string; value: string; disabled?: boolean}>;
     label: ReactNode;
     value: string;
     onChange: (id: string, value: string | EmailSettings['PushNotificationServerType'] | EmailSettings['PushNotificationServerLocation']) => void;
@@ -34,10 +34,11 @@ const DropdownSetting = ({
     }, [onChange, id]);
 
     const options = useMemo(() =>
-        values.map(({value: val, text}) => (
+        values.map(({value: val, text, disabled}) => (
             <option
                 value={val}
                 key={val}
+                disabled={disabled}
             >
                 {text}
             </option>

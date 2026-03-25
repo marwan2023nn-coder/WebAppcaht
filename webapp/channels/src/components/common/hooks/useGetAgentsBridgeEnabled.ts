@@ -1,81 +1,44 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import {useCallback, useEffect, useRef} from 'react';
+import {useEffect, useRef} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 
-import type {WebSocketMessage} from '@workspace/client';
+import {getAgents, getAgentsStatus} from 'workspace-redux/actions/agents';
+import {getAgentsStatus as getAgentsStatusSelector} from 'workspace-redux/selectors/entities/agents';
 
-import {getAgents as getAgentsAction} from 'workspace-redux/actions/agents';
-import {getAgents} from 'workspace-redux/selectors/entities/agents';
-
-import {SocketEvents} from 'utils/constants';
 import {useWebSocket} from 'utils/use_websocket/hooks';
 
-const AI_PLUGIN_ID = 'workspace-ai';
-const DEBOUNCE_DELAY_MS = 100; // Debounce refetches within 100ms
+export type AgentsBridgeStatus = {
+    available: boolean;
+    reason?: string;
+};
 
 /**
- * Hook to determine if the bridge is enabled by checking if there are available agents.
- * This hook:
- * - Fetches agents on mount
- * - Returns true if agents are available, false otherwise
- * - Listens to plugin enabled/disabled websocket events for the workspace-ai plugin
- * - Refetches agents when the workspace-ai plugin is enabled or disabled
- * - Refetches agents when the config changes to account for new agents being added
+ * Hook to determine if the bridge is enabled by checking if the plugin is active and compatible.
  */
-export default function useGetAgentsBridgeEnabled(): boolean {
+export default function useGetAgentsBridgeEnabled(): AgentsBridgeStatus {
     const dispatch = useDispatch();
-    const agents = useSelector(getAgents);
+    const status = useSelector(getAgentsStatusSelector);
     const hasFetchedRef = useRef(false);
-    const debounceTimerRef = useRef<NodeJS.Timeout | null>(null);
 
-    // Fetch agents on mount
+    // Fetch status on mount
     useEffect(() => {
         if (!hasFetchedRef.current) {
             hasFetchedRef.current = true;
-            dispatch(getAgentsAction());
+            dispatch(getAgents());
+            dispatch(getAgentsStatus());
         }
     }, [dispatch]);
 
-    // Cleanup debounce timer on unmount
-    useEffect(() => {
-        return () => {
-            if (debounceTimerRef.current) {
-                clearTimeout(debounceTimerRef.current);
+    // Handle websocket events (Simplified for now, similar to reference but without manifest check)
+    useWebSocket({
+        handler: (msg) => {
+            if (msg.event === 'config_changed' || msg.event === 'plugin_enabled' || msg.event === 'plugin_disabled') {
+                dispatch(getAgentsStatus());
             }
-        };
-    }, []);
+        },
+    });
 
-    // Debounced refetch to avoid duplicate fetches when multiple events fire in quick succession
-    const debouncedRefetch = useCallback(() => {
-        if (debounceTimerRef.current) {
-            clearTimeout(debounceTimerRef.current);
-        }
-        debounceTimerRef.current = setTimeout(() => {
-            dispatch(getAgentsAction());
-        }, DEBOUNCE_DELAY_MS);
-    }, [dispatch]);
-
-    // Handle websocket events for plugin enabled/disabled and config changes
-    const handleWebSocketMessage = useCallback((msg: WebSocketMessage) => {
-        // Refetch on plugin enabled/disabled for workspace-ai, or on any config change
-        // Note: When a plugin is enabled/disabled, the backend fires CONFIG_CHANGED first,
-        // then PLUGIN_ENABLED/PLUGIN_DISABLED. We debounce to avoid duplicate fetches.
-        const isPluginEvent =
-            (msg.event === SocketEvents.PLUGIN_ENABLED || msg.event === SocketEvents.PLUGIN_DISABLED) &&
-            msg.data?.manifest?.id === AI_PLUGIN_ID;
-
-        const isConfigChange = msg.event === SocketEvents.CONFIG_CHANGED;
-
-        if (isPluginEvent || isConfigChange) {
-            debouncedRefetch();
-        }
-    }, [debouncedRefetch]);
-
-    useWebSocket({handler: handleWebSocketMessage});
-
-    // Return true if agents list is not empty, false otherwise
-    return Boolean(agents && agents.length > 0);
+    return status;
 }
-

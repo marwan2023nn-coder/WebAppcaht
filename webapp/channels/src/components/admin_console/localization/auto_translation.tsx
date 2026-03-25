@@ -2,8 +2,9 @@
 // See LICENSE.txt for license information.
 
 import React, {useCallback, useMemo, useState} from 'react';
-import {defineMessages, FormattedMessage} from 'react-intl';
+import {defineMessages, FormattedMessage, useIntl} from 'react-intl';
 
+import type {AdminConfig} from '@workspace/types/config';
 import type {AutoTranslationSettings} from '@workspace/types/config';
 
 import DropdownSetting from 'components/admin_console/dropdown_setting';
@@ -14,6 +15,9 @@ import {
 } from 'components/admin_console/system_properties/controls';
 import Toggle from 'components/toggle';
 
+import useGetAgentsBridgeEnabled from 'components/common/hooks/useGetAgentsBridgeEnabled';
+
+import AgentsSettings from './agents_settings';
 import AutoTranslationInfo from './auto_translation_info';
 import LibreTranslateSettings from './libreTranslate_settings';
 
@@ -35,6 +39,7 @@ const messages = defineMessages({
 export const searchableStrings: SearchableStrings = Object.values(messages);
 
 export default function AutoTranslation(props: SystemConsoleCustomSettingsComponentProps) {
+    const {available: isAgentsBridgeEnabled, reason: agentsBridgeUnavailableReason} = useGetAgentsBridgeEnabled();
     const [autoTranslationSettings, setAutoTranslationSettings] = useState<AutoTranslationSettings>(props.value as AutoTranslationSettings);
 
     const handleChange = useCallback((id: string, value: any) => {
@@ -108,6 +113,11 @@ export default function AutoTranslation(props: SystemConsoleCustomSettingsCompon
                     }
                     values={[
                         {value: 'libretranslate', text: 'LibreTranslate'},
+                        {
+                            value: 'agents',
+                            text: 'AI agents',
+                            disabled: !isAgentsBridgeEnabled,
+                        },
                     ]}
                     helpText={
                         <FormattedMessage
@@ -123,6 +133,12 @@ export default function AutoTranslation(props: SystemConsoleCustomSettingsCompon
                 />
                 {autoTranslationSettings.Provider === 'libretranslate' &&
                 <LibreTranslateSettings
+                    {...props}
+                    onChange={handleChange}
+                />
+                }
+                {autoTranslationSettings.Provider === 'agents' && isAgentsBridgeEnabled &&
+                <AgentsSettings
                     {...props}
                     onChange={handleChange}
                 />
