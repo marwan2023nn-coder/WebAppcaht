@@ -5,7 +5,7 @@ import type {Agent} from '@workspace/types/agents';
 import type {GlobalState} from '@workspace/types/store';
 
 export function getAgents(state: GlobalState): Agent[] {
-    return state.entities.agents?.agents;
+    return state.entities.agents?.agents ?? [];
 }
 
 export function getAgent(state: GlobalState, agentId: string): Agent | undefined {
