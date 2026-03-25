@@ -301,5 +301,15 @@ channels/db/migrations/postgres/000151_add_autotranslationdisabled_to_channelmem
 channels/db/migrations/postgres/000151_add_autotranslationdisabled_to_channelmembers.up.sql
 channels/db/migrations/postgres/000152_translations_primary_key_change.down.sql
 channels/db/migrations/postgres/000152_translations_primary_key_change.up.sql
+channels/db/migrations/postgres/000153_add_download_count.down.sql
+channels/db/migrations/postgres/000153_add_download_count.up.sql
+channels/db/migrations/postgres/000154_increase_systems_value_size.down.sql
+channels/db/migrations/postgres/000154_increase_systems_value_size.up.sql
+channels/db/migrations/postgres/000155_add_status_last_activity_at_index.down.sql
+channels/db/migrations/postgres/000155_add_status_last_activity_at_index.up.sql
 channels/db/migrations/postgres/000156_add_messagesource_to_posts.down.sql
 channels/db/migrations/postgres/000156_add_messagesource_to_posts.up.sql
+channels/db/migrations/postgres/000157_add_trgm_index.down.sql
+channels/db/migrations/postgres/000157_add_trgm_index.up.sql
+channels/db/migrations/postgres/000158_upgrade_cluster_discovery.down.sql
+channels/db/migrations/postgres/000158_upgrade_cluster_discovery.up.sql

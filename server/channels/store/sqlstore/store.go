@@ -197,6 +197,22 @@ func New(settings model.SqlSettings, logger mlog.LoggerIFace, metrics einterface
 	}
 
 	if !store.skipMigrations {
+		// We handle a possible conflict for versions 153-158 which might have been applied with different names
+		// in some environments, causing a unique constraint violation when Morph tries to record them.
+		// Since these migrations are idempotent (using IF NOT EXISTS or similar), it's safe to clear the
+		// records and let them re-apply with the current names.
+		_, _ = store.GetMaster().Exec(`
+			DELETE FROM db_migrations
+			WHERE version IN (153, 154, 155, 156, 157, 158)
+			AND name NOT IN (
+				'add_download_count',
+				'increase_systems_value_size',
+				'add_status_last_activity_at_index',
+				'add_messagesource_to_posts',
+				'add_trgm_index',
+				'upgrade_cluster_discovery'
+			)`)
+
 		err = store.migrate(migrationsDirectionUp, false, !store.disableMorphLogging)
 		if err != nil {
 			return nil, errors.Wrap(err, "failed to apply database migrations")
