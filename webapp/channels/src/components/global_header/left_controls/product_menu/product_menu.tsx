@@ -112,7 +112,7 @@ const ProductMenu = (): JSX.Element => {
         setTeamsNamesVisible((prev) => !prev);
     };
 
-    const {audioUrl, isPlaying, currentTime, mimeType, isBackground} = useSelector((state: any) => state.audio);
+    const {audioUrl, isPlaying, currentTime, mimeType, isBackground, playbackRate} = useSelector((state: any) => state.audio);
     const audioRef = useRef<HTMLAudioElement>(null);
 
     useEffect(() => {
@@ -127,6 +127,7 @@ const ProductMenu = (): JSX.Element => {
         }
 
         audio.currentTime = currentTime;
+        audio.playbackRate = playbackRate || 1;
 
         if (isPlaying || isBackground) {
             audio.play();
@@ -154,7 +155,7 @@ const ProductMenu = (): JSX.Element => {
         return () => {
             audio.removeEventListener('ended', handleEnded);
         };
-    }, [audioUrl, isPlaying, isBackground, currentTime, dispatch]);
+    }, [audioUrl, isPlaying, isBackground, currentTime, playbackRate, dispatch]);
 
     const togglePlay = () => {
         dispatch({type: isPlaying ? AudioTypes.PAUSE_AUDIO : AudioTypes.PLAY_AUDIO});
