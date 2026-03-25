@@ -3931,6 +3931,7 @@
     "channel_header.openChannelInfo": "عرض المعلومات",
     "channel_header.otherchannel": "قائمة القناة {displayName}",
     "channel_header.pinnedPosts": "الرسائل المثبتة",
+    "channel_header.smartSummary": "الملخص الذكي",
     "channel_header.recentMentions": "الإشارات الحديثة",
     "channel_header.rename": "إعادة تسمية المجموعة",
     "channel_header.search": "البحث",

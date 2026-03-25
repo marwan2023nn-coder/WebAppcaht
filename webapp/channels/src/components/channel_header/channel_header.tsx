@@ -28,7 +28,10 @@ import HeaderIconWrapper from './components/header_icon_wrapper';
 
 import type { PropsFromRedux } from './index';
 import ChannelHeaderTitleFavorite from './channel_header_title_favorite';
-export type Props = WrappedComponentProps & PropsFromRedux;
+import type { Agent } from '@workspace/types/agents';
+export type Props = WrappedComponentProps & PropsFromRedux & {
+    agents: Agent[];
+};
 
 class ChannelHeader extends React.PureComponent<Props> {
     toggleFavoriteRef: RefObject<HTMLButtonElement>;
@@ -40,6 +43,7 @@ class ChannelHeader extends React.PureComponent<Props> {
 
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
+        this.props.actions.getAgents();
 
         // Fetch remote names for shared channels on initial mount
         if (this.props.channel?.shared) {
@@ -101,6 +105,17 @@ class ChannelHeader extends React.PureComponent<Props> {
         } else if (this.props.channel) {
             this.props.actions.showChannelMembers(this.props.channel.id);
         }
+    };
+
+    handleSmartSummary = () => {
+        const {channel, agents, actions} = this.props;
+        if (!channel || !agents || agents.length === 0) {
+            return;
+        }
+
+        const agentId = agents[0].id;
+        const recapTitle = `Summary for ${channel.display_name}`;
+        actions.createRecap(recapTitle, [channel.id], agentId);
     };
 
     renderCustomStatus = () => {
@@ -382,6 +397,16 @@ class ChannelHeader extends React.PureComponent<Props> {
                         </div>
                     </div>
                     <div className='channel-header__icon1'>
+                        {this.props.agents && this.props.agents.length > 0 && (
+                            <HeaderIconWrapper
+                                buttonClass={'channel-header__icon channel-header__icon--left btn btn-icon btn-xs'}
+                                buttonId={'channelHeaderSmartSummaryButton'}
+                                onClick={this.handleSmartSummary}
+                                tooltip={this.props.intl.formatMessage({id: 'channel_header.smartSummary', defaultMessage: 'Smart Summary'})}
+                            >
+                                <i className='icon icon-recap-outline' />
+                            </HeaderIconWrapper>
+                        )}
                          {pinnedButton}
                          {memberListButton}
                         <ChannelHeaderTitleFavorite />

@@ -3767,6 +3767,7 @@
   "channel_header.openChannelInfo": "View Info",
   "channel_header.otherchannel": "{displayName} Channel Menu",
   "channel_header.pinnedPosts": "Pinned messages",
+  "channel_header.smartSummary": "Smart Summary",
   "channel_header.recentMentions": "Recent mentions",
   "channel_header.search": "Search",
   "channel_header.setConversationHeader": "Edit Header",
