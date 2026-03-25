@@ -455,11 +455,30 @@ type ServiceSettings struct {
 	EnableWebHubChannelIteration                      *bool   `access:"write_restrictable,cloud_restrictable"` // telemetry: none
 	FrameAncestors                                    *string `access:"write_restrictable,cloud_restrictable"` // telemetry: none
 	DeleteAccountLink                                 *string `access:"site_users_and_teams,write_restrictable,cloud_restrictable"`
+	// Minimum Mattermost Desktop App version required. Empty string means no minimum version enforced.
+	MinimumDesktopAppVersion *string `access:"environment_web_server,write_restrictable,cloud_restrictable"`
+	// AnonymousUrlBehavior controls whether channel and team URLs use random identifiers instead of slugs.
+	AnonymousUrlBehavior *bool `access:"site_users_and_teams,write_restrictable,cloud_restrictable"`
+	// DcrRedirectUriAllowlist restricts which redirect URIs can be registered via Dynamic Client Registration.
+	// Comma-separated glob patterns, e.g. "https://*.example.com/**". Empty means all valid URIs are allowed.
+	DcrRedirectUriAllowlist *string `access:"integrations_integration_management"`
 }
 
 var MattermostGiphySdkKey string
 
 func (s *ServiceSettings) SetDefaults(isUpdate bool) {
+	if s.MinimumDesktopAppVersion == nil {
+		s.MinimumDesktopAppVersion = NewPointer("")
+	}
+
+	if s.AnonymousUrlBehavior == nil {
+		s.AnonymousUrlBehavior = NewPointer(false)
+	}
+
+	if s.DcrRedirectUriAllowlist == nil {
+		s.DcrRedirectUriAllowlist = NewPointer("")
+	}
+
 	if s.EnableEmailInvitations == nil {
 		// If the site URL is also not present then assume this is a clean install
 		if s.SiteURL == nil {

@@ -1191,6 +1191,13 @@ type AutoTranslationStore interface {
 	// InvalidateUserLocaleCache invalidates all language caches for a user across all channels.
 	// This is called when a user changes their locale preference.
 	InvalidateUserLocaleCache(userID string)
+	// GetLatestPostUpdateAtForChannel returns the most recent updateAt timestamp for post translations in a channel.
+	// Returns 0 if no translations exist.
+	GetLatestPostUpdateAtForChannel(channelID string) (int64, error)
+	// InvalidatePostTranslationEtag invalidates the etag cache for post translations in a channel.
+	InvalidatePostTranslationEtag(channelID string)
+	// GetTranslationsSinceForChannel returns all translations for a channel since a given timestamp.
+	GetTranslationsSinceForChannel(channelID, dstLang string, since int64) (map[string]*model.Translation, error)
 }
 
 type ContentFlaggingStore interface {

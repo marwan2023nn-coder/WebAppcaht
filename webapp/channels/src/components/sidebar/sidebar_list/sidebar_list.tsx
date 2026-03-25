@@ -31,6 +31,7 @@ import type {DraggingState} from 'types/store';
 import type {StaticPage} from 'types/store/lhs';
 const DraftsLink = makeAsyncComponent('DraftsLink', lazy(() => import('components/drafts/drafts_link/drafts_link')));
 const GlobalThreadsLink = makeAsyncComponent('GlobalThreadsLink', lazy(() => import('components/threading/global_threads_link')));
+const RecapsLink = makeAsyncComponent('RecapsLink', lazy(() => import('components/recaps_link')));
 const UnreadChannelIndicator = makeAsyncComponent('UnreadChannelIndicator', lazy(() => import('../unread_channel_indicator')));
 const UnreadChannels = makeAsyncComponent('UnreadChannels', lazy(() => import('../unread_channels')));
 
@@ -600,6 +601,15 @@ export class SidebarList extends React.PureComponent<Props, State> {
                                 </li>
                             </ul>
                         )}
+                        <div
+                            onClickCapture={() => {
+                                if (this.props.showDirectMessages) {
+                                    this.props.toggleDirectMessagesSidebar?.();
+                                }
+                            }}
+                        >
+                            <RecapsLink/>
+                        </div>
                         <div
                             onClickCapture={() => {
                                 if (this.props.showDirectMessages) {

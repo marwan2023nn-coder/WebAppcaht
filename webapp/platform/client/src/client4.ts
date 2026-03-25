@@ -5,7 +5,7 @@
 
 import type {AccessControlPolicy, CELExpressionError, AccessControlTestResult, AccessControlPoliciesResult, AccessControlPolicyChannelsResult, AccessControlVisualAST, AccessControlAttributes, AccessControlPolicyActiveUpdate} from '@workspace/types/access_control';
 import type {ClusterInfo, AnalyticsRow, SchemaMigration, LogFilterQuery} from '@workspace/types/admin';
-import type {Agent} from '@workspace/types/agents';
+import type {Agent, LLMService} from '@workspace/types/agents';
 import type {AppBinding, AppCallRequest, AppCallResponse} from '@workspace/types/apps';
 import type {Audit} from '@workspace/types/audits';
 import type {UserAutocomplete, AutocompleteSuggestion} from '@workspace/types/autocomplete';
@@ -3358,6 +3358,28 @@ export default class Client4 {
         );
     };
 
+    // Agent Routes
+    getAgents = () => {
+        return this.doFetch<Agent[]>(
+            `${this.getAgentsRoute()}`,
+            {method: 'get'},
+        );
+    };
+
+    getAgentsStatus = () => {
+        return this.doFetch<{available: boolean; reason?: string}>(
+            `${this.getAgentsRoute()}/status`,
+            {method: 'get'},
+        );
+    };
+
+    getLLMServices = () => {
+        return this.doFetch<LLMService[]>(
+            `${this.getBaseRoute()}/llmservices`,
+            {method: 'get'},
+        );
+    };
+
     // Admin Routes
 
     getLogs = (logFilter: LogFilterQuery) => {
@@ -3409,13 +3431,6 @@ export default class Client4 {
         );
     };
 
-    // Agent Routes
-    getAgents = () => {
-        return this.doFetch<Agent[]>(
-            `${this.getAgentsRoute()}`,
-            {method: 'get'},
-        );
-    };
 
     getEnvironmentConfig = () => {
         return this.doFetch<EnvironmentConfig>(

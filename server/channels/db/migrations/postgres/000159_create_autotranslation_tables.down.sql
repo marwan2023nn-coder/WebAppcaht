@@ -1,0 +1,8 @@
+DROP TABLE IF EXISTS translations;
+ALTER TABLE channels DROP COLUMN IF EXISTS autotranslation;
+ALTER TABLE channelmembers DROP COLUMN IF EXISTS autotranslationdisabled;
+DROP INDEX IF EXISTS idx_translations_updateat;
+DROP INDEX IF EXISTS idx_channelmembers_autotranslation_enabled;
+DROP INDEX IF EXISTS idx_channels_autotranslation_enabled;
+DROP INDEX IF EXISTS idx_users_id_locale;
+DROP INDEX IF EXISTS idx_translations_channelid_objecttype;
