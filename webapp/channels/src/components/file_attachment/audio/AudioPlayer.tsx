@@ -4,7 +4,7 @@
 import {Play, Pause} from 'lucide-react';
 import './AudioPlayer.scss';
 import React, {useEffect, useRef, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import styled from 'styled-components';
 
 import store from 'stores/redux_store';
@@ -53,9 +53,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
     const [currentTime, setCurrentTime] = useState(0);
     const [duration, setDuration] = useState(0);
     const [showMenu, setShowMenu] = useState(false);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    const [playbackRate, setPlaybackRate] = useState(1);
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    const playbackRate = useSelector((state: GlobalState) => state.audio.playbackRate || 1);
     const [isDragging, setIsDragging] = useState(false);
     const [hasPlayed, setHasPlayed] = useState(false);
     const audioRef = useRef<HTMLAudioElement>(null);
@@ -68,13 +66,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
             return;
         }
 
-        const audio = audioRef.current;
-        setPlaybackRate((prev) => {
-            const currentIndex = speeds.indexOf(prev);
-            const nextIndex = (currentIndex + 1) % speeds.length;
-            const newSpeed = speeds[nextIndex];
-            audio.playbackRate = newSpeed;
-            return newSpeed;
+        const currentIndex = speeds.indexOf(playbackRate);
+        const nextIndex = (currentIndex + 1) % speeds.length;
+        const newSpeed = speeds[nextIndex];
+
+        dispatch({
+            type: AudioTypes.UPDATE_PLAYBACK_RATE,
+            payload: {playbackRate: newSpeed},
         });
     };
 
@@ -144,6 +142,13 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
         )
     );
     const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (audioRef.current) {
+            audioRef.current.playbackRate = playbackRate;
+        }
+    }, [playbackRate]);
+
     const currentAudioSpeed = (
         <CurrentAudioSpeedDiv
             onClick={handleSpeedChange}
@@ -274,6 +279,7 @@ const AudioPlayer: React.FC<AudioPlayerProps> = ({audioUrl, mimeType, senderId})
                     mimeType,
                     isPlaying: true,
                     duration: audioRef.current?.duration || 0,
+                    playbackRate,
                 },
             });
         }

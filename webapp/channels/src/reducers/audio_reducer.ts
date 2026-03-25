@@ -47,6 +47,11 @@ export default function audioReducer(state: AudioState = initialState, action: A
                 ...state,
                 isPlaying: false,
             };
+        case AudioTypes.UPDATE_PLAYBACK_RATE:
+            return {
+                ...state,
+                playbackRate: action.payload?.playbackRate || state.playbackRate,
+            };
         case AudioTypes.UPDATE_TIME:
         case AudioTypes.UPDATE_AUDIO_TIME:
             return {
