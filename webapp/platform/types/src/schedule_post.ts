@@ -64,8 +64,6 @@ export function scheduledPostToPost(scheduledPost: ScheduledPost): Post {
         user_id: scheduledPost.user_id,
         channel_id: scheduledPost.channel_id,
         root_id: scheduledPost.root_id,
-        delivered_at: 0,
-        read_at: 0,
         message: scheduledPost.message,
         props: scheduledPost.props,
         metadata: {

@@ -14,8 +14,3 @@ export type LLMService = {
     name: string;
     type: string;
 };
-
-export type AgentsIntegrityResponse = {
-    available: boolean;
-    reason?: string;
-};

@@ -9,8 +9,6 @@ const state: GlobalState = {
     entities: {
         agents: {
             agents: [],
-            agentsStatus: {available: false},
-            llmServices: [],
         },
         general: {
             config: {},
