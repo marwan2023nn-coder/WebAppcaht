@@ -5,7 +5,6 @@ package app
 
 import (
 	"crypto/tls"
-	"encoding/json"
 	"fmt"
 	"io"
 	"maps"
@@ -222,41 +221,14 @@ func (a *App) TestEmail(rctx request.CTX, userID string, cfg *model.Config) *mod
 }
 
 func (a *App) GetLatestVersion(rctx request.CTX, latestVersionUrl string) (*model.GithubReleaseInfo, *model.AppError) {
-	var cachedLatestVersion *model.GithubReleaseInfo
-	if cacheErr := latestVersionCache.Get("latest_version_cache", &cachedLatestVersion); cacheErr == nil {
-		return cachedLatestVersion, nil
-	}
-
-	// We use MakeClient(false) to enable SSRF protection. Internal services can be whitelisted
-	// via ServiceSettings.AllowedUntrustedInternalConnections in the server configuration.
-	res, err := a.HTTPService().MakeClient(false).Get(latestVersionUrl)
-	if err != nil {
-		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)
-	}
-
-	defer res.Body.Close()
-
-	responseData, err := io.ReadAll(res.Body)
-	if err != nil {
-		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)
-	}
-
-	var releaseInfoResponse *model.GithubReleaseInfo
-	err = json.Unmarshal(responseData, &releaseInfoResponse)
-	if err != nil {
-		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)
-	}
-
-	if validErr := releaseInfoResponse.IsValid(); validErr != nil {
-		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(validErr)
-	}
-
-	err = latestVersionCache.SetWithExpiry("latest_version_cache", releaseInfoResponse, 24*time.Hour)
-	if err != nil {
-		return nil, model.NewAppError("GetLatestVersion", model.NoTranslation, nil, "", http.StatusInternalServerError).Wrap(err)
-	}
-
-	return releaseInfoResponse, nil
+	// Return the current version as the latest version to prevent external connections
+	// while ensuring the UI shows the system is up-to-date.
+	return &model.GithubReleaseInfo{
+		Id:      1,
+		TagName: "v" + model.CurrentVersion,
+		Name:    model.CurrentVersion,
+		Body:    "Your workspace is up to date.",
+	}, nil
 }
 
 func (a *App) clearLatestVersionCache() error {

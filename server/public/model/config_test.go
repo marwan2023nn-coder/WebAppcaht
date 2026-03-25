@@ -18,6 +18,21 @@ import (
 func TestConfigDefaults(t *testing.T) {
 	t.Parallel()
 
+	t.Run("external connections disabled by default", func(t *testing.T) {
+		c := Config{}
+		c.SetDefaults()
+
+		assert.False(t, *c.ServiceSettings.EnableSecurityFixAlert)
+		assert.False(t, *c.LogSettings.EnableDiagnostics)
+		assert.False(t, *c.LogSettings.EnableSentry)
+		assert.False(t, *c.PluginSettings.EnableRemoteMarketplace)
+		assert.False(t, *c.AnnouncementSettings.AdminNoticesEnabled)
+		assert.False(t, *c.AnnouncementSettings.UserNoticesEnabled)
+
+		// Verify NPS plugin is also disabled by default because it depends on diagnostics
+		assert.False(t, c.PluginSettings.PluginStates[PluginIdNPS].Enable)
+	})
+
 	t.Run("somewhere nil when uninitialized", func(t *testing.T) {
 		c := Config{}
 		require.False(t, checkNowhereNil(t, "config", c))
@@ -461,11 +476,11 @@ func TestConfigDefaultServiceSettingsExperimentalGroupUnreadChannels(t *testing.
 }
 
 func TestConfigDefaultNPSPluginState(t *testing.T) {
-	t.Run("should enable NPS plugin by default", func(t *testing.T) {
+	t.Run("should disable NPS plugin by default", func(t *testing.T) {
 		c1 := Config{}
 		c1.SetDefaults()
 
-		assert.True(t, c1.PluginSettings.PluginStates[PluginIdNPS].Enable)
+		assert.False(t, c1.PluginSettings.PluginStates[PluginIdNPS].Enable)
 	})
 
 	t.Run("should enable NPS plugin if diagnostics are enabled", func(t *testing.T) {
