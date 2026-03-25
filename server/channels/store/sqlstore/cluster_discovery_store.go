@@ -32,6 +32,10 @@ func newSqlClusterDiscoveryStore(sqlStore *SqlStore) store.ClusterDiscoveryStore
 			"Port",
 			"CreateAt",
 			"LastPingAt",
+			"Version",
+			"SchemaVersion",
+			"ConfigHash",
+			"IPAddress",
 		).
 		From("ClusterDiscovery")
 
@@ -47,9 +51,9 @@ func (s sqlClusterDiscoveryStore) Save(ClusterDiscovery *model.ClusterDiscovery)
 	if _, err := s.GetMaster().NamedExec(`
 		INSERT INTO 
 			ClusterDiscovery
-			(Id, Type, ClusterName, Hostname, GossipPort, Port, CreateAt, LastPingAt)
+			(Id, Type, ClusterName, Hostname, GossipPort, Port, CreateAt, LastPingAt, Version, SchemaVersion, ConfigHash, IPAddress)
 		VALUES
-			(:Id, :Type, :ClusterName, :Hostname, :GossipPort, :Port, :CreateAt, :LastPingAt)
+			(:Id, :Type, :ClusterName, :Hostname, :GossipPort, :Port, :CreateAt, :LastPingAt, :Version, :SchemaVersion, :ConfigHash, :IPAddress)
 	`, ClusterDiscovery); err != nil {
 		return errors.Wrap(err, "failed to save ClusterDiscovery")
 	}

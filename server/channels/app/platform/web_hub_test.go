@@ -103,8 +103,8 @@ func TestHubStopRaceCondition(t *testing.T) {
 	go func() {
 		wc4 := registerDummyWebConn(t, th, s.Listener.Addr(), session)
 		wc5 := registerDummyWebConn(t, th, s.Listener.Addr(), session)
-		require.NoError(t, hub.Register(wc4))
-		require.NoError(t, hub.Register(wc5))
+		require.NoError(t, hub.Register(wc4, nil))
+		require.NoError(t, hub.Register(wc5, nil))
 
 		hub.UpdateActivity("userId", "sessionToken", 0)
 
@@ -112,7 +112,7 @@ func TestHubStopRaceCondition(t *testing.T) {
 			hub.Broadcast(model.NewWebSocketEvent("", "", "", "", nil, ""))
 		}
 
-		hub.InvalidateUser("userId")
+		hub.InvalidateUser("userId", nil)
 		hub.Unregister(wc4)
 		hub.Unregister(wc5)
 		close(done)
@@ -238,13 +238,10 @@ func TestHubConnIndex(t *testing.T) {
 				wc4.SetConnectionID(model.NewId())
 				wc4.SetSession(&model.Session{})
 
-				errAdd := connIndex.Add(wc1)
-				require.NoError(t, errAdd)
-				err = connIndex.Add(wc2)
-				require.NoError(t, err)
-				err = connIndex.Add(wc3)
-				require.NoError(t, err)
-				err = connIndex.Add(wc4)
+				connIndex.AddWithMemberships(wc1, nil)
+				connIndex.AddWithMemberships(wc2, nil)
+				connIndex.AddWithMemberships(wc3, nil)
+				connIndex.AddWithMemberships(wc4, nil)
 				require.NoError(t, err)
 
 				t.Run("Basic", func(t *testing.T) {
@@ -332,10 +329,8 @@ func TestHubConnIndex(t *testing.T) {
 				})
 
 				t.Run("adding", func(t *testing.T) {
-					err = connIndex.Add(wc1)
-					require.NoError(t, err)
-					err = connIndex.Add(wc3)
-					require.NoError(t, err)
+					connIndex.AddWithMemberships(wc1, nil)
+					connIndex.AddWithMemberships(wc3, nil)
 
 					assert.Len(t, connIndex.byConnectionId, 2)
 					assert.Equal(t, wc1, connIndex.ForConnection(wc1ID))
@@ -387,12 +382,9 @@ func TestHubConnIndex(t *testing.T) {
 		wc3.SetConnectionID(wc3ID)
 		wc3.SetSession(&model.Session{})
 
-		err = connIndex.Add(wc1)
-		require.NoError(t, err)
-		err = connIndex.Add(wc2)
-		require.NoError(t, err)
-		err = connIndex.Add(wc3)
-		require.NoError(t, err)
+		connIndex.AddWithMemberships(wc1, map[string]string{th.BasicChannel.Id: ""})
+		connIndex.AddWithMemberships(wc2, map[string]string{th.BasicChannel.Id: ""})
+		connIndex.AddWithMemberships(wc3, map[string]string{th.BasicChannel.Id: ""})
 
 		t.Run("ForChannel", func(t *testing.T) {
 			require.Len(t, connIndex.byChannelID, 1)
@@ -415,7 +407,7 @@ func TestHubConnIndex(t *testing.T) {
 		require.NoError(t, err)
 
 		t.Run("InvalidateCMCacheForUser", func(t *testing.T) {
-			require.NoError(t, connIndex.InvalidateCMCacheForUser(th.BasicUser2.Id))
+			connIndex.UpdateMemberships(th.BasicUser2.Id, map[string]string{th.BasicChannel.Id: "", ch.Id: ""})
 			require.Len(t, connIndex.byChannelID, 2)
 			require.Len(t, slices.Collect(connIndex.ForChannel(th.BasicChannel.Id)), 3)
 			require.Len(t, slices.Collect(connIndex.ForChannel(ch.Id)), 2)
@@ -460,12 +452,9 @@ func TestHubConnIndexIncorrectRemoval(t *testing.T) {
 	wc4.SetConnectionID("last")
 	wc4.SetSession(&model.Session{})
 
-	err := connIndex.Add(wc2)
-	require.NoError(t, err)
-	err = connIndex.Add(wc3)
-	require.NoError(t, err)
-	err = connIndex.Add(wc4)
-	require.NoError(t, err)
+	connIndex.AddWithMemberships(wc2, nil)
+	connIndex.AddWithMemberships(wc3, nil)
+	connIndex.AddWithMemberships(wc4, nil)
 
 	for wc := range connIndex.ForUser(wc2.UserId) {
 		if !connIndex.Has(wc) {
@@ -511,12 +500,9 @@ func TestHubConnIndexInactive(t *testing.T) {
 	wc3.SetConnectionID("conn3")
 	wc3.SetSession(&model.Session{})
 
-	err := connIndex.Add(wc1)
-	require.NoError(t, err)
-	err = connIndex.Add(wc2)
-	require.NoError(t, err)
-	err = connIndex.Add(wc3)
-	require.NoError(t, err)
+	connIndex.AddWithMemberships(wc1, nil)
+	connIndex.AddWithMemberships(wc2, nil)
+	connIndex.AddWithMemberships(wc3, nil)
 
 	assert.Nil(t, connIndex.RemoveInactiveByConnectionID(wc2.UserId, "conn2"))
 	assert.Equal(t, connIndex.ForUserActiveCount(wc2.UserId), 1)
@@ -527,8 +513,7 @@ func TestHubConnIndexInactive(t *testing.T) {
 	assert.Len(t, slices.Collect(connIndex.ForUser(wc2.UserId)), 1)
 
 	wc3.lastUserActivityAt = model.GetMillis()
-	err = connIndex.Add(wc3)
-	require.NoError(t, err)
+	connIndex.AddWithMemberships(wc3, nil)
 	connIndex.RemoveInactiveConnections()
 	assert.True(t, connIndex.Has(wc3))
 	assert.Len(t, slices.Collect(connIndex.ForUser(wc2.UserId)), 2)
@@ -675,9 +660,9 @@ func BenchmarkHubConnIndexIteratorForUser(b *testing.B) {
 	wc3.SetConnectionID("conn3")
 	wc3.SetSession(&model.Session{})
 
-	require.NoError(b, connIndex.Add(wc1))
-	require.NoError(b, connIndex.Add(wc2))
-	require.NoError(b, connIndex.Add(wc3))
+	connIndex.AddWithMemberships(wc1, nil)
+	connIndex.AddWithMemberships(wc2, nil)
+	connIndex.AddWithMemberships(wc3, nil)
 
 	b.Run("2 users", func(b *testing.B) {
 		for b.Loop() {
@@ -693,7 +678,7 @@ func BenchmarkHubConnIndexIteratorForUser(b *testing.B) {
 	wc4.SetConnectionID("conn4")
 	wc4.SetSession(&model.Session{})
 
-	require.NoError(b, connIndex.Add(wc4))
+	connIndex.AddWithMemberships(wc4, nil)
 	b.Run("3 users", func(b *testing.B) {
 		for b.Loop() {
 			globalIter = connIndex.ForUser(wc2.UserId)
@@ -708,7 +693,7 @@ func BenchmarkHubConnIndexIteratorForUser(b *testing.B) {
 	wc5.SetConnectionID("conn5")
 	wc5.SetSession(&model.Session{})
 
-	require.NoError(b, connIndex.Add(wc5))
+	connIndex.AddWithMemberships(wc5, nil)
 	b.Run("4 users", func(b *testing.B) {
 		for b.Loop() {
 			globalIter = connIndex.ForUser(wc2.UserId)
@@ -767,9 +752,9 @@ func BenchmarkHubConnIndexIteratorForChannel(b *testing.B) {
 	wc3.SetConnectionID(wc3ID)
 	wc3.SetSession(&model.Session{})
 
-	require.NoError(b, connIndex.Add(wc1))
-	require.NoError(b, connIndex.Add(wc2))
-	require.NoError(b, connIndex.Add(wc3))
+	connIndex.AddWithMemberships(wc1, map[string]string{th.BasicChannel.Id: ""})
+	connIndex.AddWithMemberships(wc2, map[string]string{th.BasicChannel.Id: ""})
+	connIndex.AddWithMemberships(wc3, map[string]string{th.BasicChannel.Id: ""})
 
 	for b.Loop() {
 		globalIter = connIndex.ForChannel(th.BasicChannel.Id)
@@ -797,10 +782,8 @@ func BenchmarkHubConnIndex(b *testing.B) {
 	}
 	b.Run("Add", func(b *testing.B) {
 		for b.Loop() {
-			err := connIndex.Add(wc1)
-			require.NoError(b, err)
-			err = connIndex.Add(wc2)
-			require.NoError(b, err)
+			connIndex.AddWithMemberships(wc1, nil)
+			connIndex.AddWithMemberships(wc2, nil)
 
 			// Cleanup
 			b.StopTimer()
@@ -814,10 +797,8 @@ func BenchmarkHubConnIndex(b *testing.B) {
 		for b.Loop() {
 			// Setup
 			b.StopTimer()
-			err := connIndex.Add(wc1)
-			require.NoError(b, err)
-			err = connIndex.Add(wc2)
-			require.NoError(b, err)
+			connIndex.AddWithMemberships(wc1, nil)
+			connIndex.AddWithMemberships(wc2, nil)
 
 			b.StartTimer()
 			connIndex.Remove(wc1)
@@ -845,8 +826,7 @@ func TestHubConnIndexRemoveMemLeak(t *testing.T) {
 		close(ch)
 	})
 
-	err := connIndex.Add(wc)
-	require.NoError(t, err)
+	connIndex.AddWithMemberships(wc, nil)
 	connIndex.Remove(wc)
 
 	runtime.GC()
