@@ -6,10 +6,12 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
+import {getAgents} from 'workspace-redux/actions/agents';
 import {
     updateChannelNotifyProps,
 } from 'workspace-redux/actions/channels';
 import {getCustomEmojisInText} from 'workspace-redux/actions/emojis';
+import {createRecap} from 'workspace-redux/actions/recaps';
 import {fetchChannelRemotes} from 'workspace-redux/actions/shared_channels';
 import {General} from 'workspace-redux/constants';
 import {
@@ -77,6 +79,7 @@ function makeMapStateToProps() {
         }
 
         const stats = getCurrentChannelStats(state);
+        const agents = state.entities.agents?.agents ?? [];
 
         let isLastActiveEnabled = false;
         if (dmUser) {
@@ -106,6 +109,7 @@ function makeMapStateToProps() {
             timestampUnits,
             hideGuestTags: config.HideGuestTags === 'true',
             sharedChannelsPluginsEnabled,
+            agents,
         };
     };
 }
@@ -119,6 +123,8 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         updateChannelNotifyProps,
         showChannelMembers,
         fetchChannelRemotes,
+        getAgents,
+        createRecap,
     }, dispatch),
 });
 
