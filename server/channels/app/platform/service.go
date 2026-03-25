@@ -542,6 +542,10 @@ func (ps *PlatformService) initEnterprise() {
 		ps.clusterIFace = clusterInterface(ps)
 	}
 
+	if ps.clusterIFace == nil && *ps.Config().ClusterSettings.Enable {
+		ps.clusterIFace = NewBasicCluster(ps)
+	}
+
 	if elasticsearchInterface != nil {
 		ps.SearchEngine.RegisterElasticsearchEngine(elasticsearchInterface(ps))
 	}

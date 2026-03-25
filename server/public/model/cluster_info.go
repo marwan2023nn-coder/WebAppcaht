@@ -10,4 +10,5 @@ type ClusterInfo struct {
 	ConfigHash    string `json:"config_hash"`
 	IPAddress     string `json:"ipaddress"`
 	Hostname      string `json:"hostname"`
+	CreateAt      int64  `json:"create_at"`
 }

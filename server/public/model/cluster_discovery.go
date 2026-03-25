@@ -14,14 +14,18 @@ const (
 )
 
 type ClusterDiscovery struct {
-	Id          string `json:"id"`
-	Type        string `json:"type"`
-	ClusterName string `json:"cluster_name"`
-	Hostname    string `json:"hostname"`
-	GossipPort  int32  `json:"gossip_port"`
-	Port        int32  `json:"port"` // Deperacted: Port is unused. It's only kept for backwards compatibility.
-	CreateAt    int64  `json:"create_at"`
-	LastPingAt  int64  `json:"last_ping_at"`
+	Id            string `json:"id"`
+	Type          string `json:"type"`
+	ClusterName   string `json:"cluster_name"`
+	Hostname      string `json:"hostname"`
+	GossipPort    int32  `json:"gossip_port"`
+	Port          int32  `json:"port"` // Deperacted: Port is unused. It's only kept for backwards compatibility.
+	CreateAt      int64  `json:"create_at"`
+	LastPingAt    int64  `json:"last_ping_at"`
+	Version       string `json:"version"`
+	SchemaVersion string `json:"schema_version"`
+	ConfigHash    string `json:"config_hash"`
+	IPAddress     string `json:"ipaddress"`
 }
 
 func (o *ClusterDiscovery) PreSave() {
@@ -101,6 +105,22 @@ func (o *ClusterDiscovery) IsValid() *AppError {
 
 	if o.Hostname == "" {
 		return NewAppError("ClusterDiscovery.IsValid", "model.cluster.is_valid.hostname.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if o.Version == "" {
+		return NewAppError("ClusterDiscovery.IsValid", "model.cluster.is_valid.version.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if o.SchemaVersion == "" {
+		return NewAppError("ClusterDiscovery.IsValid", "model.cluster.is_valid.schema_version.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if o.ConfigHash == "" {
+		return NewAppError("ClusterDiscovery.IsValid", "model.cluster.is_valid.config_hash.app_error", nil, "", http.StatusBadRequest)
+	}
+
+	if o.IPAddress == "" {
+		return NewAppError("ClusterDiscovery.IsValid", "model.cluster.is_valid.ipaddress.app_error", nil, "", http.StatusBadRequest)
 	}
 
 	if o.CreateAt == 0 {

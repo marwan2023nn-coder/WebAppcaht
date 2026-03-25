@@ -1,0 +1,4 @@
+ALTER TABLE clusterdiscovery ADD COLUMN IF NOT EXISTS version VARCHAR(64);
+ALTER TABLE clusterdiscovery ADD COLUMN IF NOT EXISTS schemaversion VARCHAR(64);
+ALTER TABLE clusterdiscovery ADD COLUMN IF NOT EXISTS confighash VARCHAR(64);
+ALTER TABLE clusterdiscovery ADD COLUMN IF NOT EXISTS ipaddress VARCHAR(64);
