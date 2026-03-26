@@ -71,11 +71,22 @@ export default function FlagPostModal({postId, onExited}: Props) {
             return [];
         }
 
-        return contentFlaggingSettings.reasons.map((reason: string) => ({
-            value: reason,
-            label: reason,
-        }));
-    }, [contentFlaggingSettings]);
+        const defaultReasons: Record<string, string> = {
+            'Inappropriate content': 'content_flagging.reason.inappropriate',
+            'Sensitive data': 'content_flagging.reason.sensitive',
+            'Security concern': 'content_flagging.reason.security',
+            'Harassment or abuse': 'content_flagging.reason.harassment',
+            'Spam or phishing': 'content_flagging.reason.spam',
+        };
+
+        return contentFlaggingSettings.reasons.map((reason: string) => {
+            const translationId = defaultReasons[reason];
+            return {
+                value: reason,
+                label: translationId ? formatMessage({id: translationId, defaultMessage: reason}) : reason,
+            };
+        });
+    }, [contentFlaggingSettings, formatMessage]);
 
     const previewMetadata: PostPreviewMetadata = useMemo(() => {
         return {
