@@ -4,6 +4,7 @@
 import classNames from 'classnames';
 import React from 'react';
 import type {MessageDescriptor} from 'react-intl';
+import {useSelector} from 'react-redux';
 import {defineMessage, FormattedMessage, useIntl} from 'react-intl';
 
 import {
@@ -20,6 +21,8 @@ import AgentDropdown from 'components/common/agents/agent_dropdown';
 import * as Menu from 'components/menu';
 import Input from 'components/widgets/inputs/input/input';
 import LoadingSpinner from 'components/widgets/loading/loading_spinner';
+
+import {getCurrentLocale} from 'selectors/i18n';
 
 import {IconContainer} from './formatting_bar/formatting_icon';
 import {RewriteAction} from './rewrite_action';
@@ -105,6 +108,8 @@ export default function RewriteMenu({
     customPromptRef,
 }: RewriteMenuProps) {
     const {formatMessage} = useIntl();
+    const locale = useSelector(getCurrentLocale);
+    const isRtl = locale === 'ar';
 
     const showMenuItem = !isProcessing && draftMessage.trim();
 
@@ -243,11 +248,11 @@ export default function RewriteMenu({
             }
             anchorOrigin={{
                 vertical: 'top',
-                horizontal: 'left',
+                horizontal: isRtl ? 'right' : 'left',
             }}
             transformOrigin={{
                 vertical: 'bottom',
-                horizontal: 'left',
+                horizontal: isRtl ? 'right' : 'left',
             }}
             closeMenuOnTab={false}
         >
