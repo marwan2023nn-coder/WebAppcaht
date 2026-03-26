@@ -1,7 +1,6 @@
 // Copyright (c) 2015-present Workspace, Inc. All Rights Reserved.
 // See LICENSE.txt for license information.
 
-import marked from 'marked';
 import React, {useRef} from 'react';
 import {defineMessage, FormattedDate, FormattedMessage} from 'react-intl';
 import {useSelector, useDispatch} from 'react-redux';
@@ -24,6 +23,7 @@ import LoadingWrapper from 'components/widgets/loading/loading_wrapper';
 
 import {FileTypes, ModalIdentifiers} from 'utils/constants';
 import {getMonthLong} from 'utils/i18n';
+import {format} from 'utils/markdown';
 import {getSkuDisplayName} from 'utils/subscription';
 import {fileSizeToString} from 'utils/utils';
 
@@ -191,7 +191,7 @@ const UploadLicenseModal = (props: Props): JSX.Element | null => {
                     <i className='icon icon-alert-outline'/>
                     <span
                         className='server-error-text'
-                        dangerouslySetInnerHTML={{__html: marked(serverError)}}
+                        dangerouslySetInnerHTML={{__html: format(serverError)}}
                     />
                 </div>}
             </div>
