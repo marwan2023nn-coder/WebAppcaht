@@ -34,6 +34,7 @@ import {
 } from 'workspace-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'workspace-redux/utils/channel_utils';
 
+import {openModal} from 'actions/views/modals';
 import {
     showPinnedPosts,
     showChannelFiles,
@@ -128,6 +129,7 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         getAgents,
         getAgentsStatus,
         createRecap,
+        openModal,
     }, dispatch),
 });
 
