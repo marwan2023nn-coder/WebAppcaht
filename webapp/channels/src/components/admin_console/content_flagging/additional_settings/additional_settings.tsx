@@ -2,7 +2,7 @@
 // See LICENSE.txt for license information.
 
 import React, {type ChangeEvent, useCallback, useMemo} from 'react';
-import {FormattedMessage} from 'react-intl';
+import {FormattedMessage, useIntl} from 'react-intl';
 import type {OnChangeValue} from 'react-select';
 import CreatableReactSelect from 'react-select/creatable';
 
@@ -31,6 +31,7 @@ type Props = {
 }
 
 export default function ContentFlaggingAdditionalSettingsSection({id, onChange, value, disabled = false}: Props) {
+    const {formatMessage} = useIntl();
     const [additionalSettings, setAdditionalSettings] = React.useState<ContentFlaggingAdditionalSettings>(value as ContentFlaggingAdditionalSettings);
 
     const handleReasonsChange = useCallback((newValues: OnChangeValue<{ value: string }, true>) => {
@@ -70,11 +71,19 @@ export default function ContentFlaggingAdditionalSettingsSection({id, onChange, 
     }, [additionalSettings, id, onChange]);
 
     const reasonOptions = useMemo(() => {
+        const defaultReasons: Record<string, string> = {
+            'Inappropriate content': 'content_flagging.reason.inappropriate',
+            'Sensitive data': 'content_flagging.reason.sensitive',
+            'Security concern': 'content_flagging.reason.security',
+            'Harassment or abuse': 'content_flagging.reason.harassment',
+            'Spam or phishing': 'content_flagging.reason.spam',
+        };
+
         return additionalSettings.Reasons.map((reason) => ({
-            label: reason,
+            label: defaultReasons[reason] ? formatMessage({id: defaultReasons[reason], defaultMessage: reason}) : reason,
             value: reason,
         }));
-    }, [additionalSettings.Reasons]);
+    }, [additionalSettings.Reasons, formatMessage]);
 
     return (
         <AdminSection>
