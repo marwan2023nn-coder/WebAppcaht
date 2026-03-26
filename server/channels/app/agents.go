@@ -15,7 +15,7 @@ import (
 )
 
 const (
-	aiPluginID                  = "workspace-ai"
+	aiPluginID                  = "mattermost-ai"
 	minAIPluginVersionForBridge = "1.5.0"
 )
 

@@ -64,7 +64,7 @@ export default function AgentsSettings(props: SystemConsoleCustomSettingsCompone
                         defaultMessage='LLMs must first be configured in the Agents plugin.'
                     />
                     <Link
-                        to='/admin_console/plugins/plugin_workspace-ai'
+                        to='/admin_console/plugins/plugin_mattermost-ai'
                         className='agents-config-link'
                     >
                         <FormattedMessage

@@ -35,6 +35,7 @@ export type PluginsState = {
         MainMenu: MainMenuAction[];
         ChannelHeader: ChannelHeaderAction[];
         ChannelHeaderButton: ChannelHeaderButtonAction[];
+        ChannelHeaderIcon: ChannelHeaderIconComponent[];
         MobileChannelHeaderButton: MobileChannelHeaderButtonAction[];
         AppBar: AppBarAction[];
         UserGuideDropdown: UserGuideDropdownAction[];
@@ -170,6 +171,10 @@ export type ChannelHeaderButtonAction = PluginComponent & {
     dropdownText: PluggableText;
     tooltipText: PluggableText;
     action: (channel: Channel, member?: ChannelMembership) => void;
+};
+
+export type ChannelHeaderIconComponent = PluginComponent & {
+    component: React.ComponentType<{channel: Channel; channelMember: ChannelMembership}>;
 };
 
 export type FileUploadMethodAction = PluginComponent & {
