@@ -249,7 +249,7 @@ func (_m *SharedChannelStore) GetRemoteByIds(channelID string, remoteID string) 
 }
 
 // GetRemoteForUser provides a mock function with given fields: remoteID, userID
-func (_m *SharedChannelStore) GetRemoteForUser(remoteID string, userID string) (*model.RemoteCluster, error) {
+func (_m *SharedChannelStore) GetRemoteForUser(remoteID string, userID string, includeDeleted bool) (*model.RemoteCluster, error) {
 	ret := _m.Called(remoteID, userID)
 
 	if len(ret) == 0 {

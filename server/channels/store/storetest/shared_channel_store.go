@@ -850,7 +850,7 @@ func testGetRemoteForUser(t *testing.T, rctx request.CTX, ss store.Store) {
 	t.Run("user is member", func(t *testing.T) {
 		for _, rc := range remotes {
 			for _, userId := range users {
-				rcFound, err := ss.SharedChannel().GetRemoteForUser(rc.RemoteId, userId)
+				rcFound, err := ss.SharedChannel().GetRemoteForUser(rc.RemoteId, userId, false)
 				assert.NoError(t, err, "remote should be found for user")
 				assert.Equal(t, rc.RemoteId, rcFound.RemoteId, "remoteIds should match")
 			}
@@ -859,14 +859,14 @@ func testGetRemoteForUser(t *testing.T, rctx request.CTX, ss store.Store) {
 
 	t.Run("user is not a member", func(t *testing.T) {
 		for _, rc := range remotes {
-			rcFound, err := ss.SharedChannel().GetRemoteForUser(rc.RemoteId, model.NewId())
+			rcFound, err := ss.SharedChannel().GetRemoteForUser(rc.RemoteId, model.NewId(), false)
 			assert.Error(t, err, "remote should not be found for user")
 			assert.Nil(t, rcFound)
 		}
 	})
 
 	t.Run("unknown remote id", func(t *testing.T) {
-		rcFound, err := ss.SharedChannel().GetRemoteForUser(model.NewId(), users[0])
+		rcFound, err := ss.SharedChannel().GetRemoteForUser(model.NewId(), users[0], false)
 		assert.Error(t, err, "remote should not be found for unknown remote id")
 		assert.Nil(t, rcFound)
 	})
