@@ -190,6 +190,7 @@ const useRewrite = (
     return {
         additionalControl: useMemo(() => (
             <RewriteMenu
+                key='ai-rewrite-control-key'
                 isProcessing={isProcessing}
                 isMenuOpen={isMenuOpen}
                 setIsMenuOpen={setIsMenuOpen}

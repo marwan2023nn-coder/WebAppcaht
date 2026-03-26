@@ -241,9 +241,9 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
 
     const showSeparators = wideMode === 'wide';
 
-    const { priorityAdditionalControl, burnOnReadAdditionalControl, otherAdditionalControls } = useMemo(() => {
+    const { priorityAdditionalControl, burnOnReadAdditionalControl, aiRewriteAdditionalControl, otherAdditionalControls } = useMemo(() => {
         if (!Array.isArray(additionalControls) || additionalControls.length === 0) {
-            return { priorityAdditionalControl: null, burnOnReadAdditionalControl: null, otherAdditionalControls: null };
+            return { priorityAdditionalControl: null, burnOnReadAdditionalControl: null, aiRewriteAdditionalControl: null, otherAdditionalControls: null };
         }
 
         const priorityControl = additionalControls.find((control) => {
@@ -254,13 +254,18 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             return React.isValidElement(control) && control.key === 'burn-on-read-control-key';
         }) || null;
 
+        const rewriteControl = additionalControls.find((control) => {
+            return React.isValidElement(control) && control.key === 'ai-rewrite-control-key';
+        }) || null;
+
         const remainingControls = additionalControls.filter((control) => {
-            return !(React.isValidElement(control) && (control.key === 'post-priority-picker-key' || control.key === 'burn-on-read-control-key'));
+            return !(React.isValidElement(control) && (control.key === 'post-priority-picker-key' || control.key === 'burn-on-read-control-key' || control.key === 'ai-rewrite-control-key'));
         });
 
         return {
             priorityAdditionalControl: priorityControl,
             burnOnReadAdditionalControl: burnOnReadControl,
+            aiRewriteAdditionalControl: rewriteControl,
             otherAdditionalControls: remainingControls.length ? remainingControls : null,
         };
     }, [additionalControls]);
@@ -270,8 +275,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
             ref={formattingBarRef}
             data-testid='formattingBarContainer'
         >
-
-
+           
             {hasHiddenControls && (
                 <>
                     <WithTooltip
@@ -298,7 +302,9 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     </WithTooltip>
                 </>
             )}
+            
             {burnOnReadAdditionalControl}
+            {aiRewriteAdditionalControl}
             {wideMode === 'wide' && (
                 <>
                     {priorityAdditionalControl}
@@ -312,6 +318,7 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                     )}
                 </>
             )}
+             
             <CSSTransition
                 timeout={250}
                 classNames='scale'

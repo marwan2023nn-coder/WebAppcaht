@@ -793,8 +793,9 @@ const AdvancedTextEditor = ({
     const additionalControls = useMemo(() => [
         !isInEditMode && priorityAdditionalControl,
         !isInEditMode && showBurnOnRead && burnOnReadAdditionalControl,
+        !isInEditMode && aiRewriteEnabled && aiRewriteAdditionalControl,
         ...(showPluginControls ? (pluginItems || []) : []),
-    ].filter(Boolean), [pluginItems, priorityAdditionalControl, isInEditMode, burnOnReadAdditionalControl, showBurnOnRead, showPluginControls]);
+    ].filter(Boolean), [pluginItems, priorityAdditionalControl, isInEditMode, burnOnReadAdditionalControl, showBurnOnRead, showPluginControls, aiRewriteEnabled, aiRewriteAdditionalControl]);
 
     const formattingBar = (
         <AutoHeightSwitcher
@@ -913,7 +914,7 @@ const AdvancedTextEditor = ({
                         tabIndex={-1}
                         className='AdvancedTextEditor__cell a11y__region'
                     >
-                        {!isInEditMode && (priorityLabels || (showBurnOnRead && burnOnReadLabels) || aiRewriteEnabled) && (
+                        {!isInEditMode && (priorityLabels || (showBurnOnRead && burnOnReadLabels)) && (
                             <div className='AdvancedTextEditor__labels'>
                                 <UnifiedLabelsWrapper
                                     priorityLabels={priorityLabels}
@@ -921,7 +922,6 @@ const AdvancedTextEditor = ({
                                     onRemoveAll={handleRemoveAllLabels}
                                     canRemove={!showPreview}
                                 />
-                                {aiRewriteEnabled && aiRewriteAdditionalControl}
                             </div>
                         )}
                         <Textbox
