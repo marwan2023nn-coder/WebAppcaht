@@ -72,53 +72,16 @@ exports[`components/ChannelHeader should match snapshot with last active display
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "not the bot description",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "DN",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "status": "offline",
-                  "team_id": "team_id",
-                  "type": "D",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -222,43 +185,6 @@ exports[`components/ChannelHeader should match snapshot with last active display
         </div>
       </div>
     </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "not the bot description",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "DN",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "status": "offline",
-            "team_id": "team_id",
-            "type": "D",
-            "update_at": 0,
-          }
-        }
-      />
-    </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
@@ -302,6 +228,29 @@ exports[`components/ChannelHeader should match snapshot with last active display
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
         }
       }
     />
@@ -381,53 +330,16 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "not the bot description",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "DN",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "status": "offline",
-                  "team_id": "team_id",
-                  "type": "D",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -506,43 +418,6 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         </div>
       </div>
     </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "not the bot description",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "DN",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "status": "offline",
-            "team_id": "team_id",
-            "type": "D",
-            "update_at": 0,
-          }
-        }
-      />
-    </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
@@ -589,6 +464,29 @@ exports[`components/ChannelHeader should match snapshot with no last active disp
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -622,52 +520,33 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs  channel-header__icon--active"
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -698,59 +577,6 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs  channel-header__icon--active"
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -794,6 +620,28 @@ exports[`components/ChannelHeader should render active channel files 1`] = `
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -830,52 +678,33 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -906,59 +735,6 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -1002,6 +778,28 @@ exports[`components/ChannelHeader should render active flagged posts 1`] = `
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -1038,52 +836,33 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -1114,59 +893,6 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -1210,6 +936,28 @@ exports[`components/ChannelHeader should render active mentions posts 1`] = `
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -1246,52 +994,33 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -1322,59 +1051,6 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -1421,6 +1097,28 @@ exports[`components/ChannelHeader should render active pinned posts 1`] = `
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1454,52 +1152,33 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 1234,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -1530,59 +1209,6 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 1234,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -1626,6 +1252,28 @@ exports[`components/ChannelHeader should render archived view 1`] = `
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 1234,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -1682,52 +1330,33 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
                 />
               </button>
             </WithTooltip>
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -1758,59 +1387,6 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -1857,6 +1433,28 @@ exports[`components/ChannelHeader should render correct menu when muted 1`] = `
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -1890,52 +1488,33 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -1966,59 +1545,6 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -2062,6 +1588,28 @@ exports[`components/ChannelHeader should render not active channel files 1`] = `
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
@@ -2139,53 +1687,16 @@ exports[`components/ChannelHeader should render properly when custom status is e
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "not the bot description",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "DN",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "status": "offline",
-                  "team_id": "team_id",
-                  "type": "D",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -2287,43 +1798,6 @@ exports[`components/ChannelHeader should render properly when custom status is e
         </div>
       </div>
     </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "not the bot description",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "DN",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "status": "offline",
-            "team_id": "team_id",
-            "type": "D",
-            "update_at": 0,
-          }
-        }
-      />
-    </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
@@ -2367,6 +1841,29 @@ exports[`components/ChannelHeader should render properly when custom status is e
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
         }
       }
     />
@@ -2444,53 +1941,16 @@ exports[`components/ChannelHeader should render properly when custom status is s
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "not the bot description",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "DN",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "status": "offline",
-                  "team_id": "team_id",
-                  "type": "D",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -2610,43 +2070,6 @@ exports[`components/ChannelHeader should render properly when custom status is s
         </div>
       </div>
     </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "not the bot description",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "DN",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "status": "offline",
-            "team_id": "team_id",
-            "type": "D",
-            "update_at": 0,
-          }
-        }
-      />
-    </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
         Object {
@@ -2693,6 +2116,29 @@ exports[`components/ChannelHeader should render properly when custom status is s
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "not the bot description",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "status": "offline",
+          "team_id": "team_id",
+          "type": "D",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -2726,52 +2172,33 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "DN",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -2802,59 +2229,6 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "DN",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -2901,6 +2275,28 @@ exports[`components/ChannelHeader should render properly when empty 1`] = `
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "DN",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -2934,52 +2330,33 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -3010,59 +2387,6 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -3109,6 +2433,28 @@ exports[`components/ChannelHeader should render properly when populated 1`] = `
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -3142,59 +2488,33 @@ exports[`components/ChannelHeader should render properly when populated with cha
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "See ~test",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "props": Object {
-                    "channel_mentions": Object {
-                      "test": Object {
-                        "display_name": "Test",
-                      },
-                    },
-                  },
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -3232,66 +2552,6 @@ exports[`components/ChannelHeader should render properly when populated with cha
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "See ~test",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "props": Object {
-              "channel_mentions": Object {
-                "test": Object {
-                  "display_name": "Test",
-                },
-              },
-            },
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -3345,6 +2605,35 @@ exports[`components/ChannelHeader should render properly when populated with cha
         }
       }
     />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "See ~test",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "props": Object {
+            "channel_mentions": Object {
+              "test": Object {
+                "display_name": "Test",
+              },
+            },
+          },
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
+        }
+      }
+    />
   </div>
 </div>
 `;
@@ -3378,53 +2667,33 @@ exports[`components/ChannelHeader should render shared view 1`] = `
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "shared": true,
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -3457,60 +2726,28 @@ exports[`components/ChannelHeader should render shared view 1`] = `
         </div>
       </div>
     </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "shared": true,
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "shared": true,
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
-      />
-    </div>
+      }
+    />
   </div>
 </div>
 `;
@@ -3544,52 +2781,50 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           <div
             className="channel-header__icons"
           >
-            <Pluggable
-              channel={
-                Object {
-                  "create_at": 0,
-                  "creator_id": "id",
-                  "delete_at": 0,
-                  "display_name": "name",
-                  "group_constrained": false,
-                  "header": "header",
-                  "id": "channel_id",
-                  "last_post_at": 0,
-                  "last_root_post_at": 0,
-                  "name": "Test",
-                  "purpose": "purpose",
-                  "scheme_id": "id",
-                  "team_id": "team_id",
-                  "type": "O",
-                  "update_at": 0,
-                }
-              }
-              channelMember={
-                Object {
-                  "channel_id": "channel_id",
-                  "last_update_at": 0,
-                  "last_viewed_at": 0,
-                  "mention_count": 0,
-                  "mention_count_root": 0,
-                  "msg_count": 0,
-                  "msg_count_root": 0,
-                  "notify_props": Object {
-                    "channel_auto_follow_threads": "off",
-                    "desktop": "default",
-                    "email": "default",
-                    "ignore_channel_mentions": "default",
-                    "mark_unread": "all",
-                    "push": "default",
-                  },
-                  "roles": "channel_user",
-                  "scheme_admin": false,
-                  "scheme_user": true,
-                  "urgent_mention_count": 0,
-                  "user_id": "user_id",
-                }
-              }
-              pluggableName="ChannelHeaderIcon"
-            />
+            <HeaderIconWrapper
+              buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="member_rhs"
+              onClick={[Function]}
+              tooltip="Members"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-account-outline channel-header__members"
+              />
+              <span
+                className="icon__text"
+                id="channelMemberCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
+              buttonId="channelHeaderPinButton"
+              onClick={[Function]}
+              tooltip="Pinned messages"
+            >
+              <i
+                aria-hidden="true"
+                className="icon icon-pin-outline channel-header__pin"
+              />
+              <span
+                className="icon__text"
+                id="channelPinnedPostCountText"
+              >
+                2
+              </span>
+            </HeaderIconWrapper>
+            <HeaderIconWrapper
+              buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
+              buttonId="channelHeaderFilesButton"
+              onClick={[Function]}
+              tooltip="Channel files"
+            >
+              <i
+                className="icon icon-file-text-outline"
+              />
+            </HeaderIconWrapper>
           </div>
           <div
             className="channel-header__description"
@@ -3620,76 +2855,6 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           </div>
         </div>
       </div>
-    </div>
-    <div
-      className="channel-header__icon1"
-    >
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="channelHeaderPinButton"
-        onClick={[Function]}
-        tooltip="Pinned messages"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-pin-outline channel-header__pin"
-        />
-        <span
-          className="icon__text"
-          id="channelPinnedPostCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <HeaderIconWrapper
-        buttonClass="member-rhs__trigger channel-header__icon channel-header__icon--wide channel-header__icon--left btn btn-icon btn-xs"
-        buttonId="member_rhs"
-        onClick={[Function]}
-        tooltip="Members"
-      >
-        <i
-          aria-hidden="true"
-          className="icon icon-account-outline channel-header__members"
-        />
-        <span
-          className="icon__text"
-          id="channelMemberCountText"
-        >
-          2
-        </span>
-      </HeaderIconWrapper>
-      <Memo(ChannelHeaderTitleFavorite) />
-      <HeaderIconWrapper
-        buttonClass="channel-header__icon channel-header__icon--left btn btn-icon btn-xs "
-        buttonId="channelHeaderFilesButton"
-        onClick={[Function]}
-        tooltip="Channel files"
-      >
-        <i
-          className="icon icon-file-text-outline"
-        />
-      </HeaderIconWrapper>
-      <ChannelInfoButton
-        channel={
-          Object {
-            "create_at": 0,
-            "creator_id": "id",
-            "delete_at": 0,
-            "display_name": "name",
-            "group_constrained": false,
-            "header": "header",
-            "id": "channel_id",
-            "last_post_at": 0,
-            "last_root_post_at": 0,
-            "name": "Test",
-            "purpose": "purpose",
-            "scheme_id": "id",
-            "team_id": "team_id",
-            "type": "O",
-            "update_at": 0,
-          }
-        }
-      />
     </div>
     <Connect(injectIntl(ChannelHeaderPlug))
       channel={
@@ -3733,6 +2898,28 @@ exports[`components/ChannelHeader should render the pinned icon with the pinned 
           "scheme_user": true,
           "urgent_mention_count": 0,
           "user_id": "user_id",
+        }
+      }
+    />
+    <Connect(CallButton) />
+    <ChannelInfoButton
+      channel={
+        Object {
+          "create_at": 0,
+          "creator_id": "id",
+          "delete_at": 0,
+          "display_name": "name",
+          "group_constrained": false,
+          "header": "header",
+          "id": "channel_id",
+          "last_post_at": 0,
+          "last_root_post_at": 0,
+          "name": "Test",
+          "purpose": "purpose",
+          "scheme_id": "id",
+          "team_id": "team_id",
+          "type": "O",
+          "update_at": 0,
         }
       }
     />
