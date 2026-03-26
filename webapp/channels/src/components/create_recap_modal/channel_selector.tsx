@@ -6,9 +6,8 @@ import {useIntl} from 'react-intl';
 
 import type {Channel} from '@workspace/types/channels';
 
-import Input from 'components/widgets/inputs/input/input';
-
-import {Constants} from 'utils/constants';
+import Input from '../widgets/inputs/input/input';
+import {Constants} from '../../utils/constants';
 
 type Props = {
     selectedChannelIds: string[];
