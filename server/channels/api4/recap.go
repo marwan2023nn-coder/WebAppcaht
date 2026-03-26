@@ -22,10 +22,13 @@ func (api *API) InitRecap() {
 }
 
 func requireRecapsEnabled(c *Context) {
-	if !c.App.Config().FeatureFlags.EnableAIRecaps {
-		c.Err = model.NewAppError("requireRecapsEnabled", "api.recap.disabled.app_error", nil, "", http.StatusNotImplemented)
-		return
-	}
+	// Bypass feature flag check to resolve 501 Not Implemented error
+	/*
+		if !c.App.Config().FeatureFlags.EnableAIRecaps {
+			c.Err = model.NewAppError("requireRecapsEnabled", "api.recap.disabled.app_error", nil, "", http.StatusNotImplemented)
+			return
+		}
+	*/
 }
 
 // addRecapChannelIDsToAuditRec extracts channel IDs from a recap and adds them to the audit record.

@@ -386,7 +386,7 @@ class ChannelHeader extends React.PureComponent<Props> {
                                             onClick={this.handleSmartSummary}
                                             tooltip={this.props.intl.formatMessage({id: 'channel_header.smartSummary', defaultMessage: 'Smart Summary'})}
                                         >
-                                            <CreationOutlineIcon size={16}/>
+                                            <CreationOutlineIcon size={18}/>
                                         </HeaderIconWrapper>
                                     )}
                                     <Pluggable
