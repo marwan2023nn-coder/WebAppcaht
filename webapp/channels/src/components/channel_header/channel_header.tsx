@@ -21,6 +21,7 @@ import {CreationOutlineIcon} from '@workspace/compass-icons/components';
 
 import {
     Constants,
+    ModalIdentifiers,
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
@@ -29,6 +30,8 @@ import {isEmptyObject} from 'utils/utils';
 import ChannelHeaderText from './channel_header_text';
 import ChannelHeaderTitle from './channel_header_title';
 import ChannelInfoButton from './channel_info_button';
+import CreateRecapModal from 'components/create_recap_modal';
+
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 import type {PropsFromRedux} from './index';
@@ -46,6 +49,7 @@ class ChannelHeader extends React.PureComponent<Props> {
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
         this.props.actions.getAgents();
+        this.props.actions.getAgentsStatus();
 
         // Fetch remote names for shared channels on initial mount
         if (this.props.channel?.shared) {
@@ -110,14 +114,12 @@ class ChannelHeader extends React.PureComponent<Props> {
     };
 
     handleSmartSummary = () => {
-        const {channel, agents, actions} = this.props;
-        if (!channel || !agents || agents.length === 0) {
-            return;
-        }
+        const {actions} = this.props;
 
-        const agentId = agents[0].id;
-        const recapTitle = `Summary for ${channel.display_name}`;
-        actions.createRecap(recapTitle, [channel.id], agentId);
+        actions.openModal({
+            modalId: ModalIdentifiers.CREATE_RECAP_MODAL,
+            dialogType: CreateRecapModal,
+        });
     };
 
     renderCustomStatus = () => {

@@ -16,10 +16,8 @@ import {getAgents as getAgentsSelector} from 'workspace-redux/selectors/entities
 import {getMyChannels, getUnreadChannelIds} from 'workspace-redux/selectors/entities/channels';
 import {getCurrentUserId} from 'workspace-redux/selectors/entities/users';
 
-import {AgentDropdown} from '../common/agents';
-import PaginationDots from '../common/pagination_dots';
-
-import {ModalIdentifiers} from 'utils/constants';
+import {AgentDropdown} from 'components/common/agents';
+import PaginationDots from 'components/common/pagination_dots';
 
 import ChannelSelector from './channel_selector';
 import ChannelSummary from './channel_summary';
@@ -115,7 +113,7 @@ const CreateRecapModal = ({onExited}: Props) => {
         try {
             await dispatch(createRecap(recapName, selectedChannelIds, selectedBotId));
             onExited();
-            history.push(`${url}/recaps/unread`);
+            history.push(`${url}/recaps`);
         } catch (err) {
             setError(formatMessage({id: 'recaps.modal.error.createFailed', defaultMessage: 'Failed to create recap. Please try again.'}));
             setIsSubmitting(false);
