@@ -7,7 +7,7 @@ import {useIntl, FormattedMessage} from 'react-intl';
 import {ProductChannelsIcon, LightningBoltOutlineIcon, CheckCircleIcon} from '@workspace/compass-icons/components';
 import type {Channel} from '@workspace/types/channels';
 
-import WithTooltip from '../with_tooltip';
+import WithTooltip from 'components/with_tooltip';
 
 const RECAP_NAME_MAX_LENGTH = 100;
 
@@ -54,7 +54,7 @@ const RecapConfiguration = ({recapName, setRecapName, recapType, setRecapType, u
                     />
                 </div>
             </div>
-            {recapType === 'all_unreads' && <CheckCircleIcon size={20} className='selected-icon'/>}
+            {recapType === 'all_unreads' && <CheckCircleIcon className='selected-icon'/>}
         </button>
     );
 
@@ -128,7 +128,7 @@ const RecapConfiguration = ({recapName, setRecapName, recapType, setRecapType, u
                                 />
                             </div>
                         </div>
-                        {recapType === 'selected' && <CheckCircleIcon size={20} className='selected-icon'/>}
+                        {recapType === 'selected' && <CheckCircleIcon className='selected-icon'/>}
                     </button>
 
                     {hasUnreadChannels ? allUnreadsButton : (
