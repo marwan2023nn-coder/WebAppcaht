@@ -13,6 +13,7 @@ import type {Group} from '@workspace/types/groups';
 import type {Command, IncomingWebhook, OutgoingWebhook} from '@workspace/types/integrations';
 import type {Post} from '@workspace/types/posts';
 import type {PreferenceType} from '@workspace/types/preferences';
+import type {Agent} from '@workspace/types/agents';
 import type {Reaction} from '@workspace/types/reactions';
 import type {Role} from '@workspace/types/roles';
 import type {Session} from '@workspace/types/sessions';
@@ -577,6 +578,18 @@ export class TestHelper {
             post_id: '',
             emoji_name: '',
             create_at: 0,
+            ...override,
+        };
+    }
+
+    public static getAgentMock(override: Partial<Agent> = {}): Agent {
+        return {
+            id: 'agent_id',
+            user_id: 'user_id',
+            is_default: false,
+            create_at: 0,
+            update_at: 0,
+            delete_at: 0,
             ...override,
         };
     }

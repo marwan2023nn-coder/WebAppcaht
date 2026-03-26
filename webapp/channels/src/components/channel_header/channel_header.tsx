@@ -35,6 +35,7 @@ import ChannelHeaderTitleFavorite from './channel_header_title_favorite';
 import type { Agent } from '@workspace/types/agents';
 export type Props = WrappedComponentProps & PropsFromRedux & {
     agents: Agent[];
+    agentsStatus: {available: boolean};
 };
 
 class ChannelHeader extends React.PureComponent<Props> {
@@ -48,6 +49,7 @@ class ChannelHeader extends React.PureComponent<Props> {
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
         this.props.actions.getAgents();
+        this.props.actions.getAgentsStatus();
 
         // Fetch remote names for shared channels on initial mount
         if (this.props.channel?.shared) {
@@ -379,7 +381,7 @@ class ChannelHeader extends React.PureComponent<Props> {
                                     className='channel-header__icons'
                                 >
                                     {muteTrigger}
-                                    {this.props.agents && this.props.agents.length > 0 && (
+                                    {this.props.agentsStatus?.available && this.props.agents && this.props.agents.length > 0 && (
                                         <HeaderIconWrapper
                                             buttonClass={'channel-header__icon channel-header__icon--left btn btn-icon btn-xs'}
                                             buttonId={'channelHeaderSmartSummaryButton'}

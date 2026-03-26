@@ -26,6 +26,9 @@ describe('components/ChannelHeader', () => {
             updateChannelNotifyProps: jest.fn(),
             showChannelMembers: jest.fn(),
             fetchChannelRemotes: jest.fn(),
+            getAgents: jest.fn(),
+            getAgentsStatus: jest.fn(),
+            createRecap: jest.fn(),
         },
         teamId: 'team_id',
         channel: TestHelper.getChannelMock({}),
@@ -52,6 +55,8 @@ describe('components/ChannelHeader', () => {
         hideGuestTags: false,
         remoteNames: [],
         sharedChannelsPluginsEnabled: false,
+        agents: [],
+        agentsStatus: {available: false},
         intl: {
             formatMessage: jest.fn(({id, defaultMessage}) => defaultMessage || id),
         } as MockIntl,
@@ -354,5 +359,33 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render Smart Summary button when agents are available and status is available', () => {
+        const props = {
+            ...populatedProps,
+            agents: [TestHelper.getAgentMock({id: 'agent_id'})],
+            agentsStatus: {available: true},
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        expect(wrapper.find({buttonId: 'channelHeaderSmartSummaryButton'}).exists()).toBe(true);
+    });
+
+    test('should NOT render Smart Summary button when agents are available but status is NOT available', () => {
+        const props = {
+            ...populatedProps,
+            agents: [TestHelper.getAgentMock({id: 'agent_id'})],
+            agentsStatus: {available: false},
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        expect(wrapper.find({buttonId: 'channelHeaderSmartSummaryButton'}).exists()).toBe(false);
     });
 });
