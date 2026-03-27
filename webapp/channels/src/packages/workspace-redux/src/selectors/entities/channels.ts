@@ -51,6 +51,7 @@ import {
     getUserIdsInChannels,
     isCurrentUserSystemAdmin,
 } from 'workspace-redux/selectors/entities/users';
+import {getCurrentUserLocale} from 'workspace-redux/selectors/entities/i18n';
 import {
     calculateUnreadCount,
     completeDirectChannelDisplayName,
@@ -1454,4 +1455,46 @@ export const isDeactivatedDirectChannel = (state: GlobalState, channelId: string
 export function getChannelBanner(state: GlobalState, channelId: string): ChannelBanner | undefined {
     const channel = getChannel(state, channelId);
     return channel ? channel.banner_info : undefined;
+}
+
+export function isChannelAutotranslated(state: GlobalState, channelId: string): boolean {
+    const channel = getChannel(state, channelId);
+    const config = getConfig(state);
+
+    if (!channel?.autotranslation || config?.EnableAutoTranslation !== 'true') {
+        return false;
+    }
+
+    // When autotranslation is restricted on DMs and GMs, do not consider them autotranslated
+    const isDMOrGM = channel.type === General.DM_CHANNEL || channel.type === General.GM_CHANNEL;
+    if (isDMOrGM && config?.RestrictDMAndGMAutotranslation === 'true') {
+        return false;
+    }
+
+    return true;
+}
+
+// isMyChannelAutotranslated returns whether the current user is seeing the autotranslated
+// version of the channel.
+export function isMyChannelAutotranslated(state: GlobalState, channelId: string): boolean {
+    if (!isChannelAutotranslated(state, channelId)) {
+        return false;
+    }
+
+    if (!isUserLanguageSupportedForAutotranslation(state)) {
+        return false;
+    }
+
+    const myChannelMember = getMyChannelMember(state, channelId);
+    return !myChannelMember?.autotranslation_disabled;
+}
+
+export function isUserLanguageSupportedForAutotranslation(state: GlobalState): boolean {
+    const locale = getCurrentUserLocale(state);
+    const config = getConfig(state);
+    if (config?.EnableAutoTranslation !== 'true') {
+        return false;
+    }
+    const targetLanguages = config?.AutoTranslationLanguages?.split(',').map((l) => l.trim()).filter(Boolean);
+    return Boolean(targetLanguages?.length && targetLanguages.includes(locale));
 }
