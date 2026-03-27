@@ -10,7 +10,7 @@ import ChannelInfoButton from 'components/channel_header/channel_info_button';
 
 import type {MockIntl} from 'tests/helpers/intl-test-helper';
 import {shallowWithIntl} from 'tests/helpers/intl-test-helper';
-import Constants, {RHSStates} from 'utils/constants';
+import Constants, {ModalIdentifiers, RHSStates} from 'utils/constants';
 import {TestHelper} from 'utils/test_helper';
 
 import ChannelHeader from './channel_header';
@@ -26,6 +26,10 @@ describe('components/ChannelHeader', () => {
             updateChannelNotifyProps: jest.fn(),
             showChannelMembers: jest.fn(),
             fetchChannelRemotes: jest.fn(),
+            getAgents: jest.fn(),
+            getAgentsStatus: jest.fn(),
+            createRecap: jest.fn(),
+            openModal: jest.fn(),
         },
         teamId: 'team_id',
         channel: TestHelper.getChannelMock({}),
@@ -52,6 +56,8 @@ describe('components/ChannelHeader', () => {
         hideGuestTags: false,
         remoteNames: [],
         sharedChannelsPluginsEnabled: false,
+        agents: [],
+        agentsStatus: {available: false},
         intl: {
             formatMessage: jest.fn(({id, defaultMessage}) => defaultMessage || id),
         } as MockIntl,
@@ -354,5 +360,52 @@ describe('components/ChannelHeader', () => {
             <ChannelHeader {...props}/>,
         );
         expect(wrapper).toMatchSnapshot();
+    });
+
+    test('should render Smart Summary button when agents are available and status is available', () => {
+        const props = {
+            ...populatedProps,
+            agents: [TestHelper.getAgentMock({id: 'agent_id'})],
+            agentsStatus: {available: true},
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        expect(wrapper.find({buttonId: 'channelHeaderSmartSummaryButton'}).exists()).toBe(true);
+    });
+
+    test('should NOT render Smart Summary button when agents are available but status is NOT available', () => {
+        const props = {
+            ...populatedProps,
+            agents: [TestHelper.getAgentMock({id: 'agent_id'})],
+            agentsStatus: {available: false},
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        expect(wrapper.find({buttonId: 'channelHeaderSmartSummaryButton'}).exists()).toBe(false);
+    });
+
+    test('should open CreateRecapModal when Smart Summary button is clicked', () => {
+        const props = {
+            ...populatedProps,
+            agents: [TestHelper.getAgentMock({id: 'agent_id'})],
+            agentsStatus: {available: true},
+        };
+
+        const wrapper = shallowWithIntl(
+            <ChannelHeader {...props}/>,
+        );
+
+        wrapper.find({buttonId: 'channelHeaderSmartSummaryButton'}).simulate('click');
+        expect(props.actions.openModal).toHaveBeenCalledTimes(1);
+        expect(props.actions.openModal).toHaveBeenCalledWith({
+            modalId: ModalIdentifiers.CREATE_RECAP_MODAL,
+            dialogType: expect.any(Function),
+        });
     });
 });

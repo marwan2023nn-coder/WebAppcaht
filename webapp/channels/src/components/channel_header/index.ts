@@ -6,7 +6,7 @@ import {connect} from 'react-redux';
 import {bindActionCreators} from 'redux';
 import type {Dispatch} from 'redux';
 
-import {getAgents} from 'workspace-redux/actions/agents';
+import {getAgents, getAgentsStatus} from 'workspace-redux/actions/agents';
 import {
     updateChannelNotifyProps,
 } from 'workspace-redux/actions/channels';
@@ -23,6 +23,7 @@ import {
 } from 'workspace-redux/selectors/entities/channels';
 import {getConfig, getFeatureFlagValue} from 'workspace-redux/selectors/entities/general';
 import {getRemoteNamesForChannel} from 'workspace-redux/selectors/entities/shared_channels';
+import {getAgentsStatus as getAgentsStatusSelector} from 'workspace-redux/selectors/entities/agents';
 import {getCurrentTeamId} from 'workspace-redux/selectors/entities/teams';
 import {
     displayLastActiveLabel,
@@ -34,6 +35,7 @@ import {
 } from 'workspace-redux/selectors/entities/users';
 import {getUserIdFromChannelName} from 'workspace-redux/utils/channel_utils';
 
+import {openModal} from 'actions/views/modals';
 import {
     showPinnedPosts,
     showChannelFiles,
@@ -112,6 +114,7 @@ function makeMapStateToProps() {
             hideGuestTags: config.HideGuestTags === 'true',
             sharedChannelsPluginsEnabled,
             agents,
+            agentsStatus: getAgentsStatusSelector(state),
         };
     };
 }
@@ -126,7 +129,9 @@ const mapDispatchToProps = (dispatch: Dispatch) => ({
         showChannelMembers,
         fetchChannelRemotes,
         getAgents,
+        getAgentsStatus,
         createRecap,
+        openModal,
     }, dispatch),
 });
 
