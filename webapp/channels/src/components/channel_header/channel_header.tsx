@@ -20,7 +20,6 @@ import {CreationOutlineIcon} from '@workspace/compass-icons/components';
 
 import {
     Constants,
-    ModalIdentifiers,
     NotificationLevels,
     RHSStates,
 } from 'utils/constants';
@@ -29,8 +28,6 @@ import { isEmptyObject } from 'utils/utils';
 import ChannelHeaderText from './channel_header_text';
 import ChannelHeaderTitle from './channel_header_title';
 import ChannelInfoButton from './channel_info_button';
-import CreateRecapModal from 'components/create_recap_modal';
-
 import HeaderIconWrapper from './components/header_icon_wrapper';
 
 import type { PropsFromRedux } from './index';
@@ -38,7 +35,6 @@ import ChannelHeaderTitleFavorite from './channel_header_title_favorite';
 import type { Agent } from '@workspace/types/agents';
 export type Props = WrappedComponentProps & PropsFromRedux & {
     agents: Agent[];
-    agentsStatus: {available: boolean};
 };
 
 class ChannelHeader extends React.PureComponent<Props> {
@@ -52,7 +48,6 @@ class ChannelHeader extends React.PureComponent<Props> {
     componentDidMount() {
         this.props.actions.getCustomEmojisInText(this.props.channel ? this.props.channel.header : '');
         this.props.actions.getAgents();
-        this.props.actions.getAgentsStatus();
 
         // Fetch remote names for shared channels on initial mount
         if (this.props.channel?.shared) {
@@ -117,12 +112,14 @@ class ChannelHeader extends React.PureComponent<Props> {
     };
 
     handleSmartSummary = () => {
-        const {actions} = this.props;
+        const {channel, agents, actions} = this.props;
+        if (!channel || !agents || agents.length === 0) {
+            return;
+        }
 
-        actions.openModal({
-            modalId: ModalIdentifiers.CREATE_RECAP_MODAL,
-            dialogType: CreateRecapModal,
-        });
+        const agentId = agents[0].id;
+        const recapTitle = `Summary for ${channel.display_name}`;
+        actions.createRecap(recapTitle, [channel.id], agentId);
     };
 
     renderCustomStatus = () => {
@@ -382,7 +379,7 @@ class ChannelHeader extends React.PureComponent<Props> {
                                     className='channel-header__icons'
                                 >
                                     {muteTrigger}
-                                    {this.props.agentsStatus?.available && this.props.agents && this.props.agents.length > 0 && (
+                                    {this.props.agents && this.props.agents.length > 0 && (
                                         <HeaderIconWrapper
                                             buttonClass={'channel-header__icon channel-header__icon--left btn btn-icon btn-xs'}
                                             buttonId={'channelHeaderSmartSummaryButton'}
