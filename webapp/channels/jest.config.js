@@ -19,7 +19,6 @@ const config = {
         doNotFake: ['performance'],
     },
     moduleNameMapper: {
-        'react-bootstrap': '<rootDir>/src/tests/react-bootstrap_mock.tsx',
         '^@workspace/(components)$': '<rootDir>/../platform/$1/src',
         '^@workspace/(client)$': '<rootDir>/../platform/$1/src',
         '^@workspace/(types)/(.*)$': '<rootDir>/../platform/$1/src/$2',
