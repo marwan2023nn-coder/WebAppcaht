@@ -131,9 +131,9 @@ func (f *FeatureFlags) SetDefaults() {
 	f.BurnOnRead = true
 
 	// FEATURE_FLAG_REMOVAL: EnableAIPluginBridge - Remove this default when MVP is to be released
-	f.EnableAIPluginBridge = true
+	f.EnableAIPluginBridge = false
 
-	f.EnableAIRecaps = true
+	f.EnableAIRecaps = false
 }
 
 // ToMap returns the feature flags as a map[string]string

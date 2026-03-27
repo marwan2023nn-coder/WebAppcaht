@@ -2104,7 +2104,7 @@ func TestConfigDefaultAIPluginState(t *testing.T) {
 		c1 := Config{}
 		c1.SetDefaults()
 
-		assert.True(t, c1.PluginSettings.PluginStates[PluginIdAI].Enable)
+		assert.True(t, c1.PluginSettings.PluginStates["workspace-ai"].Enable)
 	})
 
 	t.Run("should enable AI plugin by default on Cloud", func(t *testing.T) {
@@ -2113,14 +2113,14 @@ func TestConfigDefaultAIPluginState(t *testing.T) {
 		c1 := Config{}
 		c1.SetDefaults()
 
-		assert.True(t, c1.PluginSettings.PluginStates[PluginIdAI].Enable)
+		assert.True(t, c1.PluginSettings.PluginStates["workspace-ai"].Enable)
 	})
 
 	t.Run("should not re-enable AI plugin after it has been disabled", func(t *testing.T) {
 		c1 := Config{
 			PluginSettings: PluginSettings{
 				PluginStates: map[string]*PluginState{
-					PluginIdAI: {
+					"workspace-ai": {
 						Enable: false,
 					},
 				},
@@ -2128,7 +2128,7 @@ func TestConfigDefaultAIPluginState(t *testing.T) {
 		}
 
 		c1.SetDefaults()
-		assert.False(t, c1.PluginSettings.PluginStates[PluginIdAI].Enable)
+		assert.False(t, c1.PluginSettings.PluginStates["workspace-ai"].Enable)
 	})
 }
 
