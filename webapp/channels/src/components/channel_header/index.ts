@@ -19,7 +19,6 @@ import {
     getMyCurrentChannelMembership,
     isCurrentChannelMuted,
     getCurrentChannelStats,
-    isMyChannelAutotranslated,
 } from 'workspace-redux/selectors/entities/channels';
 import {getConfig, getFeatureFlagValue} from 'workspace-redux/selectors/entities/general';
 import {getRemoteNamesForChannel} from 'workspace-redux/selectors/entities/shared_channels';
@@ -95,7 +94,6 @@ function makeMapStateToProps() {
             channel,
             channelMember: getMyCurrentChannelMembership(state),
             memberCount: stats?.member_count || 0,
-            isChannelAutotranslated: channel ? isMyChannelAutotranslated(state, channel.id) : false,
             currentUser: user,
             dmUser,
             gmMembers,
