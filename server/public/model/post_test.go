@@ -173,6 +173,18 @@ func TestPost_ContainsIntegrationsReservedProps(t *testing.T) {
 	require.Len(t, keys2, 5)
 }
 
+func TestPostPatch_IsEmpty(t *testing.T) {
+	t.Run("empty patch", func(t *testing.T) {
+		patch := &PostPatch{}
+		require.True(t, patch.IsEmpty())
+	})
+
+	t.Run("non-empty patch", func(t *testing.T) {
+		patch := &PostPatch{Message: NewPointer("test")}
+		require.False(t, patch.IsEmpty())
+	})
+}
+
 func TestPostPatch_ContainsIntegrationsReservedProps(t *testing.T) {
 	postPatch1 := &PostPatch{
 		Props: &StringInterface{

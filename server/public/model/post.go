@@ -28,6 +28,7 @@ type PostContextKey string
 const (
 	PostSystemMessagePrefix       = "system_"
 	PostTypeDefault               = ""
+	PostTypeMessageAttachment     = "slack_attachment"
 	PostTypeSlackAttachment       = "slack_attachment"
 	PostTypeSystemGeneric         = "system_generic"
 	PostTypeJoinLeave             = "system_join_leave" // Deprecated, use PostJoinChannel or PostLeaveChannel instead
@@ -60,6 +61,7 @@ const (
 	PostCustomTypePrefix          = "custom_"
 	PostTypeReminder              = "reminder"
 	PostTypeBurnOnRead            = "burn_on_read"
+	PostTypeCard                  = "card"
 
 	PostFileidsMaxRunes   = 300
 	PostFilenamesMaxRunes = 4000
@@ -95,6 +97,7 @@ const (
 	PostPropsPreviewedPost            = "previewed_post"
 	PostPropsForceNotification        = "force_notification"
 	PostPropsChannelMentions          = "channel_mentions"
+	PostPropsCurrentTeamId            = "current_team_id"
 	PostPropsUnsafeLinks              = "unsafe_links"
 	PostPropsAIGeneratedByUserID      = "ai_generated_by"
 	PostPropsAIGeneratedByUsername    = "ai_generated_by_username"
@@ -191,6 +194,10 @@ type PostPatch struct {
 	Props        *StringInterface `json:"props"`
 	FileIds      *StringArray     `json:"file_ids"`
 	HasReactions *bool            `json:"has_reactions"`
+}
+
+func (o *PostPatch) IsEmpty() bool {
+	return o.IsPinned == nil && o.Message == nil && o.Props == nil && o.FileIds == nil && o.HasReactions == nil
 }
 
 type PostReminder struct {
@@ -528,7 +535,8 @@ func (o *Post) IsValid(maxPostSize int) *AppError {
 		PostTypeWrangler,
 		PostTypeGMConvertedToChannel,
 		PostTypeAutotranslationChange,
-		PostTypeBurnOnRead:
+		PostTypeBurnOnRead,
+		PostTypeCard:
 	default:
 		if !strings.HasPrefix(o.Type, PostCustomTypePrefix) {
 			return NewAppError("Post.IsValid", "model.post.is_valid.type.app_error", nil, "id="+o.Type, http.StatusBadRequest)
