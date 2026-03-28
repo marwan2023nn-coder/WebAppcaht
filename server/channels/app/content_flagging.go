@@ -334,10 +334,24 @@ func (a *App) createContentReviewPost(rctx request.CTX, flaggedPostId, teamId, r
 		return appErr
 	}
 
+	T := i18n.GetUserTranslations(reportingUser.Locale)
+	localizedReason := reportingReason
+	defaultReasonsMapping := map[string]string{
+		"Inappropriate content": "content_flagging.reason.inappropriate",
+		"Sensitive data":         "content_flagging.reason.sensitive",
+		"Security concern":      "content_flagging.reason.security",
+		"Harassment or abuse":   "content_flagging.reason.harassment",
+		"Spam or phishing":      "content_flagging.reason.spam",
+	}
+
+	if translationID, ok := defaultReasonsMapping[reportingReason]; ok {
+		localizedReason = T(translationID)
+	}
+
 	message := fmt.Sprintf(
 		"قام @%s بالإبلاغ عن رسالة للمراجعة.\n\nالسبب: %s\nالقناة: ~%s\nالفريق: %s\nصاحب المنشور: @%s\n\nافتح على متصفح الويب أو تطبيق سطح المكتب لعرض التقرير الكامل واتخاذ إجراء.",
 		reportingUser.Username,
-		reportingReason,
+		localizedReason,
 		flaggedPostChannel.Name,
 		flaggedPostTeam.DisplayName,
 		flaggedPostAuthor.Username,

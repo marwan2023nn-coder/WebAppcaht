@@ -5443,6 +5443,26 @@
     "translation": "تم تمييز الرسالة من @{{.username}} للمراجعة. سيتم إخطارك بمجرد مراجعتها من قبل مراجع المحتوى. "
   },
   {
+    "id": "content_flagging.reason.harassment",
+    "translation": "مضايقة أو إساءة"
+  },
+  {
+    "id": "content_flagging.reason.inappropriate",
+    "translation": "محتوى غير لائق"
+  },
+  {
+    "id": "content_flagging.reason.security",
+    "translation": "مخاوف أمنية"
+  },
+  {
+    "id": "content_flagging.reason.sensitive",
+    "translation": "بيانات حساسة"
+  },
+  {
+    "id": "content_flagging.reason.spam",
+    "translation": "رسائل مزعجة أو احتيال"
+  },
+  {
     "id": "app.content_flagging.get_group.error",
     "translation": "فشل في الحصول على بوت تمييز المحتوى."
   },

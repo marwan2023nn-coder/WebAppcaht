@@ -109,7 +109,7 @@ export default function FlagPostModal({postId, onExited}: Props) {
     }, []);
 
     const handleOptionChange = useCallback((selectedOption: SelectedOption | null) => {
-        const reason = selectedOption ? selectedOption.label : '';
+        const reason = selectedOption ? selectedOption.value : '';
         setReason(reason);
 
         if (reason === '') {
