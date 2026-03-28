@@ -5487,6 +5487,26 @@
     "translation": "The message from @{{.username}} has been flagged for review. You will be notified once it is reviewed by a Content Reviewer. "
   },
   {
+    "id": "content_flagging.reason.harassment",
+    "translation": "Harassment or abuse"
+  },
+  {
+    "id": "content_flagging.reason.inappropriate",
+    "translation": "Inappropriate content"
+  },
+  {
+    "id": "content_flagging.reason.security",
+    "translation": "Security concern"
+  },
+  {
+    "id": "content_flagging.reason.sensitive",
+    "translation": "Sensitive data"
+  },
+  {
+    "id": "content_flagging.reason.spam",
+    "translation": "Spam or phishing"
+  },
+  {
     "id": "app.content_flagging.get_group.error",
     "translation": "Failed to get Content Flagging bot."
   },
