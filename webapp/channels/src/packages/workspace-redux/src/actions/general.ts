@@ -120,15 +120,16 @@ export function checkCWSAvailability(): ActionFuncAsync {
 
         dispatch({type: GeneralTypes.CWS_AVAILABILITY_CHECK_REQUEST});
 
-        try {
-            const response = await Client4.cwsAvailabilityCheck();
-            const status = response.status;
-            dispatch({type: GeneralTypes.CWS_AVAILABILITY_CHECK_SUCCESS, data: status});
-            return {data: status};
-        } catch (error) {
-            dispatch({type: GeneralTypes.CWS_AVAILABILITY_CHECK_FAILURE});
-            return {data: 'unavailable'};
+        const cwsUrl = (config.CWSURL || '').trim();
+        const isCwsMock = config.CWSMock === 'true';
+
+        if (isCwsMock || cwsUrl) {
+            dispatch({type: GeneralTypes.CWS_AVAILABILITY_CHECK_SUCCESS, data: 'available'});
+            return {data: 'available'};
         }
+
+        dispatch({type: GeneralTypes.CWS_AVAILABILITY_CHECK_FAILURE});
+        return {data: 'unavailable'};
     };
 }
 

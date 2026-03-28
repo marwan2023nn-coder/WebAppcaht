@@ -81,11 +81,6 @@ func createPostChecks(where string, c *Context, post *model.Post) {
 	}
 
 	postPriorityCheckWithContext(where, c, post.GetPriority(), post.RootId)
-	if c.Err != nil {
-		return
-	}
-
-	postBurnOnReadCheckWithContext(where, c, post, nil)
 }
 
 func createPost(c *Context, w http.ResponseWriter, r *http.Request) {
@@ -1254,7 +1249,6 @@ func saveIsPinnedPost(c *Context, w http.ResponseWriter, isPinned bool) {
 	if c.Err != nil {
 		return
 	}
-
 
 	auditRec := c.MakeAuditRecord(model.AuditEventSaveIsPinnedPost, model.AuditStatusFail)
 	model.AddEventParameterToAuditRec(auditRec, "post_id", c.Params.PostId)
