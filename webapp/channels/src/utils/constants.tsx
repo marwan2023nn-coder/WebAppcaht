@@ -397,8 +397,6 @@ export const ModalIdentifiers = {
     CHANNEL_INFO: 'channel_info',
     DELETE_CHANNEL: 'delete_channel',
     UNARCHIVE_CHANNEL: 'unarchive_channel',
-    SHOW_TRANSLATION: 'show_translation',
-    DISABLE_AUTOTRANSLATION_CONFIRM: 'disable_autotranslation_confirm',
     CHANNEL_NOTIFICATIONS: 'channel_notifications',
     CHANNEL_INVITE: 'channel_invite',
     CHANNEL_MEMBERS: 'channel_members',

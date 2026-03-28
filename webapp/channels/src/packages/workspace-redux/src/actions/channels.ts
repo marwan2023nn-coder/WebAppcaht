@@ -1347,28 +1347,6 @@ export function updateChannelMemberSchemeRoles(channelId: string, userId: string
     });
 }
 
-export function setMyChannelAutotranslation(channelId: string, enabled: boolean): ActionFuncAsync<boolean> {
-    return async (dispatch, getState) => {
-        try {
-            await Client4.setMyChannelAutotranslation(channelId, enabled);
-        } catch (error) {
-            forceLogoutIfNecessary(error, dispatch, getState);
-            dispatch(logError(error));
-            return {error};
-        }
-
-        dispatch({
-            type: ChannelTypes.RECEIVED_CHANNEL_PROPS,
-            data: {
-                channel_id: channelId,
-                notifyProps: {autotranslation_disabled: !enabled},
-            },
-        });
-
-        return {data: true};
-    };
-}
-
 export function membersMinusGroupMembers(channelID: string, groupIDs: string[], page = 0, perPage: number = General.PROFILE_CHUNK_SIZE) {
     return bindClientFunc({
         clientFunc: Client4.channelMembersMinusGroupMembers,
