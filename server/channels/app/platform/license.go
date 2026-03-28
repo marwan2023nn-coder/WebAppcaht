@@ -50,11 +50,18 @@ func (ps *PlatformService) License() *model.License {
 	// Enterprise-grade bypass: return a virtual Enterprise license if none is present.
 	// This unlocks all paid features (LDAP, SAML, Data Retention, etc.) on the free tier.
 	ps.fakeLicenseOnce.Do(func() {
+		now := model.GetMillis()
 		ps.fakeLicenseCache = &model.License{
-			Id:           "enterprise-virtual-license",
-			SkuName:      "Enterprise Edition",
+			Id:       "enterprise-virtual-license",
+			IssuedAt: now,
+			StartsAt: now,
+			Customer: &model.Customer{
+				Name:    "Sofa Admin",
+				Company: "Sofa Workspace",
+			},
+			SkuName:      "Workspace Enterprise Advanced",
 			SkuShortName: model.LicenseShortSkuEnterpriseAdvanced,
-			ExpiresAt:    model.GetMillis() + (100 * 365 * 24 * 60 * 60 * 1000), // 100 years
+			ExpiresAt:    now + (100 * 365 * 24 * 60 * 60 * 1000), // 100 years
 			Features:     &model.Features{},
 		}
 		ps.fakeLicenseCache.Features.SetDefaults()
@@ -62,6 +69,7 @@ func (ps *PlatformService) License() *model.License {
 		// Explicitly enable all high-value features
 		val := true
 		f := ps.fakeLicenseCache.Features
+		f.Users = model.NewPointer(100000)
 		f.LDAP = &val
 		f.LDAPGroups = &val
 		f.MFA = &val
