@@ -1,3 +1,38 @@
+# [1.3.0](https://git.sofa.io/sofachat/web/workspace/compare/v1.2.0...v1.3.0) (2026-03-26)
+
+
+### Features
+
+* Introduce AI-powered recaps, enhance auto-translation, and update database schemas for roles and cluster discovery. ([edbd21d](https://git.sofa.io/sofachat/web/workspace/commit/edbd21d4fb212e137f08e2610fae691be061aa55))
+
+# [1.2.0](https://git.sofa.io/sofachat/web/workspace/compare/v1.1.0...v1.2.0) (2026-03-16)
+
+
+### Features
+
+* enhance post reminders with recipient locale-based translations, a new post type, and updated time formatting ([5bd4e5d](https://git.sofa.io/sofachat/web/workspace/commit/5bd4e5d76f67c030510147ae7c94873098310195))
+
+# [1.1.0](https://git.sofa.io/sofachat/web/workspace/compare/v1.0.1...v1.1.0) (2026-03-15)
+
+
+### Features
+
+* update limit_visible_dms_gms handling and improve validation logic ([f62f735](https://git.sofa.io/sofachat/web/workspace/commit/f62f7357aa2256bbfdbc460dceb61e8ec55e96b8))
+
+## [1.0.1](https://git.sofa.io/sofachat/web/workspace/compare/v1.0.0...v1.0.1) (2026-03-14)
+
+
+### Bug Fixes
+
+* enhance license feature checks and improve error handling ([b37424e](https://git.sofa.io/sofachat/web/workspace/commit/b37424e220c158a8902d1ff26e96eccae63fceb4))
+
+# 1.0.0 (2026-03-14)
+
+
+### Features
+
+* move repo ([0ada4dc](https://git.sofa.io/sofachat/web/workspace/commit/0ada4dce98e6d32626fbeb5f26caedd123428dc6))
+
 ## [1.2.1](https://git.sofa.io/sofachat/web/worksapce-11.1.1/compare/v1.2.0...v1.2.1) (2026-02-04)
 
 

@@ -14,10 +14,6 @@ import WithTooltip from 'components/with_tooltip';
 
 import CallButton from 'plugins/call_button';
 import ChannelHeaderPlug from 'plugins/channel_header_plug';
-import Pluggable from 'plugins/pluggable';
-
-import {CreationOutlineIcon} from '@workspace/compass-icons/components';
-
 import {
     Constants,
     NotificationLevels,
@@ -379,21 +375,11 @@ class ChannelHeader extends React.PureComponent<Props> {
                                     className='channel-header__icons'
                                 >
                                     {muteTrigger}
-                                    {this.props.agents && this.props.agents.length > 0 && (
-                                        <HeaderIconWrapper
-                                            buttonClass={'channel-header__icon channel-header__icon--left btn btn-icon btn-xs'}
-                                            buttonId={'channelHeaderSmartSummaryButton'}
-                                            onClick={this.handleSmartSummary}
-                                            tooltip={this.props.intl.formatMessage({id: 'channel_header.smartSummary', defaultMessage: 'Smart Summary'})}
-                                        >
-                                            <CreationOutlineIcon size={18}/>
-                                        </HeaderIconWrapper>
-                                    )}
-                                    <Pluggable
-                                        pluggableName='ChannelHeaderIcon'
-                                        channel={channel}
-                                        channelMember={channelMember!}
-                                    />
+
+
+
+
+
                                 </div>
                                 <div
                                     id='channelHeaderDescription'
@@ -411,7 +397,16 @@ class ChannelHeader extends React.PureComponent<Props> {
                         </div>
                     </div>
                     <div className='channel-header__icon1'>
-
+                        {this.props.agents && this.props.agents.length > 0 && (
+                            <HeaderIconWrapper
+                                buttonClass={'channel-header__icon channel-header__icon--left btn btn-icon btn-xs'}
+                                buttonId={'channelHeaderSmartSummaryButton'}
+                                onClick={this.handleSmartSummary}
+                                tooltip={this.props.intl.formatMessage({id: 'channel_header.smartSummary', defaultMessage: 'Smart Summary'})}
+                            >
+                                <i className='icon icon-recap-outline' />
+                            </HeaderIconWrapper>
+                        )}
                          {pinnedButton}
                          {memberListButton}
                         <ChannelHeaderTitleFavorite />

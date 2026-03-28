@@ -38,7 +38,6 @@ import type {
     PostDropdownMenuAction,
     ChannelHeaderAction,
     ChannelHeaderButtonAction,
-    ChannelHeaderIconComponent,
     RightHandSidebarComponent,
     AppBarAction,
     FileUploadMethodAction,
@@ -286,14 +285,6 @@ export default class PluginRegistry {
         dispatchPluginComponentWithData('MobileChannelHeaderButton', data);
 
         return id;
-    });
-
-    /**
-     * Add a button icon component to the channel header.
-     * Accepts a React component. Returns a unique identifier.
-     */
-    registerChannelHeaderIconComponent = reArg(['component'], ({component}: {component: ChannelHeaderIconComponent['component']}) => {
-        return dispatchPluginComponentAction('ChannelHeaderIcon', this.id, component);
     });
 
     /**

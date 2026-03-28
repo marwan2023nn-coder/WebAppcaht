@@ -16,7 +16,6 @@ import {getChannel, makeGetChannel, getDirectChannel} from 'workspace-redux/sele
 import {getConfig, getFeatureFlagValue} from 'workspace-redux/selectors/entities/general';
 import {get, getBool, getInt} from 'workspace-redux/selectors/entities/preferences';
 import {haveIChannelPermission} from 'workspace-redux/selectors/entities/roles';
-import {getAgents} from 'workspace-redux/selectors/entities/agents';
 import {getCurrentUserId, isCurrentUserGuestUser, getStatusForUserId, makeGetDisplayName} from 'workspace-redux/selectors/entities/users';
 
 import * as GlobalActions from 'actions/global_actions';
@@ -189,7 +188,6 @@ const AdvancedTextEditor = ({
     const repliedToPost = useSelector((state: GlobalState) => state.replyBox.repliedToPost);
     const focusedPost = useSelector((state: GlobalState) => state.focusPost.focusedPost);
     const focusTargetChannelId = useSelector((state: GlobalState) => state.focusPost.targetChannelId);
-    const agents = useSelector(getAgents);
 
     const onToggleReplyBox = useCallback((method: 'open' | 'close', post?: Post) => {
         dispatch({
@@ -795,9 +793,9 @@ const AdvancedTextEditor = ({
     const additionalControls = useMemo(() => [
         !isInEditMode && priorityAdditionalControl,
         !isInEditMode && showBurnOnRead && burnOnReadAdditionalControl,
-        !isInEditMode && agents.length > 0 && aiRewriteAdditionalControl,
+        !isInEditMode && aiRewriteEnabled && aiRewriteAdditionalControl,
         ...(showPluginControls ? (pluginItems || []) : []),
-    ].filter(Boolean), [pluginItems, priorityAdditionalControl, isInEditMode, burnOnReadAdditionalControl, showBurnOnRead, showPluginControls, agents.length, aiRewriteAdditionalControl]);
+    ].filter(Boolean), [pluginItems, priorityAdditionalControl, isInEditMode, burnOnReadAdditionalControl, showBurnOnRead, showPluginControls, aiRewriteEnabled, aiRewriteAdditionalControl]);
 
     const formattingBar = (
         <AutoHeightSwitcher

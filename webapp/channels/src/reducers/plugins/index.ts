@@ -187,7 +187,6 @@ const initialComponents: PluginsState['components'] = {
     LinkTooltip: [],
     MainMenu: [],
     ChannelHeaderButton: [],
-    ChannelHeaderIcon: [],
     MobileChannelHeaderButton: [],
     PostDropdownMenu: [],
     PostAction: [],

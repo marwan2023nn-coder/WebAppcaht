@@ -303,8 +303,8 @@ const FormattingBar = (props: FormattingBarProps): JSX.Element => {
                 </>
             )}
             
-            {aiRewriteAdditionalControl}
             {burnOnReadAdditionalControl}
+            {aiRewriteAdditionalControl}
             {wideMode === 'wide' && (
                 <>
                     {priorityAdditionalControl}
