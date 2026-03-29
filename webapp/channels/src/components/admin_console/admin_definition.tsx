@@ -266,6 +266,53 @@ const AdminDefinition: AdminDefinitionType = {
             },
         },
     },
+    system_attributes: {
+        icon: (
+            <TableLargeIcon
+                size={16}
+                color={'currentColor'}
+            />
+        ),
+        sectionTitle: defineMessage({ id: 'admin.sidebar.systemAttributes', defaultMessage: 'System Attributes' }),
+        isHidden: it.not(it.userHasReadPermissionOnSomeResources(RESOURCE_KEYS.USER_MANAGEMENT)),
+        subsections: {
+            system_properties: {
+                url: 'system_attributes/user_attributes',
+                title: defineMessage({ id: 'admin.sidebar.user_attributes', defaultMessage: 'User Attributes' }),
+                searchableStrings: systemPropertiesSearchableStrings,
+                isHidden: it.not(it.all(
+                    it.minLicenseTier(LicenseSkus.Enterprise),
+                    it.configIsTrue('FeatureFlags', 'CustomProfileAttributes'),
+                )),
+                schema: {
+                    id: 'SystemProperties',
+                    component: SystemProperties,
+                },
+            },
+            user_attributes_feature_discovery: {
+                url: 'system_attributes/user_attributes',
+                isDiscovery: true,
+                title: defineMessage({ id: 'admin.sidebar.user_attributes', defaultMessage: 'User Attributes' }),
+                isHidden: it.any(
+                    it.minLicenseTier(LicenseSkus.Enterprise),
+                    it.configIsFalse('FeatureFlags', 'CustomProfileAttributes'),
+                ),
+                schema: {
+                    id: 'SystemProperties',
+                    name: defineMessage({ id: 'admin.sidebar.user_attributes', defaultMessage: 'User Attributes' }),
+                    settings: [
+                        {
+                            type: 'custom',
+                            component: UserAttributesFeatureDiscovery,
+                            key: 'UserAttributesFeatureDiscovery',
+                            isDisabled: it.not(it.userHasWritePermissionOnResource(RESOURCE_KEYS.ABOUT.EDITION_AND_LICENSE)),
+                        },
+                    ],
+                },
+                restrictedIndicator: getRestrictedIndicator(true, LicenseSkus.Enterprise),
+            },
+        },
+    },
     billing: {
         icon: (
             <CreditCardOutlineIcon

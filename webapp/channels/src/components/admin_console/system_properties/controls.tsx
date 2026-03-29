@@ -75,7 +75,7 @@ export const BorderlessInput = styled.input.attrs({className: 'Input form-contro
         && {
             font-size: 14px;
             font-style: normal;
-            font-family: 'Effra_Trial_SBd';
+            font-weight: 600;
         }
     `};
 `;
@@ -85,15 +85,16 @@ export const DangerText = styled.span`
 `;
 
 export const FieldDeleteButton = styled.button.attrs({className: 'btn btn-sm btn-transparent'})`
-    ;
+    font-weight: normal;
 `;
 
 export const LinkButton = styled.button.attrs({className: 'btn btn-link'})`
-    ;
-    padding: 8px 16px !important;
+    font-weight: normal;
+    padding-inline: 16px !important;
+    padding-block: 8px !important;
     font-size: 12px;
     font-style: normal;
-    font-family: 'Effra_Trial_SBd';
+    font-weight: 600;
     line-height: 16px;
     gap: 6px;
 `;

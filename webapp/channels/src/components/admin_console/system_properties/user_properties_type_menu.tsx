@@ -39,12 +39,15 @@ const SelectType = (props: Props) => {
         return Object.values(TYPE_DESCRIPTOR).filter((descriptor) => {
             return formatMessage(descriptor.label).toLowerCase().includes(filter.toLowerCase());
         });
-    }, [TYPE_DESCRIPTOR, filter]);
+    }, [filter]);
 
     const currentTypeDescriptor = useMemo(() => {
         return getTypeDescriptor(props.field);
     }, [props.field]);
     const CurrentTypeIcon = currentTypeDescriptor.icon;
+
+    const isProtected = Boolean(props.field.attrs?.protected);
+    const isDisabled = props.field.delete_at !== 0 || isProtected;
 
     return (
         <Menu.Container
@@ -61,7 +64,7 @@ const SelectType = (props: Props) => {
                     </>
                 ),
                 dataTestId: 'fieldTypeSelectorMenuButton',
-                disabled: props.field.delete_at !== 0,
+                disabled: isDisabled,
             }}
             menu={{
                 id: 'type-selector-menu',
@@ -105,7 +108,7 @@ const SelectType = (props: Props) => {
                         trailingElements={id === currentTypeDescriptor.id && (
                             <CheckIcon
                                 size={16}
-                                color='var(--button-bg, var(--sys-sidebar-text-active-border))'
+                                color='var(--button-bg, #1c58d9)'
                             />
                         )}
                     />
@@ -206,5 +209,6 @@ const TYPE_DESCRIPTOR: IDMappedObjects<TypeDescriptor> = {
 } as const;
 
 const menuInputContainerStyles = css`
-    padding: 0 12px;
+    padding-inline: 12px;
+    padding-block: 0;
 `;

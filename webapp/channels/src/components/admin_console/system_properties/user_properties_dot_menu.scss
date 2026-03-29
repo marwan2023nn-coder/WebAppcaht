@@ -1,10 +1,10 @@
 .user-property-field-dotmenu-menu-button {
     height: 40px;
-    justify-content: start;
+    justify-content: flex-start;
     border-color: transparent;
     border-radius: 0;
     box-shadow: none;
-    ;
+    font-weight: normal;
     &:hover,
     &:focus {
         border-color: transparent;
@@ -27,16 +27,17 @@
     &.strong {
         font-size: 14px;
         font-style: normal;
-        font-family: 'Effra_Trial_SBd';
+        font-weight: 600;
     }
 }
 
 .user-property-field-dotmenu__chip {
-    padding: 4px 12px;
+    padding-inline: 12px;
+    padding-block: 4px;
     border-radius: 12px;
     background: rgba(var(--center-channel-color-rgb), 0.08);
     color: var(--center-channel-color);
     font-size: 12px;
     font-style: normal;
-    font-family: 'Effra_Trial_SBd';
+    font-weight: 600;
 }

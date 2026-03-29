@@ -29,6 +29,7 @@ import type {
 } from './requests';
 import type {Role} from './roles';
 import type {ScheduledPostsState} from './schedule_post';
+import type {ViewsState} from './views';
 import type {SchemesState} from './schemes';
 import type {SearchState} from './search';
 import type {RemoteClusterInfo} from './shared_channels';
@@ -95,6 +96,7 @@ export type GlobalState = {
             remotesByRemoteId?: Record<string, RemoteClusterInfo>;
         };
         contentFlagging: ContentFlaggingState;
+        views: ViewsState;
     };
     errors: any[];
     requests: {

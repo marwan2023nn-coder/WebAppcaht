@@ -5,7 +5,7 @@ import React from 'react';
 import {FormattedMessage, useIntl} from 'react-intl';
 import {useDispatch} from 'react-redux';
 
-import {CheckIcon, ChevronRightIcon, DotsHorizontalIcon, EyeOutlineIcon, PencilOutlineIcon, SyncIcon, TrashCanOutlineIcon, ContentCopyIcon} from '@workspace/compass-icons/components';
+import {CheckIcon, ChevronRightIcon, DotsHorizontalIcon, EyeOutlineIcon, LockOutlineIcon, PencilOutlineIcon, SyncIcon, TrashCanOutlineIcon, ContentCopyIcon} from '@workspace/compass-icons/components';
 import type {FieldVisibility, UserPropertyField} from '@workspace/types/properties';
 
 import {openModal} from 'actions/views/modals';
@@ -54,7 +54,7 @@ export const useAttributeLinkModal = (field: UserPropertyField, updateField: Pro
                 helpText: (
                     <FormattedMessage
                         id='admin.system_properties.user_properties.dotmenu.ad_ldap.modal.helpText'
-                        defaultMessage="The attribute in the AD/LDAP server used to sync as a custom attribute in user's profile in Workspace."
+                        defaultMessage="The attribute in the AD/LDAP server used to sync as a custom attribute in user's profile in Sofa Workspace."
                     />
                 ),
                 modalHeaderText: (
@@ -89,7 +89,7 @@ export const useAttributeLinkModal = (field: UserPropertyField, updateField: Pro
                 helpText: (
                     <FormattedMessage
                         id='admin.system_properties.user_properties.dotmenu.saml.modal.helpText'
-                        defaultMessage="The attribute in the SAML server used to sync as a custom attribute in user's profile in Workspace."
+                        defaultMessage="The attribute in the SAML server used to sync as a custom attribute in user's profile in Sofa Workspace."
                     />
                 ),
                 modalHeaderText: (
@@ -117,6 +117,8 @@ const DotMenu = ({
     const {formatMessage} = useIntl();
     const {promptDelete} = useUserPropertyFieldDelete();
     const {promptEditLdapLink, promptEditSamlLink} = useAttributeLinkModal(field, updateField);
+
+    const isProtected = Boolean(field.attrs?.protected);
 
     const handleDuplicate = () => {
         const name = formatMessage({
@@ -184,11 +186,11 @@ const DotMenu = ({
                 class: 'btn btn-transparent user-property-field-dotmenu-menu-button',
                 children: (
                     <>
-                        <DotsHorizontalIcon size={18}/>
+                        {isProtected ? <LockOutlineIcon size={18}/> : <DotsHorizontalIcon size={18}/>}
                     </>
                 ),
                 dataTestId: `${menuId}-${field.id}`,
-                disabled: field.delete_at !== 0,
+                disabled: field.delete_at !== 0 || isProtected,
             }}
             menu={{
                 id: `${menuId}-menu`,
@@ -209,7 +211,7 @@ const DotMenu = ({
                 trailingElements={(
                     <>
                         {selectedVisibilityLabel}
-                        <ChevronRightIcon size={16} className='chevron-right' />
+                        <ChevronRightIcon size={16}/>
                     </>
                 )}
                 forceOpenOnLeft={false}
@@ -229,7 +231,7 @@ const DotMenu = ({
                     trailingElements={field.attrs.visibility === 'always' && (
                         <CheckIcon
                             size={16}
-                            color='var(--button-bg, var(--sys-sidebar-text-active-border))'
+                            color='var(--button-bg, #1c58d9)'
                         />
                     )}
                 />
@@ -248,7 +250,7 @@ const DotMenu = ({
                     trailingElements={field.attrs.visibility === 'when_set' && (
                         <CheckIcon
                             size={16}
-                            color='var(--button-bg, var(--sys-sidebar-text-active-border))'
+                            color='var(--button-bg, #1c58d9)'
                         />
                     )}
                 />
@@ -267,7 +269,7 @@ const DotMenu = ({
                     trailingElements={field.attrs.visibility === 'hidden' && (
                         <CheckIcon
                             size={16}
-                            color='var(--button-bg, var(--sys-sidebar-text-active-border))'
+                            color='var(--button-bg, #1c58d9)'
                         />
                     )}
                 />
