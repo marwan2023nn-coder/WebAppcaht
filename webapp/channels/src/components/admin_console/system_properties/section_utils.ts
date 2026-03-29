@@ -5,7 +5,7 @@ import type {ReactElement} from 'react';
 import {useState, useCallback, useEffect} from 'react';
 import {useSelector} from 'react-redux';
 
-import type {GlobalState} from 'types/store';
+import type {GlobalState} from '@workspace/types/store';
 
 export class BatchProcessingError<T = Error> extends Error {
     cause?: {[key: string]: T};

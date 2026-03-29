@@ -35,6 +35,7 @@ import SharedChannelTypes from './shared_channels';
 import TeamTypes from './teams';
 import ThreadTypes from './threads';
 import UserTypes from './users';
+import ViewTypes from './views';
 import WebSocketTypes from './websocket';
 
 export {
@@ -70,6 +71,7 @@ export {
     SharedChannelTypes,
     ContentFlaggingTypes,
     AgentTypes,
+    ViewTypes,
     WebSocketTypes,
 };
 

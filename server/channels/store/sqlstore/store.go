@@ -100,6 +100,7 @@ type SqlStoreStores struct {
 	draft                      store.DraftStore
 	notifyAdmin                store.NotifyAdminStore
 	postPriority               store.PostPriorityStore
+	view                       store.ViewStore
 	postAcknowledgement        store.PostAcknowledgementStore
 	postPersistentNotification store.PostPersistentNotificationStore
 	desktopTokens              store.DesktopTokensStore
@@ -845,6 +846,10 @@ func (ss *SqlStore) PostPriority() store.PostPriorityStore {
 
 func (ss *SqlStore) Draft() store.DraftStore {
 	return ss.stores.draft
+}
+
+func (ss *SqlStore) View() store.ViewStore {
+	return ss.stores.view
 }
 
 func (ss *SqlStore) PostAcknowledgement() store.PostAcknowledgementStore {

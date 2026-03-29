@@ -126,6 +126,7 @@ import type {UserReport, UserReportFilter, UserReportOptions} from '@workspace/t
 import type {Role} from '@workspace/types/roles';
 import type {SamlCertificateStatus, SamlMetadataResponse} from '@workspace/types/saml';
 import type {ScheduledPost} from '@workspace/types/schedule_post';
+import type {View, ViewPatch} from '@workspace/types/views';
 import type {Scheme} from '@workspace/types/schemes';
 import type {Session} from '@workspace/types/sessions';
 import type {CompleteOnboardingRequest} from '@workspace/types/setup';
@@ -336,6 +337,14 @@ export default class Client4 {
     }
     getChannelBookmarkRoute(channelId: string, bookmarkId: string) {
         return `${this.getChannelRoute(channelId)}/bookmarks/${bookmarkId}`;
+    }
+
+    getChannelViewsRoute(channelId: string) {
+        return `${this.getChannelRoute(channelId)}/views`;
+    }
+
+    getChannelViewRoute(channelId: string, viewId: string) {
+        return `${this.getChannelViewsRoute(channelId)}/${viewId}`;
     }
 
     getChannelCategoriesRoute(userId: string, teamId: string) {
@@ -2059,6 +2068,55 @@ export default class Client4 {
         return this.doFetch<ChannelBookmark>(
             `${this.getChannelBookmarksRoute(channelId)}`,
             {method: 'post', body: JSON.stringify(channelBookmark), headers: {'Connection-Id': connectionId}},
+        );
+    };
+
+    createView = (channelId: string, view: Partial<View>, connectionId: string) => {
+        return this.doFetch<View>(
+            `${this.getChannelViewsRoute(channelId)}`,
+            {method: 'post', body: JSON.stringify(view), headers: {[HEADER_CONNECTION_ID]: connectionId}},
+        );
+    };
+
+    getViewsForChannel = (channelId: string) => {
+        return this.doFetch<View[]>(
+            `${this.getChannelViewsRoute(channelId)}`,
+            {method: 'get'},
+        );
+    };
+
+    getView = (channelId: string, viewId: string) => {
+        return this.doFetch<View>(
+            `${this.getChannelViewRoute(channelId, viewId)}`,
+            {method: 'get'},
+        );
+    };
+
+    patchView = (channelId: string, viewId: string, patch: ViewPatch, connectionId: string) => {
+        return this.doFetch<View>(
+            `${this.getChannelViewRoute(channelId, viewId)}`,
+            {method: 'patch', body: JSON.stringify(patch), headers: {[HEADER_CONNECTION_ID]: connectionId}},
+        );
+    };
+
+    deleteView = (channelId: string, viewId: string, connectionId: string) => {
+        return this.doFetch<StatusOK>(
+            `${this.getChannelViewRoute(channelId, viewId)}`,
+            {method: 'delete', headers: {[HEADER_CONNECTION_ID]: connectionId}},
+        );
+    };
+
+    updateViewSortOrder = (channelId: string, viewId: string, newIndex: number, connectionId: string) => {
+        return this.doFetch<View[]>(
+            `${this.getChannelViewRoute(channelId, viewId)}/sort_order`,
+            {method: 'post', body: JSON.stringify(newIndex), headers: {[HEADER_CONNECTION_ID]: connectionId}},
+        );
+    };
+
+    getPostsForView = (channelId: string, viewId: string, page = 0, perPage = 60) => {
+        return this.doFetch<PostList>(
+            `${this.getChannelViewRoute(channelId, viewId)}/posts${buildQueryString({page, per_page: perPage})}`,
+            {method: 'get'},
         );
     };
 

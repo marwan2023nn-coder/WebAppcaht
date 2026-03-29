@@ -33,6 +33,7 @@ import threads from './threads';
 import typing from './typing';
 import usage from './usage';
 import users from './users';
+import views from './views';
 
 export default combineReducers({
     general,
@@ -65,4 +66,5 @@ export default combineReducers({
     scheduledPosts,
     sharedChannels,
     contentFlagging,
+    views,
 });
